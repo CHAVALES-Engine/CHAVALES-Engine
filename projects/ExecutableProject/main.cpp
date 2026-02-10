@@ -1,9 +1,9 @@
-/**
+/*
  * @file Prueba.cpp
- * @brief Main file for the project.
+ * @brief Main file for initialization.
  */
-
 #include <iostream>
+
 
 int main()
 {
