@@ -1,0 +1,16 @@
+{
+  "baseUrl": "",
+  "indexInFolders": true,
+  "pages": false,
+  "namespaces": false,
+  "groups": false,
+  "files": true,
+  "examples": false,
+  "classes": false,
+  "structs": false,
+  "interfaces": false,
+  "enums": true,
+  "functions": true,
+  "variables": true,
+  "defines": true
+}
