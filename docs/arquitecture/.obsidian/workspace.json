@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Motor/Módulos/Módulo de Recursos.md",
+                "file": "index.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Módulo de Recursos"
+              "title": "index"
             }
           }
         ]
@@ -187,17 +187,17 @@
   "active": "c6efa93514f4954c",
   "lastOpenFiles": [
     "Motor/MotorAPI.md",
-    "index.md",
+    "Motor/Core.md",
     "Motor/Arquitectura Motor.canvas",
+    "index.md",
+    "Motor/Módulos/Módulo de Recursos.md",
     "Motor/Módulos.md",
     "Motor/Ejecutable/StateMachine.md",
     "Motor/Ejecutable/GameLoader.md",
     "Motor/Ejecutable/DLLoader.md",
-    "Motor/Módulos/Módulo de Recursos.md",
     "Motor/Módulos/Módulo de Render/FrontEnd.md",
     "Motor/Módulos/Módulo de Render/Low Level.md",
     "Arquitectura ECS.canvas",
-    "Motor/Core.md",
     "Motor/Gameplay/Gameplay.md",
     "Motor/Módulos/Módulo de Físicas.md",
     "Motor/Módulos/Módulo de Addons.md",
