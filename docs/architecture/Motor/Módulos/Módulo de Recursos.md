@@ -51,4 +51,6 @@ ResourceGroupManager::getSingleton().initialiseResourceGroup("Bootstrap");
 ```
 (Código del libro "Pro OGRE 3D Programming")
 
-Este código puede sernos útil a la hora de cargar recursos en nuestro módulo de recursos, asi conseguimos 
+Este código puede sernos útil a la hora de cargar recursos en nuestro módulo de recursos.
+
+La idea es añadir e inicializar los recursos por grupos según queramos cargarlos y hacer load del grupo cuando los vayamos a usar. de la misma forma podemos hacer unload (creo?)
