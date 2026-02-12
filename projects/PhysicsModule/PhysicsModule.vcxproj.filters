@@ -15,18 +15,18 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\PhysicModule\pch.h">
+    <ClInclude Include="..\..\src\PhysicsModule\framework.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\PhysicModule\framework.h">
+    <ClInclude Include="..\..\src\PhysicsModule\pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\PhysicModule\pch.cpp">
+    <ClCompile Include="..\..\src\PhysicsModule\pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\PhysicModule\PhysicModule.cpp">
+    <ClCompile Include="..\..\src\PhysicsModule\PhysicsModule.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
