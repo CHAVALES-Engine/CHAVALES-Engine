@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
+  <compounddef id="dir_8e3d29cc55695c7d309528bbeb4f39b2" kind="dir">
+    <compoundname>PlatformModule</compoundname>
+    <innerfile refid="a00047">PlatformModule/framework.h</innerfile>
+    <innerfile refid="a00068">PlatformModule/pch.cpp</innerfile>
+    <innerfile refid="a00089">PlatformModule/pch.h</innerfile>
+    <innerfile refid="a00026">PlatformModule.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/PlatformModule/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,46 @@
+---
+title: C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ResourcesModule/ResourcesModule.cpp
+
+---
+
+# C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ResourcesModule/ResourcesModule.cpp
+
+
+
+## Functions
+
+|                | Name           |
+| -------------- | -------------- |
+| void | **[fnResourcesModule](Files/_resources_module_8cpp.md#function-fnresourcesmodule)**() |
+
+
+## Functions Documentation
+
+### function fnResourcesModule
+
+```cpp
+void fnResourcesModule()
+```
+
+
+
+
+## Source code
+
+```cpp
+// ResourcesModule.cpp : Defines the functions for the static library.
+//
+
+#include "pch.h"
+#include "framework.h"
+
+// TODO: This is an example of a library function
+void fnResourcesModule()
+{
+}
+```
+
+
+-------------------------------
+
+Updated on 2026-02-12 at 15:32:04 +0100
