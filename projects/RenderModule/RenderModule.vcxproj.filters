@@ -15,18 +15,18 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\EngineAPI\pch.h">
+    <ClInclude Include="..\..\src\RenderModule\framework.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\EngineAPI\framework.h">
+    <ClInclude Include="..\..\src\RenderModule\pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\EngineAPI\EngineAPI.cpp">
+    <ClCompile Include="..\..\src\RenderModule\RenderModule.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\EngineAPI\pch.cpp">
+    <ClCompile Include="..\..\src\RenderModule\pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
