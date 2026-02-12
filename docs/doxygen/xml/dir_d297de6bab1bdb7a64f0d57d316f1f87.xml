@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
+  <compounddef id="dir_d297de6bab1bdb7a64f0d57d316f1f87" kind="dir">
+    <compoundname>EngineAPI</compoundname>
+    <innerfile refid="a00017">EngineAPI.cpp</innerfile>
+    <innerfile refid="a00041">EngineAPI/framework.h</innerfile>
+    <innerfile refid="a00062">EngineAPI/pch.cpp</innerfile>
+    <innerfile refid="a00083">EngineAPI/pch.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/"/>
+  </compounddef>
+</doxygen>

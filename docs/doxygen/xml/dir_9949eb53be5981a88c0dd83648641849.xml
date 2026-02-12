@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
+  <compounddef id="dir_9949eb53be5981a88c0dd83648641849" kind="dir">
+    <compoundname>PhysicsModule</compoundname>
+    <innerfile refid="a00044">PhysicsModule/framework.h</innerfile>
+    <innerfile refid="a00065">PhysicsModule/pch.cpp</innerfile>
+    <innerfile refid="a00086">PhysicsModule/pch.h</innerfile>
+    <innerfile refid="a00023">PhysicModule.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/PhysicsModule/"/>
+  </compounddef>
+</doxygen>

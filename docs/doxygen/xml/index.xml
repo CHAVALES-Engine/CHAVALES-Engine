@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.16.1" xml:lang="en-US">
+  <compound refid="a00002" kind="file"><name>AudioModule.cpp</name>
+    <member refid="a00002_1a41daa74cee90d7de7e774660b0a37646" kind="function"><name>fnAudioModule</name></member>
+  </compound>
+  <compound refid="a00035" kind="file"><name>AudioModule/framework.h</name>
+    <member refid="a00035_1ac7bef5d85e3dcd73eef56ad39ffc84a9" kind="define"><name>WIN32_LEAN_AND_MEAN</name></member>
+  </compound>
+  <compound refid="a00038" kind="file"><name>Core/framework.h</name>
+    <member refid="a00038_1ac7bef5d85e3dcd73eef56ad39ffc84a9" kind="define"><name>WIN32_LEAN_AND_MEAN</name></member>
+  </compound>
+  <compound refid="a00041" kind="file"><name>EngineAPI/framework.h</name>
+    <member refid="a00041_1ac7bef5d85e3dcd73eef56ad39ffc84a9" kind="define"><name>WIN32_LEAN_AND_MEAN</name></member>
+  </compound>
+  <compound refid="a00044" kind="file"><name>PhysicsModule/framework.h</name>
+    <member refid="a00044_1ac7bef5d85e3dcd73eef56ad39ffc84a9" kind="define"><name>WIN32_LEAN_AND_MEAN</name></member>
+  </compound>
+  <compound refid="a00047" kind="file"><name>PlatformModule/framework.h</name>
+    <member refid="a00047_1ac7bef5d85e3dcd73eef56ad39ffc84a9" kind="define"><name>WIN32_LEAN_AND_MEAN</name></member>
+  </compound>
+  <compound refid="a00050" kind="file"><name>RenderModule/framework.h</name>
+    <member refid="a00050_1ac7bef5d85e3dcd73eef56ad39ffc84a9" kind="define"><name>WIN32_LEAN_AND_MEAN</name></member>
+  </compound>
+  <compound refid="a00053" kind="file"><name>ResourcesModule/framework.h</name>
+    <member refid="a00053_1ac7bef5d85e3dcd73eef56ad39ffc84a9" kind="define"><name>WIN32_LEAN_AND_MEAN</name></member>
+  </compound>
+  <compound refid="a00056" kind="file"><name>AudioModule/pch.cpp</name>
+  </compound>
+  <compound refid="a00059" kind="file"><name>Core/pch.cpp</name>
+  </compound>
+  <compound refid="a00062" kind="file"><name>EngineAPI/pch.cpp</name>
+  </compound>
+  <compound refid="a00065" kind="file"><name>PhysicsModule/pch.cpp</name>
+  </compound>
+  <compound refid="a00068" kind="file"><name>PlatformModule/pch.cpp</name>
+  </compound>
+  <compound refid="a00071" kind="file"><name>RenderModule/pch.cpp</name>
+  </compound>
+  <compound refid="a00074" kind="file"><name>ResourcesModule/pch.cpp</name>
+  </compound>
+  <compound refid="a00077" kind="file"><name>AudioModule/pch.h</name>
+  </compound>
+  <compound refid="a00080" kind="file"><name>Core/pch.h</name>
+  </compound>
+  <compound refid="a00083" kind="file"><name>EngineAPI/pch.h</name>
+  </compound>
+  <compound refid="a00086" kind="file"><name>PhysicsModule/pch.h</name>
+  </compound>
+  <compound refid="a00089" kind="file"><name>PlatformModule/pch.h</name>
+  </compound>
+  <compound refid="a00092" kind="file"><name>RenderModule/pch.h</name>
+  </compound>
+  <compound refid="a00095" kind="file"><name>ResourcesModule/pch.h</name>
+  </compound>
+  <compound refid="a00014" kind="file"><name>Core.cpp</name>
+    <member refid="a00014_1a1f4a2ed1df88ffccc9780b4850919f98" kind="function"><name>fnCore</name></member>
+  </compound>
+  <compound refid="a00017" kind="file"><name>EngineAPI.cpp</name>
+    <member refid="a00017_1a07303a93d2df17bfb86a1e4f138d364e" kind="function"><name>fnEngineAPI</name></member>
+  </compound>
+  <compound refid="a00020" kind="file"><name>main.cpp</name>
+    <member refid="a00020_1ae66f6b31b5ad750f1fe042a706a4e3d4" kind="function"><name>main</name></member>
+  </compound>
+  <compound refid="a00023" kind="file"><name>PhysicModule.cpp</name>
+    <member refid="a00023_1a85c31f5bbb68503c652b8e884bf164d1" kind="function"><name>fnPhysicModule</name></member>
+  </compound>
+  <compound refid="a00026" kind="file"><name>PlatformModule.cpp</name>
+    <member refid="a00026_1ae4063b6e403ee2e2b041d9123d8b1c06" kind="function"><name>fnPlatformModule</name></member>
+  </compound>
+  <compound refid="a00029" kind="file"><name>RenderModule.cpp</name>
+    <member refid="a00029_1a5ecbc788f66c37ec113ba9b16ff7c4f0" kind="function"><name>fnRenderModule</name></member>
+  </compound>
+  <compound refid="a00032" kind="file"><name>ResourcesModule.cpp</name>
+    <member refid="a00032_1aa38562c8328219e6d8afbca2a70d38f6" kind="function"><name>fnResourcesModule</name></member>
+  </compound>
+  <compound refid="dir_e3b596fb096fd4f068d0235d799c230d" kind="dir"><name>AudioModule</name>
+  </compound>
+  <compound refid="dir_a2f0e5642e47e7ed59fe0f0829eafb5f" kind="dir"><name>Core</name>
+  </compound>
+  <compound refid="dir_d297de6bab1bdb7a64f0d57d316f1f87" kind="dir"><name>EngineAPI</name>
+  </compound>
+  <compound refid="dir_1f67fd48e38738d434df457cb82f5182" kind="dir"><name>ExecutableProject</name>
+  </compound>
+  <compound refid="dir_9949eb53be5981a88c0dd83648641849" kind="dir"><name>PhysicsModule</name>
+  </compound>
+  <compound refid="dir_8e3d29cc55695c7d309528bbeb4f39b2" kind="dir"><name>PlatformModule</name>
+  </compound>
+  <compound refid="dir_078eeb4acdfcbdd2b261fb918d977c8c" kind="dir"><name>RenderModule</name>
+  </compound>
+  <compound refid="dir_128502f567cc3aaea02a6e2945a1a813" kind="dir"><name>ResourcesModule</name>
+  </compound>
+  <compound refid="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir"><name>src</name>
+  </compound>
+</doxygenindex>
