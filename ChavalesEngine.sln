@@ -19,7 +19,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RenderModule", "projects\Re
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PlatformModule", "projects\PlatformModule\PlatformModule.vcxproj", "{C112B31D-E157-48ED-A97F-BD18EF719A0D}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PhysicModule", "projects\PhysicModule\PhysicModule.vcxproj", "{D7BF9084-273E-4DC4-9243-904853677057}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PhysicsModule", "projects\PhysicsModule\PhysicsModule.vcxproj", "{D7BF9084-273E-4DC4-9243-904853677057}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ResourcesModule", "projects\ResourcesModule\ResourcesModule.vcxproj", "{6A72929A-B2DB-425D-B679-FBE3B0255CD5}"
 EndProject
