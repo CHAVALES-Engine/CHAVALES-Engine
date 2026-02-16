@@ -5,14 +5,15 @@
 #include <iostream>
 
 #define SOL_ALL_SAFETIES_ON 1
-#include <sol/sol.hpp> // or #include "sol.hpp", whichever suits your needs
+#include <sol/sol.hpp>
 
 int main(int argc, char* argv[]) {
-
 	sol::state lua;
-	lua.open_libraries(sol::lib::base);
-
-	lua.script("print('bark bark bark!')");
-
+	lua.script_file("variables.lua");
+	// the type "sol::state" behaves 
+	// exactly like a table!
+	bool isfullscreen = lua["config"]["fullscreen"]; // can get nested variables
+	sol::table config = lua["config"];
+	assert(!isfullscreen);
 	return 0;
 }
