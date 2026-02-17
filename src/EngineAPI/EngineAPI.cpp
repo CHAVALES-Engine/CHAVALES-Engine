@@ -8,17 +8,11 @@
 
 #include "PlatformModule.h"
 
-
-// TODO: This is an example of a library function
-void fnEngineAPI()
-{
-}
+EngineAPI* EngineAPI::_instance = nullptr;
 
 bool EngineAPI::init()
 {
-	_instance = new EngineAPI();
-
-	if (_instance == nullptr) return false;
+	if (_instance == nullptr) _instance = new EngineAPI();
 
 	return _instance->_initPriv();
 }
@@ -30,9 +24,11 @@ EngineAPI* EngineAPI::instance()
 
 void EngineAPI::release()
 {
-	delete _instance->_platformModule;
-
-	delete _instance;
+	if (_instance) {
+		delete _instance->_platformModule;
+		delete _instance;
+		_instance = nullptr;
+	}
 }
 
 EngineAPI::EngineAPI()
