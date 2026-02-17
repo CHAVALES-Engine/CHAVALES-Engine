@@ -20,7 +20,6 @@ int main(int argc, char* argv[]) {
 	//// exactly like a table!
 	//bool isfullscreen = lua["config"]["fullscreen"]; // can get nested variables
 	//sol::table config = lua["config"];
-	//assert(!isfullscreen);
-
+	//assert(!isfullscreen)
 	return 0;
 }
