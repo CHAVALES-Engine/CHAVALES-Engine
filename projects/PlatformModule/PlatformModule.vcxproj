@@ -116,13 +116,17 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)dependencies\SDL\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
       </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalDependencies>$(SolutionDir)dependencies\SDL\sdl_d\SDL3-static.lib;Version.lib;Winmm.lib;Imm32.lib;Setupapi.lib;User32.lib;Gdi32.lib;Shell32.lib;Ole32.lib;Advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependencies\SDL\sdl_d;$(SolutionDir)dependencies\SDL\include</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -134,13 +138,17 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)dependencies\SDL\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
       </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalDependencies>$(SolutionDir)dependencies\SDL\sdl\SDL3-static.lib;Version.lib;Winmm.lib;Imm32.lib;Setupapi.lib;User32.lib;Gdi32.lib;Shell32.lib;Ole32.lib;Advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependencies\SDL\sdl;$(SolutionDir)dependencies\SDL\include</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\PlatformModule\pch.cpp" />
