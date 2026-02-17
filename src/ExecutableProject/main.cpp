@@ -9,17 +9,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
-#define SCREEN_WIDTH 1280
-#define SCREEN_HEIGHT 720
+#include "EngineAPI.h"
 
 int main(int argc, char* argv[]) {
-	//sol::state lua;
-	//lua.script_file("variables.lua");
-	//// the type "sol::state" behaves 
-	//// exactly like a table!
-	//bool isfullscreen = lua["config"]["fullscreen"]; // can get nested variables
-	//sol::table config = lua["config"];
-	//assert(!isfullscreen)
+	
+	EngineAPI::init();
+
+	
 	return 0;
 }
