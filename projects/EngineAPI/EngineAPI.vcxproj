@@ -151,23 +151,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\Core\Color.h" />
-    <ClInclude Include="..\..\src\Core\Component.h" />
-    <ClInclude Include="..\..\src\Core\Debug.h" />
-    <ClInclude Include="..\..\src\Core\Entity.h" />
-    <ClInclude Include="..\..\src\Core\Math.h" />
-    <ClInclude Include="..\..\src\Core\Time.h" />
-    <ClInclude Include="..\..\src\EngineAPI\EngineAPI.h" />
     <ClInclude Include="..\..\src\EngineAPI\framework.h" />
     <ClInclude Include="..\..\src\EngineAPI\pch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\Core\Color.cpp" />
-    <ClCompile Include="..\..\src\Core\Component.cpp" />
-    <ClCompile Include="..\..\src\Core\Debug.cpp" />
-    <ClCompile Include="..\..\src\Core\Entity.cpp" />
-    <ClCompile Include="..\..\src\Core\Math.cpp" />
-    <ClCompile Include="..\..\src\Core\Time.cpp" />
     <ClCompile Include="..\..\src\EngineAPI\EngineAPI.cpp" />
     <ClCompile Include="..\..\src\EngineAPI\pch.cpp" />
   </ItemGroup>
