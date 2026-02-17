@@ -39,11 +39,11 @@
     <ClInclude Include="..\..\src\Core\Time.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\EngineAPI\EngineAPI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\EngineAPI\EngineAPI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\EngineAPI\pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -63,6 +63,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Core\Entity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\EngineAPI\EngineAPI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

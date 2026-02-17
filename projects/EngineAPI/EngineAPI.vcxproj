@@ -157,6 +157,7 @@
     <ClInclude Include="..\..\src\Core\Entity.h" />
     <ClInclude Include="..\..\src\Core\Math.h" />
     <ClInclude Include="..\..\src\Core\Time.h" />
+    <ClInclude Include="..\..\src\EngineAPI\EngineAPI.h" />
     <ClInclude Include="..\..\src\EngineAPI\framework.h" />
     <ClInclude Include="..\..\src\EngineAPI\pch.h" />
   </ItemGroup>

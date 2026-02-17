@@ -4,8 +4,20 @@
  */
 #include "pch.h"
 #include "framework.h"
+#include "EngineAPI.h"
+
 
 // TODO: This is an example of a library function
 void fnEngineAPI()
 {
+}
+
+EngineAPI::EngineAPI()
+{
+
+}
+
+EngineAPI::~EngineAPI()
+{
+
 }
