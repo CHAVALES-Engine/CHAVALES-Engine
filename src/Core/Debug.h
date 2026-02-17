@@ -4,6 +4,13 @@
 
 class Debug
 {
+	/**
+	 * @brief Escribe en consola un mensaje.
+	 *
+	 *		Escribe en consola un mensaje.
+	 *
+	 * @param message - Mensaje a escribir.
+	 */
 	inline void Out(std::string message) 
 	{
 		#if _DEBUG
