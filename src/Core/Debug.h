@@ -14,7 +14,7 @@ class Debug
 	inline void Out(std::string message) 
 	{
 		#if _DEBUG
-		std::cout << message << std::endl;
+		//std::cout << message << std::endl;
 		#endif
 	}
 
