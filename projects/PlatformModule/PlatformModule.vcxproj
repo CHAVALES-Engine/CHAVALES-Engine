@@ -163,6 +163,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\src\PlatformModule\framework.h" />
     <ClInclude Include="..\..\src\PlatformModule\pch.h" />
+    <ClInclude Include="..\..\src\PlatformModule\PlatformModule.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
