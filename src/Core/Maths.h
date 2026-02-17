@@ -1,5 +1,5 @@
 #pragma once
-class Debug
+class Maths
 {
 };
 

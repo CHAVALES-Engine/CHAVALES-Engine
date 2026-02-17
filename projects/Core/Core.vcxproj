@@ -151,26 +151,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\src\Core\Color.h" />
+    <ClInclude Include="..\..\src\Core\Component.h" />
+    <ClInclude Include="..\..\src\Core\Debug.h" />
+    <ClInclude Include="..\..\src\Core\Entity.h" />
     <ClInclude Include="..\..\src\Core\framework.h" />
+    <ClInclude Include="..\..\src\Core\Maths.h" />
     <ClInclude Include="..\..\src\Core\pch.h" />
-    <ClInclude Include="Color.h" />
-    <ClInclude Include="Component.h" />
-    <ClInclude Include="Debug.h" />
-    <ClInclude Include="Entity.h" />
-    <ClInclude Include="Math.h" />
-    <ClInclude Include="Time.h" />
+    <ClInclude Include="..\..\src\Core\Timing.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\Core\Color.cpp" />
+    <ClCompile Include="..\..\src\Core\Component.cpp" />
     <ClCompile Include="..\..\src\Core\Core.cpp" />
+    <ClCompile Include="..\..\src\Core\Debug.cpp" />
+    <ClCompile Include="..\..\src\Core\Entity.cpp" />
+    <ClCompile Include="..\..\src\Core\Maths.cpp" />
     <ClCompile Include="..\..\src\Core\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Color.cpp" />
-    <ClCompile Include="Component.cpp" />
-    <ClCompile Include="Debug.cpp" />
-    <ClCompile Include="Entity.cpp" />
-    <ClCompile Include="Math.cpp" />
-    <ClCompile Include="Time.cpp" />
+    <ClCompile Include="..\..\src\Core\Timing.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

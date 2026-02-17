@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <string>
 
 class Debug
@@ -11,11 +12,11 @@ class Debug
 	 *
 	 * @param message - Mensaje a escribir.
 	 */
-	inline void Out(std::string message) 
+	inline void Out(std::string message)
 	{
-		#if _DEBUG
+#if _DEBUG
 		std::cout << message << std::endl;
-		#endif
+#endif
 	}
 
 #ifdef _DEBUG
@@ -26,4 +27,3 @@ std::cout << __VA_ARGS__ << std::endl;\
 #define _Out(...) 
 #endif
 };
-
