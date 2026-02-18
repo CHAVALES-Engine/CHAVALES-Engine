@@ -3,9 +3,9 @@
 #include <cmath>
 
 /**
- * @brief Vector bidimensional.
+ * @brief Vector cuatridimensional.
  *
- *		Clase que implementa un vector bidimensional.
+ *		Clase que implementa un vector cuatridimensional.
  */
 template <typename T = float>
 class Vector4
