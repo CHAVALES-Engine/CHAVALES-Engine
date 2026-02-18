@@ -16,5 +16,13 @@ int main(int argc, char* argv[]) {
 	EngineAPI::init();
 
 	
+	//sol::state lua;
+	//lua.script_file("variables.lua");
+	//// the type "sol::state" behaves 
+	//// exactly like a table!
+	//bool isfullscreen = lua["config"]["fullscreen"]; // can get nested variables
+	//sol::table config = lua["config"];
+	//assert(!isfullscreen)
+
 	return 0;
 }

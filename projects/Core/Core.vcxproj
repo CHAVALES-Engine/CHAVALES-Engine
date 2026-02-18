@@ -151,7 +151,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\Core\Color.h" />
     <ClInclude Include="..\..\src\Core\Component.h" />
     <ClInclude Include="..\..\src\Core\Debug.h" />
     <ClInclude Include="..\..\src\Core\Entity.h" />
@@ -159,9 +158,11 @@
     <ClInclude Include="..\..\src\Core\Maths.h" />
     <ClInclude Include="..\..\src\Core\pch.h" />
     <ClInclude Include="..\..\src\Core\Timing.h" />
+    <ClInclude Include="..\..\src\Core\Vector2.h" />
+    <ClInclude Include="..\..\src\Core\Vector3.h" />
+    <ClInclude Include="..\..\src\Core\Vector4.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\Core\Color.cpp" />
     <ClCompile Include="..\..\src\Core\Component.cpp" />
     <ClCompile Include="..\..\src\Core\Core.cpp" />
     <ClCompile Include="..\..\src\Core\Debug.cpp" />
@@ -171,6 +172,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\..\src\Core\Timing.cpp" />
+    <ClCompile Include="..\..\src\Core\Vector2.cpp" />
+    <ClCompile Include="..\..\src\Core\Vector3.cpp" />
+    <ClCompile Include="..\..\src\Core\Vector4.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
