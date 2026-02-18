@@ -178,7 +178,7 @@ INLINE_INHERITED_MEMB  = NO
 # shortest path that makes the file name unique will be used
 # The default value is: YES.
 
-FULL_PATH_NAMES        = NO
+FULL_PATH_NAMES        = YES
 
 # The STRIP_FROM_PATH tag can be used to strip a user-defined part of the path.
 # Stripping is only done if one of the specified strings matches the left-hand
@@ -206,7 +206,7 @@ STRIP_FROM_INC_PATH    =
 # support long names like on DOS, Mac, or CD-ROM.
 # The default value is: NO.
 
-SHORT_NAMES            = YES
+SHORT_NAMES            = NO
 
 # If the JAVADOC_AUTOBRIEF tag is set to YES then Doxygen will interpret the
 # first line (until the first dot, question mark or exclamation mark) of a
@@ -667,7 +667,7 @@ INTERNAL_DOCS          = NO
 # Possible values are: SYSTEM, NO and YES.
 # The default value is: SYSTEM.
 
-CASE_SENSE_NAMES       = SYSTEM
+CASE_SENSE_NAMES       = YES
 
 # If the HIDE_SCOPE_NAMES tag is set to NO then Doxygen will show members with
 # their full class and namespace scopes in the documentation. If set to YES, the
@@ -818,7 +818,7 @@ REQ_TRACEABILITY_INFO  = YES
 # sections, marked by \if <section_label> ... \endif and \cond <section_label>
 # ... \endcond blocks.
 
-ENABLED_SECTIONS       =
+ENABLED_SECTIONS       = OBSIDIAN_EXPORT
 
 # The MAX_INITIALIZER_LINES tag determines the maximum number of lines that the
 # initial value of a variable or macro / define can have for it to appear in the
@@ -850,7 +850,7 @@ SHOW_FILES             = YES
 # Folder Tree View (if specified).
 # The default value is: YES.
 
-SHOW_NAMESPACES        = YES
+SHOW_NAMESPACES        = NO
 
 # The FILE_VERSION_FILTER tag can be used to specify a program or script that
 # Doxygen should invoke to get the current version for each file (typically from
@@ -2420,7 +2420,7 @@ XML_OUTPUT             = xml
 # The default value is: YES.
 # This tag requires that the tag GENERATE_XML is set to YES.
 
-XML_PROGRAMLISTING     = YES
+XML_PROGRAMLISTING     = NO
 
 # If the XML_NS_MEMB_FILE_SCOPE tag is set to YES, Doxygen will include
 # namespace members in file scope as well, matching the HTML output.
@@ -2581,7 +2581,7 @@ INCLUDE_FILE_PATTERNS  =
 # recursively expanded use the := operator instead of the = operator.
 # This tag requires that the tag ENABLE_PREPROCESSING is set to YES.
 
-PREDEFINED             =
+PREDEFINED             = OBSIDIAN_EXPORT
 
 # If the MACRO_EXPANSION and EXPAND_ONLY_PREDEF tags are set to YES then this
 # tag can be used to specify a list of macro names that should be expanded. The
@@ -2877,7 +2877,7 @@ GRAPHICAL_HIERARCHY    = YES
 # The default value is: YES.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
-DIRECTORY_GRAPH        = YES
+DIRECTORY_GRAPH        = NO
 
 # The DIR_GRAPH_MAX_DEPTH tag can be used to limit the maximum number of levels
 # of child directories generated in directory dependency graphs by dot.

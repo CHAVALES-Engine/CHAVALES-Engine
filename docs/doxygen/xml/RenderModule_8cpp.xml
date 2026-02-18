@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
+  <compounddef id="RenderModule_8cpp" kind="file" language="C++">
+    <compoundname>RenderModule.cpp</compoundname>
+    <includes refid="RenderModule_2pch_8h" local="yes">pch.h</includes>
+    <includes refid="RenderModule_2framework_8h" local="yes">framework.h</includes>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="RenderModule_8cpp_1a5ecbc788f66c37ec113ba9b16ff7c4f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void fnRenderModule</definition>
+        <argsstring>()</argsstring>
+        <name>fnRenderModule</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/RenderModule/RenderModule.cpp" line="8" column="6" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/RenderModule/RenderModule.cpp" bodystart="8" bodyend="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/RenderModule/RenderModule.cpp"/>
+  </compounddef>
+</doxygen>

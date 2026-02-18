@@ -1,11 +1,23 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
   <compounddef id="dir_a2f0e5642e47e7ed59fe0f0829eafb5f" kind="dir">
-    <compoundname>Core</compoundname>
-    <innerfile refid="a00014">Core.cpp</innerfile>
-    <innerfile refid="a00038">Core/framework.h</innerfile>
-    <innerfile refid="a00059">Core/pch.cpp</innerfile>
-    <innerfile refid="a00080">Core/pch.h</innerfile>
+    <compoundname>C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core</compoundname>
+    <innerfile refid="Color_8cpp">Color.cpp</innerfile>
+    <innerfile refid="Color_8h">Color.h</innerfile>
+    <innerfile refid="Component_8cpp">Component.cpp</innerfile>
+    <innerfile refid="Component_8h">Component.h</innerfile>
+    <innerfile refid="Core_8cpp">Core.cpp</innerfile>
+    <innerfile refid="Debug_8cpp">Debug.cpp</innerfile>
+    <innerfile refid="Debug_8h">Debug.h</innerfile>
+    <innerfile refid="Entity_8cpp">Entity.cpp</innerfile>
+    <innerfile refid="Entity_8h">Entity.h</innerfile>
+    <innerfile refid="Core_2framework_8h">framework.h</innerfile>
+    <innerfile refid="Maths_8cpp">Maths.cpp</innerfile>
+    <innerfile refid="Maths_8h">Maths.h</innerfile>
+    <innerfile refid="Core_2pch_8cpp">pch.cpp</innerfile>
+    <innerfile refid="Core_2pch_8h">pch.h</innerfile>
+    <innerfile refid="Timing_8cpp">Timing.cpp</innerfile>
+    <innerfile refid="Timing_8h">Timing.h</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

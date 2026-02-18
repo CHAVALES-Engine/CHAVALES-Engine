@@ -1,4 +1,8 @@
 #pragma once
+/*
+ * @file EngineAPI.cpp
+ * @brief Defines the functions for the EngineAPI static library.
+ */
 
 struct SDL_Window;
 struct SDL_Renderer;

@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
+  <compounddef id="classDebug" kind="class" language="C++" prot="public">
+    <compoundname>Debug</compoundname>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classDebug_1a7f5188f92a8e89444cb4a2d035315c71" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Debug::Out</definition>
+        <argsstring>(std::string message)</argsstring>
+        <name>Out</name>
+        <qualifiedname>Debug::Out</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Escribe en consola un mensaje. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Escribe en consola un mensaje.
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Mensaje a escribir. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Debug.h" line="15" column="13" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Debug.h" bodystart="15" bodyend="20"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Debug.h" line="6" column="1" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Debug.h" bodystart="7" bodyend="29"/>
+    <listofallmembers>
+      <member refid="classDebug_1a7f5188f92a8e89444cb4a2d035315c71" prot="private" virt="non-virtual"><scope>Debug</scope><name>Out</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

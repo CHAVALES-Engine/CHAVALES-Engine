@@ -3,50 +3,77 @@
   <compounddef id="main_8cpp" kind="file" language="C++">
     <compoundname>main.cpp</compoundname>
     <includes local="no">iostream</includes>
+    <includes local="no">sol/sol.hpp</includes>
+    <includes local="no">stdio.h</includes>
+    <includes local="no">stdlib.h</includes>
+    <includes refid="EngineAPI_8h" local="yes">EngineAPI.h</includes>
     <incdepgraph>
       <node id="1">
         <label>C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ExecutableProject/main.cpp</label>
         <link refid="main_8cpp"/>
         <childnode refid="2" relation="include">
         </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>iostream</label>
       </node>
+      <node id="3">
+        <label>sol/sol.hpp</label>
+      </node>
+      <node id="4">
+        <label>stdio.h</label>
+      </node>
+      <node id="5">
+        <label>stdlib.h</label>
+      </node>
     </incdepgraph>
-    <sectiondef kind="func">
-      <memberdef kind="function" id="main_8cpp_1ae66f6b31b5ad750f1fe042a706a4e3d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>int</type>
-        <definition>int main</definition>
-        <argsstring>()</argsstring>
-        <name>main</name>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="main_8cpp_1af49a65454b3af6c3580a532b5f86028e" prot="public" static="no">
+        <name>SOL_ALL_SAFETIES_ON</name>
+        <initializer>1</initializer>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ExecutableProject/main.cpp" line="8" column="5" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ExecutableProject/main.cpp" bodystart="8" bodyend="12"/>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ExecutableProject/main.cpp" line="7" column="9" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ExecutableProject/main.cpp" bodystart="7" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="main_8cpp_1a0ddf1224851353fc92bfbff6f499fa97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int main</definition>
+        <argsstring>(int argc, char *argv[])</argsstring>
+        <name>main</name>
+        <param>
+          <type>int</type>
+          <declname>argc</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>argv</declname>
+          <array>[]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ExecutableProject/main.cpp" line="14" column="5" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ExecutableProject/main.cpp" bodystart="14" bodyend="20"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <programlisting>
-<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
-<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>@file<sp/>main.cpp</highlight></codeline>
-<codeline lineno="3"><highlight class="comment"><sp/>*<sp/>@brief<sp/>Main<sp/>file<sp/>for<sp/>initialization.</highlight></codeline>
-<codeline lineno="4"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iostream&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="6"><highlight class="normal"></highlight></codeline>
-<codeline lineno="7"><highlight class="normal"></highlight></codeline>
-<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>main()</highlight></codeline>
-<codeline lineno="9"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Hello<sp/>World!\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
-<codeline lineno="12"><highlight class="normal">}</highlight></codeline>
-    </programlisting>
     <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ExecutableProject/main.cpp"/>
   </compounddef>
 </doxygen>

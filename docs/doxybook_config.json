@@ -1,16 +1,22 @@
 {
   "baseUrl": "",
-  "indexInFolders": true,
-  "pages": false,
-  "namespaces": false,
-  "groups": false,
-  "files": true,
-  "examples": false,
-  "classes": false,
-  "structs": false,
-  "interfaces": false,
-  "enums": true,
-  "functions": true,
-  "variables": true,
-  "defines": true
+  "fileExtension": ".md",
+  "linkExtension": "",
+  "mainPageName": "index",
+  "copyImages": true,
+  "sort": true,
+  "useFolders": true,
+  "imagesFolder": "assets",
+  "filenameCase": "original",
+  "stripNamespace": true,
+  "indexInFolders": false,
+  "hideGroupGraph": true,
+  "hideClassGraph": true,
+  "hideDirectoryGraph": true,
+  "hideUndocumented": true,
+  "codeLang": "cpp",
+  "template": "default",
+  "frontmatter": {
+    "tags": ["documentation", "cpp"]
+  }
 }

@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
+  <compounddef id="classComponent" kind="class" language="C++" prot="public">
+    <compoundname>Component</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Component.h" line="2" column="1" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Component.h" bodystart="3" bodyend="4"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

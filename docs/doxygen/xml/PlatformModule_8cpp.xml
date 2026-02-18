@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
+  <compounddef id="PlatformModule_8cpp" kind="file" language="C++">
+    <compoundname>PlatformModule.cpp</compoundname>
+    <includes refid="PlatformModule_2pch_8h" local="yes">pch.h</includes>
+    <includes refid="PlatformModule_8h" local="yes">PlatformModule.h</includes>
+    <includes refid="PlatformModule_2framework_8h" local="yes">framework.h</includes>
+    <includes local="no">SDL3/SDL.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/PlatformModule/PlatformModule.cpp</label>
+        <link refid="PlatformModule_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>SDL3/SDL.h</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="PlatformModule_8cpp_1a2cd109632a6dcccaa80b43561b1ab700" prot="public" static="no">
+        <name>SCREEN_WIDTH</name>
+        <initializer>1280</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/PlatformModule/PlatformModule.cpp" line="8" column="9" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/PlatformModule/PlatformModule.cpp" bodystart="8" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="PlatformModule_8cpp_1a6974d08a74da681b3957b2fead2608b8" prot="public" static="no">
+        <name>SCREEN_HEIGHT</name>
+        <initializer>720</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/PlatformModule/PlatformModule.cpp" line="9" column="9" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/PlatformModule/PlatformModule.cpp" bodystart="9" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/PlatformModule/PlatformModule.cpp"/>
+  </compounddef>
+</doxygen>

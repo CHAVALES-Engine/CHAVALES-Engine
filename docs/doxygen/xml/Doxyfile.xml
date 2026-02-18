@@ -28,12 +28,12 @@
   </option>
   <option  id='ALWAYS_DETAILED_SEC' default='yes' type='bool'><value>NO</value></option>
   <option  id='INLINE_INHERITED_MEMB' default='yes' type='bool'><value>NO</value></option>
-  <option  id='FULL_PATH_NAMES' default='no' type='bool'><value>NO</value></option>
+  <option  id='FULL_PATH_NAMES' default='yes' type='bool'><value>YES</value></option>
   <option  id='STRIP_FROM_PATH' default='yes' type='stringlist'>
   </option>
   <option  id='STRIP_FROM_INC_PATH' default='yes' type='stringlist'>
   </option>
-  <option  id='SHORT_NAMES' default='no' type='bool'><value>YES</value></option>
+  <option  id='SHORT_NAMES' default='yes' type='bool'><value>NO</value></option>
   <option  id='JAVADOC_AUTOBRIEF' default='yes' type='bool'><value>NO</value></option>
   <option  id='JAVADOC_BANNER' default='yes' type='bool'><value>NO</value></option>
   <option  id='QT_AUTOBRIEF' default='yes' type='bool'><value>NO</value></option>
@@ -86,7 +86,7 @@
   <option  id='HIDE_FRIEND_COMPOUNDS' default='yes' type='bool'><value>NO</value></option>
   <option  id='HIDE_IN_BODY_DOCS' default='yes' type='bool'><value>NO</value></option>
   <option  id='INTERNAL_DOCS' default='yes' type='bool'><value>NO</value></option>
-  <option  id='CASE_SENSE_NAMES' default='yes' type='string'><value>SYSTEM</value></option>
+  <option  id='CASE_SENSE_NAMES' default='no' type='string'><value>YES</value></option>
   <option  id='HIDE_SCOPE_NAMES' default='yes' type='bool'><value>NO</value></option>
   <option  id='HIDE_COMPOUND_REFERENCE' default='yes' type='bool'><value>NO</value></option>
   <option  id='SHOW_HEADERFILE' default='yes' type='bool'><value>YES</value></option>
@@ -106,12 +106,13 @@
   <option  id='GENERATE_DEPRECATEDLIST' default='yes' type='bool'><value>YES</value></option>
   <option  id='GENERATE_REQUIREMENTS' default='yes' type='bool'><value>YES</value></option>
   <option  id='REQ_TRACEABILITY_INFO' default='yes' type='string'><value>YES</value></option>
-  <option  id='ENABLED_SECTIONS' default='yes' type='stringlist'>
+  <option  id='ENABLED_SECTIONS' default='no' type='stringlist'>
+    <value><![CDATA[OBSIDIAN_EXPORT]]></value>
   </option>
   <option  id='MAX_INITIALIZER_LINES' default='yes' type='int'><value>30</value></option>
-  <option  id='SHOW_USED_FILES' default='yes' type='bool'><value>YES</value></option>
+  <option  id='SHOW_USED_FILES' default='no' type='bool'><value>NO</value></option>
   <option  id='SHOW_FILES' default='yes' type='bool'><value>YES</value></option>
-  <option  id='SHOW_NAMESPACES' default='yes' type='bool'><value>YES</value></option>
+  <option  id='SHOW_NAMESPACES' default='no' type='bool'><value>NO</value></option>
   <option  id='FILE_VERSION_FILTER' default='yes' type='string'><value><![CDATA[]]></value></option>
   <option  id='LAYOUT_FILE' default='yes' type='string'><value><![CDATA[]]></value></option>
   <option  id='CITE_BIB_FILES' default='yes' type='stringlist'>
@@ -221,7 +222,7 @@
   <option  id='REFERENCES_LINK_SOURCE' default='yes' type='bool'><value>YES</value></option>
   <option  id='SOURCE_TOOLTIPS' default='yes' type='bool'><value>YES</value></option>
   <option  id='USE_HTAGS' default='yes' type='bool'><value>NO</value></option>
-  <option  id='VERBATIM_HEADERS' default='yes' type='bool'><value>YES</value></option>
+  <option  id='VERBATIM_HEADERS' default='no' type='bool'><value>NO</value></option>
   <option  id='CLANG_ASSISTED_PARSING' default='yes' type='bool'><value>NO</value></option>
   <option  id='CLANG_ADD_INC_PATHS' default='yes' type='bool'><value>YES</value></option>
   <option  id='CLANG_OPTIONS' default='yes' type='stringlist'>
@@ -337,7 +338,7 @@
   <option  id='MAN_LINKS' default='yes' type='bool'><value>NO</value></option>
   <option  id='GENERATE_XML' default='no' type='bool'><value>YES</value></option>
   <option  id='XML_OUTPUT' default='yes' type='string'><value><![CDATA[xml]]></value></option>
-  <option  id='XML_PROGRAMLISTING' default='yes' type='bool'><value>YES</value></option>
+  <option  id='XML_PROGRAMLISTING' default='no' type='bool'><value>NO</value></option>
   <option  id='XML_NS_MEMB_FILE_SCOPE' default='yes' type='bool'><value>NO</value></option>
   <option  id='GENERATE_DOCBOOK' default='yes' type='bool'><value>NO</value></option>
   <option  id='DOCBOOK_OUTPUT' default='yes' type='string'><value><![CDATA[docbook]]></value></option>
@@ -357,7 +358,8 @@
   </option>
   <option  id='INCLUDE_FILE_PATTERNS' default='yes' type='stringlist'>
   </option>
-  <option  id='PREDEFINED' default='yes' type='stringlist'>
+  <option  id='PREDEFINED' default='no' type='stringlist'>
+    <value><![CDATA[OBSIDIAN_EXPORT]]></value>
   </option>
   <option  id='EXPAND_AS_DEFINED' default='yes' type='stringlist'>
   </option>
@@ -389,7 +391,7 @@
   <option  id='CALL_GRAPH' default='yes' type='bool'><value>NO</value></option>
   <option  id='CALLER_GRAPH' default='yes' type='bool'><value>NO</value></option>
   <option  id='GRAPHICAL_HIERARCHY' default='yes' type='bool'><value>YES</value></option>
-  <option  id='DIRECTORY_GRAPH' default='yes' type='bool'><value>YES</value></option>
+  <option  id='DIRECTORY_GRAPH' default='no' type='bool'><value>NO</value></option>
   <option  id='DIR_GRAPH_MAX_DEPTH' default='yes' type='int'><value>1</value></option>
   <option  id='DOT_IMAGE_FORMAT' default='yes' type='string'><value>png</value></option>
   <option  id='INTERACTIVE_SVG' default='yes' type='bool'><value>NO</value></option>

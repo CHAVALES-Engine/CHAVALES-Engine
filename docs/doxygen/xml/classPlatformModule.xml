@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
+  <compounddef id="classPlatformModule" kind="class" language="C++" prot="public">
+    <compoundname>PlatformModule</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classPlatformModule_1afe6dce767b3af3361e507fe4a227e280" prot="private" static="no" mutable="no">
+        <type>SDL_Window *</type>
+        <definition>SDL_Window* PlatformModule::window</definition>
+        <argsstring></argsstring>
+        <name>window</name>
+        <qualifiedname>PlatformModule::window</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/PlatformModule/PlatformModule.h" line="21" column="12" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/PlatformModule/PlatformModule.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classPlatformModule_1ab7dac9c00699fe1b3be8c638119e90c2" prot="private" static="no" mutable="no">
+        <type>SDL_Renderer *</type>
+        <definition>SDL_Renderer* PlatformModule::renderer</definition>
+        <argsstring></argsstring>
+        <name>renderer</name>
+        <qualifiedname>PlatformModule::renderer</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/PlatformModule/PlatformModule.h" line="22" column="14" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/PlatformModule/PlatformModule.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classPlatformModule_1a34d037151f6ec4eaf421a6ef0a67aaa4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>PlatformModule::PlatformModule</definition>
+        <argsstring>()</argsstring>
+        <name>PlatformModule</name>
+        <qualifiedname>PlatformModule::PlatformModule</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/PlatformModule/PlatformModule.h" line="14" column="1" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/PlatformModule/PlatformModule.cpp" bodystart="12" bodyend="15"/>
+      </memberdef>
+      <memberdef kind="function" id="classPlatformModule_1a28b866bcb09c5d692d382a39bc3dd864" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>PlatformModule::~PlatformModule</definition>
+        <argsstring>()</argsstring>
+        <name>~PlatformModule</name>
+        <qualifiedname>PlatformModule::~PlatformModule</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/PlatformModule/PlatformModule.h" line="15" column="1" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/PlatformModule/PlatformModule.cpp" bodystart="17" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classPlatformModule_1a64f90e5fefcbe2b3492341a7cf6cba2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool PlatformModule::Init</definition>
+        <argsstring>()</argsstring>
+        <name>Init</name>
+        <qualifiedname>PlatformModule::Init</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/PlatformModule/PlatformModule.h" line="17" column="6" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/PlatformModule/PlatformModule.cpp" bodystart="24" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/PlatformModule/PlatformModule.h" line="10" column="1" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/PlatformModule/PlatformModule.h" bodystart="11" bodyend="24"/>
+    <listofallmembers>
+      <member refid="classPlatformModule_1a64f90e5fefcbe2b3492341a7cf6cba2d" prot="public" virt="non-virtual"><scope>PlatformModule</scope><name>Init</name></member>
+      <member refid="classPlatformModule_1a34d037151f6ec4eaf421a6ef0a67aaa4" prot="public" virt="non-virtual"><scope>PlatformModule</scope><name>PlatformModule</name></member>
+      <member refid="classPlatformModule_1ab7dac9c00699fe1b3be8c638119e90c2" prot="private" virt="non-virtual"><scope>PlatformModule</scope><name>renderer</name></member>
+      <member refid="classPlatformModule_1afe6dce767b3af3361e507fe4a227e280" prot="private" virt="non-virtual"><scope>PlatformModule</scope><name>window</name></member>
+      <member refid="classPlatformModule_1a28b866bcb09c5d692d382a39bc3dd864" prot="public" virt="non-virtual"><scope>PlatformModule</scope><name>~PlatformModule</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,5 +1,8 @@
 #pragma once
-
+/*
+ * @file EngineAPI.cpp
+ * @brief Defines the functions for the EngineAPI static library.
+ */
 class PlatformModule;
 
 class EngineAPI

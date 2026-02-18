@@ -1,5 +1,13 @@
 @echo off
 echo Limpiando carpetas antiguas...
+if exist ".\doxygen" (
+    echo Borrando carpeta: doxygen...
+    rmdir /s /q "doxygen"
+)
+if exist ".\architecture\Code" (
+    echo Borrando carpeta: architecture\Code...
+    rmdir /s /q ".\architecture\Code"
+)
 if exist xml rmdir /s /q xml
 if exist docs_output rmdir /s /q docs_output
 

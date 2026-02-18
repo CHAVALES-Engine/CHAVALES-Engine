@@ -1,15 +1,15 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
   <compounddef id="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir">
-    <compoundname>src</compoundname>
-    <innerdir refid="dir_e3b596fb096fd4f068d0235d799c230d">AudioModule</innerdir>
-    <innerdir refid="dir_a2f0e5642e47e7ed59fe0f0829eafb5f">Core</innerdir>
-    <innerdir refid="dir_d297de6bab1bdb7a64f0d57d316f1f87">EngineAPI</innerdir>
-    <innerdir refid="dir_1f67fd48e38738d434df457cb82f5182">ExecutableProject</innerdir>
-    <innerdir refid="dir_9949eb53be5981a88c0dd83648641849">PhysicsModule</innerdir>
-    <innerdir refid="dir_8e3d29cc55695c7d309528bbeb4f39b2">PlatformModule</innerdir>
-    <innerdir refid="dir_078eeb4acdfcbdd2b261fb918d977c8c">RenderModule</innerdir>
-    <innerdir refid="dir_128502f567cc3aaea02a6e2945a1a813">ResourcesModule</innerdir>
+    <compoundname>C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src</compoundname>
+    <innerdir refid="dir_e3b596fb096fd4f068d0235d799c230d">C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/AudioModule</innerdir>
+    <innerdir refid="dir_a2f0e5642e47e7ed59fe0f0829eafb5f">C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core</innerdir>
+    <innerdir refid="dir_d297de6bab1bdb7a64f0d57d316f1f87">C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI</innerdir>
+    <innerdir refid="dir_1f67fd48e38738d434df457cb82f5182">C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ExecutableProject</innerdir>
+    <innerdir refid="dir_9949eb53be5981a88c0dd83648641849">C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/PhysicsModule</innerdir>
+    <innerdir refid="dir_8e3d29cc55695c7d309528bbeb4f39b2">C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/PlatformModule</innerdir>
+    <innerdir refid="dir_078eeb4acdfcbdd2b261fb918d977c8c">C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/RenderModule</innerdir>
+    <innerdir refid="dir_128502f567cc3aaea02a6e2945a1a813">C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ResourcesModule</innerdir>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

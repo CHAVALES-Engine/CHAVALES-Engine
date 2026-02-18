@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
+  <compounddef id="classEngineAPI" kind="class" language="C++" prot="public">
+    <compoundname>EngineAPI</compoundname>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classEngineAPI_1aa3aa9f46c1c13c02b27d5bc6dca30f19" prot="private" static="yes" mutable="no">
+        <type>EngineAPI *</type>
+        <definition>EngineAPI * EngineAPI::_instance</definition>
+        <argsstring></argsstring>
+        <name>_instance</name>
+        <qualifiedname>EngineAPI::_instance</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.h" line="25" column="18" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classEngineAPI_1a9d32bb9e7d126ad94b0dbe0ff22add2d" prot="private" static="no" mutable="no">
+        <type>PlatformModule *</type>
+        <definition>PlatformModule* EngineAPI::_platformModule</definition>
+        <argsstring></argsstring>
+        <name>_platformModule</name>
+        <qualifiedname>EngineAPI::_platformModule</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.h" line="27" column="16" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classEngineAPI_1ae5056d9c61f8b1bf4ee4160afd0cfbe7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool EngineAPI::init</definition>
+        <argsstring>()</argsstring>
+        <name>init</name>
+        <qualifiedname>EngineAPI::init</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.h" line="12" column="13" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.cpp" bodystart="10" bodyend="15"/>
+      </memberdef>
+      <memberdef kind="function" id="classEngineAPI_1a678f121b1aaaa4caf66206159dbadcb1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>EngineAPI *</type>
+        <definition>EngineAPI * EngineAPI::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>EngineAPI::instance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.h" line="14" column="18" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.cpp" bodystart="17" bodyend="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classEngineAPI_1a5926bb0c4f894e3fdf6f27f9364f93c3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void EngineAPI::release</definition>
+        <argsstring>()</argsstring>
+        <name>release</name>
+        <qualifiedname>EngineAPI::release</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.h" line="16" column="13" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.cpp" bodystart="22" bodyend="29"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classEngineAPI_1a0652b56cacbf770fcbece4418901aacd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>EngineAPI::EngineAPI</definition>
+        <argsstring>()</argsstring>
+        <name>EngineAPI</name>
+        <qualifiedname>EngineAPI::EngineAPI</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.h" line="20" column="1" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.cpp" bodystart="31" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classEngineAPI_1ad05ee25abe79fbb4b3e07dbcefb9cffd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>EngineAPI::~EngineAPI</definition>
+        <argsstring>()</argsstring>
+        <name>~EngineAPI</name>
+        <qualifiedname>EngineAPI::~EngineAPI</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.h" line="21" column="1" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.cpp" bodystart="36" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classEngineAPI_1aa2a4ee36d3ec93e3998ebea7a790fa2e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool EngineAPI::_initPriv</definition>
+        <argsstring>()</argsstring>
+        <name>_initPriv</name>
+        <qualifiedname>EngineAPI::_initPriv</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.h" line="23" column="6" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.cpp" bodystart="41" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.h" line="8" column="1" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.h" bodystart="9" bodyend="29"/>
+    <listofallmembers>
+      <member refid="classEngineAPI_1aa2a4ee36d3ec93e3998ebea7a790fa2e" prot="private" virt="non-virtual"><scope>EngineAPI</scope><name>_initPriv</name></member>
+      <member refid="classEngineAPI_1aa3aa9f46c1c13c02b27d5bc6dca30f19" prot="private" virt="non-virtual"><scope>EngineAPI</scope><name>_instance</name></member>
+      <member refid="classEngineAPI_1a9d32bb9e7d126ad94b0dbe0ff22add2d" prot="private" virt="non-virtual"><scope>EngineAPI</scope><name>_platformModule</name></member>
+      <member refid="classEngineAPI_1a0652b56cacbf770fcbece4418901aacd" prot="private" virt="non-virtual"><scope>EngineAPI</scope><name>EngineAPI</name></member>
+      <member refid="classEngineAPI_1ae5056d9c61f8b1bf4ee4160afd0cfbe7" prot="public" virt="non-virtual"><scope>EngineAPI</scope><name>init</name></member>
+      <member refid="classEngineAPI_1a678f121b1aaaa4caf66206159dbadcb1" prot="public" virt="non-virtual"><scope>EngineAPI</scope><name>instance</name></member>
+      <member refid="classEngineAPI_1a5926bb0c4f894e3fdf6f27f9364f93c3" prot="public" virt="non-virtual"><scope>EngineAPI</scope><name>release</name></member>
+      <member refid="classEngineAPI_1ad05ee25abe79fbb4b3e07dbcefb9cffd" prot="private" virt="non-virtual"><scope>EngineAPI</scope><name>~EngineAPI</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

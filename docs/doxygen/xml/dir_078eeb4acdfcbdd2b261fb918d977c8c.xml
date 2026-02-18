@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
   <compounddef id="dir_078eeb4acdfcbdd2b261fb918d977c8c" kind="dir">
-    <compoundname>RenderModule</compoundname>
-    <innerfile refid="a00050">RenderModule/framework.h</innerfile>
-    <innerfile refid="a00071">RenderModule/pch.cpp</innerfile>
-    <innerfile refid="a00092">RenderModule/pch.h</innerfile>
-    <innerfile refid="a00029">RenderModule.cpp</innerfile>
+    <compoundname>C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/RenderModule</compoundname>
+    <innerfile refid="RenderModule_2framework_8h">framework.h</innerfile>
+    <innerfile refid="RenderModule_2pch_8cpp">pch.cpp</innerfile>
+    <innerfile refid="RenderModule_2pch_8h">pch.h</innerfile>
+    <innerfile refid="RenderModule_8cpp">RenderModule.cpp</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
