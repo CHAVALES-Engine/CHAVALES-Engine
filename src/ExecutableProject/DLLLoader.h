@@ -6,7 +6,7 @@
 
 #include <string>
 #include <vector>
-
+struct HMODULE;
 class DLLLoader
 {
 public:
