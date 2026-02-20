@@ -16,9 +16,9 @@ public:
 	~Maths();
 
 	// -- Constantes
-	const float M_PI = float(3.141592653589793);
-	const float M_INFINITY = INFINITY;
-	const float M_RAD2DEG = 360 / (M_PI * 2); // constante de conversion de radianes a grados [ deg = rad * rad2deg ]
+	static constexpr float M_PI = float(3.141592653589793);
+	static constexpr float M_INFINITY = INFINITY;
+	static constexpr float M_RAD2DEG = 360 / (M_PI * 2); // constante de conversion de radianes a grados [ deg = rad * rad2deg ]
 
 	// -- Operaciones
 	/**
