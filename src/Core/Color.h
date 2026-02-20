@@ -1,6 +1,5 @@
 #pragma once
 #include "Vector4.h"
-#include "Maths.h"
 
 /**
  * @brief Color que representa un color en RGBA.
@@ -18,6 +17,7 @@ public:
 	}
 
 	// -- Constantes
+	/*
 	static constexpr Vector4 BLACK = Vector4(0.0,0.0,0.0,1.0);
 	static constexpr Vector4 WHITE = Vector4(1.0,1.0,1.0,1.0);
 	static constexpr Vector4 CLEAR = Vector4(0.0,0.0,0.0,0.0);
@@ -27,6 +27,7 @@ public:
 	static constexpr Vector4 CYAN = Vector4(0.0,1.0,1.0,1.0);
 	static constexpr Vector4 MAGENTA = Vector4(1.0,0.0,1.0,1.0);
 	static constexpr Vector4 YELLOW = Vector4(1.0, 0.92, 0.016, 1.0);
+	*/
 
 	// -- Getters
 	/**
