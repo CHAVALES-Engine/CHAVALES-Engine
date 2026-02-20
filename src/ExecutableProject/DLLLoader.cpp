@@ -1,5 +1,4 @@
 #include "DLLLoader.h"
-#include <Windows.h>
 
 DLLLoader::DLLLoader()
 {

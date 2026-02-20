@@ -6,7 +6,11 @@
 
 #include <string>
 #include <vector>
-struct HMODULE;
+#if _WIN64
+#include <Windows.h>
+#endif // _WIN64
+
+
 class DLLLoader
 {
 public:
@@ -46,7 +50,9 @@ public:
 	bool unload(const std::string& path);
 private:
 	struct LoadedLibrary {
+		#if _WIN64
 		HMODULE handle;
+		#endif // _WIN64
 		std::string path;
 	};
 	/**
