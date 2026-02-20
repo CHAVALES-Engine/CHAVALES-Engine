@@ -28,7 +28,7 @@ public:
 	 * @param a - Escalar con el que inicializar a todas las componentes.
 	 */
 	Vector4(T a) :
-		_x(a), _y(a), _z(a), _z(a) {
+		_x(a), _y(a), _z(a), _w(a) {
 	}
 
 	/**
