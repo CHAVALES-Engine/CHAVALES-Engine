@@ -17,9 +17,9 @@ public:
 	* @brief Destructor
 	*/
 	~ComponentsRegister();
-	bool regist(const std::string &name, );
+	//bool regist(const std::string &name, );
 	bool create(const std::string &component);
 private:
-	std::unordered_map<std::string, []()> components;
+	//std::unordered_map<std::string, []()> components;
 };
 

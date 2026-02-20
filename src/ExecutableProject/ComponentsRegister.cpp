@@ -1,18 +1,19 @@
 #include "ComponentsRegister.h"
 
-
-~ComponentsRegister()
+ComponentsRegister::ComponentsRegister()
 {
 }
 
-bool regist(const std::string& name, )
+ComponentsRegister::~ComponentsRegister()
+{
+}
+/*
+bool ComponentsRegister::regist(const std::string& name, )
 {
 	return false;
 }
-
-bool create(const std::string& component)
+*/
+bool ComponentsRegister::create(const std::string& component)
 {
-
-	if ()
 	return false;
 }

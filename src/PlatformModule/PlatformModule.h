@@ -18,6 +18,8 @@ public:
 
 	SDL_Window* getWindow() const;
 	SDL_Renderer* getRenderer() const;
+
+	void present() const;
 private:
 
 	SDL_Window* _window = nullptr;

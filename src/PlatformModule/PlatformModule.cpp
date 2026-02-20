@@ -16,8 +16,8 @@ PlatformModule::PlatformModule()
 
 PlatformModule::~PlatformModule()
 {
-	SDL_DestroyWindow(window);
-	SDL_DestroyRenderer(renderer);
+	SDL_DestroyWindow(_window);
+	SDL_DestroyRenderer(_renderer);
 	SDL_Quit();
 }
 
@@ -46,4 +46,9 @@ SDL_Window* PlatformModule::getWindow() const
 SDL_Renderer* PlatformModule::getRenderer() const
 {
 	return _renderer;
+}
+
+void PlatformModule::present() const
+{
+	SDL_RenderPresent(_renderer);
 }
