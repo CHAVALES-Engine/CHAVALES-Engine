@@ -18,15 +18,9 @@
     <ClInclude Include="..\..\src\ResourcesModule\framework.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\ResourcesModule\pch.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\ResourcesModule\ResourcesModule.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\ResourcesModule\pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

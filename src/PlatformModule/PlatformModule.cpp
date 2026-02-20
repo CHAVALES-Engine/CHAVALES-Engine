@@ -1,7 +1,4 @@
-#include "pch.h"
 #include "PlatformModule.h"
-
-#include "framework.h"
 
 #include <SDL3/SDL.h>
 

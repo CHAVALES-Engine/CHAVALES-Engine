@@ -18,7 +18,7 @@ class Maths
 {
 public:
 	Maths() = default;
-	~Maths();
+	~Maths() = default;
 
 	// -- Operaciones
 	/**

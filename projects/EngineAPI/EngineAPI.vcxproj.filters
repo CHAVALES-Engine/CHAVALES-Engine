@@ -15,15 +15,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\EngineAPI\pch.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\EngineAPI\framework.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\EngineAPI\pch.cpp">
+    <ClCompile Include="..\..\src\EngineAPI\EngineAPI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

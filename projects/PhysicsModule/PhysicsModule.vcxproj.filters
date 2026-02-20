@@ -18,14 +18,8 @@
     <ClInclude Include="..\..\src\PhysicsModule\framework.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\PhysicsModule\pch.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\PhysicsModule\pch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\PhysicsModule\PhysicsModule.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
