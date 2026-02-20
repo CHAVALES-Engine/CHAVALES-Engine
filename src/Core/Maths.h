@@ -4,6 +4,11 @@
 #include <stdlib.h>
 #include <cmath>
 
+// -- Constantes
+static const float M_PI = float(3.141592653589793);
+static const float M_INFINITY = INFINITY;
+static const float M_RAD2DEG = 360 / (M_PI * 2); // constante de conversion de radianes a grados [ deg = rad * rad2deg ]
+
 /**
  * @brief Funciones matematicas.
  *
@@ -14,13 +19,6 @@ class Maths
 public:
 	Maths() = default;
 	~Maths();
-
-	// -- Constantes
-	/*
-	static constexpr float M_PI = float(3.141592653589793);
-	static constexpr float M_INFINITY = INFINITY;
-	static constexpr float M_RAD2DEG = 360 / (M_PI * 2); // constante de conversion de radianes a grados [ deg = rad * rad2deg ]
-	*/
 
 	// -- Operaciones
 	/**

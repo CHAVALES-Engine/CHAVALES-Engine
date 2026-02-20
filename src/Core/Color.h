@@ -1,6 +1,17 @@
 #pragma once
 #include "Vector4.h"
 
+// -- Constantes
+static const Vector4 BLACK = Vector4(0.0, 0.0, 0.0, 1.0);
+static const Vector4 WHITE = Vector4(1.0, 1.0, 1.0, 1.0);
+static const Vector4 CLEAR = Vector4(0.0, 0.0, 0.0, 0.0);
+static const Vector4 RED = Vector4(1.0, 0.0, 0.0, 1.0);
+static const Vector4 GREEN = Vector4(0.0, 1.0, 0.0, 1.0);
+static const Vector4 BLUE = Vector4(0.0, 0.0, 1.0, 1.0);
+static const Vector4 CYAN = Vector4(0.0, 1.0, 1.0, 1.0);
+static const Vector4 MAGENTA = Vector4(1.0, 0.0, 1.0, 1.0);
+static const Vector4 YELLOW = Vector4(1.0, 0.92, 0.016, 1.0);
+
 /**
  * @brief Color que representa un color en RGBA.
  *
@@ -15,19 +26,6 @@ public:
 		Vector4(r, g, b, a)
 	{
 	}
-
-	// -- Constantes
-	/*
-	static constexpr Vector4 BLACK = Vector4(0.0,0.0,0.0,1.0);
-	static constexpr Vector4 WHITE = Vector4(1.0,1.0,1.0,1.0);
-	static constexpr Vector4 CLEAR = Vector4(0.0,0.0,0.0,0.0);
-	static constexpr Vector4 RED = Vector4(1.0,0.0,0.0,1.0);
-	static constexpr Vector4 GREEN = Vector4(0.0,1.0,0.0,1.0);
-	static constexpr Vector4 BLUE = Vector4(0.0,0.0,1.0,1.0);
-	static constexpr Vector4 CYAN = Vector4(0.0,1.0,1.0,1.0);
-	static constexpr Vector4 MAGENTA = Vector4(1.0,0.0,1.0,1.0);
-	static constexpr Vector4 YELLOW = Vector4(1.0, 0.92, 0.016, 1.0);
-	*/
 
 	// -- Getters
 	/**
