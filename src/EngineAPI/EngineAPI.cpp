@@ -28,6 +28,11 @@ void EngineAPI::release()
 	}
 }
 
+PlatformModule* EngineAPI::getPlatform()
+{
+	return _instance->_platformModule;
+}
+
 EngineAPI::EngineAPI()
 {
 

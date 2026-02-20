@@ -16,9 +16,11 @@ public:
 
 	bool Init();
 
+	SDL_Window* getWindow() const;
+	SDL_Renderer* getRenderer() const;
 private:
 
-	SDL_Window* window = nullptr;
-	SDL_Renderer* renderer = nullptr;
+	SDL_Window* _window = nullptr;
+	SDL_Renderer* _renderer = nullptr;
 
 };

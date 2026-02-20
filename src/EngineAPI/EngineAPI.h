@@ -15,6 +15,8 @@ public:
 	
 	static void release();
 
+	static PlatformModule* getPlatform();
+
 private:
 
 	EngineAPI();

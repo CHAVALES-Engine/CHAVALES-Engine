@@ -23,18 +23,27 @@ PlatformModule::~PlatformModule()
 
 bool PlatformModule::Init()
 {
-	window = SDL_CreateWindow("CHAVALES WINDOW", SCREEN_WIDTH, SCREEN_HEIGHT, 0);
-	if (window == nullptr) return false;
+	_window = SDL_CreateWindow("CHAVALES WINDOW", SCREEN_WIDTH, SCREEN_HEIGHT, 0);
+	if (_window == nullptr) return false;
 
-	renderer = SDL_CreateRenderer(window, "");
-	if (renderer == nullptr) return false;
+	_renderer = SDL_CreateRenderer(_window, "");
+	if (_renderer == nullptr) return false;
 
 
 
-	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 250);
-	SDL_RenderClear(renderer);
-	SDL_RenderPresent(renderer);
-	SDL_Delay(200000);
+	SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 250);
+	SDL_RenderClear(_renderer);
+	SDL_RenderPresent(_renderer);
 
 	return true;
+}
+
+SDL_Window* PlatformModule::getWindow() const
+{
+	return _window;
+}
+
+SDL_Renderer* PlatformModule::getRenderer() const
+{
+	return _renderer;
 }

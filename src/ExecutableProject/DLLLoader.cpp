@@ -37,6 +37,6 @@ void DLLLoader::unLoadAll()
 
 bool DLLLoader::unload(const std::string& path)
 {
-	// TODO
+	// TODO for hot-reloading
 	return true;
 }

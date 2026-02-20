@@ -18,12 +18,18 @@
     <ClCompile Include="..\..\src\ExecutableProject\main.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="DLLLoader.cpp">
+    <ClCompile Include="..\..\src\ExecutableProject\ComponentsRegister.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ExecutableProject\DLLLoader.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\ExecutableProject\DLLLoader.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ExecutableProject\ComponentsRegister.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>

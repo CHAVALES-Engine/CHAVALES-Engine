@@ -19,13 +19,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\ExecutableProject\ComponentsRegister.cpp" />
+    <ClCompile Include="..\..\src\ExecutableProject\DLLLoader.cpp" />
     <ClCompile Include="..\..\src\ExecutableProject\main.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)src\$(ProjectName);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)src\$(ProjectName);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
-    <ClCompile Include="DLLLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\src\ExecutableProject\ComponentsRegister.h" />
     <ClInclude Include="..\..\src\ExecutableProject\DLLLoader.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -125,7 +127,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);SDL_STATIC</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)src\EngineAPI\;$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)dependencies\;$(SolutionDir)dependencies\lua\;$(SolutionDir)dependencies\lua\src\</AdditionalIncludeDirectories>

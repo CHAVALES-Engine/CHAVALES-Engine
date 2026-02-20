@@ -1,6 +1,5 @@
 #pragma once
-/*
-*
+/**
 * @file DLLLoader
 * @brief DLL loader, this DLLLoader is only usable on windows.
 */
