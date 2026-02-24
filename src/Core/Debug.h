@@ -65,31 +65,28 @@ namespace chavalescore
 	};
 
 
-#ifdef _DEBUG
+#define _File_Out = true
+
+
 #define _Out(...) \
 	std::cout << "[M] " << __VA_ARGS__ << std::endl;\
+//#ifdef _File_Out
+//	std::cout << "[M] " << __VA_ARGS__ << std::endl;\
+//
+//#endif // _File_Out
 
-#else
-#define _Out(...) 
-	std::ofstream file;
-	//fil
-#endif
 
-#ifdef _DEBUG
+	//file << __VA_ARGS__;\
+
+
 #define _Error(...) \
-std::cout << "\033[1;31m[E] " << __VA_ARGS__ << "\033[0m" << std::endl;\
+	std::cout << "\033[1;31m[E] " << __VA_ARGS__ << "\033[0m" << std::endl;\
+	//file << __VA_ARGS__;\
 //PAIGRO AQUI: mirar para que le puedas meter el numero de formato y decidir si clase como arriba o asi como esta.
-#else
-	
-#define _Error(...) 
-#endif
 
-#ifdef _DEBUG
+
 #define _Warnig(...) \
-std::cout << "\033[1;33m[W] " << __VA_ARGS__ << "\033[0m" << std::endl;\
+	std::cout << "\033[1;33m[W] " << __VA_ARGS__ << "\033[0m" << std::endl;\
 
-#else
-#define _Warnig(...) 
-#endif
 
 }
