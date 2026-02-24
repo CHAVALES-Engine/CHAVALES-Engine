@@ -41,6 +41,7 @@ Estándar **C++ / Doxygen**
 
 ```cpp
 /**
+ * @file 
  * @brief Frase corta descriptiva del método (opcional)
  *
  * Descripción detallada
