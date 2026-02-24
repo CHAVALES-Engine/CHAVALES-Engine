@@ -1,0 +1,7 @@
+C:/Users/ivani/OneDrive/Escritorio/build/Dependencies/lib/zlib.lib
+C:/Users/ivani/OneDrive/Escritorio/build/Dependencies/bin/zlib.dll
+C:/Users/ivani/OneDrive/Escritorio/build/Dependencies/lib/zlibstatic.lib
+C:/Users/ivani/OneDrive/Escritorio/build/Dependencies/include/zconf.h
+C:/Users/ivani/OneDrive/Escritorio/build/Dependencies/include/zlib.h
+C:/Users/ivani/OneDrive/Escritorio/build/Dependencies/share/man/man3/zlib.3
+C:/Users/ivani/OneDrive/Escritorio/build/Dependencies/share/pkgconfig/zlib.pc

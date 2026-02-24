@@ -126,7 +126,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)src\PlatformModule\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)src\PlatformModule\;$(SolutionDir)src\RenderModule\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -134,8 +134,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)libs\PlatformModule;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(SolutionDir)libs\PlatformModule\PlatformModule_d.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\PlatformModule;$(SolutionDir)libs\RenderModule</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(SolutionDir)libs\PlatformModule\PlatformModule_r.lib;$(SolutionDir)libs\RenderModule\RenderModule_r.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -150,7 +150,8 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)src\PlatformModule\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)src\PlatformModule\;$(SolutionDir)src\RenderModule\</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -158,8 +159,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)libs\PlatformModule;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(SolutionDir)libs\PlatformModule\PlatformModule_r.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\PlatformModule;$(SolutionDir)libs\RenderModule</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(SolutionDir)libs\PlatformModule\PlatformModule_r.lib;$(SolutionDir)libs\RenderModule\RenderModule_r.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>

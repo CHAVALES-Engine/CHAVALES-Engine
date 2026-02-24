@@ -1,0 +1,2063 @@
+
+---
+events:
+  -
+    kind: "find-v1"
+    backtrace:
+      - "CMakeLists.txt:88 (find_program)"
+    mode: "program"
+    variable: "CCACHE_PATH"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "ccache"
+    candidate_directories:
+      - "C:/Program Files/Microsoft/jdk-11.0.16.101-hotspot/bin/"
+      - "C:/Program Files (x86)/Razer/ChromaBroadcast/bin/"
+      - "C:/Program Files/Razer/ChromaBroadcast/bin/"
+      - "C:/app/ivani/product/21c/dbhomeXE/bin/"
+      - "C:/app/ivani/dbhomeXE/bin/"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/Docker/Docker/resources/bin/"
+      - "C:/ProgramData/DockerDesktop/version-bin/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files/Python/Scripts/"
+      - "C:/Program Files/Python/"
+      - "C:/Users/ivani/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/ivani/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/ivani/AppData/Local/spicetify/"
+      - "C:/Program Files/TortoiseSVN/bin/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win32/"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win64/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Users/ivani/AppData/Local/GitHubDesktop/bin/"
+      - "C:/Users/ivani/AppData/Roaming/npm/"
+      - "C:/Users/ivani/.dotnet/tools/"
+      - "C:/Users/ivani/OneDrive/Documentos/Ninja/"
+    searched_directories:
+      - "C:/Program Files/Microsoft/jdk-11.0.16.101-hotspot/bin/ccache.com"
+      - "C:/Program Files/Microsoft/jdk-11.0.16.101-hotspot/bin/ccache.exe"
+      - "C:/Program Files/Microsoft/jdk-11.0.16.101-hotspot/bin/ccache"
+      - "C:/Program Files (x86)/Razer/ChromaBroadcast/bin/ccache.com"
+      - "C:/Program Files (x86)/Razer/ChromaBroadcast/bin/ccache.exe"
+      - "C:/Program Files (x86)/Razer/ChromaBroadcast/bin/ccache"
+      - "C:/Program Files/Razer/ChromaBroadcast/bin/ccache.com"
+      - "C:/Program Files/Razer/ChromaBroadcast/bin/ccache.exe"
+      - "C:/Program Files/Razer/ChromaBroadcast/bin/ccache"
+      - "C:/app/ivani/product/21c/dbhomeXE/bin/ccache.com"
+      - "C:/app/ivani/product/21c/dbhomeXE/bin/ccache.exe"
+      - "C:/app/ivani/product/21c/dbhomeXE/bin/ccache"
+      - "C:/app/ivani/dbhomeXE/bin/ccache.com"
+      - "C:/app/ivani/dbhomeXE/bin/ccache.exe"
+      - "C:/app/ivani/dbhomeXE/bin/ccache"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/ccache.com"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/ccache.exe"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/ccache"
+      - "C:/Windows/System32/ccache.com"
+      - "C:/Windows/System32/ccache.exe"
+      - "C:/Windows/System32/ccache"
+      - "C:/Windows/ccache.com"
+      - "C:/Windows/ccache.exe"
+      - "C:/Windows/ccache"
+      - "C:/Windows/System32/wbem/ccache.com"
+      - "C:/Windows/System32/wbem/ccache.exe"
+      - "C:/Windows/System32/wbem/ccache"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache"
+      - "C:/Windows/System32/OpenSSH/ccache.com"
+      - "C:/Windows/System32/OpenSSH/ccache.exe"
+      - "C:/Windows/System32/OpenSSH/ccache"
+      - "C:/Program Files/Docker/Docker/resources/bin/ccache.com"
+      - "C:/Program Files/Docker/Docker/resources/bin/ccache.exe"
+      - "C:/Program Files/Docker/Docker/resources/bin/ccache"
+      - "C:/ProgramData/DockerDesktop/version-bin/ccache.com"
+      - "C:/ProgramData/DockerDesktop/version-bin/ccache.exe"
+      - "C:/ProgramData/DockerDesktop/version-bin/ccache"
+      - "C:/Program Files/Git/cmd/ccache.com"
+      - "C:/Program Files/Git/cmd/ccache.exe"
+      - "C:/Program Files/Git/cmd/ccache"
+      - "C:/Program Files/Python/Scripts/ccache.com"
+      - "C:/Program Files/Python/Scripts/ccache.exe"
+      - "C:/Program Files/Python/Scripts/ccache"
+      - "C:/Program Files/Python/ccache.com"
+      - "C:/Program Files/Python/ccache.exe"
+      - "C:/Program Files/Python/ccache"
+      - "C:/Users/ivani/AppData/Local/Microsoft/WindowsApps/ccache.com"
+      - "C:/Users/ivani/AppData/Local/Microsoft/WindowsApps/ccache.exe"
+      - "C:/Users/ivani/AppData/Local/Microsoft/WindowsApps/ccache"
+      - "C:/Users/ivani/AppData/Local/Programs/Microsoft VS Code/bin/ccache.com"
+      - "C:/Users/ivani/AppData/Local/Programs/Microsoft VS Code/bin/ccache.exe"
+      - "C:/Users/ivani/AppData/Local/Programs/Microsoft VS Code/bin/ccache"
+      - "C:/Users/ivani/AppData/Local/spicetify/ccache.com"
+      - "C:/Users/ivani/AppData/Local/spicetify/ccache.exe"
+      - "C:/Users/ivani/AppData/Local/spicetify/ccache"
+      - "C:/Program Files/TortoiseSVN/bin/ccache.com"
+      - "C:/Program Files/TortoiseSVN/bin/ccache.exe"
+      - "C:/Program Files/TortoiseSVN/bin/ccache"
+      - "C:/Program Files/nodejs/ccache.com"
+      - "C:/Program Files/nodejs/ccache.exe"
+      - "C:/Program Files/nodejs/ccache"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win32/ccache.com"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win32/ccache.exe"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win32/ccache"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win64/ccache.com"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win64/ccache.exe"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win64/ccache"
+      - "C:/Program Files/CMake/bin/ccache.com"
+      - "C:/Program Files/CMake/bin/ccache.exe"
+      - "C:/Program Files/CMake/bin/ccache"
+      - "C:/Program Files/dotnet/ccache.com"
+      - "C:/Program Files/dotnet/ccache.exe"
+      - "C:/Program Files/dotnet/ccache"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/ccache.com"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/ccache.exe"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/ccache"
+      - "C:/Users/ivani/AppData/Local/GitHubDesktop/bin/ccache.com"
+      - "C:/Users/ivani/AppData/Local/GitHubDesktop/bin/ccache.exe"
+      - "C:/Users/ivani/AppData/Local/GitHubDesktop/bin/ccache"
+      - "C:/Users/ivani/AppData/Roaming/npm/ccache.com"
+      - "C:/Users/ivani/AppData/Roaming/npm/ccache.exe"
+      - "C:/Users/ivani/AppData/Roaming/npm/ccache"
+      - "C:/Users/ivani/.dotnet/tools/ccache.com"
+      - "C:/Users/ivani/.dotnet/tools/ccache.exe"
+      - "C:/Users/ivani/.dotnet/tools/ccache"
+      - "C:/Users/ivani/OneDrive/Documentos/Ninja/ccache.com"
+      - "C:/Users/ivani/OneDrive/Documentos/Ninja/ccache.exe"
+      - "C:/Users/ivani/OneDrive/Documentos/Ninja/ccache"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "C:\\Program Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin"
+        - "C:\\Program Files (x86)\\Razer\\ChromaBroadcast\\bin"
+        - "C:\\Program Files\\Razer\\ChromaBroadcast\\bin"
+        - "C:\\app\\ivani\\product\\21c\\dbhomeXE\\bin"
+        - "C:\\app\\ivani\\dbhomeXE\\bin"
+        - "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\ProgramData\\DockerDesktop\\version-bin"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Python\\Scripts\\"
+        - "C:\\Program Files\\Python\\"
+        - "C:\\Users\\ivani\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\ivani\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\ivani\\AppData\\Local\\spicetify"
+        - "C:\\Program Files\\TortoiseSVN\\bin"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files (x86)\\Visual Leak Detector\\bin\\Win32"
+        - "C:\\Program Files (x86)\\Visual Leak Detector\\bin\\Win64"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\Python\\Scripts\\"
+        - "C:\\Program Files\\Python\\"
+        - "C:\\Users\\ivani\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\ivani\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\ivani\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\ivani\\AppData\\Roaming\\npm"
+        - "C:\\Users\\ivani\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\ivani\\.dotnet\\tools"
+        - "C:\\Users\\ivani\\OneDrive\\Documentos\\Ninja"
+      CMAKE_INSTALL_PREFIX: "C:/Users/ivani/OneDrive/Escritorio/build/Dependencies"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineSystem.cmake:212 (message)"
+      - "CMakeLists.txt:107 (PROJECT)"
+    message: |
+      The system is: Windows - 10.0.26200 - AMD64
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:107 (PROJECT)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCCompilerId.c.in"
+    candidate_directories:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/"
+    found: "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeCCompilerId.c.in"
+    search_context:
+      ENV{PATH}:
+        - "C:\\Program Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin"
+        - "C:\\Program Files (x86)\\Razer\\ChromaBroadcast\\bin"
+        - "C:\\Program Files\\Razer\\ChromaBroadcast\\bin"
+        - "C:\\app\\ivani\\product\\21c\\dbhomeXE\\bin"
+        - "C:\\app\\ivani\\dbhomeXE\\bin"
+        - "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\ProgramData\\DockerDesktop\\version-bin"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Python\\Scripts\\"
+        - "C:\\Program Files\\Python\\"
+        - "C:\\Users\\ivani\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\ivani\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\ivani\\AppData\\Local\\spicetify"
+        - "C:\\Program Files\\TortoiseSVN\\bin"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files (x86)\\Visual Leak Detector\\bin\\Win32"
+        - "C:\\Program Files (x86)\\Visual Leak Detector\\bin\\Win64"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\Python\\Scripts\\"
+        - "C:\\Program Files\\Python\\"
+        - "C:\\Users\\ivani\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\ivani\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\ivani\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\ivani\\AppData\\Roaming\\npm"
+        - "C:\\Users\\ivani\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\ivani\\.dotnet\\tools"
+        - "C:\\Users\\ivani\\OneDrive\\Documentos\\Ninja"
+      CMAKE_INSTALL_PREFIX: "C:/Users/ivani/OneDrive/Escritorio/build/Dependencies"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:107 (PROJECT)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+      Compiler:  
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      0
+      Versi├│n de MSBuild 17.14.23+b0019275e para .NET Framework
+      Compilaci├│n iniciada a las 24/02/2026 16:48:44.
+      
+      Proyecto "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\4.1.1\\CompilerIdC\\CompilerIdC.vcxproj" en nodo 1 (destinos predeterminados).
+      PrepareForBuild:
+        Creando directorio "Debug\\".
+        La salida estructurada est├í habilitada. El formato del diagn├│stico del compilador reflejar├í la jerarqu├¡a de errores. Consulte https://aka.ms/cpp/structured-output para obtener m├ís detalles.
+        Creando directorio "Debug\\CompilerIdC.tlog\\".
+      InitializeBuildStatus:
+        Se crear├í "Debug\\CompilerIdC.tlog\\unsuccessfulbuild" porque se especific├│ "AlwaysCreate".
+        Aplicando tarea Touch a "Debug\\CompilerIdC.tlog\\unsuccessfulbuild".
+      ClCompile:
+        C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\CL.exe /c /nologo /W0 /WX- /diagnostics:column /Od /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\\\" /Fd"Debug\\vc143.pdb" /external:W0 /Gd /TC /FC /errorReport:queue CMakeCCompilerId.c
+        CMakeCCompilerId.c
+      Link:
+        C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:".\\CompilerIdC.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:".\\CompilerIdC.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\\CompilerIdC.lib" /MACHINE:X64 Debug\\CMakeCCompilerId.obj
+        CompilerIdC.vcxproj -> C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\4.1.1\\CompilerIdC\\CompilerIdC.exe
+      PostBuildEvent:
+        for %%i in (cl.exe) do @echo CMAKE_C_COMPILER=%%~$PATH:i
+        :VCEnd
+        CMAKE_C_COMPILER=C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe
+      FinalizeBuildStatus:
+        Se eliminar├í el archivo "Debug\\CompilerIdC.tlog\\unsuccessfulbuild".
+        Aplicando tarea Touch a "Debug\\CompilerIdC.tlog\\CompilerIdC.lastbuildstate".
+      Compilaci├│n del proyecto terminada "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\4.1.1\\CompilerIdC\\CompilerIdC.vcxproj" (destinos predeterminados).
+      
+      Compilaci├│n correcta.
+          0 Advertencia(s)
+          0 Errores
+      
+      Tiempo transcurrido 00:00:01.87
+      
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CompilerIdC.exe"
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CompilerIdC.vcxproj"
+      
+      The C compiler identification is MSVC, found in:
+        C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/CMakeFiles/4.1.1/CompilerIdC/CompilerIdC.exe
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeFindBinUtils.cmake:37 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeFindBinUtils.cmake:65 (__resolve_tool_path)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeFindBinUtils.cmake:103 (__resolve_linker_path)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:107 (PROJECT)"
+    mode: "program"
+    variable: "_CMAKE_TOOL_WITH_PATH"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "link"
+    candidate_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/"
+      - "C:/Program Files/Microsoft/jdk-11.0.16.101-hotspot/bin/"
+      - "C:/Program Files (x86)/Razer/ChromaBroadcast/bin/"
+      - "C:/Program Files/Razer/ChromaBroadcast/bin/"
+      - "C:/app/ivani/product/21c/dbhomeXE/bin/"
+      - "C:/app/ivani/dbhomeXE/bin/"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/Docker/Docker/resources/bin/"
+      - "C:/ProgramData/DockerDesktop/version-bin/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files/Python/Scripts/"
+      - "C:/Program Files/Python/"
+      - "C:/Users/ivani/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/ivani/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/ivani/AppData/Local/spicetify/"
+      - "C:/Program Files/TortoiseSVN/bin/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win32/"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win64/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Users/ivani/AppData/Local/GitHubDesktop/bin/"
+      - "C:/Users/ivani/AppData/Roaming/npm/"
+      - "C:/Users/ivani/.dotnet/tools/"
+      - "C:/Users/ivani/OneDrive/Documentos/Ninja/"
+    searched_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/link.com"
+    found: "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/link.exe"
+    search_context:
+      ENV{PATH}:
+        - "C:\\Program Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin"
+        - "C:\\Program Files (x86)\\Razer\\ChromaBroadcast\\bin"
+        - "C:\\Program Files\\Razer\\ChromaBroadcast\\bin"
+        - "C:\\app\\ivani\\product\\21c\\dbhomeXE\\bin"
+        - "C:\\app\\ivani\\dbhomeXE\\bin"
+        - "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\ProgramData\\DockerDesktop\\version-bin"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Python\\Scripts\\"
+        - "C:\\Program Files\\Python\\"
+        - "C:\\Users\\ivani\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\ivani\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\ivani\\AppData\\Local\\spicetify"
+        - "C:\\Program Files\\TortoiseSVN\\bin"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files (x86)\\Visual Leak Detector\\bin\\Win32"
+        - "C:\\Program Files (x86)\\Visual Leak Detector\\bin\\Win64"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\Python\\Scripts\\"
+        - "C:\\Program Files\\Python\\"
+        - "C:\\Users\\ivani\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\ivani\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\ivani\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\ivani\\AppData\\Roaming\\npm"
+        - "C:\\Users\\ivani\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\ivani\\.dotnet\\tools"
+        - "C:\\Users\\ivani\\OneDrive\\Documentos\\Ninja"
+      CMAKE_INSTALL_PREFIX: "C:/Users/ivani/OneDrive/Escritorio/build/Dependencies"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeFindBinUtils.cmake:37 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeFindBinUtils.cmake:65 (__resolve_tool_path)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeFindBinUtils.cmake:104 (__resolve_linker_path)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:107 (PROJECT)"
+    mode: "program"
+    variable: "_CMAKE_TOOL_WITH_PATH"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "lld-link"
+    candidate_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/"
+      - "C:/Program Files/Microsoft/jdk-11.0.16.101-hotspot/bin/"
+      - "C:/Program Files (x86)/Razer/ChromaBroadcast/bin/"
+      - "C:/Program Files/Razer/ChromaBroadcast/bin/"
+      - "C:/app/ivani/product/21c/dbhomeXE/bin/"
+      - "C:/app/ivani/dbhomeXE/bin/"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/Docker/Docker/resources/bin/"
+      - "C:/ProgramData/DockerDesktop/version-bin/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files/Python/Scripts/"
+      - "C:/Program Files/Python/"
+      - "C:/Users/ivani/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/ivani/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/ivani/AppData/Local/spicetify/"
+      - "C:/Program Files/TortoiseSVN/bin/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win32/"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win64/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Users/ivani/AppData/Local/GitHubDesktop/bin/"
+      - "C:/Users/ivani/AppData/Roaming/npm/"
+      - "C:/Users/ivani/.dotnet/tools/"
+      - "C:/Users/ivani/OneDrive/Documentos/Ninja/"
+    searched_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/lld-link.com"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/lld-link.exe"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/lld-link"
+      - "C:/Program Files/Microsoft/jdk-11.0.16.101-hotspot/bin/lld-link.com"
+      - "C:/Program Files/Microsoft/jdk-11.0.16.101-hotspot/bin/lld-link.exe"
+      - "C:/Program Files/Microsoft/jdk-11.0.16.101-hotspot/bin/lld-link"
+      - "C:/Program Files (x86)/Razer/ChromaBroadcast/bin/lld-link.com"
+      - "C:/Program Files (x86)/Razer/ChromaBroadcast/bin/lld-link.exe"
+      - "C:/Program Files (x86)/Razer/ChromaBroadcast/bin/lld-link"
+      - "C:/Program Files/Razer/ChromaBroadcast/bin/lld-link.com"
+      - "C:/Program Files/Razer/ChromaBroadcast/bin/lld-link.exe"
+      - "C:/Program Files/Razer/ChromaBroadcast/bin/lld-link"
+      - "C:/app/ivani/product/21c/dbhomeXE/bin/lld-link.com"
+      - "C:/app/ivani/product/21c/dbhomeXE/bin/lld-link.exe"
+      - "C:/app/ivani/product/21c/dbhomeXE/bin/lld-link"
+      - "C:/app/ivani/dbhomeXE/bin/lld-link.com"
+      - "C:/app/ivani/dbhomeXE/bin/lld-link.exe"
+      - "C:/app/ivani/dbhomeXE/bin/lld-link"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/lld-link.com"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/lld-link.exe"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/lld-link"
+      - "C:/Windows/System32/lld-link.com"
+      - "C:/Windows/System32/lld-link.exe"
+      - "C:/Windows/System32/lld-link"
+      - "C:/Windows/lld-link.com"
+      - "C:/Windows/lld-link.exe"
+      - "C:/Windows/lld-link"
+      - "C:/Windows/System32/wbem/lld-link.com"
+      - "C:/Windows/System32/wbem/lld-link.exe"
+      - "C:/Windows/System32/wbem/lld-link"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/lld-link.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/lld-link.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/lld-link"
+      - "C:/Windows/System32/OpenSSH/lld-link.com"
+      - "C:/Windows/System32/OpenSSH/lld-link.exe"
+      - "C:/Windows/System32/OpenSSH/lld-link"
+      - "C:/Program Files/Docker/Docker/resources/bin/lld-link.com"
+      - "C:/Program Files/Docker/Docker/resources/bin/lld-link.exe"
+      - "C:/Program Files/Docker/Docker/resources/bin/lld-link"
+      - "C:/ProgramData/DockerDesktop/version-bin/lld-link.com"
+      - "C:/ProgramData/DockerDesktop/version-bin/lld-link.exe"
+      - "C:/ProgramData/DockerDesktop/version-bin/lld-link"
+      - "C:/Program Files/Git/cmd/lld-link.com"
+      - "C:/Program Files/Git/cmd/lld-link.exe"
+      - "C:/Program Files/Git/cmd/lld-link"
+      - "C:/Program Files/Python/Scripts/lld-link.com"
+      - "C:/Program Files/Python/Scripts/lld-link.exe"
+      - "C:/Program Files/Python/Scripts/lld-link"
+      - "C:/Program Files/Python/lld-link.com"
+      - "C:/Program Files/Python/lld-link.exe"
+      - "C:/Program Files/Python/lld-link"
+      - "C:/Users/ivani/AppData/Local/Microsoft/WindowsApps/lld-link.com"
+      - "C:/Users/ivani/AppData/Local/Microsoft/WindowsApps/lld-link.exe"
+      - "C:/Users/ivani/AppData/Local/Microsoft/WindowsApps/lld-link"
+      - "C:/Users/ivani/AppData/Local/Programs/Microsoft VS Code/bin/lld-link.com"
+      - "C:/Users/ivani/AppData/Local/Programs/Microsoft VS Code/bin/lld-link.exe"
+      - "C:/Users/ivani/AppData/Local/Programs/Microsoft VS Code/bin/lld-link"
+      - "C:/Users/ivani/AppData/Local/spicetify/lld-link.com"
+      - "C:/Users/ivani/AppData/Local/spicetify/lld-link.exe"
+      - "C:/Users/ivani/AppData/Local/spicetify/lld-link"
+      - "C:/Program Files/TortoiseSVN/bin/lld-link.com"
+      - "C:/Program Files/TortoiseSVN/bin/lld-link.exe"
+      - "C:/Program Files/TortoiseSVN/bin/lld-link"
+      - "C:/Program Files/nodejs/lld-link.com"
+      - "C:/Program Files/nodejs/lld-link.exe"
+      - "C:/Program Files/nodejs/lld-link"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win32/lld-link.com"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win32/lld-link.exe"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win32/lld-link"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win64/lld-link.com"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win64/lld-link.exe"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win64/lld-link"
+      - "C:/Program Files/CMake/bin/lld-link.com"
+      - "C:/Program Files/CMake/bin/lld-link.exe"
+      - "C:/Program Files/CMake/bin/lld-link"
+      - "C:/Program Files/dotnet/lld-link.com"
+      - "C:/Program Files/dotnet/lld-link.exe"
+      - "C:/Program Files/dotnet/lld-link"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/lld-link.com"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/lld-link.exe"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/lld-link"
+      - "C:/Users/ivani/AppData/Local/GitHubDesktop/bin/lld-link.com"
+      - "C:/Users/ivani/AppData/Local/GitHubDesktop/bin/lld-link.exe"
+      - "C:/Users/ivani/AppData/Local/GitHubDesktop/bin/lld-link"
+      - "C:/Users/ivani/AppData/Roaming/npm/lld-link.com"
+      - "C:/Users/ivani/AppData/Roaming/npm/lld-link.exe"
+      - "C:/Users/ivani/AppData/Roaming/npm/lld-link"
+      - "C:/Users/ivani/.dotnet/tools/lld-link.com"
+      - "C:/Users/ivani/.dotnet/tools/lld-link.exe"
+      - "C:/Users/ivani/.dotnet/tools/lld-link"
+      - "C:/Users/ivani/OneDrive/Documentos/Ninja/lld-link.com"
+      - "C:/Users/ivani/OneDrive/Documentos/Ninja/lld-link.exe"
+      - "C:/Users/ivani/OneDrive/Documentos/Ninja/lld-link"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "C:\\Program Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin"
+        - "C:\\Program Files (x86)\\Razer\\ChromaBroadcast\\bin"
+        - "C:\\Program Files\\Razer\\ChromaBroadcast\\bin"
+        - "C:\\app\\ivani\\product\\21c\\dbhomeXE\\bin"
+        - "C:\\app\\ivani\\dbhomeXE\\bin"
+        - "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\ProgramData\\DockerDesktop\\version-bin"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Python\\Scripts\\"
+        - "C:\\Program Files\\Python\\"
+        - "C:\\Users\\ivani\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\ivani\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\ivani\\AppData\\Local\\spicetify"
+        - "C:\\Program Files\\TortoiseSVN\\bin"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files (x86)\\Visual Leak Detector\\bin\\Win32"
+        - "C:\\Program Files (x86)\\Visual Leak Detector\\bin\\Win64"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\Python\\Scripts\\"
+        - "C:\\Program Files\\Python\\"
+        - "C:\\Users\\ivani\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\ivani\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\ivani\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\ivani\\AppData\\Roaming\\npm"
+        - "C:\\Users\\ivani\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\ivani\\.dotnet\\tools"
+        - "C:\\Users\\ivani\\OneDrive\\Documentos\\Ninja"
+      CMAKE_INSTALL_PREFIX: "C:/Users/ivani/OneDrive/Escritorio/build/Dependencies"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeFindBinUtils.cmake:238 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:107 (PROJECT)"
+    mode: "program"
+    variable: "CMAKE_LINKER"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "link"
+    candidate_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/"
+      - "C:/Program Files/Microsoft/jdk-11.0.16.101-hotspot/bin/"
+      - "C:/Program Files (x86)/Razer/ChromaBroadcast/bin/"
+      - "C:/Program Files/Razer/ChromaBroadcast/bin/"
+      - "C:/app/ivani/product/21c/dbhomeXE/bin/"
+      - "C:/app/ivani/dbhomeXE/bin/"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/Docker/Docker/resources/bin/"
+      - "C:/ProgramData/DockerDesktop/version-bin/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files/Python/Scripts/"
+      - "C:/Program Files/Python/"
+      - "C:/Users/ivani/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/ivani/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/ivani/AppData/Local/spicetify/"
+      - "C:/Program Files/TortoiseSVN/bin/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win32/"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win64/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Users/ivani/AppData/Local/GitHubDesktop/bin/"
+      - "C:/Users/ivani/AppData/Roaming/npm/"
+      - "C:/Users/ivani/.dotnet/tools/"
+      - "C:/Users/ivani/OneDrive/Documentos/Ninja/"
+    searched_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/link.com"
+    found: "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/link.exe"
+    search_context:
+      ENV{PATH}:
+        - "C:\\Program Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin"
+        - "C:\\Program Files (x86)\\Razer\\ChromaBroadcast\\bin"
+        - "C:\\Program Files\\Razer\\ChromaBroadcast\\bin"
+        - "C:\\app\\ivani\\product\\21c\\dbhomeXE\\bin"
+        - "C:\\app\\ivani\\dbhomeXE\\bin"
+        - "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\ProgramData\\DockerDesktop\\version-bin"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Python\\Scripts\\"
+        - "C:\\Program Files\\Python\\"
+        - "C:\\Users\\ivani\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\ivani\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\ivani\\AppData\\Local\\spicetify"
+        - "C:\\Program Files\\TortoiseSVN\\bin"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files (x86)\\Visual Leak Detector\\bin\\Win32"
+        - "C:\\Program Files (x86)\\Visual Leak Detector\\bin\\Win64"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\Python\\Scripts\\"
+        - "C:\\Program Files\\Python\\"
+        - "C:\\Users\\ivani\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\ivani\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\ivani\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\ivani\\AppData\\Roaming\\npm"
+        - "C:\\Users\\ivani\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\ivani\\.dotnet\\tools"
+        - "C:\\Users\\ivani\\OneDrive\\Documentos\\Ninja"
+      CMAKE_INSTALL_PREFIX: "C:/Users/ivani/OneDrive/Escritorio/build/Dependencies"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeFindBinUtils.cmake:238 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:107 (PROJECT)"
+    mode: "program"
+    variable: "CMAKE_MT"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "mt"
+    candidate_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/"
+      - "C:/Program Files/Microsoft/jdk-11.0.16.101-hotspot/bin/"
+      - "C:/Program Files (x86)/Razer/ChromaBroadcast/bin/"
+      - "C:/Program Files/Razer/ChromaBroadcast/bin/"
+      - "C:/app/ivani/product/21c/dbhomeXE/bin/"
+      - "C:/app/ivani/dbhomeXE/bin/"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/Docker/Docker/resources/bin/"
+      - "C:/ProgramData/DockerDesktop/version-bin/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files/Python/Scripts/"
+      - "C:/Program Files/Python/"
+      - "C:/Users/ivani/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/ivani/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/ivani/AppData/Local/spicetify/"
+      - "C:/Program Files/TortoiseSVN/bin/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win32/"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win64/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Users/ivani/AppData/Local/GitHubDesktop/bin/"
+      - "C:/Users/ivani/AppData/Roaming/npm/"
+      - "C:/Users/ivani/.dotnet/tools/"
+      - "C:/Users/ivani/OneDrive/Documentos/Ninja/"
+    searched_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/mt.com"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/mt.exe"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/mt"
+      - "C:/Program Files/Microsoft/jdk-11.0.16.101-hotspot/bin/mt.com"
+      - "C:/Program Files/Microsoft/jdk-11.0.16.101-hotspot/bin/mt.exe"
+      - "C:/Program Files/Microsoft/jdk-11.0.16.101-hotspot/bin/mt"
+      - "C:/Program Files (x86)/Razer/ChromaBroadcast/bin/mt.com"
+      - "C:/Program Files (x86)/Razer/ChromaBroadcast/bin/mt.exe"
+      - "C:/Program Files (x86)/Razer/ChromaBroadcast/bin/mt"
+      - "C:/Program Files/Razer/ChromaBroadcast/bin/mt.com"
+      - "C:/Program Files/Razer/ChromaBroadcast/bin/mt.exe"
+      - "C:/Program Files/Razer/ChromaBroadcast/bin/mt"
+      - "C:/app/ivani/product/21c/dbhomeXE/bin/mt.com"
+      - "C:/app/ivani/product/21c/dbhomeXE/bin/mt.exe"
+      - "C:/app/ivani/product/21c/dbhomeXE/bin/mt"
+      - "C:/app/ivani/dbhomeXE/bin/mt.com"
+      - "C:/app/ivani/dbhomeXE/bin/mt.exe"
+      - "C:/app/ivani/dbhomeXE/bin/mt"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/mt.com"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/mt.exe"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/mt"
+      - "C:/Windows/System32/mt.com"
+      - "C:/Windows/System32/mt.exe"
+      - "C:/Windows/System32/mt"
+      - "C:/Windows/mt.com"
+      - "C:/Windows/mt.exe"
+      - "C:/Windows/mt"
+      - "C:/Windows/System32/wbem/mt.com"
+      - "C:/Windows/System32/wbem/mt.exe"
+      - "C:/Windows/System32/wbem/mt"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/mt.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/mt.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/mt"
+      - "C:/Windows/System32/OpenSSH/mt.com"
+      - "C:/Windows/System32/OpenSSH/mt.exe"
+      - "C:/Windows/System32/OpenSSH/mt"
+      - "C:/Program Files/Docker/Docker/resources/bin/mt.com"
+      - "C:/Program Files/Docker/Docker/resources/bin/mt.exe"
+      - "C:/Program Files/Docker/Docker/resources/bin/mt"
+      - "C:/ProgramData/DockerDesktop/version-bin/mt.com"
+      - "C:/ProgramData/DockerDesktop/version-bin/mt.exe"
+      - "C:/ProgramData/DockerDesktop/version-bin/mt"
+      - "C:/Program Files/Git/cmd/mt.com"
+      - "C:/Program Files/Git/cmd/mt.exe"
+      - "C:/Program Files/Git/cmd/mt"
+      - "C:/Program Files/Python/Scripts/mt.com"
+      - "C:/Program Files/Python/Scripts/mt.exe"
+      - "C:/Program Files/Python/Scripts/mt"
+      - "C:/Program Files/Python/mt.com"
+      - "C:/Program Files/Python/mt.exe"
+      - "C:/Program Files/Python/mt"
+      - "C:/Users/ivani/AppData/Local/Microsoft/WindowsApps/mt.com"
+      - "C:/Users/ivani/AppData/Local/Microsoft/WindowsApps/mt.exe"
+      - "C:/Users/ivani/AppData/Local/Microsoft/WindowsApps/mt"
+      - "C:/Users/ivani/AppData/Local/Programs/Microsoft VS Code/bin/mt.com"
+      - "C:/Users/ivani/AppData/Local/Programs/Microsoft VS Code/bin/mt.exe"
+      - "C:/Users/ivani/AppData/Local/Programs/Microsoft VS Code/bin/mt"
+      - "C:/Users/ivani/AppData/Local/spicetify/mt.com"
+      - "C:/Users/ivani/AppData/Local/spicetify/mt.exe"
+      - "C:/Users/ivani/AppData/Local/spicetify/mt"
+      - "C:/Program Files/TortoiseSVN/bin/mt.com"
+      - "C:/Program Files/TortoiseSVN/bin/mt.exe"
+      - "C:/Program Files/TortoiseSVN/bin/mt"
+      - "C:/Program Files/nodejs/mt.com"
+      - "C:/Program Files/nodejs/mt.exe"
+      - "C:/Program Files/nodejs/mt"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win32/mt.com"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win32/mt.exe"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win32/mt"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win64/mt.com"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win64/mt.exe"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win64/mt"
+      - "C:/Program Files/CMake/bin/mt.com"
+      - "C:/Program Files/CMake/bin/mt.exe"
+      - "C:/Program Files/CMake/bin/mt"
+      - "C:/Program Files/dotnet/mt.com"
+      - "C:/Program Files/dotnet/mt.exe"
+      - "C:/Program Files/dotnet/mt"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/mt.com"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/mt.exe"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/mt"
+      - "C:/Users/ivani/AppData/Local/GitHubDesktop/bin/mt.com"
+      - "C:/Users/ivani/AppData/Local/GitHubDesktop/bin/mt.exe"
+      - "C:/Users/ivani/AppData/Local/GitHubDesktop/bin/mt"
+      - "C:/Users/ivani/AppData/Roaming/npm/mt.com"
+      - "C:/Users/ivani/AppData/Roaming/npm/mt.exe"
+      - "C:/Users/ivani/AppData/Roaming/npm/mt"
+      - "C:/Users/ivani/.dotnet/tools/mt.com"
+      - "C:/Users/ivani/.dotnet/tools/mt.exe"
+      - "C:/Users/ivani/.dotnet/tools/mt"
+      - "C:/Users/ivani/OneDrive/Documentos/Ninja/mt.com"
+      - "C:/Users/ivani/OneDrive/Documentos/Ninja/mt.exe"
+      - "C:/Users/ivani/OneDrive/Documentos/Ninja/mt"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "C:\\Program Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin"
+        - "C:\\Program Files (x86)\\Razer\\ChromaBroadcast\\bin"
+        - "C:\\Program Files\\Razer\\ChromaBroadcast\\bin"
+        - "C:\\app\\ivani\\product\\21c\\dbhomeXE\\bin"
+        - "C:\\app\\ivani\\dbhomeXE\\bin"
+        - "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\ProgramData\\DockerDesktop\\version-bin"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Python\\Scripts\\"
+        - "C:\\Program Files\\Python\\"
+        - "C:\\Users\\ivani\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\ivani\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\ivani\\AppData\\Local\\spicetify"
+        - "C:\\Program Files\\TortoiseSVN\\bin"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files (x86)\\Visual Leak Detector\\bin\\Win32"
+        - "C:\\Program Files (x86)\\Visual Leak Detector\\bin\\Win64"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\Python\\Scripts\\"
+        - "C:\\Program Files\\Python\\"
+        - "C:\\Users\\ivani\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\ivani\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\ivani\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\ivani\\AppData\\Roaming\\npm"
+        - "C:\\Users\\ivani\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\ivani\\.dotnet\\tools"
+        - "C:\\Users\\ivani\\OneDrive\\Documentos\\Ninja"
+      CMAKE_INSTALL_PREFIX: "C:/Users/ivani/OneDrive/Escritorio/build/Dependencies"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeFindBinUtils.cmake:238 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:107 (PROJECT)"
+    mode: "program"
+    variable: "CMAKE_AR"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "lib"
+    candidate_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/"
+      - "C:/Program Files/Microsoft/jdk-11.0.16.101-hotspot/bin/"
+      - "C:/Program Files (x86)/Razer/ChromaBroadcast/bin/"
+      - "C:/Program Files/Razer/ChromaBroadcast/bin/"
+      - "C:/app/ivani/product/21c/dbhomeXE/bin/"
+      - "C:/app/ivani/dbhomeXE/bin/"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/Docker/Docker/resources/bin/"
+      - "C:/ProgramData/DockerDesktop/version-bin/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files/Python/Scripts/"
+      - "C:/Program Files/Python/"
+      - "C:/Users/ivani/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/ivani/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/ivani/AppData/Local/spicetify/"
+      - "C:/Program Files/TortoiseSVN/bin/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win32/"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win64/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Users/ivani/AppData/Local/GitHubDesktop/bin/"
+      - "C:/Users/ivani/AppData/Roaming/npm/"
+      - "C:/Users/ivani/.dotnet/tools/"
+      - "C:/Users/ivani/OneDrive/Documentos/Ninja/"
+    searched_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/lib.com"
+    found: "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/lib.exe"
+    search_context:
+      ENV{PATH}:
+        - "C:\\Program Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin"
+        - "C:\\Program Files (x86)\\Razer\\ChromaBroadcast\\bin"
+        - "C:\\Program Files\\Razer\\ChromaBroadcast\\bin"
+        - "C:\\app\\ivani\\product\\21c\\dbhomeXE\\bin"
+        - "C:\\app\\ivani\\dbhomeXE\\bin"
+        - "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\ProgramData\\DockerDesktop\\version-bin"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Python\\Scripts\\"
+        - "C:\\Program Files\\Python\\"
+        - "C:\\Users\\ivani\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\ivani\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\ivani\\AppData\\Local\\spicetify"
+        - "C:\\Program Files\\TortoiseSVN\\bin"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files (x86)\\Visual Leak Detector\\bin\\Win32"
+        - "C:\\Program Files (x86)\\Visual Leak Detector\\bin\\Win64"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\Python\\Scripts\\"
+        - "C:\\Program Files\\Python\\"
+        - "C:\\Users\\ivani\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\ivani\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\ivani\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\ivani\\AppData\\Roaming\\npm"
+        - "C:\\Users\\ivani\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\ivani\\.dotnet\\tools"
+        - "C:\\Users\\ivani\\OneDrive\\Documentos\\Ninja"
+      CMAKE_INSTALL_PREFIX: "C:/Users/ivani/OneDrive/Escritorio/build/Dependencies"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:107 (PROJECT)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCXXCompilerId.cpp.in"
+    candidate_directories:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/"
+    found: "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeCXXCompilerId.cpp.in"
+    search_context:
+      ENV{PATH}:
+        - "C:\\Program Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin"
+        - "C:\\Program Files (x86)\\Razer\\ChromaBroadcast\\bin"
+        - "C:\\Program Files\\Razer\\ChromaBroadcast\\bin"
+        - "C:\\app\\ivani\\product\\21c\\dbhomeXE\\bin"
+        - "C:\\app\\ivani\\dbhomeXE\\bin"
+        - "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\ProgramData\\DockerDesktop\\version-bin"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Python\\Scripts\\"
+        - "C:\\Program Files\\Python\\"
+        - "C:\\Users\\ivani\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\ivani\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\ivani\\AppData\\Local\\spicetify"
+        - "C:\\Program Files\\TortoiseSVN\\bin"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files (x86)\\Visual Leak Detector\\bin\\Win32"
+        - "C:\\Program Files (x86)\\Visual Leak Detector\\bin\\Win64"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\Python\\Scripts\\"
+        - "C:\\Program Files\\Python\\"
+        - "C:\\Users\\ivani\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\ivani\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\ivani\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\ivani\\AppData\\Roaming\\npm"
+        - "C:\\Users\\ivani\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\ivani\\.dotnet\\tools"
+        - "C:\\Users\\ivani\\OneDrive\\Documentos\\Ninja"
+      CMAKE_INSTALL_PREFIX: "C:/Users/ivani/OneDrive/Escritorio/build/Dependencies"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:107 (PROJECT)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+      Compiler:  
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      0
+      Versi├│n de MSBuild 17.14.23+b0019275e para .NET Framework
+      Compilaci├│n iniciada a las 24/02/2026 16:48:47.
+      
+      Proyecto "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\4.1.1\\CompilerIdCXX\\CompilerIdCXX.vcxproj" en nodo 1 (destinos predeterminados).
+      PrepareForBuild:
+        Creando directorio "Debug\\".
+        La salida estructurada est├í habilitada. El formato del diagn├│stico del compilador reflejar├í la jerarqu├¡a de errores. Consulte https://aka.ms/cpp/structured-output para obtener m├ís detalles.
+        Creando directorio "Debug\\CompilerIdCXX.tlog\\".
+      InitializeBuildStatus:
+        Se crear├í "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild" porque se especific├│ "AlwaysCreate".
+        Aplicando tarea Touch a "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild".
+      ClCompile:
+        C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\CL.exe /c /nologo /W0 /WX- /diagnostics:column /Od /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\\\" /Fd"Debug\\vc143.pdb" /external:W0 /Gd /TP /FC /errorReport:queue CMakeCXXCompilerId.cpp
+        CMakeCXXCompilerId.cpp
+      Link:
+        C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:".\\CompilerIdCXX.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:".\\CompilerIdCXX.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\\CompilerIdCXX.lib" /MACHINE:X64 Debug\\CMakeCXXCompilerId.obj
+        CompilerIdCXX.vcxproj -> C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\4.1.1\\CompilerIdCXX\\CompilerIdCXX.exe
+      PostBuildEvent:
+        for %%i in (cl.exe) do @echo CMAKE_CXX_COMPILER=%%~$PATH:i
+        :VCEnd
+        CMAKE_CXX_COMPILER=C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe
+      FinalizeBuildStatus:
+        Se eliminar├í el archivo "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild".
+        Aplicando tarea Touch a "Debug\\CompilerIdCXX.tlog\\CompilerIdCXX.lastbuildstate".
+      Compilaci├│n del proyecto terminada "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\4.1.1\\CompilerIdCXX\\CompilerIdCXX.vcxproj" (destinos predeterminados).
+      
+      Compilaci├│n correcta.
+          0 Advertencia(s)
+          0 Errores
+      
+      Tiempo transcurrido 00:00:01.83
+      
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.exe"
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.vcxproj"
+      
+      The CXX compiler identification is MSVC, found in:
+        C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/CMakeFiles/4.1.1/CompilerIdCXX/CompilerIdCXX.exe
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeFindBinUtils.cmake:37 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeFindBinUtils.cmake:65 (__resolve_tool_path)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeFindBinUtils.cmake:104 (__resolve_linker_path)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:107 (PROJECT)"
+    mode: "program"
+    variable: "_CMAKE_TOOL_WITH_PATH"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "lld-link"
+    candidate_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/"
+      - "C:/Program Files/Microsoft/jdk-11.0.16.101-hotspot/bin/"
+      - "C:/Program Files (x86)/Razer/ChromaBroadcast/bin/"
+      - "C:/Program Files/Razer/ChromaBroadcast/bin/"
+      - "C:/app/ivani/product/21c/dbhomeXE/bin/"
+      - "C:/app/ivani/dbhomeXE/bin/"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/Docker/Docker/resources/bin/"
+      - "C:/ProgramData/DockerDesktop/version-bin/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files/Python/Scripts/"
+      - "C:/Program Files/Python/"
+      - "C:/Users/ivani/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/ivani/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/ivani/AppData/Local/spicetify/"
+      - "C:/Program Files/TortoiseSVN/bin/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win32/"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win64/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Users/ivani/AppData/Local/GitHubDesktop/bin/"
+      - "C:/Users/ivani/AppData/Roaming/npm/"
+      - "C:/Users/ivani/.dotnet/tools/"
+      - "C:/Users/ivani/OneDrive/Documentos/Ninja/"
+    searched_directories:
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/lld-link.com"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/lld-link.exe"
+      - "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/lld-link"
+      - "C:/Program Files/Microsoft/jdk-11.0.16.101-hotspot/bin/lld-link.com"
+      - "C:/Program Files/Microsoft/jdk-11.0.16.101-hotspot/bin/lld-link.exe"
+      - "C:/Program Files/Microsoft/jdk-11.0.16.101-hotspot/bin/lld-link"
+      - "C:/Program Files (x86)/Razer/ChromaBroadcast/bin/lld-link.com"
+      - "C:/Program Files (x86)/Razer/ChromaBroadcast/bin/lld-link.exe"
+      - "C:/Program Files (x86)/Razer/ChromaBroadcast/bin/lld-link"
+      - "C:/Program Files/Razer/ChromaBroadcast/bin/lld-link.com"
+      - "C:/Program Files/Razer/ChromaBroadcast/bin/lld-link.exe"
+      - "C:/Program Files/Razer/ChromaBroadcast/bin/lld-link"
+      - "C:/app/ivani/product/21c/dbhomeXE/bin/lld-link.com"
+      - "C:/app/ivani/product/21c/dbhomeXE/bin/lld-link.exe"
+      - "C:/app/ivani/product/21c/dbhomeXE/bin/lld-link"
+      - "C:/app/ivani/dbhomeXE/bin/lld-link.com"
+      - "C:/app/ivani/dbhomeXE/bin/lld-link.exe"
+      - "C:/app/ivani/dbhomeXE/bin/lld-link"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/lld-link.com"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/lld-link.exe"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/lld-link"
+      - "C:/Windows/System32/lld-link.com"
+      - "C:/Windows/System32/lld-link.exe"
+      - "C:/Windows/System32/lld-link"
+      - "C:/Windows/lld-link.com"
+      - "C:/Windows/lld-link.exe"
+      - "C:/Windows/lld-link"
+      - "C:/Windows/System32/wbem/lld-link.com"
+      - "C:/Windows/System32/wbem/lld-link.exe"
+      - "C:/Windows/System32/wbem/lld-link"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/lld-link.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/lld-link.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/lld-link"
+      - "C:/Windows/System32/OpenSSH/lld-link.com"
+      - "C:/Windows/System32/OpenSSH/lld-link.exe"
+      - "C:/Windows/System32/OpenSSH/lld-link"
+      - "C:/Program Files/Docker/Docker/resources/bin/lld-link.com"
+      - "C:/Program Files/Docker/Docker/resources/bin/lld-link.exe"
+      - "C:/Program Files/Docker/Docker/resources/bin/lld-link"
+      - "C:/ProgramData/DockerDesktop/version-bin/lld-link.com"
+      - "C:/ProgramData/DockerDesktop/version-bin/lld-link.exe"
+      - "C:/ProgramData/DockerDesktop/version-bin/lld-link"
+      - "C:/Program Files/Git/cmd/lld-link.com"
+      - "C:/Program Files/Git/cmd/lld-link.exe"
+      - "C:/Program Files/Git/cmd/lld-link"
+      - "C:/Program Files/Python/Scripts/lld-link.com"
+      - "C:/Program Files/Python/Scripts/lld-link.exe"
+      - "C:/Program Files/Python/Scripts/lld-link"
+      - "C:/Program Files/Python/lld-link.com"
+      - "C:/Program Files/Python/lld-link.exe"
+      - "C:/Program Files/Python/lld-link"
+      - "C:/Users/ivani/AppData/Local/Microsoft/WindowsApps/lld-link.com"
+      - "C:/Users/ivani/AppData/Local/Microsoft/WindowsApps/lld-link.exe"
+      - "C:/Users/ivani/AppData/Local/Microsoft/WindowsApps/lld-link"
+      - "C:/Users/ivani/AppData/Local/Programs/Microsoft VS Code/bin/lld-link.com"
+      - "C:/Users/ivani/AppData/Local/Programs/Microsoft VS Code/bin/lld-link.exe"
+      - "C:/Users/ivani/AppData/Local/Programs/Microsoft VS Code/bin/lld-link"
+      - "C:/Users/ivani/AppData/Local/spicetify/lld-link.com"
+      - "C:/Users/ivani/AppData/Local/spicetify/lld-link.exe"
+      - "C:/Users/ivani/AppData/Local/spicetify/lld-link"
+      - "C:/Program Files/TortoiseSVN/bin/lld-link.com"
+      - "C:/Program Files/TortoiseSVN/bin/lld-link.exe"
+      - "C:/Program Files/TortoiseSVN/bin/lld-link"
+      - "C:/Program Files/nodejs/lld-link.com"
+      - "C:/Program Files/nodejs/lld-link.exe"
+      - "C:/Program Files/nodejs/lld-link"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win32/lld-link.com"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win32/lld-link.exe"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win32/lld-link"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win64/lld-link.com"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win64/lld-link.exe"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win64/lld-link"
+      - "C:/Program Files/CMake/bin/lld-link.com"
+      - "C:/Program Files/CMake/bin/lld-link.exe"
+      - "C:/Program Files/CMake/bin/lld-link"
+      - "C:/Program Files/dotnet/lld-link.com"
+      - "C:/Program Files/dotnet/lld-link.exe"
+      - "C:/Program Files/dotnet/lld-link"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/lld-link.com"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/lld-link.exe"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/lld-link"
+      - "C:/Users/ivani/AppData/Local/GitHubDesktop/bin/lld-link.com"
+      - "C:/Users/ivani/AppData/Local/GitHubDesktop/bin/lld-link.exe"
+      - "C:/Users/ivani/AppData/Local/GitHubDesktop/bin/lld-link"
+      - "C:/Users/ivani/AppData/Roaming/npm/lld-link.com"
+      - "C:/Users/ivani/AppData/Roaming/npm/lld-link.exe"
+      - "C:/Users/ivani/AppData/Roaming/npm/lld-link"
+      - "C:/Users/ivani/.dotnet/tools/lld-link.com"
+      - "C:/Users/ivani/.dotnet/tools/lld-link.exe"
+      - "C:/Users/ivani/.dotnet/tools/lld-link"
+      - "C:/Users/ivani/OneDrive/Documentos/Ninja/lld-link.com"
+      - "C:/Users/ivani/OneDrive/Documentos/Ninja/lld-link.exe"
+      - "C:/Users/ivani/OneDrive/Documentos/Ninja/lld-link"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "C:\\Program Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin"
+        - "C:\\Program Files (x86)\\Razer\\ChromaBroadcast\\bin"
+        - "C:\\Program Files\\Razer\\ChromaBroadcast\\bin"
+        - "C:\\app\\ivani\\product\\21c\\dbhomeXE\\bin"
+        - "C:\\app\\ivani\\dbhomeXE\\bin"
+        - "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\ProgramData\\DockerDesktop\\version-bin"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Python\\Scripts\\"
+        - "C:\\Program Files\\Python\\"
+        - "C:\\Users\\ivani\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\ivani\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\ivani\\AppData\\Local\\spicetify"
+        - "C:\\Program Files\\TortoiseSVN\\bin"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files (x86)\\Visual Leak Detector\\bin\\Win32"
+        - "C:\\Program Files (x86)\\Visual Leak Detector\\bin\\Win64"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\Python\\Scripts\\"
+        - "C:\\Program Files\\Python\\"
+        - "C:\\Users\\ivani\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\ivani\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\ivani\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\ivani\\AppData\\Roaming\\npm"
+        - "C:\\Users\\ivani\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\ivani\\.dotnet\\tools"
+        - "C:\\Users\\ivani\\OneDrive\\Documentos\\Ninja"
+      CMAKE_INSTALL_PREFIX: "C:/Users/ivani/OneDrive/Escritorio/build/Dependencies"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineRCCompiler.cmake:40 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/Platform/Windows-MSVC.cmake:574 (enable_language)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/Platform/Windows-MSVC.cmake:547 (__windows_compiler_msvc_enable_rc)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/Platform/Windows-MSVC-C.cmake:5 (__windows_compiler_msvc)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeCInformation.cmake:48 (include)"
+      - "CMakeLists.txt:107 (PROJECT)"
+    mode: "program"
+    variable: "CMAKE_RC_COMPILER"
+    description: "RC compiler"
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "rc"
+    candidate_directories:
+      - "C:/Program Files/Microsoft/jdk-11.0.16.101-hotspot/bin/"
+      - "C:/Program Files (x86)/Razer/ChromaBroadcast/bin/"
+      - "C:/Program Files/Razer/ChromaBroadcast/bin/"
+      - "C:/app/ivani/product/21c/dbhomeXE/bin/"
+      - "C:/app/ivani/dbhomeXE/bin/"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/Docker/Docker/resources/bin/"
+      - "C:/ProgramData/DockerDesktop/version-bin/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files/Python/Scripts/"
+      - "C:/Program Files/Python/"
+      - "C:/Users/ivani/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/ivani/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/ivani/AppData/Local/spicetify/"
+      - "C:/Program Files/TortoiseSVN/bin/"
+      - "C:/Program Files/nodejs/"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win32/"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win64/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Users/ivani/AppData/Local/GitHubDesktop/bin/"
+      - "C:/Users/ivani/AppData/Roaming/npm/"
+      - "C:/Users/ivani/.dotnet/tools/"
+      - "C:/Users/ivani/OneDrive/Documentos/Ninja/"
+      - "C:/Program Files/bin/"
+      - "C:/Program Files/sbin/"
+      - "C:/Program Files/"
+      - "C:/Program Files (x86)/bin/"
+      - "C:/Program Files (x86)/sbin/"
+      - "C:/Program Files (x86)/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Program Files/CMake/sbin/"
+      - "C:/Program Files/CMake/"
+      - "C:/Users/ivani/OneDrive/Escritorio/build/Dependencies/bin/"
+      - "C:/Users/ivani/OneDrive/Escritorio/build/Dependencies/sbin/"
+      - "C:/Users/ivani/OneDrive/Escritorio/build/Dependencies/"
+    searched_directories:
+      - "C:/Program Files/Microsoft/jdk-11.0.16.101-hotspot/bin/rc.com"
+      - "C:/Program Files/Microsoft/jdk-11.0.16.101-hotspot/bin/rc.exe"
+      - "C:/Program Files/Microsoft/jdk-11.0.16.101-hotspot/bin/rc"
+      - "C:/Program Files (x86)/Razer/ChromaBroadcast/bin/rc.com"
+      - "C:/Program Files (x86)/Razer/ChromaBroadcast/bin/rc.exe"
+      - "C:/Program Files (x86)/Razer/ChromaBroadcast/bin/rc"
+      - "C:/Program Files/Razer/ChromaBroadcast/bin/rc.com"
+      - "C:/Program Files/Razer/ChromaBroadcast/bin/rc.exe"
+      - "C:/Program Files/Razer/ChromaBroadcast/bin/rc"
+      - "C:/app/ivani/product/21c/dbhomeXE/bin/rc.com"
+      - "C:/app/ivani/product/21c/dbhomeXE/bin/rc.exe"
+      - "C:/app/ivani/product/21c/dbhomeXE/bin/rc"
+      - "C:/app/ivani/dbhomeXE/bin/rc.com"
+      - "C:/app/ivani/dbhomeXE/bin/rc.exe"
+      - "C:/app/ivani/dbhomeXE/bin/rc"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/rc.com"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/rc.exe"
+      - "C:/Program Files/Common Files/Oracle/Java/javapath/rc"
+      - "C:/Windows/System32/rc.com"
+      - "C:/Windows/System32/rc.exe"
+      - "C:/Windows/System32/rc"
+      - "C:/Windows/rc.com"
+      - "C:/Windows/rc.exe"
+      - "C:/Windows/rc"
+      - "C:/Windows/System32/wbem/rc.com"
+      - "C:/Windows/System32/wbem/rc.exe"
+      - "C:/Windows/System32/wbem/rc"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/rc.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/rc.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/rc"
+      - "C:/Windows/System32/OpenSSH/rc.com"
+      - "C:/Windows/System32/OpenSSH/rc.exe"
+      - "C:/Windows/System32/OpenSSH/rc"
+      - "C:/Program Files/Docker/Docker/resources/bin/rc.com"
+      - "C:/Program Files/Docker/Docker/resources/bin/rc.exe"
+      - "C:/Program Files/Docker/Docker/resources/bin/rc"
+      - "C:/ProgramData/DockerDesktop/version-bin/rc.com"
+      - "C:/ProgramData/DockerDesktop/version-bin/rc.exe"
+      - "C:/ProgramData/DockerDesktop/version-bin/rc"
+      - "C:/Program Files/Git/cmd/rc.com"
+      - "C:/Program Files/Git/cmd/rc.exe"
+      - "C:/Program Files/Git/cmd/rc"
+      - "C:/Program Files/Python/Scripts/rc.com"
+      - "C:/Program Files/Python/Scripts/rc.exe"
+      - "C:/Program Files/Python/Scripts/rc"
+      - "C:/Program Files/Python/rc.com"
+      - "C:/Program Files/Python/rc.exe"
+      - "C:/Program Files/Python/rc"
+      - "C:/Users/ivani/AppData/Local/Microsoft/WindowsApps/rc.com"
+      - "C:/Users/ivani/AppData/Local/Microsoft/WindowsApps/rc.exe"
+      - "C:/Users/ivani/AppData/Local/Microsoft/WindowsApps/rc"
+      - "C:/Users/ivani/AppData/Local/Programs/Microsoft VS Code/bin/rc.com"
+      - "C:/Users/ivani/AppData/Local/Programs/Microsoft VS Code/bin/rc.exe"
+      - "C:/Users/ivani/AppData/Local/Programs/Microsoft VS Code/bin/rc"
+      - "C:/Users/ivani/AppData/Local/spicetify/rc.com"
+      - "C:/Users/ivani/AppData/Local/spicetify/rc.exe"
+      - "C:/Users/ivani/AppData/Local/spicetify/rc"
+      - "C:/Program Files/TortoiseSVN/bin/rc.com"
+      - "C:/Program Files/TortoiseSVN/bin/rc.exe"
+      - "C:/Program Files/TortoiseSVN/bin/rc"
+      - "C:/Program Files/nodejs/rc.com"
+      - "C:/Program Files/nodejs/rc.exe"
+      - "C:/Program Files/nodejs/rc"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win32/rc.com"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win32/rc.exe"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win32/rc"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win64/rc.com"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win64/rc.exe"
+      - "C:/Program Files (x86)/Visual Leak Detector/bin/Win64/rc"
+      - "C:/Program Files/CMake/bin/rc.com"
+      - "C:/Program Files/CMake/bin/rc.exe"
+      - "C:/Program Files/CMake/bin/rc"
+      - "C:/Program Files/dotnet/rc.com"
+      - "C:/Program Files/dotnet/rc.exe"
+      - "C:/Program Files/dotnet/rc"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/rc.com"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/rc.exe"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/rc"
+      - "C:/Users/ivani/AppData/Local/GitHubDesktop/bin/rc.com"
+      - "C:/Users/ivani/AppData/Local/GitHubDesktop/bin/rc.exe"
+      - "C:/Users/ivani/AppData/Local/GitHubDesktop/bin/rc"
+      - "C:/Users/ivani/AppData/Roaming/npm/rc.com"
+      - "C:/Users/ivani/AppData/Roaming/npm/rc.exe"
+      - "C:/Users/ivani/AppData/Roaming/npm/rc"
+      - "C:/Users/ivani/.dotnet/tools/rc.com"
+      - "C:/Users/ivani/.dotnet/tools/rc.exe"
+      - "C:/Users/ivani/.dotnet/tools/rc"
+      - "C:/Users/ivani/OneDrive/Documentos/Ninja/rc.com"
+      - "C:/Users/ivani/OneDrive/Documentos/Ninja/rc.exe"
+      - "C:/Users/ivani/OneDrive/Documentos/Ninja/rc"
+      - "C:/Program Files/bin/rc.com"
+      - "C:/Program Files/bin/rc.exe"
+      - "C:/Program Files/bin/rc"
+      - "C:/Program Files/sbin/rc.com"
+      - "C:/Program Files/sbin/rc.exe"
+      - "C:/Program Files/sbin/rc"
+      - "C:/Program Files/rc.com"
+      - "C:/Program Files/rc.exe"
+      - "C:/Program Files/rc"
+      - "C:/Program Files (x86)/bin/rc.com"
+      - "C:/Program Files (x86)/bin/rc.exe"
+      - "C:/Program Files (x86)/bin/rc"
+      - "C:/Program Files (x86)/sbin/rc.com"
+      - "C:/Program Files (x86)/sbin/rc.exe"
+      - "C:/Program Files (x86)/sbin/rc"
+      - "C:/Program Files (x86)/rc.com"
+      - "C:/Program Files (x86)/rc.exe"
+      - "C:/Program Files (x86)/rc"
+      - "C:/Program Files/CMake/bin/rc.com"
+      - "C:/Program Files/CMake/bin/rc.exe"
+      - "C:/Program Files/CMake/bin/rc"
+      - "C:/Program Files/CMake/sbin/rc.com"
+      - "C:/Program Files/CMake/sbin/rc.exe"
+      - "C:/Program Files/CMake/sbin/rc"
+      - "C:/Program Files/CMake/rc.com"
+      - "C:/Program Files/CMake/rc.exe"
+      - "C:/Program Files/CMake/rc"
+      - "C:/Users/ivani/OneDrive/Escritorio/build/Dependencies/bin/rc.com"
+      - "C:/Users/ivani/OneDrive/Escritorio/build/Dependencies/bin/rc.exe"
+      - "C:/Users/ivani/OneDrive/Escritorio/build/Dependencies/bin/rc"
+      - "C:/Users/ivani/OneDrive/Escritorio/build/Dependencies/sbin/rc.com"
+      - "C:/Users/ivani/OneDrive/Escritorio/build/Dependencies/sbin/rc.exe"
+      - "C:/Users/ivani/OneDrive/Escritorio/build/Dependencies/sbin/rc"
+      - "C:/Users/ivani/OneDrive/Escritorio/build/Dependencies/rc.com"
+      - "C:/Users/ivani/OneDrive/Escritorio/build/Dependencies/rc.exe"
+      - "C:/Users/ivani/OneDrive/Escritorio/build/Dependencies/rc"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "C:\\Program Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin"
+        - "C:\\Program Files (x86)\\Razer\\ChromaBroadcast\\bin"
+        - "C:\\Program Files\\Razer\\ChromaBroadcast\\bin"
+        - "C:\\app\\ivani\\product\\21c\\dbhomeXE\\bin"
+        - "C:\\app\\ivani\\dbhomeXE\\bin"
+        - "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\Docker\\Docker\\resources\\bin"
+        - "C:\\ProgramData\\DockerDesktop\\version-bin"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files\\Python\\Scripts\\"
+        - "C:\\Program Files\\Python\\"
+        - "C:\\Users\\ivani\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\ivani\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\ivani\\AppData\\Local\\spicetify"
+        - "C:\\Program Files\\TortoiseSVN\\bin"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files (x86)\\Visual Leak Detector\\bin\\Win32"
+        - "C:\\Program Files (x86)\\Visual Leak Detector\\bin\\Win64"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\Python\\Scripts\\"
+        - "C:\\Program Files\\Python\\"
+        - "C:\\Users\\ivani\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\ivani\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\ivani\\AppData\\Local\\GitHubDesktop\\bin"
+        - "C:\\Users\\ivani\\AppData\\Roaming\\npm"
+        - "C:\\Users\\ivani\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\ivani\\.dotnet\\tools"
+        - "C:\\Users\\ivani\\OneDrive\\Documentos\\Ninja"
+      CMAKE_INSTALL_PREFIX: "C:/Users/ivani/OneDrive/Escritorio/build/Dependencies"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Users/ivani/OneDrive/Escritorio/build/Dependencies"
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerABI.cmake:83 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:107 (PROJECT)"
+    checks:
+      - "Detecting C compiler ABI info"
+    directories:
+      source: "C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/CMakeFiles/CMakeScratch/TryCompile-t07000"
+      binary: "C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/CMakeFiles/CMakeScratch/TryCompile-t07000"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
+      CMAKE_C_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+    buildResult:
+      variable: "CMAKE_C_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/CMakeFiles/CMakeScratch/TryCompile-t07000'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_3ac5b.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        Versi├│n de MSBuild 17.14.23+b0019275e para .NET Framework
+        Compilaci├│n iniciada a las 24/02/2026 16:48:50.
+        
+        Proyecto "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-t07000\\cmTC_3ac5b.vcxproj" en nodo 1 (destinos predeterminados).
+        PrepareForBuild:
+          Creando directorio "cmTC_3ac5b.dir\\Debug\\".
+          La salida estructurada est├í habilitada. El formato del diagn├│stico del compilador reflejar├í la jerarqu├¡a de errores. Consulte https://aka.ms/cpp/structured-output para obtener m├ís detalles.
+          Creando directorio "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-t07000\\Debug\\".
+          Creando directorio "cmTC_3ac5b.dir\\Debug\\cmTC_3ac5b.tlog\\".
+        InitializeBuildStatus:
+          Se crear├í "cmTC_3ac5b.dir\\Debug\\cmTC_3ac5b.tlog\\unsuccessfulbuild" porque se especific├│ "AlwaysCreate".
+          Aplicando tarea Touch a "cmTC_3ac5b.dir\\Debug\\cmTC_3ac5b.tlog\\unsuccessfulbuild".
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Fo"cmTC_3ac5b.dir\\Debug\\\\" /Fd"cmTC_3ac5b.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-4.1\\Modules\\CMakeCCompilerABI.c"
+          Compilador de optimizaci├│n de C/C++ de Microsoft (R) versi├│n 19.44.35217 para x64
+          (C) Microsoft Corporation. Todos los derechos reservados.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Fo"cmTC_3ac5b.dir\\Debug\\\\" /Fd"cmTC_3ac5b.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-4.1\\Modules\\CMakeCCompilerABI.c"
+          CMakeCCompilerABI.c
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\link.exe /OUT:"C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-t07000\\Debug\\cmTC_3ac5b.exe" /INCREMENTAL /ILK:"cmTC_3ac5b.dir\\Debug\\cmTC_3ac5b.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/CMakeFiles/CMakeScratch/TryCompile-t07000/Debug/cmTC_3ac5b.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/CMakeFiles/CMakeScratch/TryCompile-t07000/Debug/cmTC_3ac5b.lib" /MACHINE:X64  /machine:x64 cmTC_3ac5b.dir\\Debug\\CMakeCCompilerABI.obj
+          cmTC_3ac5b.vcxproj -> C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-t07000\\Debug\\cmTC_3ac5b.exe
+        FinalizeBuildStatus:
+          Se eliminar├í el archivo "cmTC_3ac5b.dir\\Debug\\cmTC_3ac5b.tlog\\unsuccessfulbuild".
+          Aplicando tarea Touch a "cmTC_3ac5b.dir\\Debug\\cmTC_3ac5b.tlog\\cmTC_3ac5b.lastbuildstate".
+        Compilaci├│n del proyecto terminada "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-t07000\\cmTC_3ac5b.vcxproj" (destinos predeterminados).
+        
+        Compilaci├│n correcta.
+            0 Advertencia(s)
+            0 Errores
+        
+        Tiempo transcurrido 00:00:01.69
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerABI.cmake:253 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:107 (PROJECT)"
+    message: |
+      Parsed C implicit link information:
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|link\\.exe|lld-link(\\.exe)?|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|link\\.exe|lld-link(\\.exe)?))("|,| |$)]
+        linker tool for 'C': C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/HostX64/x64/link.exe
+        implicit libs: []
+        implicit objs: []
+        implicit dirs: []
+        implicit fwks: []
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/Internal/CMakeDetermineLinkerId.cmake:36 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerABI.cmake:299 (cmake_determine_linker_id)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:107 (PROJECT)"
+    message: |
+      Running the C compiler's linker: "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/HostX64/x64/link.exe" "-v"
+      Microsoft (R) Incremental Linker Version 14.44.35217.0
+      Copyright (C) Microsoft Corporation.  All rights reserved.
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerABI.cmake:83 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:107 (PROJECT)"
+    checks:
+      - "Detecting CXX compiler ABI info"
+    directories:
+      source: "C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/CMakeFiles/CMakeScratch/TryCompile-w2q435"
+      binary: "C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/CMakeFiles/CMakeScratch/TryCompile-w2q435"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /EHsc"
+      CMAKE_CXX_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_CXX_SCAN_FOR_MODULES: "OFF"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+    buildResult:
+      variable: "CMAKE_CXX_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/CMakeFiles/CMakeScratch/TryCompile-w2q435'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_704d2.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        Versi├│n de MSBuild 17.14.23+b0019275e para .NET Framework
+        Compilaci├│n iniciada a las 24/02/2026 16:48:52.
+        
+        Proyecto "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-w2q435\\cmTC_704d2.vcxproj" en nodo 1 (destinos predeterminados).
+        PrepareForBuild:
+          Creando directorio "cmTC_704d2.dir\\Debug\\".
+          La salida estructurada est├í habilitada. El formato del diagn├│stico del compilador reflejar├í la jerarqu├¡a de errores. Consulte https://aka.ms/cpp/structured-output para obtener m├ís detalles.
+          Creando directorio "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-w2q435\\Debug\\".
+          Creando directorio "cmTC_704d2.dir\\Debug\\cmTC_704d2.tlog\\".
+        InitializeBuildStatus:
+          Se crear├í "cmTC_704d2.dir\\Debug\\cmTC_704d2.tlog\\unsuccessfulbuild" porque se especific├│ "AlwaysCreate".
+          Aplicando tarea Touch a "cmTC_704d2.dir\\Debug\\cmTC_704d2.tlog\\unsuccessfulbuild".
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /Fo"cmTC_704d2.dir\\Debug\\\\" /Fd"cmTC_704d2.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-4.1\\Modules\\CMakeCXXCompilerABI.cpp"
+          Compilador de optimizaci├│n de C/C++ de Microsoft (R) versi├│n 19.44.35217 para x64
+          (C) Microsoft Corporation. Todos los derechos reservados.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /Fo"cmTC_704d2.dir\\Debug\\\\" /Fd"cmTC_704d2.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-4.1\\Modules\\CMakeCXXCompilerABI.cpp"
+          CMakeCXXCompilerABI.cpp
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\link.exe /OUT:"C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-w2q435\\Debug\\cmTC_704d2.exe" /INCREMENTAL /ILK:"cmTC_704d2.dir\\Debug\\cmTC_704d2.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/CMakeFiles/CMakeScratch/TryCompile-w2q435/Debug/cmTC_704d2.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/CMakeFiles/CMakeScratch/TryCompile-w2q435/Debug/cmTC_704d2.lib" /MACHINE:X64  /machine:x64 cmTC_704d2.dir\\Debug\\CMakeCXXCompilerABI.obj
+          cmTC_704d2.vcxproj -> C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-w2q435\\Debug\\cmTC_704d2.exe
+        FinalizeBuildStatus:
+          Se eliminar├í el archivo "cmTC_704d2.dir\\Debug\\cmTC_704d2.tlog\\unsuccessfulbuild".
+          Aplicando tarea Touch a "cmTC_704d2.dir\\Debug\\cmTC_704d2.tlog\\cmTC_704d2.lastbuildstate".
+        Compilaci├│n del proyecto terminada "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-w2q435\\cmTC_704d2.vcxproj" (destinos predeterminados).
+        
+        Compilaci├│n correcta.
+            0 Advertencia(s)
+            0 Errores
+        
+        Tiempo transcurrido 00:00:01.84
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerABI.cmake:253 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:107 (PROJECT)"
+    message: |
+      Parsed CXX implicit link information:
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|link\\.exe|lld-link(\\.exe)?|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|link\\.exe|lld-link(\\.exe)?))("|,| |$)]
+        linker tool for 'CXX': C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/HostX64/x64/link.exe
+        implicit libs: []
+        implicit objs: []
+        implicit dirs: []
+        implicit fwks: []
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/Internal/CMakeDetermineLinkerId.cmake:36 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerABI.cmake:299 (cmake_determine_linker_id)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:107 (PROJECT)"
+    message: |
+      Running the CXX compiler's linker: "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/HostX64/x64/link.exe" "-v"
+      Microsoft (R) Incremental Linker Version 14.44.35217.0
+      Copyright (C) Microsoft Corporation.  All rights reserved.
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CheckIncludeFile.cmake:165 (try_compile)"
+      - "contrib/zlib/CMakeLists.txt:35 (check_include_file)"
+    checks:
+      - "Looking for sys/types.h"
+    directories:
+      source: "C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/CMakeFiles/CMakeScratch/TryCompile-oy5f84"
+      binary: "C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/CMakeFiles/CMakeScratch/TryCompile-oy5f84"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
+      CMAKE_C_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/cmake-modules"
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+    buildResult:
+      variable: "HAVE_SYS_TYPES_H"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/CMakeFiles/CMakeScratch/TryCompile-oy5f84'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_94dc0.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        Versi├│n de MSBuild 17.14.23+b0019275e para .NET Framework
+        Compilaci├│n iniciada a las 24/02/2026 16:48:56.
+        
+        Proyecto "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-oy5f84\\cmTC_94dc0.vcxproj" en nodo 1 (destinos predeterminados).
+        PrepareForBuild:
+          Creando directorio "cmTC_94dc0.dir\\Debug\\".
+          La salida estructurada est├í habilitada. El formato del diagn├│stico del compilador reflejar├í la jerarqu├¡a de errores. Consulte https://aka.ms/cpp/structured-output para obtener m├ís detalles.
+          Creando directorio "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-oy5f84\\Debug\\".
+          Creando directorio "cmTC_94dc0.dir\\Debug\\cmTC_94dc0.tlog\\".
+        InitializeBuildStatus:
+          Se crear├í "cmTC_94dc0.dir\\Debug\\cmTC_94dc0.tlog\\unsuccessfulbuild" porque se especific├│ "AlwaysCreate".
+          Aplicando tarea Touch a "cmTC_94dc0.dir\\Debug\\cmTC_94dc0.tlog\\unsuccessfulbuild".
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Fo"cmTC_94dc0.dir\\Debug\\\\" /Fd"cmTC_94dc0.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-oy5f84\\CheckIncludeFile.c"
+          Compilador de optimizaci├│n de C/C++ de Microsoft (R) versi├│n 19.44.35217 para x64
+          (C) Microsoft Corporation. Todos los derechos reservados.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Fo"cmTC_94dc0.dir\\Debug\\\\" /Fd"cmTC_94dc0.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-oy5f84\\CheckIncludeFile.c"
+          CheckIncludeFile.c
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\link.exe /OUT:"C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-oy5f84\\Debug\\cmTC_94dc0.exe" /INCREMENTAL /ILK:"cmTC_94dc0.dir\\Debug\\cmTC_94dc0.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/CMakeFiles/CMakeScratch/TryCompile-oy5f84/Debug/cmTC_94dc0.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/CMakeFiles/CMakeScratch/TryCompile-oy5f84/Debug/cmTC_94dc0.lib" /MACHINE:X64  /machine:x64 cmTC_94dc0.dir\\Debug\\CheckIncludeFile.obj
+          cmTC_94dc0.vcxproj -> C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-oy5f84\\Debug\\cmTC_94dc0.exe
+        FinalizeBuildStatus:
+          Se eliminar├í el archivo "cmTC_94dc0.dir\\Debug\\cmTC_94dc0.tlog\\unsuccessfulbuild".
+          Aplicando tarea Touch a "cmTC_94dc0.dir\\Debug\\cmTC_94dc0.tlog\\cmTC_94dc0.lastbuildstate".
+        Compilaci├│n del proyecto terminada "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-oy5f84\\cmTC_94dc0.vcxproj" (destinos predeterminados).
+        
+        Compilaci├│n correcta.
+            0 Advertencia(s)
+            0 Errores
+        
+        Tiempo transcurrido 00:00:01.83
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CheckIncludeFile.cmake:165 (try_compile)"
+      - "contrib/zlib/CMakeLists.txt:36 (check_include_file)"
+    checks:
+      - "Looking for stdint.h"
+    directories:
+      source: "C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/CMakeFiles/CMakeScratch/TryCompile-d2t6xv"
+      binary: "C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/CMakeFiles/CMakeScratch/TryCompile-d2t6xv"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
+      CMAKE_C_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/cmake-modules"
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+    buildResult:
+      variable: "HAVE_STDINT_H"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/CMakeFiles/CMakeScratch/TryCompile-d2t6xv'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_fc8b5.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        Versi├│n de MSBuild 17.14.23+b0019275e para .NET Framework
+        Compilaci├│n iniciada a las 24/02/2026 16:48:58.
+        
+        Proyecto "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-d2t6xv\\cmTC_fc8b5.vcxproj" en nodo 1 (destinos predeterminados).
+        PrepareForBuild:
+          Creando directorio "cmTC_fc8b5.dir\\Debug\\".
+          La salida estructurada est├í habilitada. El formato del diagn├│stico del compilador reflejar├í la jerarqu├¡a de errores. Consulte https://aka.ms/cpp/structured-output para obtener m├ís detalles.
+          Creando directorio "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-d2t6xv\\Debug\\".
+          Creando directorio "cmTC_fc8b5.dir\\Debug\\cmTC_fc8b5.tlog\\".
+        InitializeBuildStatus:
+          Se crear├í "cmTC_fc8b5.dir\\Debug\\cmTC_fc8b5.tlog\\unsuccessfulbuild" porque se especific├│ "AlwaysCreate".
+          Aplicando tarea Touch a "cmTC_fc8b5.dir\\Debug\\cmTC_fc8b5.tlog\\unsuccessfulbuild".
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Fo"cmTC_fc8b5.dir\\Debug\\\\" /Fd"cmTC_fc8b5.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-d2t6xv\\CheckIncludeFile.c"
+          Compilador de optimizaci├│n de C/C++ de Microsoft (R) versi├│n 19.44.35217 para x64
+          (C) Microsoft Corporation. Todos los derechos reservados.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Fo"cmTC_fc8b5.dir\\Debug\\\\" /Fd"cmTC_fc8b5.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-d2t6xv\\CheckIncludeFile.c"
+          CheckIncludeFile.c
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\link.exe /OUT:"C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-d2t6xv\\Debug\\cmTC_fc8b5.exe" /INCREMENTAL /ILK:"cmTC_fc8b5.dir\\Debug\\cmTC_fc8b5.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/CMakeFiles/CMakeScratch/TryCompile-d2t6xv/Debug/cmTC_fc8b5.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/CMakeFiles/CMakeScratch/TryCompile-d2t6xv/Debug/cmTC_fc8b5.lib" /MACHINE:X64  /machine:x64 cmTC_fc8b5.dir\\Debug\\CheckIncludeFile.obj
+          cmTC_fc8b5.vcxproj -> C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-d2t6xv\\Debug\\cmTC_fc8b5.exe
+        FinalizeBuildStatus:
+          Se eliminar├í el archivo "cmTC_fc8b5.dir\\Debug\\cmTC_fc8b5.tlog\\unsuccessfulbuild".
+          Aplicando tarea Touch a "cmTC_fc8b5.dir\\Debug\\cmTC_fc8b5.tlog\\cmTC_fc8b5.lastbuildstate".
+        Compilaci├│n del proyecto terminada "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-d2t6xv\\cmTC_fc8b5.vcxproj" (destinos predeterminados).
+        
+        Compilaci├│n correcta.
+            0 Advertencia(s)
+            0 Errores
+        
+        Tiempo transcurrido 00:00:01.84
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CheckIncludeFile.cmake:165 (try_compile)"
+      - "contrib/zlib/CMakeLists.txt:37 (check_include_file)"
+    checks:
+      - "Looking for stddef.h"
+    directories:
+      source: "C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/CMakeFiles/CMakeScratch/TryCompile-1t22ua"
+      binary: "C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/CMakeFiles/CMakeScratch/TryCompile-1t22ua"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
+      CMAKE_C_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/cmake-modules"
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+    buildResult:
+      variable: "HAVE_STDDEF_H"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/CMakeFiles/CMakeScratch/TryCompile-1t22ua'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_cfea0.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        Versi├│n de MSBuild 17.14.23+b0019275e para .NET Framework
+        Compilaci├│n iniciada a las 24/02/2026 16:49:01.
+        
+        Proyecto "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-1t22ua\\cmTC_cfea0.vcxproj" en nodo 1 (destinos predeterminados).
+        PrepareForBuild:
+          Creando directorio "cmTC_cfea0.dir\\Debug\\".
+          La salida estructurada est├í habilitada. El formato del diagn├│stico del compilador reflejar├í la jerarqu├¡a de errores. Consulte https://aka.ms/cpp/structured-output para obtener m├ís detalles.
+          Creando directorio "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-1t22ua\\Debug\\".
+          Creando directorio "cmTC_cfea0.dir\\Debug\\cmTC_cfea0.tlog\\".
+        InitializeBuildStatus:
+          Se crear├í "cmTC_cfea0.dir\\Debug\\cmTC_cfea0.tlog\\unsuccessfulbuild" porque se especific├│ "AlwaysCreate".
+          Aplicando tarea Touch a "cmTC_cfea0.dir\\Debug\\cmTC_cfea0.tlog\\unsuccessfulbuild".
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Fo"cmTC_cfea0.dir\\Debug\\\\" /Fd"cmTC_cfea0.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-1t22ua\\CheckIncludeFile.c"
+          Compilador de optimizaci├│n de C/C++ de Microsoft (R) versi├│n 19.44.35217 para x64
+          (C) Microsoft Corporation. Todos los derechos reservados.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Fo"cmTC_cfea0.dir\\Debug\\\\" /Fd"cmTC_cfea0.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-1t22ua\\CheckIncludeFile.c"
+          CheckIncludeFile.c
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\link.exe /OUT:"C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-1t22ua\\Debug\\cmTC_cfea0.exe" /INCREMENTAL /ILK:"cmTC_cfea0.dir\\Debug\\cmTC_cfea0.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/CMakeFiles/CMakeScratch/TryCompile-1t22ua/Debug/cmTC_cfea0.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/CMakeFiles/CMakeScratch/TryCompile-1t22ua/Debug/cmTC_cfea0.lib" /MACHINE:X64  /machine:x64 cmTC_cfea0.dir\\Debug\\CheckIncludeFile.obj
+          cmTC_cfea0.vcxproj -> C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-1t22ua\\Debug\\cmTC_cfea0.exe
+        FinalizeBuildStatus:
+          Se eliminar├í el archivo "cmTC_cfea0.dir\\Debug\\cmTC_cfea0.tlog\\unsuccessfulbuild".
+          Aplicando tarea Touch a "cmTC_cfea0.dir\\Debug\\cmTC_cfea0.tlog\\cmTC_cfea0.lastbuildstate".
+        Compilaci├│n del proyecto terminada "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-1t22ua\\cmTC_cfea0.vcxproj" (destinos predeterminados).
+        
+        Compilaci├│n correcta.
+            0 Advertencia(s)
+            0 Errores
+        
+        Tiempo transcurrido 00:00:01.82
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CheckTypeSize.cmake:237 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CheckTypeSize.cmake:364 (__check_type_size_impl)"
+      - "contrib/zlib/CMakeLists.txt:55 (check_type_size)"
+    checks:
+      - "Check size of off64_t"
+    directories:
+      source: "C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/CMakeFiles/CMakeScratch/TryCompile-42avdv"
+      binary: "C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/CMakeFiles/CMakeScratch/TryCompile-42avdv"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
+      CMAKE_C_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/cmake-modules"
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+    buildResult:
+      variable: "HAVE_OFF64_T"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/CMakeFiles/CMakeScratch/TryCompile-42avdv'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_f7d9d.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        Versi├│n de MSBuild 17.14.23+b0019275e para .NET Framework
+        Compilaci├│n iniciada a las 24/02/2026 16:49:03.
+        
+        Proyecto "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-42avdv\\cmTC_f7d9d.vcxproj" en nodo 1 (destinos predeterminados).
+        PrepareForBuild:
+          Creando directorio "cmTC_f7d9d.dir\\Debug\\".
+          La salida estructurada est├í habilitada. El formato del diagn├│stico del compilador reflejar├í la jerarqu├¡a de errores. Consulte https://aka.ms/cpp/structured-output para obtener m├ís detalles.
+          Creando directorio "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-42avdv\\Debug\\".
+          Creando directorio "cmTC_f7d9d.dir\\Debug\\cmTC_f7d9d.tlog\\".
+        InitializeBuildStatus:
+          Se crear├í "cmTC_f7d9d.dir\\Debug\\cmTC_f7d9d.tlog\\unsuccessfulbuild" porque se especific├│ "AlwaysCreate".
+          Aplicando tarea Touch a "cmTC_f7d9d.dir\\Debug\\cmTC_f7d9d.tlog\\unsuccessfulbuild".
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _LARGEFILE64_SOURCE=1 /D HAVE_SYS_TYPES_H /D HAVE_STDINT_H /D HAVE_STDDEF_H /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Fo"cmTC_f7d9d.dir\\Debug\\\\" /Fd"cmTC_f7d9d.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-42avdv\\OFF64_T.c"
+          Compilador de optimizaci├│n de C/C++ de Microsoft (R) versi├│n 19.44.35217 para x64
+          (C) Microsoft Corporation. Todos los derechos reservados.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _LARGEFILE64_SOURCE=1 /D HAVE_SYS_TYPES_H /D HAVE_STDINT_H /D HAVE_STDDEF_H /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Fo"cmTC_f7d9d.dir\\Debug\\\\" /Fd"cmTC_f7d9d.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-42avdv\\OFF64_T.c"
+          OFF64_T.c
+        C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-42avdv\\OFF64_T.c(29,12): error C2065: 'off64_t': identificador no declarado [C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-42avdv\\cmTC_f7d9d.vcxproj]
+        C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-42avdv\\OFF64_T.c(30,12): error C2065: 'off64_t': identificador no declarado [C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-42avdv\\cmTC_f7d9d.vcxproj]
+        C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-42avdv\\OFF64_T.c(31,12): error C2065: 'off64_t': identificador no declarado [C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-42avdv\\cmTC_f7d9d.vcxproj]
+        C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-42avdv\\OFF64_T.c(32,12): error C2065: 'off64_t': identificador no declarado [C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-42avdv\\cmTC_f7d9d.vcxproj]
+        C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-42avdv\\OFF64_T.c(33,12): error C2065: 'off64_t': identificador no declarado [C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-42avdv\\cmTC_f7d9d.vcxproj]
+        Compilaci├│n del proyecto terminada "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-42avdv\\cmTC_f7d9d.vcxproj" (destinos predeterminados) -- ERROR.
+        
+        ERROR al compilar.
+        
+        "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-42avdv\\cmTC_f7d9d.vcxproj" (destino predeterminado) (1) ->
+        (ClCompile destino) -> 
+          C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-42avdv\\OFF64_T.c(29,12): error C2065: 'off64_t': identificador no declarado [C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-42avdv\\cmTC_f7d9d.vcxproj]
+          C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-42avdv\\OFF64_T.c(30,12): error C2065: 'off64_t': identificador no declarado [C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-42avdv\\cmTC_f7d9d.vcxproj]
+          C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-42avdv\\OFF64_T.c(31,12): error C2065: 'off64_t': identificador no declarado [C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-42avdv\\cmTC_f7d9d.vcxproj]
+          C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-42avdv\\OFF64_T.c(32,12): error C2065: 'off64_t': identificador no declarado [C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-42avdv\\cmTC_f7d9d.vcxproj]
+          C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-42avdv\\OFF64_T.c(33,12): error C2065: 'off64_t': identificador no declarado [C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-42avdv\\cmTC_f7d9d.vcxproj]
+        
+            0 Advertencia(s)
+            5 Errores
+        
+        Tiempo transcurrido 00:00:01.59
+        
+      exitCode: 1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CheckFunctionExists.cmake:167 (try_compile)"
+      - "contrib/zlib/CMakeLists.txt:64 (check_function_exists)"
+    checks:
+      - "Looking for fseeko"
+    directories:
+      source: "C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/CMakeFiles/CMakeScratch/TryCompile-lbho4g"
+      binary: "C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/CMakeFiles/CMakeScratch/TryCompile-lbho4g"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
+      CMAKE_C_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/cmake-modules"
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+    buildResult:
+      variable: "HAVE_FSEEKO"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/CMakeFiles/CMakeScratch/TryCompile-lbho4g'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_06cfd.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        Versi├│n de MSBuild 17.14.23+b0019275e para .NET Framework
+        Compilaci├│n iniciada a las 24/02/2026 16:49:06.
+        
+        Proyecto "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-lbho4g\\cmTC_06cfd.vcxproj" en nodo 1 (destinos predeterminados).
+        PrepareForBuild:
+          Creando directorio "cmTC_06cfd.dir\\Debug\\".
+          La salida estructurada est├í habilitada. El formato del diagn├│stico del compilador reflejar├í la jerarqu├¡a de errores. Consulte https://aka.ms/cpp/structured-output para obtener m├ís detalles.
+          Creando directorio "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-lbho4g\\Debug\\".
+          Creando directorio "cmTC_06cfd.dir\\Debug\\cmTC_06cfd.tlog\\".
+        InitializeBuildStatus:
+          Se crear├í "cmTC_06cfd.dir\\Debug\\cmTC_06cfd.tlog\\unsuccessfulbuild" porque se especific├│ "AlwaysCreate".
+          Aplicando tarea Touch a "cmTC_06cfd.dir\\Debug\\cmTC_06cfd.tlog\\unsuccessfulbuild".
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=fseeko /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Fo"cmTC_06cfd.dir\\Debug\\\\" /Fd"cmTC_06cfd.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-lbho4g\\CheckFunctionExists.c"
+          Compilador de optimizaci├│n de C/C++ de Microsoft (R) versi├│n 19.44.35217 para x64
+          (C) Microsoft Corporation. Todos los derechos reservados.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=fseeko /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Fo"cmTC_06cfd.dir\\Debug\\\\" /Fd"cmTC_06cfd.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-lbho4g\\CheckFunctionExists.c"
+          CheckFunctionExists.c
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\link.exe /OUT:"C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-lbho4g\\Debug\\cmTC_06cfd.exe" /INCREMENTAL /ILK:"cmTC_06cfd.dir\\Debug\\cmTC_06cfd.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/CMakeFiles/CMakeScratch/TryCompile-lbho4g/Debug/cmTC_06cfd.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/CMakeFiles/CMakeScratch/TryCompile-lbho4g/Debug/cmTC_06cfd.lib" /MACHINE:X64  /machine:x64 cmTC_06cfd.dir\\Debug\\CheckFunctionExists.obj
+        CheckFunctionExists.obj : error LNK2019: s├¡mbolo externo fseeko sin resolver al que se hace referencia en la funci├│n main [C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-lbho4g\\cmTC_06cfd.vcxproj]
+        C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-lbho4g\\Debug\\cmTC_06cfd.exe : fatal error LNK1120: 1 externos sin resolver [C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-lbho4g\\cmTC_06cfd.vcxproj]
+        Compilaci├│n del proyecto terminada "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-lbho4g\\cmTC_06cfd.vcxproj" (destinos predeterminados) -- ERROR.
+        
+        ERROR al compilar.
+        
+        "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-lbho4g\\cmTC_06cfd.vcxproj" (destino predeterminado) (1) ->
+        (Link destino) -> 
+          CheckFunctionExists.obj : error LNK2019: s├¡mbolo externo fseeko sin resolver al que se hace referencia en la funci├│n main [C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-lbho4g\\cmTC_06cfd.vcxproj]
+          C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-lbho4g\\Debug\\cmTC_06cfd.exe : fatal error LNK1120: 1 externos sin resolver [C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-lbho4g\\cmTC_06cfd.vcxproj]
+        
+            0 Advertencia(s)
+            2 Errores
+        
+        Tiempo transcurrido 00:00:01.77
+        
+      exitCode: 1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.1/Modules/CheckIncludeFile.cmake:165 (try_compile)"
+      - "contrib/zlib/CMakeLists.txt:72 (check_include_file)"
+    checks:
+      - "Looking for unistd.h"
+    directories:
+      source: "C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/CMakeFiles/CMakeScratch/TryCompile-f2cqcl"
+      binary: "C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/CMakeFiles/CMakeScratch/TryCompile-f2cqcl"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
+      CMAKE_C_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/cmake-modules"
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+    buildResult:
+      variable: "Z_HAVE_UNISTD_H"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/CMakeFiles/CMakeScratch/TryCompile-f2cqcl'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_cfe4f.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        Versi├│n de MSBuild 17.14.23+b0019275e para .NET Framework
+        Compilaci├│n iniciada a las 24/02/2026 16:49:08.
+        
+        Proyecto "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-f2cqcl\\cmTC_cfe4f.vcxproj" en nodo 1 (destinos predeterminados).
+        PrepareForBuild:
+          Creando directorio "cmTC_cfe4f.dir\\Debug\\".
+          La salida estructurada est├í habilitada. El formato del diagn├│stico del compilador reflejar├í la jerarqu├¡a de errores. Consulte https://aka.ms/cpp/structured-output para obtener m├ís detalles.
+          Creando directorio "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-f2cqcl\\Debug\\".
+          Creando directorio "cmTC_cfe4f.dir\\Debug\\cmTC_cfe4f.tlog\\".
+        InitializeBuildStatus:
+          Se crear├í "cmTC_cfe4f.dir\\Debug\\cmTC_cfe4f.tlog\\unsuccessfulbuild" porque se especific├│ "AlwaysCreate".
+          Aplicando tarea Touch a "cmTC_cfe4f.dir\\Debug\\cmTC_cfe4f.tlog\\unsuccessfulbuild".
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Fo"cmTC_cfe4f.dir\\Debug\\\\" /Fd"cmTC_cfe4f.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-f2cqcl\\CheckIncludeFile.c"
+          Compilador de optimizaci├│n de C/C++ de Microsoft (R) versi├│n 19.44.35217 para x64
+          (C) Microsoft Corporation. Todos los derechos reservados.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Fo"cmTC_cfe4f.dir\\Debug\\\\" /Fd"cmTC_cfe4f.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-f2cqcl\\CheckIncludeFile.c"
+          CheckIncludeFile.c
+        C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-f2cqcl\\CheckIncludeFile.c(1,10): error C1083: No se puede abrir el archivo incluir: 'unistd.h': No such file or directory [C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-f2cqcl\\cmTC_cfe4f.vcxproj]
+        Compilaci├│n del proyecto terminada "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-f2cqcl\\cmTC_cfe4f.vcxproj" (destinos predeterminados) -- ERROR.
+        
+        ERROR al compilar.
+        
+        "C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-f2cqcl\\cmTC_cfe4f.vcxproj" (destino predeterminado) (1) ->
+        (ClCompile destino) -> 
+          C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-f2cqcl\\CheckIncludeFile.c(1,10): error C1083: No se puede abrir el archivo incluir: 'unistd.h': No such file or directory [C:\\Users\\ivani\\OneDrive\\Escritorio\\build\\assimp-6.0.3\\CMakeFiles\\CMakeScratch\\TryCompile-f2cqcl\\cmTC_cfe4f.vcxproj]
+        
+            0 Advertencia(s)
+            1 Errores
+        
+        Tiempo transcurrido 00:00:01.62
+        
+      exitCode: 1
+...

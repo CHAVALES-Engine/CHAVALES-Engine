@@ -2,6 +2,7 @@
 #include "EngineAPI.h"
 
 #include "PlatformModule.h"
+#include "RenderModule.h"
 
 EngineAPI* EngineAPI::_instance = nullptr;
 
@@ -46,7 +47,7 @@ bool EngineAPI::_initPriv()
 
 	_platformModule = new PlatformModule();
 
-	if (!_platformModule->Init())
+	if (!_platformModule->Init() || !_renderModule->Init(_platformModule->getWindowHandle(), 1280, 720))
 	{
 		delete _platformModule;
 		return false;

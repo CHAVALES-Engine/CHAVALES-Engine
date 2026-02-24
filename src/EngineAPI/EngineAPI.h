@@ -4,6 +4,7 @@
  * @brief Defines the functions for the EngineAPI static library.
  */
 class PlatformModule;
+class RenderModule;
 
 class EngineAPI
 {
@@ -27,5 +28,6 @@ private:
 	static EngineAPI* _instance;
 
 	PlatformModule* _platformModule = nullptr;
+	RenderModule* _renderModule = nullptr;
 
 };

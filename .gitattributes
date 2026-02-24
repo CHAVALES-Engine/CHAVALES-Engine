@@ -1,0 +1,2 @@
+dependencies/ogre/assimp-6.0.3/lib/RelWithDebInfo/assimp-vc143-mt.lib filter=lfs diff=lfs merge=lfs -text
+dependencies/ogre/Dependencies/lib/assimp-vc143-mt.lib filter=lfs diff=lfs merge=lfs -text
