@@ -10,7 +10,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "EngineAPI.h"
-#include "../Core/Debug.h"
+#include <Debug.h>
+
+using namespace chavalescore;
 
 int main(int argc, char* argv[]) {
 
