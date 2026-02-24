@@ -48,7 +48,7 @@ public:
 	 *
 	 * @param message - Mensaje a escribir.
 	 */
-	inline void sayOut(std::string message)
+	inline void Out(std::string message)
 	{
 #if _DEBUG
 		std::cout << message << std::endl;
@@ -58,7 +58,7 @@ public:
 
 
 #ifdef _DEBUG
-#define _SayOut(...) \
+#define _Out(...) \
 std::cout << "[M] " << __VA_ARGS__ << std::endl;\
 
 #else
@@ -66,7 +66,7 @@ std::cout << "[M] " << __VA_ARGS__ << std::endl;\
 #endif
 
 #ifdef _DEBUG
-#define _SayError(...) \
+#define _Error(...) \
 std::cout << "\033[1;31m[E] " << __VA_ARGS__ << "\033[0m" << std::endl;\
 //PAIGRO AQUI: mirar para que le puedas meter el numero de formato y decidir si clase como arriba o asi como esta.
 #else
@@ -74,7 +74,7 @@ std::cout << "\033[1;31m[E] " << __VA_ARGS__ << "\033[0m" << std::endl;\
 #endif
 
 #ifdef _DEBUG
-#define _SayWarnig(...) \
+#define _Warnig(...) \
 std::cout << "\033[1;33m[W] " << __VA_ARGS__ << "\033[0m" << std::endl;\
 
 #else

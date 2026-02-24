@@ -20,9 +20,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\PlatformModule\framework.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\PlatformModule\PlatformModule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
