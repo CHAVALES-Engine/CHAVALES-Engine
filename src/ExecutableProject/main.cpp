@@ -10,16 +10,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "EngineAPI.h"
-#include "../Core/Debug.h"
+#include <Debug.h>
+
+using namespace chavalescore;
 
 int main(int argc, char* argv[]) {
 
 	EngineAPI::init();
 
 	// Ejemplos de debug:
-	_SayOut("Hola soy un ejemplo de mensaje normal con un int: " << 23 << "\nY una salto de linea.");
-	_SayError("Hola soy un ejemplo de error.");
-	_SayWarnig("Hola soy un ejemplo de Warning");
+	_Out("Hola soy un ejemplo de mensaje normal con un int: " << 23 << "\nY una salto de linea.");
+	_Error("Hola soy un ejemplo de error.");
+	_Warnig("Hola soy un ejemplo de Warning");
 
 	//sol::state lua;
 	//lua.script_file("variables.lua");
