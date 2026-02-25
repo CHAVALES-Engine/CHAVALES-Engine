@@ -11,6 +11,7 @@ title: Files
 * **dir [C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src](Files/dir_68267d1309a1af8e8297ef4c3efbcdba.md#dir-c:/users/andres/documents/github/2526-grupo03-chavalesengine/src)** 
     * **dir [/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/AudioModule](Files/dir_e3b596fb096fd4f068d0235d799c230d.md#dir-c:/users/andres/documents/github/2526-grupo03-chavalesengine/src/audiomodule)** 
         * **file [cpp](Files/AudioModule_8cpp.md#file-audiomodule.cpp)** 
+        * **file [h](Files/AudioModule_8h.md#file-audiomodule.h)** 
     * **dir [/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core](Files/dir_a2f0e5642e47e7ed59fe0f0829eafb5f.md#dir-c:/users/andres/documents/github/2526-grupo03-chavalesengine/src/core)** 
         * **file [cpp](Files/Color_8cpp.md#file-color.cpp)** 
         * **file [h](Files/Color_8h.md#file-color.h)** 
@@ -63,4 +64,4 @@ title: Files
 
 -------------------------------
 
-Updated on 2026-02-25 at 10:42:50 +0100
+Updated on 2026-02-25 at 11:59:32 +0100

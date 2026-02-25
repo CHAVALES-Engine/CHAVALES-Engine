@@ -2,21 +2,20 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
   <compounddef id="AudioModule_8cpp" kind="file" language="C++">
     <compoundname>AudioModule.cpp</compoundname>
-    <sectiondef kind="func">
-      <memberdef kind="function" id="AudioModule_8cpp_1a41daa74cee90d7de7e774660b0a37646" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>void</type>
-        <definition>void fnAudioModule</definition>
-        <argsstring>()</argsstring>
-        <name>fnAudioModule</name>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/AudioModule/AudioModule.cpp" line="5" column="6" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/AudioModule/AudioModule.cpp" bodystart="5" bodyend="7"/>
-      </memberdef>
-    </sectiondef>
+    <includes refid="AudioModule_8h" local="yes">AudioModule.h</includes>
+    <includes local="no">fmod.hpp</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/AudioModule/AudioModule.cpp</label>
+        <link refid="AudioModule_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>fmod.hpp</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacestd">std</innernamespace>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
