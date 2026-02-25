@@ -2,8 +2,6 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
   <compounddef id="Core_8cpp" kind="file" language="C++">
     <compoundname>Core.cpp</compoundname>
-    <includes refid="Core_2pch_8h" local="yes">pch.h</includes>
-    <includes refid="Core_2framework_8h" local="yes">framework.h</includes>
     <sectiondef kind="func">
       <memberdef kind="function" id="Core_8cpp_1a1f4a2ed1df88ffccc9780b4850919f98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -16,7 +14,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Core.cpp" line="10" column="6" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Core.cpp" bodystart="10" bodyend="12"/>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Core.cpp" line="8" column="6" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Core.cpp" bodystart="8" bodyend="10"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

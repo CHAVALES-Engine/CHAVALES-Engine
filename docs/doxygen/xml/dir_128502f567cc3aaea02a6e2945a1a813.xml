@@ -2,9 +2,6 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
   <compounddef id="dir_128502f567cc3aaea02a6e2945a1a813" kind="dir">
     <compoundname>C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ResourcesModule</compoundname>
-    <innerfile refid="ResourcesModule_2framework_8h">framework.h</innerfile>
-    <innerfile refid="ResourcesModule_2pch_8cpp">pch.cpp</innerfile>
-    <innerfile refid="ResourcesModule_2pch_8h">pch.h</innerfile>
     <innerfile refid="ResourcesModule_8cpp">ResourcesModule.cpp</innerfile>
     <briefdescription>
     </briefdescription>

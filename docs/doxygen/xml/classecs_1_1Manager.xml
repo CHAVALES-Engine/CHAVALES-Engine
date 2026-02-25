@@ -1,0 +1,408 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
+  <compounddef id="classecs_1_1Manager" kind="class" language="C++" prot="public">
+    <compoundname>ecs::Manager</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classecs_1_1Manager_1a0cac1d19257def174b572ea720db9a8e" prot="private" static="no" mutable="no">
+        <type>std::array&lt; entity_t, maxHandlerId &gt;</type>
+        <definition>std::array&lt;entity_t, maxHandlerId&gt; ecs::Manager::_hdlrs</definition>
+        <argsstring></argsstring>
+        <name>_hdlrs</name>
+        <qualifiedname>ecs::Manager::_hdlrs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.h" line="224" column="12" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classecs_1_1Manager_1a3f7854b2f4fa65f4c18c60709692253b" prot="private" static="no" mutable="no">
+        <type>std::array&lt; std::vector&lt; entity_t &gt;, maxGroupId &gt;</type>
+        <definition>std::array&lt;std::vector&lt;entity_t&gt;, maxGroupId&gt; ecs::Manager::_entsByGroup</definition>
+        <argsstring></argsstring>
+        <name>_entsByGroup</name>
+        <qualifiedname>ecs::Manager::_entsByGroup</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.h" line="225" column="12" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classecs_1_1Manager_1a752c44853b64f2ae4807f882bc2e7cbe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ecs::Manager::Manager</definition>
+        <argsstring>()</argsstring>
+        <name>Manager</name>
+        <qualifiedname>ecs::Manager::Manager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.h" line="22" column="1" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.cpp" bodystart="7" bodyend="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classecs_1_1Manager_1a9351029d4244429e09dfcfc4887d8159" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>ecs::Manager::~Manager</definition>
+        <argsstring>()</argsstring>
+        <name>~Manager</name>
+        <qualifiedname>ecs::Manager::~Manager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.h" line="23" column="9" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.cpp" bodystart="20" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classecs_1_1Manager_1a3dbbe085ecbbfc2ea259ce254ce013fb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>entity_t</type>
+        <definition>entity_t ecs::Manager::addEntity</definition>
+        <argsstring>(ecs::grpId_t gId=ecs::grp::DEFAULT)</argsstring>
+        <name>addEntity</name>
+        <qualifiedname>ecs::Manager::addEntity</qualifiedname>
+        <param>
+          <type>ecs::grpId_t</type>
+          <declname>gId</declname>
+          <defval>ecs::grp::DEFAULT</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.h" line="28" column="17" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.h" bodystart="28" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classecs_1_1Manager_1a49cd37b0afb5dc96dfac277b1079d27d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ecs::Manager::setAlive</definition>
+        <argsstring>(entity_t e, bool alive)</argsstring>
+        <name>setAlive</name>
+        <qualifiedname>ecs::Manager::setAlive</qualifiedname>
+        <param>
+          <type>entity_t</type>
+          <declname>e</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>alive</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.h" line="60" column="13" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.h" bodystart="60" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classecs_1_1Manager_1a1fa4d955d5b9d974f5b431e0fb974c57" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ecs::Manager::isAlive</definition>
+        <argsstring>(entity_t e)</argsstring>
+        <name>isAlive</name>
+        <qualifiedname>ecs::Manager::isAlive</qualifiedname>
+        <param>
+          <type>entity_t</type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.h" line="66" column="13" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.h" bodystart="66" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classecs_1_1Manager_1ad05121e227912237f22d93b5e7b58f08" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+          <param>
+            <type>typename ...</type>
+            <declname>Ts</declname>
+            <defname>Ts</defname>
+          </param>
+        </templateparamlist>
+        <type>T *</type>
+        <definition>T * ecs::Manager::addComponent</definition>
+        <argsstring>(entity_t e, Ts &amp;&amp;... args)</argsstring>
+        <name>addComponent</name>
+        <qualifiedname>ecs::Manager::addComponent</qualifiedname>
+        <param>
+          <type>entity_t</type>
+          <declname>e</declname>
+        </param>
+        <param>
+          <type>Ts &amp;&amp;...</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.h" line="74" column="10" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.h" bodystart="74" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classecs_1_1Manager_1a77e48d8944a95ab0523d69e124746f16" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void ecs::Manager::removeComponent</definition>
+        <argsstring>(entity_t e)</argsstring>
+        <name>removeComponent</name>
+        <qualifiedname>ecs::Manager::removeComponent</qualifiedname>
+        <param>
+          <type>entity_t</type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.h" line="99" column="13" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.h" bodystart="99" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classecs_1_1Manager_1a4e6008871a2f08c081592c66a571b552" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>T *</type>
+        <definition>T * ecs::Manager::getComponent</definition>
+        <argsstring>(entity_t e)</argsstring>
+        <name>getComponent</name>
+        <qualifiedname>ecs::Manager::getComponent</qualifiedname>
+        <param>
+          <type>entity_t</type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.h" line="133" column="10" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.h" bodystart="133" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classecs_1_1Manager_1a3c6410d1b89da10c30efa1f262a3f4c7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool ecs::Manager::hasComponent</definition>
+        <argsstring>(entity_t e)</argsstring>
+        <name>hasComponent</name>
+        <qualifiedname>ecs::Manager::hasComponent</qualifiedname>
+        <param>
+          <type>entity_t</type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.h" line="145" column="13" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.h" bodystart="145" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classecs_1_1Manager_1a2e43f38d3ac8e43f296e86babda2bbcf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>ecs::grpId_t</type>
+        <definition>ecs::grpId_t ecs::Manager::groupId</definition>
+        <argsstring>(entity_t e)</argsstring>
+        <name>groupId</name>
+        <qualifiedname>ecs::Manager::groupId</qualifiedname>
+        <param>
+          <type>entity_t</type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.h" line="155" column="21" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.h" bodystart="155" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classecs_1_1Manager_1a74e288d13e564dea55916d54a57d630a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>const auto &amp;</type>
+        <definition>const auto &amp; ecs::Manager::getEntities</definition>
+        <argsstring>(grpId_t gId=ecs::grp::DEFAULT)</argsstring>
+        <name>getEntities</name>
+        <qualifiedname>ecs::Manager::getEntities</qualifiedname>
+        <param>
+          <type>grpId_t</type>
+          <declname>gId</declname>
+          <defval>ecs::grp::DEFAULT</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.h" line="161" column="19" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.h" bodystart="161" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classecs_1_1Manager_1ae542cb6a0ee4d610e866e4dea78a8330" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ecs::Manager::setHandler</definition>
+        <argsstring>(hdlrId_t hId, entity_t e)</argsstring>
+        <name>setHandler</name>
+        <qualifiedname>ecs::Manager::setHandler</qualifiedname>
+        <param>
+          <type>hdlrId_t</type>
+          <declname>hId</declname>
+        </param>
+        <param>
+          <type>entity_t</type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.h" line="167" column="13" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.h" bodystart="167" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classecs_1_1Manager_1adefe59dedecb852b053c449c007f86db" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>entity_t</type>
+        <definition>entity_t ecs::Manager::getHandler</definition>
+        <argsstring>(hdlrId_t hId)</argsstring>
+        <name>getHandler</name>
+        <qualifiedname>ecs::Manager::getHandler</qualifiedname>
+        <param>
+          <type>hdlrId_t</type>
+          <declname>hId</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.h" line="174" column="17" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.h" bodystart="174" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="classecs_1_1Manager_1a0ea8153e9461a2be05438c7bbf5901df" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ecs::Manager::update</definition>
+        <argsstring>(entity_t e)</argsstring>
+        <name>update</name>
+        <qualifiedname>ecs::Manager::update</qualifiedname>
+        <param>
+          <type>entity_t</type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.h" line="182" column="13" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.h" bodystart="182" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classecs_1_1Manager_1a5d5b4c153ca2a2a5b8e199251f633a5d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ecs::Manager::render</definition>
+        <argsstring>(entity_t e)</argsstring>
+        <name>render</name>
+        <qualifiedname>ecs::Manager::render</qualifiedname>
+        <param>
+          <type>entity_t</type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.h" line="191" column="13" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.h" bodystart="191" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="classecs_1_1Manager_1a107bc9020b46fe54cd25cdf032bb1593" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ecs::Manager::update</definition>
+        <argsstring>()</argsstring>
+        <name>update</name>
+        <qualifiedname>ecs::Manager::update</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.h" line="199" column="6" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.h" bodystart="199" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="classecs_1_1Manager_1aae44d42cdbbc24de084c248e4f89c85e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ecs::Manager::render</definition>
+        <argsstring>()</argsstring>
+        <name>render</name>
+        <qualifiedname>ecs::Manager::render</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.h" line="209" column="6" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.h" bodystart="209" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="classecs_1_1Manager_1ab3a66032ae4ea730a4ffaacd1f7eac08" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ecs::Manager::refresh</definition>
+        <argsstring>()</argsstring>
+        <name>refresh</name>
+        <qualifiedname>ecs::Manager::refresh</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.h" line="220" column="6" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.cpp" bodystart="30" bodyend="48"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.h" line="19" column="1" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.h" bodystart="19" bodyend="226"/>
+    <listofallmembers>
+      <member refid="classecs_1_1Manager_1a3f7854b2f4fa65f4c18c60709692253b" prot="private" virt="non-virtual"><scope>ecs::Manager</scope><name>_entsByGroup</name></member>
+      <member refid="classecs_1_1Manager_1a0cac1d19257def174b572ea720db9a8e" prot="private" virt="non-virtual"><scope>ecs::Manager</scope><name>_hdlrs</name></member>
+      <member refid="classecs_1_1Manager_1ad05121e227912237f22d93b5e7b58f08" prot="public" virt="non-virtual"><scope>ecs::Manager</scope><name>addComponent</name></member>
+      <member refid="classecs_1_1Manager_1a3dbbe085ecbbfc2ea259ce254ce013fb" prot="public" virt="non-virtual"><scope>ecs::Manager</scope><name>addEntity</name></member>
+      <member refid="classecs_1_1Manager_1a4e6008871a2f08c081592c66a571b552" prot="public" virt="non-virtual"><scope>ecs::Manager</scope><name>getComponent</name></member>
+      <member refid="classecs_1_1Manager_1a74e288d13e564dea55916d54a57d630a" prot="public" virt="non-virtual"><scope>ecs::Manager</scope><name>getEntities</name></member>
+      <member refid="classecs_1_1Manager_1adefe59dedecb852b053c449c007f86db" prot="public" virt="non-virtual"><scope>ecs::Manager</scope><name>getHandler</name></member>
+      <member refid="classecs_1_1Manager_1a2e43f38d3ac8e43f296e86babda2bbcf" prot="public" virt="non-virtual"><scope>ecs::Manager</scope><name>groupId</name></member>
+      <member refid="classecs_1_1Manager_1a3c6410d1b89da10c30efa1f262a3f4c7" prot="public" virt="non-virtual"><scope>ecs::Manager</scope><name>hasComponent</name></member>
+      <member refid="classecs_1_1Manager_1a1fa4d955d5b9d974f5b431e0fb974c57" prot="public" virt="non-virtual"><scope>ecs::Manager</scope><name>isAlive</name></member>
+      <member refid="classecs_1_1Manager_1a752c44853b64f2ae4807f882bc2e7cbe" prot="public" virt="non-virtual"><scope>ecs::Manager</scope><name>Manager</name></member>
+      <member refid="classecs_1_1Manager_1ab3a66032ae4ea730a4ffaacd1f7eac08" prot="public" virt="non-virtual"><scope>ecs::Manager</scope><name>refresh</name></member>
+      <member refid="classecs_1_1Manager_1a77e48d8944a95ab0523d69e124746f16" prot="public" virt="non-virtual"><scope>ecs::Manager</scope><name>removeComponent</name></member>
+      <member refid="classecs_1_1Manager_1a5d5b4c153ca2a2a5b8e199251f633a5d" prot="public" virt="non-virtual"><scope>ecs::Manager</scope><name>render</name></member>
+      <member refid="classecs_1_1Manager_1aae44d42cdbbc24de084c248e4f89c85e" prot="public" virt="non-virtual"><scope>ecs::Manager</scope><name>render</name></member>
+      <member refid="classecs_1_1Manager_1a49cd37b0afb5dc96dfac277b1079d27d" prot="public" virt="non-virtual"><scope>ecs::Manager</scope><name>setAlive</name></member>
+      <member refid="classecs_1_1Manager_1ae542cb6a0ee4d610e866e4dea78a8330" prot="public" virt="non-virtual"><scope>ecs::Manager</scope><name>setHandler</name></member>
+      <member refid="classecs_1_1Manager_1a0ea8153e9461a2be05438c7bbf5901df" prot="public" virt="non-virtual"><scope>ecs::Manager</scope><name>update</name></member>
+      <member refid="classecs_1_1Manager_1a107bc9020b46fe54cd25cdf032bb1593" prot="public" virt="non-virtual"><scope>ecs::Manager</scope><name>update</name></member>
+      <member refid="classecs_1_1Manager_1a9351029d4244429e09dfcfc4887d8159" prot="public" virt="virtual"><scope>ecs::Manager</scope><name>~Manager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

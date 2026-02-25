@@ -2,8 +2,12 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
   <compounddef id="Component_8h" kind="file" language="C++">
     <compoundname>Component.h</compoundname>
+    <includes refid="ec_8h" local="yes">ec.h</includes>
     <includedby refid="Component_8cpp" local="yes">C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Component.cpp</includedby>
-    <innerclass refid="classComponent" prot="public">Component</innerclass>
+    <includedby refid="Entity_8cpp" local="yes">C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Entity.cpp</includedby>
+    <includedby refid="Manager_8h" local="yes">C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.h</includedby>
+    <innerclass refid="classec_1_1Component" prot="public">ec::Component</innerclass>
+    <innernamespace refid="namespaceec">ec</innernamespace>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

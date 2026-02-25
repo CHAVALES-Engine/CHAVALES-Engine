@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
+  <compounddef id="ec__defs__example_8h" kind="file" language="C++">
+    <compoundname>ec_defs_example.h</compoundname>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="ec__defs__example_8h_1a5c8654e3594beec0997551e94e3240ff" prot="public" static="no">
+        <name>_CMPS_LIST_</name>
+        <initializer>TRANSFORM, \
+IMAGE</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/ec_defs_example.h" line="15" column="9" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/ec_defs_example.h" bodystart="15" bodyend="17"/>
+      </memberdef>
+      <memberdef kind="define" id="ec__defs__example_8h_1a1cdedd50d046109aa22e5c350181fc8a" prot="public" static="no">
+        <name>_GRPS_LIST_</name>
+        <initializer>STAR, \
+ASTEROID</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/ec_defs_example.h" line="21" column="9" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/ec_defs_example.h" bodystart="21" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="define" id="ec__defs__example_8h_1a9e28aaf9caa7ef1b9563c3d38a68e5c6" prot="public" static="no">
+        <name>_HDLRS_LIST_</name>
+        <initializer>BALL, \
+PADDLE</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/ec_defs_example.h" line="27" column="9" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/ec_defs_example.h" bodystart="27" bodyend="29"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/ec_defs_example.h"/>
+  </compounddef>
+</doxygen>

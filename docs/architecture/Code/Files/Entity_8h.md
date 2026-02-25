@@ -7,11 +7,17 @@ title: C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Ent
 
 
 
+## Namespaces
+
+| Name           |
+| -------------- |
+| **[ec](Namespaces/namespaceec.md)**  |
+
 ## Classes
 
 |                | Name           |
 | -------------- | -------------- |
-| class | **[Entity](Classes/classEntity.md)**  |
+| class | **[ec::Entity](Classes/classec_1_1Entity.md)**  |
 
 
 
@@ -20,4 +26,4 @@ title: C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Ent
 
 -------------------------------
 
-Updated on 2026-02-17 at 23:45:20 +0100
+Updated on 2026-02-25 at 10:42:50 +0100

@@ -2,8 +2,6 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
   <compounddef id="EngineAPI_8cpp" kind="file" language="C++">
     <compoundname>EngineAPI.cpp</compoundname>
-    <includes refid="EngineAPI_2pch_8h" local="yes">pch.h</includes>
-    <includes refid="EngineAPI_2framework_8h" local="yes">framework.h</includes>
     <includes refid="EngineAPI_8h" local="yes">EngineAPI.h</includes>
     <includes refid="PlatformModule_8h" local="yes">PlatformModule.h</includes>
     <briefdescription>

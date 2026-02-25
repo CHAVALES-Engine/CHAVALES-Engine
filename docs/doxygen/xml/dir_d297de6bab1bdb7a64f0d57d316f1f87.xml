@@ -4,9 +4,6 @@
     <compoundname>C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI</compoundname>
     <innerfile refid="EngineAPI_8cpp">EngineAPI.cpp</innerfile>
     <innerfile refid="EngineAPI_8h">EngineAPI.h</innerfile>
-    <innerfile refid="EngineAPI_2framework_8h">framework.h</innerfile>
-    <innerfile refid="EngineAPI_2pch_8cpp">pch.cpp</innerfile>
-    <innerfile refid="EngineAPI_2pch_8h">pch.h</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

@@ -2,7 +2,6 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
   <compounddef id="Debug_8cpp" kind="file" language="C++">
     <compoundname>Debug.cpp</compoundname>
-    <includes refid="Core_2pch_8h" local="yes">pch.h</includes>
     <includes refid="Debug_8h" local="yes">Debug.h</includes>
     <briefdescription>
     </briefdescription>
