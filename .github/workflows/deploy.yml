@@ -6,9 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 jobs:
   build:
@@ -19,7 +17,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      # INSTALACION DE HERRAMIENTAS
+      # INSTALACION DE HERRAMIENTAS (Doxygen, Doxybook2, Node)
       - name: Install Doxygen
         run: sudo apt-get update && sudo apt-get install -y doxygen
 
@@ -39,39 +37,35 @@ jobs:
       - name: Generate Documentation
         working-directory: ./docs
         run: |
-          # Limpieza
-          rm -rf doxygen architecture/Code xml docs_output quartz/content
-          
-          # Generar XML con Doxygen
+          rm -rf doxygen architecture/Code quartz/content
           doxygen Doxyfile
-          
-          # Convertir a Markdown con Doxybook2
           mkdir -p architecture/Code
           doxybook2 --input doxygen/xml --output architecture/Code --config doxybook_config.json
-          
-          # Pasar contenido a Quartz (Equivalente a xcopy)
           mkdir -p quartz/content
           cp -r architecture/* quartz/content/
 
-      # BUILD DE QUARTZ
+      # CONSTRUCCION DE QUARTZ
       - name: Build Quartz
+        working-directory: ./docs/quartz
         run: |
-          cd quartz
           npm install
           npx quartz build
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: quartz/public
+      # LIMPIEZA Y PREPARACION PARA GITHUB PAGES
+      - name: Move public to docs and cleanup
+        run: |
+          # Creamos el archivo .nojekyll para evitar el error que tuviste antes
+          touch ./docs/quartz/public/.nojekyll
+          
+          # Copiamos el contenido de public a la raíz de /docs
+          # Esto pone el index.html, css y js donde GitHub Pages los espera
+          cp -r ./docs/quartz/public/* ./docs/
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps:deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      # SUBIR LOS CAMBIOS AL REPOSITORIO
+      - name: Commit and Push
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add ./docs/
+          git commit -m "Actualizar documentacion web" || echo "No hay cambios"
+          git push origin main
