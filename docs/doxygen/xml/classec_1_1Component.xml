@@ -1,0 +1,201 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
+  <compounddef id="classec_1_1Component" kind="class" language="C++" prot="public">
+    <compoundname>ec::Component</compoundname>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classec_1_1Component_1a050210b6d6f89b354bbd10a1e0163211" prot="protected" static="no" mutable="no">
+        <type>Entity *</type>
+        <definition>Entity* ec::Component::ent</definition>
+        <argsstring></argsstring>
+        <name>ent</name>
+        <qualifiedname>ec::Component::ent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Component.h" line="74" column="8" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Component.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classec_1_1Component_1ac4222a0b923b39e895a51b11b51a8731" prot="protected" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ec::Component::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>ec::Component::enabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Component.h" line="75" column="6" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Component.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classec_1_1Component_1a269f3b4724b1e3f08c8eb7dc1bb0419b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>ec::Component::Component</definition>
+        <argsstring>()</argsstring>
+        <name>Component</name>
+        <qualifiedname>ec::Component::Component</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Component.h" line="26" column="1" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Component.h" bodystart="26" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classec_1_1Component_1a610d8a5de51e1a42e22f9eb471d01c9e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type></type>
+        <definition>virtual ec::Component::~Component</definition>
+        <argsstring>()</argsstring>
+        <name>~Component</name>
+        <qualifiedname>ec::Component::~Component</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Component.h" line="34" column="9" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Component.h" bodystart="34" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classec_1_1Component_1a8034a78c057bb983572b53171624f809" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ec::Component::setEntity</definition>
+        <argsstring>(Entity *e)</argsstring>
+        <name>setEntity</name>
+        <qualifiedname>ec::Component::setEntity</qualifiedname>
+        <param>
+          <type>Entity *</type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Component.h" line="40" column="13" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Component.h" bodystart="40" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classec_1_1Component_1a991bb4434b27b2e214cb08932175d89e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>virtual void ec::Component::onCreate</definition>
+        <argsstring>()</argsstring>
+        <name>onCreate</name>
+        <qualifiedname>ec::Component::onCreate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Component.h" line="45" column="14" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Component.h" bodystart="45" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classec_1_1Component_1a7288d22d0dc629ff9cf17519c3b293d7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>virtual void ec::Component::init</definition>
+        <argsstring>()</argsstring>
+        <name>init</name>
+        <qualifiedname>ec::Component::init</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Component.h" line="50" column="14" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Component.h" bodystart="50" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classec_1_1Component_1af5e0997ebbb10cbcf102f702be44674e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>virtual void ec::Component::onEnable</definition>
+        <argsstring>()</argsstring>
+        <name>onEnable</name>
+        <qualifiedname>ec::Component::onEnable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Component.h" line="53" column="14" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Component.h" bodystart="53" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="classec_1_1Component_1a4d5c72d1d6bd35854737892d708382cd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>virtual void ec::Component::update</definition>
+        <argsstring>()</argsstring>
+        <name>update</name>
+        <qualifiedname>ec::Component::update</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Component.h" line="59" column="14" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Component.h" bodystart="59" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classec_1_1Component_1a5a1821e73b15ebfa0d6dfb05418d8be0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>virtual void ec::Component::render</definition>
+        <argsstring>()</argsstring>
+        <name>render</name>
+        <qualifiedname>ec::Component::render</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Component.h" line="65" column="14" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Component.h" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classec_1_1Component_1a2ceff7dc5b27f8b34a7d2c26d1852b3d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>virtual void ec::Component::onDisable</definition>
+        <argsstring>()</argsstring>
+        <name>onDisable</name>
+        <qualifiedname>ec::Component::onDisable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Component.h" line="68" column="14" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Component.h" bodystart="68" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classec_1_1Component_1a8c3e0b485749d6ec825e77d48d2a5d57" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>virtual void ec::Component::onDestroy</definition>
+        <argsstring>()</argsstring>
+        <name>onDestroy</name>
+        <qualifiedname>ec::Component::onDestroy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Component.h" line="71" column="14" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Component.h" bodystart="71" bodyend="71"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Component.h" line="24" column="1" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Component.h" bodystart="24" bodyend="79"/>
+    <listofallmembers>
+      <member refid="classec_1_1Component_1a269f3b4724b1e3f08c8eb7dc1bb0419b" prot="public" virt="non-virtual"><scope>ec::Component</scope><name>Component</name></member>
+      <member refid="classec_1_1Component_1ac4222a0b923b39e895a51b11b51a8731" prot="protected" virt="non-virtual"><scope>ec::Component</scope><name>enabled</name></member>
+      <member refid="classec_1_1Component_1a050210b6d6f89b354bbd10a1e0163211" prot="protected" virt="non-virtual"><scope>ec::Component</scope><name>ent</name></member>
+      <member refid="classec_1_1Component_1a7288d22d0dc629ff9cf17519c3b293d7" prot="public" virt="virtual"><scope>ec::Component</scope><name>init</name></member>
+      <member refid="classec_1_1Component_1a991bb4434b27b2e214cb08932175d89e" prot="public" virt="virtual"><scope>ec::Component</scope><name>onCreate</name></member>
+      <member refid="classec_1_1Component_1a8c3e0b485749d6ec825e77d48d2a5d57" prot="public" virt="virtual"><scope>ec::Component</scope><name>onDestroy</name></member>
+      <member refid="classec_1_1Component_1a2ceff7dc5b27f8b34a7d2c26d1852b3d" prot="public" virt="virtual"><scope>ec::Component</scope><name>onDisable</name></member>
+      <member refid="classec_1_1Component_1af5e0997ebbb10cbcf102f702be44674e" prot="public" virt="virtual"><scope>ec::Component</scope><name>onEnable</name></member>
+      <member refid="classec_1_1Component_1a5a1821e73b15ebfa0d6dfb05418d8be0" prot="public" virt="virtual"><scope>ec::Component</scope><name>render</name></member>
+      <member refid="classec_1_1Component_1a8034a78c057bb983572b53171624f809" prot="public" virt="non-virtual"><scope>ec::Component</scope><name>setEntity</name></member>
+      <member refid="classec_1_1Component_1a4d5c72d1d6bd35854737892d708382cd" prot="public" virt="virtual"><scope>ec::Component</scope><name>update</name></member>
+      <member refid="classec_1_1Component_1a610d8a5de51e1a42e22f9eb471d01c9e" prot="public" virt="virtual"><scope>ec::Component</scope><name>~Component</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

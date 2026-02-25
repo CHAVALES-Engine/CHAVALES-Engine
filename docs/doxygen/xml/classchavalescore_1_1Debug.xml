@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
+  <compounddef id="classchavalescore_1_1Debug" kind="class" language="C++" prot="public">
+    <compoundname>chavalescore::Debug</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classchavalescore_1_1Debug_1ad9ed09029dccc731d72210b44eabafd7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void chavalescore::Debug::Out</definition>
+        <argsstring>(std::string message)</argsstring>
+        <name>Out</name>
+        <qualifiedname>chavalescore::Debug::Out</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Escribe en consola un mensaje. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Escribe en consola un mensaje.
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>- Mensaje a escribir. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Debug.h" line="59" column="13" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Debug.h" bodystart="59" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Debug.h" line="49" column="1" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Debug.h" bodystart="50" bodyend="65"/>
+    <listofallmembers>
+      <member refid="classchavalescore_1_1Debug_1ad9ed09029dccc731d72210b44eabafd7" prot="public" virt="non-virtual"><scope>chavalescore::Debug</scope><name>Out</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

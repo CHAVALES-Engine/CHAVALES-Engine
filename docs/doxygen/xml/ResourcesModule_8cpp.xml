@@ -2,8 +2,6 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
   <compounddef id="ResourcesModule_8cpp" kind="file" language="C++">
     <compoundname>ResourcesModule.cpp</compoundname>
-    <includes refid="ResourcesModule_2pch_8h" local="yes">pch.h</includes>
-    <includes refid="ResourcesModule_2framework_8h" local="yes">framework.h</includes>
     <sectiondef kind="func">
       <memberdef kind="function" id="ResourcesModule_8cpp_1aa38562c8328219e6d8afbca2a70d38f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -16,7 +14,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ResourcesModule/ResourcesModule.cpp" line="8" column="6" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ResourcesModule/ResourcesModule.cpp" bodystart="8" bodyend="10"/>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ResourcesModule/ResourcesModule.cpp" line="5" column="6" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ResourcesModule/ResourcesModule.cpp" bodystart="5" bodyend="7"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

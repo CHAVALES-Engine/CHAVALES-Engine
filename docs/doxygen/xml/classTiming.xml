@@ -2,12 +2,61 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
   <compounddef id="classTiming" kind="class" language="C++" prot="public">
     <compoundname>Timing</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classTiming_1aaf2d5b06242bce4fd204bbe2237d1f49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Timing::Timing</definition>
+        <argsstring>()=default</argsstring>
+        <name>Timing</name>
+        <qualifiedname>Timing::Timing</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Timing.h" line="11" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classTiming_1aa6eaa8ac243c284361f7b0557f124c8c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Timing::~Timing</definition>
+        <argsstring>()=default</argsstring>
+        <name>~Timing</name>
+        <qualifiedname>Timing::~Timing</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Timing.h" line="12" column="1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classTiming_1a5ea8cb5fda42e34aefadb67a90240fc8" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>static uint32_t Timing::deltaTime</definition>
+        <argsstring>()</argsstring>
+        <name>deltaTime</name>
+        <qualifiedname>Timing::deltaTime</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Timing.h" line="14" column="17" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Timing.h" bodystart="14" bodyend="18"/>
+      </memberdef>
+    </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Timing.h" line="2" column="1" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Timing.h" bodystart="3" bodyend="4"/>
+    <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Timing.h" line="8" column="1" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Timing.h" bodystart="9" bodyend="19"/>
     <listofallmembers>
+      <member refid="classTiming_1a5ea8cb5fda42e34aefadb67a90240fc8" prot="public" virt="non-virtual"><scope>Timing</scope><name>deltaTime</name></member>
+      <member refid="classTiming_1aaf2d5b06242bce4fd204bbe2237d1f49" prot="public" virt="non-virtual"><scope>Timing</scope><name>Timing</name></member>
+      <member refid="classTiming_1aa6eaa8ac243c284361f7b0557f124c8c" prot="public" virt="non-virtual"><scope>Timing</scope><name>~Timing</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

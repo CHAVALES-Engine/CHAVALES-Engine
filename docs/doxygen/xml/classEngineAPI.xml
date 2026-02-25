@@ -16,12 +16,12 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.h" line="25" column="18" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.h" bodystart="25" bodyend="-1"/>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.h" line="27" column="18" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.h" bodystart="27" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-attrib">
       <memberdef kind="variable" id="classEngineAPI_1a9d32bb9e7d126ad94b0dbe0ff22add2d" prot="private" static="no" mutable="no">
-        <type>PlatformModule *</type>
+        <type><ref refid="classPlatformModule" kindref="compound">PlatformModule</ref> *</type>
         <definition>PlatformModule* EngineAPI::_platformModule</definition>
         <argsstring></argsstring>
         <name>_platformModule</name>
@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.h" line="27" column="16" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.h" bodystart="27" bodyend="-1"/>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.h" line="29" column="16" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.h" bodystart="29" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -49,7 +49,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.h" line="12" column="13" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.cpp" bodystart="10" bodyend="15"/>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.h" line="12" column="13" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.cpp" bodystart="8" bodyend="13"/>
       </memberdef>
       <memberdef kind="function" id="classEngineAPI_1a678f121b1aaaa4caf66206159dbadcb1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>EngineAPI *</type>
@@ -63,7 +63,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.h" line="14" column="18" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.cpp" bodystart="17" bodyend="20"/>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.h" line="14" column="18" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.cpp" bodystart="15" bodyend="18"/>
       </memberdef>
       <memberdef kind="function" id="classEngineAPI_1a5926bb0c4f894e3fdf6f27f9364f93c3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -77,7 +77,21 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.h" line="16" column="13" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.cpp" bodystart="22" bodyend="29"/>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.h" line="16" column="13" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.cpp" bodystart="20" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classEngineAPI_1a283b682b2b602af2422e0532bfcc07a5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classPlatformModule" kindref="compound">PlatformModule</ref> *</type>
+        <definition>PlatformModule * EngineAPI::getPlatform</definition>
+        <argsstring>()</argsstring>
+        <name>getPlatform</name>
+        <qualifiedname>EngineAPI::getPlatform</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.h" line="18" column="23" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.cpp" bodystart="29" bodyend="32"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -93,7 +107,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.h" line="20" column="1" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.cpp" bodystart="31" bodyend="34"/>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.h" line="22" column="1" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.cpp" bodystart="34" bodyend="37"/>
       </memberdef>
       <memberdef kind="function" id="classEngineAPI_1ad05ee25abe79fbb4b3e07dbcefb9cffd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -107,7 +121,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.h" line="21" column="1" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.cpp" bodystart="36" bodyend="39"/>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.h" line="23" column="1" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.cpp" bodystart="39" bodyend="42"/>
       </memberdef>
       <memberdef kind="function" id="classEngineAPI_1aa2a4ee36d3ec93e3998ebea7a790fa2e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -121,19 +135,20 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.h" line="23" column="6" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.cpp" bodystart="41" bodyend="52"/>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.h" line="25" column="6" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.cpp" bodystart="44" bodyend="55"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.h" line="8" column="1" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.h" bodystart="9" bodyend="29"/>
+    <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.h" line="8" column="1" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/EngineAPI/EngineAPI.h" bodystart="9" bodyend="31"/>
     <listofallmembers>
       <member refid="classEngineAPI_1aa2a4ee36d3ec93e3998ebea7a790fa2e" prot="private" virt="non-virtual"><scope>EngineAPI</scope><name>_initPriv</name></member>
       <member refid="classEngineAPI_1aa3aa9f46c1c13c02b27d5bc6dca30f19" prot="private" virt="non-virtual"><scope>EngineAPI</scope><name>_instance</name></member>
       <member refid="classEngineAPI_1a9d32bb9e7d126ad94b0dbe0ff22add2d" prot="private" virt="non-virtual"><scope>EngineAPI</scope><name>_platformModule</name></member>
       <member refid="classEngineAPI_1a0652b56cacbf770fcbece4418901aacd" prot="private" virt="non-virtual"><scope>EngineAPI</scope><name>EngineAPI</name></member>
+      <member refid="classEngineAPI_1a283b682b2b602af2422e0532bfcc07a5" prot="public" virt="non-virtual"><scope>EngineAPI</scope><name>getPlatform</name></member>
       <member refid="classEngineAPI_1ae5056d9c61f8b1bf4ee4160afd0cfbe7" prot="public" virt="non-virtual"><scope>EngineAPI</scope><name>init</name></member>
       <member refid="classEngineAPI_1a678f121b1aaaa4caf66206159dbadcb1" prot="public" virt="non-virtual"><scope>EngineAPI</scope><name>instance</name></member>
       <member refid="classEngineAPI_1a5926bb0c4f894e3fdf6f27f9364f93c3" prot="public" virt="non-virtual"><scope>EngineAPI</scope><name>release</name></member>

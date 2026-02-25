@@ -4,7 +4,9 @@
     <compoundname>Debug.h</compoundname>
     <includes local="no">iostream</includes>
     <includes local="no">string</includes>
+    <includes local="no">fstream</includes>
     <includedby refid="Debug_8cpp" local="yes">C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Debug.cpp</includedby>
+    <includedby refid="main_8cpp" local="no">C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ExecutableProject/main.cpp</includedby>
     <incdepgraph>
       <node id="1">
         <label>C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Debug.h</label>
@@ -13,6 +15,11 @@
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>fstream</label>
       </node>
       <node id="2">
         <label>iostream</label>
@@ -21,18 +28,55 @@
         <label>string</label>
       </node>
     </incdepgraph>
-    <innerclass refid="classDebug" prot="public">Debug</innerclass>
+    <innerclass refid="classchavalescore_1_1Debug" prot="public">chavalescore::Debug</innerclass>
+    <innernamespace refid="namespacechavalescore">chavalescore</innernamespace>
     <sectiondef kind="define">
-      <memberdef kind="define" id="Debug_8h_1a2d27ce184300288e60111b7873ac6aa3" prot="public" static="no">
-        <name>_Out</name>
-        <param><defname>...</defname></param>
+      <memberdef kind="define" id="Debug_8h_1a86adf6404f8577d4554f393198ca325e" prot="public" static="no">
+        <name>_File_Out</name>
+        <initializer>= true</initializer>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Debug.h" line="27" column="10" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Debug.h" bodystart="27" bodyend="-1"/>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Debug.h" line="68" column="9" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Debug.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="Debug_8h_1a2d27ce184300288e60111b7873ac6aa3" prot="public" static="no">
+        <name>_Out</name>
+        <param><defname>...</defname></param>
+        <initializer>std::cout &lt;&lt; &quot;[M] &quot; &lt;&lt; __VA_ARGS__ &lt;&lt; std::endl;\</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Debug.h" line="71" column="9" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Debug.h" bodystart="71" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="define" id="Debug_8h_1a842872d3db9e7538587a886a583e6f0f" prot="public" static="no">
+        <name>_Error</name>
+        <param><defname>...</defname></param>
+        <initializer>std::cout &lt;&lt; &quot;\033[1;31m[E] &quot; &lt;&lt; __VA_ARGS__ &lt;&lt; &quot;\033[0m&quot; &lt;&lt; std::endl;\</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Debug.h" line="82" column="9" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Debug.h" bodystart="82" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="define" id="Debug_8h_1a1ca870355cc9487eabbbe57277a9d8d0" prot="public" static="no">
+        <name>_Warnig</name>
+        <param><defname>...</defname></param>
+        <initializer>std::cout &lt;&lt; &quot;\033[1;33m[W] &quot; &lt;&lt; __VA_ARGS__ &lt;&lt; &quot;\033[0m&quot; &lt;&lt; std::endl;\</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Debug.h" line="88" column="9" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Debug.h" bodystart="88" bodyend="90"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

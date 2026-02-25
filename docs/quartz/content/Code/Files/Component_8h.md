@@ -7,11 +7,17 @@ title: C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Com
 
 
 
+## Namespaces
+
+| Name           |
+| -------------- |
+| **[ec](Namespaces/namespaceec.md)**  |
+
 ## Classes
 
 |                | Name           |
 | -------------- | -------------- |
-| class | **[Component](Classes/classComponent.md)**  |
+| class | **[ec::Component](Classes/classec_1_1Component.md)**  |
 
 
 
@@ -20,4 +26,4 @@ title: C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Com
 
 -------------------------------
 
-Updated on 2026-02-17 at 23:45:20 +0100
+Updated on 2026-02-25 at 10:42:50 +0100

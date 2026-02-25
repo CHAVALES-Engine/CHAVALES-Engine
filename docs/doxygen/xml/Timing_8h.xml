@@ -2,7 +2,20 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
   <compounddef id="Timing_8h" kind="file" language="C++">
     <compoundname>Timing.h</compoundname>
+    <includes local="no">cstdint</includes>
     <includedby refid="Timing_8cpp" local="yes">C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Timing.cpp</includedby>
+    <includedby refid="StateMachine_8cpp" local="yes">C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ExecutableProject/StateMachine.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Timing.h</label>
+        <link refid="Timing_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+    </incdepgraph>
     <innerclass refid="classTiming" prot="public">Timing</innerclass>
     <briefdescription>
     </briefdescription>

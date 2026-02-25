@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
+  <compounddef id="classComponentsRegister" kind="class" language="C++" prot="public">
+    <compoundname>ComponentsRegister</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classComponentsRegister_1a514fe31befc30ba3cafc8ec81a814653" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ComponentsRegister::ComponentsRegister</definition>
+        <argsstring>()</argsstring>
+        <name>ComponentsRegister</name>
+        <qualifiedname>ComponentsRegister::ComponentsRegister</qualifiedname>
+        <briefdescription>
+<para>Empty Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ExecutableProject/ComponentsRegister.h" line="15" column="1" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ExecutableProject/ComponentsRegister.cpp" bodystart="3" bodyend="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classComponentsRegister_1ad19a1c752d631a4b081c91642244b7ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ComponentsRegister::~ComponentsRegister</definition>
+        <argsstring>()</argsstring>
+        <name>~ComponentsRegister</name>
+        <qualifiedname>ComponentsRegister::~ComponentsRegister</qualifiedname>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ExecutableProject/ComponentsRegister.h" line="19" column="1" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ExecutableProject/ComponentsRegister.cpp" bodystart="7" bodyend="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classComponentsRegister_1afe52d78cd58399719a2d0ebdd49b254e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ComponentsRegister::create</definition>
+        <argsstring>(const std::string &amp;component)</argsstring>
+        <name>create</name>
+        <qualifiedname>ComponentsRegister::create</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>component</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ExecutableProject/ComponentsRegister.h" line="21" column="6" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ExecutableProject/ComponentsRegister.cpp" bodystart="16" bodyend="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ExecutableProject/ComponentsRegister.h" line="9" column="1" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ExecutableProject/ComponentsRegister.h" bodystart="10" bodyend="24"/>
+    <listofallmembers>
+      <member refid="classComponentsRegister_1a514fe31befc30ba3cafc8ec81a814653" prot="public" virt="non-virtual"><scope>ComponentsRegister</scope><name>ComponentsRegister</name></member>
+      <member refid="classComponentsRegister_1afe52d78cd58399719a2d0ebdd49b254e" prot="public" virt="non-virtual"><scope>ComponentsRegister</scope><name>create</name></member>
+      <member refid="classComponentsRegister_1ad19a1c752d631a4b081c91642244b7ad" prot="public" virt="non-virtual"><scope>ComponentsRegister</scope><name>~ComponentsRegister</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

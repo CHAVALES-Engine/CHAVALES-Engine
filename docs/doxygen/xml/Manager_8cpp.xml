@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
+  <compounddef id="Manager_8cpp" kind="file" language="C++">
+    <compoundname>Manager.cpp</compoundname>
+    <includes refid="Manager_8h" local="yes">Manager.h</includes>
+    <innernamespace refid="namespaceecs">ecs</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Manager.cpp"/>
+  </compounddef>
+</doxygen>

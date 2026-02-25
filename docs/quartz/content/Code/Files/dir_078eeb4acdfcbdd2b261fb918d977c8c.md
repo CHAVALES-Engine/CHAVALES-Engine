@@ -12,9 +12,6 @@ title: C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/RenderMo
 | Name           |
 | -------------- |
 | **[C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/RenderModule/RenderModule.cpp](Files/RenderModule_8cpp.md#file-rendermodule.cpp)**  |
-| **[C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/RenderModule/framework.h](Files/RenderModule_2framework_8h.md#file-framework.h)**  |
-| **[C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/RenderModule/pch.cpp](Files/RenderModule_2pch_8cpp.md#file-pch.cpp)**  |
-| **[C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/RenderModule/pch.h](Files/RenderModule_2pch_8h.md#file-pch.h)**  |
 
 
 
@@ -23,4 +20,4 @@ title: C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/RenderMo
 
 -------------------------------
 
-Updated on 2026-02-17 at 23:45:20 +0100
+Updated on 2026-02-25 at 10:42:50 +0100

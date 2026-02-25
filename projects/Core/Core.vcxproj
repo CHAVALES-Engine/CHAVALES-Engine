@@ -159,8 +159,8 @@
     <ClInclude Include="..\..\src\Core\Component.h" />
     <ClInclude Include="..\..\src\Core\Debug.h" />
     <ClInclude Include="..\..\src\Core\Entity.h" />
-    <ClInclude Include="..\..\src\Core\framework.h" />
     <ClInclude Include="..\..\src\Core\Maths.h" />
+    <ClInclude Include="..\..\src\Core\Scene.h" />
     <ClInclude Include="..\..\src\Core\Timing.h" />
     <ClInclude Include="..\..\src\Core\Vector2.h" />
     <ClInclude Include="..\..\src\Core\Vector3.h" />
@@ -173,6 +173,7 @@
     <ClCompile Include="..\..\src\Core\Debug.cpp" />
     <ClCompile Include="..\..\src\Core\Entity.cpp" />
     <ClCompile Include="..\..\src\Core\Maths.cpp" />
+    <ClCompile Include="..\..\src\Core\Scene.cpp" />
     <ClCompile Include="..\..\src\Core\Timing.cpp" />
     <ClCompile Include="..\..\src\Core\Vector2.cpp" />
     <ClCompile Include="..\..\src\Core\Vector3.cpp" />

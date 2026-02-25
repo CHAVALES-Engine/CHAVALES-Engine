@@ -8,7 +8,7 @@
 
 PlatformModule::PlatformModule()
 {
-	
+
 }
 
 PlatformModule::~PlatformModule()
@@ -27,25 +27,20 @@ bool PlatformModule::Init()
 	if (_renderer == nullptr) return false;
 
 
+	SDL_PropertiesID _props = SDL_GetWindowProperties(_window);
 
-	SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 250);
+	_windowHandle = (HWND*)SDL_GetPointerProperty(_props, SDL_PROP_WINDOW_WIN32_HWND_POINTER, NULL);
+
+	if (!_windowHandle) return false;
+
+	/*SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 250);
 	SDL_RenderClear(_renderer);
-	SDL_RenderPresent(_renderer);
+	SDL_RenderPresent(_renderer);*/
 
 	return true;
 }
 
-SDL_Window* PlatformModule::getWindow() const
+const HWND* PlatformModule::getWindowHandle() const
 {
-	return _window;
-}
-
-SDL_Renderer* PlatformModule::getRenderer() const
-{
-	return _renderer;
-}
-
-void PlatformModule::present() const
-{
-	SDL_RenderPresent(_renderer);
+	return _windowHandle;
 }

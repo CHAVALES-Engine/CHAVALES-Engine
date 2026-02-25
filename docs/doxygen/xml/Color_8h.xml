@@ -2,8 +2,137 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
   <compounddef id="Color_8h" kind="file" language="C++">
     <compoundname>Color.h</compoundname>
+    <includes refid="Vector4_8h" local="yes">Vector4.h</includes>
     <includedby refid="Color_8cpp" local="yes">C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Color.cpp</includedby>
     <innerclass refid="classColor" prot="public">Color</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="Color_8h_1a6a803e85caaadef48114db4397b5c477" prot="public" static="yes" mutable="no">
+        <type>const <ref refid="classVector4" kindref="compound">Vector4</ref></type>
+        <definition>const Vector4 BLACK</definition>
+        <argsstring></argsstring>
+        <name>BLACK</name>
+        <initializer>= <ref refid="classVector4" kindref="compound">Vector4</ref>(0.0, 0.0, 0.0, 1.0)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Color.h" line="9" column="22" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Color.h" bodystart="9" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="Color_8h_1a749e9616edf430a183d8d79a95e8fbad" prot="public" static="yes" mutable="no">
+        <type>const <ref refid="classVector4" kindref="compound">Vector4</ref></type>
+        <definition>const Vector4 WHITE</definition>
+        <argsstring></argsstring>
+        <name>WHITE</name>
+        <initializer>= <ref refid="classVector4" kindref="compound">Vector4</ref>(1.0, 1.0, 1.0, 1.0)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Color.h" line="10" column="22" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Color.h" bodystart="10" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="Color_8h_1aa04770fbe3c0de13320e99067f1209e7" prot="public" static="yes" mutable="no">
+        <type>const <ref refid="classVector4" kindref="compound">Vector4</ref></type>
+        <definition>const Vector4 CLEAR</definition>
+        <argsstring></argsstring>
+        <name>CLEAR</name>
+        <initializer>= <ref refid="classVector4" kindref="compound">Vector4</ref>(0.0, 0.0, 0.0, 0.0)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Color.h" line="11" column="22" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Color.h" bodystart="11" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="Color_8h_1a140bfc520026d5298f3f1814d51bfae5" prot="public" static="yes" mutable="no">
+        <type>const <ref refid="classVector4" kindref="compound">Vector4</ref></type>
+        <definition>const Vector4 RED</definition>
+        <argsstring></argsstring>
+        <name>RED</name>
+        <initializer>= <ref refid="classVector4" kindref="compound">Vector4</ref>(1.0, 0.0, 0.0, 1.0)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Color.h" line="12" column="22" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Color.h" bodystart="12" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="Color_8h_1a339c582f44a490815a28acf59fce8ee6" prot="public" static="yes" mutable="no">
+        <type>const <ref refid="classVector4" kindref="compound">Vector4</ref></type>
+        <definition>const Vector4 GREEN</definition>
+        <argsstring></argsstring>
+        <name>GREEN</name>
+        <initializer>= <ref refid="classVector4" kindref="compound">Vector4</ref>(0.0, 1.0, 0.0, 1.0)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Color.h" line="13" column="22" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Color.h" bodystart="13" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="Color_8h_1ab50351b0eabb99052f7961870896e268" prot="public" static="yes" mutable="no">
+        <type>const <ref refid="classVector4" kindref="compound">Vector4</ref></type>
+        <definition>const Vector4 BLUE</definition>
+        <argsstring></argsstring>
+        <name>BLUE</name>
+        <initializer>= <ref refid="classVector4" kindref="compound">Vector4</ref>(0.0, 0.0, 1.0, 1.0)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Color.h" line="14" column="22" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Color.h" bodystart="14" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="Color_8h_1a5a05bde920c53a4cd4cfe94e60d8ba75" prot="public" static="yes" mutable="no">
+        <type>const <ref refid="classVector4" kindref="compound">Vector4</ref></type>
+        <definition>const Vector4 CYAN</definition>
+        <argsstring></argsstring>
+        <name>CYAN</name>
+        <initializer>= <ref refid="classVector4" kindref="compound">Vector4</ref>(0.0, 1.0, 1.0, 1.0)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Color.h" line="15" column="22" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Color.h" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="Color_8h_1affb531573acb3c33bc538789d3c6102a" prot="public" static="yes" mutable="no">
+        <type>const <ref refid="classVector4" kindref="compound">Vector4</ref></type>
+        <definition>const Vector4 MAGENTA</definition>
+        <argsstring></argsstring>
+        <name>MAGENTA</name>
+        <initializer>= <ref refid="classVector4" kindref="compound">Vector4</ref>(1.0, 0.0, 1.0, 1.0)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Color.h" line="16" column="22" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Color.h" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="Color_8h_1adf7d13d6f417afe3726f51992e5d7e1b" prot="public" static="yes" mutable="no">
+        <type>const <ref refid="classVector4" kindref="compound">Vector4</ref></type>
+        <definition>const Vector4 YELLOW</definition>
+        <argsstring></argsstring>
+        <name>YELLOW</name>
+        <initializer>= <ref refid="classVector4" kindref="compound">Vector4</ref>(1.0, 0.92, 0.016, 1.0)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Color.h" line="17" column="22" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Color.h" bodystart="17" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
