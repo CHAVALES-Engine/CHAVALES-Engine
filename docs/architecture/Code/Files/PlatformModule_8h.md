@@ -11,7 +11,7 @@ title: C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Platform
 
 |                | Name           |
 | -------------- | -------------- |
-| class | **[PlatformModule](Classes/classPlatformModule.md)**  |
+| class | **[PlatformModule](Classes/classPlatformModule.md)** <br>Modulo de Plataforma.  |
 
 
 
@@ -20,4 +20,4 @@ title: C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Platform
 
 -------------------------------
 
-Updated on 2026-02-17 at 23:45:20 +0100
+Updated on 2026-02-25 at 10:42:50 +0100

@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
+  <compounddef id="StateMachine_8h" kind="file" language="C++">
+    <compoundname>StateMachine.h</compoundname>
+    <includes local="no">memory</includes>
+    <includes local="no">unordered_map</includes>
+    <includedby refid="StateMachine_8cpp" local="yes">C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ExecutableProject/StateMachine.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ExecutableProject/StateMachine.h</label>
+        <link refid="StateMachine_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>memory</label>
+      </node>
+      <node id="3">
+        <label>unordered_map</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classStateMachine" prot="public">StateMachine</innerclass>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="StateMachine_8h_1a6da129e4ca11c30b01208ad0d4c618a6" prot="public" static="no">
+        <type>uint32_t</type>
+        <definition>using sceneID = uint32_t</definition>
+        <argsstring></argsstring>
+        <name>sceneID</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ExecutableProject/StateMachine.h" line="8" column="1" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ExecutableProject/StateMachine.h" bodystart="8" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="StateMachine_8h_1ab6e0acb222adb8739be0b916cff56a1c" prot="public" static="no">
+        <type>std::shared_ptr&lt; Scene &gt;</type>
+        <definition>using scenePtr = std::shared_ptr&lt;Scene&gt;</definition>
+        <argsstring></argsstring>
+        <name>scenePtr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ExecutableProject/StateMachine.h" line="9" column="1" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ExecutableProject/StateMachine.h" bodystart="9" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="StateMachine_8h_1ad90cef867d1ecca282cbe3438143fc44" prot="public" static="no">
+        <type>std::pair&lt; sceneID, scenePtr &gt;</type>
+        <definition>using scene = std::pair&lt;sceneID, scenePtr&gt;</definition>
+        <argsstring></argsstring>
+        <name>scene</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ExecutableProject/StateMachine.h" line="10" column="1" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ExecutableProject/StateMachine.h" bodystart="10" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="StateMachine_8h_1ae5ce3d4af31bf7cf9526e6e0f3d9577b" prot="public" static="no">
+        <type>std::unordered_map&lt; sceneID, scenePtr &gt;</type>
+        <definition>using stateMachine = std::unordered_map&lt;sceneID, scenePtr&gt;</definition>
+        <argsstring></argsstring>
+        <name>stateMachine</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ExecutableProject/StateMachine.h" line="12" column="1" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ExecutableProject/StateMachine.h" bodystart="12" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ExecutableProject/StateMachine.h"/>
+  </compounddef>
+</doxygen>

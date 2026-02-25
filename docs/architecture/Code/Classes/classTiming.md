@@ -9,6 +9,37 @@ title: Timing
 
 
 
+## Public Functions
+
+|                | Name           |
+| -------------- | -------------- |
+| | **[Timing](Classes/classTiming.md#function-timing)**() =default |
+| uint32_t | **[deltaTime](Classes/classTiming.md#function-deltatime)**() |
+| | **[~Timing](Classes/classTiming.md#function-~timing)**() =default |
+
+## Public Functions Documentation
+
+### function Timing
+
+```cpp
+Timing() =default
+```
+
+
+### function deltaTime
+
+```cpp
+static inline uint32_t deltaTime()
+```
+
+
+### function ~Timing
+
+```cpp
+~Timing() =default
+```
+
+
 -------------------------------
 
-Updated on 2026-02-17 at 23:45:20 +0100
+Updated on 2026-02-25 at 10:42:50 +0100

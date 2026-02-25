@@ -7,6 +7,7 @@
     <includes local="no">stdio.h</includes>
     <includes local="no">stdlib.h</includes>
     <includes refid="EngineAPI_8h" local="yes">EngineAPI.h</includes>
+    <includes refid="Debug_8h" local="no">Debug.h</includes>
     <incdepgraph>
       <node id="1">
         <label>C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ExecutableProject/main.cpp</label>
@@ -67,7 +68,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ExecutableProject/main.cpp" line="14" column="5" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ExecutableProject/main.cpp" bodystart="14" bodyend="20"/>
+        <location file="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ExecutableProject/main.cpp" line="17" column="5" bodyfile="C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ExecutableProject/main.cpp" bodystart="17" bodyend="49"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
