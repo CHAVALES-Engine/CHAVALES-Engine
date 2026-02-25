@@ -1,11 +1,13 @@
 #include "StateMachine.h"
 
+#include <chrono>
 #include <stdexcept>
 
 #include "Timing.h"
 #include "../Core/Scene.h"
 
-StateMachine::StateMachine()
+StateMachine::StateMachine() :
+	_endGame(false)
 {
 
 }
@@ -17,14 +19,21 @@ StateMachine::~StateMachine()
 
 void StateMachine::gameLoop()
 {
-	// getTicks de SDL
-	// uint32_t startTime = deltaTime;
+	auto startTime = std::chrono::high_resolution_clock::now();
 
-	// uint32_t elapsed = deltaTime + startTime;
-
-	while (true) 
+	while (!_endGame) // bucle de juego
 	{
-		_currentScene.second->fixedUpdate();
+		_deltaTime = (std::chrono::duration_cast<std::chrono::milliseconds>
+			(std::chrono::high_resolution_clock::now() - startTime)).count();
+
+		Timing::DELTA_TIME = _deltaTime; // para acceso general desde Timing
+
+		if (_deltaTime >= Timing::FRAME_RATE)
+		{
+			_currentScene.second->fixedUpdate();
+			startTime = std::chrono::high_resolution_clock::now();
+		}
+
 		_currentScene.second->update();
 		_currentScene.second->render();
 	}
@@ -57,4 +66,16 @@ void StateMachine::deleteScene(sceneID s)
 	}
 
 	_stateMachine.erase(itS);
+}
+
+uint64_t StateMachine::parseNameToID(std::string n)
+{
+	auto itN = _nameToID.find(n);
+	if (itN == _nameToID.end())
+	{
+		// gestion de errores etc...
+		throw std::domain_error("No existe escena en el mapa");
+	}
+
+	return itN->second;
 }
