@@ -2,6 +2,7 @@
 #include "EngineAPI.h"
 
 #include "PlatformModule.h"
+#include "AudioModule.h"
 
 EngineAPI* EngineAPI::_instance = nullptr;
 
@@ -21,6 +22,7 @@ void EngineAPI::release()
 {
 	if (_instance) {
 		delete _instance->_platformModule;
+		delete _instance->_audioModule;
 		delete _instance;
 		_instance = nullptr;
 	}
@@ -49,6 +51,14 @@ bool EngineAPI::_initPriv()
 	if (!_platformModule->Init())
 	{
 		delete _platformModule;
+		return false;
+	}
+
+	_audioModule = new AudioModule();
+
+	if (!_audioModule->Init())
+	{
+		delete _audioModule;
 		return false;
 	}
 	return true;
