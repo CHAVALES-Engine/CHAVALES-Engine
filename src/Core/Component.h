@@ -2,10 +2,10 @@
  * @file
  * @brief 
  * This file was adapted from a part of the course TPV2@UCM - Samir Genaim
+ * 
+ * TODO: MESSAGES
  */
-
 #pragma once
-
 #include "ec.h"
 
 namespace ec {
@@ -23,30 +23,32 @@ namespace ec {
  */
 class Component {
 public:
-	Component() : ent(), enabled()
-	{
-		
-	}
-
+	Component();
 	// Destroys the component.
-	// Careful! ent_ and mngr_ should not be destroyed
-	//
+	// Careful! entity should not be destroyed
 	virtual ~Component() { }
 
+	// --- SETTERS
 	// This method is used to set the entity in which the component is
-	// installed. It will be called by Manager when adding
-	// a component.
-	//
-	inline void setEntity(Entity *e) {
-		ent = e;
-	}
+	// installed. 
+	void setEntity(Entity* e);
+	// ...
+	void enable();
+	// ...
+	void disable();
 
+	// --- GETTERS
+	// ...
+	const Entity* getEntity() const;
+	// ...
+	bool isEnabled() const;
+
+	// --- LIFECYCLE
 	// ...
 	virtual void onCreate() { }
 
 	// We assume that init will be called when adding a
 	// component to an entity, immediately after setEntity.
-	//
 	virtual void init() { }
 
 	// ...
@@ -55,14 +57,12 @@ public:
 	// A component has an update method, and by default it
 	// does nothing -- some components will not override this
 	// method.
-	//
-	virtual void update() { }
+	virtual void update(double deltaTime) { }
 
 	// A component has a render method, and by default it
 	// does nothing -- some components will not override this
 	// method.
-	//
-	virtual void render() { }
+	virtual void render() const { }
 
 	// ...
 	virtual void onDisable() { }
@@ -71,8 +71,8 @@ public:
 	virtual void onDestroy() { }
 
 protected: // we allow direct use these fields from subclasses
-	Entity *ent; // a pointer to the entity, should not be deleted on destruction
-	bool enabled;
+	Entity *entity; // a pointer to the entity, should not be deleted on destruction
+	bool enabled; // if the component is currently active
 
 	//void (Component::*createFunc)() = &onCreate;
 	//void (Component::*destroyFunc)() = &onDestroy;

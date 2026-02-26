@@ -1,5 +1,8 @@
-// This file is part of the course TPV2@UCM - Samir Genaim
-
+/*
+ * @file
+ * @brief
+ * This file was adapted from a part of the course TPV2@UCM - Samir Genaim
+ */
 #pragma once
 
 #include <cstdint>
