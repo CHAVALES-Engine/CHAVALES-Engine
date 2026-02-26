@@ -1,4 +1,4 @@
-#include "RenderModule.h"
+﻿#include "RenderModule.h"
 #include <OgreRoot.h>
 #include <OgreRenderWindow.h>
 #include <OgreRenderSystem.h>
@@ -6,6 +6,9 @@
 #include <iostream>
 // RenderModule.cpp : Defines the functions for the static library.
 //
+
+static Ogre::Root* _root = nullptr;
+static Ogre::RenderWindow* _window = nullptr;
 
 bool RenderModule::Init(const HWND* handle, int width, int height)
 {
@@ -46,16 +49,15 @@ bool RenderModule::Init(const HWND* handle, int width, int height)
 
 void RenderModule::renderFrame()
 {
-	if (_root)
-	{
-		_root->renderOneFrame();
-	}
+    if (_root)
+    {
+        _root->renderOneFrame();
+    }
 }
 
 void RenderModule::shutdown()
 {
-	delete _root;
-	_root = nullptr;
-	_window = nullptr;
+    delete _root;
+    _root = nullptr;
+    _window = nullptr;
 }
-

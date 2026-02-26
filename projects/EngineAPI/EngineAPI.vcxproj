@@ -127,6 +127,7 @@
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)src\PlatformModule\;$(SolutionDir)src\RenderModule\</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -134,8 +135,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)libs\PlatformModule;$(SolutionDir)libs\RenderModule</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(SolutionDir)libs\PlatformModule\PlatformModule_r.lib;$(SolutionDir)libs\RenderModule\RenderModule_r.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\PlatformModule\;$(SolutionDir)libs\RenderModule\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>PlatformModule_d.lib;RenderModule_d.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -159,8 +160,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)libs\PlatformModule;$(SolutionDir)libs\RenderModule</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(SolutionDir)libs\PlatformModule\PlatformModule_r.lib;$(SolutionDir)libs\RenderModule\RenderModule_r.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\PlatformModule\;$(SolutionDir)libs\RenderModule\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>PlatformModule_r.lib;RenderModule_r.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>

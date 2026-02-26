@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 /**
 * @file ComponentsLoader
 * @brief ComponentsRegister contains methods to instantiate dll components.
@@ -20,7 +20,7 @@ public:
 	*/
 	~ComponentsRegister();
 	bool regist(const std::string &name, const ComponentFactory & factory);
-	bool create(const std::string &component);
+	//bool create(const std::string &component);
 private:
 	std::unordered_map<std::string, void (*)()> components;
 };

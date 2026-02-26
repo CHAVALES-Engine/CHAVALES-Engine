@@ -1,4 +1,4 @@
-#include "ComponentsRegister.h"
+﻿#include "ComponentsRegister.h"
 #include <Component.h>
 
 ComponentsRegister::ComponentsRegister()
@@ -15,7 +15,7 @@ bool ComponentsRegister::regist(const std::string& name, const ComponentFactory&
 	return true;
 }
 
-bool ComponentsRegister::create(const std::string& name)
+/*bool ComponentsRegister::create(const std::string& name)
 {
-	//return components[name]()
-}
+	return components[name]()
+}*/

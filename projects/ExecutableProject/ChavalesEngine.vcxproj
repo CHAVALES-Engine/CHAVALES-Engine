@@ -136,12 +136,13 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)src\EngineAPI\;$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)dependencies\;$(SolutionDir)dependencies\lua\;$(SolutionDir)src\Core\;$(SolutionDir)dependencies\lua\src\</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile />
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)libs;$(SolutionDir)dependencies;$(SolutionDir)dependencies\lua;$(SolutionDir)dependencies\lua\src;$(SolutionDir)dependencies\fmod\lib\x64;$(SolutionDir)libs\EngineAPI\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(SolutionDir)libs\EngineAPI\EngineAPI_d.lib;$(SolutionDir)libs\Core\Core_d.lib;$(SolutionDir)dependencies\lua\LuaBuild.lib;fmodL_vc.lib;fmodstudio_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\;$(SolutionDir)dependencies\;$(SolutionDir)dependencies\lua;$(SolutionDir)dependencies\lua\src;$(SolutionDir)dependencies\fmod\lib\x64;$(SolutionDir)libs\EngineAPI\;$(SolutionDir)libs\RenderModule\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>EngineAPI_d.lib;$(SolutionDir)libs\Core\Core_d.lib;$(SolutionDir)dependencies\lua\LuaBuild.lib;fmodL_vc.lib;fmodstudio_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
