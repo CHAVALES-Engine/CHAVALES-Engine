@@ -4,7 +4,8 @@
 #include <stdexcept>
 
 #include "Timing.h"
-#include "../Core/Scene.h"
+#include <Scene.h>
+#include <Engine.h>
 
 StateMachine::StateMachine() :
 	_endGame(false)
@@ -26,7 +27,7 @@ void StateMachine::gameLoop()
 		_deltaTime = (std::chrono::duration_cast<std::chrono::milliseconds>
 			(std::chrono::high_resolution_clock::now() - startTime)).count();
 
-		Timing::DELTA_TIME = _deltaTime; // para acceso general desde Timing
+		Engine::instance()->setDeltaTime(_deltaTime); // para acceso general desde Timing
 
 		if (_deltaTime >= Timing::FRAME_RATE)
 		{

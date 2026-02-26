@@ -33,12 +33,16 @@ PlatformModule* Engine::getPlatform()
 	return _instance->_platformModule;
 }
 
-UINT64 Engine::getDeltatime()
+void Engine::setDeltaTime(uint64_t const deltaTime)
 {
-	return _platformModule->getSecSinceStart();
 }
 
-UINT64 Engine::getSecSinceStart()
+const uint64_t Engine::DeltaTime()
+{
+	return _instance->_deltaTime;
+}
+
+const uint64_t Engine::getSecSinceStart() const
 {
 	return _platformModule->getSecSinceStart();
 }

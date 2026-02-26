@@ -1,21 +1,16 @@
 #include "ComponentsRegister.h"
+#include <Debug.h>
+#include <Component.h>
 
-ComponentsRegister::ComponentsRegister()
-{
-}
 
-ComponentsRegister::~ComponentsRegister()
-{
-}
-
-bool ComponentsRegister::regist(const std::string& name, const ComponentFactory& factory)
-{
-	
-	//components[name] = factory.create;
+bool ComponentsRegister::regist(const std::string& name, ec::ComponentFactory factory)
+{	
+	_components[name] = factory;
 	return true;
 }
 
-bool ComponentsRegister::create(const std::string& name)
+
+ec::Component* ComponentsRegister::create(const std::string& name)
 {
-	//return components[name]()
+	return _components[name]();
 }

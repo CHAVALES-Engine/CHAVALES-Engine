@@ -6,22 +6,33 @@
 #include <unordered_map>
 #include <string>
 
-struct ComponentFactory;
+namespace ec {
+	class Component;
+
+	// Definimos el tipo de puntero a función estilo C
+	typedef ec::Component* (*ComponentFactory)();
+}
 
 class ComponentsRegister
 {
 public:
-	/**
-	* @brief Empty Constructor
+	/*
+	* @brief Registra un componente en el mapa, con su constructor
 	*/
-	ComponentsRegister();
-	/**
-	* @brief Destructor
+	bool regist(const std::string &name, ec::ComponentFactory factory);
+	/*
+	* @brief 
+	*	Crea el componente pedido usando su funcion asignada
+	* 
+	* @return Component* - Puntero al componente creado
 	*/
-	~ComponentsRegister();
-	bool regist(const std::string &name, const ComponentFactory & factory);
-	bool create(const std::string &component);
+	ec::Component* create(const std::string& name);
 private:
-	std::unordered_map<std::string, void (*)()> components;
+	/*
+	* @brief 
+	*	Unordered map:
+	*		nombre de componente (clave) - puntero a funcion constructora (valor)
+	*/
+	std::unordered_map<std::string, ec::ComponentFactory> _components;
 };
 

@@ -3,6 +3,9 @@
  * @file EngineAPI.cpp
  * @brief Defines the functions for the EngineAPI static library.
  */
+
+#include <cstdint>
+
 class PlatformModule;
 class AudioModule;
 
@@ -30,16 +33,22 @@ public:
 	static PlatformModule* getPlatform();
 	/*
 	* @brief
-	*	Devuelve el tiempo en segundos entre renderizado de frames
-	* @return UINT64 - tiempo en segundos entre renderizado de frames
+	*	Devuelve el tiempo en segundos desde que se inicializo el motor
+	* @return uint64_t - tiempo en segundos desde que se inicializo el motor
 	*/
-	UINT64 getDeltatime();
+	void setDeltaTime(uint64_t const deltaTime);
+	/*
+	* @brief
+	*	Devuelve el tiempo en segundos entre renderizado de frames
+	* @return uint64_t - tiempo en segundos entre renderizado de frames
+	*/
+	static const uint64_t DeltaTime();
 	/*
 	* @brief
 	*	Devuelve el tiempo en segundos desde que se inicializo el motor
-	* @return UINT64 - tiempo en segundos desde que se inicializo el motor
+	* @return uint64_t - tiempo en segundos desde que se inicializo el motor
 	*/
-	UINT64 getSecSinceStart();
+	const uint64_t getSecSinceStart() const;
 
 private:
 	/*
@@ -62,5 +71,9 @@ private:
 	*	Referencia al modulo de audio
 	*/
 	AudioModule* _audioModule = nullptr;
-
+	/*
+	* @brief
+	*	DeltaTime, segundos entre renderizado de frames
+	*/
+	uint64_t _deltaTime = 0.0;
 };

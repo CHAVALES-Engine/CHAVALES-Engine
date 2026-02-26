@@ -9,14 +9,14 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "EngineAPI.h"
+#include "Engine.h"
 #include <Debug.h>
 
 using namespace chavalescore;
 
 int main(int argc, char* argv[]) {
 
-	EngineAPI::init();
+	Engine::init();
 
 #ifdef _File_Out
 	std::ofstream file;
