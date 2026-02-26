@@ -13,7 +13,7 @@ class RenderModule
 {
 public:
 
-    bool Init(const HWND* handle, int width, int height);
+    bool Init(const HWND handle, int width, int height);
     void renderFrame();
     //void resize(int width, int height);
     void shutdown();

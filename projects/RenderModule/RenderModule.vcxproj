@@ -124,7 +124,7 @@
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)dependencies\ogre\include\;$(SolutionDir)dependencies\ogre\OgreMain\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)dependencies\ogre\include\;$(SolutionDir)dependencies\ogre\OgreMain\include\;$(SolutionDir)dependencies\ogre\RenderSystems\GLSupport\include\;$(SolutionDir)dependencies\ogre\RenderSystems\GL3Plus\include\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -148,7 +148,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)dependencies\ogre\include\;$(SolutionDir)dependencies\ogre\OgreMain\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)dependencies\ogre\include\;$(SolutionDir)dependencies\ogre\OgreMain\include\;$(SolutionDir)dependencies\ogre\RenderSystems\GLSupport\include\;$(SolutionDir)dependencies\ogre\RenderSystems\GL3Plus\include\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
