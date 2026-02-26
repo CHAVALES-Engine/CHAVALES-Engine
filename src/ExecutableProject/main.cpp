@@ -16,7 +16,7 @@ using namespace chavalescore;
 
 int main(int argc, char* argv[]) {
 
-	//EngineAPI::init();
+	EngineAPI::init();
 
 	// Ejemplos de debug:
 	Debug::open();
