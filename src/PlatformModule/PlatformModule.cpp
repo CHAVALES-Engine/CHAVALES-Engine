@@ -44,3 +44,9 @@ const HWND* PlatformModule::getWindowHandle() const
 {
 	return _windowHandle;
 }
+
+const UINT64 PlatformModule::getSecSinceStart() const
+{
+	// Multiplicamos para pasarlo a segundos
+	return SDL_GetTicks() * 0.0001;
+}

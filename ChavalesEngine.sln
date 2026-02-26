@@ -8,11 +8,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExecutableProject", "projec
 		{5B787F09-4BB5-4B4F-A22E-7FE1BF6A0F7B} = {5B787F09-4BB5-4B4F-A22E-7FE1BF6A0F7B}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EngineAPI", "projects\EngineAPI\EngineAPI.vcxproj", "{5B787F09-4BB5-4B4F-A22E-7FE1BF6A0F7B}"
-	ProjectSection(ProjectDependencies) = postProject
-		{0EB183EE-3578-4ADA-9962-55E9B7457F17} = {0EB183EE-3578-4ADA-9962-55E9B7457F17}
-	EndProjectSection
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Core", "projects\Core\Core.vcxproj", "{0EB183EE-3578-4ADA-9962-55E9B7457F17}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RenderModule", "projects\RenderModule\RenderModule.vcxproj", "{11FAA6EE-0C54-44CF-BEA5-824CE5179B93}"
@@ -27,6 +22,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AudioModule", "projects\Aud
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "projects\Engine\Engine.vcxproj", "{5B787F09-4BB5-4B4F-A22E-7FE1BF6A0F7B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -37,10 +34,6 @@ Global
 		{1A992CB8-3F93-493F-855B-0C6E431D3D96}.Debug|x64.Build.0 = Debug|x64
 		{1A992CB8-3F93-493F-855B-0C6E431D3D96}.Release|x64.ActiveCfg = Release|x64
 		{1A992CB8-3F93-493F-855B-0C6E431D3D96}.Release|x64.Build.0 = Release|x64
-		{5B787F09-4BB5-4B4F-A22E-7FE1BF6A0F7B}.Debug|x64.ActiveCfg = Debug|x64
-		{5B787F09-4BB5-4B4F-A22E-7FE1BF6A0F7B}.Debug|x64.Build.0 = Debug|x64
-		{5B787F09-4BB5-4B4F-A22E-7FE1BF6A0F7B}.Release|x64.ActiveCfg = Release|x64
-		{5B787F09-4BB5-4B4F-A22E-7FE1BF6A0F7B}.Release|x64.Build.0 = Release|x64
 		{0EB183EE-3578-4ADA-9962-55E9B7457F17}.Debug|x64.ActiveCfg = Debug|x64
 		{0EB183EE-3578-4ADA-9962-55E9B7457F17}.Debug|x64.Build.0 = Debug|x64
 		{0EB183EE-3578-4ADA-9962-55E9B7457F17}.Release|x64.ActiveCfg = Release|x64
@@ -65,6 +58,10 @@ Global
 		{0F00E9ED-47E0-430B-8260-175E8ED22F2E}.Debug|x64.Build.0 = Debug|x64
 		{0F00E9ED-47E0-430B-8260-175E8ED22F2E}.Release|x64.ActiveCfg = Release|x64
 		{0F00E9ED-47E0-430B-8260-175E8ED22F2E}.Release|x64.Build.0 = Release|x64
+		{5B787F09-4BB5-4B4F-A22E-7FE1BF6A0F7B}.Debug|x64.ActiveCfg = Debug|x64
+		{5B787F09-4BB5-4B4F-A22E-7FE1BF6A0F7B}.Debug|x64.Build.0 = Debug|x64
+		{5B787F09-4BB5-4B4F-A22E-7FE1BF6A0F7B}.Release|x64.ActiveCfg = Release|x64
+		{5B787F09-4BB5-4B4F-A22E-7FE1BF6A0F7B}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

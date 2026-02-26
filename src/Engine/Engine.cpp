@@ -1,24 +1,24 @@
 
-#include "EngineAPI.h"
+#include "Engine.h"
 
 #include "PlatformModule.h"
 #include "AudioModule.h"
 
-EngineAPI* EngineAPI::_instance = nullptr;
+Engine* Engine::_instance = nullptr;
 
-bool EngineAPI::init()
+bool Engine::init()
 {
-	if (_instance == nullptr) _instance = new EngineAPI();
+	if (_instance == nullptr) _instance = new Engine();
 
 	return _instance->_initPriv();
 }
 
-EngineAPI* EngineAPI::instance()
+Engine* Engine::instance()
 {
 	return _instance;
 }
 
-void EngineAPI::release()
+void Engine::release()
 {
 	if (_instance) {
 		delete _instance->_platformModule;
@@ -28,22 +28,22 @@ void EngineAPI::release()
 	}
 }
 
-PlatformModule* EngineAPI::getPlatform()
+PlatformModule* Engine::getPlatform()
 {
 	return _instance->_platformModule;
 }
 
-EngineAPI::EngineAPI()
+UINT64 Engine::getDeltatime()
 {
-
+	return _platformModule->getSecSinceStart();
 }
 
-EngineAPI::~EngineAPI()
+UINT64 Engine::getSecSinceStart()
 {
-
+	return _platformModule->getSecSinceStart();
 }
 
-bool EngineAPI::_initPriv()
+bool Engine::_initPriv()
 {
 
 	_platformModule = new PlatformModule();

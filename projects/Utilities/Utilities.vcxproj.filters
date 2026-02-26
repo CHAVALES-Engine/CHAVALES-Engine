@@ -15,15 +15,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\EngineAPI\framework.h">
+    <ClInclude Include="..\..\src\Utilities\Timing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\EngineAPI\EngineAPI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\EngineAPI\EngineAPI.cpp">
+    <ClCompile Include="..\..\src\Utilities\Timing.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

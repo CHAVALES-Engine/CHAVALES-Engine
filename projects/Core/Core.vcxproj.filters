@@ -27,9 +27,6 @@
     <ClInclude Include="..\..\src\Core\Maths.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Core\Timing.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\Core\Vector4.h">
       <Filter>Header Files</Filter>
     </ClInclude>

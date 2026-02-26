@@ -31,7 +31,6 @@ public:
 	* Elimina la ventana, el renderer y hace el Quit de SDL
 	*/
 	~PlatformModule();
-
 	/**
 	* @brief Inicializador de PlatformModule
 	*
@@ -39,29 +38,29 @@ public:
 	* @return bool - Si se ha creado correctamente
 	*/
 	bool Init();
-
-
 	/**
 	* @brief Devuelve el handle de la ventana de Windows
 	*		
 	* @return HWND - Hanlde de la ventana (internamente un id)
 	*/
 	const HWND* getWindowHandle() const;
-
+	/**
+	* @brief Devuelve el tiempo de ejecucion del programa
+	*
+	* @return UINT64 - Segundos desde que se inicializo la ventana
+	*/
+	const UINT64 getSecSinceStart() const;
 private:
 	/**
 	* @brief Ventana de SDL
-	*
 	*/
 	SDL_Window* _window = nullptr;
 	/**
 	* @brief Renderer de SDL
-	*
 	*/
 	SDL_Renderer* _renderer = nullptr;
 	/**
 	* @brief Manejador de la ventanda de Windows
-	*
 	*/
 	HWND* _windowHandle = nullptr;
 };

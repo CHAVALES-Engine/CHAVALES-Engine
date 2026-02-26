@@ -21,9 +21,10 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{0eb183ee-3578-4ada-9962-55e9b7457f17}</ProjectGuid>
-    <RootNamespace>Core</RootNamespace>
+    <ProjectGuid>{5b787f09-4bb5-4b4f-a22e-7fe1bf6a0f7b}</ProjectGuid>
+    <RootNamespace>EngineAPI</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Engine</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -126,13 +127,17 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)src\PlatformModule\;$(SolutionDir)src\AudioModule\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
       </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\PlatformModule;$(SolutionDir)libs\AudioModule</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(SolutionDir)libs\PlatformModule\PlatformModule_d.lib;$(SolutionDir)libs\AudioModule\AudioModule_d.lib</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -146,37 +151,23 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)src\PlatformModule\;$(SolutionDir)src\AudioModule\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
       </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\PlatformModule;$(SolutionDir)libs\AudioModule</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(SolutionDir)libs\PlatformModule\PlatformModule_r.lib;$(SolutionDir)libs\AudioModule\AudioModule_r.lib</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\Core\Color.h" />
-    <ClInclude Include="..\..\src\Core\Component.h" />
-    <ClInclude Include="..\..\src\Core\Debug.h" />
-    <ClInclude Include="..\..\src\Core\Entity.h" />
-    <ClInclude Include="..\..\src\Core\Maths.h" />
-    <ClInclude Include="..\..\src\Core\Scene.h" />
-    <ClInclude Include="..\..\src\Core\Vector2.h" />
-    <ClInclude Include="..\..\src\Core\Vector3.h" />
-    <ClInclude Include="..\..\src\Core\Vector4.h" />
+    <ClCompile Include="..\..\src\Engine\Engine.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\Core\Color.cpp" />
-    <ClCompile Include="..\..\src\Core\Component.cpp" />
-    <ClCompile Include="..\..\src\Core\Core.cpp" />
-    <ClCompile Include="..\..\src\Core\Debug.cpp" />
-    <ClCompile Include="..\..\src\Core\Entity.cpp" />
-    <ClCompile Include="..\..\src\Core\Maths.cpp" />
-    <ClCompile Include="..\..\src\Core\Scene.cpp" />
-    <ClCompile Include="..\..\src\Core\Timing.cpp" />
-    <ClCompile Include="..\..\src\Core\Vector2.cpp" />
-    <ClCompile Include="..\..\src\Core\Vector3.cpp" />
-    <ClCompile Include="..\..\src\Core\Vector4.cpp" />
+    <ClInclude Include="..\..\src\Engine\Engine.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
