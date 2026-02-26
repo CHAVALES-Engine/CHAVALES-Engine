@@ -13,7 +13,7 @@ class Engine
 {
 public:
 	/*
-	* @brief 
+	* @brief
 	*	Inicializacion de modulos
 	* @return bool - True si se ha inicializado correctamente
 	*/
@@ -33,22 +33,21 @@ public:
 	static PlatformModule* getPlatform();
 	/*
 	* @brief
-	*	Devuelve el tiempo en segundos desde que se inicializo el motor
-	* @return uint64_t - tiempo en segundos desde que se inicializo el motor
+	*	Devuelve actualiza el deltatime
 	*/
 	void setDeltaTime(uint64_t const deltaTime);
 	/*
 	* @brief
 	*	Devuelve el tiempo en segundos entre renderizado de frames
-	* @return uint64_t - tiempo en segundos entre renderizado de frames
+	* @return double - tiempo en segundos entre renderizado de frames
 	*/
-	static const uint64_t DeltaTime();
+	static const double DeltaTime();
 	/*
 	* @brief
 	*	Devuelve el tiempo en segundos desde que se inicializo el motor
-	* @return uint64_t - tiempo en segundos desde que se inicializo el motor
+	* @return double - tiempo en segundos desde que se inicializo el motor
 	*/
-	const uint64_t getSecSinceStart() const;
+	const double getSecSinceStart() const;
 
 private:
 	/*
@@ -75,5 +74,17 @@ private:
 	* @brief
 	*	DeltaTime, segundos entre renderizado de frames
 	*/
-	uint64_t _deltaTime = 0.0;
+	double _deltaTime = 0.0;
 };
+/*
+* @brief
+*	Atajo para el DeltaTime
+*	segundos entre renderizado de frames
+*/
+#define DELTA_TIME Engine::DeltaTime()
+/*
+* @brief
+*	Atajo para el tiempo total
+*	DeltaTime, segundos entre renderizado de frames
+*/
+#define TIME_SINCE_START Engine::instance()->getSecSinceStart()

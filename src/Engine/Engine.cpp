@@ -37,12 +37,12 @@ void Engine::setDeltaTime(uint64_t const deltaTime)
 {
 }
 
-const uint64_t Engine::DeltaTime()
+const double Engine::DeltaTime()
 {
 	return _instance->_deltaTime;
 }
 
-const uint64_t Engine::getSecSinceStart() const
+const double Engine::getSecSinceStart() const
 {
 	return _platformModule->getSecSinceStart();
 }
