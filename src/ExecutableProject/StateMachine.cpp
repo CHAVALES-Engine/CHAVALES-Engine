@@ -7,10 +7,11 @@
 #include <Scene.h>
 #include <Engine.h>
 
+uint64_t StateMachine::_nextId = 0;
+
 StateMachine::StateMachine() :
 	_endGame(false)
 {
-
 }
 
 StateMachine::~StateMachine()
@@ -27,7 +28,7 @@ void StateMachine::gameLoop()
 		_deltaTime = (std::chrono::duration_cast<std::chrono::milliseconds>
 			(std::chrono::high_resolution_clock::now() - startTime)).count();
 
-		Engine::instance()->setDeltaTime(_deltaTime); // para acceso general desde Timing
+		Engine::instance()->setDeltaTime(_deltaTime); // para acceso general
 
 		if (_deltaTime >= Timing::FRAME_RATE)
 		{
@@ -40,9 +41,13 @@ void StateMachine::gameLoop()
 	}
 }
 
-void StateMachine::addScene(sceneID i, scenePtr s)
+void StateMachine::addScene(sceneName n, scenePtr s)
 {
-	_stateMachine.insert({i, s});
+	uint64_t id = _getNextId();
+
+	_stateMachine.insert({id, s});
+
+	_nameToID.insert({n, id});
 }
 
 void StateMachine::setScene(sceneID s)
@@ -69,7 +74,7 @@ void StateMachine::deleteScene(sceneID s)
 	_stateMachine.erase(itS);
 }
 
-uint64_t StateMachine::parseNameToID(std::string n)
+uint64_t StateMachine::_parseNameToID(std::string n)
 {
 	auto itN = _nameToID.find(n);
 	if (itN == _nameToID.end())

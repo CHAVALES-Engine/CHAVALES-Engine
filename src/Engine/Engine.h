@@ -33,21 +33,28 @@ public:
 	static PlatformModule* getPlatform();
 	/*
 	* @brief
-	*	Devuelve actualiza el deltatime
+	*	Actualiza deltaTime.
 	*/
-	void setDeltaTime(uint64_t const deltaTime);
-	/*
-	* @brief
-	*	Devuelve el tiempo en segundos entre renderizado de frames
-	* @return double - tiempo en segundos entre renderizado de frames
-	*/
-	static const double DeltaTime();
+	void setDeltaTime(uint64_t dT);
 	/*
 	* @brief
 	*	Devuelve el tiempo en segundos desde que se inicializo el motor
-	* @return double - tiempo en segundos desde que se inicializo el motor
+	* @return uint64_t - tiempo en segundos desde que se inicializo el motor
 	*/
-	const double getSecSinceStart() const;
+	uint64_t getSecSinceStart() const;
+
+	// -- Control de tiempo
+	/*
+	* @brief
+	*	Tiempo desde la ultima actualizacion.
+	*/
+	static uint64_t deltaTime;
+
+	/*
+	* @brief
+	*	Tasa de frames por ms.
+	*/
+	static const uint64_t FRAME_RATE = 1000 / 60; // 1000 ms / 60 frames
 
 private:
 	/*
@@ -70,21 +77,4 @@ private:
 	*	Referencia al modulo de audio
 	*/
 	AudioModule* _audioModule = nullptr;
-	/*
-	* @brief
-	*	DeltaTime, segundos entre renderizado de frames
-	*/
-	double _deltaTime = 0.0;
 };
-/*
-* @brief
-*	Atajo para el DeltaTime
-*	segundos entre renderizado de frames
-*/
-#define DELTA_TIME Engine::DeltaTime()
-/*
-* @brief
-*	Atajo para el tiempo total
-*	DeltaTime, segundos entre renderizado de frames
-*/
-#define TIME_SINCE_START Engine::instance()->getSecSinceStart()

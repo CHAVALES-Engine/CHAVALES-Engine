@@ -29,7 +29,7 @@ public:
 	 */
 	void gameLoop();
 
-	void addScene(sceneID i, scenePtr s);
+	void addScene(sceneName n, scenePtr s);
 	void setScene(sceneID s);
 
 	void deleteScene(sceneID s);
@@ -59,7 +59,7 @@ private:
 	/**
 	 * @brief Devuelve el ID interno asociado a la clave n.
 	 */
-	uint64_t parseNameToID(std::string n);
+	uint64_t _parseNameToID(std::string n);
 
 	/**
 	 * @brief Tiempo desde la ultima actualizacion.
@@ -85,5 +85,12 @@ private:
 	 * @brief Booleano de control de ejecucion del bucle de juego.
 	 */
 	bool _endGame = false;
+
+	/**
+	 * @brief Booleano de control de ejecucion del bucle de juego.
+	 */
+	static uint64_t _nextId;
+
+	static uint64_t _getNextId() { return ++_nextId; }
 };
 
