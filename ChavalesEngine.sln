@@ -24,7 +24,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{02EA
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "projects\Engine\Engine.vcxproj", "{5B787F09-4BB5-4B4F-A22E-7FE1BF6A0F7B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{3C4D35D5-52B0-440C-AA4C-DA6110C2B55C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3C4D35D5-52B0-440C-AA4C-DA6110C2B55C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestDLLLoader", "projects\Tests\DLLLoader-Test\TestDLLLoader\TestDLLLoader.vcxproj", "{5886497C-9B02-4B4E-A3D6-256478F4B036}"
 EndProject
