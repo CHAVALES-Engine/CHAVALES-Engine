@@ -23,18 +23,19 @@ StateMachine::~StateMachine()
 
 void StateMachine::gameLoop()
 {
-	Timing::startTime = Timing::calculateNow();
+	auto startTime = std::chrono::high_resolution_clock::now();
 
 	while (!_endGame) // bucle de juego
 	{
-		_deltaTime = Timing::calculateDeltaTime();
+		_deltaTime = (std::chrono::duration_cast<std::chrono::milliseconds>
+			(std::chrono::high_resolution_clock::now() - startTime)).count();
 
 		Timing::setDeltaTime(_deltaTime); // para acceso general
 
 		if (_deltaTime >= Timing::FRAME_RATE)
 		{
 			_currentScene.ptr->fixedUpdate();
-			Timing::startTime = Timing::calculateNow();
+			startTime = std::chrono::high_resolution_clock::now();
 		}
 
 		_currentScene.ptr->update(_deltaTime);

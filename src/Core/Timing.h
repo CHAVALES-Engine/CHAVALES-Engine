@@ -24,6 +24,12 @@ public:
 	*/
 	static const uint64_t FRAME_RATE = 1000 / 60; // 1000 ms / 60 frames
 
+	static inline void setDeltaTime(uint64_t dt)
+	{
+		deltaTime = dt;
+	}
+
+	/*
 	static std::chrono::time_point<std::chrono::high_resolution_clock> startTime;
 
 	static inline uint64_t calculateDeltaTime()
@@ -36,9 +42,5 @@ public:
 	{
 		return std::chrono::high_resolution_clock::now();
 	}
-
-	static inline void setDeltaTime(uint64_t dt)
-	{
-		deltaTime = dt;
-	}
+	*/
 };
