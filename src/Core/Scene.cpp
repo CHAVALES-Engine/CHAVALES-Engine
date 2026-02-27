@@ -1,5 +1,7 @@
 #include "Scene.h"
 
+#include <cstdint>
+
 Scene::Scene()
 {
 }
@@ -16,7 +18,7 @@ void Scene::onEnable()
 {
 }
 
-void Scene::onInit()
+void Scene::init()
 {
 }
 
@@ -24,7 +26,7 @@ void Scene::fixedUpdate()
 {
 }
 
-void Scene::update()
+void Scene::update(uint64_t dt)
 {
 }
 
