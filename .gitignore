@@ -428,3 +428,6 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# test
+[Tt]est/
