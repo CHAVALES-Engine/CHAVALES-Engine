@@ -9,7 +9,7 @@
 #include <utility>
 #include <cassert>
 
-namespace chavalescore
+namespace core
 {
 
 	/*//------ANSI codes:
