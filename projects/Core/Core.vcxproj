@@ -172,11 +172,9 @@
   <ItemGroup>
     <ClCompile Include="..\..\src\Core\Component.cpp" />
     <ClCompile Include="..\..\src\Core\Entity.cpp" />
-    <ClCompile Include="..\..\src\Core\Maths.cpp" />
     <ClCompile Include="..\..\src\Core\Quaternion.cpp" />
     <ClCompile Include="..\..\src\Core\Scene.cpp" />
     <ClCompile Include="..\..\src\Core\Transform.cpp" />
-    <ClCompile Include="U:\hlocal\Paigro\2526-Grupo03-ChavalesEngine\src\Core\Timer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
