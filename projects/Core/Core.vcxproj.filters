@@ -48,7 +48,7 @@
     <ClInclude Include="..\..\src\Core\Timing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="U:\hlocal\Paigro\2526-Grupo03-ChavalesEngine\src\Core\Timer.h">
+    <ClInclude Include="..\..\src\Core\Timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -66,6 +66,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="U:\hlocal\Paigro\2526-Grupo03-ChavalesEngine\src\Core\Timer.cpp">
+    <ClCompile Include="..\..\src\Core\Quaternion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
