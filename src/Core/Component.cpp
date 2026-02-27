@@ -1,25 +1,25 @@
 #include "Component.h"
 
-ec::Component::Component()
-	: entity(nullptr), enabled(true) 
+core::Component::Component()
+	: entity(nullptr), enabled(true)
 {
 }
 
-void ec::Component::setEntity(Entity* e)
+void core::Component::setEntity(Entity* e)
 {
 	entity = e;
 }
 
-void ec::Component::enable()
+void core::Component::enable()
 {
-	if (!enabled) 
+	if (!enabled)
 	{
 		enabled = true;
 		onEnable();
 	}
 }
 
-void ec::Component::disable()
+void core::Component::disable()
 {
 	if (enabled)
 	{
@@ -28,12 +28,12 @@ void ec::Component::disable()
 	}
 }
 
-const ec::Entity* ec::Component::getEntity() const
+const core::Entity* core::Component::getEntity() const
 {
 	return entity;
 }
 
-bool ec::Component::isEnabled() const
+bool core::Component::isEnabled() const
 {
 	return enabled;
 }

@@ -3,14 +3,14 @@
 #include <Component.h>
 
 
-bool ComponentsRegister::regist(const std::string& name, ec::ComponentFactory factory)
+bool ComponentsRegister::regist(const std::string& name, core::ComponentFactory factory)
 {	
 	_components[name] = factory;
 	return true;
 }
 
 
-ec::Component* ComponentsRegister::create(const std::string& name)
+core::Component* ComponentsRegister::create(const std::string& name)
 {
 	return _components[name]();
 }

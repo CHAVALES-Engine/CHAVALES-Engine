@@ -2,19 +2,18 @@
 #include "Component.h"
 #include "ec.h"
 
-ec::Entity::Entity() : 
+core::Entity::Entity() :
 	components(),
-    alive(true),
-    visible(true),
-    enabled(true),
-    scene(nullptr),
-    groupId(),
-    name()
+	alive(true),
+	visible(true),
+	enabled(true),
+	scene(nullptr),
+	groupId(),
+	name()
 {
-
 }
 
-ec::Entity::~Entity()
+core::Entity::~Entity()
 {
 	// we delete all available components
 	for (auto c : components)
@@ -24,23 +23,23 @@ ec::Entity::~Entity()
 	}
 }
 
-void ec::Entity::setAlive(bool a) { alive = a; }
-void ec::Entity::setVisible(bool v) { visible = v; }
-void ec::Entity::setEnabled(bool e) { enabled = e; }
-void ec::Entity::setScene(Scene* s) { scene = s; }
-void ec::Entity::setGroupId(grpId_t id) { groupId = id; }
-void ec::Entity::setName(const std::string& n) { name = n; }
+void core::Entity::setAlive(bool a) { alive = a; }
+void core::Entity::setVisible(bool v) { visible = v; }
+void core::Entity::setEnabled(bool e) { enabled = e; }
+void core::Entity::setScene(Scene* s) { scene = s; }
+void core::Entity::setGroupId(grpId_t id) { groupId = id; }
+void core::Entity::setName(const std::string& n) { name = n; }
 
-bool ec::Entity::isAlive() const { return alive; }
-bool ec::Entity::isVisible() const { return visible; }
-bool ec::Entity::isEnabled() const { return enabled; }
-const Scene* ec::Entity::getScene() const { return scene; }
-ec::grpId_t ec::Entity::getGroupId() const { return groupId; }
-//bool ec::Entity::inGroup(grpId_t id) const;
-const std::string& ec::Entity::getName() const { return name; }
-const std::vector<ec::Component*>& ec::Entity::getComponents() const { return components; }
+bool core::Entity::isAlive() const { return alive; }
+bool core::Entity::isVisible() const { return visible; }
+bool core::Entity::isEnabled() const { return enabled; }
+const Scene* core::Entity::getScene() const { return scene; }
+core::grpId_t core::Entity::getGroupId() const { return groupId; }
+//bool core::Entity::inGroup(grpId_t id) const;
+const std::string& core::Entity::getName() const { return name; }
+const std::vector<core::Component*>& core::Entity::getComponents() const { return components; }
 
-void ec::Entity::init()
+void core::Entity::init()
 {
 	for (Component* c : components)
 	{
@@ -48,7 +47,7 @@ void ec::Entity::init()
 	}
 }
 
-void ec::Entity::fixedUpdate()
+void core::Entity::fixedUpdate()
 {
 	if (!enabled) return;
 
@@ -59,7 +58,7 @@ void ec::Entity::fixedUpdate()
 	}
 }
 
-void ec::Entity::update(double deltatime)
+void core::Entity::update(double deltatime)
 {
 	if (!enabled) return;
 
@@ -70,7 +69,7 @@ void ec::Entity::update(double deltatime)
 	}
 }
 
-void ec::Entity::render() const
+void core::Entity::render() const
 {
 	if (!visible) return;
 
@@ -81,12 +80,12 @@ void ec::Entity::render() const
 	}
 }
 
-void ec::Entity::destroy()
+void core::Entity::destroy()
 {
 	alive = false;
 }
 
-void ec::Entity::enable()
+void core::Entity::enable()
 {
 	if (!enabled)
 	{
@@ -96,7 +95,7 @@ void ec::Entity::enable()
 	}
 }
 
-void ec::Entity::disable()
+void core::Entity::disable()
 {
 	if (enabled)
 	{
@@ -106,8 +105,8 @@ void ec::Entity::disable()
 	}
 }
 
-template <typename T, typename ... Ts>
-T* ec::Entity::addComponent(Ts&&... args)
+template <typename T, typename... Ts>
+T* core::Entity::addComponent(Ts&&... args)
 {
 	// evitando duplicados
 	// esto lo hace O(n)
@@ -125,14 +124,14 @@ T* ec::Entity::addComponent(Ts&&... args)
 }
 
 template <typename T>
-void ec::Entity::removeComponent()
+void core::Entity::removeComponent()
 {
-	for (auto it = components.begin(); it != components.end(); ++it) 
+	for (auto it = components.begin(); it != components.end(); ++it)
 	{
-		if (dynamic_cast<T*>(*it) != nullptr) 
+		if (dynamic_cast<T*>(*it) != nullptr)
 		{
 			(*it)->onDestroy();
-			delete* it;
+			delete*it;
 			*it = nullptr;
 			components.erase(it);
 			return;
@@ -141,9 +140,9 @@ void ec::Entity::removeComponent()
 }
 
 template <typename T>
-T* ec::Entity::getComponent() 
+T* core::Entity::getComponent()
 {
-	for (Component* c : components) 
+	for (Component* c : components)
 	{
 		if (T* ptr = dynamic_cast<T*>(c))
 			return ptr;
@@ -153,7 +152,7 @@ T* ec::Entity::getComponent()
 }
 
 template <typename T>
-bool ec::Entity::hasComponent() const
+bool core::Entity::hasComponent() const
 {
 	return getComponent<T>() != nullptr;
 }

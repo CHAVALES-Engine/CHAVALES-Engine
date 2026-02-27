@@ -30,9 +30,9 @@ void StateMachine::gameLoop()
 		_deltaTime = (std::chrono::duration_cast<std::chrono::milliseconds>
 			(std::chrono::high_resolution_clock::now() - startTime)).count();
 
-		Timing::setDeltaTime(_deltaTime); // para acceso general
+		core::Timing::setDeltaTime(_deltaTime); // para acceso general
 
-		if (_deltaTime >= Timing::FRAME_RATE)
+		if (_deltaTime >= core::Timing::FRAME_RATE)
 		{
 			_currentScene.ptr->fixedUpdate();
 			startTime = std::chrono::high_resolution_clock::now();

@@ -2,42 +2,42 @@
 
 #include <cstdint>
 
-Scene::Scene()
+core::Scene::Scene()
 {
 }
 
-Scene::~Scene()
+core::Scene::~Scene()
 {
 }
 
-void Scene::onCreate()
+void core::Scene::onCreate()
 {
 }
 
-void Scene::onEnable()
+void core::Scene::onEnable()
 {
 }
 
-void Scene::init()
+void core::Scene::init()
 {
 }
 
-void Scene::fixedUpdate()
+void core::Scene::fixedUpdate()
 {
 }
 
-void Scene::update(uint64_t dt)
+void core::Scene::update(uint64_t dt)
 {
 }
 
-void Scene::render()
+void core::Scene::render()
 {
 }
 
-void Scene::onDisable()
+void core::Scene::onDisable()
 {
 }
 
-void Scene::onDestroy()
+void core::Scene::onDestroy()
 {
 }

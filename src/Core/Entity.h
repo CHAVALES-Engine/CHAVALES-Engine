@@ -9,7 +9,7 @@
 
 class Scene;
 
-namespace ec
+namespace core
 {
 	class Entity
 	{

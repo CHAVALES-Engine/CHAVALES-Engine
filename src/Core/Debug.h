@@ -11,7 +11,6 @@
 
 namespace core
 {
-
 	/*//------ANSI codes:
 
 	"\033[x;...;y;zm texto
@@ -57,7 +56,6 @@ namespace core
 	class Debug
 	{
 	public:
-
 		/**
 		* @brief Enumerado con las distintas formas de hacer Debug.
 		*/
@@ -99,7 +97,7 @@ namespace core
 		* @param mode - Modo de Debug (DEBUG_CONS (solo consola), DEBUG_FILE (solo fichero) o DEBUG_BOTH (ambos)).
 		* @param ...args - Mensaje a escribir.
 		*/
-		template<typename... Args>
+		template <typename... Args>
 		static void out(DebugMode mode, Args&&... args)
 		{
 			_write(mode, "", "[M] ", "\n", std::forward<Args>(args)...);
@@ -112,7 +110,7 @@ namespace core
 		* @param mode - Modo de Debug (DEBUG_CONS (solo consola), DEBUG_FILE (solo fichero) o DEBUG_BOTH (ambos)).
 		* @param ...args - Mensaje a escribir.
 		*/
-		template<typename... Args>
+		template <typename... Args>
 		static void warning(DebugMode mode, Args&&... args)
 		{
 			_write(mode, "\033[1;33m", "[W] ", "\n", std::forward<Args>(args)...);
@@ -125,14 +123,13 @@ namespace core
 		* @param mode - Modo de Debug (DEBUG_CONS (solo consola), DEBUG_FILE (solo fichero) o DEBUG_BOTH (ambos)).
 		* @param ...args - Mensaje a escribir.
 		*/
-		template<typename... Args>
+		template <typename... Args>
 		static void error(DebugMode mode, Args&&... args)
 		{
 			_write(mode, "\033[1;31m", "[E] ", "\n", std::forward<Args>(args)...);
 		}
 
 	private:
-
 		/**
 		* @brief Esscribe en el sitio que debe el mensaje de Debug.
 		*
@@ -142,8 +139,8 @@ namespace core
 		* @param end - Final de mensaje.
 		* @param ...args - Mensaje a escribir.
 		*/
-		template<typename... Args>
-		static void _write(DebugMode mode, const char* color, const char* type, const char* end, Args&&...args)
+		template <typename... Args>
+		static void _write(DebugMode mode, const char* color, const char* type, const char* end, Args&&... args)
 		{
 			if (mode == DebugMode::DEBUG_CONS || mode == DebugMode::DEBUG_BOTH)
 			{
@@ -159,6 +156,7 @@ namespace core
 				_file << '\n';
 			}
 		}
+
 		/**
 		* @brief
 		* Archivo de salida del Debug.

@@ -7,7 +7,7 @@
 
 #include <cstdint>
 
-namespace ec 
+namespace core 
 {
 	// forward declaration of some classes, to be used when we
 	// just need to know that they exist

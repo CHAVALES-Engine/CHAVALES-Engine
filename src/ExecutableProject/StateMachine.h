@@ -7,12 +7,15 @@
 #include <string>
 #include <unordered_map>
 
-class Scene;
-class Timing;
+namespace core
+{
+	class Scene;
+	class Timing;
+}
 
 using sceneID = uint64_t;
 using sceneName = std::string;
-using scenePtr = std::shared_ptr<Scene>;
+using scenePtr = std::shared_ptr<core::Scene>;
 
 //using scene = std::pair<sceneID, scenePtr>;
 
