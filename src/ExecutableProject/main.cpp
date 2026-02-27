@@ -12,7 +12,7 @@
 #include "Engine.h"
 #include <Debug.h>
 
-using namespace chavalescore;
+using namespace core;
 
 int main(int argc, char* argv[]) {
 
