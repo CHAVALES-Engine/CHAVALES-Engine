@@ -51,6 +51,9 @@
     <ClInclude Include="..\..\src\Core\Timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\Core\Quaternion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Core\Entity.cpp">
@@ -64,9 +67,6 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Core\Transform.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Core\Timer.cpp">
-          <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Core\Quaternion.cpp">
       <Filter>Source Files</Filter>
