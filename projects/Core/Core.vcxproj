@@ -161,24 +161,19 @@
     <ClInclude Include="..\..\src\Core\Entity.h" />
     <ClInclude Include="..\..\src\Core\Maths.h" />
     <ClInclude Include="..\..\src\Core\Scene.h" />
+    <ClInclude Include="..\..\src\Core\Timing.h" />
     <ClInclude Include="..\..\src\Core\Transform.h" />
     <ClInclude Include="..\..\src\Core\Vector2.h" />
     <ClInclude Include="..\..\src\Core\Vector3.h" />
     <ClInclude Include="..\..\src\Core\Vector4.h" />
+    <ClInclude Include="U:\hlocal\Paigro\2526-Grupo03-ChavalesEngine\src\Core\Timer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\Core\Color.cpp" />
     <ClCompile Include="..\..\src\Core\Component.cpp" />
-    <ClCompile Include="..\..\src\Core\Core.cpp" />
-    <ClCompile Include="..\..\src\Core\Debug.cpp" />
     <ClCompile Include="..\..\src\Core\Entity.cpp" />
-    <ClCompile Include="..\..\src\Core\Maths.cpp" />
     <ClCompile Include="..\..\src\Core\Scene.cpp" />
-    <ClCompile Include="..\..\src\Core\Timing.cpp" />
     <ClCompile Include="..\..\src\Core\Transform.cpp" />
-    <ClCompile Include="..\..\src\Core\Vector2.cpp" />
-    <ClCompile Include="..\..\src\Core\Vector3.cpp" />
-    <ClCompile Include="..\..\src\Core\Vector4.cpp" />
+    <ClCompile Include="U:\hlocal\Paigro\2526-Grupo03-ChavalesEngine\src\Core\Timer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
