@@ -1,11 +1,12 @@
 /*
  * @file
- * @brief 
- * 
+ * @brief
+ *
  * TODO: MESSAGES
  */
 #pragma once
 #include <memory>
+#include <functional>
 
 #include "ec.h"
 
@@ -103,7 +104,21 @@ namespace core
 		Entity* entity; // a pointer to the entity, should not be deleted on destruction
 		bool enabled; // if the component is currently active
 
-		void (Component::*createFunc)() = &Component::onCreate;
-		void (Component::*destroyFunc)() = &Component::onDestroy;
+		void (Component::* createFunc)() = &Component::onCreate;
+		void (Component::* destroyFunc)() = &Component::onDestroy;
+	};
+
+
+	using ComponentFactory = std::function<std::unique_ptr<Component>()>;
+	struct ComponentDescriptor {
+		/*
+		* @brief Nombre del componente
+		*/
+		const char* name;
+
+		/*
+		* @brief Funcion creadora de un componente
+		*/
+		ComponentFactory factory;
 	};
 } // end of namespace

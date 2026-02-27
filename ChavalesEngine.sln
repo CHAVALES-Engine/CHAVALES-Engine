@@ -4,26 +4,48 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.14.36930.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExecutableProject", "projects\ExecutableProject\ChavalesEngine.vcxproj", "{1A992CB8-3F93-493F-855B-0C6E431D3D96}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0EB183EE-3578-4ADA-9962-55E9B7457F17} = {0EB183EE-3578-4ADA-9962-55E9B7457F17}
+		{19C229D6-650D-4440-8B69-512B9458618E} = {19C229D6-650D-4440-8B69-512B9458618E}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Core", "projects\Core\Core.vcxproj", "{0EB183EE-3578-4ADA-9962-55E9B7457F17}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RenderModule", "projects\RenderModule\RenderModule.vcxproj", "{11FAA6EE-0C54-44CF-BEA5-824CE5179B93}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0EB183EE-3578-4ADA-9962-55E9B7457F17} = {0EB183EE-3578-4ADA-9962-55E9B7457F17}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PlatformModule", "projects\PlatformModule\PlatformModule.vcxproj", "{C112B31D-E157-48ED-A97F-BD18EF719A0D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0EB183EE-3578-4ADA-9962-55E9B7457F17} = {0EB183EE-3578-4ADA-9962-55E9B7457F17}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PhysicsModule", "projects\PhysicsModule\PhysicsModule.vcxproj", "{D7BF9084-273E-4DC4-9243-904853677057}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0EB183EE-3578-4ADA-9962-55E9B7457F17} = {0EB183EE-3578-4ADA-9962-55E9B7457F17}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ResourcesModule", "projects\ResourcesModule\ResourcesModule.vcxproj", "{6A72929A-B2DB-425D-B679-FBE3B0255CD5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0EB183EE-3578-4ADA-9962-55E9B7457F17} = {0EB183EE-3578-4ADA-9962-55E9B7457F17}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AudioModule", "projects\AudioModule\AudioModule.vcxproj", "{0F00E9ED-47E0-430B-8260-175E8ED22F2E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0EB183EE-3578-4ADA-9962-55E9B7457F17} = {0EB183EE-3578-4ADA-9962-55E9B7457F17}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "projects\Engine\Engine.vcxproj", "{19C229D6-650D-4440-8B69-512B9458618E}"
 	ProjectSection(ProjectDependencies) = postProject
+		{0EB183EE-3578-4ADA-9962-55E9B7457F17} = {0EB183EE-3578-4ADA-9962-55E9B7457F17}
 		{0F00E9ED-47E0-430B-8260-175E8ED22F2E} = {0F00E9ED-47E0-430B-8260-175E8ED22F2E}
 		{11FAA6EE-0C54-44CF-BEA5-824CE5179B93} = {11FAA6EE-0C54-44CF-BEA5-824CE5179B93}
+		{6A72929A-B2DB-425D-B679-FBE3B0255CD5} = {6A72929A-B2DB-425D-B679-FBE3B0255CD5}
 		{C112B31D-E157-48ED-A97F-BD18EF719A0D} = {C112B31D-E157-48ED-A97F-BD18EF719A0D}
+		{D7BF9084-273E-4DC4-9243-904853677057} = {D7BF9084-273E-4DC4-9243-904853677057}
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3C4D35D5-52B0-440C-AA4C-DA6110C2B55C}"

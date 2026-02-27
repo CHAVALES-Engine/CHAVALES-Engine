@@ -12,11 +12,20 @@ DLLLoader::~DLLLoader()
 
 bool DLLLoader::load(const std::string& path)
 {
+	// Comprobamos duplicados
+	for (const auto& l : _libraries) {
+		if (l.path == path) {
+			core::Debug::error("DLL already loaded ", path);
+			return false;
+		}
+	}
+
 	HMODULE library = nullptr;// Base direction of module in memory
-
 	// Windows search a library and loads on program memory
-	if ((library = LoadLibraryA(path.c_str())) == nullptr) return false;
-
+	if ((library = LoadLibraryA(path.c_str())) == nullptr) {
+		core::Debug::error("LoadLibrary failde: ", path, " err=", GetLastError());
+		return false;
+	}
 	// TODO: register components
 
 	// Adds library handler to vector
