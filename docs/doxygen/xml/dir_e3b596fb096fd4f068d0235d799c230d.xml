@@ -3,6 +3,7 @@
   <compounddef id="dir_e3b596fb096fd4f068d0235d799c230d" kind="dir">
     <compoundname>C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/AudioModule</compoundname>
     <innerfile refid="AudioModule_8cpp">AudioModule.cpp</innerfile>
+    <innerfile refid="AudioModule_8h">AudioModule.h</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

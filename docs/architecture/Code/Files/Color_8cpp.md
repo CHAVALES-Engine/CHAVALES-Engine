@@ -14,4 +14,4 @@ title: C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Col
 
 -------------------------------
 
-Updated on 2026-02-25 at 10:42:50 +0100
+Updated on 2026-02-25 at 11:59:32 +0100
