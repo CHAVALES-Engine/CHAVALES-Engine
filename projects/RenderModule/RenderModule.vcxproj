@@ -124,13 +124,18 @@
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)dependencies\ogre\include\;$(SolutionDir)dependencies\ogre\OgreMain\include\;$(SolutionDir)dependencies\ogre\RenderSystems\GLSupport\include\;$(SolutionDir)dependencies\ogre\RenderSystems\GL3Plus\include\</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>
       </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependencies\ogre\lib\Debug\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Codec_AssimpStatic_d.lib;Codec_STBIStatic_d.lib;OgreGLSupportStatic_d.lib;OgreMainStatic_d.lib;Plugin_ParticleFXStatic_d.lib;RenderSystem_GL3PlusStatic_d.lib;RenderSystem_GLES2Static_d.lib;OgreOverlayStatic_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -143,17 +148,23 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)dependencies\ogre\include\;$(SolutionDir)dependencies\ogre\OgreMain\include\;$(SolutionDir)dependencies\ogre\RenderSystems\GLSupport\include\;$(SolutionDir)dependencies\ogre\RenderSystems\GL3Plus\include\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>
       </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependencies\ogre\lib\Release\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Codec_AssimpStatic.lib;Codec_STBIStatic.lib;OgreGLSupportStatic.lib;OgreMainStatic.lib;Plugin_ParticleFXStatic.lib;RenderSystem_GL3PlusStatic.lib;RenderSystem_GLES2Static.lib;OgreOverlayStatic.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\RenderModule\framework.h" />
+    <ClInclude Include="..\..\src\RenderModule\RenderModule.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\RenderModule\RenderModule.cpp" />

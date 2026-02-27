@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 /*
  * @file PlatformModule.h
  * @brief Define las funciones del Modulo de Plataforma
@@ -43,7 +43,7 @@ public:
 	*		
 	* @return HWND - Hanlde de la ventana (internamente un id)
 	*/
-	const HWND* getWindowHandle() const;
+	const HWND getWindowHandle() const;
 	/**
 	* @brief Devuelve el tiempo de ejecucion del programa
 	*
@@ -62,5 +62,5 @@ private:
 	/**
 	* @brief Manejador de la ventanda de Windows
 	*/
-	HWND* _windowHandle = nullptr;
+	HWND _windowHandle = nullptr;
 };

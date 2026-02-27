@@ -1,0 +1,8 @@
+C:/Users/ivani/OneDrive/Escritorio/build/zlib-1.3.1/CMakeFiles/zlib.dir
+C:/Users/ivani/OneDrive/Escritorio/build/zlib-1.3.1/CMakeFiles/zlibstatic.dir
+C:/Users/ivani/OneDrive/Escritorio/build/zlib-1.3.1/CMakeFiles/example.dir
+C:/Users/ivani/OneDrive/Escritorio/build/zlib-1.3.1/CMakeFiles/minigzip.dir
+C:/Users/ivani/OneDrive/Escritorio/build/zlib-1.3.1/CMakeFiles/RUN_TESTS.dir
+C:/Users/ivani/OneDrive/Escritorio/build/zlib-1.3.1/CMakeFiles/INSTALL.dir
+C:/Users/ivani/OneDrive/Escritorio/build/zlib-1.3.1/CMakeFiles/ALL_BUILD.dir
+C:/Users/ivani/OneDrive/Escritorio/build/zlib-1.3.1/CMakeFiles/ZERO_CHECK.dir

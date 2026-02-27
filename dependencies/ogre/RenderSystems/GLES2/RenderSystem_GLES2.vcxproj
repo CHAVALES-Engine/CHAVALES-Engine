@@ -1,0 +1,323 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{77D6E163-64D9-32F9-8372-135921C066E6}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>RenderSystem_GLES2</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)lib\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">RenderSystem_GLES2.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">RenderSystem_GLES2Static_d</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)lib\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">RenderSystem_GLES2.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">RenderSystem_GLES2Static</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">$(SolutionDir)lib\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">RenderSystem_GLES2.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">RenderSystem_GLES2Static</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">$(SolutionDir)lib\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">RenderSystem_GLES2.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">RenderSystem_GLES2Static</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.lib</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)RenderSystems\GLES2\src\GLSLES\include;$(SolutionDir)RenderSystems\GLES2\include;$(SolutionDir)OgreMain\include;$(SolutionDir)include;$(SolutionDir)OgreMain\src\zip;$(SolutionDir)RenderSystems\GLSupport\include;$(SolutionDir)RenderSystems\GLSupport\include\GLSL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /Zm256 /bigobj</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4661;4251;4275</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ForceConformanceInForLoopScope></ForceConformanceInForLoopScope>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RemoveUnreferencedCodeData></RemoveUnreferencedCodeData>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SupportJustMyCode></SupportJustMyCode>
+      <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;_MT;_USRDLL;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;_MT;_USRDLL;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)RenderSystems\GLES2\src\GLSLES\include;$(SolutionDir)RenderSystems\GLES2\include;$(SolutionDir)OgreMain\include;$(SolutionDir)include;$(SolutionDir)OgreMain\src\zip;$(SolutionDir)RenderSystems\GLSupport\include;$(SolutionDir)RenderSystems\GLSupport\include\GLSL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>$(SolutionDir)RenderSystems\GLES2\src\GLSLES\include;$(SolutionDir)RenderSystems\GLES2\include;$(SolutionDir)OgreMain\include;$(SolutionDir)include;$(SolutionDir)OgreMain\src\zip;$(SolutionDir)RenderSystems\GLSupport\include;$(SolutionDir)RenderSystems\GLSupport\include\GLSL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)RenderSystems\GLES2\src\GLSLES\include;$(SolutionDir)RenderSystems\GLES2\include;$(SolutionDir)OgreMain\include;$(SolutionDir)include;$(SolutionDir)OgreMain\src\zip;$(SolutionDir)RenderSystems\GLSupport\include;$(SolutionDir)RenderSystems\GLSupport\include\GLSL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /Zm256</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <DisableSpecificWarnings>4661;4251;4275</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ForceConformanceInForLoopScope></ForceConformanceInForLoopScope>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RemoveUnreferencedCodeData></RemoveUnreferencedCodeData>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SupportJustMyCode></SupportJustMyCode>
+      <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_MT;_USRDLL;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_MT;_USRDLL;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)RenderSystems\GLES2\src\GLSLES\include;$(SolutionDir)RenderSystems\GLES2\include;$(SolutionDir)OgreMain\include;$(SolutionDir)include;$(SolutionDir)OgreMain\src\zip;$(SolutionDir)RenderSystems\GLSupport\include;$(SolutionDir)RenderSystems\GLSupport\include\GLSL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>$(SolutionDir)RenderSystems\GLES2\src\GLSLES\include;$(SolutionDir)RenderSystems\GLES2\include;$(SolutionDir)OgreMain\include;$(SolutionDir)include;$(SolutionDir)OgreMain\src\zip;$(SolutionDir)RenderSystems\GLSupport\include;$(SolutionDir)RenderSystems\GLSupport\include\GLSL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)RenderSystems\GLES2\src\GLSLES\include;$(SolutionDir)RenderSystems\GLES2\include;$(SolutionDir)OgreMain\include;$(SolutionDir)include;$(SolutionDir)OgreMain\src\zip;$(SolutionDir)RenderSystems\GLSupport\include;$(SolutionDir)RenderSystems\GLSupport\include\GLSL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /Zm256</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <DisableSpecificWarnings>4661;4251;4275</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ForceConformanceInForLoopScope></ForceConformanceInForLoopScope>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RemoveUnreferencedCodeData></RemoveUnreferencedCodeData>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SupportJustMyCode></SupportJustMyCode>
+      <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_MT;_USRDLL;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_MT;_USRDLL;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)RenderSystems\GLES2\src\GLSLES\include;$(SolutionDir)RenderSystems\GLES2\include;$(SolutionDir)OgreMain\include;$(SolutionDir)include;$(SolutionDir)OgreMain\src\zip;$(SolutionDir)RenderSystems\GLSupport\include;$(SolutionDir)RenderSystems\GLSupport\include\GLSL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>$(SolutionDir)RenderSystems\GLES2\src\GLSLES\include;$(SolutionDir)RenderSystems\GLES2\include;$(SolutionDir)OgreMain\include;$(SolutionDir)include;$(SolutionDir)OgreMain\src\zip;$(SolutionDir)RenderSystems\GLSupport\include;$(SolutionDir)RenderSystems\GLSupport\include\GLSL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)RenderSystems\GLES2\src\GLSLES\include;$(SolutionDir)RenderSystems\GLES2\include;$(SolutionDir)OgreMain\include;$(SolutionDir)include;$(SolutionDir)OgreMain\src\zip;$(SolutionDir)RenderSystems\GLSupport\include;$(SolutionDir)RenderSystems\GLSupport\include\GLSL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /Zm256 /bigobj</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4661;4251;4275</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ForceConformanceInForLoopScope></ForceConformanceInForLoopScope>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RemoveUnreferencedCodeData></RemoveUnreferencedCodeData>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SupportJustMyCode></SupportJustMyCode>
+      <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_MT;_USRDLL;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_MT;_USRDLL;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)RenderSystems\GLES2\src\GLSLES\include;$(SolutionDir)RenderSystems\GLES2\include;$(SolutionDir)OgreMain\include;$(SolutionDir)include;$(SolutionDir)OgreMain\src\zip;$(SolutionDir)RenderSystems\GLSupport\include;$(SolutionDir)RenderSystems\GLSupport\include\GLSL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>$(SolutionDir)RenderSystems\GLES2\src\GLSLES\include;$(SolutionDir)RenderSystems\GLES2\include;$(SolutionDir)OgreMain\include;$(SolutionDir)include;$(SolutionDir)OgreMain\src\zip;$(SolutionDir)RenderSystems\GLSupport\include;$(SolutionDir)RenderSystems\GLSupport\include\GLSL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="$(SolutionDir)RenderSystems\GLES2\include\OgreGLES2FBORenderTexture.h" />
+    <ClInclude Include="$(SolutionDir)RenderSystems\GLES2\include\OgreGLES2FrameBufferObject.h" />
+    <ClInclude Include="$(SolutionDir)RenderSystems\GLES2\include\OgreGLES2HardwareBuffer.h" />
+    <ClInclude Include="$(SolutionDir)RenderSystems\GLES2\include\OgreGLES2HardwareBufferManager.h" />
+    <ClInclude Include="$(SolutionDir)RenderSystems\GLES2\include\OgreGLES2HardwareOcclusionQuery.h" />
+    <ClInclude Include="$(SolutionDir)RenderSystems\GLES2\include\OgreGLES2HardwarePixelBuffer.h" />
+    <ClInclude Include="$(SolutionDir)RenderSystems\GLES2\include\OgreGLES2ManagedResource.h" />
+    <ClInclude Include="$(SolutionDir)RenderSystems\GLES2\include\OgreGLES2ManagedResourceManager.h" />
+    <ClInclude Include="$(SolutionDir)RenderSystems\GLES2\include\OgreGLES2PixelFormat.h" />
+    <ClInclude Include="$(SolutionDir)RenderSystems\GLES2\include\OgreGLES2Plugin.h" />
+    <ClInclude Include="$(SolutionDir)RenderSystems\GLES2\include\OgreGLES2Prerequisites.h" />
+    <ClInclude Include="$(SolutionDir)RenderSystems\GLES2\include\OgreGLES2RenderSystem.h" />
+    <ClInclude Include="$(SolutionDir)RenderSystems\GLES2\include\OgreGLES2RenderToVertexBuffer.h" />
+    <ClInclude Include="$(SolutionDir)RenderSystems\GLES2\include\OgreGLES2StateCacheManager.h" />
+    <ClInclude Include="$(SolutionDir)RenderSystems\GLES2\include\OgreGLES2Texture.h" />
+    <ClInclude Include="$(SolutionDir)RenderSystems\GLES2\include\OgreGLES2TextureManager.h" />
+    <ClInclude Include="$(SolutionDir)include\OgreGLES2Exports.h" />
+    <ClInclude Include="$(SolutionDir)include\OgreGLES2Config.h" />
+    <ClInclude Include="$(SolutionDir)RenderSystems\GLES2\include\GLES3\gl3.h" />
+    <ClInclude Include="$(SolutionDir)RenderSystems\GLES2\include\GLES3\gl3platform.h" />
+    <ClInclude Include="$(SolutionDir)RenderSystems\GLES2\include\GLES3\glesw.h" />
+    <ClInclude Include="$(SolutionDir)RenderSystems\GLES2\include\KHR\khrplatform.h" />
+    <ClCompile Include="$(SolutionDir)RenderSystems\GLES2\src\OgreGLES2EngineDll.cpp" />
+    <ClCompile Include="$(SolutionDir)RenderSystems\GLES2\src\OgreGLES2FBORenderTexture.cpp" />
+    <ClCompile Include="$(SolutionDir)RenderSystems\GLES2\src\OgreGLES2FrameBufferObject.cpp" />
+    <ClCompile Include="$(SolutionDir)RenderSystems\GLES2\src\OgreGLES2HardwareBuffer.cpp" />
+    <ClCompile Include="$(SolutionDir)RenderSystems\GLES2\src\OgreGLES2HardwareBufferManager.cpp" />
+    <ClCompile Include="$(SolutionDir)RenderSystems\GLES2\src\OgreGLES2HardwareOcclusionQuery.cpp" />
+    <ClCompile Include="$(SolutionDir)RenderSystems\GLES2\src\OgreGLES2HardwarePixelBuffer.cpp" />
+    <ClCompile Include="$(SolutionDir)RenderSystems\GLES2\src\OgreGLES2ManagedResource.cpp" />
+    <ClCompile Include="$(SolutionDir)RenderSystems\GLES2\src\OgreGLES2ManagedResourceManager.cpp" />
+    <ClCompile Include="$(SolutionDir)RenderSystems\GLES2\src\OgreGLES2PixelFormat.cpp" />
+    <ClCompile Include="$(SolutionDir)RenderSystems\GLES2\src\OgreGLES2Plugin.cpp" />
+    <ClCompile Include="$(SolutionDir)RenderSystems\GLES2\src\OgreGLES2RenderSystem.cpp" />
+    <ClCompile Include="$(SolutionDir)RenderSystems\GLES2\src\OgreGLES2RenderToVertexBuffer.cpp" />
+    <ClCompile Include="$(SolutionDir)RenderSystems\GLES2\src\OgreGLES2StateCacheManager.cpp" />
+    <ClCompile Include="$(SolutionDir)RenderSystems\GLES2\src\OgreGLES2Texture.cpp" />
+    <ClCompile Include="$(SolutionDir)RenderSystems\GLES2\src\OgreGLES2TextureManager.cpp" />
+    <ClCompile Include="$(SolutionDir)RenderSystems\GLES2\src\glesw.c" />
+    <ClInclude Include="$(SolutionDir)RenderSystems\GLES2\src\GLSLES\include\OgreGLSLESCgProgram.h" />
+    <ClInclude Include="$(SolutionDir)RenderSystems\GLES2\src\GLSLES\include\OgreGLSLESCgProgramFactory.h" />
+    <ClInclude Include="$(SolutionDir)RenderSystems\GLES2\src\GLSLES\include\OgreGLSLESExtSupport.h" />
+    <ClInclude Include="$(SolutionDir)RenderSystems\GLES2\src\GLSLES\include\OgreGLSLESLinkProgram.h" />
+    <ClInclude Include="$(SolutionDir)RenderSystems\GLES2\src\GLSLES\include\OgreGLSLESProgram.h" />
+    <ClInclude Include="$(SolutionDir)RenderSystems\GLES2\src\GLSLES\include\OgreGLSLESProgramCommon.h" />
+    <ClInclude Include="$(SolutionDir)RenderSystems\GLES2\src\GLSLES\include\OgreGLSLESProgramManager.h" />
+    <ClInclude Include="$(SolutionDir)RenderSystems\GLES2\src\GLSLES\include\OgreGLSLESProgramPipeline.h" />
+    <ClCompile Include="$(SolutionDir)RenderSystems\GLES2\src\GLSLES\src\OgreGLSLESExtSupport.cpp" />
+    <ClCompile Include="$(SolutionDir)RenderSystems\GLES2\src\GLSLES\src\OgreGLSLESLinkProgram.cpp" />
+    <ClCompile Include="$(SolutionDir)RenderSystems\GLES2\src\GLSLES\src\OgreGLSLESProgram.cpp" />
+    <ClCompile Include="$(SolutionDir)RenderSystems\GLES2\src\GLSLES\src\OgreGLSLESProgramCommon.cpp" />
+    <ClCompile Include="$(SolutionDir)RenderSystems\GLES2\src\GLSLES\src\OgreGLSLESProgramManager.cpp" />
+    <ClCompile Include="$(SolutionDir)RenderSystems\GLES2\src\GLSLES\src\OgreGLSLESProgramPipeline.cpp" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="$(SolutionDir)RenderSystems\GLSupport\OgreGLSupport.vcxproj">
+      <Project>{CB1C601A-DF52-3590-8524-C9AD9B9DF92B}</Project>
+      <Name>OgreGLSupport</Name>
+    </ProjectReference>
+    <ProjectReference Include="$(SolutionDir)OgreMain\OgreMain.vcxproj">
+      <Project>{931D3ABA-2597-32F8-9057-F746FF40E225}</Project>
+      <Name>OgreMain</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

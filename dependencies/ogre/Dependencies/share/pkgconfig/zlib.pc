@@ -1,0 +1,13 @@
+prefix=C:/Users/ivani/OneDrive/Escritorio/build/Dependencies
+exec_prefix=C:/Users/ivani/OneDrive/Escritorio/build/Dependencies
+libdir=C:/Users/ivani/OneDrive/Escritorio/build/Dependencies/lib
+sharedlibdir=C:/Users/ivani/OneDrive/Escritorio/build/Dependencies/lib
+includedir=C:/Users/ivani/OneDrive/Escritorio/build/Dependencies/include
+
+Name: zlib
+Description: zlib compression library
+Version: 1.3.1
+
+Requires:
+Libs: -L${libdir} -L${sharedlibdir} -lz
+Cflags: -I${includedir}
