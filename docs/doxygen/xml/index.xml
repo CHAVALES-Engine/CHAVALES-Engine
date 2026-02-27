@@ -1,5 +1,15 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
 <doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.16.1" xml:lang="en-US">
+  <compound refid="classAudioModule" kind="class"><name>AudioModule</name>
+    <member refid="classAudioModule_1ad0e93b5b8b954c303e9a94d56775e1cd" kind="variable"><name>_system</name></member>
+    <member refid="classAudioModule_1aed5065430a35fb64b4daefe843e068f9" kind="variable"><name>_soundMap</name></member>
+    <member refid="classAudioModule_1ac1bc880a7c874619381f39b4e196d564" kind="function"><name>AudioModule</name></member>
+    <member refid="classAudioModule_1ace199fb1ffd25cfcf0a350b8c37f5b39" kind="function"><name>~AudioModule</name></member>
+    <member refid="classAudioModule_1ab2c4698c72009a948e7e40a776047877" kind="function"><name>Init</name></member>
+    <member refid="classAudioModule_1a03e715b4c22b8f63095a6894d14225bf" kind="function"><name>addSound</name></member>
+    <member refid="classAudioModule_1a439a7e837bccce2f8a15459a57f1f831" kind="function"><name>addStream</name></member>
+    <member refid="classAudioModule_1a268ab36b90ffeb21c6b6111be13eb46f" kind="function"><name>playSound</name></member>
+  </compound>
   <compound refid="classColor" kind="class"><name>Color</name>
     <member refid="classColor_1a6e4627389673c8b5cce81bf3eec79938" kind="function"><name>Color</name></member>
     <member refid="classColor_1a4283272f0b11c86651fc082dc403f461" kind="function"><name>getRed</name></member>
@@ -40,6 +50,7 @@
   <compound refid="classEngineAPI" kind="class"><name>EngineAPI</name>
     <member refid="classEngineAPI_1aa3aa9f46c1c13c02b27d5bc6dca30f19" kind="variable"><name>_instance</name></member>
     <member refid="classEngineAPI_1a9d32bb9e7d126ad94b0dbe0ff22add2d" kind="variable"><name>_platformModule</name></member>
+    <member refid="classEngineAPI_1a7d765ab248f9e7b143bdb7925d272165" kind="variable"><name>_audioModule</name></member>
     <member refid="classEngineAPI_1ae5056d9c61f8b1bf4ee4160afd0cfbe7" kind="function"><name>init</name></member>
     <member refid="classEngineAPI_1a678f121b1aaaa4caf66206159dbadcb1" kind="function"><name>instance</name></member>
     <member refid="classEngineAPI_1a5926bb0c4f894e3fdf6f27f9364f93c3" kind="function"><name>release</name></member>
@@ -237,8 +248,13 @@
   </compound>
   <compound refid="namespaceecs" kind="namespace"><name>ecs</name>
   </compound>
+  <compound refid="namespaceFMOD" kind="namespace"><name>FMOD</name>
+  </compound>
+  <compound refid="namespacestd" kind="namespace"><name>std</name>
+  </compound>
   <compound refid="AudioModule_8cpp" kind="file"><name>AudioModule.cpp</name>
-    <member refid="AudioModule_8cpp_1a41daa74cee90d7de7e774660b0a37646" kind="function"><name>fnAudioModule</name></member>
+  </compound>
+  <compound refid="AudioModule_8h" kind="file"><name>AudioModule.h</name>
   </compound>
   <compound refid="checkML_8h" kind="file"><name>checkML.h</name>
   </compound>
