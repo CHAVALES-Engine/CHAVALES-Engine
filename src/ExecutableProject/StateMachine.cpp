@@ -6,12 +6,14 @@
 #include "Timing.h"
 #include <Scene.h>
 #include <Engine.h>
+#include <iostream>
 
-uint64_t StateMachine::_nextId = 0;
+uint64_t StateMachine::_nextId = -1;
 
 StateMachine::StateMachine() :
 	_endGame(false)
 {
+	_deltaTime = 0;
 }
 
 StateMachine::~StateMachine()
@@ -21,33 +23,39 @@ StateMachine::~StateMachine()
 
 void StateMachine::gameLoop()
 {
-	auto startTime = std::chrono::high_resolution_clock::now();
+	Timing::startTime = Timing::calculateNow();
 
 	while (!_endGame) // bucle de juego
 	{
-		_deltaTime = (std::chrono::duration_cast<std::chrono::milliseconds>
-			(std::chrono::high_resolution_clock::now() - startTime)).count();
+		_deltaTime = Timing::calculateDeltaTime();
 
-		Engine::instance()->setDeltaTime(_deltaTime); // para acceso general
+		Timing::setDeltaTime(_deltaTime); // para acceso general
 
 		if (_deltaTime >= Timing::FRAME_RATE)
 		{
-			_currentScene.second->fixedUpdate();
-			startTime = std::chrono::high_resolution_clock::now();
+			_currentScene.ptr->fixedUpdate();
+			Timing::startTime = Timing::calculateNow();
 		}
 
-		_currentScene.second->update();
-		_currentScene.second->render();
+		_currentScene.ptr->update(_deltaTime);
+		_currentScene.ptr->render();
 	}
 }
 
 void StateMachine::addScene(sceneName n, scenePtr s)
 {
-	uint64_t id = _getNextId();
-
-	_stateMachine.insert({id, s});
-
-	_nameToID.insert({n, id});
+	// comprobar que no haya una escena con ese nombre ya
+	auto itN = _nameToID.find(n);
+	if (itN == _nameToID.end())
+	{
+		std::cout << "Ya hay una escena con el nombre " << n << '\n';
+	}
+	else
+	{
+		uint64_t id = _getNextId(); // genera id
+		_nameToID.insert({n, id}); // guarda la escena en el mapa de nombres e id
+		_stateMachine.insert({id, s}); // guarda la escena con id y puntero en la maquina de estados
+	}
 }
 
 void StateMachine::setScene(sceneID s)
@@ -55,11 +63,33 @@ void StateMachine::setScene(sceneID s)
 	auto itS = _stateMachine.find(s);
 	if (itS == _stateMachine.end())
 	{
+		throw std::domain_error("No existe escena en el mapa");
+	}
+	else
+	{
+		_currentScene = { itS->first, itS->second };
+	}
+}
+
+void StateMachine::goToScene(sceneName n)
+{
+	// busca si existe una escena con ese nombre
+	auto itS = _nameToID.find(n);
+	if (itS == _nameToID.end())
+	{
+		// gestion de errores etc...
+		throw std::domain_error("No existe escena con ese nombre");
+	}
+
+	auto itF = _stateMachine.find(itS->second);
+
+	if (itS == _nameToID.end())
+	{
 		// gestion de errores etc...
 		throw std::domain_error("No existe escena en el mapa");
 	}
 
-	_currentScene = { itS->first, itS->second };
+	_currentScene = { itF->first, itF->second };
 }
 
 void StateMachine::deleteScene(sceneID s)

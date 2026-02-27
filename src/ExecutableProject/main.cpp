@@ -18,23 +18,12 @@ int main(int argc, char* argv[]) {
 
 	Engine::init();
 
-#ifdef _File_Out
-	std::ofstream file;
-	std::streambuf* buf;
-	file.open("log.log");
-	buf = file.rdbuf();
-	std::cout.rdbuf(buf);
-#endif // _File_Out
-
-
-
-
-
 	// Ejemplos de debug:
-	_Out("Hola soy un ejemplo de mensaje normal con un int: " << 23 << "\nY una salto de linea.");
-	_Out("Otro ejemplo");
-	_Error("Hola soy un ejemplo de error.");
-	_Warnig("Hola soy un ejemplo de Warning");
+	Debug::open();
+	Debug::out(Debug::DebugMode::DEBUG_BOTH, "Hola soy un ejemplo de mensaje normal con un int: ", 23, "\nY una salto de linea.");
+	Debug::out(Debug::DebugMode::DEBUG_BOTH, "Otro ejemplo");
+	Debug::error(Debug::DebugMode::DEBUG_BOTH, "Hola soy un ejemplo de error.");
+	Debug::warning(Debug::DebugMode::DEBUG_BOTH, "Hola soy un ejemplo de Warning");
 
 	//sol::state lua;
 	//lua.script_file("variables.lua");
@@ -44,6 +33,5 @@ int main(int argc, char* argv[]) {
 	//sol::table config = lua["config"];
 	//assert(!isfullscreen)
 
-	file.close();
 	return 0;
 }

@@ -32,30 +32,6 @@ public:
 	* Idealmente este metodo sera eliminado
 	*/
 	static PlatformModule* getPlatform();
-	/*
-	* @brief
-	*	Actualiza deltaTime.
-	*/
-	void setDeltaTime(uint64_t dT);
-	/*
-	* @brief
-	*	Devuelve el tiempo en segundos desde que se inicializo el motor
-	* @return uint64_t - tiempo en segundos desde que se inicializo el motor
-	*/
-	uint64_t getSecSinceStart() const;
-
-	// -- Control de tiempo
-	/*
-	* @brief
-	*	Tiempo desde la ultima actualizacion.
-	*/
-	static uint64_t deltaTime;
-
-	/*
-	* @brief
-	*	Tasa de frames por ms.
-	*/
-	static const uint64_t FRAME_RATE = 1000 / 60; // 1000 ms / 60 frames
 
 private:
 	/*
