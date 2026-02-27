@@ -1,7 +1,7 @@
 #include "Component.h"
 
 ec::Component::Component()
-	: entity(), enabled() 
+	: entity(nullptr), enabled(true) 
 {
 }
 

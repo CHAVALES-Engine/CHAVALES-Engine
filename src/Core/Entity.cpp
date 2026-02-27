@@ -54,7 +54,8 @@ void ec::Entity::update(double deltatime)
 
 	for (Component* c : components)
 	{
-		c->update(deltatime);
+		if (c->isEnabled())
+			c->update(deltatime);
 	}
 }
 
@@ -64,7 +65,8 @@ void ec::Entity::render() const
 
 	for (Component* c : components)
 	{
-		c->render();
+		if (c->isEnabled())
+			c->render();
 	}
 }
 
@@ -105,10 +107,10 @@ T* ec::Entity::addComponent(Ts&&... args)
 	T* c = new T(std::forward<Ts>(args)...);
 
 	c->setEntity(this);
+	components.push_back(c);
 	c->onCreate();
 	c->init();
 
-	components.push_back(c);
 	return c;
 }
 
@@ -121,6 +123,7 @@ void ec::Entity::removeComponent()
 		{
 			(*it)->onDestroy();
 			delete* it;
+			*it = nullptr;
 			components.erase(it);
 			return;
 		}

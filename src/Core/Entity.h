@@ -49,6 +49,7 @@ namespace ec
 		void disable();
 
 		// --- EC
+		// O(n) para todos los siguientes métodos, 
 		template <typename T, typename... Ts>
 		T* addComponent(Ts&&... args);
 
