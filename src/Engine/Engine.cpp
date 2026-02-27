@@ -7,8 +7,6 @@
 
 Engine* Engine::_instance = nullptr;
 
-uint64_t Engine::deltaTime = 0;
-
 bool Engine::init()
 {
 	if (_instance == nullptr) _instance = new Engine();
@@ -35,16 +33,6 @@ void Engine::release()
 PlatformModule* Engine::getPlatform()
 {
 	return _instance->_platformModule;
-}
-
-void Engine::setDeltaTime(uint64_t dT)
-{
-	dT = deltaTime;
-}
-
-uint64_t Engine::getSecSinceStart() const
-{
-	return _platformModule->getSecSinceStart();
 }
 
 bool Engine::_initPriv()

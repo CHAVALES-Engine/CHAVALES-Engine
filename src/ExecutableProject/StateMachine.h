@@ -13,7 +13,14 @@ class Timing;
 using sceneID = uint64_t;
 using sceneName = std::string;
 using scenePtr = std::shared_ptr<Scene>;
-using scene = std::pair<sceneID, scenePtr>;
+
+//using scene = std::pair<sceneID, scenePtr>;
+
+struct scene 
+{
+	sceneID id = 0;
+	scenePtr ptr;
+};
 
 using stateMachine = std::unordered_map<sceneID, scenePtr>;
 using nameToID = std::unordered_map<sceneName, sceneID>;
@@ -32,24 +39,26 @@ public:
 	void addScene(sceneName n, scenePtr s);
 	void setScene(sceneID s);
 
+	void goToScene(sceneName n);
+
 	void deleteScene(sceneID s);
 
 	/**
 	 * @brief Devuelve el identificador de la escena activa actualmente.
 	 */
 	inline sceneID getCurrentScnID() const {
-		return _currentScene.first;
+		return _currentScene.id;
 	}
 
 	/**
 	 * @brief Devuelve un puntero a la escena activa actualmente.
 	 */
 	inline scenePtr getCurrentScnPtr() const {
-		return _currentScene.second;
+		return _currentScene.ptr;
 	}
 
 	/**
-	 * @brief Devuelve el pair<id,ptr> de la escena activa actualmente.
+	 * @brief Devuelve la escena activa actualmente.
 	 */
 	inline scene getCurrentScn() const {
 		return _currentScene;
