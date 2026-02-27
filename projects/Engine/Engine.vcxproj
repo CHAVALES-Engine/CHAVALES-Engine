@@ -138,6 +138,8 @@
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)libs\PlatformModule\;$(SolutionDir)libs\RenderModule\;$(SolutionDir)libs\AudioModule\</AdditionalLibraryDirectories>
       <AdditionalDependencies>PlatformModule_d.lib;RenderModule_d.lib;AudioModule_d.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\PlatformModule;$(SolutionDir)libs\PhysicsModule;$(SolutionDir)libs\AudioModule</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(SolutionDir)libs\PlatformModule\PlatformModule_d.lib;$(SolutionDir)libs\AudioModule\AudioModule_d.lib;$(SolutionDir)libs\PhysicsModule\PhysicsModule_d.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

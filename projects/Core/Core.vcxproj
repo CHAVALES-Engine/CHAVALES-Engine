@@ -160,6 +160,7 @@
     <ClInclude Include="..\..\src\Core\Debug.h" />
     <ClInclude Include="..\..\src\Core\Entity.h" />
     <ClInclude Include="..\..\src\Core\Maths.h" />
+    <ClInclude Include="..\..\src\Core\Quaternion.h" />
     <ClInclude Include="..\..\src\Core\Scene.h" />
     <ClInclude Include="..\..\src\Core\Timer.h" />
     <ClInclude Include="..\..\src\Core\Timing.h" />
@@ -171,6 +172,8 @@
   <ItemGroup>
     <ClCompile Include="..\..\src\Core\Component.cpp" />
     <ClCompile Include="..\..\src\Core\Entity.cpp" />
+    <ClCompile Include="..\..\src\Core\Maths.cpp" />
+    <ClCompile Include="..\..\src\Core\Quaternion.cpp" />
     <ClCompile Include="..\..\src\Core\Scene.cpp" />
     <ClCompile Include="..\..\src\Core\Transform.cpp" />
     <ClCompile Include="U:\hlocal\Paigro\2526-Grupo03-ChavalesEngine\src\Core\Timer.cpp" />

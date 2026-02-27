@@ -3,6 +3,7 @@
 
 #include "PlatformModule.h"
 #include "AudioModule.h"
+#include "PhysicsModule.h"
 
 Engine* Engine::_instance = nullptr;
 
@@ -25,6 +26,7 @@ void Engine::release()
 	if (_instance) {
 		delete _instance->_platformModule;
 		delete _instance->_audioModule;
+		delete _instance->_physicsModule;
 		delete _instance;
 		_instance = nullptr;
 	}
@@ -61,6 +63,14 @@ bool Engine::_initPriv()
 	if (!_audioModule->Init())
 	{
 		delete _audioModule;
+		return false;
+	}
+
+	_physicsModule = new PhysicsModule();
+
+	if (!_physicsModule->Init())
+	{
+		delete _physicsModule;
 		return false;
 	}
 	return true;
