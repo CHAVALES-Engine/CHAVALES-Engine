@@ -161,12 +161,12 @@
     <ClInclude Include="..\..\src\Core\Entity.h" />
     <ClInclude Include="..\..\src\Core\Maths.h" />
     <ClInclude Include="..\..\src\Core\Scene.h" />
+    <ClInclude Include="..\..\src\Core\Timer.h" />
     <ClInclude Include="..\..\src\Core\Timing.h" />
     <ClInclude Include="..\..\src\Core\Transform.h" />
     <ClInclude Include="..\..\src\Core\Vector2.h" />
     <ClInclude Include="..\..\src\Core\Vector3.h" />
     <ClInclude Include="..\..\src\Core\Vector4.h" />
-    <ClInclude Include="U:\hlocal\Paigro\2526-Grupo03-ChavalesEngine\src\Core\Timer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Core\Component.cpp" />
