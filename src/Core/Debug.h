@@ -49,8 +49,7 @@ namespace core
 	*
 	* @brief Para hacer mensajes de Debug.
 	*
-	* TODO: Timestamp.
-	PAIGRO AQUI.
+	* TODO: Timestamp. PAIGRO AQUI.
 	*
 	*/
 	class Debug
@@ -94,6 +93,18 @@ namespace core
 		* @brief Mensaje informativo.
 		* Escribe un mensaje informativo ([M]) y en color blanco en consola.
 		*
+		* @param ...args - Mensaje a escribir.
+		*/
+		template <typename... Args>
+		static void out(Args&&... args)
+		{
+			_write(DebugMode::DEBUG_BOTH, "", "[M] ", "\n", std::forward<Args>(args)...);
+		}
+
+		/**
+		* @brief SObrecarga de mensaje informativo.
+		* Escribe un mensaje informativo ([M]) y en color blanco en consola.
+		*
 		* @param mode - Modo de Debug (DEBUG_CONS (solo consola), DEBUG_FILE (solo fichero) o DEBUG_BOTH (ambos)).
 		* @param ...args - Mensaje a escribir.
 		*/
@@ -107,6 +118,18 @@ namespace core
 		* @brief Mensaje de aviso.
 		* Escribe un mensaje de aviso ([W]) y en color amarillo en consola.
 		*
+		* @param ...args - Mensaje a escribir.
+		*/
+		template <typename... Args>
+		static void warning(Args&&... args)
+		{
+			_write(DebugMode::DEBUG_BOTH, "\033[1;33m", "[W] ", "\n", std::forward<Args>(args)...);
+		}
+
+		/**
+		* @brief Sobrecarga de mensaje de aviso.
+		* Escribe un mensaje de aviso ([W]) y en color amarillo en consola.
+		*
 		* @param mode - Modo de Debug (DEBUG_CONS (solo consola), DEBUG_FILE (solo fichero) o DEBUG_BOTH (ambos)).
 		* @param ...args - Mensaje a escribir.
 		*/
@@ -118,6 +141,18 @@ namespace core
 
 		/**
 		* @brief Mensaje de error.
+		* Escribe un mensaje de error ([E]) y en color rojo en consola.
+		*
+		* @param ...args - Mensaje a escribir.
+		*/
+		template <typename... Args>
+		static void error(Args&&... args)
+		{
+			_write(DebugMode::DEBUG_BOTH, "\033[1;31m", "[E] ", "\n", std::forward<Args>(args)...);
+		}
+
+		/**
+		* @brief Sobrecarga de mensaje de error.
 		* Escribe un mensaje de error ([E]) y en color rojo en consola.
 		*
 		* @param mode - Modo de Debug (DEBUG_CONS (solo consola), DEBUG_FILE (solo fichero) o DEBUG_BOTH (ambos)).
@@ -151,6 +186,7 @@ namespace core
 
 			if (_file.is_open() && (mode == DebugMode::DEBUG_FILE || mode == DebugMode::DEBUG_BOTH))
 			{
+				//TODO: timestamp aqui solo en fichero. PAIGRO AQUI.
 				_file << type;
 				(_file << ... << args);
 				_file << '\n';
