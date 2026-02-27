@@ -48,6 +48,17 @@ void ec::Entity::init()
 	}
 }
 
+void ec::Entity::fixedUpdate()
+{
+	if (!enabled) return;
+
+	for (Component* c : components)
+	{
+		if (c->isEnabled())
+			c->fixedUpdate();
+	}
+}
+
 void ec::Entity::update(double deltatime)
 {
 	if (!enabled) return;
@@ -81,7 +92,7 @@ void ec::Entity::enable()
 	{
 		enabled = true;
 		for (auto c : components)
-			c->onEnable();
+			c->enable();
 	}
 }
 
@@ -91,16 +102,15 @@ void ec::Entity::disable()
 	{
 		enabled = false;
 		for (auto c : components)
-			c->onDisable();
+			c->disable();
 	}
 }
 
 template <typename T, typename ... Ts>
 T* ec::Entity::addComponent(Ts&&... args)
 {
-	// queriendo evitar duplicados, primera versión naif
-	// pero para eso sería mejor implementar la clase
-	// por ids por tipos de componente y un array como Samir...
+	// evitando duplicados
+	// esto lo hace O(n)
 	if (hasComponent<T>())
 		return getComponent<T>();
 

@@ -1,7 +1,6 @@
 /*
  * @file
  * @brief
- * This file was adapted from a part of the course TPV2@UCM - Samir Genaim
  */
 #pragma once
 #include <vector>
@@ -42,6 +41,7 @@ namespace ec
 
 		// --- LIFECYLE
 		void init();
+		void fixedUpdate();
 		void update(double deltaTime);
 		void render() const;
 		void destroy();
@@ -49,16 +49,19 @@ namespace ec
 		void disable();
 
 		// --- EC
-		// O(n) para todos los siguientes métodos, 
+		// O(n) 
 		template <typename T, typename... Ts>
 		T* addComponent(Ts&&... args);
 
+		// O(n) 
 		template <typename T>
 		void removeComponent();
 
+		// O(n)
 		template <typename T>
 		T* getComponent();
 
+		// O(n)
 		template <typename T>
 		bool hasComponent() const;
 

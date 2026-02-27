@@ -1,7 +1,6 @@
 /*
  * @file
  * @brief 
- * This file was adapted from a part of the course TPV2@UCM - Samir Genaim
  * 
  * TODO: MESSAGES
  */
@@ -54,6 +53,9 @@ public:
 	// ...
 	virtual void onEnable() { }
 
+	// ...
+	virtual void fixedUpdate() { }
+
 	// A component has an update method, and by default it
 	// does nothing -- some components will not override this
 	// method.
@@ -74,8 +76,8 @@ protected: // we allow direct use these fields from subclasses
 	Entity *entity; // a pointer to the entity, should not be deleted on destruction
 	bool enabled; // if the component is currently active
 
-	//void (Component::*createFunc)() = &onCreate;
-	//void (Component::*destroyFunc)() = &onDestroy;
+	void (Component::*createFunc)() = &Component::onCreate;
+	void (Component::*destroyFunc)() = &Component::onDestroy;
 };
 
 } // end of namespace
