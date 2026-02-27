@@ -17,9 +17,6 @@ namespace core
 		std::vector<Transform*> _children;
 
 	public:
-		Transform();
-		~Transform();
-
 		void setGlobalPosition(Vector3<>);
 		void setLocalPosition(Vector3<>);
 		void setPosition(Vector3<>);

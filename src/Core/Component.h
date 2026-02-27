@@ -5,6 +5,8 @@
  * TODO: MESSAGES
  */
 #pragma once
+#include <memory>
+
 #include "ec.h"
 
 namespace core
@@ -23,12 +25,6 @@ namespace core
 	class Component
 	{
 	public:
-		Component();
-		// Destroys the component.
-		// Careful! entity should not be destroyed
-		virtual ~Component()
-		{
-		}
 
 		// --- SETTERS
 		// This method is used to set the entity in which the component is
@@ -91,7 +87,19 @@ namespace core
 		{
 		}
 
-	protected: // we allow direct use these fields from subclasses
+		template <typename T, typename... Ts>
+		static std::unique_ptr<Component> create(Ts&&... args);
+
+	private: // we allow direct use these fields from subclasses
+
+		//friend
+
+		Component();
+		// Destroys the component.
+		// Careful! entity should not be destroyed
+		virtual ~Component()
+		{
+		}
 		Entity* entity; // a pointer to the entity, should not be deleted on destruction
 		bool enabled; // if the component is currently active
 
