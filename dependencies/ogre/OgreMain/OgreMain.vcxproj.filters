@@ -1,0 +1,1224 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreASTCCodec.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreAlignedAllocator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreAnimable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreAnimation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreAnimationState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreAnimationTrack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreArchive.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreArchiveManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreAutoParamDataSource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreAxisAlignedBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreBillboard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreBillboardChain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreBillboardParticleRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreBillboardSet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreBone.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreCamera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreCodec.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreColourValue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreCommon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreCompositionPass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreCompositionTargetPass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreCompositionTechnique.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreCompositor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreCompositorChain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreCompositorInstance.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreCompositorManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreConfigFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreControllerManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreConvexBody.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreDataStream.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreDefaultDebugDrawer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreDefaultHardwareBufferManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreDefaultSceneQueries.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreDefaultWorkQueueStandard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreDeflate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreDepthBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreDistanceLodStrategy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreDualQuaternion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreDynLib.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreDynLibManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreEdgeListBuilder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreEntity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreException.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreExternalTextureSource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreExternalTextureSourceManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreFileSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreFrustum.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreGpuProgram.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreGpuProgramManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreGpuProgramParams.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreGpuProgramUsage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreHardwareBufferManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreHardwareIndexBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreHardwareOcclusionQuery.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreHardwarePixelBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreHardwareVertexBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreHighLevelGpuProgram.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreImage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreInstanceBatch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreInstanceBatchHW.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreInstanceBatchHW_VTF.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreInstanceBatchShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreInstanceBatchVTF.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreInstanceManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreInstancedEntity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreKeyFrame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreLight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreLodStrategy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreLodStrategyManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreLog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreLogManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreManualObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreMaterial.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreMaterialManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreMaterialSerializer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreMath.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreMatrix3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreMatrix4.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreMesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreMeshManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreMeshSerializer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreMeshSerializerImpl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreMovableObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreMovablePlane.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreMurmurHash3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreNumerics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreOptimisedUtil.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreOptimisedUtilGeneral.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreOptimisedUtilSSE.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreParticleEmitter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreParticleEmitterCommands.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreParticleSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreParticleSystemManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgrePass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgrePatchMesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgrePatchSurface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgrePixelCountLodStrategy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgrePixelFormat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgrePlatformInformation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgrePolygon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgrePose.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgrePredefinedControllers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgrePrefabFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreProfiler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreQuaternion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreRectangle2D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreRenderQueue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreRenderQueueSortingGrouping.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreRenderSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreRenderSystemCapabilities.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreRenderSystemCapabilitiesManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreRenderSystemCapabilitiesSerializer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreRenderTarget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreRenderTexture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreRenderToVertexBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreRenderWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreRenderable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreResource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreResourceBackgroundQueue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreResourceGroupManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreResourceManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreRibbonTrail.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreRoot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreRotationSpline.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreSceneManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreSceneManagerEnumerator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreSceneNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreSceneQuery.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreScriptCompiler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreScriptLexer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreScriptParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreScriptTranslator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreSerializer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreShadowCameraSetup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreShadowCameraSetupFocused.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreShadowCameraSetupLiSPSM.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreShadowCameraSetupPSSM.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreShadowCameraSetupPlaneOptimal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreShadowCaster.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreShadowTextureManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreShadowVolumeExtrudeProgram.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreSimpleRenderable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreSimpleSpline.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreSkeleton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreSkeletonInstance.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreSkeletonManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreSkeletonSerializer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreSkyRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreStaticGeometry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreStencilShadowRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreStreamSerialiser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreString.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreStringConverter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreStringInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreSubEntity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreSubMesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreTagPoint.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreTangentSpaceCalc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreTechnique.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreTexture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreTextureManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreTextureShadowRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreTextureUnitState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreTimer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreUnifiedHighLevelGpuProgram.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreUserObjectBindings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreVector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreVertexIndexData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreViewport.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreWireBoundingBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreWorkQueue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreDDSCodec.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreETCCodec.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\OgreZip.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\zip\zip.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)OgreMain\src\WIN32\OgreFileSystemLayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\Ogre.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreAlignedAllocator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreAnimable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreAnimation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreAnimationState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreAnimationTrack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreAny.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreArchive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreArchiveFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreArchiveManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreAtomicScalar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreAutoParamDataSource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreAxisAlignedBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreBillboard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreBillboardChain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreBillboardParticleRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreBillboardSet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreBitwise.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreBlendMode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreBone.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreCamera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreCodec.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreColourValue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreCommon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreCompositionPass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreCompositionTargetPass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreCompositionTechnique.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreCompositor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreCompositorChain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreCompositorInstance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreCompositorLogic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreCompositorManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreConfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreConfigDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreConfigFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreConfigOptionMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreControllerManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreConvexBody.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreCustomCompositionPass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreDataStream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreDefaultDebugDrawer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreDefaultHardwareBufferManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreDefaultWorkQueue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreDeflate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreDeprecated.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreDepthBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreDistanceLodStrategy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreDualQuaternion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreDynLib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreDynLibManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreEdgeListBuilder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreEntity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreExternalTextureSource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreExternalTextureSourceManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreFactoryObj.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreFileSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreFileSystemLayer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreFrameListener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreFrustum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreGpuProgram.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreGpuProgramManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreGpuProgramParams.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreGpuProgramUsage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreHardwareBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreHardwareBufferManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreHardwareCounterBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreHardwareIndexBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreHardwareOcclusionQuery.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreHardwarePixelBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreHardwareUniformBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreHardwareVertexBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreHeaderPrefix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreHeaderSuffix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreHighLevelGpuProgram.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreHighLevelGpuProgramManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreImage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreImageCodec.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreInstanceBatch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreInstanceBatchHW.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreInstanceBatchHW_VTF.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreInstanceBatchShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreInstanceBatchVTF.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreInstanceManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreInstancedEntity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreIteratorWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreIteratorWrappers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreKeyFrame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreLodListener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreLodStrategy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreLodStrategyManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreLog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreLogManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreManualObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreMaterial.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreMaterialManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreMaterialSerializer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreMath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreMatrix3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreMatrix4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreMemoryAllocatorConfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreMesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreMeshManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreMeshSerializer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreMovableObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreMovablePlane.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreMurmurHash3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreNameGenerator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreOptimisedUtil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreParticle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreParticleAffector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreParticleAffectorFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreParticleEmitter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreParticleEmitterFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreParticleSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreParticleSystemManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreParticleSystemRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgrePass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgrePatchMesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgrePatchSurface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgrePixelCountLodStrategy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgrePixelFormat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgrePlane.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgrePlaneBoundedVolume.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgrePlatform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgrePlatformInformation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgrePlugin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgrePolygon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgrePose.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgrePredefinedControllers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgrePrerequisites.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreProfiler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreQuaternion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreRay.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreRectangle2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreRenderObjectListener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreRenderOperation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreRenderQueue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreRenderQueueListener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreRenderQueueSortingGrouping.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreRenderSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreRenderSystemCapabilities.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreRenderSystemCapabilitiesManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreRenderSystemCapabilitiesSerializer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreRenderTarget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreRenderTargetListener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreRenderTexture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreRenderToVertexBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreRenderWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreRenderable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreResource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreResourceBackgroundQueue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreResourceGroupManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreResourceManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreRibbonTrail.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreRoot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreRotationalSpline.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreSceneManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreSceneNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreSceneQuery.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreScriptCompiler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreScriptLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreScriptTranslator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreSerializer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreShadowCameraSetup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreShadowCameraSetupFocused.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreShadowCameraSetupLiSPSM.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreShadowCameraSetupPSSM.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreShadowCameraSetupPlaneOptimal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreShadowCaster.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreSharedPtr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreSimpleRenderable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreSimpleSpline.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreSingleton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreSkeleton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreSkeletonFileFormat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreSkeletonInstance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreSkeletonManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreSkeletonSerializer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreSphere.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreStaticGeometry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreStdHeaders.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreStreamSerialiser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreString.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreStringConverter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreStringInterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreStringVector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreSubEntity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreSubMesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreTagPoint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreTangentSpaceCalc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreTechnique.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreTexture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreTextureManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreTextureUnitState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreTimer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreUserObjectBindings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreVector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreVector2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreVector3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreVector4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreVertexBoneAssignment.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreVertexIndexData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreViewport.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreWireBoundingBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreWorkQueue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)include\OgreBuildSettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)include\OgreComponents.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)include\OgreExports.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\Threading\OgreThreadDefines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\Threading\OgreThreadDefinesBoost.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\Threading\OgreThreadDefinesNone.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\Threading\OgreThreadDefinesPoco.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\Threading\OgreThreadDefinesSTD.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\Threading\OgreThreadHeaders.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\Threading\OgreThreadHeadersBoost.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\Threading\OgreThreadHeadersPoco.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\Threading\OgreThreadHeadersSTD.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\include\OgreZip.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\src\OgreDDSCodec.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\src\OgreETCCodec.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)OgreMain\src\OgreASTCCodec.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(SolutionDir)OgreMain\include\Ogre.i" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{AF67EFFD-F2A6-3CAC-92A7-70B085D3BEED}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{D0DFF2F0-73BD-35EC-8037-C4E8B3DC9FC2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

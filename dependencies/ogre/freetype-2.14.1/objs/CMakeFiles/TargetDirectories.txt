@@ -1,0 +1,5 @@
+C:/Users/ivani/OneDrive/Escritorio/build/freetype-2.14.1/objs/CMakeFiles/freetype.dir
+C:/Users/ivani/OneDrive/Escritorio/build/freetype-2.14.1/objs/CMakeFiles/PACKAGE.dir
+C:/Users/ivani/OneDrive/Escritorio/build/freetype-2.14.1/objs/CMakeFiles/INSTALL.dir
+C:/Users/ivani/OneDrive/Escritorio/build/freetype-2.14.1/objs/CMakeFiles/ALL_BUILD.dir
+C:/Users/ivani/OneDrive/Escritorio/build/freetype-2.14.1/objs/CMakeFiles/ZERO_CHECK.dir

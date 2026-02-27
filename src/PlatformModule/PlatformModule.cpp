@@ -1,4 +1,4 @@
-#include "PlatformModule.h"
+﻿#include "PlatformModule.h"
 
 #include <SDL3/SDL.h>
 
@@ -29,7 +29,7 @@ bool PlatformModule::Init()
 
 	SDL_PropertiesID _props = SDL_GetWindowProperties(_window);
 
-	_windowHandle = (HWND*)SDL_GetPointerProperty(_props, SDL_PROP_WINDOW_WIN32_HWND_POINTER, NULL);
+	_windowHandle = (HWND)SDL_GetPointerProperty(_props, SDL_PROP_WINDOW_WIN32_HWND_POINTER, NULL);
 
 	if (!_windowHandle) return false;
 
@@ -40,7 +40,7 @@ bool PlatformModule::Init()
 	return true;
 }
 
-const HWND* PlatformModule::getWindowHandle() const
+const HWND PlatformModule::getWindowHandle() const
 {
 	return _windowHandle;
 }

@@ -8,6 +8,7 @@
 
 class PlatformModule;
 class AudioModule;
+class PhysicsModule;
 
 class Engine
 {
@@ -77,4 +78,9 @@ private:
 	*	Referencia al modulo de audio
 	*/
 	AudioModule* _audioModule = nullptr;
+	/*
+	* @brief
+	*	Referencia al modulo de fisica
+	*/
+	PhysicsModule* _physicsModule = nullptr;
 };

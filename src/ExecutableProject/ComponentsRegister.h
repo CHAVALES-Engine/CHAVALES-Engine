@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 /**
 * @file ComponentsLoader
 * @brief ComponentsRegister contains methods to instantiate dll components.
@@ -6,10 +6,11 @@
 #include <unordered_map>
 #include <string>
 
+
 namespace ec {
 	class Component;
 
-	// Definimos el tipo de puntero a función estilo C
+	// Definimos el tipo de puntero a funciï¿½n estilo C
 	typedef ec::Component* (*ComponentFactory)();
 }
 

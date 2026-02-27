@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{5b787f09-4bb5-4b4f-a22e-7fe1bf6a0f7b}</ProjectGuid>
+    <ProjectGuid>{19C229D6-650D-4440-8B69-512B9458618E}</ProjectGuid>
     <RootNamespace>EngineAPI</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectName>Engine</ProjectName>
@@ -127,7 +127,8 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)src\PlatformModule\;$(SolutionDir)src\AudioModule\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)src\PlatformModule\;$(SolutionDir)src\AudioModule\;$(SolutionDir)src\RenderModule\</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -135,8 +136,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)libs\PlatformModule;$(SolutionDir)libs\AudioModule</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(SolutionDir)libs\PlatformModule\PlatformModule_d.lib;$(SolutionDir)libs\AudioModule\AudioModule_d.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\PlatformModule\;$(SolutionDir)libs\RenderModule\;$(SolutionDir)libs\AudioModule\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>PlatformModule_d.lib;RenderModule_d.lib;AudioModule_d.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\PlatformModule;$(SolutionDir)libs\PhysicsModule;$(SolutionDir)libs\AudioModule</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(SolutionDir)libs\PlatformModule\PlatformModule_d.lib;$(SolutionDir)libs\AudioModule\AudioModule_d.lib;$(SolutionDir)libs\PhysicsModule\PhysicsModule_d.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -151,7 +154,8 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)src\PlatformModule\;$(SolutionDir)src\AudioModule\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)src\PlatformModule\;$(SolutionDir)src\AudioModule\;$(SolutionDir)src\RenderModule\</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -159,8 +163,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)libs\PlatformModule;$(SolutionDir)libs\AudioModule</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(SolutionDir)libs\PlatformModule\PlatformModule_r.lib;$(SolutionDir)libs\AudioModule\AudioModule_r.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\PlatformModule\;$(SolutionDir)libs\RenderModule\;$(SolutionDir)libs\AudioModule\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>PlatformModule_r.lib;RenderModule_r.lib;AudioModule_r.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
