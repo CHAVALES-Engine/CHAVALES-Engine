@@ -163,9 +163,14 @@ namespace core
 		 *
 		 * @param v - vector a sumar.
 		 */
-		inline Vector3& operator+(const Vector3& v)
+		inline Vector3 operator+(const Vector3& v)
 		{
 			return Vector3(_x + v._x, _y + v._y, _z + v._z);
+		}
+
+		inline Vector3& operator+=(const Vector3& v)
+		{
+			return *this = *this + v;
 		}
 
 		/**
@@ -173,9 +178,14 @@ namespace core
 		 *
 		 * @param v - vector a restar.
 		 */
-		inline Vector3& operator-(const Vector3& v)
+		inline Vector3 operator-(const Vector3& v)
 		{
 			return Vector3(_x - v._x, _y - v._y, _z - v._z);
+		}
+
+		inline Vector3& operator-=(const Vector3& v)
+		{
+			return *this = *this - v;
 		}
 
 		/**
@@ -188,12 +198,17 @@ namespace core
 			return _x * v.getX() + _y * v.getY() + _z * v.getZ();
 		}
 
+		inline Vector3& operator*=(const T& a)
+		{
+			return *this = *this * a;
+		}
+
 		/**
 		 * @brief Multiplica un vector por un escalar.
 		 *
 		 * @param a - escalar a multiplicar.
 		 */
-		inline Vector3& operator*(T a)
+		inline Vector3 operator*(T a)
 		{
 			return Vector3(_x * a, _y * a, _z * a);
 		}
@@ -203,9 +218,14 @@ namespace core
 		 *
 		 * @param a - escalar por el que dividir.
 		 */
-		inline Vector3& operator/(T a)
+		inline Vector3 operator/(T a)
 		{
 			return Vector3(_x / a, _y / a, _z / a);
+		}
+
+		inline Vector3& operator/=(const T& a)
+		{
+			return *this = *this / a;
 		}
 
 		/**
@@ -257,6 +277,17 @@ namespace core
 		{
 			return *this / magnitude();
 		}
+
+		/*static inline const Vector3<int> up = Vector3<int>( 0, 1, 0 );
+		static inline const Vector3<int> down = Vector3<int>(0, -1, 0);
+		static inline const Vector3<int> left = Vector3<int>(-1, 0, 0);
+		static inline const Vector3<int> right = Vector3<int>(1, 0, 0);
+
+		static inline const Vector3<int> back = Vector3<int>(0, 0, -1);
+		static inline const Vector3<int> forward = Vector3<int>(0, 0, 1);
+
+		static inline const Vector3<int> one = Vector3<int>(1, 1, 1);
+		static inline const Vector3<int> zero = Vector3<int>(0, 0, 0);*/
 
 	private:
 		/**

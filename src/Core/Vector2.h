@@ -142,9 +142,14 @@ namespace core
 		 *
 		 * @param v - vector a sumar.
 		 */
-		inline Vector2& operator+(const Vector2& v)
+		inline Vector2 operator+(const Vector2& v)
 		{
 			return Vector2(_x + v._x, _y + v._y);
+		}
+
+		inline Vector2& operator+=(const Vector2& v)
+		{
+			return *this = *this + v;
 		}
 
 		/**
@@ -152,9 +157,14 @@ namespace core
 		 *
 		 * @param v - vector a restar.
 		 */
-		inline Vector2& operator-(const Vector2& v)
+		inline Vector2 operator-(const Vector2& v)
 		{
 			return Vector2(_x - v._x, _y - v._y);
+		}
+
+		inline Vector2& operator-=(const Vector2& v)
+		{
+			return *this = *this - v;
 		}
 
 		/**
@@ -167,12 +177,17 @@ namespace core
 			return _x * v.getX() + _y * v.getY();
 		}
 
+		inline Vector2& operator*=(const T& a)
+		{
+			return *this = *this * a;
+		}
+
 		/**
 		 * @brief Multiplica un vector por un escalar.
 		 *
 		 * @param a - escalar a multiplicar.
 		 */
-		inline Vector2& operator*(T a)
+		inline Vector2 operator*(T a)
 		{
 			return Vector2(_x * a, _y * a);
 		}
@@ -182,9 +197,14 @@ namespace core
 		 *
 		 * @param a - escalar por el que dividir.
 		 */
-		inline Vector2& operator/(T a)
+		inline Vector2 operator/(T a)
 		{
 			return Vector2(_x / a, _y / a);
+		}
+
+		inline Vector2& operator/=(const T& a)
+		{
+			return *this = *this / a;
 		}
 
 		/**
