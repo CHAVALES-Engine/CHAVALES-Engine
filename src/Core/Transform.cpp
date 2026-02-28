@@ -208,15 +208,18 @@ namespace core
 	Vector3<> Transform::right() const
 	{
 		//return (getGlobalRotation() * Vector3<>(1, 0, 0)).normalized();
+		return Vector3();
 	}
 
 	Vector3<> Transform::up() const
 	{
 		//return (getGlobalRotation() * Vector3<>(0, 1, 0)).normalized();
+		return Vector3();
 	}
 
 	Vector3<> Transform::forward() const
 	{
 		//return (getGlobalRotation() * Vector3<>(0, 0, 1)).normalized();
+		return Vector3();
 	}
 }
