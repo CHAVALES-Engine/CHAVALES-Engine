@@ -10,10 +10,6 @@ core::Scene::~Scene()
 {
 }
 
-void core::Scene::onCreate()
-{
-}
-
 void core::Scene::onEnable()
 {
 }

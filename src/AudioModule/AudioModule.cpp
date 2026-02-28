@@ -97,7 +97,7 @@ void AudioModule::unloadSound(std::string id)
 	_soundMap.erase(itSoundFound);
 }
 
-int AudioModule::playSound(std::string id, const Vector3<> vec3, float soundVolume)
+int AudioModule::playSound(std::string id, const core::Vector3<> vec3, float soundVolume)
 {
 	int nextChID = _nextChannelID++;
 	auto itSoundFound = _soundMap.find(id);

@@ -1,18 +1,20 @@
 #pragma once
 #include <cstdint>
-
+#include <string>
 
 namespace core
 {
+	using sceneName = std::string;
+
 	class Scene
 	{
 	public:
 		Scene();
 		~Scene();
 
-		virtual void onCreate();
 		virtual void onEnable();
 		virtual void init();
+		//virtual void onCreate(); // igual que init?
 
 		virtual void fixedUpdate();
 		virtual void update(uint64_t dt);
@@ -22,5 +24,6 @@ namespace core
 		virtual void onDestroy();
 
 	private:
+		sceneName name;
 	};
 }

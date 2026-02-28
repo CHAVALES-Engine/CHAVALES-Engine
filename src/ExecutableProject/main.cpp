@@ -12,6 +12,8 @@
 #include "Engine.h"
 #include <Debug.h>
 
+#include "StateMachine.h"
+
 using namespace core;
 
 int main(int argc, char* argv[]) {
@@ -32,6 +34,9 @@ int main(int argc, char* argv[]) {
 	//bool isfullscreen = lua["config"]["fullscreen"]; // can get nested variables
 	//sol::table config = lua["config"];
 	//assert(!isfullscreen)
+
+	StateMachine _stateMachine;
+	_stateMachine.gameLoop();
 
 	return 0;
 }
