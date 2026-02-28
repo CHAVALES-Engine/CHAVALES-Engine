@@ -37,7 +37,7 @@ public:
 
 	void unloadSound(std::string id);
 
-	int playSound(std::string id, const Vector3<> vec3 = { 0.0f,0.0f,0.0f }, float soundVolume = 0.0f);
+	int playSound(std::string id, const core::Vector3<> vec3 = { 0.0f,0.0f,0.0f }, float soundVolume = 0.0f);
 
 private:
 	FMOD::System* _system = nullptr;
