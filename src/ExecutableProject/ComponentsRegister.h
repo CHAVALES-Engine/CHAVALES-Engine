@@ -41,6 +41,6 @@ private:
 	*	Unordered map:
 	*		nombre de componente (clave) - puntero a funcion constructora (valor)
 	*/
-	static std::unordered_map<const char*, core::ComponentFactory> _components;
+	static inline std::unordered_map<const char*, core::ComponentFactory> _components;
 };
 
