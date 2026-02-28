@@ -51,7 +51,7 @@ namespace core
 		/*
 		* @brief
 		*/
-		void update(double deltaTime);
+		void update(uint64_t dT);
 		/*
 		* @brief
 		*/

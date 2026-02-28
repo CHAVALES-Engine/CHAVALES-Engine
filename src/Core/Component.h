@@ -66,7 +66,7 @@ namespace core
 		// A component has an update method, and by default it
 		// does nothing -- some components will not override this
 		// method.
-		virtual void update(double deltaTime) {}
+		virtual void update(uint64_t deltaTime) {}
 
 		// A component has a render method, and by default it
 		// does nothing -- some components will not override this

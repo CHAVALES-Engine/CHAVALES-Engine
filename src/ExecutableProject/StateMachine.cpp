@@ -58,6 +58,7 @@ void StateMachine::addScene(sceneName n, scenePtr s)
 		_nameToID.insert({ n, id }); // guarda la escena en el mapa de nombres e id
 		_stateMachine.insert({ id, s }); // guarda la escena con id y puntero en la maquina de estados
 
+		//s->onCreate();
 		s->init();
 	}
 	else
@@ -115,11 +116,13 @@ void StateMachine::addAndSetScene(sceneName n, scenePtr s)
 		// desactiva la escena actual
 		_currentScene.ptr->onDisable();
 
+		// setea nueva escena actual
 		_currentScene.id = id;
 		_currentScene.ptr = s;
 		_currentScene.name = n;
 
 		// activa la nueva escena actual
+		//_currentScene.ptr->onCreate();
 		_currentScene.ptr->init();
 		_currentScene.ptr->onEnable();
 	}

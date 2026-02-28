@@ -58,14 +58,14 @@ void core::Entity::fixedUpdate()
 	}
 }
 
-void core::Entity::update(double deltatime)
+void core::Entity::update(uint64_t dT)
 {
 	if (!enabled) return;
 
 	for (Component* c : components)
 	{
 		if (c->isEnabled())
-			c->update(deltatime);
+			c->update(dT);
 	}
 }
 
