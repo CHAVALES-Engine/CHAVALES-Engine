@@ -1,9 +1,7 @@
 #include "Component.h"
 
 core::Component::Component()
-	: entity(nullptr), enabled(true)
-{
-}
+	: entity(nullptr), enabled(true) {}
 
 void core::Component::setEntity(Entity* e)
 {

@@ -40,28 +40,65 @@ namespace core
 		const std::vector<Component*>& getComponents() const;
 
 		// --- LIFECYLE
+		/*
+		* @brief
+		*/
 		void init();
+		/*
+		* @brief
+		*/
 		void fixedUpdate();
+		/*
+		* @brief
+		*/
 		void update(double deltaTime);
+		/*
+		* @brief
+		*/
 		void render() const;
+		/*
+		* @brief
+		*/
 		void destroy();
+		/*
+		* @brief
+		*/
 		void enable();
+		/*
+		* @brief
+		*/
 		void disable();
+		/*
+		* @brief
+		*/
 
 		// --- EC
-		// O(n) 
+		/*
+		* @brief
+		* O(n) 
+		*/
 		template <typename T, typename... Ts>
 		T* addComponent(Ts&&... args);
 
-		// O(n) 
+		/*
+		* @brief
+		* O(n)
+		*/
 		template <typename T>
 		void removeComponent();
 
-		// O(n)
+		/*
+		* @brief
+		* O(n)
+		*/
 		template <typename T>
 		T* getComponent();
 
 		// O(n)
+		/*
+		* @brief
+		* O(n)
+		*/
 		template <typename T>
 		bool hasComponent() const;
 
