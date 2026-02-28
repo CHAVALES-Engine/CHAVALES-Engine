@@ -1,9 +1,0 @@
-C:/Users/ivani/OneDrive/Escritorio/build/pugixml-1.14/CMakeFiles/Experimental.dir
-C:/Users/ivani/OneDrive/Escritorio/build/pugixml-1.14/CMakeFiles/Nightly.dir
-C:/Users/ivani/OneDrive/Escritorio/build/pugixml-1.14/CMakeFiles/Continuous.dir
-C:/Users/ivani/OneDrive/Escritorio/build/pugixml-1.14/CMakeFiles/NightlyMemoryCheck.dir
-C:/Users/ivani/OneDrive/Escritorio/build/pugixml-1.14/CMakeFiles/pugixml-static.dir
-C:/Users/ivani/OneDrive/Escritorio/build/pugixml-1.14/CMakeFiles/RUN_TESTS.dir
-C:/Users/ivani/OneDrive/Escritorio/build/pugixml-1.14/CMakeFiles/INSTALL.dir
-C:/Users/ivani/OneDrive/Escritorio/build/pugixml-1.14/CMakeFiles/ALL_BUILD.dir
-C:/Users/ivani/OneDrive/Escritorio/build/pugixml-1.14/CMakeFiles/ZERO_CHECK.dir

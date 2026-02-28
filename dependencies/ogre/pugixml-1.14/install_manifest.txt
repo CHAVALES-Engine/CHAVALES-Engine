@@ -1,8 +1,0 @@
-C:/Users/ivani/OneDrive/Escritorio/build/Dependencies/lib/pugixml.lib
-C:/Users/ivani/OneDrive/Escritorio/build/Dependencies/lib/cmake/pugixml/pugixml-targets.cmake
-C:/Users/ivani/OneDrive/Escritorio/build/Dependencies/lib/cmake/pugixml/pugixml-targets-relwithdebinfo.cmake
-C:/Users/ivani/OneDrive/Escritorio/build/Dependencies/lib/cmake/pugixml/pugixml-config-version.cmake
-C:/Users/ivani/OneDrive/Escritorio/build/Dependencies/lib/cmake/pugixml/pugixml-config.cmake
-C:/Users/ivani/OneDrive/Escritorio/build/Dependencies/lib/pkgconfig/pugixml.pc
-C:/Users/ivani/OneDrive/Escritorio/build/Dependencies/include/pugiconfig.hpp
-C:/Users/ivani/OneDrive/Escritorio/build/Dependencies/include/pugixml.hpp
