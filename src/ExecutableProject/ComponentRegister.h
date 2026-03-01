@@ -16,11 +16,18 @@ namespace core {
 class ComponentRegister
 {
 public:
-	static bool init();
+	/*
+	* @brief Devuelve una instancia del registro
+	* 
+	* @return ComponentRegister* - Instancia del ComponentRegister
+	*/
+	static ComponentRegister* instance();
 	/*
 	* @brief Registra un componente en el mapa, con su constructor
+	* 
+	* @return bool - Se ha registrado correctamente
 	*/
-	static bool registComponent(const char* name, core::ComponentFactory factory);
+	bool registComponent(const char* name, core::ComponentFactory factory);
 	/*
 	* @brief 
 	*	Crea el componente pedido usando su funcion asignada
@@ -28,7 +35,7 @@ public:
 	* @return std::unique_ptr<core::Component> - Puntero al componente creado
 	*/
 	template <typename... Args>
-	static std::unique_ptr<core::Component> create(const char* name, Args&& ... args);
+	std::unique_ptr<core::Component> create(const char* name, Args&& ... args);
 	/*
 	* @brief
 	*	Desregistra un componente
@@ -37,9 +44,6 @@ public:
 	*/
 	bool unregisterComponent(const char* name);
 private:
-	/*
-	*/
-	static ComponentRegister* _instance;
 	/*
 	* @brief 
 	*	Unordered map:

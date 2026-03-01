@@ -3,12 +3,10 @@
 #include <PluginSDK.h>
 #include <Component.h>
 
-ComponentRegister* ComponentRegister::_instance = nullptr;
-
-bool ComponentRegister::init() {
-	if (_instance == nullptr) _instance = new ComponentRegister();
-
-	return _instance;
+ComponentRegister* ComponentRegister::instance() {
+	// Usamos la inicializacion de mayers para garantizar Thread-Safe
+	static ComponentRegister* instance;
+	return instance;
 }
 
 bool ComponentRegister::registComponent(const char* name, core::ComponentFactory factory)
@@ -18,6 +16,8 @@ bool ComponentRegister::registComponent(const char* name, core::ComponentFactory
 	// Si no se ha registrado lanza un warning
 	if (!inserted)
 		core::Debug::warning("Component: ", name, " Already registered.");
+	else
+		core::Debug::out("Component", name, "Registered");
 	return inserted;
 }
 

@@ -9,6 +9,7 @@ Engine* Engine::_instance = nullptr;
 
 bool Engine::init()
 {
+	// utilizamos este tipo de inicializacion para tener mas control
 	if (_instance == nullptr) _instance = new Engine();
 
 	return _instance->_initPriv();

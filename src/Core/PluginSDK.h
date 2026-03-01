@@ -15,7 +15,8 @@ namespace PluginSDK {
 		* @brief Instancia del PluginRegistry
 		*/
 		static PluginComponentRegistry* instance() {
-			return _instance;
+			static PluginComponentRegistry* instance;
+			return instance;
 		}
 		/*
 		* @brief Anyade un descriptor al registro local
@@ -35,10 +36,6 @@ namespace PluginSDK {
 			return _descriptors;
 		}
 	private:
-		/*
-		* @brief Lista de componentes registrados en la dll del plugin
-		*/
-		static PluginComponentRegistry* _instance;
 		/*
 		* @brief Lista de componentes registrados en la dll del plugin
 		*/
@@ -74,4 +71,18 @@ namespace PluginSDK {
 			// # Convierte el nombre de una clase en texto
 			// la variable estatica se llama como la clase que le pases, 
 			// y crea una entrada en el registro local con su mismo nombre
+
+	/*
+	* @brief
+	*	Funcion de C exportacda para acceder a los componentes registrados por el singleton
+	* @param & count - Se asigna el numero de componentes que hay registrados
+	*/	
+	extern "C" __declspec(dllexport) // Especificacion de exportacion que mantiene el nombre sin alterar por parametros en compilacion
+									 // (__declspec(dllexport))solo para windows
+	const core::ComponentDescriptor* getPluginComponents(size_t& count)
+	{
+		const auto& comps = PluginSDK::PluginComponentRegistry::instance()->get();
+		count = comps.size();
+		return comps.empty() ? nullptr : comps.data();
+	}
 }
