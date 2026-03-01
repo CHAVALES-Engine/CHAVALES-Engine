@@ -14,8 +14,8 @@ namespace PluginSDK {
 		/*
 		* @brief Instancia del PluginRegistry
 		*/
-		static PluginComponentRegistry* instance() {
-			static PluginComponentRegistry* instance;
+		static PluginComponentRegistry& instance() {
+			static PluginComponentRegistry instance;
 			return instance;
 		}
 		/*
@@ -60,29 +60,28 @@ namespace PluginSDK {
 				});
 		}
 	};
-
+}
 /*
-* @brief 
+* @brief
 *	Macro para registrar un componente en el registro local
 * @param Clase a registrar
 */
 #define REGISTER_COMPONENT(TYPE) \
-    static AutoRegisterComponent<TYPE> #TYPE(#TYPE)
-			// # Convierte el nombre de una clase en texto
-			// la variable estatica se llama como la clase que le pases, 
-			// y crea una entrada en el registro local con su mismo nombre
+    static PluginSDK::AutoRegisterComponent<TYPE> reg_##TYPE(#TYPE)
+// # Convierte el nombre de una clase en texto
+// la variable estatica se llama como la clase que le pases, 
+// y crea una entrada en el registro local con su mismo nombre
 
-	/*
-	* @brief
-	*	Funcion de C exportacda para acceder a los componentes registrados por el singleton
-	* @param & count - Se asigna el numero de componentes que hay registrados
-	*/	
-	extern "C" __declspec(dllexport) // Especificacion de exportacion que mantiene el nombre sin alterar por parametros en compilacion
-									 // (__declspec(dllexport))solo para windows
-	const core::ComponentDescriptor* getPluginComponents(size_t& count)
-	{
-		const auto& comps = PluginSDK::PluginComponentRegistry::instance()->get();
-		count = comps.size();
-		return comps.empty() ? nullptr : comps.data();
-	}
+/*
+* @brief
+*	Funcion de C exportacda para acceder a los componentes registrados por el singleton
+* @param & count - Se asigna el numero de componentes que hay registrados
+*/
+extern "C" __declspec(dllexport) // Especificacion de exportacion que mantiene el nombre sin alterar por parametros en compilacion
+// (__declspec(dllexport))solo para windows
+const core::ComponentDescriptor* getPluginComponents(size_t& count)
+{
+	const auto& comps = PluginSDK::PluginComponentRegistry::instance().get();
+	count = comps.size();
+	return comps.empty() ? nullptr : comps.data();
 }

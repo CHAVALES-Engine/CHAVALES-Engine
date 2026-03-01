@@ -28,7 +28,7 @@ bool DLLLoader::load(const std::string& path)
 	HMODULE library = nullptr; // Direccion base de un modulo en memoria
 	// Windows busca una dll y la carga en la memoria del programa
 	if ((library = LoadLibraryA(path.c_str())) == nullptr) {
-		core::Debug::error("LoadLibrary failde: ", path, " err=", GetLastError());
+		core::Debug::error("LoadLibrary failed: ", path, " err=", GetLastError());
 		return false;
 	}
 	// TODO: register components
@@ -45,7 +45,7 @@ bool DLLLoader::load(const std::string& path)
 	const core::ComponentDescriptor* descriptors = getComponents(count);
 	// Registramos los componentes cargados en el registro del engine
 	for (size_t i = 0; i < count; ++i) {
-		ComponentRegister::instance()->registComponent(
+		ComponentRegister::instance().registComponent(
 			descriptors[i].name,
 			descriptors[i].factory
 		);

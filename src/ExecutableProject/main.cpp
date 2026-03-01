@@ -9,13 +9,14 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "Engine.h"
+#include <Engine.h>
 #include <Debug.h>
 
 #include "StateMachine.h"
+#include "DLLLoader.h"
 
 using namespace core;
-
+#ifndef IS_BEING_INCLUDED
 int main(int argc, char* argv[]) {
 
 	Engine::init();
@@ -35,8 +36,12 @@ int main(int argc, char* argv[]) {
 	//sol::table config = lua["config"];
 	//assert(!isfullscreen)
 
+	DLLLoader dllLoader;
+	dllLoader.load("./DLL-Test.dll");
+
 	StateMachine _stateMachine;
 	_stateMachine.gameLoop();
 
 	return 0;
 }
+#endif

@@ -19,9 +19,9 @@ public:
 	/*
 	* @brief Devuelve una instancia del registro
 	* 
-	* @return ComponentRegister* - Instancia del ComponentRegister
+	* @return ComponentRegister& - Instancia del ComponentRegister
 	*/
-	static ComponentRegister* instance();
+	static ComponentRegister& instance();
 	/*
 	* @brief Registra un componente en el mapa, con su constructor
 	* 

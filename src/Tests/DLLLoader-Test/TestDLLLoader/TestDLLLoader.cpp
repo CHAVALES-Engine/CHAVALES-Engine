@@ -2,10 +2,12 @@
 //
 
 #include <iostream>
+#include "DLLLoader.h"
 
 int main()
 {
-    std::cout << "Hello World!\n";
+	DLLLoader dllLoader;
+	dllLoader.load("./DLL-Test.dll");
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
