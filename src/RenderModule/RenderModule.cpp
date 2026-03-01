@@ -15,7 +15,8 @@
 #include <OgreSceneNode.h>
 #include <iostream>
 
-//#include <OgreImGuiOverlay.h>
+#include <OgreImGuiOverlay.h>
+#include <imgui.h>
 // RenderModule.cpp : Defines the functions for the static library.
 //
 
@@ -25,7 +26,7 @@ static Ogre::SceneManager* _sceneMgr = nullptr;
 static Ogre::Viewport* _vp = nullptr;
 
 
-/*void ImGuiManager::AddElement(UIElement element)
+void ImGuiManager::AddElement(UIElement element)
 {
     _elements.push_back(element);
 }
@@ -37,7 +38,6 @@ void ImGuiManager::Clear()
 
 void ImGuiManager::Draw()
 {
-    Ogre::ImGuiOverlay 
     ImGui::Begin("Canvas");
 
     for (auto& element : _elements)
@@ -46,7 +46,7 @@ void ImGuiManager::Draw()
     }
 
     ImGui::End();
-}*/
+}
 
 bool RenderModule::Init(const HWND handle, const int width, const int height)
 {

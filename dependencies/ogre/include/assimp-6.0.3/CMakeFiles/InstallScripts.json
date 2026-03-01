@@ -1,0 +1,9 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/cmake_install.cmake",
+		"C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/contrib/zlib/cmake_install.cmake",
+		"C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/code/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

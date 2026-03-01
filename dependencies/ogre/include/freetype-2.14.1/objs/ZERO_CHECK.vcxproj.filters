@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="$(SolutionDir)freetype-2.14.1\objs\CMakeFiles\d3ac4f9a312bb5fc58cb9864b0ae6c99\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{C92D0FCF-72BC-31BE-A0E7-9DD161E63B0E}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

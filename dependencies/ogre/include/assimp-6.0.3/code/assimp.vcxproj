@@ -1,0 +1,848 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{909D4DB1-5733-3915-A457-36D9014608A5}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>assimp</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)assimp-6.0.3\lib\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">assimp.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">assimp-vc143-mtd</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)assimp-6.0.3\lib\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">assimp.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">assimp-vc143-mt</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">$(SolutionDir)assimp-6.0.3\lib\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">assimp.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">assimp-vc143-mt</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">$(SolutionDir)assimp-6.0.3\lib\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">assimp.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">assimp-vc143-mt</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.lib</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)assimp-6.0.3\include;$(SolutionDir)assimp-6.0.3;$(SolutionDir)assimp-6.0.3\code;$(SolutionDir)assimp-6.0.3\.;$(SolutionDir)assimp-6.0.3\contrib\zlib;$(SolutionDir)assimp-6.0.3\code\..\contrib\pugixml\src;$(SolutionDir)assimp-6.0.3\code\..\contrib\utf8cpp\source;$(SolutionDir)assimp-6.0.3\code\..\contrib\rapidjson\include;$(SolutionDir)assimp-6.0.3\code\..\contrib;$(SolutionDir)assimp-6.0.3\code\..\contrib\unzip;$(SolutionDir)assimp-6.0.3\code\..\contrib\openddlparser\include;$(SolutionDir)assimp-6.0.3\code\..\include;$(SolutionDir)assimp-6.0.3\code\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj /source-charset:utf-8</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4244</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ForceConformanceInForLoopScope></ForceConformanceInForLoopScope>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RemoveUnreferencedCodeData></RemoveUnreferencedCodeData>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <SupportJustMyCode></SupportJustMyCode>
+      <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;_DEBUG;OPENDDL_STATIC_LIBARY;P2T_STATIC_EXPORTS;ASSIMP_BUILD_NO_M3D_IMPORTER;ASSIMP_BUILD_NO_M3D_EXPORTER;ASSIMP_BUILD_NO_VRML_IMPORTER;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;ASSIMP_BUILD_NO_EXPORT;ASSIMP_BUILD_NO_C4D_IMPORTER;ASSIMP_BUILD_NO_OGRE_IMPORTER;ASSIMP_BUILD_NO_USD_IMPORTER;ASSIMP_IMPORTER_GLTF_USE_OPEN3DGC=1;RAPIDJSON_HAS_STDSTRING=1;RAPIDJSON_NOMEMBERITERATORCLASS;OPENDDLPARSER_BUILD;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>$(SolutionDir)assimp-6.0.3\code\Debug\assimp-vc143-mtd.pdb</ProgramDataBaseFileName>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;OPENDDL_STATIC_LIBARY;P2T_STATIC_EXPORTS;ASSIMP_BUILD_NO_M3D_IMPORTER;ASSIMP_BUILD_NO_M3D_EXPORTER;ASSIMP_BUILD_NO_VRML_IMPORTER;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;ASSIMP_BUILD_NO_EXPORT;ASSIMP_BUILD_NO_C4D_IMPORTER;ASSIMP_BUILD_NO_OGRE_IMPORTER;ASSIMP_BUILD_NO_USD_IMPORTER;ASSIMP_IMPORTER_GLTF_USE_OPEN3DGC=1;RAPIDJSON_HAS_STDSTRING=1;RAPIDJSON_NOMEMBERITERATORCLASS;OPENDDLPARSER_BUILD;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)assimp-6.0.3\include;$(SolutionDir)assimp-6.0.3;$(SolutionDir)assimp-6.0.3\code;$(SolutionDir)assimp-6.0.3\.;$(SolutionDir)assimp-6.0.3\contrib\zlib;$(SolutionDir)assimp-6.0.3\code\..\contrib\pugixml\src;$(SolutionDir)assimp-6.0.3\code\..\contrib\utf8cpp\source;$(SolutionDir)assimp-6.0.3\code\..\contrib\rapidjson\include;$(SolutionDir)assimp-6.0.3\code\..\contrib;$(SolutionDir)assimp-6.0.3\code\..\contrib\unzip;$(SolutionDir)assimp-6.0.3\code\..\contrib\openddlparser\include;$(SolutionDir)assimp-6.0.3\code\..\include;$(SolutionDir)assimp-6.0.3\code\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>$(SolutionDir)assimp-6.0.3\include;$(SolutionDir)assimp-6.0.3;$(SolutionDir)assimp-6.0.3\code;$(SolutionDir)assimp-6.0.3\.;$(SolutionDir)assimp-6.0.3\contrib\zlib;$(SolutionDir)assimp-6.0.3\code\..\contrib\pugixml\src;$(SolutionDir)assimp-6.0.3\code\..\contrib\utf8cpp\source;$(SolutionDir)assimp-6.0.3\code\..\contrib\rapidjson\include;$(SolutionDir)assimp-6.0.3\code\..\contrib;$(SolutionDir)assimp-6.0.3\code\..\contrib\unzip;$(SolutionDir)assimp-6.0.3\code\..\contrib\openddlparser\include;$(SolutionDir)assimp-6.0.3\code\..\include;$(SolutionDir)assimp-6.0.3\code\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)assimp-6.0.3\include;$(SolutionDir)assimp-6.0.3;$(SolutionDir)assimp-6.0.3\code;$(SolutionDir)assimp-6.0.3\.;$(SolutionDir)assimp-6.0.3\contrib\zlib;$(SolutionDir)assimp-6.0.3\code\..\contrib\pugixml\src;$(SolutionDir)assimp-6.0.3\code\..\contrib\utf8cpp\source;$(SolutionDir)assimp-6.0.3\code\..\contrib\rapidjson\include;$(SolutionDir)assimp-6.0.3\code\..\contrib;$(SolutionDir)assimp-6.0.3\code\..\contrib\unzip;$(SolutionDir)assimp-6.0.3\code\..\contrib\openddlparser\include;$(SolutionDir)assimp-6.0.3\code\..\include;$(SolutionDir)assimp-6.0.3\code\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj /source-charset:utf-8</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4244</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ForceConformanceInForLoopScope></ForceConformanceInForLoopScope>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RemoveUnreferencedCodeData></RemoveUnreferencedCodeData>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <SupportJustMyCode></SupportJustMyCode>
+      <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;OPENDDL_STATIC_LIBARY;P2T_STATIC_EXPORTS;ASSIMP_BUILD_NO_M3D_IMPORTER;ASSIMP_BUILD_NO_M3D_EXPORTER;ASSIMP_BUILD_NO_VRML_IMPORTER;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;ASSIMP_BUILD_NO_EXPORT;ASSIMP_BUILD_NO_C4D_IMPORTER;ASSIMP_BUILD_NO_OGRE_IMPORTER;ASSIMP_BUILD_NO_USD_IMPORTER;ASSIMP_IMPORTER_GLTF_USE_OPEN3DGC=1;RAPIDJSON_HAS_STDSTRING=1;RAPIDJSON_NOMEMBERITERATORCLASS;OPENDDLPARSER_BUILD;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>$(SolutionDir)assimp-6.0.3\code\Release\assimp-vc143-mt.pdb</ProgramDataBaseFileName>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;OPENDDL_STATIC_LIBARY;P2T_STATIC_EXPORTS;ASSIMP_BUILD_NO_M3D_IMPORTER;ASSIMP_BUILD_NO_M3D_EXPORTER;ASSIMP_BUILD_NO_VRML_IMPORTER;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;ASSIMP_BUILD_NO_EXPORT;ASSIMP_BUILD_NO_C4D_IMPORTER;ASSIMP_BUILD_NO_OGRE_IMPORTER;ASSIMP_BUILD_NO_USD_IMPORTER;ASSIMP_IMPORTER_GLTF_USE_OPEN3DGC=1;RAPIDJSON_HAS_STDSTRING=1;RAPIDJSON_NOMEMBERITERATORCLASS;OPENDDLPARSER_BUILD;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)assimp-6.0.3\include;$(SolutionDir)assimp-6.0.3;$(SolutionDir)assimp-6.0.3\code;$(SolutionDir)assimp-6.0.3\.;$(SolutionDir)assimp-6.0.3\contrib\zlib;$(SolutionDir)assimp-6.0.3\code\..\contrib\pugixml\src;$(SolutionDir)assimp-6.0.3\code\..\contrib\utf8cpp\source;$(SolutionDir)assimp-6.0.3\code\..\contrib\rapidjson\include;$(SolutionDir)assimp-6.0.3\code\..\contrib;$(SolutionDir)assimp-6.0.3\code\..\contrib\unzip;$(SolutionDir)assimp-6.0.3\code\..\contrib\openddlparser\include;$(SolutionDir)assimp-6.0.3\code\..\include;$(SolutionDir)assimp-6.0.3\code\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>$(SolutionDir)assimp-6.0.3\include;$(SolutionDir)assimp-6.0.3;$(SolutionDir)assimp-6.0.3\code;$(SolutionDir)assimp-6.0.3\.;$(SolutionDir)assimp-6.0.3\contrib\zlib;$(SolutionDir)assimp-6.0.3\code\..\contrib\pugixml\src;$(SolutionDir)assimp-6.0.3\code\..\contrib\utf8cpp\source;$(SolutionDir)assimp-6.0.3\code\..\contrib\rapidjson\include;$(SolutionDir)assimp-6.0.3\code\..\contrib;$(SolutionDir)assimp-6.0.3\code\..\contrib\unzip;$(SolutionDir)assimp-6.0.3\code\..\contrib\openddlparser\include;$(SolutionDir)assimp-6.0.3\code\..\include;$(SolutionDir)assimp-6.0.3\code\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)assimp-6.0.3\include;$(SolutionDir)assimp-6.0.3;$(SolutionDir)assimp-6.0.3\code;$(SolutionDir)assimp-6.0.3\.;$(SolutionDir)assimp-6.0.3\contrib\zlib;$(SolutionDir)assimp-6.0.3\code\..\contrib\pugixml\src;$(SolutionDir)assimp-6.0.3\code\..\contrib\utf8cpp\source;$(SolutionDir)assimp-6.0.3\code\..\contrib\rapidjson\include;$(SolutionDir)assimp-6.0.3\code\..\contrib;$(SolutionDir)assimp-6.0.3\code\..\contrib\unzip;$(SolutionDir)assimp-6.0.3\code\..\contrib\openddlparser\include;$(SolutionDir)assimp-6.0.3\code\..\include;$(SolutionDir)assimp-6.0.3\code\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj /source-charset:utf-8</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <DisableSpecificWarnings>4244</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ForceConformanceInForLoopScope></ForceConformanceInForLoopScope>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RemoveUnreferencedCodeData></RemoveUnreferencedCodeData>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <SupportJustMyCode></SupportJustMyCode>
+      <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;OPENDDL_STATIC_LIBARY;P2T_STATIC_EXPORTS;ASSIMP_BUILD_NO_M3D_IMPORTER;ASSIMP_BUILD_NO_M3D_EXPORTER;ASSIMP_BUILD_NO_VRML_IMPORTER;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;ASSIMP_BUILD_NO_EXPORT;ASSIMP_BUILD_NO_C4D_IMPORTER;ASSIMP_BUILD_NO_OGRE_IMPORTER;ASSIMP_BUILD_NO_USD_IMPORTER;ASSIMP_IMPORTER_GLTF_USE_OPEN3DGC=1;RAPIDJSON_HAS_STDSTRING=1;RAPIDJSON_NOMEMBERITERATORCLASS;OPENDDLPARSER_BUILD;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <ProgramDataBaseFileName>$(SolutionDir)assimp-6.0.3\code\MinSizeRel\assimp-vc143-mt.pdb</ProgramDataBaseFileName>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;OPENDDL_STATIC_LIBARY;P2T_STATIC_EXPORTS;ASSIMP_BUILD_NO_M3D_IMPORTER;ASSIMP_BUILD_NO_M3D_EXPORTER;ASSIMP_BUILD_NO_VRML_IMPORTER;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;ASSIMP_BUILD_NO_EXPORT;ASSIMP_BUILD_NO_C4D_IMPORTER;ASSIMP_BUILD_NO_OGRE_IMPORTER;ASSIMP_BUILD_NO_USD_IMPORTER;ASSIMP_IMPORTER_GLTF_USE_OPEN3DGC=1;RAPIDJSON_HAS_STDSTRING=1;RAPIDJSON_NOMEMBERITERATORCLASS;OPENDDLPARSER_BUILD;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)assimp-6.0.3\include;$(SolutionDir)assimp-6.0.3;$(SolutionDir)assimp-6.0.3\code;$(SolutionDir)assimp-6.0.3\.;$(SolutionDir)assimp-6.0.3\contrib\zlib;$(SolutionDir)assimp-6.0.3\code\..\contrib\pugixml\src;$(SolutionDir)assimp-6.0.3\code\..\contrib\utf8cpp\source;$(SolutionDir)assimp-6.0.3\code\..\contrib\rapidjson\include;$(SolutionDir)assimp-6.0.3\code\..\contrib;$(SolutionDir)assimp-6.0.3\code\..\contrib\unzip;$(SolutionDir)assimp-6.0.3\code\..\contrib\openddlparser\include;$(SolutionDir)assimp-6.0.3\code\..\include;$(SolutionDir)assimp-6.0.3\code\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>$(SolutionDir)assimp-6.0.3\include;$(SolutionDir)assimp-6.0.3;$(SolutionDir)assimp-6.0.3\code;$(SolutionDir)assimp-6.0.3\.;$(SolutionDir)assimp-6.0.3\contrib\zlib;$(SolutionDir)assimp-6.0.3\code\..\contrib\pugixml\src;$(SolutionDir)assimp-6.0.3\code\..\contrib\utf8cpp\source;$(SolutionDir)assimp-6.0.3\code\..\contrib\rapidjson\include;$(SolutionDir)assimp-6.0.3\code\..\contrib;$(SolutionDir)assimp-6.0.3\code\..\contrib\unzip;$(SolutionDir)assimp-6.0.3\code\..\contrib\openddlparser\include;$(SolutionDir)assimp-6.0.3\code\..\include;$(SolutionDir)assimp-6.0.3\code\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)assimp-6.0.3\include;$(SolutionDir)assimp-6.0.3;$(SolutionDir)assimp-6.0.3\code;$(SolutionDir)assimp-6.0.3\.;$(SolutionDir)assimp-6.0.3\contrib\zlib;$(SolutionDir)assimp-6.0.3\code\..\contrib\pugixml\src;$(SolutionDir)assimp-6.0.3\code\..\contrib\utf8cpp\source;$(SolutionDir)assimp-6.0.3\code\..\contrib\rapidjson\include;$(SolutionDir)assimp-6.0.3\code\..\contrib;$(SolutionDir)assimp-6.0.3\code\..\contrib\unzip;$(SolutionDir)assimp-6.0.3\code\..\contrib\openddlparser\include;$(SolutionDir)assimp-6.0.3\code\..\include;$(SolutionDir)assimp-6.0.3\code\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj /source-charset:utf-8</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4244</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ForceConformanceInForLoopScope></ForceConformanceInForLoopScope>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RemoveUnreferencedCodeData></RemoveUnreferencedCodeData>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <SupportJustMyCode></SupportJustMyCode>
+      <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;OPENDDL_STATIC_LIBARY;P2T_STATIC_EXPORTS;ASSIMP_BUILD_NO_M3D_IMPORTER;ASSIMP_BUILD_NO_M3D_EXPORTER;ASSIMP_BUILD_NO_VRML_IMPORTER;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;ASSIMP_BUILD_NO_EXPORT;ASSIMP_BUILD_NO_C4D_IMPORTER;ASSIMP_BUILD_NO_OGRE_IMPORTER;ASSIMP_BUILD_NO_USD_IMPORTER;ASSIMP_IMPORTER_GLTF_USE_OPEN3DGC=1;RAPIDJSON_HAS_STDSTRING=1;RAPIDJSON_NOMEMBERITERATORCLASS;OPENDDLPARSER_BUILD;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>$(SolutionDir)assimp-6.0.3\code\RelWithDebInfo\assimp-vc143-mt.pdb</ProgramDataBaseFileName>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;OPENDDL_STATIC_LIBARY;P2T_STATIC_EXPORTS;ASSIMP_BUILD_NO_M3D_IMPORTER;ASSIMP_BUILD_NO_M3D_EXPORTER;ASSIMP_BUILD_NO_VRML_IMPORTER;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;ASSIMP_BUILD_NO_EXPORT;ASSIMP_BUILD_NO_C4D_IMPORTER;ASSIMP_BUILD_NO_OGRE_IMPORTER;ASSIMP_BUILD_NO_USD_IMPORTER;ASSIMP_IMPORTER_GLTF_USE_OPEN3DGC=1;RAPIDJSON_HAS_STDSTRING=1;RAPIDJSON_NOMEMBERITERATORCLASS;OPENDDLPARSER_BUILD;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)assimp-6.0.3\include;$(SolutionDir)assimp-6.0.3;$(SolutionDir)assimp-6.0.3\code;$(SolutionDir)assimp-6.0.3\.;$(SolutionDir)assimp-6.0.3\contrib\zlib;$(SolutionDir)assimp-6.0.3\code\..\contrib\pugixml\src;$(SolutionDir)assimp-6.0.3\code\..\contrib\utf8cpp\source;$(SolutionDir)assimp-6.0.3\code\..\contrib\rapidjson\include;$(SolutionDir)assimp-6.0.3\code\..\contrib;$(SolutionDir)assimp-6.0.3\code\..\contrib\unzip;$(SolutionDir)assimp-6.0.3\code\..\contrib\openddlparser\include;$(SolutionDir)assimp-6.0.3\code\..\include;$(SolutionDir)assimp-6.0.3\code\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>$(SolutionDir)assimp-6.0.3\include;$(SolutionDir)assimp-6.0.3;$(SolutionDir)assimp-6.0.3\code;$(SolutionDir)assimp-6.0.3\.;$(SolutionDir)assimp-6.0.3\contrib\zlib;$(SolutionDir)assimp-6.0.3\code\..\contrib\pugixml\src;$(SolutionDir)assimp-6.0.3\code\..\contrib\utf8cpp\source;$(SolutionDir)assimp-6.0.3\code\..\contrib\rapidjson\include;$(SolutionDir)assimp-6.0.3\code\..\contrib;$(SolutionDir)assimp-6.0.3\code\..\contrib\unzip;$(SolutionDir)assimp-6.0.3\code\..\contrib\openddlparser\include;$(SolutionDir)assimp-6.0.3\code\..\include;$(SolutionDir)assimp-6.0.3\code\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="$(SolutionDir)assimp-6.0.3\code\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/code/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3 -BC:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3 --check-stamp-file C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/code/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)assimp-6.0.3\code\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/code/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3 -BC:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3 --check-stamp-file C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/code/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)assimp-6.0.3\code\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/code/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3 -BC:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3 --check-stamp-file C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/code/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">$(SolutionDir)assimp-6.0.3\code\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/code/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3 -BC:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3 --check-stamp-file C:/Users/ivani/OneDrive/Escritorio/build/assimp-6.0.3/code/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">$(SolutionDir)assimp-6.0.3\code\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\Common\Assimp.cpp" />
+    <ResourceCompile Include="$(SolutionDir)assimp-6.0.3\code\res\assimp.rc" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\CApi\CInterfaceIOWrapper.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\CApi\CInterfaceIOWrapper.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\Common\StbCommon.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\Common\Compression.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\Common\Compression.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\Common\BaseImporter.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\Common\BaseProcess.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\Common\BaseProcess.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\Common\Importer.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\Common\ScenePrivate.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\Common\PostStepRegistry.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\Common\ImporterRegistry.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\Common\DefaultProgressHandler.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\Common\DefaultIOStream.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\Common\IOSystem.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\Common\DefaultIOSystem.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\Common\ZipArchiveIOSystem.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\Common\PolyTools.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\Common\Maybe.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\Common\Importer.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\Common\IFF.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\Common\SGSpatialSort.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\Common\VertexTriangleAdjacency.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\Common\VertexTriangleAdjacency.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\Common\SpatialSort.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\Common\SceneCombiner.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\Common\ScenePreprocessor.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\Common\ScenePreprocessor.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\Common\SkeletonMeshBuilder.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\Common\StackAllocator.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\Common\StackAllocator.inl" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\Common\StandardShapes.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\Common\TargetAnimation.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\Common\TargetAnimation.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\Common\RemoveComments.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\Common\Subdivision.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\Common\scene.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\Common\Bitmap.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\Common\Version.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\Common\CreateAnimMesh.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\Common\simd.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\Common\simd.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\Common\material.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\Common\AssertHandler.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\Common\Exceptional.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\Common\Base64.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\Geometry\GeometryUtils.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\Geometry\GeometryUtils.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\DefaultLogger.hpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\LogStream.hpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\Logger.hpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\NullLogger.hpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\Common\Win32DebugLogStream.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\Common\DefaultLogger.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\Common\FileLogStream.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\Common\StdOStreamLogStream.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\CalcTangentsProcess.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\CalcTangentsProcess.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\ComputeUVMappingProcess.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\ComputeUVMappingProcess.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\ConvertToLHProcess.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\ConvertToLHProcess.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\EmbedTexturesProcess.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\EmbedTexturesProcess.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\FindDegenerates.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\FindDegenerates.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\FindInstancesProcess.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\FindInstancesProcess.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\FindInvalidDataProcess.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\FindInvalidDataProcess.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\FixNormalsStep.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\FixNormalsStep.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\DropFaceNormalsProcess.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\DropFaceNormalsProcess.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\GenFaceNormalsProcess.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\GenFaceNormalsProcess.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\GenVertexNormalsProcess.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\GenVertexNormalsProcess.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\PretransformVertices.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\PretransformVertices.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\ImproveCacheLocality.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\ImproveCacheLocality.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\JoinVerticesProcess.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\JoinVerticesProcess.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\LimitBoneWeightsProcess.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\LimitBoneWeightsProcess.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\RemoveRedundantMaterials.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\RemoveRedundantMaterials.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\RemoveVCProcess.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\RemoveVCProcess.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\SortByPTypeProcess.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\SortByPTypeProcess.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\SplitLargeMeshes.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\SplitLargeMeshes.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\TextureTransform.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\TextureTransform.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\TriangulateProcess.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\TriangulateProcess.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\ValidateDataStructure.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\ValidateDataStructure.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\OptimizeGraph.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\OptimizeGraph.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\OptimizeMeshes.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\OptimizeMeshes.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\DeboneProcess.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\DeboneProcess.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\ProcessHelper.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\ProcessHelper.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\MakeVerboseFormat.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\MakeVerboseFormat.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\ScaleProcess.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\ScaleProcess.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\ArmaturePopulate.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\ArmaturePopulate.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\GenBoundingBoxesProcess.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\GenBoundingBoxesProcess.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\SplitByBoneCountProcess.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\PostProcessing\SplitByBoneCountProcess.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\Material\MaterialSystem.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\Material\MaterialSystem.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\STEPParser\STEPFileReader.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\STEPParser\STEPFileReader.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\STEPParser\STEPFileEncoding.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\STEPParser\STEPFileEncoding.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\glTFCommon\glTFCommon.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\glTFCommon\glTFCommon.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\AMF\AMFImporter.hpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\AMF\AMFImporter_Node.hpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\AMF\AMFImporter.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\AMF\AMFImporter_Geometry.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\AMF\AMFImporter_Material.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\AMF\AMFImporter_Postprocess.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\3DS\3DSConverter.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\3DS\3DSHelper.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\3DS\3DSLoader.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\3DS\3DSLoader.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\AC\ACLoader.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\AC\ACLoader.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\ASE\ASELoader.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\ASE\ASELoader.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\ASE\ASEParser.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\ASE\ASEParser.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Assbin\AssbinLoader.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Assbin\AssbinLoader.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\B3D\B3DImporter.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\B3D\B3DImporter.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\BVH\BVHLoader.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\BVH\BVHLoader.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Collada\ColladaHelper.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Collada\ColladaHelper.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Collada\ColladaLoader.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Collada\ColladaLoader.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Collada\ColladaParser.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Collada\ColladaParser.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\DXF\DXFLoader.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\DXF\DXFLoader.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\DXF\DXFHelper.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\CSM\CSMLoader.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\CSM\CSMLoader.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\HMP\HMPFileData.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\HMP\HMPLoader.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\HMP\HMPLoader.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\HMP\HalfLifeFileData.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Irr\IRRMeshLoader.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Irr\IRRMeshLoader.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Irr\IRRShared.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Irr\IRRShared.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\IQM\IQMImporter.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\IQM\iqm.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\IQM\IQMImporter.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Irr\IRRLoader.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Irr\IRRLoader.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\LWO\LWOAnimation.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\LWO\LWOAnimation.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\LWO\LWOBLoader.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\LWO\LWOFileData.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\LWO\LWOLoader.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\LWO\LWOLoader.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\LWO\LWOMaterial.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\LWS\LWSLoader.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\LWS\LWSLoader.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\MD2\MD2FileData.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\MD2\MD2Loader.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\MD2\MD2Loader.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\MD2\MD2NormalTable.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\MD3\MD3FileData.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\MD3\MD3Loader.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\MD3\MD3Loader.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\MD5\MD5Loader.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\MD5\MD5Loader.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\MD5\MD5Parser.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\MD5\MD5Parser.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\MDC\MDCFileData.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\MDC\MDCLoader.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\MDC\MDCLoader.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\MDC\MDCNormalTable.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\MDL\MDLDefaultColorMap.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\MDL\MDLFileData.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\MDL\MDLLoader.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\MDL\MDLLoader.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\MDL\MDLMaterialLoader.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\MDL\HalfLife\HalfLifeMDLBaseHeader.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\MDL\HalfLife\HL1DataBuffer.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\MDL\HalfLife\HL1FileData.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\MDL\HalfLife\HL1MDLLoader.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\MDL\HalfLife\HL1MDLLoader.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\MDL\HalfLife\HL1ImportDefinitions.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\MDL\HalfLife\HL1ImportSettings.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\MDL\HalfLife\HL1MeshTrivert.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\MDL\HalfLife\LogFunctions.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\MDL\HalfLife\UniqueNameGenerator.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\MDL\HalfLife\UniqueNameGenerator.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\NFF\NFFLoader.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\NFF\NFFLoader.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\NDO\NDOLoader.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\NDO\NDOLoader.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\OFF\OFFLoader.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\OFF\OFFLoader.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Obj\ObjFileData.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Obj\ObjFileImporter.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Obj\ObjFileImporter.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Obj\ObjFileMtlImporter.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Obj\ObjFileMtlImporter.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Obj\ObjFileParser.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Obj\ObjFileParser.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Obj\ObjTools.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\OpenGEX\OpenGEXImporter.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\OpenGEX\OpenGEXImporter.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\OpenGEX\OpenGEXStructs.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Ply\PlyLoader.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Ply\PlyLoader.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Ply\PlyParser.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Ply\PlyParser.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\MS3D\MS3DLoader.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\MS3D\MS3DLoader.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\COB\COBLoader.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\COB\COBLoader.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\COB\COBScene.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Blender\BlenderLoader.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Blender\BlenderLoader.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Blender\BlenderDNA.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Blender\BlenderDNA.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Blender\BlenderDNA.inl" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Blender\BlenderScene.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Blender\BlenderScene.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Blender\BlenderSceneGen.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Blender\BlenderIntermediate.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Blender\BlenderModifier.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Blender\BlenderModifier.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Blender\BlenderBMesh.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Blender\BlenderBMesh.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Blender\BlenderTessellator.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Blender\BlenderTessellator.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Blender\BlenderCustomData.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Blender\BlenderCustomData.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\IFC\IFCLoader.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\IFC\IFCLoader.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\IFC\IFCReaderGen1_2x3.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\IFC\IFCReaderGen2_2x3.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\IFC\IFCReaderGen_2x3.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\IFC\IFCUtil.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\IFC\IFCUtil.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\IFC\IFCGeometry.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\IFC\IFCMaterial.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\IFC\IFCProfile.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\IFC\IFCCurve.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\IFC\IFCBoolean.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\IFC\IFCOpenings.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\XGL\XGLLoader.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\XGL\XGLLoader.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\FBX\FBXImporter.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\FBX\FBXCompileConfig.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\FBX\FBXImporter.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\FBX\FBXParser.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\FBX\FBXParser.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\FBX\FBXTokenizer.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\FBX\FBXTokenizer.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\FBX\FBXImportSettings.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\FBX\FBXConverter.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\FBX\FBXConverter.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\FBX\FBXDocument.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\FBX\FBXDocument.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\FBX\FBXProperties.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\FBX\FBXProperties.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\FBX\FBXMeshGeometry.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\FBX\FBXMeshGeometry.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\FBX\FBXMaterial.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\FBX\FBXModel.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\FBX\FBXAnimation.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\FBX\FBXNodeAttribute.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\FBX\FBXDeformer.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\FBX\FBXBinaryTokenizer.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\FBX\FBXDocumentUtil.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Q3D\Q3DLoader.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Q3D\Q3DLoader.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Q3BSP\Q3BSPFileData.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Q3BSP\Q3BSPFileParser.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Q3BSP\Q3BSPFileParser.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Q3BSP\Q3BSPFileImporter.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Q3BSP\Q3BSPFileImporter.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Raw\RawLoader.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Raw\RawLoader.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\SIB\SIBImporter.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\SIB\SIBImporter.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\SMD\SMDLoader.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\SMD\SMDLoader.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\STL\STLLoader.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\STL\STLLoader.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Terragen\TerragenLoader.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Terragen\TerragenLoader.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Unreal\UnrealLoader.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\Unreal\UnrealLoader.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\X\XFileHelper.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\X\XFileImporter.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\X\XFileImporter.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\X\XFileParser.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\X\XFileParser.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\X3D\X3DImporter.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\X3D\X3DImporter_Geometry2D.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\X3D\X3DImporter_Geometry3D.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\X3D\X3DImporter_Group.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\X3D\X3DImporter_Light.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\X3D\X3DImporter_Metadata.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\X3D\X3DImporter_Networking.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\X3D\X3DImporter_Postprocess.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\X3D\X3DImporter_Rendering.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\X3D\X3DImporter_Shape.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\X3D\X3DImporter_Texturing.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\X3D\X3DImporter.hpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\X3D\X3DImporter_Macro.hpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\X3D\X3DImporter_Node.hpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\X3D\X3DGeoHelper.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\X3D\X3DGeoHelper.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\X3D\X3DXmlHelper.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\X3D\X3DXmlHelper.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\VRML\VrmlConverter.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\glTF\glTFAsset.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\glTF\glTFAsset.inl" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\glTF\glTFAssetWriter.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\glTF\glTFAssetWriter.inl" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\glTF\glTFImporter.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\glTF\glTFImporter.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\glTF2\glTF2Asset.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\glTF2\glTF2Asset.inl" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\glTF2\glTF2AssetWriter.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\glTF2\glTF2AssetWriter.inl" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\glTF2\glTF2Importer.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\glTF2\glTF2Importer.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\3MF\3MFTypes.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\3MF\XmlSerializer.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\3MF\XmlSerializer.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\3MF\D3MFImporter.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\3MF\D3MFImporter.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\3MF\D3MFOpcPackage.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\3MF\D3MFOpcPackage.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\3MF\3MFXmlTags.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\MMD\MMDCpp14.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\MMD\MMDImporter.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\MMD\MMDImporter.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\MMD\MMDPmdParser.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\MMD\MMDPmxParser.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\MMD\MMDPmxParser.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\MMD\MMDVmdParser.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\FBX\FBXUtil.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\FBX\FBXUtil.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\code\AssetLib\FBX\FBXCommon.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\unzip\crypt.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\contrib\unzip\ioapi.c" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\unzip\ioapi.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\contrib\unzip\unzip.c" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\unzip\unzip.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\contrib\poly2tri\poly2tri\common\shapes.cc" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\poly2tri\poly2tri\common\shapes.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\poly2tri\poly2tri\common\utils.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\poly2tri\poly2tri\sweep\advancing_front.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\contrib\poly2tri\poly2tri\sweep\advancing_front.cc" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\contrib\poly2tri\poly2tri\sweep\cdt.cc" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\poly2tri\poly2tri\sweep\cdt.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\contrib\poly2tri\poly2tri\sweep\sweep.cc" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\poly2tri\poly2tri\sweep\sweep.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\contrib\poly2tri\poly2tri\sweep\sweep_context.cc" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\poly2tri\poly2tri\sweep\sweep_context.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\clipper\clipper.hpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\contrib\clipper\clipper.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\contrib\openddlparser\code\OpenDDLParser.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\contrib\openddlparser\code\DDLNode.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\contrib\openddlparser\code\OpenDDLCommon.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\contrib\openddlparser\code\OpenDDLExport.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\contrib\openddlparser\code\Value.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\contrib\openddlparser\code\OpenDDLStream.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\openddlparser\include\openddlparser\OpenDDLParser.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\openddlparser\include\openddlparser\OpenDDLParserUtils.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\openddlparser\include\openddlparser\OpenDDLCommon.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\openddlparser\include\openddlparser\OpenDDLExport.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\openddlparser\include\openddlparser\OpenDDLStream.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\openddlparser\include\openddlparser\DDLNode.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\openddlparser\include\openddlparser\Value.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\Open3DGC\o3dgcAdjacencyInfo.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\contrib\Open3DGC\o3dgcArithmeticCodec.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\Open3DGC\o3dgcArithmeticCodec.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\Open3DGC\o3dgcBinaryStream.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\Open3DGC\o3dgcCommon.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\Open3DGC\o3dgcDVEncodeParams.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\contrib\Open3DGC\o3dgcDynamicVectorDecoder.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\Open3DGC\o3dgcDynamicVectorDecoder.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\contrib\Open3DGC\o3dgcDynamicVectorEncoder.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\Open3DGC\o3dgcDynamicVectorEncoder.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\Open3DGC\o3dgcDynamicVector.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\Open3DGC\o3dgcFIFO.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\Open3DGC\o3dgcIndexedFaceSet.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\Open3DGC\o3dgcIndexedFaceSet.inl" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\Open3DGC\o3dgcSC3DMCDecoder.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\Open3DGC\o3dgcSC3DMCDecoder.inl" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\Open3DGC\o3dgcSC3DMCEncodeParams.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\Open3DGC\o3dgcSC3DMCEncoder.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\Open3DGC\o3dgcSC3DMCEncoder.inl" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\Open3DGC\o3dgcTimer.h" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\contrib\Open3DGC\o3dgcTools.cpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\contrib\Open3DGC\o3dgcTriangleFans.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\Open3DGC\o3dgcTriangleFans.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\Open3DGC\o3dgcTriangleListDecoder.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\Open3DGC\o3dgcTriangleListDecoder.inl" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\Open3DGC\o3dgcTriangleListEncoder.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\Open3DGC\o3dgcTriangleListEncoder.inl" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\Open3DGC\o3dgcVector.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\Open3DGC\o3dgcVector.inl" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\pugixml\src\pugiconfig.hpp" />
+    <ClCompile Include="$(SolutionDir)assimp-6.0.3\contrib\pugixml\src\pugixml.cpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\pugixml\src\pugixml.hpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\contrib\stb\stb_image.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\anim.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\aabb.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\ai_assert.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\camera.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\color4.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\color4.inl" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\config.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\ColladaMetaData.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\commonMetaData.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\defs.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\cfileio.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\light.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\material.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\material.inl" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\matrix3x3.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\matrix3x3.inl" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\matrix4x4.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\matrix4x4.inl" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\mesh.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\ObjMaterial.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\pbrmaterial.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\GltfMaterial.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\postprocess.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\quaternion.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\quaternion.inl" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\scene.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\metadata.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\texture.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\types.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\vector2.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\vector2.inl" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\vector3.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\vector3.inl" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\version.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\cimport.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\AssertHandler.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\importerdesc.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\Importer.hpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\ProgressHandler.hpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\IOStream.hpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\IOSystem.hpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\cexport.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\Exporter.hpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\DefaultIOStream.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\DefaultIOSystem.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\ZipArchiveIOSystem.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\SceneCombiner.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\fast_atof.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\qnan.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\BaseImporter.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\Hash.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\MemoryIOWrapper.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\ParsingUtils.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\StreamReader.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\StreamWriter.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\StringComparison.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\StringUtils.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\SGSpatialSort.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\GenericProperty.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\SpatialSort.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\SkeletonMeshBuilder.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\SmallVector.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\SmoothingGroups.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\SmoothingGroups.inl" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\StandardShapes.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\RemoveComments.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\Subdivision.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\Vertex.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\LineSplitter.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\TinyFormatter.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\Profiler.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\LogAux.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\Bitmap.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\XMLTools.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\IOStreamBuffer.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\CreateAnimMesh.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\XmlParser.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\BlobIOSystem.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\MathFunctions.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\Exceptional.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\ByteSwapper.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\Base64.hpp" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\Compiler\pushpack1.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\Compiler\poppack1.h" />
+    <ClInclude Include="$(SolutionDir)assimp-6.0.3\include\assimp\Compiler\pstdint.h" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="$(SolutionDir)assimp-6.0.3\ZERO_CHECK.vcxproj">
+      <Project>{7A9C14E7-E3A1-3EDA-86E0-C9A5A4CBE68E}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="$(SolutionDir)assimp-6.0.3\contrib\zlib\zlibstatic.vcxproj">
+      <Project>{3734F0A4-056F-3583-AC3C-1B5B4AAA10FF}</Project>
+      <Name>zlibstatic</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
