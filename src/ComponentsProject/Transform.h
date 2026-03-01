@@ -9,9 +9,9 @@
 #pragma once
 #include <vector>
 
-#include "Component.h"
-#include "Quaternion.h"
-#include "Vector3.h"
+#include <Component.h>
+#include <Quaternion.h>
+#include <Vector3.h>
 
 namespace core
 {
