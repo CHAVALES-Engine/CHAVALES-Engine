@@ -47,7 +47,7 @@ bool DLLLoader::load(const std::string& path)
 	for (size_t i = 0; i < count; ++i) {
 		ComponentRegister::instance().registComponent(
 			descriptors[i].name,
-			descriptors[i].factory
+			descriptors[i].ComponentConstructor
 		);
 	}
 

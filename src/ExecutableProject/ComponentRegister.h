@@ -11,7 +11,7 @@
 namespace core {
 	class Component; 
 	using ComponentPtr = std::unique_ptr<Component>;
-	using ComponentConstructFunc = std::function<ComponentPtr()>;
+	using ComponentConstructor = std::function<ComponentPtr()>;
 }
 class ComponentRegister
 {
@@ -27,7 +27,7 @@ public:
 	* 
 	* @return bool - Se ha registrado correctamente
 	*/
-	bool registComponent(const char* name, core::ComponentConstructFunc factory);
+	bool registComponent(const char* name, core::ComponentConstructor factory);
 	/*
 	* @brief 
 	*	Crea el componente pedido usando su funcion asignada
@@ -49,7 +49,7 @@ private:
 	*	Unordered map:
 	*		nombre de componente (clave) - puntero a funcion constructora (valor)
 	*/
-	static inline std::unordered_map<const char*, core::ComponentConstructFunc> _components;
+	static inline std::unordered_map<const char*, core::ComponentConstructor> _components;
 };
 
 /*
