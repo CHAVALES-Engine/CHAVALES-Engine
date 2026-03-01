@@ -173,7 +173,6 @@
   <ItemGroup>
     <ClCompile Include="..\..\src\Core\Component.cpp" />
     <ClCompile Include="..\..\src\Core\Entity.cpp" />
-    <ClCompile Include="..\..\src\Core\Quaternion.cpp" />
     <ClCompile Include="..\..\src\Core\Scene.cpp" />
     <ClCompile Include="..\..\src\Core\Timing.cpp" />
     <ClCompile Include="..\..\src\Core\Transform.cpp" />
