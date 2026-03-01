@@ -55,12 +55,12 @@ bool Engine::_initPriv()
 		return false;
 	}
 
-	/*_physicsModule = new PhysicsModule();
+	_physicsModule = new PhysicsModule();
 
 	if (!_physicsModule->Init())
 	{
 		delete _physicsModule;
 		return false;
-	}*/
+	}
 	return true;
 }
