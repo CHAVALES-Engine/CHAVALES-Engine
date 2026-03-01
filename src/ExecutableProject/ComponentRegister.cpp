@@ -1,9 +1,17 @@
-#include "ComponentsRegister.h"
+#include "ComponentRegister.h"
 #include <Debug.h>
 #include <PluginSDK.h>
 #include <Component.h>
 
-bool ComponentsRegister::registComponent(const char* name, core::ComponentFactory factory)
+ComponentRegister* ComponentRegister::_instance = nullptr;
+
+bool ComponentRegister::init() {
+	if (_instance == nullptr) _instance = new ComponentRegister();
+
+	return _instance;
+}
+
+bool ComponentRegister::registComponent(const char* name, core::ComponentFactory factory)
 {
 	// Intenta registrar un componente
 	auto [it, inserted] = _components.try_emplace(name, factory);
@@ -14,7 +22,7 @@ bool ComponentsRegister::registComponent(const char* name, core::ComponentFactor
 }
 
 template<typename ...Args>
-inline std::unique_ptr<core::Component> ComponentsRegister::create(const char* name, Args && ...args)
+inline std::unique_ptr<core::Component> ComponentRegister::create(const char* name, Args && ...args)
 {
 	auto it = _components.find(name);
 	if (it == _components.end()) {
@@ -25,7 +33,7 @@ inline std::unique_ptr<core::Component> ComponentsRegister::create(const char* n
 	return it->second();
 }
 
-bool ComponentsRegister::unregisterComponent(const char* name)
+bool ComponentRegister::unregisterComponent(const char* name)
 {
 	bool removed = (_components.erase(name) > 0);
 	if (!removed)

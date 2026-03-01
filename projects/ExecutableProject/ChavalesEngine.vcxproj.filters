@@ -18,7 +18,7 @@
     <ClCompile Include="..\..\src\ExecutableProject\main.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\ExecutableProject\ComponentsRegister.cpp">
+    <ClCompile Include="..\..\src\ExecutableProject\ComponentRegister.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\ExecutableProject\DLLLoader.cpp">
@@ -32,7 +32,7 @@
     <ClInclude Include="..\..\src\ExecutableProject\DLLLoader.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\ExecutableProject\ComponentsRegister.h">
+    <ClInclude Include="..\..\src\ExecutableProject\ComponentRegister.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\ExecutableProject\StateMachine.h">

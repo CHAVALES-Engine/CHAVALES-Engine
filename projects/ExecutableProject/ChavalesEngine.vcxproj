@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\ExecutableProject\ComponentsRegister.cpp" />
+    <ClCompile Include="..\..\src\ExecutableProject\ComponentRegister.cpp" />
     <ClCompile Include="..\..\src\ExecutableProject\DLLLoader.cpp" />
     <ClCompile Include="..\..\src\ExecutableProject\main.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)src\$(ProjectName);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -28,7 +28,7 @@
     <ClCompile Include="..\..\src\ExecutableProject\StateMachine.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\ExecutableProject\ComponentsRegister.h" />
+    <ClInclude Include="..\..\src\ExecutableProject\ComponentRegister.h" />
     <ClInclude Include="..\..\src\ExecutableProject\DLLLoader.h" />
     <ClInclude Include="..\..\src\ExecutableProject\StateMachine.h" />
   </ItemGroup>

@@ -13,9 +13,10 @@ namespace core {
 	using ComponentPtr = std::unique_ptr<Component>;
 	using ComponentFactory = std::function<ComponentPtr()>;
 }
-class ComponentsRegister
+class ComponentRegister
 {
 public:
+	static bool init();
 	/*
 	* @brief Registra un componente en el mapa, con su constructor
 	*/
@@ -36,6 +37,9 @@ public:
 	*/
 	bool unregisterComponent(const char* name);
 private:
+	/*
+	*/
+	static ComponentRegister* _instance;
 	/*
 	* @brief 
 	*	Unordered map:
