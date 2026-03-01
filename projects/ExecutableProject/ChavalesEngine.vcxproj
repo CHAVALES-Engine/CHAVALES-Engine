@@ -29,6 +29,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\src\ExecutableProject\ComponentRegister.cpp" />
     <ClCompile Include="..\..\src\ExecutableProject\DLLLoader.cpp" />
+    <ClCompile Include="..\..\src\ExecutableProject\GameLoader.cpp" />
     <ClCompile Include="..\..\src\ExecutableProject\main.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)src\$(ProjectName);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Test|x64'">$(SolutionDir)src\$(ProjectName);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -39,6 +40,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\src\ExecutableProject\ComponentRegister.h" />
     <ClInclude Include="..\..\src\ExecutableProject\DLLLoader.h" />
+    <ClInclude Include="..\..\src\ExecutableProject\GameLoader.h" />
     <ClInclude Include="..\..\src\ExecutableProject\StateMachine.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -98,7 +98,7 @@ namespace core
 	};
 
 
-	using ComponentFactory = std::function<std::unique_ptr<Component>()>;
+	using ComponentConstructFunc = std::function<std::unique_ptr<Component>()>;
 
 	struct ComponentDescriptor
 	{
@@ -110,6 +110,6 @@ namespace core
 		/*
 		* @brief Funcion creadora de un componente
 		*/
-		ComponentFactory factory;
+		ComponentConstructFunc factory;
 	};
 } // end of namespace
