@@ -171,7 +171,7 @@
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)dependencies\ogre\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)dependencies\ogre\include;$(SolutionDir)dependencies\ogre\include\imgui-1.91.9b\;$(SolutionDir)dependencies\ogre\include\freetype-2.14.1\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -181,7 +181,7 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)dependencies\ogre\lib\Debug\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Codec_AssimpStatic_d.lib;Codec_STBIStatic_d.lib;OgreGLSupportStatic_d.lib;OgreMainStatic_d.lib;Plugin_ParticleFXStatic_d.lib;RenderSystem_GL3PlusStatic_d.lib;RenderSystem_GLES2Static_d.lib;OgreOverlayStatic_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Codec_AssimpStatic_d.lib;Codec_STBIStatic_d.lib;OgreGLSupportStatic_d.lib;OgreMainStatic_d.lib;Plugin_ParticleFXStatic_d.lib;RenderSystem_GL3PlusStatic_d.lib;RenderSystem_GLES2Static_d.lib;OgreOverlayStatic_d.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Test|x64'">
@@ -194,7 +194,7 @@
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)dependencies\ogre\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)dependencies\ogre\include\;$(SolutionDir)dependencies\ogre\include\imgui-1.91.9b\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -204,7 +204,7 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)dependencies\ogre\lib\Debug\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Codec_AssimpStatic_d.lib;Codec_STBIStatic_d.lib;OgreGLSupportStatic_d.lib;OgreMainStatic_d.lib;Plugin_ParticleFXStatic_d.lib;RenderSystem_GL3PlusStatic_d.lib;RenderSystem_GLES2Static_d.lib;OgreOverlayStatic_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Codec_AssimpStatic_d.lib;Codec_STBIStatic_d.lib;OgreGLSupportStatic_d.lib;OgreMainStatic_d.lib;Plugin_ParticleFXStatic_d.lib;RenderSystem_GL3PlusStatic_d.lib;RenderSystem_GLES2Static_d.lib;OgreOverlayStatic_d.lib;freetype.h;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -218,7 +218,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)dependencies\ogre\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)dependencies\ogre\include\;$(SolutionDir)dependencies\ogre\include\imgui-1.91.9b\;$(SolutionDir)dependencies\ogre\include\freetype-2.14.1\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
@@ -229,7 +229,7 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)dependencies\ogre\lib\Release\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Codec_AssimpStatic.lib;Codec_STBIStatic.lib;OgreGLSupportStatic.lib;OgreMainStatic.lib;Plugin_ParticleFXStatic.lib;RenderSystem_GL3PlusStatic.lib;RenderSystem_GLES2Static.lib;OgreOverlayStatic.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Codec_AssimpStatic.lib;Codec_STBIStatic.lib;OgreGLSupportStatic.lib;OgreMainStatic.lib;Plugin_ParticleFXStatic.lib;RenderSystem_GL3PlusStatic.lib;RenderSystem_GLES2Static.lib;OgreOverlayStatic.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>

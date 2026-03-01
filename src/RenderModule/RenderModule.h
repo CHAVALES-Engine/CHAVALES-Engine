@@ -18,7 +18,7 @@ namespace Ogre
     class ImGuiOverlay;
 }
 
-/*class ImGuiManager
+class ImGuiManager
 {
 public:
     using UIElement = std::function<void()>;
@@ -29,9 +29,9 @@ public:
     void Draw();
 
 private:
-    Ogre::ImGuiOverlay _ui;
+    Ogre::ImGuiOverlay* _ui;
     std::vector<UIElement> _elements;
-};*/
+};
 
 class RenderModule
 {
@@ -46,5 +46,5 @@ public:
 private:
     std::vector<Ogre::SceneNode*> _cameras;
     std::vector<Ogre::SceneNode*> _entitiesNodes;
-    //ImGuiManager _ui;
+    ImGuiManager _ui;
 };
