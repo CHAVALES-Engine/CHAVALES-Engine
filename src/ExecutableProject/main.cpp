@@ -11,7 +11,7 @@
 #include <stdlib.h>
 #include <Engine.h>
 #include <Debug.h>
-
+#include "checkML.h"
 #include "StateMachine.h"
 #include "DLLLoader.h"
 
@@ -22,11 +22,11 @@ int main(int argc, char* argv[]) {
 	Engine::init();
 
 	// Ejemplos de debug:
-	Debug::open();
-	Debug::out(Debug::DebugMode::DEBUG_BOTH, "Hola soy un ejemplo de mensaje normal con un int: ", 23, "\nY una salto de linea.");
-	Debug::out(Debug::DebugMode::DEBUG_BOTH, "Otro ejemplo");
-	Debug::error(Debug::DebugMode::DEBUG_BOTH, "Hola soy un ejemplo de error.");
-	Debug::warning(Debug::DebugMode::DEBUG_BOTH, "Hola soy un ejemplo de Warning");
+	//Debug::open();
+	//Debug::out(Debug::DebugMode::DEBUG_BOTH, "Hola soy un ejemplo de mensaje normal con un int: ", 23, "\nY una salto de linea.");
+	//Debug::out(Debug::DebugMode::DEBUG_BOTH, "Otro ejemplo");
+	//Debug::error(Debug::DebugMode::DEBUG_BOTH, "Hola soy un ejemplo de error.");
+	//Debug::warning(Debug::DebugMode::DEBUG_BOTH, "Hola soy un ejemplo de Warning");
 
 	//sol::state lua;
 	//lua.script_file("variables.lua");
