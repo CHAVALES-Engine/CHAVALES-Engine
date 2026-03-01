@@ -21,41 +21,56 @@ void core::Scene::onEnable()
 {
 	_active = true;
 
-	for (auto e: _entities)
+	if (!_entities.empty())
 	{
-		e->enable();
+		for (auto e : _entities)
+		{
+			e->enable();
+		}
 	}
 }
 
 void core::Scene::init()
 {
-	for (auto e : _entities)
+	if (!_entities.empty())
 	{
-		e->init();
+		for (auto e : _entities)
+		{
+			e->init();
+		}
 	}
 }
 
 void core::Scene::fixedUpdate()
 {
-	for (auto e : _entities)
+	if (!_entities.empty())
 	{
-		e->fixedUpdate();
+		for (auto e : _entities)
+		{
+			e->fixedUpdate();
+		}
 	}
 }
 
 void core::Scene::update(uint64_t dT)
 {
-	for (auto e : _entities)
+	if (!_entities.empty())
 	{
-		e->update(dT);
+		for (auto e : _entities)
+		{
+			e->update(dT);
+		}
 	}
 }
 
 void core::Scene::render()
 {
-	for (auto e : _entities)
+	if (!_entities.empty())
 	{
-		e->render();
+		for (auto e : _entities)
+		{
+			e->render();
+		}
 	}
 }
 
@@ -63,17 +78,23 @@ void core::Scene::onDisable()
 {
 	_active = false;
 
-	for (auto e : _entities)
+	if (!_entities.empty())
 	{
-		e->disable();
+		for (auto e : _entities)
+		{
+			e->disable();
+		}
 	}
 }
 
 void core::Scene::onDestroy()
 {
-	for (auto e : _entities)
+	if (!_entities.empty())
 	{
-		e->destroy();
+		for (auto e : _entities)
+		{
+			e->destroy();
+		}
 	}
 }
 

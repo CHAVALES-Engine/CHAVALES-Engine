@@ -6,8 +6,10 @@
 
 int main()
 {
-	DLLLoader dllLoader;
-	dllLoader.load("./DLL-Test.dll");
+	//DLLLoader dllLoader;
+	//dllLoader.load("./DLL-Test.dll");
+
+	return 0;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
