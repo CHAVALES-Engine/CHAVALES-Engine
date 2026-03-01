@@ -41,6 +41,8 @@ bool Engine::_initPriv()
 
 	_platformModule = new PlatformModule();
 
+	//si falla el ultimo el resto se crean pero no se limpian nunca???
+
 	if (!_platformModule->Init())
 	{
 		delete _platformModule;

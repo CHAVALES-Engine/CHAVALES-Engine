@@ -28,7 +28,7 @@ namespace core
 
 	void Transform::setLocalPosition(Vector3<> lp) { _localPosition = lp; }
 
-	void Transform::setGlobalRotation(Quaternion gr)
+	void Transform::setGlobalRotation(Quaternion<> gr)
 	{
 		if (_parent != nullptr)
 		{
@@ -41,7 +41,7 @@ namespace core
 		}
 	}
 
-	void Transform::setLocalRotation(Quaternion lr) { _localRotation = lr; }
+	void Transform::setLocalRotation(Quaternion<> lr) { _localRotation = lr; }
 
 	void Transform::setGlobalScale(Vector3<> gs)
 	{
@@ -80,7 +80,7 @@ namespace core
 
 	Vector3<> Transform::getLocalPosition() const { return _localPosition; }
 
-	Quaternion Transform::getGlobalRotation() const
+	Quaternion<> Transform::getGlobalRotation() const
 	{
 		if (_parent != nullptr)
 		{
@@ -90,7 +90,7 @@ namespace core
 		return _localRotation;
 	}
 
-	Quaternion Transform::getLocalRotation() const { return _localRotation; }
+	Quaternion<> Transform::getLocalRotation() const { return _localRotation; }
 
 	Vector3<> Transform::getGlobalScale() const
 	{
@@ -194,7 +194,7 @@ namespace core
 		_localPosition = _localPosition + t;
 	}
 
-	void Transform::rotate(Quaternion q)
+	void Transform::rotate(Quaternion<> q)
 	{
 		//_localRotation = q * _localRotation; // en este orden
 	}

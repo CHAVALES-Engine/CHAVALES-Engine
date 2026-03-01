@@ -18,7 +18,7 @@ namespace core
 	class Transform : public Component
 	{
 		Vector3<> _localPosition;
-		Quaternion _localRotation;
+		Quaternion<> _localRotation;
 		Vector3<> _localScale;
 		Transform* _parent;
 		std::vector<Transform*> _children;
@@ -30,8 +30,8 @@ namespace core
 		void setGlobalPosition(Vector3<> gp);
 		void setLocalPosition(Vector3<> lp);
 
-		void setGlobalRotation(Quaternion gr);
-		void setLocalRotation(Quaternion lr);
+		void setGlobalRotation(Quaternion<> gr);
+		void setLocalRotation(Quaternion<> lr);
 
 		void setGlobalScale(Vector3<> gs);
 		void setLocalScale(Vector3<> ls);
@@ -39,8 +39,8 @@ namespace core
 		Vector3<> getGlobalPosition() const;
 		Vector3<> getLocalPosition() const;
 
-		Quaternion getGlobalRotation() const;
-		Quaternion getLocalRotation() const;
+		Quaternion<> getGlobalRotation() const;
+		Quaternion<> getLocalRotation() const;
 
 		Vector3<> getGlobalScale() const;
 		Vector3<> getLocalScale() const;
@@ -73,7 +73,7 @@ namespace core
 		/*
 		 * @brief Aplica una rotacion q en formato quaternion a la rotacion local
 		 */
-		void rotate(Quaternion q);
+		void rotate(Quaternion<> q);
 		/*
 		 * @brief Aplica una rotacion v en formato vector a la rotacion local
 		 */
