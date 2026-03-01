@@ -9,7 +9,7 @@ ComponentRegister& ComponentRegister::instance() {
 	return instance;
 }
 
-bool ComponentRegister::registComponent(const char* name, core::ComponentFactory factory)
+bool ComponentRegister::registComponent(const char* name, core::ComponentConstructFunc factory)
 {
 	// Intenta registrar un componente
 	auto [it, inserted] = _components.try_emplace(name, factory);

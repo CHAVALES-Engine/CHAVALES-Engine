@@ -6,8 +6,8 @@
 
 int main()
 {
-	//DLLLoader dllLoader;
-	//dllLoader.load("./DLL-Test.dll");
+	DLLLoader dllLoader;
+	dllLoader.load("./DLL-Test.dll");
 
 	return 0;
 }
