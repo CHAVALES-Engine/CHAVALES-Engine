@@ -1,4 +1,7 @@
 config = {
 	fullscreen = false,
-	resolution = { x = 1024, y = 768 }
+	resolution = { 
+		x = 1024, 
+		y = 768 
+	}
 }

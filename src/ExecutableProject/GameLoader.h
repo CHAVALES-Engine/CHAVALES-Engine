@@ -1,6 +1,11 @@
 #pragma once
 
+#include <memory>
+#include <unordered_map>
+
 #include "Scene.h"
+
+using sceneName = std::string;
 
 class GameLoader
 {
@@ -8,9 +13,14 @@ public:
 	GameLoader() = default;
 	~GameLoader() = default;
 
-	void loadScene();
+	static std::shared_ptr<core::Scene> loadScene(sceneName n);
 
+	// carga una escena dada
+	static std::shared_ptr<core::Scene> loadScene(sceneName n, const std::string& path);
 
+	// carga ficheros de lua
+	// para cargar todas las escenas de una vez
+	bool load(std::string& path);
 
 	/*
 	Entity e
@@ -24,5 +34,7 @@ public:
 	*/
 
 private:
-
+	// mapa de nombre de escena - contenidos de la escena
+	// como guardar los contenidos? 
+	//std::unordered_map<sceneName, > _scenesContent;
 };

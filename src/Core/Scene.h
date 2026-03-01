@@ -29,6 +29,11 @@ namespace core
 
 		void addEntity(core::Entity* e);
 
+		inline sceneName getName()
+		{
+			return _name;
+		}
+
 	private:
 		sceneName _name;
 		bool _active = false;

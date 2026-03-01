@@ -8,6 +8,10 @@
 #include <Engine.h>
 #include <iostream>
 
+#include "GameLoader.h"
+
+class GameLoader;
+
 uint64_t StateMachine::_nextId = -1;
 
 StateMachine::StateMachine() :
@@ -91,8 +95,12 @@ void StateMachine::setScene(sceneName n)
 			// si no era la escena activa ya
 			if (_currentScene.id != itS->first)
 			{
+
+				// carga la escena 
+
 				// desactiva la escena actual
 				_currentScene.ptr->onDisable();
+				//_currentScene.ptr->onDestroy();
 
 				// setea la escena actual a la escena s
 				_currentScene.id = itS->first;
@@ -116,8 +124,11 @@ void StateMachine::addAndSetScene(sceneName n, scenePtr s)
 		_nameToID.insert({ n, id }); // guarda la escena en el mapa de nombres e id
 		_stateMachine.insert({ id, s }); // guarda la escena con id y puntero en la maquina de estados
 
-		// desactiva la escena actual
+		// desactiva la escena actual -> TODO: destruir escena
 		_currentScene.ptr->onDisable();
+
+		// cargar nueva escena
+		s = std::move(GameLoader::loadScene(n));
 
 		// setea nueva escena actual
 		_currentScene.id = id;

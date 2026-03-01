@@ -14,6 +14,8 @@
 #include "checkML.h"
 #include "StateMachine.h"
 #include "DLLLoader.h"
+#include "GameLoader.h"
+#include "Scene.h"
 
 using namespace core;
 #ifndef IS_BEING_INCLUDED
@@ -41,6 +43,9 @@ int main(int argc, char* argv[]) {
 
 	StateMachine _stateMachine;
 	_stateMachine.gameLoop();
+
+	std::shared_ptr<Scene> scene = std::make_shared<Scene>("ScenePrueba");
+	_stateMachine.addAndSetScene(scene->getName(), scene);
 
 	return 0;
 }
