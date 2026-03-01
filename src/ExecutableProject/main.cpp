@@ -11,6 +11,8 @@
 #include <stdlib.h>
 #include <Engine.h>
 #include <Debug.h>
+#include <filesystem>
+
 #include "checkML.h"
 #include "StateMachine.h"
 #include "DLLLoader.h"
@@ -30,8 +32,9 @@ int main(int argc, char* argv[]) {
 	//Debug::error(Debug::DebugMode::DEBUG_BOTH, "Hola soy un ejemplo de error.");
 	//Debug::warning(Debug::DebugMode::DEBUG_BOTH, "Hola soy un ejemplo de Warning");
 
-	//sol::state lua;
-	//lua.script_file("variables.lua");
+	sol::state lua;
+	std::cout << argv[0];
+	lua.script_file("./scenes/scene_prueba.lua");
 	//// the type "sol::state" behaves 
 	//// exactly like a table!
 	//bool isfullscreen = lua["config"]["fullscreen"]; // can get nested variables

@@ -5,6 +5,8 @@
 #include <string>
 #include <filesystem>
 namespace fs = std::filesystem;
+#define SOL_ALL_SAFETIES_ON 1
+#include <sol/sol.hpp>
 
 #include <fstream>
 
