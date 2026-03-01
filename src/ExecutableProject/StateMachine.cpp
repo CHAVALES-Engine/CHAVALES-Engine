@@ -27,18 +27,21 @@ void StateMachine::gameLoop()
 
 	while (!_endGame) // bucle de juego
 	{
-		_deltaTime = core::Timing::calculateDeltaTime(startTime);
-
-		core::Timing::setDeltaTime(_deltaTime); // para acceso general
-
-		if (_deltaTime >= core::Timing::FRAME_RATE)
+		if (_currentScene.ptr != nullptr)
 		{
-			_currentScene.ptr->fixedUpdate();
-			startTime = core::Timing::getNow();
-		}
+			_deltaTime = core::Timing::calculateDeltaTime(startTime);
 
-		_currentScene.ptr->update(_deltaTime);
-		_currentScene.ptr->render();
+			core::Timing::setDeltaTime(_deltaTime); // para acceso general
+
+			if (_deltaTime >= core::Timing::FRAME_RATE)
+			{
+				_currentScene.ptr->fixedUpdate();
+				startTime = core::Timing::getNow();
+			}
+
+			_currentScene.ptr->update(_deltaTime);
+			_currentScene.ptr->render();
+		}
 	}
 
 	// borrar todas las escenas con la finalizacion del juego

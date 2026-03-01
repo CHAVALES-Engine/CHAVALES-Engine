@@ -19,7 +19,7 @@ namespace PluginSDK {
 			return instance;
 		}
 		/*
-		* @brief Anyade un descriptor al registro local
+		* @brief Aniade un descriptor al registro local
 		*
 		* @param name - nombre del componente
 		* @param factory - funcion creadora del componente
@@ -51,7 +51,7 @@ namespace PluginSDK {
 	struct AutoRegisterComponent {
 		/*
 		* @brief
-		*	Constructor explicito que anyade una funcion constructora
+		*	Constructor explicito que aniade una funcion constructora
 		*	lambda del objeto T (En nuestro caso, clases hijas de component)
 		*/
 		explicit AutoRegisterComponent(const char* name) {
@@ -74,7 +74,7 @@ namespace PluginSDK {
 
 /*
 * @brief
-*	Funcion de C exportacda para acceder a los componentes registrados por el singleton
+*	Funcion de C exportada para acceder a los componentes registrados por el singleton
 * @param & count - Se asigna el numero de componentes que hay registrados
 */
 extern "C" __declspec(dllexport) // Especificacion de exportacion que mantiene el nombre sin alterar por parametros en compilacion
