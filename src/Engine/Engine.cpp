@@ -2,6 +2,7 @@
 #include "Engine.h"
 
 #include "PlatformModule.h"
+#include "RenderModule.h"
 #include "AudioModule.h"
 #include "PhysicsModule.h"
 
@@ -46,6 +47,14 @@ bool Engine::_initPriv()
 	if (!_platformModule->Init())
 	{
 		delete _platformModule;
+		return false;
+	}
+
+	_renderModule = new RenderModule();
+
+	if (!_renderModule->Init(_platformModule->getWindowHandle(), _platformModule->getWindowWidth(), _platformModule->getWindowHeight()))
+	{
+		delete _renderModule;
 		return false;
 	}
 

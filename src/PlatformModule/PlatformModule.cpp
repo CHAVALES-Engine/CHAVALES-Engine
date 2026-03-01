@@ -50,3 +50,13 @@ const UINT64 PlatformModule::getSecSinceStart() const
 	// Multiplicamos para pasarlo a segundos
 	return SDL_GetTicks() * 0.0001;
 }
+
+const int PlatformModule::getWindowWidth() const
+{
+	return SCREEN_WIDTH;
+}
+
+const int PlatformModule::getWindowHeight() const
+{
+	return SCREEN_HEIGHT;
+}

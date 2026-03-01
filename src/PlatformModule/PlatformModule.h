@@ -50,6 +50,14 @@ public:
 	* @return UINT64 - Segundos desde que se inicializo la ventana
 	*/
 	const UINT64 getSecSinceStart() const;
+	/**
+	* @brief Devuelve anchura de la ventana
+	*/
+	const int getWindowWidth() const;
+	/**
+	* @brief Devuelve altura de la ventana
+	*/
+	const int getWindowHeight() const;
 private:
 	/**
 	* @brief Ventana de SDL

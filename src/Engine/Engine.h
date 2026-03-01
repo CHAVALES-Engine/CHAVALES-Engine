@@ -7,6 +7,7 @@
 #include <cstdint>
 
 class PlatformModule;
+class RenderModule;
 class AudioModule;
 class PhysicsModule;
 
@@ -49,6 +50,11 @@ private:
 	*	Referencia al modulo de platform
 	*/
 	PlatformModule* _platformModule = nullptr;
+	/*
+	* @brief
+	*	Referencia al modulo de render
+	*/
+	RenderModule* _renderModule = nullptr;
 	/*
 	* @brief
 	*	Referencia al modulo de audio
