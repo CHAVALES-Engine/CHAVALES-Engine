@@ -22,10 +22,10 @@ namespace PluginSDK {
 		* @brief Aniade un descriptor al registro local
 		*
 		* @param name - nombre del componente
-		* @param factory - funcion creadora del componente
+		* @param ComponentConstructor - funcion creadora del componente
 		*/
-		void add(const char* name, core::ComponentFactory factory) {
-			_descriptors.push_back({ name, std::move(factory) });
+		void add(const char* name, core::ComponentConstructor ComponentConstructor) {
+			_descriptors.push_back({ name, std::move(ComponentConstructor) });
 		}
 		/*
 		* @brief Acceso a los descriptores contenidos
