@@ -99,7 +99,6 @@ namespace core
 
 
 	using ComponentConstructor = std::function<std::unique_ptr<Component>()>;
-	using ComponentInitializer = std::function<bool>;
 
 	struct ComponentDescriptor
 	{
@@ -112,10 +111,5 @@ namespace core
 		* @brief Funcion creadora de un componente
 		*/
 		ComponentConstructor ComponentConstructor;
-
-		/*
-		* @brief Funcion inicializadora de un componente
-		*/
-		ComponentInitializer ComponentInitalizer;
 	};
 } // end of namespace
