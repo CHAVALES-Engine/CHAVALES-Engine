@@ -31,10 +31,20 @@ std::shared_ptr<core::Scene> GameLoader::loadScene(std::string n)
 		}
 	}
 	*/
-
-
 	sol::state lua;
-	lua.script_file("./scenes/" + n + ".lua");
+	std::string path = "./scenes/" + n + ".lua";
+
+	try
+	{
+		lua.safe_script_file(path);
+	}
+	catch (const sol::error& e)
+	{
+		core::Debug::error("GAMELOADER: Error cargando escena: ./scenes/ " + n + ".lua");
+		core::Debug::error("Lua exception: ", e.what());
+		return s;
+	}
+
 	sol::table scene = lua["scene"];
 	core::Debug::out("GAMELOADER: Escena ", n, " cargada.");
 
