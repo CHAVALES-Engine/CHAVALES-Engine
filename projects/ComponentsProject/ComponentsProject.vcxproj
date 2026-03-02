@@ -14,8 +14,8 @@
     <ClInclude Include="..\..\src\ComponentsProject\Transform.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\ComponentsProject\registComponents.h" />
     <ClCompile Include="..\..\src\ComponentsProject\Transform.cpp" />
-    <ClCompile Include="registComponents.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

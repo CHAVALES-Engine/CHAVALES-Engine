@@ -7,17 +7,14 @@
 #define SOL_ALL_SAFETIES_ON 1
 #include <sol/sol.hpp>
 
-#include <stdio.h>
-#include <stdlib.h>
 #include <Engine.h>
 #include <Debug.h>
 #include <filesystem>
 
-#include "checkML.h"
 #include "StateMachine.h"
 #include "DLLLoader.h"
-#include "GameLoader.h"
 #include "Scene.h"
+#include "registComponents.h"
 
 using namespace core;
 #ifndef IS_BEING_INCLUDED
@@ -25,7 +22,8 @@ int main(int argc, char* argv[]) {
 	// Abre archivo .log
 	Debug::open();
 	Engine::init();
-
+	// Funcion estatica que autoregistra componentes
+	registBaseComponent();
 	// Ejemplos de debug:
 	//Debug::out(Debug::DebugMode::DEBUG_BOTH, "Hola soy un ejemplo de mensaje normal con un int: ", 23, "\nY una salto de linea.");
 	//Debug::out(Debug::DebugMode::DEBUG_BOTH, "Otro ejemplo");
