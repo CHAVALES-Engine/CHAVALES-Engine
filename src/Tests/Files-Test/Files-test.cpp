@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <filesystem>
-namespace fs = std::filesystem;
+//namespace fs = std::filesystem;
 #define SOL_ALL_SAFETIES_ON 1
 #include <sol/sol.hpp>
 
