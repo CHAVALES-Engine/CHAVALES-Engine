@@ -1,6 +1,3 @@
-// Files-test.cpp : Este archivo contiene la función "main". La ejecución del programa comienza y termina ahí.
-//
-
 #include <iostream>
 #include <string>
 #include <filesystem>
@@ -37,6 +34,26 @@ int main(int argc, char* argv[])
 
 	sol::state lua;
 	lua.script_file("./scenes/scene_prueba.lua");
+	//sol::state scene = lua["scene"];
+	sol::table scene = lua["scene"];
 
-
+	for (auto& entidad : scene)
+	{
+		auto nombre = entidad.first;
+		std::cout << "ENTIDAD: " << nombre.as<std::string>() << std::endl;
+		
+		//sol::table partes = entidad.second;
+		sol::table partes = entidad.second;
+		//sol::table componentes = partes.as<sol::table>();
+		//sol::table componentes = entidad["components"];
+		for (auto& parte : partes)
+		{
+			sol::table componentes = parte.second;
+			for (auto& componente : componentes)
+			{
+				auto nombre2 = componente.first;
+				std::cout << "COMPONENTE: " << nombre2.as<std::string>() << std::endl;
+			}
+		}
+	}
 }

@@ -13,6 +13,9 @@ scene = { -- entidades en escena
 				lScaleX = 1.0,
 				lScaleY = 1.0,
 				lScaleZ = 1.0
+			},
+			ComponentTest = {
+		
 			}
 		}
 	},
