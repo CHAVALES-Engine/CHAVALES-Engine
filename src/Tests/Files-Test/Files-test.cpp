@@ -7,11 +7,9 @@ namespace fs = std::filesystem;
 #define SOL_ALL_SAFETIES_ON 1
 #include <sol/sol.hpp>
 
-#include <fstream>
 #include "Entity.h"
 #include "Component.h"
 #include "Scene.h"
-#include "../../ExecutableProject/GameLoader.h"
 #include "ComponentRegister.h"
 #include "../../ExecutableProject/DLLLoader.h"
 
@@ -21,6 +19,9 @@ int main(int argc, char* argv[])
 	lua.script_file("./scenes/scene_prueba.lua");
 	sol::table scene = lua["scene"];
 	core::Scene* s = new core::Scene("0");
+
+	DLLLoader dllLoader;
+	dllLoader.load("./DLL-Test.dll");
 
 	// recorre las entidades
 	for (auto& entidad : scene)
