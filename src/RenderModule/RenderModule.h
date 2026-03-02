@@ -12,6 +12,7 @@
 #include <vector>
 #include <functional>
 #include "Vector3.h"
+#include "Color.h"
 
 namespace Ogre
 {
@@ -54,7 +55,7 @@ public:
     /*
     * @brief Cambiar color de fondo.
     */
-    void setViewportBGColor(core::Vector3<float> color);
+    void setViewportBGColor(core::Color color);
 
     //Metodos camaras
     /*

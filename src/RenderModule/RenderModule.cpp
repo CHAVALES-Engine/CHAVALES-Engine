@@ -165,7 +165,7 @@ void RenderModule::cleanScene()
     _ui->Clear();
 }
 
-void RenderModule::setViewportBGColor(core::Vector3<float> color)
+void RenderModule::setViewportBGColor(core::Color color)
 {
     _vp->setBackgroundColour(Ogre::ColourValue(color.getX(), color.getY(), color.getZ()));
 }
