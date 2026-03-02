@@ -27,7 +27,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\ExecutableProject\ComponentRegister.cpp" />
     <ClCompile Include="..\..\src\ExecutableProject\DLLLoader.cpp" />
     <ClCompile Include="..\..\src\ExecutableProject\GameLoader.cpp" />
     <ClCompile Include="..\..\src\ExecutableProject\main.cpp">
@@ -38,7 +37,6 @@
     <ClCompile Include="..\..\src\ExecutableProject\StateMachine.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\ExecutableProject\ComponentRegister.h" />
     <ClInclude Include="..\..\src\ExecutableProject\DLLLoader.h" />
     <ClInclude Include="..\..\src\ExecutableProject\GameLoader.h" />
     <ClInclude Include="..\..\src\ExecutableProject\StateMachine.h" />
@@ -184,15 +182,15 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\Engine\;$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)dependencies\;$(SolutionDir)dependencies\lua\;$(SolutionDir)dependencies\sol\;$(SolutionDir)src\Core\;$(SolutionDir)dependencies\lua\src\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\Engine\;$(SolutionDir)src\ComponentsProject\;$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)dependencies\;$(SolutionDir)dependencies\lua\;$(SolutionDir)dependencies\sol\;$(SolutionDir)src\Core\;$(SolutionDir)dependencies\lua\src\</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile />
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)libs\;$(SolutionDir)dependencies\;$(SolutionDir)dependencies\lua\;$(SolutionDir)dependencies\lua\src\;$(SolutionDir)dependencies\fmod\lib\x64\;$(SolutionDir)libs\Engine\;$(SolutionDir)libs\RenderModule\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(SolutionDir)libs\Engine\Engine_d.lib;$(SolutionDir)libs\Core\Core_d.lib;$(SolutionDir)dependencies\lua\LuaBuild.lib;fmodL_vc.lib;fmodstudio_vc.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\;$(SolutionDir)dependencies\;$(SolutionDir)dependencies\lua\;$(SolutionDir)dependencies\lua\src\;$(SolutionDir)dependencies\fmod\lib\x64\;$(SolutionDir)libs\ComponentsProject\;$(SolutionDir)libs\Engine\;$(SolutionDir)libs\RenderModule\;%(AdditionalLibraryDirectories);$(SolutionDir)libs\ComponentsProject\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(SolutionDir)libs\Engine\Engine_d.lib;$(SolutionDir)libs\Core\Core_d.lib;$(SolutionDir)dependencies\lua\LuaBuild.lib;fmodL_vc.lib;fmodstudio_vc.lib;opengl32.lib;%(AdditionalDependencies);$(SolutionDir)libs\ComponentsProject\ComponentsProject_d.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Test|x64'">
@@ -210,8 +208,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)libs\;$(SolutionDir)dependencies\;$(SolutionDir)dependencies\lua\;$(SolutionDir)dependencies\lua\src\;$(SolutionDir)dependencies\fmod\lib\x64\;$(SolutionDir)libs\Engine\;$(SolutionDir)libs\RenderModule\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(SolutionDir)libs\Engine\Engine_d.lib;$(SolutionDir)libs\Core\Core_d.lib;$(SolutionDir)dependencies\lua\LuaBuild.lib;fmodL_vc.lib;fmodstudio_vc.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\;$(SolutionDir)dependencies\;$(SolutionDir)dependencies\lua\;$(SolutionDir)dependencies\lua\src\;$(SolutionDir)dependencies\fmod\lib\x64\;$(SolutionDir)libs\Engine\;$(SolutionDir)libs\RenderModule\;%(AdditionalLibraryDirectories);$(SolutionDir)libs\ComponentsProject\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(SolutionDir)libs\Engine\Engine_d.lib;$(SolutionDir)libs\Core\Core_d.lib;$(SolutionDir)dependencies\lua\LuaBuild.lib;fmodL_vc.lib;fmodstudio_vc.lib;opengl32.lib;%(AdditionalDependencies);$(SolutionDir)libs\ComponentsProject\ComponentsProject_d.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -230,8 +228,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)libs\;$(SolutionDir)libs\Engine\;$(SolutionDir)dependencies\;$(SolutionDir)dependencies\lua\;$(SolutionDir)dependencies\lua\src\;$(SolutionDir)dependencies\fmod\lib\x64\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(SolutionDir)libs\Engine\Engine_r.lib;$(SolutionDir)libs\Core\Core_r.lib;$(SolutionDir)dependencies\lua\LuaBuild.lib;fmod_vc.lib;fmodstudio_vc.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\;$(SolutionDir)libs\Engine\;$(SolutionDir)dependencies\;$(SolutionDir)dependencies\lua\;$(SolutionDir)dependencies\lua\src\;$(SolutionDir)dependencies\fmod\lib\x64\;%(AdditionalLibraryDirectories);$(SolutionDir)libs\ComponentsProject\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(SolutionDir)libs\Engine\Engine_r.lib;$(SolutionDir)libs\Core\Core_r.lib;$(SolutionDir)dependencies\lua\LuaBuild.lib;fmod_vc.lib;fmodstudio_vc.lib;opengl32.lib;%(AdditionalDependencies);$(SolutionDir)libs\ComponentsProject\ComponentsProject_r.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

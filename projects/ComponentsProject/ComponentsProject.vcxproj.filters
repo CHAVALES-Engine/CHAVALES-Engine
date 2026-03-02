@@ -18,9 +18,15 @@
     <ClInclude Include="..\..\src\ComponentsProject\Transform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\ComponentsProject\ComponentRegister.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\ComponentsProject\Transform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ComponentsProject\ComponentRegister.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
