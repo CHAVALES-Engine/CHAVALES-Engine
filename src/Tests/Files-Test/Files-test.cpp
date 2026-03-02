@@ -45,7 +45,7 @@ int main(int argc, char* argv[])
 			if (component != nullptr)
 			{
 				// mete el componente a la entidad creada
-				//e->addComponent(component);
+				e->addComponent(std::move(component));
 				
 			}
 			else
