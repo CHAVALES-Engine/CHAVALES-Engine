@@ -60,7 +60,6 @@ int main(int argc, char* argv[])
 	}
 
 	s->fixedUpdate();
-	delete s;
 }
 
 //  std::string path = "./hola";

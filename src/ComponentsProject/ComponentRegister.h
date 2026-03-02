@@ -36,8 +36,7 @@ public:
 	* 
 	* @return std::unique_ptr<core::Component> - Puntero al componente creado
 	*/
-	template <typename... Args>
-	std::unique_ptr<core::Component> create(const std::string& name, Args&& ... args);
+	std::unique_ptr<core::Component> create(const std::string& name);
 	/*
 	* @brief
 	*	Desregistra un componente
