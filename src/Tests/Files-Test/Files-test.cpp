@@ -39,6 +39,7 @@ int main(int argc, char* argv[])
 	sol::state lua;
 	lua.script_file("./scenes/scene_prueba.lua");
 	sol::table scene = lua["scene"];
+	core::Scene* s = new core::Scene("0");
 
 	// recorre las entidades
 	for (auto& entidad : scene)
@@ -77,8 +78,9 @@ int main(int argc, char* argv[])
 		}
 
 		// mete la entidad en la escena
-		//core::Scene* s = new core::Scene(nombre del archivo);
-
-		//s.addEntity(e);
+		s->addEntity(e);
 	}
+
+	s->update(10);
+	delete s;
 }
