@@ -73,6 +73,7 @@
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Test|x64'">
     <PlatformToolset>v143</PlatformToolset>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -98,6 +99,11 @@
     <TargetName>$(ProjectName)_r</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)libs\$(ProjectName)</OutDir>
+    <IntDir>$(SolutionDir)tmp\$(ProjectName)</IntDir>
+    <TargetName>$(ProjectName)_d</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Test|x64'">
     <OutDir>$(SolutionDir)libs\$(ProjectName)</OutDir>
     <IntDir>$(SolutionDir)tmp\$(ProjectName)</IntDir>
     <TargetName>$(ProjectName)_d</TargetName>
@@ -181,6 +187,16 @@
       <AdditionalDependencies>$(SolutionDir)libs\Core\Core_r.lib;$(SolutionDir)libs\Engine\Engine_r.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\Core\;$(SolutionDir)libs\Engine\;</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Test|x64'">
+    <ClCompile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)src\Core\</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Lib>
+      <AdditionalDependencies>$(SolutionDir)libs\Core\Core_d.lib;$(SolutionDir)libs\Engine\Engine_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)libs\Core\;$(SolutionDir)libs\Engine\;</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
