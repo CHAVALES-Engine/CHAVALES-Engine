@@ -4,13 +4,13 @@
 //#include <iostream>
 //#include "DLLLoader.h"
 //
-//int main()
-//{
+int main()
+{
 //	DLLLoader dllLoader;
 //	dllLoader.load("./DLL-Test.dll");
 //
 //	return 0;
-//}
+}
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu
