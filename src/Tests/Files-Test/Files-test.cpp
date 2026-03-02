@@ -34,7 +34,6 @@ int main(int argc, char* argv[])
 
 	sol::state lua;
 	lua.script_file("./scenes/scene_prueba.lua");
-	//sol::state scene = lua["scene"];
 	sol::table scene = lua["scene"];
 
 	for (auto& entidad : scene)
@@ -42,18 +41,12 @@ int main(int argc, char* argv[])
 		auto nombre = entidad.first;
 		std::cout << "ENTIDAD: " << nombre.as<std::string>() << std::endl;
 		
-		//sol::table partes = entidad.second;
 		sol::table partes = entidad.second;
-		//sol::table componentes = partes.as<sol::table>();
-		//sol::table componentes = entidad["components"];
-		for (auto& parte : partes)
+		sol::table componentes = partes["components"];
+		for (auto& componente : componentes)
 		{
-			sol::table componentes = parte.second;
-			for (auto& componente : componentes)
-			{
-				auto nombre2 = componente.first;
-				std::cout << "COMPONENTE: " << nombre2.as<std::string>() << std::endl;
-			}
+			auto nombre2 = componente.first;
+			std::cout << "COMPONENTE: " << nombre2.as<std::string>() << std::endl;
 		}
 	}
 }
