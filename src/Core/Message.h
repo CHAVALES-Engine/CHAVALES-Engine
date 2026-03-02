@@ -6,6 +6,7 @@
 #pragma once
 
 #include <vector>
+#include <functional>
 
 
 namespace core
@@ -38,7 +39,7 @@ namespace core
 		{
 			for (int i = 0; i < _subscribers.size(); i++)
 			{
-				_subscribers[i](args...);
+				 _subscribers[i](args...);
 			}
 		}
 
@@ -47,9 +48,9 @@ namespace core
 		*
 		* @param funcptr - Funcion a suscribir.
 		*/
-		void subscribe(void (*funcptr)())
+		void subscribe(std::function < void(Args...) > func)
 		{
-			_subscribers.push_back(funcptr);
+			_subscribers.push_back(func);
 		}
 
 	private:
@@ -57,6 +58,6 @@ namespace core
 		/**
 		* @brief Vector de punteros a funcion.
 		*/
-		std::vector< void(*)()> _subscribers;
+		std::vector < std::function < void(Args...) >> _subscribers;
 	};
 }
