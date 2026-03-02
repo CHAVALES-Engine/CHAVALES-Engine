@@ -1,0 +1,177 @@
+name: CI Build
+on: 
+  push:
+    branches: [master]
+    tags: ["v*"]
+  pull_request:
+    branches: [master]
+jobs:
+  linux:
+    runs-on: ubuntu-22.04
+    steps:
+    - name: Install Dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y libxrandr-dev \
+          libgles2-mesa-dev mesa-common-dev libgl1-mesa-dev mesa-vulkan-drivers \
+          libfreetype6-dev libpugixml-dev libassimp-dev libbullet-dev qtbase5-dev cargo \
+          nvidia-cg-dev glslang-dev spirv-tools spirv-headers libvulkan-volk-dev \
+          mono-mcs python3-dev \
+          python3-lxml texlive-binaries texlive-base graphviz doxygen
+        sudo pip3 install swig
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 2
+    - name: Build
+      run: |
+        cmake -P ci-build.cmake
+        cmake --build build -- -j 4
+        cmake --build build --target OgreDoc > /dev/null
+    - name: Test
+      run: |
+        # doxygen warnings check
+        cat build/doxygen_warnings.log
+        test ! -s build/doxygen_warnings.log
+        # run unit tests
+        build/bin/Test_Ogre
+        # run visual tests
+        cd build/bin && ./TestContext -rs "OpenGL 3+ Rendering Subsystem"
+        ./TestContext -rs "OpenGL ES 2.x Rendering Subsystem"
+        # verify that the python modules are loadable
+        cd ../lib && python -c "import _Ogre; import _RTShader; import _Bites"
+        cd ../../
+        # validate XMLConverter output
+        build/bin/OgreXMLConverter Samples/Media/models/ninja.mesh && build/bin/OgreXMLConverter Samples/Media/models/ninja.skeleton
+        python3 Tools/XMLConverter/docs/validate.py Samples/Media/models/ninja.mesh.xml
+        # reverse conversion
+        build/bin/OgreXMLConverter Samples/Media/models/ninja.mesh.xml
+        # MeshUpgrader does not crash
+        build/bin/OgreMeshUpgrader Samples/Media/models/ninja.mesh
+        # validate DotScene DTD
+        python3 PlugIns/DotScene/misc/validate.py PlugIns/DotScene/misc/example.scene
+        # check whitespace
+        git diff --check HEAD^
+  android:
+    runs-on: ubuntu-22.04
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/cache@v4
+      with:
+        path: android-ndk-r21e
+        key: ${{ runner.os }}-android-ndk
+    - name: Install Dependencies
+      run: sudo pip3 install swig
+    - name: Build
+      run: |
+        cmake -P ci-build.cmake
+        cmake --build build -- -j 4
+      env:
+        ANDROID: true
+    - name: zip SDK
+      id: package
+      run: |
+        [[ $GITHUB_REF = refs/tags/* ]] && VERNAME=${GITHUB_REF##*/} || VERNAME="master"
+        echo "ver=${VERNAME}" >> $GITHUB_OUTPUT
+        cd build/OgreJNI && zip -qr ogre-sdk-android-${VERNAME}-arm64-v8a.zip *
+    - name: upload artifact
+      run: |
+        test ! -n "$CLOUDSMITH_API_KEY" && exit 0
+        pip3 install --upgrade cloudsmith-cli==1.0.0
+        ~/.local/bin/cloudsmith push raw ogrecave/ogre build/OgreJNI/ogre-sdk-android-*-arm64-v8a.zip --republish --version ${{ steps.package.outputs.ver }} -k $CLOUDSMITH_API_KEY
+      env:
+        CLOUDSMITH_API_KEY: ${{ secrets.CLOUDSMITH_API_KEY }}
+  macos:
+    runs-on: macos-14
+    steps:
+    - name: Install Dependencies
+      run: brew update && brew install sdl2 pugixml
+    - uses: actions/checkout@v4
+    - name: Build
+      run: |
+        cmake -P ci-build.cmake
+        set -o pipefail && cmake --build build | xcpretty
+      env:
+        TRAVIS_OS_NAME: osx
+    - name: Test
+      run: build/bin/Debug/Test_Ogre.app/Contents/MacOS/Test_Ogre --gtest_filter=-UseCustomCapabilitiesTests*
+  ios:
+    runs-on: macos-14
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build
+      run: |
+        cmake -P ci-build.cmake
+        set -o pipefail && cmake --build build | xcpretty
+      env:
+        IOS: true
+  custombuild:
+    runs-on: ubuntu-22.04
+    steps:
+    - name: Install Dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y libwayland-dev libwayland-egl1 pkg-config libegl-dev \
+          qtwayland5 qtbase5-private-dev
+    - uses: actions/checkout@v4
+    - name: Build
+      run: |
+        cmake -Bbuild -DOGRE_BUILD_DEPENDENCIES=OFF -DSWIG_EXECUTABLE=none -DOGRE_CONFIG_DOUBLE=ON -DOGRE_ASSERT_MODE=1 -DOGRE_PROFILING=ON -DOGRE_USE_WAYLAND=ON .
+        cmake --build build -- -j 4
+  windows:
+    runs-on: windows-2022
+    steps:
+    - uses: actions/checkout@v4
+    - uses: ilammy/msvc-dev-cmd@v1
+      with:
+        toolset: 14.2
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+    - name: Install Dependencies
+      run: |
+        curl -LO https://sdk.lunarg.com/sdk/download/1.3.275.0/windows/VulkanSDK-1.3.275.0-Installer.exe
+        .\VulkanSDK-1.3.275.0-Installer.exe --accept-licenses --default-answer --confirm-command install
+        curl -sSf -o rustup-init.exe https://win.rustup.rs/
+        .\rustup-init.exe -y
+        pip install swig aqtinstall
+        aqt install-qt --outputdir C:\Qt windows desktop 6.8.3 win64_msvc2022_64
+        # deprecated D3D9 & Cg dependencies below
+        curl -LO http://developer.download.nvidia.com/cg/Cg_3.1/Cg-3.1_April2012_Setup.exe
+        Start-Process -Wait -FilePath .\Cg-3.1_April2012_Setup.exe -ArgumentList "/VERYSILENT /TYPE=complete"
+        curl -LO https://download.microsoft.com/download/a/e/7/ae743f1f-632b-4809-87a9-aa1bb3458e31/DXSDK_Jun10.exe
+        Start-Process -Wait -FilePath .\DXSDK_Jun10.exe -ArgumentList "/U"
+    - name: Cache Built Dependencies
+      id: cache-folder
+      uses: actions/cache@v4
+      with:
+        path: ogredeps
+        key: cache-${{ hashFiles('CMake/Dependencies.cmake') }}
+    - name: Build
+      run: |
+        cmake -P ci-build.cmake
+        cmake --build build --config RelWithDebInfo --target INSTALL
+      env:
+        VULKAN_SDK: C:\VulkanSDK\1.3.275.0
+        APPVEYOR: true
+        DXSDK_DIR: C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)
+        Cg_HOME: C:\Program Files (x86)\NVIDIA Corporation\Cg
+        CMAKE_PREFIX_PATH: C:\Qt\6.8.3\msvc2022_64\
+    - name: Test
+      run: |
+        $env:PATH += ";build\gtest\lib"
+        build\bin\RelWithDebInfo\Test_Ogre.exe
+    - name: zip SDK
+      id: package
+      shell: bash
+      run: |
+        [[ $GITHUB_REF = refs/tags/* ]] && VERNAME=${GITHUB_REF##*/} || VERNAME="master"
+        echo "ver=${VERNAME}" >> $GITHUB_OUTPUT
+        7z a ogre-sdk-${VERNAME}-msvc142-x64.zip ./build/sdk/*
+    - name: upload artifact
+      shell: bash
+      run: |
+        test ! -n "$CLOUDSMITH_API_KEY" && exit 0
+        pip install --upgrade cloudsmith-cli==1.0.0
+        cloudsmith push raw ogrecave/ogre ogre-sdk-*-msvc142-x64.zip --republish --version ${{ steps.package.outputs.ver }} -k $CLOUDSMITH_API_KEY
+      env:
+        CLOUDSMITH_API_KEY: ${{ secrets.CLOUDSMITH_API_KEY }}

@@ -1,0 +1,24 @@
+# Ignore CLion project directory and iml files
+.idea/
+*.iml
+*.obj
+*.ipch
+*.pch
+# Ignore build directories
+cmake-build-*/
+/build/
+/installed/
+/android-build/
+/embuild/
+/eminstall/
+/mingw/
+/.cache/
+/_skbuild/
+
+# Meta data of macOS's Finder.app
+.DS_Store
+
+/Samples/Media/RTShaderLib/cache/
+
+# Ignore vim files
+*.swp
