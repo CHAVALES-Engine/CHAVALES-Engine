@@ -125,7 +125,8 @@ void StateMachine::addAndSetScene(sceneName n, scenePtr s)
 		_stateMachine.insert({ id, s }); // guarda la escena con id y puntero en la maquina de estados
 
 		// desactiva la escena actual -> TODO: destruir escena
-		_currentScene.ptr->onDisable();
+		if (_currentScene.ptr != nullptr)
+			_currentScene.ptr->onDisable();
 
 		// cargar nueva escena
 		s = std::move(GameLoader::loadScene(n));

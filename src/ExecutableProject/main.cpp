@@ -34,10 +34,9 @@ int main(int argc, char* argv[]) {
 	dllLoader.load("./DLL-Test.dll");
 
 	StateMachine _stateMachine;
-	_stateMachine.gameLoop();
-
 	std::shared_ptr<Scene> scene = std::make_shared<Scene>("scene_prueba");
 	_stateMachine.addAndSetScene(scene->getName(), scene);
+	_stateMachine.gameLoop();
 
 	// Cierra archivo .log
 	Debug::close();

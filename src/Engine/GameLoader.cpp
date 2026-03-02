@@ -12,7 +12,7 @@ namespace fs = std::filesystem;
 
 std::shared_ptr<core::Scene> GameLoader::loadScene(std::string n)
 {
-	std::shared_ptr<core::Scene> scn = nullptr;
+	std::shared_ptr<core::Scene> s = nullptr;
 
 	// comprobar que no haya una escena con ese nombre ya
 	/*
@@ -36,16 +36,16 @@ std::shared_ptr<core::Scene> GameLoader::loadScene(std::string n)
 	sol::state lua;
 	lua.script_file("./scenes/" + n + ".lua");
 	sol::table scene = lua["scene"];
-	core::Scene* s = new core::Scene(n);
+	core::Debug::out("GAMELOADER: Escena ", n, " cargada.");
 
 	for (auto& entidad : scene)
 	{
 		// nombre de la entidad
-		auto entidadName = entidad.first;
-		std::cout << "ENTIDAD: " << entidadName.as<std::string>() << std::endl;
-
+		std::string entidadName = entidad.first.as<std::string>();
+		core::Debug::out("GAMELOADER: Entidad ", entidadName, " cargada.");
 		// crea la entidad
 		core::Entity* e = new core::Entity();
+		e->setName(entidadName);
 
 		// 
 		sol::table partes = entidad.second;
@@ -54,17 +54,17 @@ std::shared_ptr<core::Scene> GameLoader::loadScene(std::string n)
 		{
 			auto componenteObj = componente.first;
 			std::string componenteName = componenteObj.as<std::string>();
-			std::cout << "COMPONENTE: " << componenteName << std::endl;
 			std::unique_ptr<core::Component> component = ComponentRegister::instance().create(componenteName);
 
 			if (component != nullptr)
 			{
 				// mete el componente a la entidad creada
 				e->addComponent(std::move(component));
+				core::Debug::out("GAMELOADER: Componente ", componenteName, " cargado para la entidad ", entidadName, ".");
 			}
 			else
 			{
-				core::Debug::warning("Componente ", componenteName, " no registrado\n");
+				core::Debug::warning("GAMELOADER: Componente ", componenteName, " no registrado.");
 			}
 		}
 
@@ -72,7 +72,7 @@ std::shared_ptr<core::Scene> GameLoader::loadScene(std::string n)
 		s->addEntity(e);
 	}
 
-	return scn;
+	return s;
 }
 
 std::shared_ptr<core::Scene> GameLoader::loadScene(sceneName n, const std::string& path)
