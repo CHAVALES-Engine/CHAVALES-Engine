@@ -74,9 +74,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ComponentsProject", "projec
 		{19C229D6-650D-4440-8B69-512B9458618E} = {19C229D6-650D-4440-8B69-512B9458618E}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Files-test", "projects\Files-test\Files-test.vcxproj", "{8DEB188B-A7C9-4546-912E-980350C959A8}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Files-test", "projects\Tests\Files-test\Files-test.vcxproj", "{8DEB188B-A7C9-4546-912E-980350C959A8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GameLoader-Tests", "GameLoader-Tests", "{FDF2A661-ED89-4AA4-AEEE-B4D050248C1F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GameLoader-Test", "GameLoader-Test", "{FDF2A661-ED89-4AA4-AEEE-B4D050248C1F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
