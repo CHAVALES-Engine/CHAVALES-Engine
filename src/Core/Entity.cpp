@@ -2,157 +2,174 @@
 #include "Component.h"
 #include "ec.h"
 
-core::Entity::Entity() :
-	components(),
-	alive(true),
-	visible(true),
-	enabled(true),
-	scene(nullptr),
-	groupId(),
-	name()
+namespace core
 {
-}
-
-core::Entity::~Entity()
-{
-	// we delete all available components
-	for (auto c : components)
+	Entity::Entity() :
+		components(),
+		alive(true),
+		visible(true),
+		enabled(true),
+		scene(nullptr),
+		groupId(),
+		name()
 	{
-		c->onDestroy();
-		delete c;
 	}
-}
 
-void core::Entity::setAlive(bool a) { alive = a; }
-void core::Entity::setVisible(bool v) { visible = v; }
-void core::Entity::setEnabled(bool e) { enabled = e; }
-void core::Entity::setScene(Scene* s) { scene = s; }
-void core::Entity::setGroupId(grpId_t id) { groupId = id; }
-void core::Entity::setName(const std::string& n) { name = n; }
-
-bool core::Entity::isAlive() const { return alive; }
-bool core::Entity::isVisible() const { return visible; }
-bool core::Entity::isEnabled() const { return enabled; }
-const Scene* core::Entity::getScene() const { return scene; }
-core::grpId_t core::Entity::getGroupId() const { return groupId; }
-//bool core::Entity::inGroup(grpId_t id) const;
-const std::string& core::Entity::getName() const { return name; }
-const std::vector<core::Component*>& core::Entity::getComponents() const { return components; }
-
-void core::Entity::init()
-{
-	for (Component* c : components)
+	Entity::~Entity()
 	{
-		c->init();
-	}
-}
-
-void core::Entity::fixedUpdate()
-{
-	if (!enabled) return;
-
-	for (Component* c : components)
-	{
-		if (c->isEnabled())
-			c->fixedUpdate();
-	}
-}
-
-void core::Entity::update(uint64_t dT)
-{
-	if (!enabled) return;
-
-	for (Component* c : components)
-	{
-		if (c->isEnabled())
-			c->update(dT);
-	}
-}
-
-void core::Entity::render() const
-{
-	if (!visible) return;
-
-	for (Component* c : components)
-	{
-		if (c->isEnabled())
-			c->render();
-	}
-}
-
-void core::Entity::destroy()
-{
-	alive = false;
-}
-
-void core::Entity::enable()
-{
-	if (!enabled)
-	{
-		enabled = true;
-		for (auto c : components)
-			c->enable();
-	}
-}
-
-void core::Entity::disable()
-{
-	if (enabled)
-	{
-		enabled = false;
-		for (auto c : components)
-			c->disable();
-	}
-}
-
-template <typename T, typename... Ts>
-T* core::Entity::addComponent(Ts&&... args)
-{
-	// evitando duplicados
-	// esto lo hace O(n)
-	if (hasComponent<T>())
-		return getComponent<T>();
-
-	T* c = new T(std::forward<Ts>(args)...);
-
-	c->setEntity(this);
-	components.push_back(c);
-	c->onCreate();
-	c->init();
-
-	return c;
-}
-
-template <typename T>
-void core::Entity::removeComponent()
-{
-	for (auto it = components.begin(); it != components.end(); ++it)
-	{
-		if (dynamic_cast<T*>(*it) != nullptr)
+		// we delete all available components
+		for (std::unique_ptr<Component>& c : components)
 		{
-			(*it)->onDestroy();
-			delete*it;
-			*it = nullptr;
-			components.erase(it);
-			return;
+			c->onDestroy();
+			//delete c;
 		}
 	}
-}
 
-template <typename T>
-T* core::Entity::getComponent()
-{
-	for (Component* c : components)
+	void Entity::setAlive(bool a) { alive = a; }
+	void Entity::setVisible(bool v) { visible = v; }
+	void Entity::setEnabled(bool e) { enabled = e; }
+	void Entity::setScene(Scene* s) { scene = s; }
+	void Entity::setGroupId(grpId_t id) { groupId = id; }
+	void Entity::setName(const std::string& n) { name = n; }
+
+	bool Entity::isAlive() const { return alive; }
+	bool Entity::isVisible() const { return visible; }
+	bool Entity::isEnabled() const { return enabled; }
+	const Scene* Entity::getScene() const { return scene; }
+	grpId_t Entity::getGroupId() const { return groupId; }
+	//bool core::Entity::inGroup(grpId_t id) const;
+	const std::string& Entity::getName() const { return name; }
+	const std::vector<std::unique_ptr<Component>>& Entity::getComponents() const { return components; }
+
+	void Entity::init()
 	{
-		if (T* ptr = dynamic_cast<T*>(c))
-			return ptr;
+		for (std::unique_ptr<Component>& c : components)
+		{
+			c->init();
+		}
 	}
 
-	return nullptr;
-}
+	void Entity::fixedUpdate()
+	{
+		if (!enabled) return;
 
-template <typename T>
-bool core::Entity::hasComponent() const
-{
-	return getComponent<T>() != nullptr;
+		for (std::unique_ptr<Component>& c : components)
+		{
+			if (c->isEnabled())
+				c->fixedUpdate();
+		}
+	}
+
+	void Entity::update(uint64_t dT)
+	{
+		if (!enabled) return;
+
+		for (std::unique_ptr<Component>& c : components)
+		{
+			if (c->isEnabled())
+				c->update(dT);
+		}
+	}
+
+	void Entity::render() const
+	{
+		if (!visible) return;
+
+		for (const std::unique_ptr<Component>& c : components)
+		{
+			if (c->isEnabled())
+				c->render();
+		}
+	}
+
+	void Entity::destroy()
+	{
+		alive = false;
+	}
+
+	void Entity::enable()
+	{
+		if (!enabled)
+		{
+			enabled = true;
+			for (std::unique_ptr<Component>& c : components)
+				c->enable();
+		}
+	}
+
+	void Entity::disable()
+	{
+		if (enabled)
+		{
+			enabled = false;
+			for (std::unique_ptr<Component>& c : components)
+				c->disable();
+		}
+	}
+
+	Component* Entity::addComponent(std::unique_ptr<Component> c)
+	{
+		c->setEntity(this);
+		c->onCreate();
+		c->init();
+
+		components.push_back(std::move(c));
+		return components.back().get();
+	}
+
+	template <typename T, typename... Ts>
+	T* Entity::addComponent(Ts&&... args)
+	{
+		// evitando duplicados
+		// esto lo hace O(n)
+		if (hasComponent<T>())
+			return getComponent<T>();
+
+		std::unique_ptr<Component> c = std::make_unique<T>(std::forward<Ts>(args)...);
+		//T* c = new T(std::forward<Ts>(args)...);
+
+		c->setEntity(this);
+		c->onCreate();
+		c->init();
+
+		T* c_ref = c.get();
+		components.push_back(std::move(c));
+		return c_ref;
+	}
+
+	template <typename T>
+	void Entity::removeComponent()
+	{
+		for (auto it = components.begin(); it != components.end(); ++it)
+		{
+			if (dynamic_cast<T*>(it->get()) != nullptr)
+			{
+				(*it)->onDestroy();
+				components.erase(it);
+				return;
+			}
+		}
+	}
+
+	template <typename T>
+	T* Entity::getComponent()
+	{
+		for (std::unique_ptr<Component>& c : components)
+		{
+			if (T* ptr = dynamic_cast<T*>(c.get()))
+				return ptr;
+		}
+		return nullptr;
+	}
+
+	template <typename T>
+	bool Entity::hasComponent() const
+	{
+		for (const auto& c : components)
+		{
+			if (dynamic_cast<T*>(c.get()) != nullptr)
+				return true;
+		}
+		return false;
+	}
 }
