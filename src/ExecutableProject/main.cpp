@@ -22,11 +22,11 @@
 using namespace core;
 #ifndef IS_BEING_INCLUDED
 int main(int argc, char* argv[]) {
-
+	// Abre archivo .log
+	Debug::open();
 	Engine::init();
 
 	// Ejemplos de debug:
-	//Debug::open();
 	//Debug::out(Debug::DebugMode::DEBUG_BOTH, "Hola soy un ejemplo de mensaje normal con un int: ", 23, "\nY una salto de linea.");
 	//Debug::out(Debug::DebugMode::DEBUG_BOTH, "Otro ejemplo");
 	//Debug::error(Debug::DebugMode::DEBUG_BOTH, "Hola soy un ejemplo de error.");
@@ -50,6 +50,8 @@ int main(int argc, char* argv[]) {
 	std::shared_ptr<Scene> scene = std::make_shared<Scene>("ScenePrueba");
 	_stateMachine.addAndSetScene(scene->getName(), scene);
 
+	// Cierra archivo .log
+	Debug::close();
 	return 0;
 }
 #endif
