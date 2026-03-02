@@ -94,7 +94,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)libs\;$(SolutionDir)libs\Engine\;$(SolutionDir)dependencies\;$(SolutionDir)dependencies\lua\;$(SolutionDir)dependencies\lua\src\;$(SolutionDir)dependencies\fmod\lib\x64\;%(AdditionalLibraryDirectories);$(SolutionDir)libs\ComponentsProject\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\;$(SolutionDir)dependencies\;$(SolutionDir)dependencies\lua\;$(SolutionDir)dependencies\lua\src\;$(SolutionDir)dependencies\fmod\lib\x64\;$(SolutionDir)libs\ComponentsProject\;$(SolutionDir)libs\Engine\;$(SolutionDir)libs\RenderModule\;%(AdditionalLibraryDirectories);$(SolutionDir)libs\ComponentsProject\</AdditionalLibraryDirectories>
       <AdditionalDependencies>$(SolutionDir)libs\Engine\Engine_r.lib;$(SolutionDir)libs\Core\Core_r.lib;$(SolutionDir)dependencies\lua\LuaBuild.lib;fmod_vc.lib;fmodstudio_vc.lib;opengl32.lib;%(AdditionalDependencies);$(SolutionDir)libs\ComponentsProject\ComponentsProject_r.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
