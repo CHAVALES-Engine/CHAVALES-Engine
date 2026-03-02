@@ -46,6 +46,7 @@ public:
 	*/
 	bool unregisterComponent(const std::string& name);
 private:
+	ComponentRegister();
 	/*
 	* @brief 
 	*	Unordered map:
@@ -53,30 +54,3 @@ private:
 	*/
 	static inline std::unordered_map<std::string, core::ComponentConstructor> _components;
 };
-
-/*
-	* @brief
-	*	Struct que al crearse registra el componente de tipo T en el
-	*	registro local del plugin
-	*/
-template<typename T>
-struct AutoRegisterComponent {
-	/*
-	* @brief
-	*	Constructor explicito que aniade una funcion constructora
-	*	lambda del objeto T (En nuestro caso, clases hijas de component)
-	*/
-	explicit AutoRegisterComponent(const std::string& name) {
-		ComponentRegister::instance().registComponent(name, []() {
-			return std::make_unique<T>();
-			});
-	}
-};
-
-/*
-* @brief
-*	Macro para anyadir un componente en el registro
-* @param TYPE - Clase a registrar
-*/
-#define REGISTER_COMPONENT(TYPE) \
-    inline static ::AutoRegisterComponent<TYPE> reg_##TYPE(#TYPE)

@@ -16,7 +16,7 @@ bool ComponentRegister::registComponent(const std::string& name, core::Component
 	if (!inserted)
 		core::Debug::warning("Component: [", name, "] Already registered.");
 	else
-		core::Debug::warning(core::Debug::DebugMode::DEBUG_BOTH,"Component: [", name, "] Registered");
+		core::Debug::out("Component: [", name, "] Registered");
 	return inserted;
 }
 
@@ -38,4 +38,10 @@ bool ComponentRegister::unregisterComponent(const std::string& name)
 	if (!removed)
 		core::Debug::warning("Component: [", name, "] not registered.");
 	return removed;
+}
+
+ComponentRegister::ComponentRegister()
+{
+	registComponent("Transform", []() {
+		return std::make_unique<core::Transform>(); });
 }
