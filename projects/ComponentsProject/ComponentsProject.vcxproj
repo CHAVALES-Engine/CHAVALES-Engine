@@ -11,12 +11,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\ComponentsProject\ComponentRegister.h" />
     <ClInclude Include="..\..\src\ComponentsProject\Transform.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\ComponentsProject\ComponentRegister.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\Transform.cpp" />
+    <ClCompile Include="registComponents.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -71,7 +70,7 @@
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)src\Core\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\Engine\;$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)src\Core\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>

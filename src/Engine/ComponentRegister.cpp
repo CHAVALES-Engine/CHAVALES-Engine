@@ -1,6 +1,6 @@
 #include "ComponentRegister.h"
+#include <Component.h>
 #include <Debug.h>
-#include "Transform.h"
 
 ComponentRegister& ComponentRegister::instance() {
 	// Usamos la inicializacion de mayers porque es mas limpia y garantiza Thread-Safe
@@ -37,10 +37,4 @@ bool ComponentRegister::unregisterComponent(const std::string& name)
 	if (!removed)
 		core::Debug::warning("Component: [", name, "] not registered.");
 	return removed;
-}
-
-ComponentRegister::ComponentRegister()
-{
-	registComponent("Transform", []() {
-		return std::make_unique<core::Transform>(); });
 }

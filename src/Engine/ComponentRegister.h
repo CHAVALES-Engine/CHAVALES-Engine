@@ -29,21 +29,21 @@ public:
 	* 
 	* @return bool - Se ha registrado correctamente
 	*/
-	bool registComponent(const std::string& name, core::ComponentConstructor ComponentConstructor);
+	static bool registComponent(const std::string& name, core::ComponentConstructor ComponentConstructor);
 	/*
 	* @brief 
 	*	Crea el componente pedido usando su funcion asignada
 	* 
 	* @return std::unique_ptr<core::Component> - Puntero al componente creado
 	*/
-	std::unique_ptr<core::Component> create(const std::string& name);
+	static std::unique_ptr<core::Component> create(const std::string& name);
 	/*
 	* @brief
 	*	Desregistra un componente
 	* 
 	* @return bool - Devuelve si se ha creado o no
 	*/
-	bool unregisterComponent(const std::string& name);
+	static bool unregisterComponent(const std::string& name);
 private:
 	ComponentRegister();
 	/*

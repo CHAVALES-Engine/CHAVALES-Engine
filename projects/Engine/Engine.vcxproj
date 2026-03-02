@@ -64,7 +64,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\Engine\;$(SolutionDir)src\ComponentsProject\;$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)dependencies\;$(SolutionDir)dependencies\lua\;$(SolutionDir)dependencies\sol\;$(SolutionDir)src\Core\;$(SolutionDir)dependencies\lua\src\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\RenderModule\;$(SolutionDir)src\AudioModule\;$(SolutionDir)src\PhysicsModule\;$(SolutionDir)src\ResourcesModule\;$(SolutionDir)src\PlatformModule\;$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)dependencies\;$(SolutionDir)dependencies\lua\;$(SolutionDir)dependencies\sol\;$(SolutionDir)src\Core\;$(SolutionDir)dependencies\lua\src\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -75,8 +75,8 @@
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)libs\PlatformModule\;$(SolutionDir)libs\RenderModule\;$(SolutionDir)libs\AudioModule\</AdditionalLibraryDirectories>
       <AdditionalDependencies>PlatformModule_d.lib;RenderModule_d.lib;AudioModule_d.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)libs\;$(SolutionDir)libs\Engine\;$(SolutionDir)dependencies\;$(SolutionDir)dependencies\lua\;$(SolutionDir)dependencies\lua\src\;$(SolutionDir)dependencies\fmod\lib\x64\;%(AdditionalLibraryDirectories);$(SolutionDir)libs\ComponentsProject\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(SolutionDir)libs\PlatformModule\PlatformModule_d.lib;$(SolutionDir)libs\RenderModule\RenderModule_d.lib;$(SolutionDir)libs\AudioModule\AudioModule_d.lib;$(SolutionDir)libs\PhysicsModule\PhysicsModule_d.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\;$(SolutionDir)libs\ResourcesModule\;$(SolutionDir)libs\PhysicsModule\;$(SolutionDir)libs\RenderModule\;$(SolutionDir)libs\PlatformModule\;$(SolutionDir)libs\Engine\;$(SolutionDir)dependencies\;$(SolutionDir)dependencies\lua\;$(SolutionDir)dependencies\lua\src\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(SolutionDir)libs\PlatformModule\PlatformModule_d.lib;$(SolutionDir)libs\RenderModule\RenderModule_d.lib;$(SolutionDir)libs\AudioModule\AudioModule_d.lib;$(SolutionDir)libs\PhysicsModule\PhysicsModule_d.lib;$(SolutionDir)libs\Core\Core_d.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -91,7 +91,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\Engine\;$(SolutionDir)src\ComponentsProject\;$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)dependencies\;$(SolutionDir)dependencies\lua\;$(SolutionDir)dependencies\sol\;$(SolutionDir)src\Core\;$(SolutionDir)dependencies\lua\src\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\RenderModule\;$(SolutionDir)src\AudioModule\;$(SolutionDir)src\PhysicsModule\;$(SolutionDir)src\ResourcesModule\;$(SolutionDir)src\PlatformModule\;$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)dependencies\;$(SolutionDir)dependencies\lua\;$(SolutionDir)dependencies\sol\;$(SolutionDir)src\Core\;$(SolutionDir)dependencies\lua\src\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -100,17 +100,19 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)libs\;$(SolutionDir)libs\Engine\;$(SolutionDir)dependencies\;$(SolutionDir)dependencies\lua\;$(SolutionDir)dependencies\lua\src\;$(SolutionDir)dependencies\fmod\lib\x64\;%(AdditionalLibraryDirectories);$(SolutionDir)libs\ComponentsProject\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>PlatformModule_r.lib;RenderModule_r.lib;AudioModule_r.lib;PhysicsModule_r.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\;$(SolutionDir)libs\Engine\;$(SolutionDir)dependencies\;$(SolutionDir)dependencies\lua\;$(SolutionDir)dependencies\lua\src\;$(SolutionDir)dependencies\fmod\lib\x64\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(SolutionDir)libs\PlatformModule\PlatformModule_r.lib;$(SolutionDir)libs\RenderModule\RenderModule_r.lib;$(SolutionDir)libs\AudioModule\AudioModule_r.lib;$(SolutionDir)libs\PhysicsModule\PhysicsModule_r.lib;$(SolutionDir)libs\Core\Core_r.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\Engine\ComponentRegister.cpp" />
     <ClCompile Include="..\..\src\Engine\DLLLoader.cpp" />
     <ClCompile Include="..\..\src\Engine\Engine.cpp" />
     <ClCompile Include="..\..\src\Engine\GameLoader.cpp" />
     <ClCompile Include="..\..\src\Engine\StateMachine.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\src\Engine\ComponentRegister.h" />
     <ClInclude Include="..\..\src\Engine\DLLLoader.h" />
     <ClInclude Include="..\..\src\Engine\Engine.h" />
     <ClInclude Include="..\..\src\Engine\GameLoader.h" />
