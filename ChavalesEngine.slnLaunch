@@ -1,0 +1,11 @@
+[
+  {
+    "Name": "Test_Profile",
+    "Projects": [
+      {
+        "Path": "projects\\Tests\\DLLLoader-Test\\DLL-Test\\DLL-Test.vcxproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
