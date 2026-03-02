@@ -11,11 +11,13 @@
 
 #include <vector>
 #include <functional>
+#include "Vector3.h"
 
 namespace Ogre
 {
     class SceneNode;
     class ImGuiOverlay;
+    class Camera;
 }
 
 class ImGuiManager
@@ -30,7 +32,7 @@ public:
 
 private:
     Ogre::ImGuiOverlay* _ui;
-    std::vector<UIElement> _elements;
+    std::vector<UIElement> _uiElements;
 };
 
 class RenderModule
@@ -41,10 +43,75 @@ public:
     //void update();
     void renderFrame();
     //void resize(int width, int height);
-    void shutdown();
 
+    //Limpiar escena
+    /*
+    * @brief Limpiar escena.
+    */
+    void cleanScene();
+
+    //Metodos viewport
+    /*
+    * @brief Cambiar color de fondo.
+    */
+    void setViewportBGColor(core::Vector3<float> color);
+
+    //Metodos camaras
+    /*
+    * @brief Camara nueva. Se asigna un id por orden de creacion. Main Camera id 0 y añadidas manualmente 1 en adelante.
+    */
+    void addCamera(core::Vector3<float> pos = {0.0, 0.0, 0.0}, core::Vector3<float> lookAt = { 0.0, 0.0, 0.0 });
+    /*
+    * @brief Borrar camara por id. A las camaras creadas posteriormente se les resta el id en 1.
+    */
+    void deleteCamera(int id);
+    /*
+    * @brief El viewport mostrara la vista de esta camara.
+    */
+    void setActiveCamera(int id);
+    /*
+    * @brief Leer posicion de la camara.
+    */
+    core::Vector3<float> getCameraPosition(int id);
+    /*
+    * @brief Establecer posicion de la camara.
+    */
+    void setCameraPosition(int id, core::Vector3<float> pos);
+    /*
+    * @brief Leer orientacíon de la camara. Relativo a world space.
+    */
+    core::Vector3<float> getCameraLookAt(int id);
+    /*
+    * @brief Establecer orientacion de la camara. Relativo a world space.
+    */
+    void setCameraLookAt(int id, core::Vector3<float> lookAt);
+    /*
+    * @brief Limpiar camaras. Deja solo la main camera en posicion inicial.
+    */
+    void cleanCameras();
+
+
+
+    //Metodos luces
+    void addLight();
+    void deleteLight();
+    void setLightActive();
+
+
+    //Metodos entidades
+    void addEntity();
+    void deleteEntity();
+    void setEntityActive();
+
+
+    //Getter UI
+    ImGuiManager getUI();
+
+    void shutdown();
 private:
-    std::vector<Ogre::SceneNode*> _cameras;
-    std::vector<Ogre::SceneNode*> _entitiesNodes;
-    ImGuiManager _ui;
+    std::vector<Ogre::SceneNode*> _cameraNodes;
+    std::vector<Ogre::Camera*> _cameras;
+    std::vector<Ogre::SceneNode*> _lights;
+    std::vector<Ogre::SceneNode*> _entities;
+    ImGuiManager* _ui;
 };

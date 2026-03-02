@@ -63,7 +63,7 @@
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)dependencies\ogre\include;$(SolutionDir)dependencies\ogre\include\imgui-1.91.9b\;$(SolutionDir)dependencies\ogre\include\freetype-2.14.1\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\Core\;$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)dependencies\ogre\include;$(SolutionDir)dependencies\ogre\include\imgui-1.91.9b\;$(SolutionDir)dependencies\ogre\include\freetype-2.14.1\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -87,7 +87,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)dependencies\ogre\include\;$(SolutionDir)dependencies\ogre\include\imgui-1.91.9b\;$(SolutionDir)dependencies\ogre\include\freetype-2.14.1\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\Core\;$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)dependencies\ogre\include\;$(SolutionDir)dependencies\ogre\include\imgui-1.91.9b\;$(SolutionDir)dependencies\ogre\include\freetype-2.14.1\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
