@@ -58,7 +58,7 @@ int main(int argc, char* argv[])
 		s->addEntity(e);
 	}
 
-	s->update(10);
+	s->fixedUpdate();
 	delete s;
 }
 
