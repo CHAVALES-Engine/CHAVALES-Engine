@@ -12,6 +12,7 @@ namespace fs = std::filesystem;
 #include "Scene.h"
 #include "ComponentRegister.h"
 #include "DLLLoader.h"
+#include "registComponents.h"
 
 int main(int argc, char* argv[])
 {

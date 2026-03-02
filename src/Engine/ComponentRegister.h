@@ -17,6 +17,9 @@ namespace core {
 
 class ComponentRegister
 {
+private:
+	ComponentRegister() = default;
+	~ComponentRegister() = default;
 public:
 	/*
 	* @brief Devuelve una instancia del registro

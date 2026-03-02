@@ -4,8 +4,6 @@
  * @brief Defines the functions for the EngineAPI static library.
  */
 
-#include <cstdint>
-
 class PlatformModule;
 class RenderModule;
 class AudioModule;
