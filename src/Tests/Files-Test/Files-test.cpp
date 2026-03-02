@@ -6,6 +6,10 @@
 #include <sol/sol.hpp>
 
 #include <fstream>
+#include "Entity.h"
+#include "Scene.h"
+
+#include "../../ExecutableProject/GameLoader.h"
 
 int main(int argc, char* argv[])
 {
@@ -36,17 +40,45 @@ int main(int argc, char* argv[])
 	lua.script_file("./scenes/scene_prueba.lua");
 	sol::table scene = lua["scene"];
 
+	// recorre las entidades
 	for (auto& entidad : scene)
 	{
-		auto nombre = entidad.first;
-		std::cout << "ENTIDAD: " << nombre.as<std::string>() << std::endl;
+		// nombre de la entidad
+		auto entidadName = entidad.first;
+		std::cout << "ENTIDAD: " << entidadName.as<std::string>() << std::endl;
+
+		// crea la entidad
+		core::Entity* e = new core::Entity();
 		
+		// 
 		sol::table partes = entidad.second;
 		sol::table componentes = partes["components"];
 		for (auto& componente : componentes)
 		{
-			auto nombre2 = componente.first;
-			std::cout << "COMPONENTE: " << nombre2.as<std::string>() << std::endl;
+			auto componenteObj = componente.first;
+			std::string componenteName = componenteObj.as<std::string>();
+			std::cout << "COMPONENTE: " << componenteName << std::endl;
+
+			if (componenteName == "Transform")
+			{
+				// busca en el mapa de componentes y lo construye
+
+				// mete el componente a la entidad creada
+				//e->addComponent<>();
+			}
+			else if (componenteName == "ComponentTest")
+			{
+				
+			}
+			else
+			{
+				std::cout << "Componente " << componenteName << " no registrado" << '\n';
+			}
 		}
+
+		// mete la entidad en la escena
+		//core::Scene* s = new core::Scene(nombre del archivo);
+
+		//s.addEntity(e);
 	}
 }
