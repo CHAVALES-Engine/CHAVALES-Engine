@@ -1,5 +1,5 @@
 @echo off
-SETLOCAL ENABLEDELAYEDEXPANSION
+SETLOCAL
 echo ------------------
 echo Compilando OGRE
 echo ------------------
@@ -10,14 +10,9 @@ echo ------------------
 set "ROOTDIR=%~dp0"
 set "SRCDIR=%ROOTDIR%src\ogre"
 set "BUILDDIR=%ROOTDIR%build"
-set "LIBDIR=%ROOTDIR%lib"
-set "INCDIR=%ROOTDIR%include"
 set "PLATFORM=x64"
 
 :: Crear carpetas 
-if not exist "%LIBDIR%\Debug" mkdir "%LIBDIR%\Debug"
-if not exist "%LIBDIR%\Release" mkdir "%LIBDIR%\Release"
-if not exist "%INCDIR%" mkdir "%INCDIR%"
 if not exist "%BUILDDIR%" mkdir "%BUILDDIR%"
 
 pushd "%BUILDDIR%"
