@@ -18,6 +18,9 @@ StateMachine::StateMachine() :
 	_endGame(false)
 {
 	_deltaTime = 0;
+	Engine::instance()->setAddAndSetScene([this](std::string n, std::shared_ptr<core::Scene> s) {
+		this->addAndSetScene(n, s);
+		});
 }
 
 StateMachine::~StateMachine()

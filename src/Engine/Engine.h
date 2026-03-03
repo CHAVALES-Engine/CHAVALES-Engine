@@ -1,4 +1,7 @@
 #pragma once
+#include <functional>
+#include <memory>
+#include <string>
 /*
  * @file EngineAPI.cpp
  * @brief Defines the functions for the EngineAPI static library.
@@ -8,6 +11,11 @@ class PlatformModule;
 class RenderModule;
 class AudioModule;
 class PhysicsModule;
+
+namespace core
+{
+	class Scene;
+}
 
 class Engine
 {
@@ -35,6 +43,11 @@ public:
 	* @brief Metodo que sincroniza los modulos con el juego
 	*/
 	const bool syncronize();
+	/**
+	 *
+	 */
+	const void addAndSetScene(std::string n, std::shared_ptr<core::Scene> s) const;
+	const void setAddAndSetScene(std::function<void(std::string, std::shared_ptr<core::Scene>)> func);
 private:
 	/*
 	* @brief
@@ -66,4 +79,5 @@ private:
 	*	Referencia al modulo de fisica
 	*/
 	PhysicsModule* _physicsModule = nullptr;
+	std::function<void(std::string, std::shared_ptr<core::Scene>)> _addAndSetScene; 
 };

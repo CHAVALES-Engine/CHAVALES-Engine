@@ -9,6 +9,7 @@
 
 #include <IndexPQ.h>
 #include <Clock.h>
+#include <functional>
 #include <Debug.h>
 
 namespace core
@@ -42,10 +43,10 @@ namespace core
 		/**
 		* @brief Puntero a funcion lladado al acabar el timer.
 		*/
-		void (*_func)() = nullptr;
+		std::function<void()> _func = nullptr;
 	public:
 		Timer();
-		Timer(uint64_t id, uint64_t initTime, uint64_t duration, void (*func)()) :
+		Timer(uint64_t id, uint64_t initTime, uint64_t duration, std::function<void()> func) :
 			_id(id), _initTime(initTime), _endTime(initTime + duration), _leftTime(duration), _func(func)
 		{
 		}
@@ -152,18 +153,17 @@ namespace core
 		*
 		* @return Timer - Devuelve el timer creado. Vacio si no se ha creado bien.
 		*/
-		static Timer createTimer(double_t duration, void (*funcptr)())
+		static Timer createTimer(double_t duration, std::function<void()> func)
 		{
 			uint64_t now = Clock::getRunningTime();
 			uint64_t end = now + (duration / 1000);
 
-			if (now < 0 || end < now || funcptr == nullptr)
+			if (now < 0 || end < now || func == nullptr)
 			{
 				Debug::error(Debug::DebugMode::DEBUG_BOTH, "Timer con duracion: ", duration, " no creado correactamente.");
-				return;
 			}
 			_curId++;
-			Timer t(_curId, now, end, funcptr);
+			Timer t(_curId, now, end, func);
 			_timers.push(_curId, t);
 
 			return t;
@@ -197,6 +197,6 @@ namespace core
 		/**
 		* @brief Cola de timers.
 		*/
-		static IndexPQ<Timer> _timers;
+		inline static IndexPQ<Timer> _timers{ 1000 };
 	};
 }
