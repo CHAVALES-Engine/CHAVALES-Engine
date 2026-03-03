@@ -5,7 +5,7 @@
 
 using namespace std;
 
-AudioModule::AudioModule()
+AudioModule::AudioModule() : _nextChannelID(0)
 {
 
 }
@@ -56,6 +56,13 @@ void AudioModule::Update()
 	_system->update();
 }
 
+void AudioModule::ShutDown()
+{
+	_system->release();
+	delete _system;
+	//Destructora
+}
+
 void AudioModule::loadSound(const char* path, std::string id, bool sound3D, bool soundLooping, bool soundStream)
 {
 	auto itSoundFound = _soundMap.find(id);
@@ -97,7 +104,7 @@ void AudioModule::unloadSound(std::string id)
 	_soundMap.erase(itSoundFound);
 }
 
-int AudioModule::playSound(std::string id, const core::Vector3<> vec3, float soundVolume)
+int AudioModule::playSound(std::string id, const core::Vector3<> vec3, float soundVolume, int looping)
 {
 	int nextChID = _nextChannelID++;
 	auto itSoundFound = _soundMap.find(id);
@@ -114,7 +121,70 @@ int AudioModule::playSound(std::string id, const core::Vector3<> vec3, float sou
 		channel->set3DAttributes(&pos, nullptr);
 		channel->setVolume(soundVolume);
 		channel->setPaused(false);
+		channel->setLoopCount(looping);
 		_channelSound[nextChID] = channel;
 	}
 	return nextChID;
+}
+
+void AudioModule::setChannelVolume(int chID, float newVolume)
+{
+	auto itChFound = _channelSound.find(chID);
+	if (itChFound == _channelSound.end())
+	{
+		return;
+	}
+	itChFound->second->setVolume(newVolume);
+}
+void AudioModule::getLooping(int chID, int* typeOfLooping)
+{
+	auto itChFound = _channelSound.find(chID);
+	if (itChFound == _channelSound.end())
+	{
+		return;
+	}
+	itChFound->second->getLoopCount(typeOfLooping);
+}
+
+bool AudioModule::stopPlaying(int chID)
+{
+	auto itChFound = _channelSound.find(chID);
+	if (itChFound == _channelSound.end())
+	{
+		return false;
+	}
+	itChFound->second->stop();
+	return true;
+}
+
+bool AudioModule::pauseChannel(int chID, bool pause)
+{
+	auto itChFound = _channelSound.find(chID);
+	if (itChFound == _channelSound.end())
+	{
+		return false;
+	}
+	return itChFound->second->setPaused(pause);
+}
+
+void AudioModule::muteEverything()
+{
+	for (auto it = _channelSound.begin(); it != _channelSound.end(); ++it) {
+		bool isPlaying = false;
+		it->second->isPlaying(&isPlaying);
+		if (isPlaying) {
+			it->second->setPaused(false);
+		}
+	}
+}
+
+void AudioModule::unMuteEverything()
+{
+	for (auto it = _channelSound.begin(); it != _channelSound.end(); ++it) {
+		bool isPlaying = false;
+		it->second->isPlaying(&isPlaying);
+		if (!isPlaying) {
+			it->second->setPaused(false);
+		}
+	}
 }

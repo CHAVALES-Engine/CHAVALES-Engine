@@ -9,6 +9,7 @@
 #include <queue>
 #include <chrono>
 
+#include <Clock.h>
 #include <Debug.h>
 
 namespace core
@@ -38,8 +39,7 @@ namespace core
 		*/
 		const bool isEnded() const
 		{
-			// TODO: coger el timeStamp de Time
-			return endTime < 0;
+			return endTime < Clock::getRunningTime();
 		}
 
 		/**
@@ -49,8 +49,7 @@ namespace core
 		*/
 		const uint64_t timeLeftMS() const
 		{
-			// TODO: coger el timeStamp de Time
-			uint64_t now = 0;
+			uint64_t now = Clock::getRunningTime();
 			return endTime - now;
 		}
 
@@ -61,8 +60,7 @@ namespace core
 		*/
 		const double_t timeLeftSec() const
 		{
-			// TODO: coger el timeStamp de Time
-			uint64_t now = 0;
+			uint64_t now = Clock::getRunningTime();
 			return (endTime - now) / 1000;
 		}
 
@@ -88,8 +86,7 @@ namespace core
 		*/
 		static void update()
 		{
-			// TODO: coger el timeStamp de Time
-			uint64_t now = 0;
+			uint64_t now = Clock::getRunningTime();
 			_privUpdate(now);
 		}
 
@@ -103,8 +100,7 @@ namespace core
 		*/
 		static Timer createTimer(double_t duration, void (*funcptr)())
 		{
-			// TODO: coger el timeStamp de Time
-			uint64_t now = 0;
+			uint64_t now = Clock::getRunningTime();
 			uint64_t end = now + (duration / 1000);
 
 			if (now < 0 || end < now || funcptr == nullptr)

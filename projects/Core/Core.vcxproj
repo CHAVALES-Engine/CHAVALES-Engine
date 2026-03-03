@@ -102,7 +102,7 @@
     <ClInclude Include="..\..\src\Core\Quaternion.h" />
     <ClInclude Include="..\..\src\Core\Scene.h" />
     <ClInclude Include="..\..\src\Core\Timer.h" />
-    <ClInclude Include="..\..\src\Core\Timing.h" />
+    <ClInclude Include="..\..\src\Core\Clock.h" />
     <ClInclude Include="..\..\src\Core\Vector2.h" />
     <ClInclude Include="..\..\src\Core\Vector3.h" />
     <ClInclude Include="..\..\src\Core\Vector4.h" />
@@ -111,7 +111,7 @@
     <ClCompile Include="..\..\src\Core\Component.cpp" />
     <ClCompile Include="..\..\src\Core\Entity.cpp" />
     <ClCompile Include="..\..\src\Core\Scene.cpp" />
-    <ClCompile Include="..\..\src\Core\Timing.cpp" />
+    <ClCompile Include="..\..\src\Core\Clock.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
