@@ -34,8 +34,9 @@ void Transform::setGlobalRotation(core::Quaternion<> gr)
 {
 	if (_parent != nullptr)
 	{
-		//Quaternion gpri = _parent->getGlobalRotation().inversa(); // TODO
-		//_localRotation = gpri * gr;
+		core::Quaternion<> gpri = _parent->getGlobalRotation(); // TODO
+		gpri.inverse();
+		_localRotation = gpri * gr;
 	}
 	else
 	{
@@ -86,7 +87,7 @@ core::Quaternion<> Transform::getGlobalRotation() const
 {
 	if (_parent != nullptr)
 	{
-		//return _parent->getGlobalRotation() * _localRotation;
+		return _parent->getGlobalRotation() * _localRotation;
 	}
 
 	return _localRotation;
@@ -198,12 +199,12 @@ void Transform::translate(core::Vector3<> t)
 
 void Transform::rotate(core::Quaternion<> q)
 {
-	//_localRotation = q * _localRotation; // en este orden
+	_localRotation = q * _localRotation; // en este orden
 }
 
 void Transform::rotate(core::Vector3<> v)
 {
-	//Quaternion q(v); 
+	//core::Quaternion<> q(v); 
 	//rotate(q);
 }
 

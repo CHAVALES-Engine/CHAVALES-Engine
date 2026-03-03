@@ -1,4 +1,4 @@
-/*
+/**
  * @file Entity
  * @brief Clase contenedora de componentes que representa una entidad en escena
  */
