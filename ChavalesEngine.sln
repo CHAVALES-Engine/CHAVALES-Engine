@@ -75,7 +75,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ComponentsProject", "projec
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Files-test", "projects\Tests\Files-test\Files-test.vcxproj", "{8DEB188B-A7C9-4546-912E-980350C959A8}"
 	ProjectSection(ProjectDependencies) = postProject
-		{0EB183EE-3578-4ADA-9962-55E9B7457F17} = {0EB183EE-3578-4ADA-9962-55E9B7457F17}
 		{19C229D6-650D-4440-8B69-512B9458618E} = {19C229D6-650D-4440-8B69-512B9458618E}
 	EndProjectSection
 EndProject
