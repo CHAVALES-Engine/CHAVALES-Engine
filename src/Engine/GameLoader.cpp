@@ -32,7 +32,7 @@ std::shared_ptr<core::Scene> GameLoader::loadScene(const sceneName& n)
 	}
 	*/
 	sol::state lua;
-	std::string path = "./scenes/" + n + ".lua";
+	std::string path = "./game/scenes/" + n + ".lua";
 
 	try
 	{
@@ -40,7 +40,7 @@ std::shared_ptr<core::Scene> GameLoader::loadScene(const sceneName& n)
 	}
 	catch (const sol::error& e)
 	{
-		core::Debug::error("GAMELOADER: Error cargando escena: ./scenes/ " + n + ".lua");
+		core::Debug::error("GAMELOADER: Error cargando escena: ", path);
 		core::Debug::error("Lua exception: ", e.what());
 		return s;
 	}
@@ -116,7 +116,7 @@ std::shared_ptr<core::Scene> GameLoader::loadScene(const sceneName& n, const std
 bool GameLoader::load(std::string& path)
 {
 	// recorrer todos los archivos de lua del directorio scenes
-	path = "./scenes";
+	path = "./game/scenes";
 	std::string luaFile;
 	for (const auto& entry : fs::directory_iterator(path))
 	{

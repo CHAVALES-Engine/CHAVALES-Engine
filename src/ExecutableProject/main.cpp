@@ -34,7 +34,7 @@ int main(int argc, char* argv[])
 	dllLoader.load("./ComponentsProject_r.dll");
 #endif
 
-	dllLoader.load("./DLL-Test.dll");
+	dllLoader.load("./game/DLL-Test.dll");
 
 	StateMachine _stateMachine;
 

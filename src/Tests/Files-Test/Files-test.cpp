@@ -16,7 +16,7 @@ namespace fs = std::filesystem;
 int main(int argc, char* argv[])
 {
 	sol::state lua;
-	lua.script_file("./scenes/scene_prueba.lua");
+	lua.script_file("./game/scenes/scene_prueba.lua");
 	sol::table scene = lua["scene"];
 	core::Scene* s = new core::Scene("0");
 
