@@ -1,6 +1,6 @@
-/*
- * @file
- * @brief
+/**
+ * @file Component
+ * @brief Clase base abstracta para todos los componentes del sistema EC
  *
  * TODO: MESSAGES
  */
@@ -16,79 +16,74 @@ namespace core
 	{
 	public:
 		Component();
-		// Destroys the component.
-		// Careful! entity should not be destroyed
 		virtual ~Component() {}
 
 		// --- SETTERS
-		// This method is used to set the entity in which the component is
-		// installed. 
+		/**
+		 * @brief Asigna la entidad propietaria del componente
+		 * @param e Puntero a la entidad que contiene el componente
+		 */
 		void setEntity(Entity* e);
-		/*
-		* @brief
+		/**
+		* @brief Activa o desactiva el componente
+		* @param v - estado
 		*/
 		void setEnabled(bool v);
 
 		// --- GETTERS
-		/*
-		* @brief
+		/**
+		* @returns Devuelve la entidad propietaria del componente
 		*/
 		const Entity* getEntity() const;
-		/*
-		* @brief
+		/**
+		* @returs Si esta activo o no
 		*/
 		bool isEnabled() const;
 
 		// --- LIFECYCLE
-		/*
-		* @brief
+		/**
+		* @brief Metodo que inicializa las variables del componente tras ser creado
 		*/
 		virtual void init() {} // analogo al awake en unity
 
-		/*
-		* @brief
+		/**
+		* @brief Comportamiento cuando la escena comienza y ya se han inicializado el resto de entidades
 		*/
 		virtual void ready() {} // analogo al start en unity
 
-		/*
-		* @brief
+		/**
+		* @brief Comportamiento cuando el componente se activa
 		*/
 		virtual void enable() {} // analogo al onEnable en unity
 
-		/*
-		* @brief
+		/**
+		* @brief Comportamiento en cada ctualización en tiempo fijo
 		*/
 		virtual void fixedUpdate() {}
 
-		// A component has an update method, and by default it
-		// does nothing -- some components will not override this
-		// method.
+		/**
+		* @brief Comportamiento en cada actualización por frame
+		*/
 		virtual void update(uint64_t deltaTime) {}
 
-		// A component has a render method, and by default it
-		// does nothing -- some components will not override this
-		// method.
+		/**
+		* @brief Comportamiento de renderizado del componente
+		*/
 		virtual void render() const {}
 
-		/*
-		* @brief Comportamiento cuando el componente se desactiva.
+		/**
+		* @brief Comportamiento cuando el componente se desactiva
 		*/
 		virtual void disable() {}
 
-		/*
-		* @brief Comportamiento cuando el componente se destruye
+		/**
+		* @brief Comportamiento antes de que el componente se destruya
 		*/
 		virtual void destroy() {}
 
-		template <typename T, typename... Ts>
-		static std::shared_ptr<Component> create(Ts&&... args);
-
-	private: // we allow direct use these fields from subclasses
-
-		//friend
-
-		Entity* entity; // a pointer to the entity, should not be deleted on destruction
-		bool enabled; // if the component is currently active
+	private: 
+		Entity* entity;
+		bool enabled; 
 	};
 
 
