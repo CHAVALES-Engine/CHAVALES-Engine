@@ -9,6 +9,7 @@ namespace core
 {
 	class Entity;
 	using sceneName = std::string;
+	using sceneID = uint64_t;
 
 	class Scene
 	{
@@ -34,8 +35,15 @@ namespace core
 			return _name;
 		}
 
+		inline void setID(sceneID id)
+		{
+			_id = id;
+		}
+
 	private:
 		sceneName _name;
+		sceneID _id;
+
 		bool _active = false;
 
 		std::vector<core::Entity*> _entities;

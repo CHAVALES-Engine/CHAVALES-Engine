@@ -141,6 +141,7 @@ void StateMachine::addAndSetScene(sceneName n, scenePtr s)
 		//_currentScene.ptr->onCreate();
 		_currentScene.ptr->init();
 		_currentScene.ptr->onEnable();
+		_currentScene.ptr->setID(id);
 	}
 	else
 	{

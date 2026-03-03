@@ -43,20 +43,20 @@ public:
 	 * @param n - Nombre de la escena a insertar.
 	 * @param s - Puntero a la escena a insertar.
 	 */
-	void addScene(sceneName n, scenePtr s);
+	void addScene(sceneName n, scenePtr s); // DEPRECATED
 
 	/**
 	 * @brief Setea la escena n como escena activa actualmente.
 	 * @param n - Nombre de la escena a activar.
 	 */
-	void setScene(sceneName n);
+	void setScene(sceneName n); // DEPRECATED
 
 	/**
 	 * @brief Inserta una escena nueva en la maquina de estados y la setea como escena activa actualmente.
 	 * @param n - Nombre de la escena a insertar.
 	 * @param s - Puntero a la escena a insertar.
 	 */
-	void addAndSetScene(sceneName n, scenePtr s);
+	void addAndSetScene(sceneName n, scenePtr s); // <-
 
 	/**
 	 * @brief Inserta la escena n de la maquina de estados.
