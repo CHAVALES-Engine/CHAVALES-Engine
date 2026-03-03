@@ -106,6 +106,7 @@
     <ClInclude Include="..\..\src\Core\Vector2.h" />
     <ClInclude Include="..\..\src\Core\Vector3.h" />
     <ClInclude Include="..\..\src\Core\Vector4.h" />
+    <ClInclude Include="Crypto.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Core\Component.cpp" />

@@ -6,9 +6,8 @@
 #pragma once
 
 #include <cstdint>
-#include <queue>
-#include <chrono>
 
+#include <IndexPQ.h>
 #include <Clock.h>
 #include <Debug.h>
 
@@ -17,42 +16,93 @@ namespace core
 	/**
 	* @brief Estructura Timer.
 	*/
-	struct Timer
+	class Timer
 	{
+	private:
+		/**
+		 *
+		 */
+		uint64_t _id = 0;
 		/**
 		* @brief Tiempo en el que empezo el timer.
 		*/
-		uint64_t initTime = 0;
+		uint64_t _initTime = 0;
 		/**
 		* @brief Tiempo en el que acabara el timer.
 		*/
-		uint64_t endTime = 0;
+		uint64_t _endTime = 0;
+		/**
+		* @brief
+		*/
+		uint64_t _leftTime = 0;
+		/*
+		 * @brief Indica si esta pausado.
+		 */
+		bool _paused = false;
 		/**
 		* @brief Puntero a funcion lladado al acabar el timer.
 		*/
-		void (*func)() = nullptr;
+		void (*_func)() = nullptr;
+	public:
+		Timer();
+		Timer(uint64_t id, uint64_t initTime, uint64_t duration, void (*func)()) :
+			_id(id), _initTime(initTime), _endTime(initTime + duration), _leftTime(duration), _func(func)
+		{
+		}
+		const bool getPaused(const bool paused)
+		{
+			_paused = paused;
+			return true;
+		}
+		const uint64_t getID() const
+		{
+			return _id;
+		}
+		void setID(uint64_t id) 
+		{
+			_id = id;
+		}
+		const bool setPaused(const bool paused) 
+		{
+			// Si esta pausado y lo queremos pausar => Error
+			if (_paused && paused) {
+				Debug::error("Timer: ", _id, " is already paused.");
+				return false;
+			}
+			if (paused)
+			{
+				uint64_t now = Clock::getRunningTime();
+				_leftTime = _endTime - now;
+			}
 
+			_paused = paused;
+			return true;
+		}
 		/**
 		* @brief Devuelve si ha acabado el Timer.
-		* 
+		*
 		* @return bool - Devuelve si ha acabado el Timer.
 		*/
 		const bool isEnded() const
 		{
-			return endTime < Clock::getRunningTime();
+			return !_paused && _endTime < Clock::getRunningTime();
 		}
-
 		/**
 		* @brief Devuelve el tiempo restante.
 		*
 		* @return uint64_t - Tiempo restante en milisegundos.
 		*/
-		const uint64_t timeLeftMS() const
+		const uint64_t timeLeftMS() 
 		{
 			uint64_t now = Clock::getRunningTime();
-			return endTime - now;
+			if (!_paused)
+				_leftTime = _endTime - now;
+			return _leftTime;
 		}
-
+		const bool isPaused()
+		{
+			return _paused;
+		}
 		/**
 		* @brief Devuelve el tiempo restante.
 		*
@@ -61,9 +111,12 @@ namespace core
 		const double_t timeLeftSec() const
 		{
 			uint64_t now = Clock::getRunningTime();
-			return (endTime - now) / 1000;
+			return (_endTime - now) / 1000;
 		}
-
+		const void executeFunc() const
+		{
+			_func();
+		}
 		/**
 		* @brief Sobrecarga del operador '<'.
 		*
@@ -71,9 +124,10 @@ namespace core
 		*/
 		bool operator<(const Timer other) const
 		{
-			return endTime < other.endTime;
+			return !_paused && _endTime < other._endTime;
 		}
 	};
+
 
 	/**
 	* @brief Clase manejadora de Timers.
@@ -108,34 +162,41 @@ namespace core
 				Debug::error(Debug::DebugMode::DEBUG_BOTH, "Timer con duracion: ", duration, " no creado correactamente.");
 				return;
 			}
-
-			Timer t = { now, end, funcptr };
-			_timers.push(t);
+			_curId++;
+			Timer t(_curId, now, end, funcptr);
+			_timers.push(_curId, t);
 
 			return t;
 		}
 
-	private:
+		static bool pauseTimer(Timer& timer)
+		{
+			timer.setPaused(true);
+			_timers.update(timer.getID(), timer);
+		}
+		static bool resumeTimer(Timer& timer)
+		{
 
+		}
+	private:
+		inline static int _curId= 0;
 		/**
 		* @brief Actualiza la cola de timers ejecutando los que hayan llegado al final. Privado.
 		*/
 		static void _privUpdate(uint64_t now)
 		{
-			Timer t = _timers.top();
-			if (t.endTime <= now)
+			Timer t = _timers.top().prioridad;
+			if (t.timeLeftMS() <= 0)
 			{
-				t.func();
+				t.executeFunc();
 				_timers.pop();
 				_privUpdate(now);
 			}
-			else
-				return;
 		}
 
 		/**
 		* @brief Cola de timers.
 		*/
-		static std::priority_queue<Timer> _timers;
+		static IndexPQ<Timer> _timers;
 	};
 }

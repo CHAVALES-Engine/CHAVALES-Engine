@@ -50,12 +50,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)libs\$(ProjectName)</OutDir>
-    <IntDir>$(SolutionDir)tmp\$(ProjectName)</IntDir>
+    <OutDir>$(SolutionDir)bin\</OutDir>
+    <IntDir>$(SolutionDir)tmp\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)_r</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)libs\$(ProjectName)</OutDir>
+    <OutDir>$(SolutionDir)bin</OutDir>
     <IntDir>$(SolutionDir)tmp\$(ProjectName)</IntDir>
     <TargetName>$(ProjectName)_d</TargetName>
   </PropertyGroup>
@@ -75,6 +75,8 @@
       <SubSystem>
       </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>$(SolutionDir)libs\Engine\Engine_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\Engine\</AdditionalLibraryDirectories>
     </Link>
     <Lib>
       <AdditionalDependencies>$(SolutionDir)libs\Core\Core_d.lib;$(SolutionDir)libs\Engine\Engine_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -101,6 +103,8 @@
       <SubSystem>
       </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>$(SolutionDir)libs\Engine\Engine_r.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\Engine\</AdditionalLibraryDirectories>
     </Link>
     <Lib>
       <AdditionalDependencies>$(SolutionDir)libs\Core\Core_r.lib;$(SolutionDir)libs\Engine\Engine_r.lib;%(AdditionalDependencies)</AdditionalDependencies>

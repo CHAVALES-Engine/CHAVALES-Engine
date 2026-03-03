@@ -57,6 +57,9 @@
     <ClInclude Include="..\..\src\Core\Message.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Crypto.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Core\Entity.cpp">

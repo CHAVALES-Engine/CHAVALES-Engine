@@ -15,7 +15,6 @@
 #include "DLLLoader.h"
 #include "GameLoader.h"
 #include "Scene.h"
-#include "registComponents.h"
 
 using namespace core;
 
@@ -27,8 +26,6 @@ int main(int argc, char* argv[])
 	// Inicializa el Engine
 	Engine::init();
 
-	// Funcion estatica que autoregistra componentes
-	registBaseComponent();
 
 	DLLLoader dllLoader;
 #if DEBUG_PROCESS
