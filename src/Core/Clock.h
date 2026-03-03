@@ -8,11 +8,11 @@
 
 namespace core
 {
-	class Timing
+	class Clock
 	{
 	public:
-		Timing() = default;
-		~Timing() = default;
+		Clock() = default;
+		~Clock() = default;
 
 		/** @brief
 		*	Tiempo desde la ultima actualizacion.
