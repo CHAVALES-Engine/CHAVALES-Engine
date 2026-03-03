@@ -84,7 +84,7 @@ namespace core
 		virtual void onDestroy() {}
 
 		template <typename T, typename... Ts>
-		static std::unique_ptr<Component> create(Ts&&... args);
+		static std::shared_ptr<Component> create(Ts&&... args);
 
 	private: // we allow direct use these fields from subclasses
 
@@ -98,7 +98,7 @@ namespace core
 	};
 
 
-	using ComponentConstructor = std::function<std::unique_ptr<Component>()>;
+	using ComponentConstructor = std::function<std::shared_ptr<Component>()>;
 
 	struct ComponentDescriptor
 	{

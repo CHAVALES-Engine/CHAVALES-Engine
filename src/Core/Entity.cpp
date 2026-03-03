@@ -18,7 +18,7 @@ namespace core
 	Entity::~Entity()
 	{
 		// we delete all available components
-		for (std::unique_ptr<Component>& c : components)
+		for (std::shared_ptr<Component>& c : components)
 		{
 			c->onDestroy();
 			//delete c;
@@ -39,11 +39,11 @@ namespace core
 	grpId_t Entity::getGroupId() const { return groupId; }
 	//bool core::Entity::inGroup(grpId_t id) const;
 	const std::string& Entity::getName() const { return name; }
-	const std::vector<std::unique_ptr<Component>>& Entity::getComponents() const { return components; }
+	const std::vector<std::shared_ptr<Component>>& Entity::getComponents() const { return components; }
 
 	void Entity::init()
 	{
-		for (std::unique_ptr<Component>& c : components)
+		for (std::shared_ptr<Component>& c : components)
 		{
 			c->init();
 		}
@@ -53,7 +53,7 @@ namespace core
 	{
 		if (!enabled) return;
 
-		for (std::unique_ptr<Component>& c : components)
+		for (std::shared_ptr<Component>& c : components)
 		{
 			if (c->isEnabled())
 				c->fixedUpdate();
@@ -64,7 +64,7 @@ namespace core
 	{
 		if (!enabled) return;
 
-		for (std::unique_ptr<Component>& c : components)
+		for (std::shared_ptr<Component>& c : components)
 		{
 			if (c->isEnabled())
 				c->update(dT);
@@ -75,7 +75,7 @@ namespace core
 	{
 		if (!visible) return;
 
-		for (const std::unique_ptr<Component>& c : components)
+		for (const std::shared_ptr<Component>& c : components)
 		{
 			if (c->isEnabled())
 				c->render();
@@ -92,7 +92,7 @@ namespace core
 		if (!enabled)
 		{
 			enabled = true;
-			for (std::unique_ptr<Component>& c : components)
+			for (std::shared_ptr<Component>& c : components)
 				c->enable();
 		}
 	}
@@ -102,12 +102,12 @@ namespace core
 		if (enabled)
 		{
 			enabled = false;
-			for (std::unique_ptr<Component>& c : components)
+			for (std::shared_ptr<Component>& c : components)
 				c->disable();
 		}
 	}
 
-	Component* Entity::addComponent(std::unique_ptr<Component> c)
+	Component* Entity::addComponent(std::shared_ptr<Component> c)
 	{
 		c->setEntity(this);
 		c->onCreate();
@@ -125,7 +125,7 @@ namespace core
 		if (hasComponent<T>())
 			return getComponent<T>();
 
-		std::unique_ptr<Component> c = std::make_unique<T>(std::forward<Ts>(args)...);
+		std::shared_ptr<Component> c = std::make_shared<T>(std::forward<Ts>(args)...);
 		//T* c = new T(std::forward<Ts>(args)...);
 
 		c->setEntity(this);
@@ -154,7 +154,7 @@ namespace core
 	template <typename T>
 	T* Entity::getComponent()
 	{
-		for (std::unique_ptr<Component>& c : components)
+		for (std::shared_ptr<Component>& c : components)
 		{
 			if (T* ptr = dynamic_cast<T*>(c.get()))
 				return ptr;

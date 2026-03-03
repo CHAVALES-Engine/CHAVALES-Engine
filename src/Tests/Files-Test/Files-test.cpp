@@ -42,7 +42,7 @@ int main(int argc, char* argv[])
 			auto componenteObj = componente.first;
 			std::string componenteName = componenteObj.as<std::string>();
 			std::cout << "COMPONENTE: " << componenteName << std::endl;
-			std::unique_ptr<core::Component> component = ComponentRegister::instance().create(componenteName);
+			std::shared_ptr<core::Component> component = ComponentRegister::instance().create(componenteName);
 
 			if (component != nullptr)
 			{

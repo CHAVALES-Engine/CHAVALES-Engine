@@ -38,7 +38,7 @@ namespace core
 		grpId_t getGroupId() const;
 		//bool inGroup(grpId_t id) const;
 		const std::string& getName() const;
-		const std::vector<std::unique_ptr<Component>>& getComponents() const;
+		const std::vector<std::shared_ptr<Component>>& getComponents() const;
 
 		// --- LIFECYLE
 		/*
@@ -80,7 +80,7 @@ namespace core
 		*/
 		template <typename T, typename... Ts>
 		T* addComponent(Ts&&... args);
-		Component* addComponent(std::unique_ptr<Component> comp);
+		Component* addComponent(std::shared_ptr<Component> comp);
 
 		/*
 		* @brief
@@ -105,7 +105,8 @@ namespace core
 		bool hasComponent() const;
 
 	protected:
-		std::vector<std::unique_ptr<Component>> components;		bool alive;
+		std::vector<std::shared_ptr<Component>> components;
+		bool alive;
 		bool visible;
 		bool enabled;
 		Scene* scene;

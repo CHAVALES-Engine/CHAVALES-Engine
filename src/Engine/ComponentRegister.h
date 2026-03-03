@@ -11,7 +11,7 @@
 // forward declarations
 namespace core {
 	class Component; 
-	using ComponentPtr = std::unique_ptr<Component>;
+	using ComponentPtr = std::shared_ptr<Component>;
 	using ComponentConstructor = std::function<ComponentPtr()>;
 }
 
@@ -37,9 +37,9 @@ public:
 	* @brief 
 	*	Crea el componente pedido usando su funcion asignada
 	* 
-	* @return std::unique_ptr<core::Component> - Puntero al componente creado
+	* @return std::shared_ptr<core::Component> - Puntero al componente creado
 	*/
-	std::unique_ptr<core::Component> create(const std::string& name);
+	std::shared_ptr<core::Component> create(const std::string& name);
 	/*
 	* @brief
 	*	Desregistra un componente

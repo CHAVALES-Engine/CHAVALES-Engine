@@ -20,7 +20,7 @@ bool ComponentRegister::registComponent(const std::string& name, core::Component
 	return inserted;
 }
 
-std::unique_ptr<core::Component> ComponentRegister::create(const std::string& name)
+std::shared_ptr<core::Component> ComponentRegister::create(const std::string& name)
 {
 	auto it = _components.find(name);
 	if (it == _components.end()) {

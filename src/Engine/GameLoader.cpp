@@ -64,7 +64,7 @@ std::shared_ptr<core::Scene> GameLoader::loadScene(const sceneName& n)
 		{
 			auto componenteObj = componente.first;
 			std::string componenteName = componenteObj.as<std::string>();
-			std::unique_ptr<core::Component> component = ComponentRegister::instance().create(componenteName);
+			std::shared_ptr<core::Component> component = ComponentRegister::instance().create(componenteName);
 
 			if (component != nullptr)
 			{
