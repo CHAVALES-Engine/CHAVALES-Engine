@@ -63,7 +63,7 @@
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)dependencies\ogre\src\ogre\RenderSystems\GLSupport\include\;$(SolutionDir)dependencies\ogre\src\ogre\Components\Overlay\include\;$(SolutionDir)dependencies\ogre\src\ogre\RenderSystems\GL3Plus\include\;$(SolutionDir)dependencies\ogre\src\ogre\OgreMain\include\;$(SolutionDir)dependencies\ogre\build\include\;$(SolutionDir)dependencies\ogre\build\imgui-1.91.9b\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)dependencies\ogre\src\ogre\RenderSystems\GLSupport\include\;$(SolutionDir)dependencies\ogre\src\ogre\Components\Overlay\include\;$(SolutionDir)dependencies\ogre\src\ogre\RenderSystems\GL3Plus\include\;$(SolutionDir)dependencies\ogre\src\ogre\OgreMain\include\;$(SolutionDir)dependencies\ogre\build\include\;$(SolutionDir)dependencies\ogre\build\imgui-1.91.9b\;$(SolutionDir)src\Core\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -87,7 +87,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)dependencies\ogre\src\ogre\RenderSystems\GLSupport\include\;$(SolutionDir)dependencies\ogre\src\ogre\Components\Overlay\include\;$(SolutionDir)dependencies\ogre\src\ogre\RenderSystems\GL3Plus\include\;$(SolutionDir)dependencies\ogre\src\ogre\OgreMain\include\;$(SolutionDir)dependencies\ogre\build\include\;$(SolutionDir)dependencies\ogre\build\imgui-1.91.9b\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)dependencies\ogre\src\ogre\RenderSystems\GLSupport\include\;$(SolutionDir)dependencies\ogre\src\ogre\Components\Overlay\include\;$(SolutionDir)dependencies\ogre\src\ogre\RenderSystems\GL3Plus\include\;$(SolutionDir)dependencies\ogre\src\ogre\OgreMain\include\;$(SolutionDir)dependencies\ogre\build\include\;$(SolutionDir)dependencies\ogre\build\imgui-1.91.9b\;$(SolutionDir)src\Core\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>

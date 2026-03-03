@@ -13,10 +13,10 @@ public:
 	GameLoader() = default;
 	~GameLoader() = default;
 
-	static std::shared_ptr<core::Scene> loadScene(sceneName n);
+	static std::shared_ptr<core::Scene> loadScene(const sceneName& n);
 
 	// carga una escena dada
-	static std::shared_ptr<core::Scene> loadScene(sceneName n, const std::string& path);
+	static std::shared_ptr<core::Scene> loadScene(const sceneName& n, const std::string& path);
 
 	// carga ficheros de lua
 	// para cargar todas las escenas de una vez
