@@ -10,29 +10,13 @@
 #include "ComponentRegister.h"
 namespace fs = std::filesystem;
 
-std::shared_ptr<core::Scene> GameLoader::loadScene(const sceneName& n)
+void GameLoader::loadLua(
+	std::shared_ptr<core::Scene>& s, 
+	const sceneName& n,  
+	const std::string& p)
 {
-	std::shared_ptr<core::Scene> s = std::make_shared<core::Scene>(n);
-
-	// comprobar que no haya una escena con ese nombre ya
-	/*
-	auto itS = _scenesContent.find(n);
-	if (itS == _scenesContent.end())
-	{
-		core::Debug::error("No existe escena con nombre ", n);
-	}
-	else
-	{
-		scn = new core::Scene(n);
-
-		for (auto e : _scenesContent)
-		{
-			
-		}
-	}
-	*/
 	sol::state lua;
-	std::string path = "./game/scenes/" + n + ".lua";
+	std::string path = p + n + ".lua";
 
 	try
 	{
@@ -42,7 +26,7 @@ std::shared_ptr<core::Scene> GameLoader::loadScene(const sceneName& n)
 	{
 		core::Debug::error("GAMELOADER: Error cargando escena: ", path);
 		core::Debug::error("Lua exception: ", e.what());
-		return s;
+		return;
 	}
 
 	sol::table scene = lua["scene"];
@@ -81,6 +65,31 @@ std::shared_ptr<core::Scene> GameLoader::loadScene(const sceneName& n)
 		// mete la entidad en la escena
 		s->addEntity(e);
 	}
+}
+
+std::shared_ptr<core::Scene> GameLoader::loadScene(const sceneName& n)
+{
+	std::shared_ptr<core::Scene> s = std::make_shared<core::Scene>(n);
+
+	// comprobar que no haya una escena con ese nombre ya
+	/*
+	auto itS = _scenesContent.find(n);
+	if (itS == _scenesContent.end())
+	{
+		core::Debug::error("No existe escena con nombre ", n);
+	}
+	else
+	{
+		scn = new core::Scene(n);
+
+		for (auto e : _scenesContent)
+		{
+			
+		}
+	}
+	*/
+	
+	loadLua(s, n);
 
 	return s;
 }
@@ -103,11 +112,13 @@ std::shared_ptr<core::Scene> GameLoader::loadScene(const sceneName& n, const std
 		//std::cin.rdbuf(cinbuf);
 
 		// the type "sol::state" behaves exactly like a table!
-		sol::state lua;
-		lua.script_file(path);
+		//sol::state lua;
+		//lua.script_file(path);
 		//bool isfullscreen = lua["config"]["fullscreen"]; // can get nested variables
 		//sol::table config = lua["config"];
 		//assert(!isfullscreen)
+
+		loadLua(scn, n, path);
 	}
 
 	return scn;
@@ -136,11 +147,13 @@ bool GameLoader::load(std::string& path)
 		//std::cin.rdbuf(cinbuf);
 
 		// the type "sol::state" behaves exactly like a table!
-		sol::state lua;
-		lua.script_file(luaFile);
+		//sol::state lua;
+		//lua.script_file(luaFile);
 		//bool isfullscreen = lua["config"]["fullscreen"]; // can get nested variables
 		//sol::table config = lua["config"];
 		//assert(!isfullscreen)
+
+
 	}
 
     return true;
