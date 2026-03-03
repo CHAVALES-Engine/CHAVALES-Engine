@@ -10,7 +10,7 @@
 #include "ComponentRegister.h"
 namespace fs = std::filesystem;
 
-std::shared_ptr<core::Scene> GameLoader::loadScene(std::string n)
+std::shared_ptr<core::Scene> GameLoader::loadScene(const sceneName& n)
 {
 	std::shared_ptr<core::Scene> s = std::make_shared<core::Scene>(n);
 
@@ -85,7 +85,7 @@ std::shared_ptr<core::Scene> GameLoader::loadScene(std::string n)
 	return s;
 }
 
-std::shared_ptr<core::Scene> GameLoader::loadScene(sceneName n, const std::string& path)
+std::shared_ptr<core::Scene> GameLoader::loadScene(const sceneName& n, const std::string& path)
 {
 	std::shared_ptr<core::Scene> scn = std::make_shared<core::Scene>(n);
 

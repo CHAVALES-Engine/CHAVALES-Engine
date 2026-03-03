@@ -13,6 +13,7 @@
 
 #include "StateMachine.h"
 #include "DLLLoader.h"
+#include "GameLoader.h"
 #include "Scene.h"
 #include "registComponents.h"
 
@@ -33,6 +34,13 @@ int main(int argc, char* argv[])
 	dllLoader.load("./DLL-Test.dll");
 
 	StateMachine _stateMachine;
+
+
+	// game loader 
+	GameLoader _gameLoader;
+
+	//_gameLoader.loadScene(ruta desde fuera / escena inicial)
+
 	std::shared_ptr<Scene> scene = std::make_shared<Scene>("scene_prueba");
 	_stateMachine.addAndSetScene(scene->getName(), scene);
 	_stateMachine.gameLoop();
