@@ -38,12 +38,6 @@ int main(int argc, char* argv[])
 
 	StateMachine _stateMachine;
 
-
-	// game loader 
-	GameLoader _gameLoader;
-
-	//_gameLoader.loadScene(ruta desde fuera / escena inicial)
-
 	std::shared_ptr<Scene> scene = std::make_shared<Scene>("scene_prueba");
 	_stateMachine.addAndSetScene(scene->getName(), scene);
 	_stateMachine.gameLoop();
