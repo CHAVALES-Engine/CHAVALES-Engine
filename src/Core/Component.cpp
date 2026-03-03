@@ -8,22 +8,10 @@ void core::Component::setEntity(Entity* e)
 	entity = e;
 }
 
-void core::Component::enable()
+void core::Component::setEnabled(bool v)
 {
-	if (!enabled)
-	{
-		enabled = true;
-		onEnable();
-	}
-}
-
-void core::Component::disable()
-{
-	if (enabled)
-	{
-		enabled = false;
-		onDisable();
-	}
+	enabled = v;
+	enabled ? enable() : disable();
 }
 
 const core::Entity* core::Component::getEntity() const

@@ -27,11 +27,7 @@ namespace core
 		/*
 		* @brief
 		*/
-		void enable();
-		/*
-		* @brief
-		*/
-		void disable();
+		void setEnabled(bool v);
 
 		// --- GETTERS
 		/*
@@ -47,16 +43,17 @@ namespace core
 		/*
 		* @brief
 		*/
-		virtual void onCreate() {}
-
-		// We assume that init will be called when adding a
-		// component to an entity, immediately after setEntity.
-		virtual void init() {}
+		virtual void init() {} // analogo al awake en unity
 
 		/*
 		* @brief
 		*/
-		virtual void onEnable() {}
+		virtual void ready() {} // analogo al start en unity
+
+		/*
+		* @brief
+		*/
+		virtual void enable() {} // analogo al onEnable en unity
 
 		/*
 		* @brief
@@ -74,14 +71,14 @@ namespace core
 		virtual void render() const {}
 
 		/*
-		* @brief
+		* @brief Comportamiento cuando el componente se desactiva.
 		*/
-		virtual void onDisable() {}
+		virtual void disable() {}
 
 		/*
-		* @brief 
+		* @brief Comportamiento cuando el componente se destruye
 		*/
-		virtual void onDestroy() {}
+		virtual void destroy() {}
 
 		template <typename T, typename... Ts>
 		static std::shared_ptr<Component> create(Ts&&... args);
@@ -92,9 +89,6 @@ namespace core
 
 		Entity* entity; // a pointer to the entity, should not be deleted on destruction
 		bool enabled; // if the component is currently active
-
-		void (Component::*createFunc)() = &Component::onCreate;
-		void (Component::*destroyFunc)() = &Component::onDestroy;
 	};
 
 

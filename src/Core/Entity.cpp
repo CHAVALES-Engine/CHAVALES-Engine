@@ -20,7 +20,7 @@ namespace core
 		// we delete all available components
 		for (std::shared_ptr<Component>& c : components)
 		{
-			c->onDestroy();
+			c->destroy();
 			//delete c;
 		}
 	}
@@ -110,8 +110,8 @@ namespace core
 	Component* Entity::addComponent(std::shared_ptr<Component> c)
 	{
 		c->setEntity(this);
-		c->onCreate();
-		c->init();
+		//c->ready();
+		//c->init();
 
 		components.push_back(std::move(c));
 		return components.back().get();
@@ -129,8 +129,8 @@ namespace core
 		//T* c = new T(std::forward<Ts>(args)...);
 
 		c->setEntity(this);
-		c->onCreate();
 		c->init();
+		c->ready();
 
 		T* c_ref = c.get();
 		components.push_back(std::move(c));
@@ -144,7 +144,7 @@ namespace core
 		{
 			if (dynamic_cast<T*>(it->get()) != nullptr)
 			{
-				(*it)->onDestroy();
+				(*it)->destroy();
 				components.erase(it);
 				return;
 			}

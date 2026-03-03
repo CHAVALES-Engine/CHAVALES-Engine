@@ -18,7 +18,7 @@ namespace core
 
 		virtual void onEnable();
 		virtual void init();
-		//virtual void onCreate();
+		//virtual void ready();
 
 		virtual void fixedUpdate();
 		virtual void update(uint64_t dT);
