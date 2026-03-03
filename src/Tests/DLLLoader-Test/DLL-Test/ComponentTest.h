@@ -3,6 +3,7 @@
 #include <PluginSDK.h>
 #include "Debug.h"
 #include "Entity.h"
+#include "Timer.h"
 
 class ComponentTest : public core::Component
 {
@@ -20,3 +21,18 @@ class ComponenteChavalTest : public core::Component
 };
 
 REGISTER_COMPONENT(ComponenteChavalTest);
+
+class TimerChangescene : public core::Component
+{
+public:
+	TimerChangescene()
+	{
+		core::TimerManager::createTimer(10, [this]() { this->changeScene(); });
+	}
+	void changeScene()
+	{
+		
+	}
+};
+
+REGISTER_COMPONENT(TimerChangescene);

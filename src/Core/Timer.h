@@ -45,7 +45,7 @@ namespace core
 		*/
 		std::function<void()> _func = nullptr;
 	public:
-		Timer();
+		Timer() = default;
 		Timer(uint64_t id, uint64_t initTime, uint64_t duration, std::function<void()> func) :
 			_id(id), _initTime(initTime), _endTime(initTime + duration), _leftTime(duration), _func(func)
 		{
