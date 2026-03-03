@@ -8,10 +8,10 @@
  */
 #pragma once
 #include <vector>
-
 #include <Component.h>
 #include <Quaternion.h>
 #include <Vector3.h>
+#include <PluginSDK.h>
 
 namespace core
 {
@@ -97,4 +97,6 @@ namespace core
 		//Transform* getChildByID(size_t);
 		//void lookAt();
 	};
+
+	REGISTER_COMPONENT(Transform);
 }

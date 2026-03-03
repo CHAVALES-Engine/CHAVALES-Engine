@@ -31,6 +31,12 @@ int main(int argc, char* argv[])
 	registBaseComponent();
 
 	DLLLoader dllLoader;
+#if DEBUG_PROCESS
+	dllLoader.load("./ComponentsProject_d.dll");
+#else 
+	dllLoader.load("./ComponentsProject_r.dll");
+#endif
+
 	dllLoader.load("./DLL-Test.dll");
 
 	StateMachine _stateMachine;
