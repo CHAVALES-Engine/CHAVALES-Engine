@@ -10,7 +10,7 @@
 namespace core
 {
 	class Scene;
-	class Timing;
+	class Clock;
 }
 
 using sceneID = uint64_t;

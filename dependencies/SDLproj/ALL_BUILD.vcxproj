@@ -1,0 +1,551 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ResolveNugetPackages>false</ResolveNugetPackages>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{581B7BFA-9054-3AED-A52E-CCD75C67838E}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>ALL_BUILD</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\andres\Documents\CLASE\P3\sdl\SDL\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/Users/andres/Documents/CLASE/P3/sdl/SDL/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\bin\cmake.exe -SC:/Users/andres/Documents/CLASE/P3/sdl/SDL -BC:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/dependencies/SDLproj --check-stamp-file C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/dependencies/SDLproj/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\andres\Documents\CLASE\P3\sdl\SDL\.git\HEAD;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\.git\refs\heads\main;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\3rdparty.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\CPackProjectConfig.cmake.in;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\FindLibUSB.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\GetGitRevisionDescription.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\GetGitRevisionDescription.cmake.in;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\PreseedEmscriptenCache.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\PreseedMSVCCache.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\PreseedNokiaNGageCache.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\SDL3Config.cmake.in;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\cmake_uninstall.cmake.in;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\macros.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\sdl3.pc.in;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\sdlchecks.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\sdlcommands.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\sdlcompilers.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\sdlcpu.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\sdlmanpages.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\sdlplatform.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\include\build_config\SDL_build_config.h.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\include\build_config\SDL_revision.h.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeCInformation.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeCXXInformation.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeCheckCompilerFlagCommonPatterns.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeDependentOption.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeGenericSystem.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeInitializeConfigs.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeLanguageInformation.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakePackageConfigHelpers.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeParseArguments.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakePushCheckState.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeRCInformation.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeSystemSpecificInformation.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CPack.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CPackComponent.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckCCompilerFlag.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckCSourceCompiles.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckCSourceRuns.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckCXXCompilerFlag.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckCXXSourceCompiles.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckIncludeFile.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckIncludeFiles.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckLanguage.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckLibraryExists.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckLinkerFlag.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckSourceCompiles.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckStructHasMember.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckSymbolExists.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Compiler\MSVC-C.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Compiler\MSVC-CXX.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Compiler\MSVC.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\FindGit.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\FindPackageHandleStandardArgs.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\FindPackageMessage.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\FindPkgConfig.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\GNUInstallDirs.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Internal\CMakeCLinkerInformation.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Internal\CMakeCXXLinkerInformation.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Internal\CMakeCommonLinkerInformation.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Internal\CheckCompilerFlag.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Internal\CheckFlagCommonConfig.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Internal\CheckLinkerFlag.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Internal\CheckSourceCompiles.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Internal\CheckSourceRuns.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Linker\MSVC-C.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Linker\MSVC-CXX.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Linker\MSVC.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Platform\Linker\Windows-MSVC-C.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Platform\Linker\Windows-MSVC-CXX.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Platform\Linker\Windows-MSVC.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Platform\Windows-Initialize.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Platform\Windows-MSVC-C.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Platform\Windows-MSVC.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Platform\Windows.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Platform\WindowsPaths.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\WriteBasicConfigVersionFile.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Templates\CPackConfig.cmake.in;C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\CMakeFiles\4.2.3\CMakeCCompiler.cmake;C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\CMakeFiles\4.2.3\CMakeCXXCompiler.cmake;C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\CMakeFiles\4.2.3\CMakeRCCompiler.cmake;C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\CMakeFiles\4.2.3\CMakeSystem.cmake;C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\CMakeFiles\SDL_build_config.h.intermediate;C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\CMakeFiles\cmake.verify_globs;C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\CMakeFiles\git-data\grabRef.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Users/andres/Documents/CLASE/P3/sdl/SDL/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\bin\cmake.exe -SC:/Users/andres/Documents/CLASE/P3/sdl/SDL -BC:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/dependencies/SDLproj --check-stamp-file C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/dependencies/SDLproj/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\andres\Documents\CLASE\P3\sdl\SDL\.git\HEAD;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\.git\refs\heads\main;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\3rdparty.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\CPackProjectConfig.cmake.in;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\FindLibUSB.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\GetGitRevisionDescription.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\GetGitRevisionDescription.cmake.in;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\PreseedEmscriptenCache.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\PreseedMSVCCache.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\PreseedNokiaNGageCache.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\SDL3Config.cmake.in;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\cmake_uninstall.cmake.in;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\macros.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\sdl3.pc.in;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\sdlchecks.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\sdlcommands.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\sdlcompilers.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\sdlcpu.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\sdlmanpages.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\sdlplatform.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\include\build_config\SDL_build_config.h.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\include\build_config\SDL_revision.h.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeCInformation.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeCXXInformation.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeCheckCompilerFlagCommonPatterns.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeDependentOption.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeGenericSystem.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeInitializeConfigs.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeLanguageInformation.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakePackageConfigHelpers.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeParseArguments.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakePushCheckState.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeRCInformation.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeSystemSpecificInformation.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CPack.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CPackComponent.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckCCompilerFlag.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckCSourceCompiles.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckCSourceRuns.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckCXXCompilerFlag.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckCXXSourceCompiles.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckIncludeFile.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckIncludeFiles.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckLanguage.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckLibraryExists.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckLinkerFlag.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckSourceCompiles.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckStructHasMember.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckSymbolExists.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Compiler\MSVC-C.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Compiler\MSVC-CXX.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Compiler\MSVC.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\FindGit.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\FindPackageHandleStandardArgs.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\FindPackageMessage.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\FindPkgConfig.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\GNUInstallDirs.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Internal\CMakeCLinkerInformation.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Internal\CMakeCXXLinkerInformation.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Internal\CMakeCommonLinkerInformation.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Internal\CheckCompilerFlag.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Internal\CheckFlagCommonConfig.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Internal\CheckLinkerFlag.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Internal\CheckSourceCompiles.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Internal\CheckSourceRuns.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Linker\MSVC-C.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Linker\MSVC-CXX.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Linker\MSVC.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Platform\Linker\Windows-MSVC-C.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Platform\Linker\Windows-MSVC-CXX.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Platform\Linker\Windows-MSVC.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Platform\Windows-Initialize.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Platform\Windows-MSVC-C.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Platform\Windows-MSVC.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Platform\Windows.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Platform\WindowsPaths.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\WriteBasicConfigVersionFile.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Templates\CPackConfig.cmake.in;C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\CMakeFiles\4.2.3\CMakeCCompiler.cmake;C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\CMakeFiles\4.2.3\CMakeCXXCompiler.cmake;C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\CMakeFiles\4.2.3\CMakeRCCompiler.cmake;C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\CMakeFiles\4.2.3\CMakeSystem.cmake;C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\CMakeFiles\SDL_build_config.h.intermediate;C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\CMakeFiles\cmake.verify_globs;C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\CMakeFiles\git-data\grabRef.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Users/andres/Documents/CLASE/P3/sdl/SDL/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\bin\cmake.exe -SC:/Users/andres/Documents/CLASE/P3/sdl/SDL -BC:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/dependencies/SDLproj --check-stamp-file C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/dependencies/SDLproj/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\andres\Documents\CLASE\P3\sdl\SDL\.git\HEAD;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\.git\refs\heads\main;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\3rdparty.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\CPackProjectConfig.cmake.in;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\FindLibUSB.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\GetGitRevisionDescription.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\GetGitRevisionDescription.cmake.in;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\PreseedEmscriptenCache.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\PreseedMSVCCache.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\PreseedNokiaNGageCache.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\SDL3Config.cmake.in;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\cmake_uninstall.cmake.in;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\macros.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\sdl3.pc.in;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\sdlchecks.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\sdlcommands.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\sdlcompilers.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\sdlcpu.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\sdlmanpages.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\sdlplatform.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\include\build_config\SDL_build_config.h.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\include\build_config\SDL_revision.h.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeCInformation.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeCXXInformation.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeCheckCompilerFlagCommonPatterns.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeDependentOption.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeGenericSystem.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeInitializeConfigs.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeLanguageInformation.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakePackageConfigHelpers.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeParseArguments.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakePushCheckState.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeRCInformation.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeSystemSpecificInformation.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CPack.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CPackComponent.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckCCompilerFlag.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckCSourceCompiles.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckCSourceRuns.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckCXXCompilerFlag.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckCXXSourceCompiles.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckIncludeFile.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckIncludeFiles.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckLanguage.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckLibraryExists.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckLinkerFlag.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckSourceCompiles.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckStructHasMember.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckSymbolExists.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Compiler\MSVC-C.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Compiler\MSVC-CXX.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Compiler\MSVC.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\FindGit.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\FindPackageHandleStandardArgs.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\FindPackageMessage.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\FindPkgConfig.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\GNUInstallDirs.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Internal\CMakeCLinkerInformation.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Internal\CMakeCXXLinkerInformation.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Internal\CMakeCommonLinkerInformation.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Internal\CheckCompilerFlag.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Internal\CheckFlagCommonConfig.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Internal\CheckLinkerFlag.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Internal\CheckSourceCompiles.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Internal\CheckSourceRuns.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Linker\MSVC-C.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Linker\MSVC-CXX.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Linker\MSVC.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Platform\Linker\Windows-MSVC-C.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Platform\Linker\Windows-MSVC-CXX.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Platform\Linker\Windows-MSVC.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Platform\Windows-Initialize.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Platform\Windows-MSVC-C.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Platform\Windows-MSVC.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Platform\Windows.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Platform\WindowsPaths.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\WriteBasicConfigVersionFile.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Templates\CPackConfig.cmake.in;C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\CMakeFiles\4.2.3\CMakeCCompiler.cmake;C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\CMakeFiles\4.2.3\CMakeCXXCompiler.cmake;C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\CMakeFiles\4.2.3\CMakeRCCompiler.cmake;C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\CMakeFiles\4.2.3\CMakeSystem.cmake;C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\CMakeFiles\SDL_build_config.h.intermediate;C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\CMakeFiles\cmake.verify_globs;C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\CMakeFiles\git-data\grabRef.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/Users/andres/Documents/CLASE/P3/sdl/SDL/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\bin\cmake.exe -SC:/Users/andres/Documents/CLASE/P3/sdl/SDL -BC:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/dependencies/SDLproj --check-stamp-file C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/dependencies/SDLproj/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\andres\Documents\CLASE\P3\sdl\SDL\.git\HEAD;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\.git\refs\heads\main;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\3rdparty.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\CPackProjectConfig.cmake.in;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\FindLibUSB.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\GetGitRevisionDescription.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\GetGitRevisionDescription.cmake.in;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\PreseedEmscriptenCache.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\PreseedMSVCCache.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\PreseedNokiaNGageCache.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\SDL3Config.cmake.in;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\cmake_uninstall.cmake.in;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\macros.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\sdl3.pc.in;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\sdlchecks.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\sdlcommands.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\sdlcompilers.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\sdlcpu.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\sdlmanpages.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\cmake\sdlplatform.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\include\build_config\SDL_build_config.h.cmake;C:\Users\andres\Documents\CLASE\P3\sdl\SDL\include\build_config\SDL_revision.h.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeCInformation.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeCXXInformation.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeCheckCompilerFlagCommonPatterns.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeDependentOption.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeGenericSystem.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeInitializeConfigs.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeLanguageInformation.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakePackageConfigHelpers.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeParseArguments.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakePushCheckState.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeRCInformation.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeSystemSpecificInformation.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CPack.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CPackComponent.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckCCompilerFlag.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckCSourceCompiles.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckCSourceRuns.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckCXXCompilerFlag.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckCXXSourceCompiles.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckIncludeFile.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckIncludeFiles.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckLanguage.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckLibraryExists.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckLinkerFlag.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckSourceCompiles.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckStructHasMember.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\CheckSymbolExists.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Compiler\MSVC-C.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Compiler\MSVC-CXX.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Compiler\MSVC.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\FindGit.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\FindPackageHandleStandardArgs.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\FindPackageMessage.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\FindPkgConfig.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\GNUInstallDirs.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Internal\CMakeCLinkerInformation.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Internal\CMakeCXXLinkerInformation.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Internal\CMakeCommonLinkerInformation.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Internal\CheckCompilerFlag.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Internal\CheckFlagCommonConfig.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Internal\CheckLinkerFlag.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Internal\CheckSourceCompiles.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Internal\CheckSourceRuns.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Linker\MSVC-C.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Linker\MSVC-CXX.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Linker\MSVC.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Platform\Linker\Windows-MSVC-C.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Platform\Linker\Windows-MSVC-CXX.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Platform\Linker\Windows-MSVC.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Platform\Windows-Initialize.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Platform\Windows-MSVC-C.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Platform\Windows-MSVC.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Platform\Windows.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\Platform\WindowsPaths.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Modules\WriteBasicConfigVersionFile.cmake;C:\Users\andres\Documents\CLASE\cmake-4.2.3-windows-x86_64\share\cmake-4.2\Templates\CPackConfig.cmake.in;C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\CMakeFiles\4.2.3\CMakeCCompiler.cmake;C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\CMakeFiles\4.2.3\CMakeCXXCompiler.cmake;C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\CMakeFiles\4.2.3\CMakeRCCompiler.cmake;C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\CMakeFiles\4.2.3\CMakeSystem.cmake;C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\CMakeFiles\SDL_build_config.h.intermediate;C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\CMakeFiles\cmake.verify_globs;C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\CMakeFiles\git-data\grabRef.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\ZERO_CHECK.vcxproj">
+      <Project>{5B2A3028-2299-36E7-9234-3766B3EBFBA2}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\SDL3-static.vcxproj">
+      <Project>{7DEE064E-A8E7-3526-862D-2173AF030152}</Project>
+      <Name>SDL3-static</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\SDL3_test.vcxproj">
+      <Project>{F6B7721D-C61B-3117-873B-CDC1CC4AEDA9}</Project>
+      <Name>SDL3_test</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\checkkeys.vcxproj">
+      <Project>{0989B062-D0A5-3976-8552-A06176A0CEE4}</Project>
+      <Name>checkkeys</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\childprocess.vcxproj">
+      <Project>{279921B5-1384-340F-9241-4FCB9BC133D8}</Project>
+      <Name>childprocess</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\loopwave.vcxproj">
+      <Project>{5E54FF4E-F480-3E70-84A0-CDE39CD844AE}</Project>
+      <Name>loopwave</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\sdltests_utils.vcxproj">
+      <Project>{BDDB1B32-A805-3E9E-BEE4-F09C28C2C7AF}</Project>
+      <Name>sdltests_utils</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testasyncio.vcxproj">
+      <Project>{943618BE-EE14-397D-872D-52FCDE71C26A}</Project>
+      <Name>testasyncio</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testatomic.vcxproj">
+      <Project>{9212D568-E7E3-3702-A9DF-A88AA943D8A9}</Project>
+      <Name>testatomic</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testaudio.vcxproj">
+      <Project>{E96D3D72-CD25-3BA2-8534-EE74CB4B76CE}</Project>
+      <Name>testaudio</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testaudiohotplug.vcxproj">
+      <Project>{2E5CB1F6-E69D-3837-88A7-3BE188F8FFFE}</Project>
+      <Name>testaudiohotplug</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testaudioinfo.vcxproj">
+      <Project>{5679C4D6-7E77-36BF-9120-C009AC63D7EC}</Project>
+      <Name>testaudioinfo</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testaudiorecording.vcxproj">
+      <Project>{E630B017-47E5-3581-A188-89229CD1AD3A}</Project>
+      <Name>testaudiorecording</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testaudiostreamdynamicresample.vcxproj">
+      <Project>{2FF025DA-2BAA-3A90-B7DB-437DEFFE684C}</Project>
+      <Name>testaudiostreamdynamicresample</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testautomation.vcxproj">
+      <Project>{FCA5885A-AFAB-3614-B0B0-A14BFA92B6F8}</Project>
+      <Name>testautomation</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testbounds.vcxproj">
+      <Project>{E05BF77F-1CDB-39A4-8FD3-E77BBB5B242A}</Project>
+      <Name>testbounds</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testcamera.vcxproj">
+      <Project>{77A393BB-FEA7-3BCB-9934-B4C01CC7EA7B}</Project>
+      <Name>testcamera</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testclipboard.vcxproj">
+      <Project>{51C740D0-4966-3F69-8D7A-92B501258BF2}</Project>
+      <Name>testclipboard</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testcolorspace.vcxproj">
+      <Project>{2AF5214B-DE3F-309F-B711-FBA818F73628}</Project>
+      <Name>testcolorspace</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testcontroller.vcxproj">
+      <Project>{5D1A9F49-FA96-3DE9-A200-4C14A9618FC4}</Project>
+      <Name>testcontroller</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testcustomcursor.vcxproj">
+      <Project>{F32DBDCB-6CBB-34C4-922C-7EC28754ABD6}</Project>
+      <Name>testcustomcursor</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testdialog.vcxproj">
+      <Project>{374929A4-4996-38A5-B442-820FCA6B8EEC}</Project>
+      <Name>testdialog</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testdisplayinfo.vcxproj">
+      <Project>{E54A932E-40E1-3079-BBD7-E70A10BEF5C5}</Project>
+      <Name>testdisplayinfo</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testdlopennote.vcxproj">
+      <Project>{A0240E4E-581F-334C-B54E-DE08B050F006}</Project>
+      <Name>testdlopennote</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testdraw.vcxproj">
+      <Project>{384E5AF5-7181-3B80-9104-7CD97C3E08DB}</Project>
+      <Name>testdraw</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testdrawchessboard.vcxproj">
+      <Project>{DC01A20C-E343-3AF2-8571-CF53B08B5DD4}</Project>
+      <Name>testdrawchessboard</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testdropfile.vcxproj">
+      <Project>{0650BDF2-808B-349C-8384-2B60F61156CD}</Project>
+      <Name>testdropfile</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testerror.vcxproj">
+      <Project>{ADFB1950-B882-35D0-A421-312309C4A207}</Project>
+      <Name>testerror</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testevdev.vcxproj">
+      <Project>{0E50A62A-CB99-350C-A45D-2761846A79BE}</Project>
+      <Name>testevdev</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testfile.vcxproj">
+      <Project>{312127C4-55AD-33E3-AA43-A759DF6B8B6B}</Project>
+      <Name>testfile</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testfilesystem.vcxproj">
+      <Project>{D93DE91A-139C-3118-8DA5-35EABE4881CC}</Project>
+      <Name>testfilesystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testgeometry.vcxproj">
+      <Project>{EFEEC11D-B231-3097-94E1-1FB42796007A}</Project>
+      <Name>testgeometry</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testgl.vcxproj">
+      <Project>{4B4CC31D-EE6F-361C-8070-173B4BF66608}</Project>
+      <Name>testgl</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testgles.vcxproj">
+      <Project>{8A77F3CE-D31F-3412-BDEB-197E6B656085}</Project>
+      <Name>testgles</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testgles2.vcxproj">
+      <Project>{A6A0370A-9510-321A-AF26-A3565A50495B}</Project>
+      <Name>testgles2</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testgpu_simple_clear.vcxproj">
+      <Project>{BD84FF45-FD5F-3AEB-ACED-8CC793E1BA4C}</Project>
+      <Name>testgpu_simple_clear</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testgpu_spinning_cube.vcxproj">
+      <Project>{5CD15A8F-FA16-30B6-ACD2-73D1B76E2795}</Project>
+      <Name>testgpu_spinning_cube</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testgpurender_effects.vcxproj">
+      <Project>{D9A52176-BE65-3D05-9163-1F4ECE832253}</Project>
+      <Name>testgpurender_effects</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testgpurender_msdf.vcxproj">
+      <Project>{D36584F8-AA69-3DA7-8A5E-4664760170DE}</Project>
+      <Name>testgpurender_msdf</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testhaptic.vcxproj">
+      <Project>{7C0D5200-0D43-33AD-B7EB-B8B6831AF8E6}</Project>
+      <Name>testhaptic</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testhittesting.vcxproj">
+      <Project>{C73CA015-5296-344D-9628-787E2B899520}</Project>
+      <Name>testhittesting</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testhotplug.vcxproj">
+      <Project>{04893642-C084-3A12-975E-2D54D0460570}</Project>
+      <Name>testhotplug</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testiconv.vcxproj">
+      <Project>{155ADFEC-D208-3626-9DBA-59C2669059AD}</Project>
+      <Name>testiconv</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testime.vcxproj">
+      <Project>{45999758-2B74-3677-A40F-7FD69F1CAFED}</Project>
+      <Name>testime</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testintersections.vcxproj">
+      <Project>{F5E753CF-20FF-3154-BEB5-D52C99719227}</Project>
+      <Name>testintersections</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testkeys.vcxproj">
+      <Project>{565652FF-3A2A-3CB4-A401-86FB9A07CD11}</Project>
+      <Name>testkeys</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testloadso.vcxproj">
+      <Project>{921EF96B-9FE0-393E-890D-748BE060AAAB}</Project>
+      <Name>testloadso</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testlocale.vcxproj">
+      <Project>{B12F9270-9C64-35E3-8FC4-CFB6FC201E95}</Project>
+      <Name>testlocale</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testlock.vcxproj">
+      <Project>{4F7F099F-855A-310B-87EA-A9B907642904}</Project>
+      <Name>testlock</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testmanymouse.vcxproj">
+      <Project>{C063C6E2-406E-3AA3-8F43-FE47149DF4BC}</Project>
+      <Name>testmanymouse</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testmessage.vcxproj">
+      <Project>{4B0FA23B-B78F-3267-9FFC-D914814D0FFD}</Project>
+      <Name>testmessage</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testmodal.vcxproj">
+      <Project>{1F3E7BE1-BBC8-3AC0-8F6D-A521047F69EC}</Project>
+      <Name>testmodal</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testmouse.vcxproj">
+      <Project>{078F0EAA-488B-3634-AC9C-6172F2F14F9F}</Project>
+      <Name>testmouse</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testmultiaudio.vcxproj">
+      <Project>{D9532066-2CBC-3157-8882-76369B52FFAB}</Project>
+      <Name>testmultiaudio</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testnative.vcxproj">
+      <Project>{39377898-2DCA-3ABD-94BB-C0AD353B3539}</Project>
+      <Name>testnative</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testoffscreen.vcxproj">
+      <Project>{E9691ABF-20FD-3FB3-B7FE-391F0819B4E0}</Project>
+      <Name>testoffscreen</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testoverlay.vcxproj">
+      <Project>{889ED276-CEB1-30C7-B2DE-E51CE525AA4F}</Project>
+      <Name>testoverlay</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testpalette.vcxproj">
+      <Project>{5B0B1C1F-B12D-319E-8058-D9E54D09BD7B}</Project>
+      <Name>testpalette</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testpen.vcxproj">
+      <Project>{C6F01A22-019B-3CF8-88A7-4C372DDD8D87}</Project>
+      <Name>testpen</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testplatform.vcxproj">
+      <Project>{F4DF3ACF-6BBE-3424-BFCB-8E357B5C6CB9}</Project>
+      <Name>testplatform</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testpopup.vcxproj">
+      <Project>{7DA1A561-CAF1-3289-89A6-07A72BC97CBC}</Project>
+      <Name>testpopup</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testpower.vcxproj">
+      <Project>{6C8E57ED-0F7C-3433-A540-AA3204A8594D}</Project>
+      <Name>testpower</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testprocess.vcxproj">
+      <Project>{D0931DD6-F28F-3FED-A0D1-DCDA2477DCA4}</Project>
+      <Name>testprocess</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testqsort.vcxproj">
+      <Project>{5AAC587D-5724-3597-83F5-AC7D11763201}</Project>
+      <Name>testqsort</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testrelative.vcxproj">
+      <Project>{CF51B414-0CD6-3D4B-AF57-718FD2B3408A}</Project>
+      <Name>testrelative</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testrendercopyex.vcxproj">
+      <Project>{2E862C5C-8A29-3606-BFA7-02C1361B7B9A}</Project>
+      <Name>testrendercopyex</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testrendertarget.vcxproj">
+      <Project>{008B6154-3187-3154-B6FA-B639A9BD3EF7}</Project>
+      <Name>testrendertarget</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testresample.vcxproj">
+      <Project>{D1DBEC82-71F8-38AF-88EC-D38EDDD48BE4}</Project>
+      <Name>testresample</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testrotate.vcxproj">
+      <Project>{0F28784D-5035-308F-96DB-2DE7A47B5856}</Project>
+      <Name>testrotate</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testrumble.vcxproj">
+      <Project>{1C6D6154-0543-3DF7-B7F3-CD339082D67B}</Project>
+      <Name>testrumble</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testrwlock.vcxproj">
+      <Project>{8A8F0C3D-3CFE-318D-B083-429A5C450E57}</Project>
+      <Name>testrwlock</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testscale.vcxproj">
+      <Project>{85776994-7ABB-3DC7-81A3-C2F26AD89B98}</Project>
+      <Name>testscale</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testsem.vcxproj">
+      <Project>{F90373D8-F309-3AF3-8BF9-2250CDB6A827}</Project>
+      <Name>testsem</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testsensor.vcxproj">
+      <Project>{0889C48D-EDCE-3F81-B8DA-5BB12F22078D}</Project>
+      <Name>testsensor</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testshader.vcxproj">
+      <Project>{E9D39AE6-05C8-30C5-B531-8D20618AE4FC}</Project>
+      <Name>testshader</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testshape.vcxproj">
+      <Project>{BA81DB67-CB65-3847-8BD9-7CB97BE22494}</Project>
+      <Name>testshape</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testsoftwaretransparent.vcxproj">
+      <Project>{3C139E19-1FA8-30D5-8518-F579C46AA71B}</Project>
+      <Name>testsoftwaretransparent</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testsprite.vcxproj">
+      <Project>{5DBE70EF-9656-30D2-824B-68FFBA2C5F8A}</Project>
+      <Name>testsprite</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testspriteminimal.vcxproj">
+      <Project>{9D5B69EF-1E82-3DA7-8D68-C46F1FED7073}</Project>
+      <Name>testspriteminimal</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testspritesurface.vcxproj">
+      <Project>{2BDD1736-045D-3302-8DB0-76C218BEDFB7}</Project>
+      <Name>testspritesurface</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testsurround.vcxproj">
+      <Project>{3AEDC857-43EA-3870-A255-6E54C235822B}</Project>
+      <Name>testsurround</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testsymbols.vcxproj">
+      <Project>{5C6E8977-1834-3C50-A211-AAA680D2FC96}</Project>
+      <Name>testsymbols</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testthread.vcxproj">
+      <Project>{D047587E-E676-304D-B49E-0E47A9BAF3EE}</Project>
+      <Name>testthread</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testtime.vcxproj">
+      <Project>{574E938D-3BCA-3A00-B987-B4E3F33C1977}</Project>
+      <Name>testtime</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testtimer.vcxproj">
+      <Project>{36D4EB2B-A7C8-3474-A93D-2D37C87EFDAA}</Project>
+      <Name>testtimer</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testtray.vcxproj">
+      <Project>{E280AAD0-2286-3656-853B-D119CE625F9E}</Project>
+      <Name>testtray</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testurl.vcxproj">
+      <Project>{BF1119D2-1BA1-372E-84B4-675C2C88FFE5}</Project>
+      <Name>testurl</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testver.vcxproj">
+      <Project>{12224A7C-3C02-3632-B006-CAC38832B463}</Project>
+      <Name>testver</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testviewport.vcxproj">
+      <Project>{5035F142-295F-3783-9A45-9E858EAB7E4B}</Project>
+      <Name>testviewport</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testvulkan.vcxproj">
+      <Project>{1C4DD512-4CB4-3000-9549-7E80BDB72DFB}</Project>
+      <Name>testvulkan</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testwm.vcxproj">
+      <Project>{AE9A55E9-BDC3-3A11-B566-E3CB5B93F5AF}</Project>
+      <Name>testwm</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\testyuv.vcxproj">
+      <Project>{31D2A02A-9180-330A-B151-70BA052ACA05}</Project>
+      <Name>testyuv</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\andres\Documents\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDLproj\test\torturethread.vcxproj">
+      <Project>{775697CA-FAFB-3F0D-BC7B-41D58F72CAF9}</Project>
+      <Name>torturethread</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

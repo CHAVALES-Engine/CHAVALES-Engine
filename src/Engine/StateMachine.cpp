@@ -3,7 +3,7 @@
 #include <chrono>
 #include <stdexcept>
 
-#include "Timing.h"
+#include "Clock.h"
 #include <Scene.h>
 #include <Engine.h>
 #include <iostream>
@@ -27,20 +27,20 @@ StateMachine::~StateMachine()
 
 void StateMachine::gameLoop()
 {
-	auto startTime = core::Timing::getNow();
+	auto startTime = core::Clock::getNow();
 
 	while (!_endGame) // bucle de juego
 	{
 		if (_currentScene.ptr != nullptr)
 		{
-			_deltaTime = core::Timing::calculateDeltaTime(startTime);
+			_deltaTime = core::Clock::calculateDeltaTime(startTime);
 
-			core::Timing::setDeltaTime(_deltaTime); // para acceso general
+			core::Clock::setDeltaTime(_deltaTime); // para acceso general
 
-			if (_deltaTime >= core::Timing::FRAME_RATE)
+			if (_deltaTime >= core::Clock::FRAME_RATE)
 			{
 				_currentScene.ptr->fixedUpdate();
-				startTime = core::Timing::getNow();
+				startTime = core::Clock::getNow();
 			}
 
 			_currentScene.ptr->update(_deltaTime);
