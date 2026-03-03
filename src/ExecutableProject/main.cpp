@@ -28,7 +28,7 @@ int main(int argc, char* argv[])
 
 
 	DLLLoader dllLoader;
-#if DEBUG_PROCESS
+#if _DEBUG
 	dllLoader.load("./ComponentsProject_d.dll");
 #else 
 	dllLoader.load("./ComponentsProject_r.dll");
