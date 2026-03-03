@@ -4,10 +4,8 @@
  * @brief Define las funciones del Modulo de Plataforma
  */
 
-#if _WIN64
+
 #include <Windows.h>
-#include <windef.h>
-#endif // _WIN64
 
 
 struct SDL_Window;
@@ -45,11 +43,11 @@ public:
 	*/
 	const HWND getWindowHandle() const;
 	/**
-	* @brief Devuelve el tiempo de ejecucion del programa
+	* @brief Actualiza eventos
 	*
-	* @return UINT64 - Segundos desde que se inicializo la ventana
+	* @return bool - Booleano para saber si se ha cerrado la ventana
 	*/
-	const UINT64 getSecSinceStart() const;
+	const bool syncronize() const;
 	/**
 	* @brief Devuelve anchura de la ventana
 	*/

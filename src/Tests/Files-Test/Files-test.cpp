@@ -12,7 +12,6 @@ namespace fs = std::filesystem;
 #include "Scene.h"
 #include "ComponentRegister.h"
 #include "DLLLoader.h"
-#include "registComponents.h"
 
 int main(int argc, char* argv[])
 {
@@ -22,6 +21,12 @@ int main(int argc, char* argv[])
 	core::Scene* s = new core::Scene("0");
 
 	DLLLoader dllLoader;
+
+#if DEBUG_PROCESS
+	dllLoader.load("./ComponentsProject_d.dll");
+#else 
+	dllLoader.load("./ComponentsProject_r.dll");
+#endif
 	dllLoader.load("./DLL-Test.dll");
 
 	// recorre las entidades

@@ -37,6 +37,11 @@ PlatformModule* Engine::getPlatform()
 	return _instance->_platformModule;
 }
 
+const bool Engine::syncronize()
+{
+	return _platformModule->syncronize();
+}
+
 bool Engine::_initPriv()
 {
 

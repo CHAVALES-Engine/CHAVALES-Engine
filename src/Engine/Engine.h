@@ -31,7 +31,10 @@ public:
 	* Idealmente este metodo sera eliminado
 	*/
 	static PlatformModule* getPlatform();
-
+	/*
+	* @brief Metodo que sincroniza los modulos con el juego
+	*/
+	const bool syncronize();
 private:
 	/*
 	* @brief
