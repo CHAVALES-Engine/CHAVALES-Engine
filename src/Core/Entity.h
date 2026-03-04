@@ -6,27 +6,10 @@
 #include <memory>
 #include <vector>
 #include <string>
-#include <unordered_map>
-#include <variant>
-
 #include "ec.h"
-
 #include "EngineAPI.h"
 
 class Scene;
-
-using Property = std::variant<
-	int,
-	float,
-	bool,
-	std::string
-	//Vector3
-	//Vector4
-	//Quaternion
-	//Color
-	//...
->;
-using Properties = std::unordered_map<std::string, Property>;
 
 namespace core
 {

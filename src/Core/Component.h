@@ -7,25 +7,16 @@
 #pragma once
 #include <memory>
 #include <functional>
-#include <unordered_map>
-#include <string>
-#include <variant>
 
+#include "Debug.h"
 #include "EngineAPI.h"
 #include "ec.h"
 
-using Property = std::variant<
-	int,
-	float,
-	bool,
-	std::string
-	//Vector3
-	//Vector4
-	//Quaternion
-	//Color
-	//...
->;
-using Properties = std::unordered_map<std::string, Property>;
+#include <cstdint>
+#include <iostream>
+#include <type_traits>
+
+#define SHOW(...) std::cout << #__VA_ARGS__ << " : " << __VA_ARGS__ << '\n'
 
 namespace core
 {
@@ -96,14 +87,81 @@ namespace core
 		/**
 		* @brief Comportamiento antes de que el componente se destruya
 		*/
-		virtual void destroy() {}
+		virtual void destroy()
+		{
+		}
 
-	private: 
+		/**
+		* @brief 
+		* @param props - 
+		* @param key - 
+		* @param param - 
+		*/
+		template <typename T>
+		inline T getProperty(
+			const Properties& props,
+			const std::string& key
+			//const T& param = T()
+		)
+		{
+			auto it = props.find(key);
+
+			// --- comprobamos si la clave existe
+			if (it == props.end())
+			{
+				Debug::error("COMPONENT: No se encontró el parámetro ", key, " en las propiedades del componente.");
+				return T(); // devolvemos valor por defecto
+			}
+
+			// --- comprobamos si esta tipificado a lo requerido
+			if (const T* pval = std::get_if<T>(&it->second))
+				return *pval;
+
+			Debug::error("COMPONENT: No se pudo tipar el parámetro ", key, " en las propiedades del componente.");
+			return T(); // devolvemos valor por defecto
+		}
+
+		/**
+		* @brief
+		* @param props -
+		* @param key -
+		* @param param -
+		*/
+		template <typename T>
+		inline void setProperty(
+			const Properties& props,
+			const std::string& key,
+			T& param
+		)
+		{
+			auto it = props.find(key);
+
+			// --- comprobamos si la clave existe
+			if (it == props.end())
+			{
+				Debug::error("COMPONENT: No se encontró el parámetro ", key, " en las propiedades del componente.");
+				// devolvemos valor por defecto
+				return;
+			}
+
+			// --- comprobamos si esta tipificado a lo requerido
+			if (const T* pval = std::get_if<T>(&it->second))
+			{
+				param = *pval;
+			}
+			else
+			{
+				Debug::error("COMPONENT: No se pudo tipar el parámetro ", key, " en las propiedades del componente.");
+			}
+		}
+
+	protected:
 		Entity* entity;
-		bool enabled; 
+		bool enabled;
 	};
 
 	using ComponentConstructor = std::function<std::shared_ptr<Component>()>;
+
 	struct ComponentDescriptor
 	{
 		/*

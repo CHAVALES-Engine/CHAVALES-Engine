@@ -132,6 +132,7 @@ void StateMachine::addAndSetScene(const sceneName& n)
 
 		if (s != nullptr)
 		{
+			Debug::out("[ESCENA] Entrando a escena ", n);
 			uint64_t id = _getNextId(); // genera id
 			_nameToID.insert({ n, id }); // guarda la escena en el mapa de nombres e id
 			_stateMachine.insert({ id, s }); // guarda la escena con id y puntero en la maquina de estados
@@ -151,7 +152,6 @@ void StateMachine::addAndSetScene(const sceneName& n)
 			_currentScene.ptr->onEnable();
 			_currentScene.ptr->setID(id);
 
-			Debug::out("[ESCENA] Entrando a escena ", n);
 		}
 	}
 	else

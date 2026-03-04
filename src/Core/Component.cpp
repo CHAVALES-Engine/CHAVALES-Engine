@@ -1,7 +1,12 @@
 #include "Component.h"
 
+#include "Debug.h"
+
+
 core::Component::Component()
-	: entity(nullptr), enabled(true) {}
+	: entity(nullptr), enabled(true)
+{
+}
 
 core::Component::~Component()
 {

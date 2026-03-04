@@ -6,20 +6,9 @@
 #include "Component.h"
 #include <filesystem>
 #include "ComponentRegister.h"
+#include "EngineAPI.h"
 namespace fs = std::filesystem;
 
-using Property = std::variant<
-	int,
-	float,
-	bool,
-	std::string
-	//Vector3
-	//Vector4
-	//Quaternion
-	//Color
-	//...
->;
-using Properties = std::unordered_map<std::string, Property>;
 
 void GameLoader::loadLua(
 	std::shared_ptr<core::Scene>& s, 
@@ -82,26 +71,26 @@ void GameLoader::loadLua(
 					if (objetoParametro.is<int>())
 					{
 						properties[nombreParametro] = objetoParametro.as<int>();
-						Debug::out("GAMELOADER: Parametro ", nombreParametro, " valido de tipo int: ", objetoParametro.as<int>());
+						//Debug::out("GAMELOADER: Parametro ", nombreParametro, " valido de tipo int: ", objetoParametro.as<int>());
 					}
 					else if (objetoParametro.is<float>())
 					{
 						properties[nombreParametro] = objetoParametro.as<float>();
-						Debug::out("GAMELOADER: Parametro ", nombreParametro, " valido de tipo float: ", objetoParametro.as<float>());
+						//Debug::out("GAMELOADER: Parametro ", nombreParametro, " valido de tipo float: ", objetoParametro.as<float>());
 					}
 					else if (objetoParametro.is<bool>())
 					{
 						properties[nombreParametro] = objetoParametro.as<bool>();
-						Debug::out("GAMELOADER: Parametro ", nombreParametro, " valido de tipo bool: ", objetoParametro.as<bool>());
+						//Debug::out("GAMELOADER: Parametro ", nombreParametro, " valido de tipo bool: ", objetoParametro.as<bool>());
 					}
 					else if (objetoParametro.is<std::string>())
 					{
 						properties[nombreParametro] = objetoParametro.as<std::string>();
-						Debug::out("GAMELOADER: Parametro ", nombreParametro, " valido de tipo string: ", objetoParametro.as<std::string>());
+						//Debug::out("GAMELOADER: Parametro ", nombreParametro, " valido de tipo string: ", objetoParametro.as<std::string>());
 					}
 					else
 					{
-						Debug::error("GAMELOADER: El tipo del parametro de ", nombreParametro, " no es valido.");
+						//Debug::error("GAMELOADER: El tipo del parametro de ", nombreParametro, " no es valido.");
 					}
 				}
 

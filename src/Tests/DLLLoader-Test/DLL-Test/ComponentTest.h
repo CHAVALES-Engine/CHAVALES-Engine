@@ -12,16 +12,24 @@ class ComponentTest : public core::Component
 
 	void init(const Properties& p) override
 	{
-		// set(...)
-		health = std::get<int>(p.find("health")->second);
+		// ejemplos de inicializacion:
+		// health = getProperty<int>(p, "health");
+		// setProperty(p, "health", health);
+
+		health = getProperty<int>(p, "health");
+	}
+	
+	void ready() override
+	{
+		Debug::out("Hola :-) Mi vida es ", health);
 	}
 
 	void fixedUpdate() override
 	{
 		if (health >= 0)
 		{
-			Debug::out("Augh... Me han herido y mi vida ahora es ", health);
 			health -= 1;
+			Debug::out("Augh... Me han herido y mi vida ahora es ", health);
 			if (health < 0)
 				morir();
 		}

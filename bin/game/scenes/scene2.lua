@@ -17,7 +17,7 @@ scene = { -- entidades en escena
 			ComponentTest = {
 				health = 10,
 				alive = true,
-				name = "Masca"
+				name = "godotillo"
 			}
 		}
 	},
