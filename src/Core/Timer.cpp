@@ -7,7 +7,7 @@ void core::TimerManager::update()
 	while (!_timers.empty())
 	{
 		Timer t = _timers.top().prioridad;
-		Debug::warning("Update timer: ", t.id(), " - ", t.timeLeftMS());
+		//Debug::warning("Update timer: ", t.id(), " - ", t.timeLeftMS());
 
 		if (t.timeLeftMS() > 0) break;
 
@@ -20,19 +20,25 @@ void core::TimerManager::update()
 
 core::Timer core::TimerManager::createTimer(double_t duration, std::function<void()> func)
 {
-
 	Debug::out("timer..................");
-
-	uint64_t now = Clock::getRunningTime();
-	uint64_t durationMS = (duration * 1000);
-	if (now < 0 || durationMS || func == nullptr)
+	if (duration <= 0.0)
 	{
-		Debug::error("Timer con duracion: ", duration, " no creado correactamente.");
+		Debug::error("TimerManager::createTimer — invalid duration: ", duration);
+		return {};
 	}
-	_curId++;
-	Timer t(_curId, now, durationMS, func);
-	_timers.push(_curId, t);
-	Debug::warning("Timer creado: ", durationMS, "s");
+	if (func == nullptr)
+	{
+		Debug::error("TimerManager::createTimer — func is nullptr");
+		return {};
+	}
+	const uint64_t now = Clock::getRunningTime();
+	const uint64_t durationMS = (duration * 1000);
+	const uint64_t id = ++_curId;
+
+	Timer t(id, now, durationMS, func);
+	_timers.push(id, t);
+
+	Debug::warning("Timer: ", id, " created, duration: ", durationMS, "s");
 
 	return t;
 }

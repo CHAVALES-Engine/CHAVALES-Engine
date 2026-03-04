@@ -110,9 +110,8 @@ namespace core
 
 	Component* Entity::addComponent(std::shared_ptr<Component> c)
 	{
-		Debug::warning("AAA");
 		c->setEntity(this);
-		c->ready();
+		//c->ready();
 		//c->init();
 
 		components.push_back(std::move(c));

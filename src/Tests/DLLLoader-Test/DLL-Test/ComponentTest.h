@@ -43,7 +43,7 @@ public:
 	}
 	void fixedUpdate() override
 	{
-		core::Debug::out("Timer: ", t.getID(), " - time left:", t.timeLeftSec());
+		core::Debug::out("Timer: ", t.id(), " - time left:", t.timeLeftSec());
 	}
 };
 
