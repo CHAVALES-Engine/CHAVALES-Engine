@@ -103,7 +103,7 @@ public:
 	}
 
 	/**
-	* @brief SObrecarga de mensaje informativo.
+	* @brief Sobrecarga de mensaje informativo.
 	* Escribe un mensaje informativo ([M]) y en color blanco en consola.
 	*
 	* @param mode - Modo de Debug (DEBUG_CONS (solo consola), DEBUG_FILE (solo fichero) o DEBUG_BOTH (ambos)).
@@ -167,7 +167,7 @@ public:
 
 private:
 	/**
-	* @brief Esscribe en el sitio que debe el mensaje de Debug.
+	* @brief Escribe en el sitio que debe el mensaje de Debug.
 	*
 	* @param mode - Modo de Debug (DEBUG_CONS (solo consola), DEBUG_FILE (solo fichero) o DEBUG_BOTH (ambos)).
 	* @param begin - Para los mensajes con color, el color.
