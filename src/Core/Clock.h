@@ -28,38 +28,20 @@ namespace core
 		/** @brief
 		*	Actualiza deltaTime.
 		*/
-		static inline void setDeltaTime(uint64_t dt)
-		{
-			deltaTime = dt;
-		}
-
+		static inline void setDeltaTime(uint64_t dt);
 		/** @brief
 		*	Calcula el valor de deltaTime desde un tiempo inicial dado.
 		*	@param sT - Tiempo desde el que calcular el deltaTime.
 		*/
-		static inline uint64_t calculateDeltaTime(std::chrono::high_resolution_clock::time_point sT)
-		{
-			return (std::chrono::duration_cast<std::chrono::milliseconds>
-				(std::chrono::high_resolution_clock::now().time_since_epoch() - sT.time_since_epoch())).count();
-		} 
-
+		static inline uint64_t calculateDeltaTime(std::chrono::high_resolution_clock::time_point sT);
 		/** @brief
 		*	Tiempo actual.
 		*/
-		static inline std::chrono::high_resolution_clock::time_point getNow()
-		{
-			return std::chrono::high_resolution_clock::now();
-		}
-
+		static inline std::chrono::high_resolution_clock::time_point getNow();
 		/** @brief
 		*	Tiempo que lleva el programa en ejecucion.
 		*/
-		static inline uint64_t getRunningTime()
-		{
-			return std::chrono::duration_cast<std::chrono::milliseconds>(
-				std::chrono::high_resolution_clock::now().time_since_epoch() - _startTime.time_since_epoch()).count();
-		}
-
+		static inline uint64_t getRunningTime();
 	private:
 		/** @brief
 		*	Tiempo en el que comienza el programa.
