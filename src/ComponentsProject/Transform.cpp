@@ -124,7 +124,7 @@ void Transform::setParent(Transform* t, bool keepWorldMeasures)
 	for (Transform* padre = t; padre != nullptr; padre = padre->getParent())
 		if (padre == this) // de padre en padre buscamos ciclos
 		{
-			core::Debug::error("Parenting cycle detected, cannot make ", padre, " and ", t, " related.");
+			Debug::error("Parenting cycle detected, cannot make ", padre, " and ", t, " related.");
 			return; // si lo hay no hacemos nada
 		}
 

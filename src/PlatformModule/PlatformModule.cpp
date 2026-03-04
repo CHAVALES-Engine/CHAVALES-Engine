@@ -24,12 +24,12 @@ bool PlatformModule::Init()
 {
 	// Inicializacion de SDL
 	if (!SDL_InitSubSystem(SDL_INIT_VIDEO)) {	
-		core::Debug::error("SDL Couldn't be initialized.");
+		Debug::error("SDL Couldn't be initialized.");
 		return false;
 	}
 	// Creacion de ventana y renderer
 	if (!SDL_CreateWindowAndRenderer(WINDOW_NAME, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_RESIZABLE, &_window, &_renderer)) {
-		core::Debug::error("SDL Couldn't be Created.");
+		Debug::error("SDL Couldn't be Created.");
 		return false;
 	}
 	SDL_Init(SDL_INIT_EVENTS);

@@ -24,20 +24,20 @@ void GameLoader::loadLua(
 	}
 	catch (const sol::error& e)
 	{
-		core::Debug::error("GAMELOADER: Error cargando escena: ", path);
-		core::Debug::error("Lua exception: ", e.what());
+		Debug::error("GAMELOADER: Error cargando escena: ", path);
+		Debug::error("Lua exception: ", e.what());
 		s = nullptr;
 		return;
 	}
 
 	sol::table scene = lua["scene"];
-	core::Debug::out("GAMELOADER: Escena ", n, " cargada.");
+	Debug::out("GAMELOADER: Escena ", n, " cargada.");
 
 	for (auto& entidad : scene)
 	{
 		// nombre de la entidad
 		std::string entidadName = entidad.first.as<std::string>();
-		core::Debug::out("GAMELOADER: Entidad ", entidadName, " cargada.");
+		Debug::out("GAMELOADER: Entidad ", entidadName, " cargada.");
 		// crea la entidad
 		core::Entity* e = new core::Entity();
 		e->setName(entidadName);
@@ -57,11 +57,11 @@ void GameLoader::loadLua(
 
 				// mete el componente a la entidad creada
 				e->addComponent(std::move(component));
-				core::Debug::out("GAMELOADER: Componente ", componenteName, " cargado para la entidad ", entidadName, ".");
+				Debug::out("GAMELOADER: Componente ", componenteName, " cargado para la entidad ", entidadName, ".");
 			}
 			else
 			{
-				core::Debug::warning("GAMELOADER: Componente ", componenteName, " no registrado.");
+				Debug::warning("GAMELOADER: Componente ", componenteName, " no registrado.");
 			}
 		}
 
@@ -87,7 +87,7 @@ std::shared_ptr<core::Scene> GameLoader::loadScene(const sceneName& n, const std
 
 	if (!entrada.is_open())
 	{
-		core::Debug::error("Error abriendo archivo ", path);
+		Debug::error("Error abriendo archivo ", path);
 	}
 	else
 	{
@@ -122,7 +122,7 @@ bool GameLoader::load(std::string& path)
 
 		if (!entrada.is_open())
 		{
-			core::Debug::error("Error abriendo archivo ", path);
+			Debug::error("Error abriendo archivo ", path);
 			return false;
 		}
 

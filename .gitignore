@@ -51,8 +51,15 @@ bld/
 
 # Build results on 'Bin' directories
 **/[Bb]in/*
+# no ignores a partir de game
+!**/[Bb]in/game/
+## pero ignora todos los archivos en game
+**/[Bb]in/game/*
+# pero no los dlls
 !**/[Bb]in/game/*.dll
-!**/[Bb]in/game/**
+# ni tampoco nada dentro de sus subcarpetas
+!**/[Bb]in/game/*/
+!**/[Bb]in/game/*/**
 # Uncomment if you have tasks that rely on *.refresh files to move binaries
 # (https://github.com/github/gitignore/pull/3736)
 #!**/[Bb]in/*.refresh
