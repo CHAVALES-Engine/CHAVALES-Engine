@@ -9,11 +9,11 @@ class Entity;
 
 namespace core
 {
-	class ENGINE_API Entity;
+	class Entity;
 	using sceneName = std::string;
 	using sceneID = uint64_t;
 
-	class Scene
+	class ENGINE_API Scene
 	{
 	public:
 		Scene(sceneName name);
