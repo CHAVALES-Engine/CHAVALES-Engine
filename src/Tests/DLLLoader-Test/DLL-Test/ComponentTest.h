@@ -25,13 +25,16 @@ REGISTER_COMPONENT(ComponenteChavalTest);
 class TimerChangescene : public core::Component
 {
 public:
-	TimerChangescene()
+	void ready() override
 	{
+		core::Debug::out("ready");
+
 		core::TimerManager::createTimer(10, [this]() { this->changeScene(); });
 	}
+
 	void changeScene()
 	{
-		
+		core::Debug::out("CAMBIO DE ESCENA");
 	}
 };
 

@@ -38,7 +38,7 @@ int main(int argc, char* argv[])
 
 	StateMachine _stateMachine;
 
-	std::shared_ptr<Scene> scene = std::make_shared<Scene>("scene_prueba");
+	std::shared_ptr<Scene> scene = std::make_shared<Scene>("scene1");
 	_stateMachine.addAndSetScene(scene->getName(), scene);
 	_stateMachine.gameLoop();
 

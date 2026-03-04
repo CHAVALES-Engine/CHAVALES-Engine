@@ -8,6 +8,7 @@
 #include <Engine.h>
 #include <iostream>
 
+#include "Debug.h"
 #include "GameLoader.h"
 
 class GameLoader;
@@ -118,33 +119,38 @@ void StateMachine::setScene(sceneName n)
 	}
 }
 
-void StateMachine::addAndSetScene(sceneName n, scenePtr s)
+void StateMachine::addAndSetScene(const sceneName& n, scenePtr s)
 {
 	// comprobar que no haya una escena con ese nombre ya
 	auto itN = _nameToID.find(n);
 	if (itN == _nameToID.end())
 	{
-		uint64_t id = _getNextId(); // genera id
-		_nameToID.insert({ n, id }); // guarda la escena en el mapa de nombres e id
-		_stateMachine.insert({ id, s }); // guarda la escena con id y puntero en la maquina de estados
-
-		// desactiva la escena actual -> TODO: destruir escena
-		if (_currentScene.ptr != nullptr)
-			_currentScene.ptr->onDisable();
-
 		// cargar nueva escena
 		s = std::move(GameLoader::loadScene(n));
 
-		// setea nueva escena actual
-		_currentScene.id = id;
-		_currentScene.ptr = s;
-		_currentScene.name = n;
+		if (s != nullptr)
+		{
+			uint64_t id = _getNextId(); // genera id
+			_nameToID.insert({ n, id }); // guarda la escena en el mapa de nombres e id
+			_stateMachine.insert({ id, s }); // guarda la escena con id y puntero en la maquina de estados
 
-		// activa la nueva escena actual
-		//_currentScene.ptr->onCreate();
-		_currentScene.ptr->init();
-		_currentScene.ptr->onEnable();
-		_currentScene.ptr->setID(id);
+			// desactiva la escena actual -> TODO: destruir escena
+			if (_currentScene.ptr != nullptr)
+				_currentScene.ptr->onDisable();
+
+			// setea nueva escena actual
+			_currentScene.id = id;
+			_currentScene.ptr = s;
+			_currentScene.name = n;
+
+			// activa la nueva escena actual
+			//_currentScene.ptr->onCreate();
+			_currentScene.ptr->init();
+			_currentScene.ptr->onEnable();
+			_currentScene.ptr->setID(id);
+
+			core::Debug::out("[ESCENA] Entrando a escena ", n);
+		}
 	}
 	else
 	{

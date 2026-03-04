@@ -26,6 +26,7 @@ void GameLoader::loadLua(
 	{
 		core::Debug::error("GAMELOADER: Error cargando escena: ", path);
 		core::Debug::error("Lua exception: ", e.what());
+		s = nullptr;
 		return;
 	}
 
@@ -70,24 +71,6 @@ void GameLoader::loadLua(
 std::shared_ptr<core::Scene> GameLoader::loadScene(const sceneName& n)
 {
 	std::shared_ptr<core::Scene> s = std::make_shared<core::Scene>(n);
-
-	// comprobar que no haya una escena con ese nombre ya
-	/*
-	auto itS = _scenesContent.find(n);
-	if (itS == _scenesContent.end())
-	{
-		core::Debug::error("No existe escena con nombre ", n);
-	}
-	else
-	{
-		scn = new core::Scene(n);
-
-		for (auto e : _scenesContent)
-		{
-			
-		}
-	}
-	*/
 	
 	loadLua(s, n);
 

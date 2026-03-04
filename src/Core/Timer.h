@@ -155,6 +155,8 @@ namespace core
 		*/
 		static Timer createTimer(double_t duration, std::function<void()> func)
 		{
+			Debug::out("timer..................");
+
 			uint64_t now = Clock::getRunningTime();
 			uint64_t end = now + (duration / 1000);
 
