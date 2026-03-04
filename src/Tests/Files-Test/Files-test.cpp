@@ -10,7 +10,7 @@ namespace fs = std::filesystem;
 #include "Entity.h"
 #include "Component.h"
 #include "Scene.h"
-#include "ComponentRegister.h"
+#include <ComponentRegister.h>
 #include "DLLLoader.h"
 
 int main(int argc, char* argv[])

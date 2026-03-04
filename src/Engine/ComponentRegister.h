@@ -8,6 +8,8 @@
 #include <unordered_map>
 #include <string>
 
+#include <EngineAPI.h>
+
 // forward declarations
 namespace core {
 	class Component; 
@@ -15,7 +17,7 @@ namespace core {
 	using ComponentConstructor = std::function<ComponentPtr()>;
 }
 
-class ComponentRegister
+class ENGINE_API ComponentRegister
 {
 private:
 	ComponentRegister() = default;

@@ -11,6 +11,7 @@
 #include <Clock.h>
 #include <functional>
 #include <Debug.h>
+#include "EngineAPI.h"
 
 #include "Maths.h"
 
@@ -145,7 +146,7 @@ namespace core
 	/**
 	* @brief Clase manejadora de Timers.
 	*/
-	class TimerManager
+	class ENGINE_API TimerManager
 	{
 	public:
 		static TimerManager& instance()

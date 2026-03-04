@@ -75,8 +75,9 @@
       <SubSystem>
       </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(SolutionDir)bin\Engine_d.lib;$(SolutionDir)libs\Core\Core_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)bin\;$(SolutionDir)libs\Core\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(SolutionDir)libs\Engine\Engine_d.lib;$(SolutionDir)libs\Core\Core_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\Engine\;$(SolutionDir)libs\Core\</AdditionalLibraryDirectories>
+      <ImportLibrary>$(SolutionDir)libs\$(ProjectName)\$(TargetName).lib</ImportLibrary>
     </Link>
     <Lib>
       <AdditionalDependencies>$(SolutionDir)libs\Core\Core_d.lib;$(SolutionDir)libs\Engine\Engine_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -103,8 +104,9 @@
       <SubSystem>
       </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(SolutionDir)bin\Engine_r.lib;$(SolutionDir)libs\Core\Core_r.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(SolutionDir)libs\Engine\Engine_r.lib;$(SolutionDir)libs\Core\Core_r.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)bin\;$(SolutionDir)libs\Core\</AdditionalLibraryDirectories>
+      <ImportLibrary>$(SolutionDir)libs\$(ProjectName)\$(TargetName).lib</ImportLibrary>
     </Link>
     <Lib>
       <AdditionalDependencies>$(SolutionDir)libs\Core\Core_r.lib;$(SolutionDir)libs\Engine\Engine_r.lib;%(AdditionalDependencies)</AdditionalDependencies>

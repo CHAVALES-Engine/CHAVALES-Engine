@@ -26,7 +26,7 @@ bool PlatformModule::Init()
 		Debug::error("SDL Couldn't be initialized.");
 		return false;
 	}
-	// Creacion de ventana y renderer
+	// Creacion de ventana
 	if ((_window = SDL_CreateWindow(WINDOW_NAME, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_RESIZABLE) )== nullptr) {
 		Debug::error("SDL Couldn't be Created.");
 		return false;
