@@ -15,7 +15,9 @@ scene = { -- entidades en escena
 				lScaleZ = 1.0
 			},
 			ComponentTest = {
-		
+				health = 10,
+				alive = true,
+				name = "Masca"
 			}
 		}
 	},

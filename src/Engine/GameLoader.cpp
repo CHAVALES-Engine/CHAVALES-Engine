@@ -67,9 +67,47 @@ void GameLoader::loadLua(
 
 			if (component != nullptr)
 			{ // si este tipo de componente estaba registrado y se ha creado
+				Properties properties;
+
+				sol::table propertiesTable = componente.second;
+				for (auto& p : propertiesTable)
+				{
+					// nombre del parametro
+					std::string nombreParametro = p.first.as<std::string>();
+
+					// declarar variant
+					auto objetoParametro = p.second;
+
+					// parsear y comprobar variant
+					if (objetoParametro.is<int>())
+					{
+						properties[nombreParametro] = objetoParametro.as<int>();
+						Debug::out("GAMELOADER: Parametro ", nombreParametro, " valido de tipo int: ", objetoParametro.as<int>());
+					}
+					else if (objetoParametro.is<float>())
+					{
+						properties[nombreParametro] = objetoParametro.as<float>();
+						Debug::out("GAMELOADER: Parametro ", nombreParametro, " valido de tipo float: ", objetoParametro.as<float>());
+					}
+					else if (objetoParametro.is<bool>())
+					{
+						properties[nombreParametro] = objetoParametro.as<bool>();
+						Debug::out("GAMELOADER: Parametro ", nombreParametro, " valido de tipo bool: ", objetoParametro.as<bool>());
+					}
+					else if (objetoParametro.is<std::string>())
+					{
+						properties[nombreParametro] = objetoParametro.as<std::string>();
+						Debug::out("GAMELOADER: Parametro ", nombreParametro, " valido de tipo string: ", objetoParametro.as<std::string>());
+					}
+					else
+					{
+						Debug::error("GAMELOADER: El tipo del parametro de ", nombreParametro, " no es valido.");
+					}
+				}
+
 				// --- a este nivel va el init:
 				// inicializacion de los parametros de un componente a traves de los datos de lua
-				//component->init(...);
+				component->init(properties);
 
 				// --- mete el componente a la entidad creada
 				e->addComponent(std::move(component));

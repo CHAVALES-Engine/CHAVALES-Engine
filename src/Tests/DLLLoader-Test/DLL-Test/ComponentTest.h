@@ -8,6 +8,8 @@
 
 class ComponentTest : public core::Component
 {
+	float health = 0.0f;
+
 	void init(const Properties& p) override
 	{
 		// set(...)
@@ -15,8 +17,8 @@ class ComponentTest : public core::Component
 
 	void fixedUpdate() override
 	{
-		Debug::out(Debug::DebugMode::DEBUG_BOTH, "Esto es el FixedUpdate de un componente de tipo ComponentTest y mi entidad se llama ", getEntity()->getName(), "\n");
-	}
+		Debug::out(Debug::DebugMode::DEBUG_BOTH, "Mi vida es ", health);
+	} 
 };
 
 REGISTER_COMPONENT(ComponentTest);
