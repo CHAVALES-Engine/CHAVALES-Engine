@@ -20,7 +20,7 @@ bool DLLLoader::load(const std::string& path)
 	// Comprobamos duplicados
 	for (const auto& l : _libraries) {
 		if (l.path == path) {
-			core::Debug::error("DLL already loaded ", path);
+			Debug::error("DLL already loaded ", path);
 			return false;
 		}
 	}
@@ -28,7 +28,7 @@ bool DLLLoader::load(const std::string& path)
 	HMODULE library = nullptr; // Direccion base de un modulo en memoria
 	// Windows busca una dll y la carga en la memoria del programa
 	if ((library = LoadLibraryA(path.c_str())) == nullptr) {
-		core::Debug::error("LoadLibrary failed: ", path, " err=", GetLastError());
+		Debug::error("LoadLibrary failed: ", path, " err=", GetLastError());
 		return false;
 	}
 	// TODO: register components
@@ -36,7 +36,7 @@ bool DLLLoader::load(const std::string& path)
 	GetComponentsFn getComponents = (GetComponentsFn)GetProcAddress(library, "getPluginComponents");
 	// Si no se ha devuelto nada lanzamos error y salimos
 	if (!getComponents) {
-		core::Debug::error("The export components function \"getPluginComponents not\" found in ", path);
+		Debug::error("The export components function \"getPluginComponents not\" found in ", path);
 		FreeLibrary(library);
 		return false;
 	}

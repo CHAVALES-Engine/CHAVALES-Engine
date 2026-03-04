@@ -9,7 +9,7 @@ class ComponentTest : public core::Component
 {
 	void fixedUpdate() override
 	{
-		core::Debug::out(core::Debug::DebugMode::DEBUG_BOTH, "Esto es el FixedUpdate de un componente de tipo ComponentTest y mi entidad se llama ", getEntity()->getName(), "\n");
+		Debug::out(Debug::DebugMode::DEBUG_BOTH, "Esto es el FixedUpdate de un componente de tipo ComponentTest y mi entidad se llama ", getEntity()->getName(), "\n");
 	}
 };
 
@@ -32,18 +32,18 @@ public:
 	}
 	void ready() override
 	{
-		core::Debug::out("ready");
+		Debug::out("ready");
 
 		//t = core::TimerManager::createTimer(10, [this]() { this->changeScene(); });
 	}
 
 	void changeScene()
 	{
-		core::Debug::out("CAMBIO DE ESCENA");
+		Debug::out("CAMBIO DE ESCENA");
 	}
 	void fixedUpdate() override
 	{
-		core::Debug::out("Timer: ", t.id(), " - time left:", t.timeLeftSec());
+		Debug::out("Timer: ", t.id(), " - time left:", t.timeLeftSec());
 	}
 };
 

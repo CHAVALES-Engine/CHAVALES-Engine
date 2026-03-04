@@ -57,7 +57,7 @@ int main(int argc, char* argv[])
 			}
 			else
 			{
-				core::Debug::warning("Componente ", componenteName, " no registrado\n");
+				Debug::warning("Componente ", componenteName, " no registrado\n");
 			}
 		}
 

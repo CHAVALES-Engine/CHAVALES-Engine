@@ -151,7 +151,7 @@ void StateMachine::addAndSetScene(const sceneName& n, scenePtr s)
 			_currentScene.ptr->onEnable();
 			_currentScene.ptr->setID(id);
 
-			core::Debug::out("[ESCENA] Entrando a escena ", n);
+			Debug::out("[ESCENA] Entrando a escena ", n);
 		}
 	}
 	else
