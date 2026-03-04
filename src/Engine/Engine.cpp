@@ -5,7 +5,7 @@
 #include "RenderModule.h"
 #include "AudioModule.h"
 #include "PhysicsModule.h"
-
+using namespace std;
 Engine* Engine::_instance = nullptr;
 
 bool Engine::init()
@@ -27,6 +27,7 @@ void Engine::release()
 		delete _instance->_platformModule;
 		delete _instance->_audioModule;
 		delete _instance->_physicsModule;
+		delete _instance->_renderModule;
 		delete _instance;
 		_instance = nullptr;
 	}
@@ -47,46 +48,34 @@ const void Engine::addAndSetScene(std::string n, std::shared_ptr<core::Scene> s)
 	_addAndSetScene(n, s);
 }
 
-const void Engine::setAddAndSetScene(std::function<void(std::string, std::shared_ptr<core::Scene>)> func){
+const void Engine::setAddAndSetScene(std::function<void(std::string, std::shared_ptr<core::Scene>)> func) {
 	_addAndSetScene = func;
 
 }
 
 bool Engine::_initPriv()
 {
-
-	_platformModule = new PlatformModule();
-
-	//si falla el ultimo el resto se crean pero no se limpian nunca???
-
-	if (!_platformModule->Init())
-	{
-		delete _platformModule;
+	//Uso unique_ptr entonces no hace falta delete porque se maneja solo
+	
+	//Platform
+	unique_ptr<PlatformModule> platform(new PlatformModule());
+	if (!platform->Init()) return false;
+	//Render
+	unique_ptr<RenderModule> render(new RenderModule());
+	if (!render->Init(platform->getWindowHandle(), platform->getWindowWidth(), platform->getWindowHeight()))
 		return false;
-	}
+	//Audio
+	unique_ptr<AudioModule> audio(new AudioModule());
+	if (!audio->Init()) return false;
+	//Fisicas
+	unique_ptr<PhysicsModule> physics(new PhysicsModule());
+	if (!physics->Init()) return false;
 
-	_renderModule = new RenderModule();
+	//paso propiedades al engine
+	_platformModule = platform.release();
+	_renderModule = render.release();
+	_audioModule = audio.release();
+	_physicsModule = physics.release();
 
-	if (!_renderModule->Init(_platformModule->getWindowHandle(), _platformModule->getWindowWidth(), _platformModule->getWindowHeight()))
-	{
-		delete _renderModule;
-		return false;
-	}
-
-	_audioModule = new AudioModule();
-
-	if (!_audioModule->Init())
-	{
-		delete _audioModule;
-		return false;
-	}
-
-	_physicsModule = new PhysicsModule();
-
-	if (!_physicsModule->Init())
-	{
-		delete _physicsModule;
-		return false;
-	}
 	return true;
 }

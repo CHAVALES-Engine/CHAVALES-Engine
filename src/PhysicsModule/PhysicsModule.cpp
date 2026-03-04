@@ -1,18 +1,11 @@
 // PhysicModule.cpp : Defines the functions for the static library.
 //
 //#include "../../dependencies/PhysX/physx/include/PxPhysicsAPI.h"
-#include "PxPhysicsAPI.h"
 #include "PhysicsModule.h"
+#include "PxPhysicsAPI.h"
 #include <vector>
-// TODO: This is an example of a library function
 using namespace physx;
 
-//PxDefaultAllocator		gAllocator;
-//PxDefaultErrorCallback	gErrorCallback;
-//
-//PxFoundation* gFoundation = NULL;
-//PxPhysics* gPhysics = NULL;
-//PxPvd* gPvd = NULL;
 
 //void fnPhysicModule()
 //{
