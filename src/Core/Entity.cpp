@@ -148,7 +148,7 @@ namespace core
 	{
 		for (auto it = components.begin(); it != components.end(); ++it)
 		{
-			if (dynamic_cast<T*>(it->get()) != nullptr)
+			if (it->get() != nullptr)
 			{
 				(*it)->destroy();
 				components.erase(it);
