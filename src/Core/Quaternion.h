@@ -82,6 +82,21 @@ namespace core
 		}
 
 		/**
+		* @brief Devuelve una copia normalizada del quaternion
+		* @return Quaternion normalizado
+		*/
+		inline Quaternion normalized() const {
+			float len = length();
+			if (len <= 0.000001f)
+				return Quaternion(); // identidad si está roto
+
+			return Quaternion(_x / len, _y / len,
+				_z / len,
+				_w / len
+			);
+		}
+
+		/**
 		* @brief Cambio de parte vectorial del quaternion (conjugate)
 		*/
 		inline void conjugate() {
@@ -103,6 +118,19 @@ namespace core
 				_y /= len;
 				_z /= len;
 			}
+		}
+
+		/**
+		* @brief Devuelve el quaternion invertido
+		* @return Quaternion inverso
+		*/
+		inline Quaternion inversed() const {
+			float lenSq = _w * _w + _x * _x + _y * _y + _z * _z;
+
+			if (lenSq == 0.0f)
+				return Quaternion();
+
+			return Quaternion(-_x / lenSq, -_y / lenSq, -_z / lenSq, _w / lenSq);
 		}
 
 		/**
@@ -240,6 +268,17 @@ namespace core
 		}
 
 		/**
+		* @brief Rota un vector por este quaternion
+		* @param v Vector que se va a rotar
+		* @return Vector rotado
+		*/
+		inline Vector3<> operator*(const Vector3<>& v) const {
+			Quaternion qVec(v.getX(), v.getY(), v.getZ(), 0.0f);
+			Quaternion result = (*this) * qVec * inversed();
+			return Vector3<>(result.getX(), result.getY(), result.getZ());
+		}
+
+		/**
 		* @brief Multiplica quaternion por numero.
 		* @param a float a multiplicar
 		* @return Quaternion resultante de la multiplicación
@@ -266,6 +305,7 @@ namespace core
 		inline Quaternion operator-(const Quaternion& q) const {//resta
 			return Quaternion(_x - q._x, _y - q._y, _z - q._z, _w - q._w);
 		}
+
 	};
 }
 
