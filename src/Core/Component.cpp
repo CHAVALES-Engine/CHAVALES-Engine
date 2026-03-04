@@ -18,7 +18,7 @@ void core::Component::setEnabled(bool v)
 	enabled ? enable() : disable();
 }
 
-const core::Entity* core::Component::getEntity() const
+core::Entity* core::Component::getEntity() const
 {
 	return entity;
 }

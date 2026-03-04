@@ -8,17 +8,30 @@
 
 class ComponentTest : public core::Component
 {
-	float health = 0.0f;
+	int health = 0;
 
 	void init(const Properties& p) override
 	{
 		// set(...)
+		health = std::get<int>(p.find("health")->second);
 	}
 
 	void fixedUpdate() override
 	{
-		Debug::out(Debug::DebugMode::DEBUG_BOTH, "Mi vida es ", health);
+		if (health >= 0)
+		{
+			Debug::out("Augh... Me han herido y mi vida ahora es ", health);
+			health -= 1;
+			if (health < 0)
+				morir();
+		}
 	} 
+
+	void morir()
+	{
+		Debug::out("Oh, no... Me he muerto... x_x");
+		getEntity()->setEnabled(false);
+	}
 };
 
 REGISTER_COMPONENT(ComponentTest);

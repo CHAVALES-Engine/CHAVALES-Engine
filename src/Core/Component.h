@@ -51,7 +51,7 @@ namespace core
 		/**
 		* @returns Devuelve la entidad propietaria del componente
 		*/
-		const Entity* getEntity() const;
+		Entity* getEntity() const;
 		/**
 		* @returs Si esta activo o no
 		*/
