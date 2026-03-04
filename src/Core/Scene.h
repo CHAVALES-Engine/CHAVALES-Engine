@@ -3,11 +3,13 @@
 #include <string>
 #include <vector>
 
+#include "EngineAPI.h"
+
 class Entity;
 
 namespace core
 {
-	class Entity;
+	class ENGINE_API Entity;
 	using sceneName = std::string;
 	using sceneID = uint64_t;
 

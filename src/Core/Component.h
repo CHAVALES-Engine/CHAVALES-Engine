@@ -8,15 +8,16 @@
 #include <memory>
 #include <functional>
 
+#include "EngineAPI.h"
 #include "ec.h"
 
 namespace core
 {
-	class Component
+	class ENGINE_API Component
 	{
 	public:
 		Component();
-		virtual ~Component() {}
+		virtual ~Component();
 
 		// --- SETTERS
 		/**

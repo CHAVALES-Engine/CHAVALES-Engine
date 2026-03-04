@@ -8,11 +8,13 @@
 #include <string>
 #include "ec.h"
 
+#include "EngineAPI.h"
+
 class Scene;
 
 namespace core
 {
-	class Entity
+	class ENGINE_API Entity
 	{
 	public:
 		Entity();

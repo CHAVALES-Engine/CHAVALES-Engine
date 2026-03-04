@@ -4,6 +4,7 @@
  */
 #pragma once
 #include "Vector4.h"
+#include "EngineAPI.h"
 
 namespace core
 {
@@ -25,7 +26,7 @@ namespace core
 	 *		rojo (r), verde (g), azul (b), and alfa (a).
 	 *		Cada atributo es un float entre 0.0 y 1.0.
 	 */
-	class Color : public Vector4<float>
+	class ENGINE_API Color : public Vector4<float>
 	{
 	public:
 		Color(float r, float g, float b, float a) :

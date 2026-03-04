@@ -28,13 +28,13 @@ class TimerChangescene : public core::Component
 public:
 	TimerChangescene()
 	{
-		
+
 	}
 	void ready() override
 	{
 		core::Debug::out("ready");
 
-		//t = core::TimerManager::createTimer(10, [this]() { this->changeScene(); });
+		t = core::TimerManager::instance().createTimer(10, [this]() { this->changeScene(); });
 	}
 
 	void changeScene()
@@ -43,7 +43,8 @@ public:
 	}
 	void fixedUpdate() override
 	{
-		core::Debug::out("Timer: ", t.id(), " - time left:", t.timeLeftSec());
+		//if (!t.isEnded())
+			//core::Debug::out("Timer: ", t.id(), " - time left:", t.timeLeftSec());
 	}
 };
 

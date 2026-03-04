@@ -10,8 +10,10 @@
 #include <Windows.h>
 #endif // _WIN64
 
+#include <EngineAPI.h>
+
  
-class DLLLoader
+class ENGINE_API DLLLoader
 {
 public:
 	/**

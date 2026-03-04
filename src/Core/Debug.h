@@ -8,6 +8,7 @@
 #include <fstream>
 #include <utility>
 #include <cassert>
+#include "EngineAPI.h"
 
 namespace core
 {
@@ -52,7 +53,7 @@ namespace core
 	* TODO: Timestamp. PAIGRO AQUI.
 	*
 	*/
-	class Debug
+	class ENGINE_API Debug
 	{
 	public:
 		/**

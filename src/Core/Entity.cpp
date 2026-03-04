@@ -111,7 +111,7 @@ namespace core
 	Component* Entity::addComponent(std::shared_ptr<Component> c)
 	{
 		c->setEntity(this);
-		//c->ready();
+		c->ready();
 		//c->init();
 
 		components.push_back(std::move(c));
