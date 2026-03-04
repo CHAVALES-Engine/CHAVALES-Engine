@@ -56,7 +56,7 @@ public:
 	 * @param n - Nombre de la escena a insertar.
 	 * @param s - Puntero a la escena a insertar.
 	 */
-	void addAndSetScene(const sceneName& n, scenePtr s); // <-
+	void addAndSetScene(const sceneName& n); // <-
 
 	/**
 	 * @brief Inserta la escena n de la maquina de estados.

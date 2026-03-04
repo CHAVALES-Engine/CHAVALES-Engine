@@ -2,6 +2,7 @@
 #include <Component.h>
 #include <PluginSDK.h>
 #include "Debug.h"
+#include "Engine.h"
 #include "Entity.h"
 #include "Timer.h"
 
@@ -25,6 +26,9 @@ REGISTER_COMPONENT(ComponenteChavalTest);
 class TimerChangescene : public core::Component
 {
 	core::Timer t;
+
+	int tic = 1000;
+
 public:
 	TimerChangescene()
 	{
@@ -40,9 +44,18 @@ public:
 	void changeScene()
 	{
 		core::Debug::out("CAMBIO DE ESCENA");
+
+		//Engine::instance()->addAndSetScene("scene2");
 	}
+
 	void fixedUpdate() override
 	{
+		tic -= 1;
+
+		core::Debug::out(tic);
+
+		if (tic <= 0) changeScene();
+
 		core::Debug::out("Timer: ", t.id(), " - time left:", t.timeLeftSec());
 	}
 };

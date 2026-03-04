@@ -46,8 +46,8 @@ public:
 	/**
 	 *
 	 */
-	const void addAndSetScene(std::string n, std::shared_ptr<core::Scene> s) const;
-	const void setAddAndSetScene(std::function<void(std::string, std::shared_ptr<core::Scene>)> func);
+	const void addAndSetScene(std::string n) const;
+	const void setAddAndSetScene(std::function<void(std::string)> func);
 private:
 	/*
 	* @brief
@@ -79,5 +79,5 @@ private:
 	*	Referencia al modulo de fisica
 	*/
 	PhysicsModule* _physicsModule = nullptr;
-	std::function<void(std::string, std::shared_ptr<core::Scene>)> _addAndSetScene; 
+	std::function<void(std::string)> _addAndSetScene; 
 };

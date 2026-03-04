@@ -43,14 +43,13 @@ const bool Engine::syncronize()
 	return _platformModule->syncronize();
 }
 
-const void Engine::addAndSetScene(std::string n, std::shared_ptr<core::Scene> s) const
+const void Engine::addAndSetScene(std::string n) const
 {
-	_addAndSetScene(n, s);
+	_addAndSetScene(n);
 }
 
-const void Engine::setAddAndSetScene(std::function<void(std::string, std::shared_ptr<core::Scene>)> func) {
+const void Engine::setAddAndSetScene(std::function<void(std::string)> func){
 	_addAndSetScene = func;
-
 }
 
 bool Engine::_initPriv()

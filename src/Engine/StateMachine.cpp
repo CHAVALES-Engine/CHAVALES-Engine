@@ -20,8 +20,8 @@ StateMachine::StateMachine() :
 	_endGame(false)
 {
 	_deltaTime = 0;
-	Engine::instance()->setAddAndSetScene([this](std::string n, std::shared_ptr<core::Scene> s) {
-		this->addAndSetScene(n, s);
+	Engine::instance()->setAddAndSetScene([this](std::string n) {
+			this->addAndSetScene(n);
 		});
 }
 
@@ -121,14 +121,14 @@ void StateMachine::setScene(sceneName n)
 	}
 }
 
-void StateMachine::addAndSetScene(const sceneName& n, scenePtr s)
+void StateMachine::addAndSetScene(const sceneName& n)
 {
 	// comprobar que no haya una escena con ese nombre ya
 	auto itN = _nameToID.find(n);
 	if (itN == _nameToID.end())
 	{
 		// cargar nueva escena
-		s = std::move(GameLoader::loadScene(n));
+		scenePtr s = std::move(GameLoader::loadScene(n));
 
 		if (s != nullptr)
 		{
