@@ -3,11 +3,12 @@
 #include <memory>
 #include <unordered_map>
 
+#include <EngineAPI.h>
 #include "Scene.h"
 
 using sceneName = std::string;
 
-class GameLoader
+class ENGINE_API GameLoader
 {
 public:
 	GameLoader() = default;

@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <functional>
+#include "EngineAPI.h"
 
 
 namespace core
@@ -15,7 +16,7 @@ namespace core
 	* @brief Clase plantilla de mensajes.
 	*/
 	template<typename... Args>
-	class Message
+	class ENGINE_API Message
 	{
 
 	public:

@@ -37,7 +37,7 @@ void StateMachine::gameLoop()
 	while (!_endGame) // bucle de juego
 	{
 		_endGame = Engine::instance()->syncronize();
-		core::TimerManager::update();
+		core::TimerManager::instance().update();
 		if (_currentScene.ptr != nullptr)
 		{
 			_deltaTime = core::Clock::calculateDeltaTime(startTime);

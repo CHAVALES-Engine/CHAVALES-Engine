@@ -37,13 +37,13 @@ class TimerChangescene : public core::Component
 public:
 	TimerChangescene()
 	{
-		
+
 	}
 	void ready() override
 	{
 		Debug::out("ready");
 
-		//t = core::TimerManager::createTimer(10, [this]() { this->changeScene(); });
+		t = core::TimerManager::instance().createTimer(10, [this]() { this->changeScene(); });
 	}
 
 	void changeScene()

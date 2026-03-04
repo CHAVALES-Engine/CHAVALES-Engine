@@ -7,6 +7,8 @@
 #include <string>
 #include <unordered_map>
 
+#include <EngineAPI.h>
+
 namespace core
 {
 	class Scene;
@@ -27,7 +29,7 @@ struct scene
 using stateMachine = std::unordered_map<sceneID, scenePtr>;
 using nameToID = std::unordered_map<sceneName, sceneID>;
 
-class StateMachine
+class ENGINE_API StateMachine
 {
 public:
 	StateMachine();

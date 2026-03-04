@@ -8,6 +8,7 @@
 #include <fstream>
 #include <utility>
 #include <cassert>
+#include "EngineAPI.h"
 
 /*//------ANSI codes:
 

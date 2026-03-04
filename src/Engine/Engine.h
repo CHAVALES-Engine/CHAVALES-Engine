@@ -2,8 +2,9 @@
 #include <functional>
 #include <memory>
 #include <string>
+#include "EngineAPI.h"
 /*
- * @file EngineAPI.cpp
+ * @file Engine.h
  * @brief Defines the functions for the EngineAPI static library.
  */
 
@@ -17,7 +18,7 @@ namespace core
 	class Scene;
 }
 
-class Engine
+class ENGINE_API Engine
 {
 public:
 	/*

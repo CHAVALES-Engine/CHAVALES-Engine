@@ -10,6 +10,8 @@
 #include <unordered_map>
 #include <string>
 #include <variant>
+
+#include "EngineAPI.h"
 #include "ec.h"
 
 using Property = std::variant<
@@ -27,11 +29,11 @@ using Properties = std::unordered_map<std::string, Property>;
 
 namespace core
 {
-	class Component
+	class ENGINE_API Component
 	{
 	public:
 		Component();
-		virtual ~Component() {}
+		virtual ~Component();
 
 		// --- SETTERS
 		/**
@@ -72,12 +74,12 @@ namespace core
 		virtual void enable() {} // analogo al onEnable en unity
 
 		/**
-		* @brief Comportamiento en cada ctualización en tiempo fijo
+		* @brief Comportamiento en cada ctualizaciï¿½n en tiempo fijo
 		*/
 		virtual void fixedUpdate() {}
 
 		/**
-		* @brief Comportamiento en cada actualización por frame
+		* @brief Comportamiento en cada actualizaciï¿½n por frame
 		*/
 		virtual void update(uint64_t deltaTime) {}
 

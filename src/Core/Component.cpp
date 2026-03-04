@@ -3,6 +3,10 @@
 core::Component::Component()
 	: entity(nullptr), enabled(true) {}
 
+core::Component::~Component()
+{
+}
+
 void core::Component::setEntity(Entity* e)
 {
 	entity = e;

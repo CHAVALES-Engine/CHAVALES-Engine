@@ -20,13 +20,13 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -45,12 +45,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)libs\$(ProjectName)\</OutDir>
+    <OutDir>$(SolutionDir)bin\</OutDir>
     <TargetName>$(ProjectName)_d</TargetName>
     <IntDir>$(SolutionDir)tmp\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)libs\$(ProjectName)\</OutDir>
+    <OutDir>$(SolutionDir)bin\</OutDir>
     <IntDir>$(SolutionDir)tmp\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)_r</TargetName>
   </PropertyGroup>
@@ -58,7 +58,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions); ENGINE_EXPORTS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -71,6 +71,8 @@
       <SubSystem>
       </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\Core\;$(SolutionDir)libs\PhysicsModule\;$(SolutionDir)libs\PlatformModule\;$(SolutionDir)libs\ResourcesModule\;$(SolutionDir)libs\RenderModule\;$(SolutionDir)libs\AudioModule\;$(SolutionDir)dependencies\;$(SolutionDir)dependencies\lua\;$(SolutionDir)dependencies\lua\src\;$(SolutionDir)dependencies\fmod\lib\x64\;$(SolutionDir)bin\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(SolutionDir)libs\Core\Core_d.lib;$(SolutionDir)libs\PhysicsModule\PhysicsModule_d.lib;$(SolutionDir)libs\PlatformModule\PlatformModule_d.lib;$(SolutionDir)libs\ResourcesModule\ResourcesModule_d.lib;$(SolutionDir)libs\RenderModule\RenderModule_d.lib;$(SolutionDir)libs\AudioModule\AudioModule_d.lib;$(SolutionDir)dependencies\lua\LuaBuild.lib;fmodL_vc.lib;fmodstudio_vc.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)libs\PlatformModule\;$(SolutionDir)libs\RenderModule\;$(SolutionDir)libs\AudioModule\</AdditionalLibraryDirectories>
@@ -85,7 +87,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions); ENGINE_EXPORTS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -98,6 +100,8 @@
       <SubSystem>
       </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\Core;$(SolutionDir)libs\PhysicsModule\;$(SolutionDir)libs\PlatformModule\;$(SolutionDir)libs\ResourcesModule\;$(SolutionDir)libs\RenderModule\;$(SolutionDir)libs\AudioModule\;$(SolutionDir)dependencies\lua\;$(SolutionDir)dependencies\lua\src\;$(SolutionDir)dependencies\fmod\lib\x64\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(SolutionDir)libs\Core\Core_r.lib;$(SolutionDir)libs\PhysicsModule\PhysicsModule_r.lib;$(SolutionDir)libs\PlatformModule\PlatformModule_r.lib;$(SolutionDir)libs\ResourcesModule\ResourcesModule_r.lib;$(SolutionDir)libs\RenderModule\RenderModule_r.lib;$(SolutionDir)libs\AudioModule\AudioModule_r.lib;$(SolutionDir)dependencies\lua\LuaBuild.lib;fmod_vc.lib;fmodstudio_vc.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)libs\;$(SolutionDir)libs\Engine\;$(SolutionDir)dependencies\;$(SolutionDir)dependencies\lua\;$(SolutionDir)dependencies\lua\src\;$(SolutionDir)dependencies\fmod\lib\x64\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>

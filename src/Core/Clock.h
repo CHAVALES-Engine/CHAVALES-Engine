@@ -5,10 +5,10 @@
 #pragma once
 #include <cstdint>
 #include <chrono>
-
+#include "EngineAPI.h"
 namespace core
 {
-	class Clock
+	class ENGINE_API Clock
 	{
 	public:
 		Clock() = default;
