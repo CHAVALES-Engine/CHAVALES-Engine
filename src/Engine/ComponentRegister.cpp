@@ -27,6 +27,7 @@ std::shared_ptr<core::Component> ComponentRegister::create(const std::string& na
 		core::Debug::error("Component: [", name, "] not registered.");
 		return nullptr;
 	}
+	core::Debug::out("Component: [", name, "] created.");
 
 	return it->second();
 }

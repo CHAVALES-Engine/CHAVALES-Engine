@@ -1,4 +1,4 @@
-/*
+﻿/*
  * @file
  * @brief
  */
@@ -12,6 +12,8 @@
 #include <functional>
 #include <Debug.h>
 
+#include "Maths.h"
+
 namespace core
 {
 	/**
@@ -19,65 +21,40 @@ namespace core
 	*/
 	class Timer
 	{
-	private:
-		/**
-		 *
-		 */
-		uint64_t _id = 0;
-		/**
-		* @brief Tiempo en el que empezo el timer.
-		*/
-		uint64_t _initTime = 0;
-		/**
-		* @brief Tiempo en el que acabara el timer.
-		*/
-		uint64_t _endTime = 0;
-		/**
-		* @brief
-		*/
-		uint64_t _leftTime = 0;
-		/*
-		 * @brief Indica si esta pausado.
-		 */
-		bool _paused = false;
-		/**
-		* @brief Puntero a funcion lladado al acabar el timer.
-		*/
-		std::function<void()> _func = nullptr;
 	public:
 		Timer() = default;
 		Timer(uint64_t id, uint64_t initTime, uint64_t duration, std::function<void()> func) :
 			_id(id), _initTime(initTime), _endTime(initTime + duration), _leftTime(duration), _func(func)
 		{
 		}
-		const bool getPaused(const bool paused)
+		const uint64_t id() const { return _id; }
+		/**
+		* @brief Devuelve el id del timer.
+		*
+		* @return uint64_t - Tiempo restante en milisegundos.
+		*/
+		const bool isPaused() const { return _paused; }
+		/**
+		* @brief Devuelve el tiempo restante.
+		*
+		* @return uint64_t - Tiempo restante en milisegundos.
+		*/
+		const uint64_t timeLeftMS()
 		{
-			_paused = paused;
-			return true;
+			uint64_t now = Clock::getRunningTime();
+			if (!_paused)
+				_leftTime = (now >= _endTime) ? 0 : _endTime - now; // evita underflow
+			return Maths::Max<uint64_t>(0, (int64_t)_leftTime);
 		}
-		const uint64_t getID() const
+		/**
+		* @brief Devuelve el tiempo restante.
+		*
+		* @return double_t - Tiempo restante en segundos.
+		*/
+		const double timeLeftSec() const
 		{
-			return _id;
-		}
-		void setID(uint64_t id) 
-		{
-			_id = id;
-		}
-		const bool setPaused(const bool paused) 
-		{
-			// Si esta pausado y lo queremos pausar => Error
-			if (_paused && paused) {
-				Debug::error("Timer: ", _id, " is already paused.");
-				return false;
-			}
-			if (paused)
-			{
-				uint64_t now = Clock::getRunningTime();
-				_leftTime = _endTime - now;
-			}
-
-			_paused = paused;
-			return true;
+			uint64_t now = Clock::getRunningTime();
+			return Maths::Max<double>(0, (_endTime - now) / 1000.0);
 		}
 		/**
 		* @brief Devuelve si ha acabado el Timer.
@@ -88,33 +65,43 @@ namespace core
 		{
 			return !_paused && _endTime < Clock::getRunningTime();
 		}
-		/**
-		* @brief Devuelve el tiempo restante.
-		*
-		* @return uint64_t - Tiempo restante en milisegundos.
-		*/
-		const uint64_t timeLeftMS() 
+		/** @brief Solo para uso interno del manager al reasignar IDs. */
+		void setID(uint64_t id)
 		{
-			uint64_t now = Clock::getRunningTime();
+			_id = id;
+		}
+		/**
+		 * @brief Pausa el timer guardando el tiempo restante.
+		 *
+		 * @return bool - false si ya estaba pausado.
+		 */
+		const bool pause()
+		{
+			if (_paused)
+			{
+				Debug::error("Timer ", _id, " ya está pausado.");
+				return false;
+			}
+			_leftTime = timeLeftMS();
+			_paused = true;
+			return true;
+		}
+		/**
+		* @brief Reanuda el timer recalculando _endTime a partir del tiempo restante.
+		* @return bool - false si no estaba pausado.
+		*/
+		bool resume()
+		{
 			if (!_paused)
-				_leftTime = _endTime - now;
-			return _leftTime;
+			{
+				Debug::error("Timer ", _id, " no está pausado.");
+				return false;
+			}
+			_endTime = Clock::getRunningTime() + _leftTime;
+			_paused = false;
+			return true;
 		}
-		const bool isPaused()
-		{
-			return _paused;
-		}
-		/**
-		* @brief Devuelve el tiempo restante.
-		*
-		* @return double_t - Tiempo restante en segundos.
-		*/
-		const double_t timeLeftSec() const
-		{
-			uint64_t now = Clock::getRunningTime();
-			return (_endTime - now) / 1000;
-		}
-		const void executeFunc() const
+		void executeFunc() const
 		{
 			_func();
 		}
@@ -127,6 +114,31 @@ namespace core
 		{
 			return !_paused && _endTime < other._endTime;
 		}
+	private:
+		/**
+		 * @brief Id del timer.
+		 */
+		uint64_t _id = 0;
+		/**
+		* @brief Tiempo en el que empezo el timer.
+		*/
+		uint64_t _initTime = 0;
+		/**
+		* @brief Tiempo en el que acabara el timer.
+		*/
+		uint64_t _endTime = 0;
+		/**
+		* @brief Tiempo restante.
+		*/
+		uint64_t _leftTime = 0;
+		/*
+		 * @brief Indica si esta pausado.
+		 */
+		bool _paused = false;
+		/**
+		* @brief Puntero a funcion lladado al acabar el timer.
+		*/
+		std::function<void()> _func = nullptr;
 	};
 
 
@@ -139,12 +151,7 @@ namespace core
 		/**
 		* @brief Actualiza la cola de timers ejecutando los que hayan llegado al final.
 		*/
-		static void update()
-		{
-			uint64_t now = Clock::getRunningTime();
-			_privUpdate(now);
-		}
-
+		static void update();
 		/**
 		* @brief Crea un timer nuveo y lo mete a la cola.
 		*
@@ -153,49 +160,25 @@ namespace core
 		*
 		* @return Timer - Devuelve el timer creado. Vacio si no se ha creado bien.
 		*/
-		static Timer createTimer(double_t duration, std::function<void()> func)
-		{
-			Debug::out("timer..................");
-
-			uint64_t now = Clock::getRunningTime();
-			uint64_t end = now + (duration / 1000);
-
-			if (now < 0 || end < now || func == nullptr)
-			{
-				Debug::error(Debug::DebugMode::DEBUG_BOTH, "Timer con duracion: ", duration, " no creado correactamente.");
-			}
-			_curId++;
-			Timer t(_curId, now, end, func);
-			_timers.push(_curId, t);
-
-			return t;
-		}
-
-		static bool pauseTimer(Timer& timer)
-		{
-			timer.setPaused(true);
-			_timers.update(timer.getID(), timer);
-		}
-		static bool resumeTimer(Timer& timer)
-		{
-
-		}
-	private:
-		inline static int _curId= 0;
+		static Timer createTimer(double_t duration, std::function<void()> func);
 		/**
-		* @brief Actualiza la cola de timers ejecutando los que hayan llegado al final. Privado.
+		* @brief Pausa un timer.
+		*
+		* @param timer - Timer a pausar.
+		*
+		* @return bool - si se ha podido pausar.
 		*/
-		static void _privUpdate(uint64_t now)
-		{
-			Timer t = _timers.top().prioridad;
-			if (t.timeLeftMS() <= 0)
-			{
-				t.executeFunc();
-				_timers.pop();
-				_privUpdate(now);
-			}
-		}
-
+		static bool pauseTimer(Timer& timer);
+		/**
+		* @brief Marca un timer para reanudarlo.
+		*
+		* @param timer - Timer a reanudar.
+		*
+		* @return bool - si se ha podido reanudar.
+		*/
+		static bool resumeTimer(Timer& timer);
+	private:
+		inline static int _curId = 0;
 		/**
 		* @brief Cola de timers.
 		*/

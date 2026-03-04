@@ -1,5 +1,6 @@
 #include "Entity.h"
 #include "Component.h"
+#include "Debug.h"
 #include "ec.h"
 
 namespace core
