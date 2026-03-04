@@ -53,6 +53,8 @@ void GameLoader::loadLua(
 
 			if (component != nullptr)
 			{
+				component->ready();
+
 				// mete el componente a la entidad creada
 				e->addComponent(std::move(component));
 				core::Debug::out("GAMELOADER: Componente ", componenteName, " cargado para la entidad ", entidadName, ".");
