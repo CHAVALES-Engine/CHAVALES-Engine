@@ -10,6 +10,7 @@
 
 #include "Debug.h"
 #include "GameLoader.h"
+#include "Timer.h"
 
 class GameLoader;
 
@@ -36,6 +37,7 @@ void StateMachine::gameLoop()
 	while (!_endGame) // bucle de juego
 	{
 		_endGame = Engine::instance()->syncronize();
+		core::TimerManager::update();
 		if (_currentScene.ptr != nullptr)
 		{
 			_deltaTime = core::Clock::calculateDeltaTime(startTime);

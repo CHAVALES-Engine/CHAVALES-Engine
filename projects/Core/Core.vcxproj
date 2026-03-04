@@ -94,6 +94,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\src\Core\Color.h" />
     <ClInclude Include="..\..\src\Core\Component.h" />
+    <ClInclude Include="..\..\src\Core\Crypto.h" />
     <ClInclude Include="..\..\src\Core\Debug.h" />
     <ClInclude Include="..\..\src\Core\Entity.h" />
     <ClInclude Include="..\..\src\Core\Maths.h" />
@@ -106,13 +107,13 @@
     <ClInclude Include="..\..\src\Core\Vector2.h" />
     <ClInclude Include="..\..\src\Core\Vector3.h" />
     <ClInclude Include="..\..\src\Core\Vector4.h" />
-    <ClInclude Include="Crypto.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Core\Component.cpp" />
     <ClCompile Include="..\..\src\Core\Entity.cpp" />
     <ClCompile Include="..\..\src\Core\Scene.cpp" />
     <ClCompile Include="..\..\src\Core\Clock.cpp" />
+    <ClCompile Include="..\..\src\Core\Timer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

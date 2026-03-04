@@ -1,5 +1,6 @@
 #include "Entity.h"
 #include "Component.h"
+#include "Debug.h"
 #include "ec.h"
 
 namespace core
@@ -109,8 +110,9 @@ namespace core
 
 	Component* Entity::addComponent(std::shared_ptr<Component> c)
 	{
+		Debug::warning("AAA");
 		c->setEntity(this);
-		//c->ready();
+		c->ready();
 		//c->init();
 
 		components.push_back(std::move(c));
