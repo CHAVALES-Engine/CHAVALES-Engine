@@ -10,6 +10,98 @@
 namespace fs = std::filesystem;
 
 
+void GameLoader::parseObject(const sol::object& obj, const std::string& clave, Properties& props)
+{
+	// parsear y comprobar variant
+	if (obj.is<int>())
+	{
+		props[clave] = obj.as<int>();
+		//Debug::out("GAMELOADER: Parametro ", nombreParametro, " valido de tipo int: ", objetoParametro.as<int>());
+	}
+	else if (obj.is<float>())
+	{
+		props[clave] = obj.as<float>();
+		//Debug::out("GAMELOADER: Parametro ", nombreParametro, " valido de tipo float: ", objetoParametro.as<float>());
+	}
+	else if (obj.is<bool>())
+	{
+		props[clave] = obj.as<bool>();
+		//Debug::out("GAMELOADER: Parametro ", nombreParametro, " valido de tipo bool: ", objetoParametro.as<bool>());
+	}
+	else if (obj.is<std::string>())
+	{
+		props[clave] = obj.as<std::string>();
+		//Debug::out("GAMELOADER: Parametro ", nombreParametro, " valido de tipo string: ", objetoParametro.as<std::string>());
+	}
+	else
+	{
+		Debug::error("GAMELOADER: El tipo del parametro de ", clave, " no es valido.");
+	}
+}
+
+void GameLoader::parseComponent(core::Entity* e, std::pair<sol::object, sol::object>& componenteObj)
+{
+	// encontramos su nombre e intentamos instanciar un componente con una clase con tal nombre
+	std::string componenteName = componenteObj.first.as<std::string>();
+	std::shared_ptr<core::Component> component = ComponentRegister::instance().create(componenteName);
+
+	if (component != nullptr)
+	{ // si este tipo de componente estaba registrado y se ha creado
+		Properties properties;
+
+		sol::table propertiesTable = componenteObj.second;
+		for (auto& p : propertiesTable)
+		{
+			// nombre del parametro
+			std::string nombreParametro = p.first.as<std::string>();
+
+			// declarar variant
+			auto objetoParametro = p.second;
+
+			// traducir objeto a propiedad
+			if (!objetoParametro.is<sol::table>())
+			{
+				parseObject(objetoParametro, nombreParametro, properties);
+			}
+			else
+			{
+				// ...
+			}
+		}
+
+		// --- a este nivel va el init:
+		// inicializacion de los parametros de un componente a traves de los datos de lua
+		component->init(properties);
+
+		// --- mete el componente a la entidad creada
+		e->addComponent(std::move(component));
+		Debug::out("GAMELOADER: Componente ", componenteName, " cargado para la entidad ", e->getName(), ".");
+	}
+	else
+	{ // si no se ha conseguido crear el componente porque no estaba bien registrado
+		Debug::warning("GAMELOADER: Componente ", componenteName, " no registrado.");
+	}
+}
+
+void GameLoader::parseEntity(core::Entity* e, std::pair<sol::object, sol::object>& entidadObj)
+{
+	// nombre de la entidad
+	std::string entidadName = entidadObj.first.as<std::string>();
+	Debug::out("GAMELOADER: Entidad ", entidadName, " cargada.");
+
+	// crea la entidad
+	e->setName(entidadName);
+
+	// dentro de la entidad, accedo a la tabla de componentes
+	sol::table partes = entidadObj.second;
+	sol::table componentes = partes["components"];
+
+	for (auto& componenteObj : componentes)
+	{ // --- para cada componente de la tabla de componentes de la entidad
+		parseComponent(e, componenteObj);
+	}
+}
+
 void GameLoader::loadLua(
 	std::shared_ptr<core::Scene>& s, 
 	const sceneName& n,  
@@ -34,79 +126,11 @@ void GameLoader::loadLua(
 	sol::table scene = lua["scene"];
 	Debug::out("GAMELOADER: Escena ", n, " cargada.");
 
-	for (auto& entidad : scene)
+	for (auto& entidadObj : scene)
 	{ // --- para cada entidad leida
-		// nombre de la entidad
-		std::string entidadName = entidad.first.as<std::string>();
-		Debug::out("GAMELOADER: Entidad ", entidadName, " cargada.");
-
-		// crea la entidad
 		core::Entity* e = new core::Entity();
-		e->setName(entidadName);
 
-		// dentro de la entidad, accedo a la tabla de componentes
-		sol::table partes = entidad.second;
-		sol::table componentes = partes["components"];
-
-		for (auto& componente : componentes)
-		{ // --- para cada componente de la tabla de componentes de la entidad
-			// encontramos su nombre e intentamos instanciar un componente con una clase con tal nombre
-			std::string componenteName = componente.first.as<std::string>();
-			std::shared_ptr<core::Component> component = ComponentRegister::instance().create(componenteName);
-
-			if (component != nullptr)
-			{ // si este tipo de componente estaba registrado y se ha creado
-				Properties properties;
-
-				sol::table propertiesTable = componente.second;
-				for (auto& p : propertiesTable)
-				{
-					// nombre del parametro
-					std::string nombreParametro = p.first.as<std::string>();
-
-					// declarar variant
-					auto objetoParametro = p.second;
-
-					// parsear y comprobar variant
-					if (objetoParametro.is<int>())
-					{
-						properties[nombreParametro] = objetoParametro.as<int>();
-						//Debug::out("GAMELOADER: Parametro ", nombreParametro, " valido de tipo int: ", objetoParametro.as<int>());
-					}
-					else if (objetoParametro.is<float>())
-					{
-						properties[nombreParametro] = objetoParametro.as<float>();
-						//Debug::out("GAMELOADER: Parametro ", nombreParametro, " valido de tipo float: ", objetoParametro.as<float>());
-					}
-					else if (objetoParametro.is<bool>())
-					{
-						properties[nombreParametro] = objetoParametro.as<bool>();
-						//Debug::out("GAMELOADER: Parametro ", nombreParametro, " valido de tipo bool: ", objetoParametro.as<bool>());
-					}
-					else if (objetoParametro.is<std::string>())
-					{
-						properties[nombreParametro] = objetoParametro.as<std::string>();
-						//Debug::out("GAMELOADER: Parametro ", nombreParametro, " valido de tipo string: ", objetoParametro.as<std::string>());
-					}
-					else
-					{
-						//Debug::error("GAMELOADER: El tipo del parametro de ", nombreParametro, " no es valido.");
-					}
-				}
-
-				// --- a este nivel va el init:
-				// inicializacion de los parametros de un componente a traves de los datos de lua
-				component->init(properties);
-
-				// --- mete el componente a la entidad creada
-				e->addComponent(std::move(component));
-				Debug::out("GAMELOADER: Componente ", componenteName, " cargado para la entidad ", entidadName, ".");
-			}
-			else
-			{ // si no se ha conseguido crear el componente porque no estaba bien registrado
-				Debug::warning("GAMELOADER: Componente ", componenteName, " no registrado.");
-			}
-		}
+		parseEntity(e, entidadObj);
 
 		// --- a este nivel se llamaria al awake:
 		// metodo de logica de un componente sin garantizar que el resto de componentes y entidades esten inicializados
