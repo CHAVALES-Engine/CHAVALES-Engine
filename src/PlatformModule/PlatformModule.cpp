@@ -10,13 +10,12 @@
 
 
 PlatformModule::PlatformModule():
-_window(nullptr), _renderer(nullptr), _windowHandle(nullptr)
+_window(nullptr), _windowHandle(nullptr)
 {}
 
 PlatformModule::~PlatformModule()
 {
 	SDL_DestroyWindow(_window);
-	SDL_DestroyRenderer(_renderer);
 	SDL_Quit();
 }
 
@@ -28,14 +27,11 @@ bool PlatformModule::Init()
 		return false;
 	}
 	// Creacion de ventana y renderer
-	if (!SDL_CreateWindowAndRenderer(WINDOW_NAME, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_RESIZABLE, &_window, &_renderer)) {
+	if ((_window = SDL_CreateWindow(WINDOW_NAME, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_RESIZABLE) )== nullptr) {
 		Debug::error("SDL Couldn't be Created.");
 		return false;
 	}
 	SDL_Init(SDL_INIT_EVENTS);
-
-	SDL_SetRenderVSync(_renderer, SDL_RENDERER_VSYNC_DISABLED); // Asap
-	//SDL_SetRenderVSync(renderer, 1); // Vsync
 
 	SDL_PropertiesID _props = SDL_GetWindowProperties(_window);
 

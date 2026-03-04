@@ -62,10 +62,6 @@ private:
 	*/
 	SDL_Window* _window = nullptr;
 	/**
-	* @brief Renderer de SDL
-	*/
-	SDL_Renderer* _renderer = nullptr;
-	/**
 	* @brief Manejador de la ventanda de Windows
 	*/
 	HWND _windowHandle = nullptr;

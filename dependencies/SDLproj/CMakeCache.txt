@@ -632,22 +632,10 @@ SDL_PRESEED:BOOL=ON
 SDL_PTHREADS:BOOL=OFF
 
 //Create relocatable SDL package
-SDL_RELOCATABLE:BOOL=ON
+SDL_RELOCATABLE:BOOL=OFF
 
 //Enable the Render subsystem
-SDL_RENDER:BOOL=ON
-
-//Enable the Direct3D 9 render driver
-SDL_RENDER_D3D:BOOL=ON
-
-//Enable the Direct3D 11 render driver
-SDL_RENDER_D3D11:BOOL=ON
-
-//Enable the Direct3D 12 render driver
-SDL_RENDER_D3D12:BOOL=ON
-
-//Enable the SDL_GPU render driver
-SDL_RENDER_GPU:BOOL=ON
+SDL_RENDER:BOOL=OFF
 
 //Custom SDL revision (only used when REVISION.txt does not exist)
 SDL_REVISION:STRING=
@@ -1360,6 +1348,14 @@ SDL_DUMMYCAMERA:INTERNAL=OFF
 SDL_JACK:INTERNAL=OFF
 //Use PulseAudio
 SDL_PULSEAUDIO:INTERNAL=OFF
+//Enable the Direct3D 9 render driver
+SDL_RENDER_D3D:INTERNAL=OFF
+//Enable the Direct3D 11 render driver
+SDL_RENDER_D3D11:INTERNAL=OFF
+//Enable the Direct3D 12 render driver
+SDL_RENDER_D3D12:INTERNAL=OFF
+//Enable the SDL_GPU render driver
+SDL_RENDER_GPU:INTERNAL=OFF
 //Enable the Vulkan render driver
 SDL_RENDER_VULKAN:INTERNAL=OFF
 //Support the sndio audio API
