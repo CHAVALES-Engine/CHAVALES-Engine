@@ -43,7 +43,7 @@ public:
 
 	void changeScene()
 	{
-		core::Debug::out("CAMBIO DE ESCENA");
+		Debug::out("CAMBIO DE ESCENA");
 
 		//Engine::instance()->addAndSetScene("scene2");
 	}
@@ -52,11 +52,11 @@ public:
 	{
 		tic -= 1;
 
-		core::Debug::out(tic);
+		Debug::out(tic);
 
 		if (tic <= 0) changeScene();
 
-		core::Debug::out("Timer: ", t.id(), " - time left:", t.timeLeftSec());
+		Debug::out("Timer: ", t.id(), " - time left:", t.timeLeftSec());
 	}
 };
 
