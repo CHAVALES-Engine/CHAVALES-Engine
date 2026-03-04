@@ -9,6 +9,7 @@
 #include <utility>
 #include <cassert>
 #include "EngineAPI.h"
+#include <locale.h>
 
 /*//------ANSI codes:
 
@@ -57,14 +58,14 @@ public:
 	/**
 	* @brief Enumerado con las distintas formas de hacer Debug.
 	*/
-	enum class DebugMode
+	enum class Mode
 	{
 		/** Solo en consola. */
-		DEBUG_CONS,
+		CONS,
 		/** Solo en fichero. */
-		DEBUG_FILE,
+		FILE,
 		/** Consola y fichero. */
-		DEBUG_BOTH
+		BOTH
 	};
 
 	/**
@@ -76,7 +77,8 @@ public:
 	static void open(const std::string& file = "log.log")
 	{
 		if (!_file.is_open()) _file.open(file);
-		if (!_file.is_open()) error(DebugMode::DEBUG_CONS, "[DEBUG] Fichero log no se ha podido abrir.");
+		if (!_file.is_open()) error(Mode::CONS, "[DEBUG] Fichero log no se ha podido abrir.");
+		setlocale(LC_ALL, "es_ES.utf8");
 	}
 
 	/**
@@ -97,7 +99,7 @@ public:
 	template <typename... Args>
 	static void out(Args&&... args)
 	{
-		_write(DebugMode::DEBUG_BOTH, "", "[M] ", "\n", std::forward<Args>(args)...);
+		_write(Mode::BOTH, "", "[M] ", "\n", std::forward<Args>(args)...);
 	}
 
 	/**
@@ -108,7 +110,7 @@ public:
 	* @param ...args - Mensaje a escribir.
 	*/
 	template <typename... Args>
-	static void out(DebugMode mode, Args&&... args)
+	static void out(Mode mode, Args&&... args)
 	{
 		_write(mode, "", "[M] ", "\n", std::forward<Args>(args)...);
 	}
@@ -122,7 +124,7 @@ public:
 	template <typename... Args>
 	static void warning(Args&&... args)
 	{
-		_write(DebugMode::DEBUG_BOTH, "\033[1;33m", "[W] ", "\n", std::forward<Args>(args)...);
+		_write(Mode::BOTH, "\033[1;33m", "[W] ", "\n", std::forward<Args>(args)...);
 	}
 
 	/**
@@ -133,7 +135,7 @@ public:
 	* @param ...args - Mensaje a escribir.
 	*/
 	template <typename... Args>
-	static void warning(DebugMode mode, Args&&... args)
+	static void warning(Mode mode, Args&&... args)
 	{
 		_write(mode, "\033[1;33m", "[W] ", "\n", std::forward<Args>(args)...);
 	}
@@ -147,7 +149,7 @@ public:
 	template <typename... Args>
 	static void error(Args&&... args)
 	{
-		_write(DebugMode::DEBUG_BOTH, "\033[1;31m", "[E] ", "\n", std::forward<Args>(args)...);
+		_write(Mode::BOTH, "\033[1;31m", "[E] ", "\n", std::forward<Args>(args)...);
 	}
 
 	/**
@@ -158,7 +160,7 @@ public:
 	* @param ...args - Mensaje a escribir.
 	*/
 	template <typename... Args>
-	static void error(DebugMode mode, Args&&... args)
+	static void error(Mode mode, Args&&... args)
 	{
 		_write(mode, "\033[1;31m", "[E] ", "\n", std::forward<Args>(args)...);
 	}
@@ -174,16 +176,16 @@ private:
 	* @param ...args - Mensaje a escribir.
 	*/
 	template <typename... Args>
-	static void _write(DebugMode mode, const char* color, const char* type, const char* end, Args&&... args)
+	static void _write(Mode mode, const char* color, const char* type, const char* end, Args&&... args)
 	{
-		if (mode == DebugMode::DEBUG_CONS || mode == DebugMode::DEBUG_BOTH)
+		if (mode == Mode::CONS || mode == Mode::BOTH)
 		{
 			std::cout << color << type;
 			(std::cout << ... << args);
 			std::cout << "\033[0m" << end;
 		}
 
-		if (_file.is_open() && (mode == DebugMode::DEBUG_FILE || mode == DebugMode::DEBUG_BOTH))
+		if (_file.is_open() && (mode == Mode::FILE || mode == Mode::BOTH))
 		{
 			//TODO: timestamp aqui solo en fichero. PAIGRO AQUI.
 			_file << type;
