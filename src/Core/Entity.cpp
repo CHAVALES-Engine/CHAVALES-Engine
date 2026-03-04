@@ -42,11 +42,19 @@ namespace core
 	const std::string& Entity::getName() const { return name; }
 	const std::vector<std::shared_ptr<Component>>& Entity::getComponents() const { return components; }
 
-	void Entity::init()
+	//void Entity::init(const Properties& p)
+	//{
+	//	for (std::shared_ptr<Component>& c : components)
+	//	{
+	//		c->init(p);
+	//	}
+	//}
+
+	void Entity::ready()
 	{
 		for (std::shared_ptr<Component>& c : components)
 		{
-			c->init();
+			c->ready();
 		}
 	}
 
@@ -130,9 +138,6 @@ namespace core
 		//T* c = new T(std::forward<Ts>(args)...);
 
 		c->setEntity(this);
-		c->init();
-		c->ready();
-
 		T* c_ref = c.get();
 		components.push_back(std::move(c));
 		return c_ref;

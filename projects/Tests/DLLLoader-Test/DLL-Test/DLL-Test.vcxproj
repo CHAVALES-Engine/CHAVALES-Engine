@@ -54,7 +54,7 @@
     <IntDir>$(SolutionDir)tmp\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)test\$(ProjectName)\</OutDir>
+    <OutDir>$(SolutionDir)bin\game\</OutDir>
     <IntDir>$(SolutionDir)tmp\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

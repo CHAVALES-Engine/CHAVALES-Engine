@@ -7,8 +7,23 @@
 #pragma once
 #include <memory>
 #include <functional>
-
+#include <unordered_map>
+#include <string>
+#include <variant>
 #include "ec.h"
+
+using Property = std::variant<
+	int,
+	float,
+	bool,
+	std::string
+	//Vector3
+	//Vector4
+	//Quaternion
+	//Color
+	//...
+>;
+using Properties = std::unordered_map<std::string, Property>;
 
 namespace core
 {
@@ -44,7 +59,7 @@ namespace core
 		/**
 		* @brief Metodo que inicializa las variables del componente tras ser creado
 		*/
-		virtual void init() {} // analogo al awake en unity
+		virtual void init(const Properties& p) {} // analogo al awake en unity
 
 		/**
 		* @brief Comportamiento cuando la escena comienza y ya se han inicializado el resto de entidades
@@ -86,9 +101,7 @@ namespace core
 		bool enabled; 
 	};
 
-
 	using ComponentConstructor = std::function<std::shared_ptr<Component>()>;
-
 	struct ComponentDescriptor
 	{
 		/*

@@ -6,9 +6,25 @@
 #include <memory>
 #include <vector>
 #include <string>
+#include <unordered_map>
+#include <variant>
+
 #include "ec.h"
 
 class Scene;
+
+using Property = std::variant<
+	int,
+	float,
+	bool,
+	std::string
+	//Vector3
+	//Vector4
+	//Quaternion
+	//Color
+	//...
+>;
+using Properties = std::unordered_map<std::string, Property>;
 
 namespace core
 {
@@ -44,7 +60,15 @@ namespace core
 		/*
 		* @brief
 		*/
-		void init();
+		//void init(const Properties& p);
+		/*
+		* @brief
+		*/
+		void ready();
+		/*
+		* @brief
+		*/
+		void enable();
 		/*
 		* @brief
 		*/
@@ -60,18 +84,11 @@ namespace core
 		/*
 		* @brief
 		*/
-		void destroy();
-		/*
-		* @brief
-		*/
-		void enable();
-		/*
-		* @brief
-		*/
 		void disable();
 		/*
 		* @brief
 		*/
+		void destroy();
 
 		// --- EC
 		/*

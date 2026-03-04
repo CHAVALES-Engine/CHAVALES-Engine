@@ -30,13 +30,24 @@ void core::Scene::onEnable()
 	}
 }
 
-void core::Scene::init()
+//void core::Scene::init()
+//{
+//	if (!_entities.empty())
+//	{
+//		for (auto e : _entities)
+//		{
+//			e->init();
+//		}
+//	}
+//}
+
+void core::Scene::ready()
 {
 	if (!_entities.empty())
 	{
 		for (auto e : _entities)
 		{
-			e->init();
+			e->ready();
 		}
 	}
 }
@@ -102,3 +113,10 @@ void core::Scene::addEntity(Entity* e)
 {
 	_entities.push_back(e);
 }
+
+std::vector<core::Entity*> core::Scene::getEntities() const
+{
+	return _entities;
+}
+
+

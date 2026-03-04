@@ -18,8 +18,8 @@ namespace core
 		~Scene();
 
 		virtual void onEnable();
-		virtual void init();
-		//virtual void ready();
+		//virtual void init();
+		virtual void ready();
 
 		virtual void fixedUpdate();
 		virtual void update(uint64_t dT);
@@ -29,6 +29,7 @@ namespace core
 		virtual void onDestroy();
 
 		void addEntity(core::Entity* e);
+		std::vector<Entity*> getEntities() const;
 
 		inline sceneName getName()
 		{

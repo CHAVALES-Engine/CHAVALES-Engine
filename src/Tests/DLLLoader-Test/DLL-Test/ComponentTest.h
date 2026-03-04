@@ -8,6 +8,11 @@
 
 class ComponentTest : public core::Component
 {
+	void init(const Properties& p) override
+	{
+		// set(...)
+	}
+
 	void fixedUpdate() override
 	{
 		Debug::out(Debug::DebugMode::DEBUG_BOTH, "Esto es el FixedUpdate de un componente de tipo ComponentTest y mi entidad se llama ", getEntity()->getName(), "\n");
