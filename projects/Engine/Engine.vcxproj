@@ -71,8 +71,8 @@
       <SubSystem>
       </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)libs\Core\;$(SolutionDir)libs\PhysicsModule\;$(SolutionDir)libs\PlatformModule\;$(SolutionDir)libs\ResourcesModule\;$(SolutionDir)libs\RenderModule\;$(SolutionDir)libs\AudioModule\;$(SolutionDir)dependencies\;$(SolutionDir)dependencies\lua\;$(SolutionDir)dependencies\lua\src\;$(SolutionDir)dependencies\fmod\lib\x64\;$(SolutionDir)bin\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(SolutionDir)libs\Core\Core_d.lib;$(SolutionDir)libs\PhysicsModule\PhysicsModule_d.lib;$(SolutionDir)libs\PlatformModule\PlatformModule_d.lib;$(SolutionDir)libs\ResourcesModule\ResourcesModule_d.lib;$(SolutionDir)libs\RenderModule\RenderModule_d.lib;$(SolutionDir)libs\AudioModule\AudioModule_d.lib;$(SolutionDir)dependencies\lua\LuaBuild.lib;fmodL_vc.lib;fmodstudio_vc.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\Core\;$(SolutionDir)libs\PhysicsModule\;$(SolutionDir)libs\PlatformModule\;$(SolutionDir)libs\ResourcesModule\;$(SolutionDir)libs\RenderModule\;$(SolutionDir)libs\AudioModule\;$(SolutionDir)dependencies\;$(SolutionDir)dependencies\lua\libs\Debug\;$(SolutionDir)dependencies\lua\src\;$(SolutionDir)dependencies\fmod\lib\x64\;$(SolutionDir)bin\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Core_d.lib;PhysicsModule_d.lib;PlatformModule_d.lib;ResourcesModule_d.lib;RenderModule_d.lib;AudioModule_d.lib;LuaBuild.lib;fmodL_vc.lib;fmodstudio_vc.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>$(SolutionDir)libs\$(ProjectName)\$(TargetName).lib</ImportLibrary>
     </Link>
     <Lib>
@@ -101,8 +101,8 @@
       <SubSystem>
       </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)libs\Core;$(SolutionDir)libs\PhysicsModule\;$(SolutionDir)libs\PlatformModule\;$(SolutionDir)libs\ResourcesModule\;$(SolutionDir)libs\RenderModule\;$(SolutionDir)libs\AudioModule\;$(SolutionDir)dependencies\lua\;$(SolutionDir)dependencies\lua\src\;$(SolutionDir)dependencies\fmod\lib\x64\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(SolutionDir)libs\Core\Core_r.lib;$(SolutionDir)libs\PhysicsModule\PhysicsModule_r.lib;$(SolutionDir)libs\PlatformModule\PlatformModule_r.lib;$(SolutionDir)libs\ResourcesModule\ResourcesModule_r.lib;$(SolutionDir)libs\RenderModule\RenderModule_r.lib;$(SolutionDir)libs\AudioModule\AudioModule_r.lib;$(SolutionDir)dependencies\lua\LuaBuild.lib;fmod_vc.lib;fmodstudio_vc.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\Core;$(SolutionDir)libs\PhysicsModule\;$(SolutionDir)libs\PlatformModule\;$(SolutionDir)libs\ResourcesModule\;$(SolutionDir)libs\RenderModule\;$(SolutionDir)libs\AudioModule\;$(SolutionDir)dependencies\lua\libs\Release\;$(SolutionDir)dependencies\lua\src\;$(SolutionDir)dependencies\fmod\lib\x64\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Core_r.lib;PhysicsModule_r.lib;PlatformModule_r.lib;ResourcesModule_r.lib;RenderModule_r.lib;AudioModule_r.lib;LuaBuild.lib;fmod_vc.lib;fmodstudio_vc.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>$(SolutionDir)libs\$(ProjectName)\$(TargetName).lib</ImportLibrary>
     </Link>
     <Lib>

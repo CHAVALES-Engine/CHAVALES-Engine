@@ -63,7 +63,7 @@
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)dependencies\SDL\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)dependencies\SDL\src\SDL3\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -71,8 +71,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>$(SolutionDir)dependencies\SDL\sdl_d\SDL3-static.lib;Version.lib;Winmm.lib;Imm32.lib;Setupapi.lib;User32.lib;Gdi32.lib;Shell32.lib;Ole32.lib;Advapi32.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)dependencies\SDL\sdl_d;$(SolutionDir)dependencies\SDL\include</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL3-static.lib;Version.lib;Winmm.lib;Imm32.lib;Setupapi.lib;User32.lib;Gdi32.lib;Shell32.lib;Ole32.lib;Advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependencies\SDL\libs\Debug\</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -86,7 +86,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)dependencies\SDL\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)dependencies\SDL\src\SDL3\include\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -95,8 +95,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>$(SolutionDir)dependencies\SDL\sdl\SDL3-static.lib;Version.lib;Winmm.lib;Imm32.lib;Setupapi.lib;User32.lib;Gdi32.lib;Shell32.lib;Ole32.lib;Advapi32.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)dependencies\SDL\sdl;$(SolutionDir)dependencies\SDL\include</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL3-static.lib;Version.lib;Winmm.lib;Imm32.lib;Setupapi.lib;User32.lib;Gdi32.lib;Shell32.lib;Ole32.lib;Advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependencies\SDL\libs\Release\</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -1,8 +1,0 @@
-{
-	"InstallScripts" : 
-	[
-		"C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/dependencies/SDLproj/cmake_install.cmake",
-		"C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/dependencies/SDLproj/test/cmake_install.cmake"
-	],
-	"Parallel" : false
-}

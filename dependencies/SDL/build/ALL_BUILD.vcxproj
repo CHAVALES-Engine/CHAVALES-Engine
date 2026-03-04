@@ -1,0 +1,551 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ResolveNugetPackages>false</ResolveNugetPackages>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{04E42A9F-A721-3D8C-AFDE-502FED38481D}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>ALL_BUILD</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/Users/ivani/OneDrive/Documentos/GitHub/2526-Grupo03-ChavalesEngine/dependencies/SDL/src/SDL3/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+D:\Cmake\bin\cmake.exe -SC:/Users/ivani/OneDrive/Documentos/GitHub/2526-Grupo03-ChavalesEngine/dependencies/SDL/src/SDL3 -BC:/Users/ivani/OneDrive/Documentos/GitHub/2526-Grupo03-ChavalesEngine/dependencies/SDL/build --check-stamp-file C:/Users/ivani/OneDrive/Documentos/GitHub/2526-Grupo03-ChavalesEngine/dependencies/SDL/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\CMakeFiles\4.3.0-rc1\CMakeCCompiler.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\CMakeFiles\4.3.0-rc1\CMakeCXXCompiler.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\CMakeFiles\4.3.0-rc1\CMakeRCCompiler.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\CMakeFiles\4.3.0-rc1\CMakeSystem.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\CMakeFiles\SDL_build_config.h.intermediate;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\CMakeFiles\cmake.verify_globs;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\3rdparty.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\CPackProjectConfig.cmake.in;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\FindLibUSB.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\GetGitRevisionDescription.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\PreseedEmscriptenCache.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\PreseedMSVCCache.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\PreseedNokiaNGageCache.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\SDL3Config.cmake.in;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\cmake_uninstall.cmake.in;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\macros.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\sdl3.pc.in;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\sdlchecks.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\sdlcommands.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\sdlcompilers.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\sdlcpu.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\sdlmanpages.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\sdlplatform.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\include\build_config\SDL_build_config.h.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\include\build_config\SDL_revision.h.cmake;D:\Cmake\share\cmake-4.3\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;D:\Cmake\share\cmake-4.3\Modules\CMakeCCompiler.cmake.in;D:\Cmake\share\cmake-4.3\Modules\CMakeCCompilerABI.c;D:\Cmake\share\cmake-4.3\Modules\CMakeCInformation.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeCXXCompiler.cmake.in;D:\Cmake\share\cmake-4.3\Modules\CMakeCXXCompilerABI.cpp;D:\Cmake\share\cmake-4.3\Modules\CMakeCXXInformation.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeCheckCompilerFlagCommonPatterns.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeCommonLanguageInclude.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeCompilerIdDetection.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeDependentOption.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeDetermineCCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeDetermineCXXCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeDetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeDetermineCompilerABI.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeDetermineCompilerId.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeDetermineCompilerSupport.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeDetermineRCCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeDetermineSystem.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeFindBinUtils.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeGenericSystem.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeInitializeConfigs.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeLanguageInformation.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakePackageConfigHelpers.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeParseArguments.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeParseImplicitIncludeInfo.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeParseImplicitLinkInfo.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeParseLibraryArchitecture.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakePushCheckState.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeRCCompiler.cmake.in;D:\Cmake\share\cmake-4.3\Modules\CMakeRCInformation.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeSystem.cmake.in;D:\Cmake\share\cmake-4.3\Modules\CMakeSystemSpecificInformation.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeSystemSpecificInitialize.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeTestCCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeTestCXXCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeTestCompilerCommon.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeTestRCCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\CPack.cmake;D:\Cmake\share\cmake-4.3\Modules\CPackComponent.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckCCompilerFlag.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckCSourceCompiles.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckCSourceRuns.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckCXXCompilerFlag.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckCXXSourceCompiles.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckIncludeFile.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckIncludeFiles.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckLanguage.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckLibraryExists.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckLinkerFlag.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckSourceCompiles.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckStructHasMember.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckSymbolExists.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\ADSP-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\ARMCC-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\ARMClang-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\AppleClang-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Borland-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Bruce-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\CMakeCommonCompilerMacros.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Clang-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Clang-DetermineCompilerInternal.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Compaq-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Compaq-CXX-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Cray-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\CrayClang-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Diab-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Embarcadero-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Fujitsu-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\FujitsuClang-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\GHS-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\GNU-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\GNU-CXX-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\HP-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\HP-CXX-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\IAR-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\IBMCPP-C-DetermineVersionInternal.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\IBMCPP-CXX-DetermineVersionInternal.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\IBMClang-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\IBMClang-CXX-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Intel-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\IntelLLVM-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\LCC-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\LCC-CXX-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\MSVC-C.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\MSVC-CXX.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\MSVC-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\MSVC.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\NVHPC-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\NVIDIA-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\OpenWatcom-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\OrangeC-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\PGI-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\PathScale-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Renesas-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\SCO-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\SDCC-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\SunPro-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\SunPro-CXX-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\TI-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\TIClang-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Tasking-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\TinyCC-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\VisualAge-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\VisualAge-CXX-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Watcom-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\XL-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\XL-CXX-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\XLClang-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\XLClang-CXX-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\zOS-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\zOS-CXX-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\CompilerId\VS-10.vcxproj.in;D:\Cmake\share\cmake-4.3\Modules\FindGit.cmake;D:\Cmake\share\cmake-4.3\Modules\FindPackageHandleStandardArgs.cmake;D:\Cmake\share\cmake-4.3\Modules\FindPackageMessage.cmake;D:\Cmake\share\cmake-4.3\Modules\FindPkgConfig.cmake;D:\Cmake\share\cmake-4.3\Modules\GNUInstallDirs.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CMakeCLinkerInformation.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CMakeCXXLinkerInformation.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CMakeCommonLinkerInformation.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CMakeDetermineLinkerId.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CMakeInspectCLinker.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CMakeInspectCXXLinker.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CheckCompilerFlag.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CheckFlagCommonConfig.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CheckLinkerFlag.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CheckSourceCompiles.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CheckSourceRuns.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\FeatureTesting.cmake;D:\Cmake\share\cmake-4.3\Modules\Linker\MSVC-C.cmake;D:\Cmake\share\cmake-4.3\Modules\Linker\MSVC-CXX.cmake;D:\Cmake\share\cmake-4.3\Modules\Linker\MSVC.cmake;D:\Cmake\share\cmake-4.3\Modules\Platform\Linker\Windows-MSVC-C.cmake;D:\Cmake\share\cmake-4.3\Modules\Platform\Linker\Windows-MSVC-CXX.cmake;D:\Cmake\share\cmake-4.3\Modules\Platform\Linker\Windows-MSVC.cmake;D:\Cmake\share\cmake-4.3\Modules\Platform\Windows-Determine-CXX.cmake;D:\Cmake\share\cmake-4.3\Modules\Platform\Windows-Initialize.cmake;D:\Cmake\share\cmake-4.3\Modules\Platform\Windows-MSVC-C.cmake;D:\Cmake\share\cmake-4.3\Modules\Platform\Windows-MSVC-CXX.cmake;D:\Cmake\share\cmake-4.3\Modules\Platform\Windows-MSVC.cmake;D:\Cmake\share\cmake-4.3\Modules\Platform\Windows.cmake;D:\Cmake\share\cmake-4.3\Modules\Platform\WindowsPaths.cmake;D:\Cmake\share\cmake-4.3\Modules\WriteBasicConfigVersionFile.cmake;D:\Cmake\share\cmake-4.3\Templates\CPackConfig.cmake.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Users/ivani/OneDrive/Documentos/GitHub/2526-Grupo03-ChavalesEngine/dependencies/SDL/src/SDL3/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+D:\Cmake\bin\cmake.exe -SC:/Users/ivani/OneDrive/Documentos/GitHub/2526-Grupo03-ChavalesEngine/dependencies/SDL/src/SDL3 -BC:/Users/ivani/OneDrive/Documentos/GitHub/2526-Grupo03-ChavalesEngine/dependencies/SDL/build --check-stamp-file C:/Users/ivani/OneDrive/Documentos/GitHub/2526-Grupo03-ChavalesEngine/dependencies/SDL/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\CMakeFiles\4.3.0-rc1\CMakeCCompiler.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\CMakeFiles\4.3.0-rc1\CMakeCXXCompiler.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\CMakeFiles\4.3.0-rc1\CMakeRCCompiler.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\CMakeFiles\4.3.0-rc1\CMakeSystem.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\CMakeFiles\SDL_build_config.h.intermediate;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\CMakeFiles\cmake.verify_globs;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\3rdparty.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\CPackProjectConfig.cmake.in;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\FindLibUSB.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\GetGitRevisionDescription.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\PreseedEmscriptenCache.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\PreseedMSVCCache.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\PreseedNokiaNGageCache.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\SDL3Config.cmake.in;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\cmake_uninstall.cmake.in;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\macros.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\sdl3.pc.in;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\sdlchecks.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\sdlcommands.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\sdlcompilers.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\sdlcpu.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\sdlmanpages.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\sdlplatform.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\include\build_config\SDL_build_config.h.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\include\build_config\SDL_revision.h.cmake;D:\Cmake\share\cmake-4.3\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;D:\Cmake\share\cmake-4.3\Modules\CMakeCCompiler.cmake.in;D:\Cmake\share\cmake-4.3\Modules\CMakeCCompilerABI.c;D:\Cmake\share\cmake-4.3\Modules\CMakeCInformation.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeCXXCompiler.cmake.in;D:\Cmake\share\cmake-4.3\Modules\CMakeCXXCompilerABI.cpp;D:\Cmake\share\cmake-4.3\Modules\CMakeCXXInformation.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeCheckCompilerFlagCommonPatterns.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeCommonLanguageInclude.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeCompilerIdDetection.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeDependentOption.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeDetermineCCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeDetermineCXXCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeDetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeDetermineCompilerABI.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeDetermineCompilerId.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeDetermineCompilerSupport.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeDetermineRCCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeDetermineSystem.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeFindBinUtils.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeGenericSystem.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeInitializeConfigs.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeLanguageInformation.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakePackageConfigHelpers.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeParseArguments.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeParseImplicitIncludeInfo.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeParseImplicitLinkInfo.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeParseLibraryArchitecture.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakePushCheckState.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeRCCompiler.cmake.in;D:\Cmake\share\cmake-4.3\Modules\CMakeRCInformation.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeSystem.cmake.in;D:\Cmake\share\cmake-4.3\Modules\CMakeSystemSpecificInformation.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeSystemSpecificInitialize.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeTestCCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeTestCXXCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeTestCompilerCommon.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeTestRCCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\CPack.cmake;D:\Cmake\share\cmake-4.3\Modules\CPackComponent.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckCCompilerFlag.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckCSourceCompiles.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckCSourceRuns.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckCXXCompilerFlag.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckCXXSourceCompiles.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckIncludeFile.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckIncludeFiles.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckLanguage.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckLibraryExists.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckLinkerFlag.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckSourceCompiles.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckStructHasMember.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckSymbolExists.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\ADSP-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\ARMCC-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\ARMClang-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\AppleClang-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Borland-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Bruce-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\CMakeCommonCompilerMacros.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Clang-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Clang-DetermineCompilerInternal.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Compaq-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Compaq-CXX-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Cray-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\CrayClang-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Diab-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Embarcadero-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Fujitsu-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\FujitsuClang-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\GHS-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\GNU-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\GNU-CXX-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\HP-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\HP-CXX-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\IAR-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\IBMCPP-C-DetermineVersionInternal.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\IBMCPP-CXX-DetermineVersionInternal.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\IBMClang-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\IBMClang-CXX-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Intel-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\IntelLLVM-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\LCC-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\LCC-CXX-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\MSVC-C.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\MSVC-CXX.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\MSVC-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\MSVC.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\NVHPC-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\NVIDIA-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\OpenWatcom-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\OrangeC-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\PGI-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\PathScale-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Renesas-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\SCO-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\SDCC-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\SunPro-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\SunPro-CXX-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\TI-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\TIClang-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Tasking-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\TinyCC-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\VisualAge-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\VisualAge-CXX-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Watcom-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\XL-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\XL-CXX-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\XLClang-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\XLClang-CXX-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\zOS-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\zOS-CXX-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\CompilerId\VS-10.vcxproj.in;D:\Cmake\share\cmake-4.3\Modules\FindGit.cmake;D:\Cmake\share\cmake-4.3\Modules\FindPackageHandleStandardArgs.cmake;D:\Cmake\share\cmake-4.3\Modules\FindPackageMessage.cmake;D:\Cmake\share\cmake-4.3\Modules\FindPkgConfig.cmake;D:\Cmake\share\cmake-4.3\Modules\GNUInstallDirs.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CMakeCLinkerInformation.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CMakeCXXLinkerInformation.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CMakeCommonLinkerInformation.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CMakeDetermineLinkerId.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CMakeInspectCLinker.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CMakeInspectCXXLinker.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CheckCompilerFlag.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CheckFlagCommonConfig.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CheckLinkerFlag.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CheckSourceCompiles.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CheckSourceRuns.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\FeatureTesting.cmake;D:\Cmake\share\cmake-4.3\Modules\Linker\MSVC-C.cmake;D:\Cmake\share\cmake-4.3\Modules\Linker\MSVC-CXX.cmake;D:\Cmake\share\cmake-4.3\Modules\Linker\MSVC.cmake;D:\Cmake\share\cmake-4.3\Modules\Platform\Linker\Windows-MSVC-C.cmake;D:\Cmake\share\cmake-4.3\Modules\Platform\Linker\Windows-MSVC-CXX.cmake;D:\Cmake\share\cmake-4.3\Modules\Platform\Linker\Windows-MSVC.cmake;D:\Cmake\share\cmake-4.3\Modules\Platform\Windows-Determine-CXX.cmake;D:\Cmake\share\cmake-4.3\Modules\Platform\Windows-Initialize.cmake;D:\Cmake\share\cmake-4.3\Modules\Platform\Windows-MSVC-C.cmake;D:\Cmake\share\cmake-4.3\Modules\Platform\Windows-MSVC-CXX.cmake;D:\Cmake\share\cmake-4.3\Modules\Platform\Windows-MSVC.cmake;D:\Cmake\share\cmake-4.3\Modules\Platform\Windows.cmake;D:\Cmake\share\cmake-4.3\Modules\Platform\WindowsPaths.cmake;D:\Cmake\share\cmake-4.3\Modules\WriteBasicConfigVersionFile.cmake;D:\Cmake\share\cmake-4.3\Templates\CPackConfig.cmake.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Users/ivani/OneDrive/Documentos/GitHub/2526-Grupo03-ChavalesEngine/dependencies/SDL/src/SDL3/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+D:\Cmake\bin\cmake.exe -SC:/Users/ivani/OneDrive/Documentos/GitHub/2526-Grupo03-ChavalesEngine/dependencies/SDL/src/SDL3 -BC:/Users/ivani/OneDrive/Documentos/GitHub/2526-Grupo03-ChavalesEngine/dependencies/SDL/build --check-stamp-file C:/Users/ivani/OneDrive/Documentos/GitHub/2526-Grupo03-ChavalesEngine/dependencies/SDL/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\CMakeFiles\4.3.0-rc1\CMakeCCompiler.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\CMakeFiles\4.3.0-rc1\CMakeCXXCompiler.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\CMakeFiles\4.3.0-rc1\CMakeRCCompiler.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\CMakeFiles\4.3.0-rc1\CMakeSystem.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\CMakeFiles\SDL_build_config.h.intermediate;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\CMakeFiles\cmake.verify_globs;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\3rdparty.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\CPackProjectConfig.cmake.in;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\FindLibUSB.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\GetGitRevisionDescription.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\PreseedEmscriptenCache.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\PreseedMSVCCache.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\PreseedNokiaNGageCache.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\SDL3Config.cmake.in;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\cmake_uninstall.cmake.in;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\macros.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\sdl3.pc.in;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\sdlchecks.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\sdlcommands.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\sdlcompilers.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\sdlcpu.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\sdlmanpages.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\sdlplatform.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\include\build_config\SDL_build_config.h.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\include\build_config\SDL_revision.h.cmake;D:\Cmake\share\cmake-4.3\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;D:\Cmake\share\cmake-4.3\Modules\CMakeCCompiler.cmake.in;D:\Cmake\share\cmake-4.3\Modules\CMakeCCompilerABI.c;D:\Cmake\share\cmake-4.3\Modules\CMakeCInformation.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeCXXCompiler.cmake.in;D:\Cmake\share\cmake-4.3\Modules\CMakeCXXCompilerABI.cpp;D:\Cmake\share\cmake-4.3\Modules\CMakeCXXInformation.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeCheckCompilerFlagCommonPatterns.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeCommonLanguageInclude.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeCompilerIdDetection.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeDependentOption.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeDetermineCCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeDetermineCXXCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeDetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeDetermineCompilerABI.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeDetermineCompilerId.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeDetermineCompilerSupport.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeDetermineRCCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeDetermineSystem.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeFindBinUtils.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeGenericSystem.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeInitializeConfigs.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeLanguageInformation.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakePackageConfigHelpers.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeParseArguments.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeParseImplicitIncludeInfo.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeParseImplicitLinkInfo.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeParseLibraryArchitecture.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakePushCheckState.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeRCCompiler.cmake.in;D:\Cmake\share\cmake-4.3\Modules\CMakeRCInformation.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeSystem.cmake.in;D:\Cmake\share\cmake-4.3\Modules\CMakeSystemSpecificInformation.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeSystemSpecificInitialize.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeTestCCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeTestCXXCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeTestCompilerCommon.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeTestRCCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\CPack.cmake;D:\Cmake\share\cmake-4.3\Modules\CPackComponent.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckCCompilerFlag.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckCSourceCompiles.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckCSourceRuns.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckCXXCompilerFlag.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckCXXSourceCompiles.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckIncludeFile.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckIncludeFiles.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckLanguage.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckLibraryExists.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckLinkerFlag.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckSourceCompiles.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckStructHasMember.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckSymbolExists.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\ADSP-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\ARMCC-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\ARMClang-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\AppleClang-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Borland-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Bruce-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\CMakeCommonCompilerMacros.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Clang-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Clang-DetermineCompilerInternal.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Compaq-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Compaq-CXX-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Cray-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\CrayClang-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Diab-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Embarcadero-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Fujitsu-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\FujitsuClang-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\GHS-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\GNU-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\GNU-CXX-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\HP-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\HP-CXX-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\IAR-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\IBMCPP-C-DetermineVersionInternal.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\IBMCPP-CXX-DetermineVersionInternal.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\IBMClang-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\IBMClang-CXX-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Intel-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\IntelLLVM-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\LCC-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\LCC-CXX-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\MSVC-C.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\MSVC-CXX.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\MSVC-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\MSVC.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\NVHPC-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\NVIDIA-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\OpenWatcom-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\OrangeC-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\PGI-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\PathScale-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Renesas-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\SCO-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\SDCC-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\SunPro-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\SunPro-CXX-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\TI-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\TIClang-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Tasking-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\TinyCC-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\VisualAge-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\VisualAge-CXX-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Watcom-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\XL-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\XL-CXX-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\XLClang-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\XLClang-CXX-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\zOS-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\zOS-CXX-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\CompilerId\VS-10.vcxproj.in;D:\Cmake\share\cmake-4.3\Modules\FindGit.cmake;D:\Cmake\share\cmake-4.3\Modules\FindPackageHandleStandardArgs.cmake;D:\Cmake\share\cmake-4.3\Modules\FindPackageMessage.cmake;D:\Cmake\share\cmake-4.3\Modules\FindPkgConfig.cmake;D:\Cmake\share\cmake-4.3\Modules\GNUInstallDirs.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CMakeCLinkerInformation.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CMakeCXXLinkerInformation.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CMakeCommonLinkerInformation.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CMakeDetermineLinkerId.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CMakeInspectCLinker.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CMakeInspectCXXLinker.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CheckCompilerFlag.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CheckFlagCommonConfig.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CheckLinkerFlag.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CheckSourceCompiles.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CheckSourceRuns.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\FeatureTesting.cmake;D:\Cmake\share\cmake-4.3\Modules\Linker\MSVC-C.cmake;D:\Cmake\share\cmake-4.3\Modules\Linker\MSVC-CXX.cmake;D:\Cmake\share\cmake-4.3\Modules\Linker\MSVC.cmake;D:\Cmake\share\cmake-4.3\Modules\Platform\Linker\Windows-MSVC-C.cmake;D:\Cmake\share\cmake-4.3\Modules\Platform\Linker\Windows-MSVC-CXX.cmake;D:\Cmake\share\cmake-4.3\Modules\Platform\Linker\Windows-MSVC.cmake;D:\Cmake\share\cmake-4.3\Modules\Platform\Windows-Determine-CXX.cmake;D:\Cmake\share\cmake-4.3\Modules\Platform\Windows-Initialize.cmake;D:\Cmake\share\cmake-4.3\Modules\Platform\Windows-MSVC-C.cmake;D:\Cmake\share\cmake-4.3\Modules\Platform\Windows-MSVC-CXX.cmake;D:\Cmake\share\cmake-4.3\Modules\Platform\Windows-MSVC.cmake;D:\Cmake\share\cmake-4.3\Modules\Platform\Windows.cmake;D:\Cmake\share\cmake-4.3\Modules\Platform\WindowsPaths.cmake;D:\Cmake\share\cmake-4.3\Modules\WriteBasicConfigVersionFile.cmake;D:\Cmake\share\cmake-4.3\Templates\CPackConfig.cmake.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/Users/ivani/OneDrive/Documentos/GitHub/2526-Grupo03-ChavalesEngine/dependencies/SDL/src/SDL3/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+D:\Cmake\bin\cmake.exe -SC:/Users/ivani/OneDrive/Documentos/GitHub/2526-Grupo03-ChavalesEngine/dependencies/SDL/src/SDL3 -BC:/Users/ivani/OneDrive/Documentos/GitHub/2526-Grupo03-ChavalesEngine/dependencies/SDL/build --check-stamp-file C:/Users/ivani/OneDrive/Documentos/GitHub/2526-Grupo03-ChavalesEngine/dependencies/SDL/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\CMakeFiles\4.3.0-rc1\CMakeCCompiler.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\CMakeFiles\4.3.0-rc1\CMakeCXXCompiler.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\CMakeFiles\4.3.0-rc1\CMakeRCCompiler.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\CMakeFiles\4.3.0-rc1\CMakeSystem.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\CMakeFiles\SDL_build_config.h.intermediate;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\CMakeFiles\cmake.verify_globs;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\3rdparty.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\CPackProjectConfig.cmake.in;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\FindLibUSB.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\GetGitRevisionDescription.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\PreseedEmscriptenCache.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\PreseedMSVCCache.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\PreseedNokiaNGageCache.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\SDL3Config.cmake.in;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\cmake_uninstall.cmake.in;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\macros.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\sdl3.pc.in;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\sdlchecks.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\sdlcommands.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\sdlcompilers.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\sdlcpu.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\sdlmanpages.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\cmake\sdlplatform.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\include\build_config\SDL_build_config.h.cmake;C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\src\SDL3\include\build_config\SDL_revision.h.cmake;D:\Cmake\share\cmake-4.3\Modules\BasicConfigVersion-AnyNewerVersion.cmake.in;D:\Cmake\share\cmake-4.3\Modules\CMakeCCompiler.cmake.in;D:\Cmake\share\cmake-4.3\Modules\CMakeCCompilerABI.c;D:\Cmake\share\cmake-4.3\Modules\CMakeCInformation.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeCXXCompiler.cmake.in;D:\Cmake\share\cmake-4.3\Modules\CMakeCXXCompilerABI.cpp;D:\Cmake\share\cmake-4.3\Modules\CMakeCXXInformation.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeCheckCompilerFlagCommonPatterns.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeCommonLanguageInclude.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeCompilerIdDetection.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeDependentOption.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeDetermineCCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeDetermineCXXCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeDetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeDetermineCompilerABI.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeDetermineCompilerId.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeDetermineCompilerSupport.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeDetermineRCCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeDetermineSystem.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeFindBinUtils.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeGenericSystem.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeInitializeConfigs.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeLanguageInformation.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakePackageConfigHelpers.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeParseArguments.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeParseImplicitIncludeInfo.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeParseImplicitLinkInfo.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeParseLibraryArchitecture.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakePushCheckState.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeRCCompiler.cmake.in;D:\Cmake\share\cmake-4.3\Modules\CMakeRCInformation.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeSystem.cmake.in;D:\Cmake\share\cmake-4.3\Modules\CMakeSystemSpecificInformation.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeSystemSpecificInitialize.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeTestCCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeTestCXXCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeTestCompilerCommon.cmake;D:\Cmake\share\cmake-4.3\Modules\CMakeTestRCCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\CPack.cmake;D:\Cmake\share\cmake-4.3\Modules\CPackComponent.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckCCompilerFlag.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckCSourceCompiles.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckCSourceRuns.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckCXXCompilerFlag.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckCXXSourceCompiles.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckIncludeFile.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckIncludeFiles.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckLanguage.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckLibraryExists.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckLinkerFlag.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckSourceCompiles.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckStructHasMember.cmake;D:\Cmake\share\cmake-4.3\Modules\CheckSymbolExists.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\ADSP-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\ARMCC-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\ARMClang-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\AppleClang-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Borland-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Bruce-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\CMakeCommonCompilerMacros.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Clang-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Clang-DetermineCompilerInternal.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Compaq-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Compaq-CXX-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Cray-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\CrayClang-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Diab-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Embarcadero-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Fujitsu-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\FujitsuClang-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\GHS-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\GNU-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\GNU-CXX-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\HP-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\HP-CXX-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\IAR-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\IBMCPP-C-DetermineVersionInternal.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\IBMCPP-CXX-DetermineVersionInternal.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\IBMClang-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\IBMClang-CXX-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Intel-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\IntelLLVM-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\LCC-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\LCC-CXX-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\MSVC-C.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\MSVC-CXX.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\MSVC-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\MSVC.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\NVHPC-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\NVIDIA-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\OpenWatcom-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\OrangeC-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\PGI-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\PathScale-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Renesas-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\SCO-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\SDCC-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\SunPro-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\SunPro-CXX-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\TI-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\TIClang-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Tasking-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\TinyCC-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\VisualAge-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\VisualAge-CXX-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\Watcom-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\XL-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\XL-CXX-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\XLClang-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\XLClang-CXX-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\zOS-C-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\Compiler\zOS-CXX-DetermineCompiler.cmake;D:\Cmake\share\cmake-4.3\Modules\CompilerId\VS-10.vcxproj.in;D:\Cmake\share\cmake-4.3\Modules\FindGit.cmake;D:\Cmake\share\cmake-4.3\Modules\FindPackageHandleStandardArgs.cmake;D:\Cmake\share\cmake-4.3\Modules\FindPackageMessage.cmake;D:\Cmake\share\cmake-4.3\Modules\FindPkgConfig.cmake;D:\Cmake\share\cmake-4.3\Modules\GNUInstallDirs.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CMakeCLinkerInformation.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CMakeCXXLinkerInformation.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CMakeCommonLinkerInformation.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CMakeDetermineLinkerId.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CMakeInspectCLinker.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CMakeInspectCXXLinker.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CheckCompilerFlag.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CheckFlagCommonConfig.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CheckLinkerFlag.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CheckSourceCompiles.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\CheckSourceRuns.cmake;D:\Cmake\share\cmake-4.3\Modules\Internal\FeatureTesting.cmake;D:\Cmake\share\cmake-4.3\Modules\Linker\MSVC-C.cmake;D:\Cmake\share\cmake-4.3\Modules\Linker\MSVC-CXX.cmake;D:\Cmake\share\cmake-4.3\Modules\Linker\MSVC.cmake;D:\Cmake\share\cmake-4.3\Modules\Platform\Linker\Windows-MSVC-C.cmake;D:\Cmake\share\cmake-4.3\Modules\Platform\Linker\Windows-MSVC-CXX.cmake;D:\Cmake\share\cmake-4.3\Modules\Platform\Linker\Windows-MSVC.cmake;D:\Cmake\share\cmake-4.3\Modules\Platform\Windows-Determine-CXX.cmake;D:\Cmake\share\cmake-4.3\Modules\Platform\Windows-Initialize.cmake;D:\Cmake\share\cmake-4.3\Modules\Platform\Windows-MSVC-C.cmake;D:\Cmake\share\cmake-4.3\Modules\Platform\Windows-MSVC-CXX.cmake;D:\Cmake\share\cmake-4.3\Modules\Platform\Windows-MSVC.cmake;D:\Cmake\share\cmake-4.3\Modules\Platform\Windows.cmake;D:\Cmake\share\cmake-4.3\Modules\Platform\WindowsPaths.cmake;D:\Cmake\share\cmake-4.3\Modules\WriteBasicConfigVersionFile.cmake;D:\Cmake\share\cmake-4.3\Templates\CPackConfig.cmake.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\ZERO_CHECK.vcxproj">
+      <Project>{36A277E4-D0C4-38E3-98A8-84B3C8258E78}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\SDL3-static.vcxproj">
+      <Project>{3C6B05A7-02D1-38ED-AF5E-F830456D97D5}</Project>
+      <Name>SDL3-static</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\SDL3_test.vcxproj">
+      <Project>{DD367B47-2501-32B2-91B4-449F34AE8F47}</Project>
+      <Name>SDL3_test</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\checkkeys.vcxproj">
+      <Project>{077BDD76-62FF-37E3-BDB2-F49B0E26CB6C}</Project>
+      <Name>checkkeys</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\childprocess.vcxproj">
+      <Project>{5A20606D-F936-35C9-96AC-289CAC952F05}</Project>
+      <Name>childprocess</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\loopwave.vcxproj">
+      <Project>{BBFB1D78-85B8-3473-A451-FCB94630686C}</Project>
+      <Name>loopwave</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\sdltests_utils.vcxproj">
+      <Project>{52EEF55D-4881-387B-86C3-44CB44563D36}</Project>
+      <Name>sdltests_utils</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testasyncio.vcxproj">
+      <Project>{158009C8-99C3-3CA5-B15E-F4359176FF95}</Project>
+      <Name>testasyncio</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testatomic.vcxproj">
+      <Project>{2E7807D5-B58B-32D6-80C8-3D5BE7A82FB3}</Project>
+      <Name>testatomic</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testaudio.vcxproj">
+      <Project>{C2C904CC-990C-39C1-90A4-0598EF868F80}</Project>
+      <Name>testaudio</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testaudiohotplug.vcxproj">
+      <Project>{9650446B-5DDF-33A7-8DB0-5ACE8B5EFBDB}</Project>
+      <Name>testaudiohotplug</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testaudioinfo.vcxproj">
+      <Project>{77E8A785-78BA-30B1-B89D-FA3F8FFC7D3C}</Project>
+      <Name>testaudioinfo</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testaudiorecording.vcxproj">
+      <Project>{D2C8E501-7158-33B2-AADE-B5E1CE7891C7}</Project>
+      <Name>testaudiorecording</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testaudiostreamdynamicresample.vcxproj">
+      <Project>{F0629F5B-D69D-3A8B-9852-4E2E358BFC3E}</Project>
+      <Name>testaudiostreamdynamicresample</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testautomation.vcxproj">
+      <Project>{2C22A8A1-5D30-3877-87FC-93D96A3F842B}</Project>
+      <Name>testautomation</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testbounds.vcxproj">
+      <Project>{3E4C4025-53DF-3072-A993-BAF16D709A06}</Project>
+      <Name>testbounds</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testcamera.vcxproj">
+      <Project>{BE16F1C4-17C7-39D3-BEBA-C2F233B3EFBE}</Project>
+      <Name>testcamera</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testclipboard.vcxproj">
+      <Project>{F206EF6B-894A-3B33-B3A4-3A447D4F66FA}</Project>
+      <Name>testclipboard</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testcolorspace.vcxproj">
+      <Project>{DE53E78F-209D-3AF9-A929-C44CF8C0245D}</Project>
+      <Name>testcolorspace</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testcontroller.vcxproj">
+      <Project>{032D17FE-110C-3611-9C80-204E27A5AABF}</Project>
+      <Name>testcontroller</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testcustomcursor.vcxproj">
+      <Project>{672985FB-2757-3144-A1A2-9A5318BFE5C8}</Project>
+      <Name>testcustomcursor</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testdialog.vcxproj">
+      <Project>{88B03944-4D7E-384E-82F8-52FE5D7310C9}</Project>
+      <Name>testdialog</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testdisplayinfo.vcxproj">
+      <Project>{16CA5266-F029-38B7-BC5B-92BDCA403269}</Project>
+      <Name>testdisplayinfo</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testdlopennote.vcxproj">
+      <Project>{82A4D5EC-E9C4-3A88-93AA-E60BFC796032}</Project>
+      <Name>testdlopennote</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testdraw.vcxproj">
+      <Project>{6FCD2D16-2B0D-32D8-A76D-D4C3DA3FB2B0}</Project>
+      <Name>testdraw</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testdrawchessboard.vcxproj">
+      <Project>{D3A1E797-7A1C-3975-9EC3-CF1995B11DF7}</Project>
+      <Name>testdrawchessboard</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testdropfile.vcxproj">
+      <Project>{05F32B5C-1DB9-3CCF-8F80-B16386B6D409}</Project>
+      <Name>testdropfile</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testerror.vcxproj">
+      <Project>{D3604D4F-2B0A-3FA4-BDEB-4FC3957C0B76}</Project>
+      <Name>testerror</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testevdev.vcxproj">
+      <Project>{8E5B5534-4B37-3D0B-B0A2-0755AD1B8AB5}</Project>
+      <Name>testevdev</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testfile.vcxproj">
+      <Project>{A158BCA6-E8D5-3B97-AE37-A4A6484A98CB}</Project>
+      <Name>testfile</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testfilesystem.vcxproj">
+      <Project>{BF00756D-D8E2-3C7F-95B0-B7FDAC686682}</Project>
+      <Name>testfilesystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testgeometry.vcxproj">
+      <Project>{81E6F265-64E6-31A9-A8FC-4DEB49C2D43C}</Project>
+      <Name>testgeometry</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testgl.vcxproj">
+      <Project>{AA077363-1E78-3AF3-8660-4E7DAFC2E15A}</Project>
+      <Name>testgl</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testgles.vcxproj">
+      <Project>{DDA71B6F-5945-30B8-98A6-7D0D34F85AE9}</Project>
+      <Name>testgles</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testgles2.vcxproj">
+      <Project>{C9EAD40E-6802-34A6-9D80-A3B1A4594603}</Project>
+      <Name>testgles2</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testgpu_simple_clear.vcxproj">
+      <Project>{846DB201-A088-3D26-8AB2-A97CE14651D8}</Project>
+      <Name>testgpu_simple_clear</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testgpu_spinning_cube.vcxproj">
+      <Project>{FBC31710-E665-3B81-8CF5-840CFF4674D8}</Project>
+      <Name>testgpu_spinning_cube</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testgpurender_effects.vcxproj">
+      <Project>{61B90A95-2BA3-36D4-9D21-C1F422A73EA8}</Project>
+      <Name>testgpurender_effects</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testgpurender_msdf.vcxproj">
+      <Project>{2A70CEDE-821B-3351-A13D-4BB1A8436FB7}</Project>
+      <Name>testgpurender_msdf</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testhaptic.vcxproj">
+      <Project>{A35553CF-F658-355B-B90F-75DFA25D7458}</Project>
+      <Name>testhaptic</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testhittesting.vcxproj">
+      <Project>{43842725-A8ED-3F84-AE32-FAA44BF899B0}</Project>
+      <Name>testhittesting</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testhotplug.vcxproj">
+      <Project>{50949D5B-FD26-3CC1-8C96-335B7F1B995F}</Project>
+      <Name>testhotplug</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testiconv.vcxproj">
+      <Project>{205BE7EF-6E81-3869-86BB-21826B7888B3}</Project>
+      <Name>testiconv</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testime.vcxproj">
+      <Project>{CC596618-9FF5-3823-96C1-14A60D757A7D}</Project>
+      <Name>testime</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testintersections.vcxproj">
+      <Project>{D3208846-084E-392E-86DE-E0051A0FEB28}</Project>
+      <Name>testintersections</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testkeys.vcxproj">
+      <Project>{BE85BD6E-91A5-35CF-A82F-D49E76BD0AEC}</Project>
+      <Name>testkeys</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testloadso.vcxproj">
+      <Project>{8224A939-D33C-32CE-83C0-06DEEC17120B}</Project>
+      <Name>testloadso</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testlocale.vcxproj">
+      <Project>{72ECFDCE-18D0-36FB-AA0B-5AE26EE25BA1}</Project>
+      <Name>testlocale</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testlock.vcxproj">
+      <Project>{80939CC0-5942-32A4-9DF0-F6AB1813766A}</Project>
+      <Name>testlock</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testmanymouse.vcxproj">
+      <Project>{30531459-B665-3354-8C5A-B2C84ABB698A}</Project>
+      <Name>testmanymouse</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testmessage.vcxproj">
+      <Project>{491FD648-6A3C-3718-B723-0EB4D1FE3115}</Project>
+      <Name>testmessage</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testmodal.vcxproj">
+      <Project>{7B9424C9-2456-3BAD-9E31-8CF055D53842}</Project>
+      <Name>testmodal</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testmouse.vcxproj">
+      <Project>{4FE3CFD9-18F8-3B89-ADF3-8C2A7B6DD1B0}</Project>
+      <Name>testmouse</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testmultiaudio.vcxproj">
+      <Project>{D9C2F1D4-AB08-348A-82E1-98EAA2C05599}</Project>
+      <Name>testmultiaudio</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testnative.vcxproj">
+      <Project>{5AA61E27-6A02-38DB-8B98-A23CAD4E60CB}</Project>
+      <Name>testnative</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testoffscreen.vcxproj">
+      <Project>{479BF63D-A182-36BC-B914-A8986BAC888F}</Project>
+      <Name>testoffscreen</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testoverlay.vcxproj">
+      <Project>{F23F55CB-1C07-3E3B-9B8A-B187364040CC}</Project>
+      <Name>testoverlay</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testpalette.vcxproj">
+      <Project>{31C42D0C-A7CA-373D-BE12-6400E7346B9E}</Project>
+      <Name>testpalette</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testpen.vcxproj">
+      <Project>{28727561-536F-34BC-BE51-E245E640B789}</Project>
+      <Name>testpen</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testplatform.vcxproj">
+      <Project>{64B0A6FF-737E-3ABD-AE3D-4D9DF477B9F8}</Project>
+      <Name>testplatform</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testpopup.vcxproj">
+      <Project>{9D9FB16A-242D-351F-AF74-1F8FAD3EA6AF}</Project>
+      <Name>testpopup</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testpower.vcxproj">
+      <Project>{819DCB81-9145-3998-92CC-C345B4EAD152}</Project>
+      <Name>testpower</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testprocess.vcxproj">
+      <Project>{E20C469F-287A-3F3E-BA18-BADF56B37EB0}</Project>
+      <Name>testprocess</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testqsort.vcxproj">
+      <Project>{9F0DCDD3-F657-3664-92CB-E490B24DDA37}</Project>
+      <Name>testqsort</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testrelative.vcxproj">
+      <Project>{F4BB93C8-FC6A-3C30-BE00-2C146DE3D625}</Project>
+      <Name>testrelative</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testrendercopyex.vcxproj">
+      <Project>{3D728472-85C3-38E1-931F-8D85AF82993E}</Project>
+      <Name>testrendercopyex</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testrendertarget.vcxproj">
+      <Project>{745A1F0D-FADB-3A0A-82DF-8ED63F4E4373}</Project>
+      <Name>testrendertarget</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testresample.vcxproj">
+      <Project>{06DB67FD-6972-349E-9B07-002547D5D2DA}</Project>
+      <Name>testresample</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testrotate.vcxproj">
+      <Project>{9F3A70DD-57D4-3F31-8B91-645A917CA6C7}</Project>
+      <Name>testrotate</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testrumble.vcxproj">
+      <Project>{C3A7CD03-FC97-3C53-BE3A-2AC64EA08302}</Project>
+      <Name>testrumble</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testrwlock.vcxproj">
+      <Project>{35795283-AC87-3121-BE7A-8E9ECA9724DA}</Project>
+      <Name>testrwlock</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testscale.vcxproj">
+      <Project>{D806A7BC-10C0-312A-A469-88912840696B}</Project>
+      <Name>testscale</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testsem.vcxproj">
+      <Project>{C8BFFC22-01A7-30E2-B0E3-09E29C678461}</Project>
+      <Name>testsem</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testsensor.vcxproj">
+      <Project>{CB763DCD-0EC2-313C-87FD-3E389546597A}</Project>
+      <Name>testsensor</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testshader.vcxproj">
+      <Project>{5E686D62-4FB1-38B9-B732-4BABC3571876}</Project>
+      <Name>testshader</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testshape.vcxproj">
+      <Project>{D1819222-9745-345F-9B90-F69642195B7B}</Project>
+      <Name>testshape</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testsoftwaretransparent.vcxproj">
+      <Project>{D8287877-C4CD-3818-B56E-8C593744B4F4}</Project>
+      <Name>testsoftwaretransparent</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testsprite.vcxproj">
+      <Project>{E8C9799A-86AC-3FDD-919D-757FE90803CC}</Project>
+      <Name>testsprite</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testspriteminimal.vcxproj">
+      <Project>{551C246B-8196-385F-8FA8-92220A2ADD80}</Project>
+      <Name>testspriteminimal</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testspritesurface.vcxproj">
+      <Project>{B63562ED-14A3-35B7-9728-332ACA0D080A}</Project>
+      <Name>testspritesurface</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testsurround.vcxproj">
+      <Project>{2CFF3CCC-9312-315D-B24D-8C49E9447473}</Project>
+      <Name>testsurround</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testsymbols.vcxproj">
+      <Project>{13341319-0FFB-3C88-BD4B-DD656D87E90D}</Project>
+      <Name>testsymbols</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testthread.vcxproj">
+      <Project>{CDF1AA9A-ACB7-307B-8944-9A273F6F1A13}</Project>
+      <Name>testthread</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testtime.vcxproj">
+      <Project>{C85378A7-24C2-3CE7-90DA-5AD56E610228}</Project>
+      <Name>testtime</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testtimer.vcxproj">
+      <Project>{46357540-F3BB-38B3-97D3-9157CD159AD0}</Project>
+      <Name>testtimer</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testtray.vcxproj">
+      <Project>{099F20DF-9B5C-310D-810D-C714AB588080}</Project>
+      <Name>testtray</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testurl.vcxproj">
+      <Project>{1D3FC4E0-DB3D-35A9-82A1-AA5D2FB80354}</Project>
+      <Name>testurl</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testver.vcxproj">
+      <Project>{05775C48-8094-3121-BC6C-9C83F5EA70C3}</Project>
+      <Name>testver</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testviewport.vcxproj">
+      <Project>{A05A58EA-27B7-33D9-B75D-422334474919}</Project>
+      <Name>testviewport</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testvulkan.vcxproj">
+      <Project>{884F748F-E29B-3F89-B570-FB33FA1894EA}</Project>
+      <Name>testvulkan</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testwm.vcxproj">
+      <Project>{7FA29954-82A1-3369-B091-F3CFD4546DB3}</Project>
+      <Name>testwm</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\testyuv.vcxproj">
+      <Project>{D9CF9360-08F9-32A4-A8C4-08D9EA6D55D2}</Project>
+      <Name>testyuv</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\ivani\OneDrive\Documentos\GitHub\2526-Grupo03-ChavalesEngine\dependencies\SDL\build\test\torturethread.vcxproj">
+      <Project>{2D6D866D-9437-3A61-882C-CF61E095EF15}</Project>
+      <Name>torturethread</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

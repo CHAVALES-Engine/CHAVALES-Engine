@@ -1,5 +1,5 @@
 @echo off
-SETLOCAL
+SETLOCAL EnableDelayedExpansion
 echo ------------------
 echo Compilando OGRE
 echo ------------------
@@ -10,16 +10,22 @@ echo ------------------
 set "ROOTDIR=%~dp0"
 set "SRCDIR=%ROOTDIR%src\ogre"
 set "BUILDDIR=%ROOTDIR%build"
+set "LIBSDIR=%ROOTDIR%libs"
+set "DEBUGDIR=%LIBSDIR%\Debug"
+set "RELEASESDIR=%LIBSDIR%\Release"
 set "PLATFORM=x64"
 
 :: Crear carpetas 
 if not exist "%BUILDDIR%" mkdir "%BUILDDIR%"
+if not exist "%LIBSDIR%" mkdir "%LIBSDIR%"
+if not exist "%DEBUGDIR%" mkdir "%DEBUGDIR%"
+if not exist "%RELEASESDIR%" mkdir "%RELEASESDIR%"
 
 pushd "%BUILDDIR%"
 
 echo Configurando OGRE
 
-cmake -G "Visual Studio 17 2022" -A %PLATFORM% ^
+cmake -A %PLATFORM% ^
  -DOGRE_BITES_NATIVE_DIALOG=OFF ^
  -DOGRE_BUILD_COMPONENT_BITES=OFF ^
  -DOGRE_BUILD_COMPONENT_CSHARP=OFF ^
@@ -43,6 +49,7 @@ cmake -G "Visual Studio 17 2022" -A %PLATFORM% ^
  -DOGRE_BUILD_PLUGIN_PFX=ON ^
  -DOGRE_BUILD_PLUGIN_RSIMAGE=OFF ^
  -DOGRE_BUILD_PLUGIN_STBI=ON ^
+ -DOGRE_BUILD_RENDERSYSTEM_D3D9=OFF ^
  -DOGRE_BUILD_RENDERSYSTEM_D3D11=OFF ^
  -DOGRE_BUILD_RENDERSYSTEM_GL=OFF ^
  -DOGRE_BUILD_RENDERSYSTEM_GL3PLUS=ON ^
@@ -68,11 +75,10 @@ cmake -G "Visual Studio 17 2022" -A %PLATFORM% ^
  "%SRCDIR%"
 
 if %errorlevel% neq 0 (
-    echo ERROR: Fallo en configuracion
+    echo ERROR: Fallo en configuracion Ogre
     pause
     exit /b %errorlevel%
 )
-
 
 echo Compilando DEBUG
 cmake --build . --config Debug
@@ -92,9 +98,41 @@ if %errorlevel% neq 0 (
 )
 
 popd
-echo -----------------------------
-echo OGRE  compilado correctamente
-echo ---------------------------------
 
-pause
+
+del /q "%DEBUGDIR%\*.lib" 2>nul
+del /q "%RELEASESDIR%\*.lib" 2>nul
+
+echo Copiando librerías Ogre
+for /r "%BUILDDIR%" %%f in (*.lib) do (
+    echo "%%f" | findstr /i "\\Debug\\" >nul
+    if !errorlevel! equ 0 (
+        copy "%%f" "%DEBUGDIR%\" >nul
+    )
+)
+
+
+for /r "%BUILDDIR%" %%f in (*.lib) do (
+    echo "%%f" | findstr /i "\\Release\\" >nul
+    if !errorlevel! equ 0 (
+        copy "%%f" "%RELEASESDIR%\" >nul
+    )
+)
+
+
+for /r "%BUILDDIR%" %%f in (*.lib) do (
+    echo "%%f" | findstr /i "\\Debug\\" >nul
+    if !errorlevel! neq 0 (
+        echo "%%f" | findstr /i "\\Release\\" >nul
+        if !errorlevel! neq 0 (
+            copy "%%f" "%DEBUGDIR%\" >nul
+            copy "%%f" "%RELEASESDIR%\" >nul
+        )
+    )
+)
+
+
+echo -----------------------------
+echo OGRE compilado correctamente
+echo ---------------------------------
 exit /b 0
