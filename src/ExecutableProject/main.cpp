@@ -38,7 +38,7 @@ int main(int argc, char* argv[])
 
 	StateMachine _stateMachine;
 
-	_stateMachine.addAndSetScene("scene2");
+	_stateMachine.addAndSetScene("scene1");
 	_stateMachine.gameLoop();
 
 	// Cierra archivo .log
