@@ -4,9 +4,9 @@ scene = { -- entidades en escena
 		components = { -- componentes de esa entidad
 			Transform = { -- componente transform
 				-- posicion local
-				position = Vector3.new(1,2,3)
+				position = Vector3.new(1,2,3),
 				-- rotacion local
-				rotation = Quaternion.new()
+				rotation = Quaternion.new(),
 				-- escala local
 				scale = Vector3.new(1)
 			},
