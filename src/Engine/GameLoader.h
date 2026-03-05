@@ -35,6 +35,18 @@ public:
 	// para cargar todas las escenas de una vez
 	bool load(std::string& path);
 
+	//Pregunta por consola el nombre de la escena a buscar.
+	static std::string askSceneName();
+
+	//Pregunta por consola el nombre de la ruta en la que buscar.
+	static std::string askRootName();
+
+	//Busca en la ruta el nombre de la escena y devuelve la ruta cumpleta hasta el .lua
+	static std::string findSceneFile(const std::string& sceneName, const std::string& root);
+
+	//LLama a preguntar por el nombre de la escena y usa findSceneFile para cargar
+	//el archivo .lua con loadLua
+	static std::shared_ptr<core::Scene> loadSceneFromSearch();
 	/*
 	Entity e
 	e.addComponent(c)

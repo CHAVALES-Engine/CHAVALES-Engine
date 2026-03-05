@@ -264,3 +264,66 @@ bool GameLoader::load(std::string& path)
 
     return true;
 }
+
+std::string GameLoader::askSceneName()
+{
+	std::string sceneName;
+
+	std::cout << "Introduce el nombre de la escena: ";
+	std::cin >> sceneName;
+
+	return sceneName;
+}
+
+std::string GameLoader::askRootName()
+{
+	std::string rootName;
+
+	std::cout << "Introduce la ruta del directorio principal: ";
+	std::cin >> rootName;
+
+	return rootName;
+}
+
+std::string GameLoader::findSceneFile(const std::string& sceneName, const std::string& root)
+{
+	std::string target = sceneName + ".lua";
+
+	for (const auto& entry : fs::recursive_directory_iterator(root))
+	{
+		if (!entry.is_regular_file())
+			continue;
+
+		if (entry.path().filename() == target)
+		{
+			return entry.path().parent_path().string();
+		}
+	}
+
+	return "";
+}
+
+std::shared_ptr<core::Scene> GameLoader::loadSceneFromSearch()
+{
+	std::string sceneName = askSceneName();
+
+	std::cout << "Buscando escena " << sceneName << ".lua" << std::endl;
+
+	std::string root = askRootName();
+
+	std::string path = findSceneFile(sceneName, root);
+
+	if (path.empty())
+	{
+		Debug::error("No se encontró la escena ", sceneName);
+		return nullptr;
+	}
+
+	Debug::out("Escena encontrada en ", path);
+
+	std::shared_ptr<core::Scene> scene = std::make_shared<core::Scene>(sceneName);
+
+	loadLua(scene, sceneName, path + "/");
+
+	return scene;
+}
