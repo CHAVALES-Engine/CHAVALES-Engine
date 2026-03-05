@@ -7,11 +7,18 @@
 #include <filesystem>
 #include "ComponentRegister.h"
 #include "EngineAPI.h"
+#include "Vector3.h"
 namespace fs = std::filesystem;
 
 
 void GameLoader::parseObject(const sol::object& obj, const std::string& clave, Properties& props)
 {
+	//switch (obj.get_type())
+	//{
+	//case obj.is<int>(): break;
+	//case obj.is<int>(): break;
+	//}
+
 	// parsear y comprobar variant
 	if (obj.is<int>())
 	{
@@ -102,12 +109,46 @@ void GameLoader::parseEntity(core::Entity* e, std::pair<sol::object, sol::object
 	}
 }
 
+void GameLoader::defineUserTypes(sol::state& lua)
+{
+	lua.new_usertype<core::Vector3<>>(
+
+		// --- EJEMPLO (struct)
+		//"ship", // the name of the class, as you want it
+		// to be used in lua List the member
+		// functions you wish to bind:
+		// "name_of_item",
+		// &class_name::function_or_variable
+		//"shoot",
+		//&ship::shoot,
+		//"hurt",
+		//&ship::hurt,
+		//// bind variable types, too
+		//"life",
+		//&ship::life,
+		//// names in lua don't have to be the same as C++,
+		//// but it probably helps if they're kept the same,
+		//// here we change it just to show its possible
+		//"bullet_count",
+		//&ship::bullets
+
+		"Vector3",
+		"x",
+		&core::Vector3<>::getX,
+		"y",
+		&core::Vector3<>::getY,
+		"z",
+		&core::Vector3<>::getZ
+	);
+}
+
 void GameLoader::loadLua(
 	std::shared_ptr<core::Scene>& s, 
 	const sceneName& n,  
 	const std::string& p)
 {
 	sol::state lua;
+	lua.open_libraries(sol::lib::base);
 	std::string path = p + n + ".lua";
 
 	try
@@ -121,6 +162,8 @@ void GameLoader::loadLua(
 		s = nullptr;
 		return;
 	}
+
+	defineUserTypes(lua);
 
 	// --- lectura lua
 	sol::table scene = lua["scene"];

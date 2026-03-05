@@ -6,6 +6,8 @@
 
 #include <cmath>
 
+class GameLoader;
+
 namespace core
 {
 	/**
@@ -16,6 +18,7 @@ namespace core
 	template <typename T = float>
 	class Vector3
 	{
+		friend GameLoader;
 	public:
 		// -- Constructores
 		/**

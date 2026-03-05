@@ -22,6 +22,7 @@ public:
 
 	static void parseEntity(core::Entity* e, std::pair<sol::object, sol::object>& entidadObj);
 
+	static void defineUserTypes(sol::state& lua);
 
 	static void loadLua(std::shared_ptr<core::Scene>& s, const sceneName& n, const std::string& p = "./game/scenes/");
 
