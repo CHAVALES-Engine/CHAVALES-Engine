@@ -2,7 +2,8 @@
 
 #include <SDL3/SDL.h>
 
-#include "../Core/Debug.h"
+#include <Debug.h>
+
 
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720

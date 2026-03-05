@@ -63,7 +63,7 @@
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)dependencies\SDL\src\SDL3\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)src\Core\;$(SolutionDir)dependencies\SDL\src\SDL3\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -71,7 +71,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>SDL3-static.lib;Version.lib;Winmm.lib;Imm32.lib;Setupapi.lib;User32.lib;Gdi32.lib;Shell32.lib;Ole32.lib;Advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>$(SolutionDir)libs\Core\Core_d.lib;SDL3-static.lib;Version.lib;Winmm.lib;Imm32.lib;Setupapi.lib;User32.lib;Gdi32.lib;Shell32.lib;Ole32.lib;Advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)dependencies\SDL\libs\Debug\</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
@@ -86,7 +86,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)dependencies\SDL\src\SDL3\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)src\Core\;$(SolutionDir)dependencies\SDL\src\SDL3\include\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -95,8 +95,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>SDL3-static.lib;Version.lib;Winmm.lib;Imm32.lib;Setupapi.lib;User32.lib;Gdi32.lib;Shell32.lib;Ole32.lib;Advapi32.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)dependencies\SDL\libs\Release\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(SolutionDir)libs\Core\Core_r.lib;SDL3-static.lib;Version.lib;Winmm.lib;Imm32.lib;Setupapi.lib;User32.lib;Gdi32.lib;Shell32.lib;Ole32.lib;Advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependencies\SDL\libs\Release\;$(SolutionDir)libs\Core\</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>

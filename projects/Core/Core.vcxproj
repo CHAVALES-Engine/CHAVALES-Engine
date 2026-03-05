@@ -114,6 +114,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\src\Core\Component.cpp" />
     <ClCompile Include="..\..\src\Core\Entity.cpp" />
+    <ClCompile Include="..\..\src\Core\Message.cpp" />
     <ClCompile Include="..\..\src\Core\Scene.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
