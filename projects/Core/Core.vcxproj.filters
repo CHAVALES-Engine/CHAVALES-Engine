@@ -63,6 +63,9 @@
     <ClInclude Include="..\..\src\Core\EngineAPI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\Core\Defs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Core\Entity.cpp">

@@ -1,13 +1,12 @@
 #pragma once
 
 #include <memory>
-#include <unordered_map>
-
 #include <EngineAPI.h>
 #include <sol.hpp>
+#include <string>
 
+#include "Defs.h"
 #include "Scene.h"
-#include "Vector3.h"
 
 using sceneName = std::string;
 

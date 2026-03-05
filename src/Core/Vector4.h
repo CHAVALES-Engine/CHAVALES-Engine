@@ -23,7 +23,7 @@ namespace core
 		 *
 		 *		Constructor vacio, se inicializan x e y a 0.
 		 */
-		Vector4() :
+		inline Vector4() :
 			_x(0), _y(0), _z(0), _w(0)
 		{
 		}
@@ -34,7 +34,7 @@ namespace core
 		 *		Constructor de un solo parametro, se inicializan todas las componentes con el.
 		 * @param a - Escalar con el que inicializar a todas las componentes.
 		 */
-		Vector4(T a) :
+		inline Vector4(T a) :
 			_x(a), _y(a), _z(a), _w(a)
 		{
 		}
@@ -47,7 +47,7 @@ namespace core
 		 * @param z - Escalar con el que inicializar la componente Z.
 		 * @param w - Escalar con el que inicializar la componente W.
 		 */
-		Vector4(T x, T y, T z, T w) :
+		inline Vector4(T x, T y, T z, T w) :
 			_x(x), _y(y), _z(z), _w(w)
 		{
 		}
@@ -57,7 +57,7 @@ namespace core
 		 *
 		 * @param v - Vector a copiar.
 		 */
-		Vector4(const Vector4& v) :
+		inline Vector4(const Vector4& v) :
 			_x(v.getX()), _y(v.getY()), _z(v.getZ()), _w(v.getW())
 		{
 		}
@@ -67,12 +67,12 @@ namespace core
 		 *
 		 * @param v - Vector del que transferir los datos.
 		 */
-		Vector4(Vector4&& v) noexcept :
+		inline Vector4(Vector4&& v) noexcept :
 			_x(v.getX()), _y(v.getY()), _z(v.getZ()), _w(v.getW())
 		{
 		}
 
-		~Vector4()
+		inline ~Vector4()
 		{
 		}
 
