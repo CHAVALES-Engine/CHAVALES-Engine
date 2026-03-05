@@ -7,6 +7,7 @@
 #include <sol.hpp>
 
 #include "Scene.h"
+#include "Vector3.h"
 
 using sceneName = std::string;
 
@@ -28,13 +29,6 @@ public:
 
 	static std::shared_ptr<core::Scene> loadScene(const sceneName& n);
 
-	// carga una escena dada
-	static std::shared_ptr<core::Scene> loadScene(const sceneName& n, const std::string& path);
-
-	// carga ficheros de lua
-	// para cargar todas las escenas de una vez
-	bool load(std::string& path);
-
 	//Pregunta por consola el nombre de la escena a buscar.
 	static std::string askSceneName();
 
@@ -47,19 +41,4 @@ public:
 	//LLama a preguntar por el nombre de la escena y usa findSceneFile para cargar
 	//el archivo .lua con loadLua
 	static std::shared_ptr<core::Scene> loadSceneFromSearch();
-	/*
-	Entity e
-	e.addComponent(c)
-
-	Scene s
-	s.addEntity(e)
-
-	StateMachine
-	sm.addScene(s)
-	*/
-
-private:
-	// mapa de nombre de escena - contenidos de la escena
-	// como guardar los contenidos? 
-	//std::unordered_map<sceneName, > _scenesContent;
 };

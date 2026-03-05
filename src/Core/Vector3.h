@@ -292,7 +292,6 @@ namespace core
 		static inline const Vector3<int> one = Vector3<int>(1, 1, 1);
 		static inline const Vector3<int> zero = Vector3<int>(0, 0, 0);*/
 
-	private:
 		/**
 		 * @brief Componente X del vector.
 		 */
@@ -307,5 +306,7 @@ namespace core
 		 * @brief Componente Z del vector.
 		 */
 		T _z;
+	private:
+		
 	};
 }

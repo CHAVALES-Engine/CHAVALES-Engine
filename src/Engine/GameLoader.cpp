@@ -41,6 +41,10 @@ void GameLoader::parseObject(const sol::object& obj, const std::string& clave, P
 		props[clave] = obj.as<std::string>();
 		//Debug::out("GAMELOADER: Parametro ", nombreParametro, " valido de tipo string: ", objetoParametro.as<std::string>());
 	}
+	else if (obj.is<core::Vector3<float>>())
+	{
+		Debug::out("soy un vector");
+	}
 	else
 	{
 		Debug::error("GAMELOADER: El tipo del parametro de ", clave, " no es valido.");
@@ -112,35 +116,32 @@ void GameLoader::parseEntity(core::Entity* e, std::pair<sol::object, sol::object
 
 void GameLoader::defineUserTypes(sol::state& lua)
 {
-	lua.new_usertype<core::Vector3<>>(
+	// --- EJEMPLO (struct)
+	/*
+	//"ship", // the name of the class, as you want it
+	// to be used in lua List the member
+	// functions you wish to bind:
+	// "name_of_item",
+	// &class_name::function_or_variable
+	//"shoot",
+	//&ship::shoot,
+	//"hurt",
+	//&ship::hurt,
+	//// bind variable types, too
+	//"life",
+	//&ship::life,
+	//// names in lua don't have to be the same as C++,
+	//// but it probably helps if they're kept the same,
+	//// here we change it just to show its possible
+	//"bullet_count",
+	//&ship::bullets
+	*/
 
-		// --- EJEMPLO (struct)
-		//"ship", // the name of the class, as you want it
-		// to be used in lua List the member
-		// functions you wish to bind:
-		// "name_of_item",
-		// &class_name::function_or_variable
-		//"shoot",
-		//&ship::shoot,
-		//"hurt",
-		//&ship::hurt,
-		//// bind variable types, too
-		//"life",
-		//&ship::life,
-		//// names in lua don't have to be the same as C++,
-		//// but it probably helps if they're kept the same,
-		//// here we change it just to show its possible
-		//"bullet_count",
-		//&ship::bullets
-
-		"Vector3",
-		"x",
-		&core::Vector3<>::getX,
-		"y",
-		&core::Vector3<>::getY,
-		"z",
-		&core::Vector3<>::getZ
-	);
+	lua.new_usertype<core::Vector3<float>>("Vector3",
+		sol::constructors<core::Vector3<float>(), core::Vector3<float>(float), core::Vector3<float>(float, float, float)>(),
+		"x", &core::Vector3<>::_x,
+		"y", &core::Vector3<>::_y,
+		"z", &core::Vector3<>::_z);
 }
 
 void GameLoader::loadLua(
@@ -151,6 +152,8 @@ void GameLoader::loadLua(
 	sol::state lua;
 	lua.open_libraries(sol::lib::base);
 	std::string path = p + n + ".lua";
+
+	defineUserTypes(lua);
 
 	try
 	{ // intenta leer archivo
@@ -163,8 +166,6 @@ void GameLoader::loadLua(
 		s = nullptr;
 		return;
 	}
-
-	defineUserTypes(lua);
 
 	// --- lectura lua
 	sol::table scene = lua["scene"];
@@ -199,71 +200,6 @@ std::shared_ptr<core::Scene> GameLoader::loadScene(const sceneName& n)
 	loadLua(s, n);
 
 	return s;
-}
-
-std::shared_ptr<core::Scene> GameLoader::loadScene(const sceneName& n, const std::string& path)
-{
-	std::shared_ptr<core::Scene> scn = std::make_shared<core::Scene>(n);
-
-	std::ifstream entrada(path);
-
-	if (!entrada.is_open())
-	{
-		Debug::error("Error abriendo archivo ", path);
-	}
-	else
-	{
-		//auto cinbuf = std::cin.rdbuf(entrada.rdbuf());
-		//std::string entidadName;
-		//std::cin >> entidadName;
-		//std::cin.rdbuf(cinbuf);
-
-		// the type "sol::state" behaves exactly like a table!
-		//sol::state lua;
-		//lua.script_file(path);
-		//bool isfullscreen = lua["config"]["fullscreen"]; // can get nested variables
-		//sol::table config = lua["config"];
-		//assert(!isfullscreen)
-
-		loadLua(scn, n, path);
-	}
-
-	return scn;
-}
-
-bool GameLoader::load(std::string& path)
-{
-	// recorrer todos los archivos de lua del directorio scenes
-	path = "./game/scenes";
-	std::string luaFile;
-	for (const auto& entry : fs::directory_iterator(path))
-	{
-		luaFile = entry.path().generic_string();
-
-		std::ifstream entrada(luaFile);
-
-		if (!entrada.is_open())
-		{
-			Debug::error("Error abriendo archivo ", path);
-			return false;
-		}
-
-		//auto cinbuf = std::cin.rdbuf(entrada.rdbuf());
-		//std::string entidadName;
-		//std::cin >> entidadName;
-		//std::cin.rdbuf(cinbuf);
-
-		// the type "sol::state" behaves exactly like a table!
-		//sol::state lua;
-		//lua.script_file(luaFile);
-		//bool isfullscreen = lua["config"]["fullscreen"]; // can get nested variables
-		//sol::table config = lua["config"];
-		//assert(!isfullscreen)
-
-
-	}
-
-    return true;
 }
 
 std::string GameLoader::askSceneName()
