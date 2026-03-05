@@ -311,6 +311,12 @@ std::shared_ptr<core::Scene> GameLoader::loadSceneFromSearch()
 
 	std::string root = askRootName();
 
+	if (!fs::exists(root) || !fs::is_directory(root))
+	{
+		Debug::error("La ruta indicada no es un directorio valido: ", root);
+		return nullptr;
+	}
+
 	std::string path = findSceneFile(sceneName, root);
 
 	if (path.empty())
@@ -321,9 +327,24 @@ std::shared_ptr<core::Scene> GameLoader::loadSceneFromSearch()
 
 	Debug::out("Escena encontrada en ", path);
 
+	std::filesystem::path dir(path);
+	std::filesystem::path file = dir / (sceneName + ".lua");
+
+	if (!fs::exists(file))
+	{
+		Debug::error("El archivo de escena no existe: ", file.string());
+		return nullptr;
+	}
+
 	std::shared_ptr<core::Scene> scene = std::make_shared<core::Scene>(sceneName);
 
-	loadLua(scene, sceneName, path + "/");
+	loadLua(scene, sceneName, dir.string() + "/");
+
+	if (!scene)
+	{
+		Debug::error("Error cargando la escena ", sceneName);
+		return nullptr;
+	}
 
 	return scene;
 }
