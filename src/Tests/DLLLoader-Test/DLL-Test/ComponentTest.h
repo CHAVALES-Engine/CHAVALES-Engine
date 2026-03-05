@@ -13,8 +13,9 @@ class ComponentTest : public core::Component
 	void init(const Properties& p) override
 	{
 		// ejemplos de inicializacion:
-
+		// ejemplo 1
 		setProperty(p, "health", health);
+		// ejemplo 2
 		health = getProperty<int>(p, "health");
 	}
 	
