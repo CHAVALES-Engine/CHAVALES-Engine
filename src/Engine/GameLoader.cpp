@@ -7,7 +7,12 @@
 #include <filesystem>
 #include "ComponentRegister.h"
 #include "EngineAPI.h"
+#include "Quaternion.h"
+#include "Vector2.h"
 #include "Vector3.h"
+#include "Vector4.h"
+#include "Color.h"
+
 namespace fs = std::filesystem;
 
 #define SOL_ALL_SAFETIES_ON 1
@@ -41,10 +46,33 @@ void GameLoader::parseObject(const sol::object& obj, const std::string& clave, P
 		props[clave] = obj.as<std::string>();
 		//Debug::out("GAMELOADER: Parametro ", nombreParametro, " valido de tipo string: ", objetoParametro.as<std::string>());
 	}
-	else if (obj.is<core::Vector3<float>>())
+	else if (obj.is<core::Vector3<>>())
 	{
-		Debug::out("soy un vector");
+		Debug::out("soy un vector3");
+		//props[clave] = obj.as<std::string>();
 	}
+	/*
+	else if (obj.is<core::Vector2<>>())
+	{
+		Debug::out("soy un vector2");
+		//props[clave] = obj.as<std::string>();
+	}
+	else if (obj.is<core::Vector4<>>())
+	{
+		Debug::out("soy un vector4");
+		//props[clave] = obj.as<std::string>();
+	}
+	else if (obj.is<core::Quaternion<>>())
+	{
+		Debug::out("soy un quaternion");
+		//props[clave] = obj.as<core::Quaternion<>>();
+	}
+	else if (obj.is<core::Color>())
+	{
+		Debug::out("soy un color");
+		//props[clave] = obj.as<std::string>();
+	}
+	*/
 	else
 	{
 		Debug::error("GAMELOADER: El tipo del parametro de ", clave, " no es valido.");
@@ -71,14 +99,7 @@ void GameLoader::parseComponent(core::Entity* e, std::pair<sol::object, sol::obj
 			auto objetoParametro = p.second;
 
 			// traducir objeto a propiedad
-			if (!objetoParametro.is<sol::table>())
-			{
-				parseObject(objetoParametro, nombreParametro, properties);
-			}
-			else
-			{
-				// ...
-			}
+			parseObject(objetoParametro, nombreParametro, properties);
 		}
 
 		// --- a este nivel va el init:
@@ -116,32 +137,37 @@ void GameLoader::parseEntity(core::Entity* e, std::pair<sol::object, sol::object
 
 void GameLoader::defineUserTypes(sol::state& lua)
 {
-	// --- EJEMPLO (struct)
-	/*
-	//"ship", // the name of the class, as you want it
-	// to be used in lua List the member
-	// functions you wish to bind:
-	// "name_of_item",
-	// &class_name::function_or_variable
-	//"shoot",
-	//&ship::shoot,
-	//"hurt",
-	//&ship::hurt,
-	//// bind variable types, too
-	//"life",
-	//&ship::life,
-	//// names in lua don't have to be the same as C++,
-	//// but it probably helps if they're kept the same,
-	//// here we change it just to show its possible
-	//"bullet_count",
-	//&ship::bullets
-	*/
+	lua.new_usertype<core::Vector2<>>("Vector2",
+		sol::constructors<core::Vector2<>(), core::Vector2<>(float), core::Vector2<>(float, float)>(),
+		"x", &core::Vector2<>::getX,
+		"y", &core::Vector2<>::getY);
 
-	lua.new_usertype<core::Vector3<float>>("Vector3",
-		sol::constructors<core::Vector3<float>(), core::Vector3<float>(float), core::Vector3<float>(float, float, float)>(),
-		"x", &core::Vector3<>::_x,
-		"y", &core::Vector3<>::_y,
-		"z", &core::Vector3<>::_z);
+	lua.new_usertype<core::Vector3<>>("Vector3",
+		sol::constructors<core::Vector3<>(), core::Vector3<>(float), core::Vector3<>(float, float, float)>(),
+		"x", &core::Vector3<>::getX,
+		"y", &core::Vector3<>::getY,
+		"z", &core::Vector3<>::getZ);
+
+	lua.new_usertype<core::Vector4<>>("Vector4",
+		sol::constructors<core::Vector4<>(), core::Vector4<>(float), core::Vector4<>(float, float, float, float)>(),
+		"x", &core::Vector4<>::getX,
+		"y", &core::Vector4<>::getY,
+		"z", &core::Vector4<>::getZ,
+		"w", &core::Vector4<>::getW);
+
+	lua.new_usertype<core::Quaternion<>>("Quaternion",
+		sol::constructors<core::Quaternion<>(), core::Quaternion<>(float, float, float, float)>(),
+		"x", &core::Quaternion<>::getX,
+		"y", &core::Quaternion<>::getY,
+		"z", &core::Quaternion<>::getZ,
+		"w", &core::Quaternion<>::getW);
+
+	lua.new_usertype<core::Color>("Color",
+		sol::constructors<core::Color(float, float, float, float)>(),
+		"r", &core::Color::getRed,
+		"g", &core::Color::getGreen,
+		"b", &core::Color::getBlue,
+		"a", &core::Color::getAlpha);
 }
 
 void GameLoader::loadLua(
