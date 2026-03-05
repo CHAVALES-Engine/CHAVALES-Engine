@@ -127,10 +127,14 @@ void StateMachine::addAndSetScene(const sceneName& n)
 	auto itN = _nameToID.find(n);
 	if (itN == _nameToID.end())
 	{
+#if _DEBUG
 		// cargar nueva escena
-		//scenePtr s = std::move(GameLoader::loadScene(n));
+		scenePtr s = std::move(GameLoader::loadScene(n));
+#else
 		//Cargar escena externa (prueba)
 		scenePtr s = std::move(GameLoader::loadSceneFromSearch());
+#endif
+
 
 		if (s != nullptr)
 		{
