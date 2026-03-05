@@ -142,41 +142,53 @@ void GameLoader::parseEntity(core::Entity* e, std::pair<sol::object, sol::object
 
 void GameLoader::defineUserTypes(sol::state& lua)
 {
-	lua.new_usertype<core::Vector2<>>("Vector2",
-	                                  sol::constructors<core::Vector2<>(), core::Vector2<>(float), core::Vector2<>(
-		                                                    float, float)>(),
-	                                  "x", &core::Vector2<>::getX,
-	                                  "y", &core::Vector2<>::getY);
+	lua.new_usertype<core::Vector2<>>(
+		"Vector2",
+		sol::constructors<
+			core::Vector2<>(),
+			core::Vector2<>(float),
+			core::Vector2<>(float, float)>(),
+		"x", &core::Vector2<>::getX,
+		"y", &core::Vector2<>::getY);
 
-	lua.new_usertype<core::Vector3<>>("Vector3",
-	                                  sol::constructors<core::Vector3<>(), core::Vector3<>(float), core::Vector3<>(
-		                                                    float, float, float)>(),
-	                                  "x", &core::Vector3<>::getX,
-	                                  "y", &core::Vector3<>::getY,
-	                                  "z", &core::Vector3<>::getZ);
+	lua.new_usertype<core::Vector3<>>(
+		"Vector3",
+		sol::constructors<
+			core::Vector3<>(),
+			core::Vector3<>(float),
+			core::Vector3<>(float, float, float)>(),
+		"x", &core::Vector3<>::getX,
+		"y", &core::Vector3<>::getY,
+		"z", &core::Vector3<>::getZ);
 
-	lua.new_usertype<core::Vector4<>>("Vector4",
-	                                  sol::constructors<core::Vector4<>(), core::Vector4<>(float), core::Vector4<>(
-		                                                    float, float, float, float)>(),
-	                                  "x", &core::Vector4<>::getX,
-	                                  "y", &core::Vector4<>::getY,
-	                                  "z", &core::Vector4<>::getZ,
-	                                  "w", &core::Vector4<>::getW);
+	lua.new_usertype<core::Vector4<>>(
+		"Vector4",
+		sol::constructors<
+			core::Vector4<>(),
+			core::Vector4<>(float),
+			core::Vector4<>(float, float, float, float)>(),
+		"x", &core::Vector4<>::getX,
+		"y", &core::Vector4<>::getY,
+		"z", &core::Vector4<>::getZ,
+		"w", &core::Vector4<>::getW);
 
-	lua.new_usertype<core::Quaternion<>>("Quaternion",
-	                                     sol::constructors<core::Quaternion<>(), core::Quaternion<>(
-		                                                       float, float, float, float)>(),
-	                                     "x", &core::Quaternion<>::getX,
-	                                     "y", &core::Quaternion<>::getY,
-	                                     "z", &core::Quaternion<>::getZ,
-	                                     "w", &core::Quaternion<>::getW);
+	lua.new_usertype<core::Quaternion<>>(
+		"Quaternion",
+		sol::constructors<
+			core::Quaternion<>(),
+			core::Quaternion<>(float, float, float, float)>(),
+		"x", &core::Quaternion<>::getX,
+		"y", &core::Quaternion<>::getY,
+		"z", &core::Quaternion<>::getZ,
+		"w", &core::Quaternion<>::getW);
 
-	lua.new_usertype<core::Color>("Color",
-	                              sol::constructors<core::Color(float, float, float, float)>(),
-	                              "r", &core::Color::getRed,
-	                              "g", &core::Color::getGreen,
-	                              "b", &core::Color::getBlue,
-	                              "a", &core::Color::getAlpha);
+	lua.new_usertype<core::Color>(
+		"Color",
+		sol::constructors<core::Color(float, float, float, float)>(),
+		"r", &core::Color::getRed,
+		"g", &core::Color::getGreen,
+		"b", &core::Color::getBlue,
+		"a", &core::Color::getAlpha);
 }
 
 void GameLoader::loadLua(
