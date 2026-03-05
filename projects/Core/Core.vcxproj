@@ -98,6 +98,7 @@
     <ClInclude Include="..\..\src\Core\Component.h" />
     <ClInclude Include="..\..\src\Core\Crypto.h" />
     <ClInclude Include="..\..\src\Core\Debug.h" />
+    <ClInclude Include="..\..\src\Core\Defs.h" />
     <ClInclude Include="..\..\src\Core\EngineAPI.h" />
     <ClInclude Include="..\..\src\Core\Entity.h" />
     <ClInclude Include="..\..\src\Core\Maths.h" />

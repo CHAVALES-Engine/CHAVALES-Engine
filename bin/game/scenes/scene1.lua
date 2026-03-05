@@ -4,15 +4,11 @@ scene = { -- entidades en escena
 		components = { -- componentes de esa entidad
 			Transform = { -- componente transform
 				-- posicion local
-				lPosX = 0.0,
-				lPosY = 0.0,
-				lPosZ = 0.0,
+				position = Vector3.new(1,2,3)
 				-- rotacion local
-				
+				rotation = Quaternion.new()
 				-- escala local
-				lScaleX = 1.0,
-				lScaleY = 1.0,
-				lScaleZ = 1.0
+				scale = Vector3.new(1)
 			},
 			TimerChangescene = {
 		

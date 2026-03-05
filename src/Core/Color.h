@@ -26,10 +26,10 @@ namespace core
 	 *		rojo (r), verde (g), azul (b), and alfa (a).
 	 *		Cada atributo es un float entre 0.0 y 1.0.
 	 */
-	class ENGINE_API Color : public Vector4<float>
+	class Color : public Vector4<float>
 	{
 	public:
-		Color(float r, float g, float b, float a) :
+		inline Color(float r, float g, float b, float a) :
 			Vector4(r, g, b, a)
 		{
 		}

@@ -7,16 +7,15 @@
 #pragma once
 #include <memory>
 #include <functional>
+#include <cstdint>
+#include <variant>
+#include <string>
+#include <unordered_map>
 
 #include "Debug.h"
 #include "EngineAPI.h"
 #include "ec.h"
-
-#include <cstdint>
-#include <iostream>
-#include <type_traits>
-
-#define SHOW(...) std::cout << #__VA_ARGS__ << " : " << __VA_ARGS__ << '\n'
+#include "Defs.h"
 
 namespace core
 {
