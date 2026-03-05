@@ -44,28 +44,28 @@ void GameLoader::parseObject(const sol::object& obj, const std::string& clave, P
 		{
 			if (obj.is<core::Vector2<>>())
 			{
-				Debug::out("soy un vector2");
-				//props[clave] = obj.as<std::string>();
+				Debug::out("GAMELOADER: vector2");
+				props[clave] = obj.as<core::Vector2<>>();
 			}
 			else if (obj.is<core::Vector3<>>())
 			{
-				Debug::out("soy un vector3");
-				//props[clave] = obj.as<std::string>();
+				Debug::out("GAMELOADER: vector3");
+				props[clave] = obj.as<core::Vector3<>>();
 			}
 			else if (obj.is<core::Vector4<>>())
 			{
-				Debug::out("soy un vector4");
-				//props[clave] = obj.as<std::string>();
+				Debug::out("GAMELOADER: vector4");
+				props[clave] = obj.as<core::Vector4<>>();
 			}
 			else if (obj.is<core::Quaternion<>>())
 			{
-				Debug::out("soy un quaternion");
-				//props[clave] = obj.as<core::Quaternion<>>();
+				Debug::out("GAMELOADER: quaternion");
+				props[clave] = obj.as<core::Quaternion<>>();
 			}
 			else if (obj.is<core::Color>())
 			{
-				Debug::out("soy un color");
-				//props[clave] = obj.as<std::string>();
+				Debug::out("GAMELOADER: color");
+				props[clave] = obj.as<core::Color>();
 			}
 			else
 			{

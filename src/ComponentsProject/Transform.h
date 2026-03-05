@@ -24,6 +24,8 @@ public:
 	Transform();
 	~Transform() override;
 
+	void init(const Properties& p) override;
+
 	void setGlobalPosition(core::Vector3<> gp);
 	void setLocalPosition(core::Vector3<> lp);
 
