@@ -10,6 +10,7 @@
 #include "Vector3.h"
 namespace fs = std::filesystem;
 
+#define SOL_ALL_SAFETIES_ON 1
 
 void GameLoader::parseObject(const sol::object& obj, const std::string& clave, Properties& props)
 {
