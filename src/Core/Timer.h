@@ -265,13 +265,13 @@ namespace core
 
 		static constexpr int CAPACITY = 1000;
 
-		// @brief Priority queue clave = int ID, prioridad = Timer (por _endTime)
+		// Min-heap indexado: clave = int ID, prioridad = Timer (por _endTime)
 		IndexPQ<Timer>          _timers{ CAPACITY };
 
-		// @brief IDs disponibles para reutilizar al crear nuevos timers
+		// IDs disponibles para reutilizar al crear nuevos timers
 		std::vector<uint64_t>        _freeIds;
 
-		// @brief IDs de timers cancelados pendientes de descarte en update()
+		// IDs de timers cancelados pendientes de descarte en update()
 		std::unordered_set<uint64_t> _cancelled;
 	};
 }
