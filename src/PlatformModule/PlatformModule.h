@@ -8,8 +8,8 @@
 #include <Windows.h>
 
 
-struct SDL_Window;
-struct SDL_Event;
+struct SDL_Window; 
+union SDL_Event;
 
 /**
 * @brief Modulo de Plataforma

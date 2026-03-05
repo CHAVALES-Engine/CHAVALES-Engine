@@ -9,7 +9,7 @@
 #include <filesystem>
 
 #include "StateMachine.h"
-#include "DLLLoader.h"
+#include "ComponentDLLLoader.h"
 #include "GameLoader.h"
 #include "Scene.h"
 
@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
 	Engine::init();
 
 
-	DLLLoader dllLoader;
+	ComponentDLLLoader dllLoader;
 #if _DEBUG
 	dllLoader.load("./ComponentsProject_d.dll");
 #else 
