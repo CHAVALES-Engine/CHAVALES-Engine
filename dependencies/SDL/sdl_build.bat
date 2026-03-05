@@ -41,6 +41,7 @@ cmake  -A %PLATFORM% ^
  -DSDL_EXAMPLES=OFF ^
  -DSDL_SHARED=OFF ^
  -DSDL_STATIC=ON ^
+ -DSDL_TESTS=OFF ^
  "%SRCDIR%"
 
 if %errorlevel% neq 0 (
@@ -48,9 +49,6 @@ if %errorlevel% neq 0 (
     pause
     exit /b %errorlevel%
 )
-
-del /q "%DEBUGDIR%\*.lib" 2>nul
-del /q "%RELEASESDIR%\*.lib" 2>nul
 
 echo Compilando DEBUG...
 cmake --build . --config Debug
