@@ -9,7 +9,7 @@
 
 
 struct SDL_Window;
-struct SDL_Renderer;
+struct SDL_Event;
 
 /**
 * @brief Modulo de Plataforma
@@ -57,6 +57,11 @@ public:
 	*/
 	const int getWindowHeight() const;
 private:
+	/**
+	* @brief procesa un evento de sdl
+	*/
+	const void processEvent(SDL_Event event);
+
 	/**
 	* @brief Ventana de SDL
 	*/

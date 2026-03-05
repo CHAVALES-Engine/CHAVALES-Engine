@@ -1,13 +1,13 @@
-#include "DLLLoader.h"
+#include "ComponentDLLLoader.h"
 #include <Debug.h>
 #include <Component.h>
 #include <ComponentRegister.h>
 
-DLLLoader::DLLLoader()
+ComponentDLLLoader::ComponentDLLLoader()
 {
 }
 
-DLLLoader::~DLLLoader()
+ComponentDLLLoader::~ComponentDLLLoader()
 {
 	unLoadAll();
 }
@@ -15,7 +15,7 @@ DLLLoader::~DLLLoader()
 // Definimos la funcion que exporta componentes y viene de la dll
 // con nombre GetComponentFn usando un puntero a una funcion
 using GetComponentsFn = const core::ComponentDescriptor* (*)(size_t&);
-bool DLLLoader::load(const std::string& path)
+bool ComponentDLLLoader::load(const std::string& path)
 {
 	// Comprobamos duplicados
 	for (const auto& l : _libraries) {
@@ -57,7 +57,7 @@ bool DLLLoader::load(const std::string& path)
 	return true;
 }
 
-void DLLLoader::unLoadAll()
+void ComponentDLLLoader::unLoadAll()
 {
 	for (auto& library : _libraries) {
 		// Windows descarga la libreria
@@ -67,7 +67,7 @@ void DLLLoader::unLoadAll()
 	_libraries.clear();
 }
 
-bool DLLLoader::unload(const std::string& path)
+bool ComponentDLLLoader::unload(const std::string& path)
 {
 	// TODO for hot-reloading
 	return true;

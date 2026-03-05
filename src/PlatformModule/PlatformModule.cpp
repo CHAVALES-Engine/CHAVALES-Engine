@@ -69,3 +69,7 @@ const int PlatformModule::getWindowHeight() const
 {
 	return SCREEN_HEIGHT;
 }
+
+const void PlatformModule::processEvent(::SDL_Event event)
+{
+}

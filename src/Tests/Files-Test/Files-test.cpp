@@ -11,7 +11,7 @@ namespace fs = std::filesystem;
 #include "Component.h"
 #include "Scene.h"
 #include <ComponentRegister.h>
-#include "DLLLoader.h"
+#include "ComponentDLLLoader.h"
 
 int main(int argc, char* argv[])
 {
@@ -20,7 +20,7 @@ int main(int argc, char* argv[])
 	sol::table scene = lua["scene"];
 	core::Scene* s = new core::Scene("0");
 
-	DLLLoader dllLoader;
+	ComponentDLLLoader dllLoader;
 
 #if DEBUG_PROCESS
 	dllLoader.load("./ComponentsProject_d.dll");
