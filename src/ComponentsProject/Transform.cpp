@@ -206,12 +206,18 @@ void Transform::translate(const core::Vector3<>& t)
 void Transform::rotate(const core::Quaternion<>& q)
 {
 	_localRotation = q * _localRotation; // en este orden
+	//_localRotation = _localRotation.normalized();
 }
 
 void Transform::rotate(core::Vector3<> v)
 {
-	//core::Quaternion<> q(v); 
-	//rotate();
+	//rotate(core::Quaternion(v));
+
+	core::Quaternion<> qx = core::Quaternion<>().angleAxis(v.getX(), core::Vector3<>(1.0f, 0.0f, 0.0f));
+	core::Quaternion<> qy = core::Quaternion<>().angleAxis(v.getY(), core::Vector3<>(0.0f, 1.0f, 0.0f));
+	core::Quaternion<> qz = core::Quaternion<>().angleAxis(v.getZ(), core::Vector3<>(0.0f, 0.0f, 1.0f));
+	core::Quaternion<> q = qz * qy * qx;
+	rotate(q);
 }
 
 core::Vector3<> Transform::right() const

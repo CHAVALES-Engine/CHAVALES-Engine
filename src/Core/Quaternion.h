@@ -48,7 +48,7 @@ namespace core
 		*/
 		inline float angle(Quaternion a, Quaternion b) {
 			float d = dot(b);
-			d = Clamp(d, -1.0f, 1.0f);
+			d = Maths::Clamp(d, -1.0f, 1.0f);
 			float angleRad = 2.0f * acos(fabs(d));
 			return angleRad * (180.0f / M_PI);
 		}
@@ -187,9 +187,9 @@ namespace core
 		*/
 		inline void rotate(Vector3<> v) {
 			//cada comp a un quaternion
-			Quaternion qx = Quaternion::AngleAxis(v.getX(), core::Vector3(1.0f, 0.0f, 0.0f));
-			Quaternion qy = Quaternion::AngleAxis(v.getY(), core::Vector3(0.0f, 1.0f, 0.0f));
-			Quaternion qz = Quaternion::AngleAxis(v.getZ(), core::Vector3(0.0f, 0.0f, 1.0f));
+			Quaternion qx = Quaternion::angleAxis(v.getX(), core::Vector3(1.0f, 0.0f, 0.0f));
+			Quaternion qy = Quaternion::angleAxis(v.getY(), core::Vector3(0.0f, 1.0f, 0.0f));
+			Quaternion qz = Quaternion::angleAxis(v.getZ(), core::Vector3(0.0f, 0.0f, 1.0f));
 
 			*this = qz * qy * qx * (*this);
 			*this = this->normalized();

@@ -75,7 +75,6 @@ public:
 	void rotate(const core::Quaternion<>& q);
 	/**
 	 * @brief Aplica una rotacion v en formato vector a la rotacion local
-	 * @warning - SIN IMPLEMENTAR
 	 */
 	void rotate(core::Vector3<> v);
 

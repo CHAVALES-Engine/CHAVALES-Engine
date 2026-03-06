@@ -218,7 +218,9 @@ DocProject/Help/Html2
 DocProject/Help/html
 
 #Quaertz 
-docs/
+docs/**
+!docs/*.md
+!docs/*.pdf
 
 # Click-Once directory
 publish/
