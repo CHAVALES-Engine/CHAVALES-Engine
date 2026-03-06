@@ -35,14 +35,13 @@ void Transform::setGlobalPosition(core::Vector3<> gp)
 	}
 }
 
-void Transform::setLocalPosition(core::Vector3<> lp) { _localPosition = lp; }
+void Transform::setLocalPosition(const core::Vector3<>& lp) { _localPosition = lp; }
 
-void Transform::setGlobalRotation(core::Quaternion<> gr)
+void Transform::setGlobalRotation(const core::Quaternion<>& gr)
 {
 	if (_parent != nullptr)
 	{
-		core::Quaternion<> gpri = _parent->getGlobalRotation(); // TODO
-		gpri.inverse();
+		core::Quaternion<> gpri = _parent->getGlobalRotation().inversed(); 
 		_localRotation = gpri * gr;
 	}
 	else
@@ -51,9 +50,9 @@ void Transform::setGlobalRotation(core::Quaternion<> gr)
 	}
 }
 
-void Transform::setLocalRotation(core::Quaternion<> lr) { _localRotation = lr; }
+void Transform::setLocalRotation(const core::Quaternion<>& lr) { _localRotation = lr; }
 
-void Transform::setGlobalScale(core::Vector3<> gs)
+void Transform::setGlobalScale(const core::Vector3<>& gs)
 {
 	if (_parent != nullptr)
 	{
@@ -70,7 +69,7 @@ void Transform::setGlobalScale(core::Vector3<> gs)
 	}
 }
 
-void Transform::setLocalScale(core::Vector3<> ls) { _localScale = ls; }
+void Transform::setLocalScale(const core::Vector3<>& ls) { _localScale = ls; }
 
 core::Vector3<> Transform::getGlobalPosition() const
 {
@@ -199,12 +198,12 @@ void Transform::detachChildren()
 	_children.clear();
 }
 
-void Transform::translate(core::Vector3<> t)
+void Transform::translate(const core::Vector3<>& t)
 {
 	_localPosition = _localPosition + t;
 }
 
-void Transform::rotate(core::Quaternion<> q)
+void Transform::rotate(const core::Quaternion<>& q)
 {
 	_localRotation = q * _localRotation; // en este orden
 }
@@ -212,23 +211,20 @@ void Transform::rotate(core::Quaternion<> q)
 void Transform::rotate(core::Vector3<> v)
 {
 	//core::Quaternion<> q(v); 
-	//rotate(q);
+	//rotate();
 }
 
 core::Vector3<> Transform::right() const
 {
-	//return (getGlobalRotation() * Vector3<>(1, 0, 0)).normalized();
-	return core::Vector3();
+	return (getGlobalRotation() * core::Vector3<>(1, 0, 0)).normalized();
 }
 
 core::Vector3<> Transform::up() const
 {
-	//return (getGlobalRotation() * Vector3<>(0, 1, 0)).normalized();
-	return core::Vector3();
+	return (getGlobalRotation() * core::Vector3<>(0, 1, 0)).normalized();
 }
 
 core::Vector3<> Transform::forward() const
 {
-	//return (getGlobalRotation() * Vector3<>(0, 0, 1)).normalized();
-	return core::Vector3();
+	return (getGlobalRotation() * core::Vector3<>(0, 0, 1)).normalized();
 }
