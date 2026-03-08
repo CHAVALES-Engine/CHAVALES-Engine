@@ -27,6 +27,7 @@ namespace core
 		void setAlive(bool a);
 		void setVisible(bool v);
 		void setEnabled(bool e);
+		void setDontDestroyOnLoad(bool ddol);
 		void setScene(Scene* s);
 		void setGroupId(grpId_t id);
 		void setName(const std::string& n);
@@ -35,6 +36,7 @@ namespace core
 		bool isAlive() const;
 		bool isVisible() const;
 		bool isEnabled() const;
+		bool getDontDestoroyOnLoad() const;
 		const Scene* getScene() const;
 		grpId_t getGroupId() const;
 		//bool inGroup(grpId_t id) const;
@@ -114,5 +116,7 @@ namespace core
 		Scene* scene;
 		grpId_t groupId;
 		std::string name;
+		bool dontDestroyOnLoad;
+		
 	};
 } // end of name space

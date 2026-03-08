@@ -26,7 +26,7 @@ struct scene
 	sceneName name = " ";
 };
 
-using stateMachine = std::unordered_map<sceneID, scenePtr>;
+//using stateMachine = std::unordered_map<sceneID, scenePtr>;
 using nameToID = std::unordered_map<sceneName, sceneID>;
 
 class ENGINE_API StateMachine
@@ -99,7 +99,7 @@ private:
 	 * @brief Devuelve el ID interno asociado a la clave n.
 	 * @param n - Nombre de la escena a traducir.
 	 */
-	uint64_t _parseNameToID(std::string n);
+	//uint64_t _parseNameToID(std::string n);
 
 	/**
 	 * @brief Tiempo desde la ultima actualizacion.
@@ -109,12 +109,12 @@ private:
 	/**
 	 * @brief Mapa de escenas.
 	 */
-	stateMachine _stateMachine;
+	//stateMachine _stateMachine;
 
 	/**
 	 * @brief Mapa de nombres de escenas e ID.
 	 */
-	nameToID _nameToID;
+	//nameToID _nameToID;
 
 	/**
 	 * @brief ID y referencia de la escena activa actualmente.
@@ -136,4 +136,3 @@ private:
 	 */
 	static uint64_t _getNextId() { return ++_nextId; }
 };
-

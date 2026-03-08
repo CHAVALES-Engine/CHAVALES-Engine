@@ -29,6 +29,7 @@ namespace core
 	void Entity::setAlive(bool a) { alive = a; }
 	void Entity::setVisible(bool v) { visible = v; }
 	void Entity::setEnabled(bool e) { enabled = e; }
+	void Entity::setDontDestroyOnLoad(bool ddol) { dontDestroyOnLoad = ddol; }
 	void Entity::setScene(Scene* s) { scene = s; }
 	void Entity::setGroupId(grpId_t id) { groupId = id; }
 	void Entity::setName(const std::string& n) { name = n; }
@@ -36,6 +37,9 @@ namespace core
 	bool Entity::isAlive() const { return alive; }
 	bool Entity::isVisible() const { return visible; }
 	bool Entity::isEnabled() const { return enabled; }
+
+	bool Entity::getDontDestoroyOnLoad() const { return dontDestroyOnLoad; }
+
 	const Scene* Entity::getScene() const { return scene; }
 	grpId_t Entity::getGroupId() const { return groupId; }
 	//bool core::Entity::inGroup(grpId_t id) const;

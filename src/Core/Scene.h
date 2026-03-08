@@ -30,6 +30,8 @@ namespace core
 		virtual void onDisable();
 		virtual void onDestroy();
 
+		void endGame();
+
 		void addEntity(core::Entity* e);
 		std::vector<Entity*> getEntities() const;
 

@@ -104,6 +104,21 @@ void core::Scene::onDestroy()
 	{
 		for (auto e : _entities)
 		{
+			// solo se destruye si debe
+			if (!e->getDontDestoroyOnLoad())
+			{
+				e->destroy();
+			}
+		}
+	}
+}
+
+void core::Scene::endGame()
+{
+	if (!_entities.empty())
+	{
+		for (auto e : _entities)
+		{
 			e->destroy();
 		}
 	}
