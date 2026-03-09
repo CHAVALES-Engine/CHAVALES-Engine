@@ -11,7 +11,7 @@ void core::TimerManager::update()
 
 		if (t.timeLeftMS() > 0) break;
 
-		Debug::warning("Timer ", t.id(), " ended");
+		Debug::warning("Timer: ", t.id(), " ended");
 		t.executeFunc();
 		_timers.pop();
 	}

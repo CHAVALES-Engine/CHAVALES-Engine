@@ -39,7 +39,6 @@ namespace core
 				_subscribers[i](args...);
 			}
 		}
-
 		/**
 		* @brief Suscribe un puntero a funcion al mensaje.
 		*
@@ -99,7 +98,6 @@ namespace core
 		*/
 		template<typename... Args>
 		bool createMessage(const std::string& name);
-
 		/**
 		* @brief Devuelve un mensaje dado un nombre.
 		*
@@ -109,7 +107,14 @@ namespace core
 		*/
 		template<typename... Args>
 		Message<Args...>* getMessage(const std::string& name);
-
+		/**
+		* @brief Subscribe una funcion a un mensaje
+		*
+		* @param name - Nombre del mensaje.
+		* @param func - Funcion a suscribir.
+		*
+		* @returns bool - Si se ha podido suscribir.
+		*/
 		template<typename... Args>
 		bool subscribeInMessage(const std::string& name, std::function < void(Args...) > func);
 
