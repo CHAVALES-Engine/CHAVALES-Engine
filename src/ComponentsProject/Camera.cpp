@@ -5,13 +5,14 @@ Camera::Camera() : _FOVy(45.0f), _nearClipDistance(0.1f), _farClipDistance(1000.
 
 Camera::~Camera() {}
 
-void Camera::init(const Properties& p)
+bool Camera::init(const Properties& p)
 {
 	_FOVy = getProperty<float>(p, "FOVy");
 	_nearClipDistance = getProperty<float>(p, "near clip distance");
 	_farClipDistance = getProperty<float>(p, "far clip distance");
 	_focalLength = getProperty<float>(p, "focal length");
 	_bgColor = getProperty<core::Color>(p, "background color");
+	return true;
 }
 
 void Camera::setFOVy(const float FOVy)

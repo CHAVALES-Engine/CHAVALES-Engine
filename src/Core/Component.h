@@ -51,7 +51,7 @@ namespace core
 		/**
 		* @brief Metodo que inicializa las variables del componente tras ser creado
 		*/
-		virtual void init(const Properties& p) {} // analogo al awake en unity
+		virtual bool init(const Properties& p) { return true;  } 
 
 		/**
 		* @brief Comportamiento cuando la escena comienza y ya se han inicializado el resto de entidades
@@ -127,7 +127,7 @@ namespace core
 		* @param param -
 		*/
 		template <typename T>
-		inline void setProperty(
+		inline bool setProperty(
 			const Properties& props,
 			const std::string& key,
 			T& param
@@ -140,18 +140,20 @@ namespace core
 			{
 				Debug::error("COMPONENT: No se encontró el parámetro ", key, " en las propiedades del componente.");
 				// devolvemos valor por defecto
-				return;
+				return false;
 			}
 
 			// --- comprobamos si esta tipificado a lo requerido
 			if (const T* pval = std::get_if<T>(&it->second))
 			{
 				param = *pval;
+				return true;
 			}
 			else
 			{
 				Debug::error("COMPONENT: No se pudo tipar el parámetro ", key, " en las propiedades del componente.");
 			}
+			return false;
 		}
 
 	protected:

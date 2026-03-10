@@ -10,13 +10,14 @@ class ComponentTest : public core::Component
 {
 	int health = 0;
 
-	void init(const Properties& p) override
+	bool init(const Properties& p) override
 	{
 		// ejemplos de inicializacion:
 		// ejemplo 1
 		setProperty(p, "health", health);
 		// ejemplo 2
 		health = getProperty<int>(p, "health");
+		return true;
 	}
 	
 	void ready() override

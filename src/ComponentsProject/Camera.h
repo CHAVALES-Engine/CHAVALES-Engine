@@ -19,12 +19,12 @@ public:
 	Camera();
 	~Camera() override;
 
-	void init(const Properties& p) override;
+	bool init(const Properties& p) override;
 
 	void setFOVy(const float FOVy);
 	void setNearClipDistance(const float& nearClipDistance);
 	void setFarClipDistance(const float& farClipDistance);
-	void setFocalLength(const const float& focalLength);
+	void setFocalLength(const float& focalLength);
 	void setBgColor(const core::Color& bgColor);
 
 	float getFOVy() const;

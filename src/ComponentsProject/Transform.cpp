@@ -15,11 +15,12 @@ Transform::Transform() :
 
 Transform::~Transform() {}
 
-void Transform::init(const Properties& p)
+bool Transform::init(const Properties& p)
 {
 	_localPosition = getProperty<core::Vector3<>>(p, "position");
 	_localRotation = getProperty<core::Quaternion<>>(p, "rotation");
 	_localScale = getProperty<core::Vector3<>>(p, "scale");
+	return true;
 }
 
 void Transform::setGlobalPosition(core::Vector3<> gp)
