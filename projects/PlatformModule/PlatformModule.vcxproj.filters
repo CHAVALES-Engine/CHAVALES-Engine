@@ -23,5 +23,8 @@
     <ClInclude Include="..\..\src\PlatformModule\PlatformModule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\PlatformModule\VirtualDevice.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

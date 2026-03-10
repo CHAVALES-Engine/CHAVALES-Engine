@@ -69,10 +69,13 @@
     <ClInclude Include="..\..\src\Core\Vector4.h">
       <Filter>Header Files\Defs</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Core\TimeManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\Core\Timer.h">
+      <Filter>Header Files\Defs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Core\TimeManager.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Core\InputDefs.h">
       <Filter>Header Files\Defs</Filter>
     </ClInclude>
   </ItemGroup>

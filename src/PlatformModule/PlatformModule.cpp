@@ -48,13 +48,17 @@ const HWND PlatformModule::getWindowHandle() const
 	return _windowHandle;
 }
 
-const bool PlatformModule::syncronize() const
+const bool PlatformModule::syncronize()
 {
 	SDL_Event event;
-
+	
 	while (SDL_PollEvent(&event)) {
 		if (event.type == SDL_EVENT_QUIT) {
 			return true;
+		}
+		else
+		{
+			processEvent(event);
 		}
 	}
 	return false;
@@ -70,6 +74,6 @@ const int PlatformModule::getWindowHeight() const
 	return SCREEN_HEIGHT;
 }
 
-const void PlatformModule::processEvent(SDL_Event event)
+const void PlatformModule::processEvent(const SDL_Event& event)
 {
 }

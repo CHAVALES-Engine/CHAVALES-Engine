@@ -101,6 +101,7 @@
     <ClInclude Include="..\..\src\Core\Defs.h" />
     <ClInclude Include="..\..\src\Core\EngineAPI.h" />
     <ClInclude Include="..\..\src\Core\Entity.h" />
+    <ClInclude Include="..\..\src\Core\InputDefs.h" />
     <ClInclude Include="..\..\src\Core\Maths.h" />
     <ClInclude Include="..\..\src\Core\Message.h" />
     <ClInclude Include="..\..\src\Core\PluginSDK.h" />

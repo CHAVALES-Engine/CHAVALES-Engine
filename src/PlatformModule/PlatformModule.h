@@ -47,7 +47,7 @@ public:
 	*
 	* @return bool - Booleano para saber si se ha cerrado la ventana
 	*/
-	const bool syncronize() const;
+	const bool syncronize();
 	/**
 	* @brief Devuelve anchura de la ventana
 	*/
@@ -60,7 +60,7 @@ private:
 	/**
 	* @brief procesa un evento de sdl
 	*/
-	const void processEvent(SDL_Event event);
+	const void processEvent(const SDL_Event& event);
 
 	/**
 	* @brief Ventana de SDL
