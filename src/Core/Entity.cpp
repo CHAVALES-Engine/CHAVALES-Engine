@@ -31,6 +31,7 @@ namespace core
 	void Entity::setEnabled(bool e) { enabled = e; }
 	void Entity::setDontDestroyOnLoad(bool ddol) { dontDestroyOnLoad = ddol; }
 	void Entity::setScene(Scene* s) { scene = s; }
+	void Entity::setEntityID(core::entityID id) { entityID = id; }
 	void Entity::setGroupId(grpId_t id) { groupId = id; }
 	void Entity::setName(const std::string& n) { name = n; }
 
@@ -41,6 +42,7 @@ namespace core
 	bool Entity::getDontDestoroyOnLoad() const { return dontDestroyOnLoad; }
 
 	const Scene* Entity::getScene() const { return scene; }
+	entityID Entity::getEntityID() { return entityID; }
 	grpId_t Entity::getGroupId() const { return groupId; }
 	//bool core::Entity::inGroup(grpId_t id) const;
 	const std::string& Entity::getName() const { return name; }

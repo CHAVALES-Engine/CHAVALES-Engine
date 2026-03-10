@@ -21,6 +21,12 @@ namespace Ogre
     class Camera;
 }
 
+struct EngineNode
+{
+    Ogre::SceneNode* sceneNode;
+    uint64_t nodeID;
+};
+
 class ImGuiManager
 {
 public:
@@ -51,6 +57,24 @@ public:
     */
     void cleanScene();
 
+    //Metodos transform
+    /*
+    * @brief Leer posicion del nodo.
+    */
+    core::Vector3<float> getNodePosition(uint64_t id);
+    /*
+    * @brief Establecer posicion del nodo.
+    */
+    void setNodePosition(int id, core::Vector3<float> pos);
+    /*
+    * @brief Leer orientacion del nodo. Relativo a world space.
+    */
+    core::Vector3<float> getNodeRotation(uint64_t id);
+    /*
+    * @brief Establecer orientacion del nodo. Relativo a world space.
+    */
+    void setNodeRotation(uint64_t id, core::Vector3<float> lookAt);
+
     //Metodos viewport
     /*
     * @brief Cambiar color de fondo.
@@ -65,27 +89,11 @@ public:
     /*
     * @brief Borrar camara por id. A las camaras creadas posteriormente se les resta el id en 1.
     */
-    void deleteCamera(int id);
+    void deleteCamera(uint64_t id);
     /*
     * @brief El viewport mostrara la vista de esta camara.
     */
-    void setActiveCamera(int id);
-    /*
-    * @brief Leer posicion de la camara.
-    */
-    core::Vector3<float> getCameraPosition(int id);
-    /*
-    * @brief Establecer posicion de la camara.
-    */
-    void setCameraPosition(int id, core::Vector3<float> pos);
-    /*
-    * @brief Leer orientacíon de la camara. Relativo a world space.
-    */
-    core::Vector3<float> getCameraLookAt(int id);
-    /*
-    * @brief Establecer orientacion de la camara. Relativo a world space.
-    */
-    void setCameraLookAt(int id, core::Vector3<float> lookAt);
+    void setActiveCamera(uint64_t id);
     /*
     * @brief Limpiar camaras. Deja solo la main camera en posicion inicial.
     */
@@ -110,9 +118,7 @@ public:
 
     void shutdown();
 private:
-    std::vector<Ogre::SceneNode*> _cameraNodes;
+    std::vector<EngineNode> _engineNodes;
     std::vector<Ogre::Camera*> _cameras;
-    std::vector<Ogre::SceneNode*> _lights;
-    std::vector<Ogre::SceneNode*> _entities;
     ImGuiManager* _ui;
 };

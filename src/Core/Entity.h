@@ -13,6 +13,8 @@ class Scene;
 
 namespace core
 {
+	using entityID = uint64_t;
+
 	class ENGINE_API Entity
 	{
 	public:
@@ -29,6 +31,7 @@ namespace core
 		void setEnabled(bool e);
 		void setDontDestroyOnLoad(bool ddol);
 		void setScene(Scene* s);
+		void setEntityID(entityID id);
 		void setGroupId(grpId_t id);
 		void setName(const std::string& n);
 
@@ -38,6 +41,7 @@ namespace core
 		bool isEnabled() const;
 		bool getDontDestoroyOnLoad() const;
 		const Scene* getScene() const;
+		entityID getEntityID();
 		grpId_t getGroupId() const;
 		//bool inGroup(grpId_t id) const;
 		const std::string& getName() const;
@@ -114,6 +118,7 @@ namespace core
 		bool visible;
 		bool enabled;
 		Scene* scene;
+		entityID entityID;
 		grpId_t groupId;
 		std::string name;
 		bool dontDestroyOnLoad;

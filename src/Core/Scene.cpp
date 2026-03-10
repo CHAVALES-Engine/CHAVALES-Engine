@@ -2,12 +2,13 @@
 
 #include <cstdint>
 
+#include "EngineAPI.h"
 #include "Entity.h"
 
 class Entity;
 
 core::Scene::Scene(sceneName name) :
-	_name(name)
+	_name(name), _nextEntityID(0)
 {
 	_active = false;
 }
@@ -126,6 +127,7 @@ void core::Scene::endGame()
 
 void core::Scene::addEntity(Entity* e)
 {
+	e->setEntityID(_nextEntityID++);
 	_entities.push_back(e);
 }
 

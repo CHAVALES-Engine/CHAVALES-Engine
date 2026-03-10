@@ -12,6 +12,7 @@ namespace core
 	class Entity;
 	using sceneName = std::string;
 	using sceneID = uint64_t;
+	using entityID = uint64_t;
 
 	class ENGINE_API Scene
 	{
@@ -48,7 +49,7 @@ namespace core
 	private:
 		sceneName _name;
 		sceneID _id;
-
+		entityID _nextEntityID;
 		bool _active = false;
 
 		std::vector<core::Entity*> _entities;

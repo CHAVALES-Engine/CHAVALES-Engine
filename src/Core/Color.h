@@ -29,6 +29,12 @@ namespace core
 	class Color : public Vector4<float>
 	{
 	public:
+		// --- Constructor por defecto (negro opaco)
+		inline Color()
+			: Vector4<float>(0.0f, 0.0f, 0.0f, 1.0f)
+		{
+		}
+		// --- Constructor con RGBA
 		inline Color(float r, float g, float b, float a) :
 			Vector4(r, g, b, a)
 		{
