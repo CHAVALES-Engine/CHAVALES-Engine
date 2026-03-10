@@ -11,39 +11,51 @@ using namespace physx;
 //{
 //}
 
+PxDefaultAllocator		gAllocator;
+PxDefaultErrorCallback	gErrorCallback;
+
+PxFoundation* gFoundation = NULL;
+PxPhysics* gPhysics = NULL;
+PxPvd* gPvd = NULL;
+
 PhysicsModule::PhysicsModule()
 {
 }
 
 bool PhysicsModule::Init()
 {
-    //gFoundation = PxCreateFoundation(
-    //    PX_PHYSICS_VERSION,
-    //    gAllocator,
-    //    gErrorCallback
-    //);
+    gFoundation = PxCreateFoundation(
+        PX_PHYSICS_VERSION,
+        gAllocator,
+        gErrorCallback
+    );
 
-    //if (!gFoundation)
-    //    return false;
+    if (!gFoundation)
+        return false;
 
-    //gPvd = PxCreatePvd(*gFoundation);
+    gPvd = PxCreatePvd(*gFoundation);
 
-    //PxPvdTransport* transport =
-    //    PxDefaultPvdSocketTransportCreate("127.0.0.1", 5425, 10);//debugger visual 
+    if (gPvd)
+    {
+        PxPvdTransport* transport =
+            PxDefaultPvdSocketTransportCreate("127.0.0.1", 5425, 10);
 
-    //if (gPvd)
-    //    gPvd->connect(*transport, PxPvdInstrumentationFlag::eALL);
+        if (transport)
+            gPvd->connect(*transport, PxPvdInstrumentationFlag::eALL);
+    }
 
-    //PxTolerancesScale scale;
+    PxTolerancesScale scale;
 
-    //gPhysics = PxCreatePhysics(
-    //    PX_PHYSICS_VERSION,
-    //    *gFoundation,
-    //    scale,
-    //    true,
-    //    gPvd
-    //);
+    gPhysics = PxCreatePhysics(
+        PX_PHYSICS_VERSION,
+        *gFoundation,
+        scale,
+        true,
+        gPvd
+    );
 
-    return /*gPhysics != nullptr*/true;
+    PxInitExtensions(*gPhysics, gPvd);
+
+    return gPhysics != nullptr /*true*/;
 }
 
