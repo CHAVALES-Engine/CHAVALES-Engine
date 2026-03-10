@@ -33,13 +33,13 @@ public:
 	/// <param name="sound3D">If the sound is 3D or not</param>
 	/// <param name="soundLooping">If the sound loops infinetly or not</param>
 	/// <param name="soundStream">If the sound is Stream or CompressedSound</param>
-	void loadSound(const char* path, std::string id, bool sound3D = true, bool soundLooping = false, bool soundStream = false);
+	bool loadSound(const char* path, std::string id, bool sound3D = true, bool soundLooping = false, bool soundStream = false);
 
 	/// <summary>
 	/// If the sound isn´t playing anymore it unloads it
 	/// </summary>
 	/// <param name="id">Id of the sound</param>
-	void unloadSound(std::string id);
+	bool unloadSound(std::string id);
 
 	/// <summary>
 	/// It searches for a sound, if it is found yhe sound is associated to a channel,then it plays
@@ -55,14 +55,14 @@ public:
 	/// </summary>
 	/// <param name="chID">ID of the sound we are looking for</param>
 	/// <param name="newVolume">New volume the sound is going to get</param>
-	void setChannelVolume(int chID, float newVolume = 0.0f);
+	bool setChannelVolume(int chID, float newVolume = 0.0f);
 
 	/// <summary>
 	/// Return if the channels is looping or not(0: no loop, 1: only plays one time, -1: loops infinently)
 	/// </summary>
 	/// <param name="chID">ID of the sound we are looking for</param>
 	/// <param name="typeOfLooping">Retrives the type of looping</param>
-	void getLooping(int chID, int* typeOfLooping);
+	bool getLooping(int chID, int* typeOfLooping);
 
 	bool stopPlaying(int chID);
 
