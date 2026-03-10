@@ -26,7 +26,7 @@ namespace core
 
 		virtual void fixedUpdate();
 		virtual void update(uint64_t dT);
-		virtual void render();
+		//virtual void render();
 
 		virtual void onDisable();
 		virtual void onDestroy();

@@ -86,16 +86,16 @@ namespace core
 		}
 	}
 
-	void Entity::render() const
-	{
-		if (!visible) return;
+	//void Entity::render() const
+	//{
+	//	if (!visible) return;
 
-		for (const std::shared_ptr<Component>& c : components)
-		{
-			if (c->isEnabled())
-				c->render();
-		}
-	}
+	//	for (const std::shared_ptr<Component>& c : components)
+	//	{
+	//		if (c->isEnabled())
+	//			c->render();
+	//	}
+	//}
 
 	void Entity::destroy()
 	{

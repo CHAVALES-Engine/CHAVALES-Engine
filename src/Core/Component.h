@@ -73,10 +73,10 @@ namespace core
 		*/
 		virtual void update(uint64_t deltaTime) {}
 
-		/**
-		* @brief Comportamiento de renderizado del componente
-		*/
-		virtual void render() const {}
+		///**
+		//* @brief Comportamiento de renderizado del componente
+		//*/
+		//virtual void render() const {}
 
 		/**
 		* @brief Comportamiento cuando el componente se desactiva

@@ -71,7 +71,7 @@ namespace core
 		/*
 		* @brief
 		*/
-		void render() const;
+		//void render() const;
 		/*
 		* @brief
 		*/

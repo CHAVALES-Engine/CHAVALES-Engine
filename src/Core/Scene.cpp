@@ -75,16 +75,16 @@ void core::Scene::update(uint64_t dT)
 	}
 }
 
-void core::Scene::render()
-{
-	if (!_entities.empty())
-	{
-		for (auto e : _entities)
-		{
-			e->render();
-		}
-	}
-}
+//void core::Scene::render()
+//{
+//	if (!_entities.empty())
+//	{
+//		for (auto e : _entities)
+//		{
+//			e->render();
+//		}
+//	}
+//}
 
 void core::Scene::onDisable()
 {
