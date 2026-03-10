@@ -13,58 +13,67 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Defs">
+      <UniqueIdentifier>{d4af420f-c39f-4879-8c71-b6d4b0a4a87c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities">
+      <UniqueIdentifier>{f9a9e1fe-e0b3-46bd-aff3-f303cacdbd3b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\Core\Debug.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Core\Entity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Core\Component.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Core\Maths.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Core\Vector4.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Core\Vector2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Core\Vector3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Core\Color.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Core\Scene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Core\Clock.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Core\Timer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Core\Quaternion.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\Core\PluginSDK.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Core\Message.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Core\Crypto.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Core\EngineAPI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\Core\Clock.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Core\Crypto.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Core\Debug.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Core\Maths.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Core\Message.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Core\Color.h">
+      <Filter>Header Files\Defs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Core\Component.h">
+      <Filter>Header Files\Defs</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\Core\Defs.h">
+      <Filter>Header Files\Defs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Core\Entity.h">
+      <Filter>Header Files\Defs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Core\Quaternion.h">
+      <Filter>Header Files\Defs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Core\Scene.h">
+      <Filter>Header Files\Defs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Core\Vector2.h">
+      <Filter>Header Files\Defs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Core\Vector3.h">
+      <Filter>Header Files\Defs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Core\Vector4.h">
+      <Filter>Header Files\Defs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Core\TimeManager.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Core\Timer.h">
+      <Filter>Header Files\Defs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -80,10 +89,10 @@
     <ClCompile Include="..\..\src\Core\Clock.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Core\Timer.cpp">
+    <ClCompile Include="..\..\src\Core\Message.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Core\Message.cpp">
+    <ClCompile Include="..\..\src\Core\TimeManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

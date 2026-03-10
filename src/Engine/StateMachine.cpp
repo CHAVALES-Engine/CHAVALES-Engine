@@ -10,7 +10,7 @@
 
 #include "Debug.h"
 #include "GameLoader.h"
-#include "Timer.h"
+#include "TimeManager.h"
 
 class GameLoader;
 
