@@ -188,7 +188,8 @@ namespace Input
 		KEY_KP_7          = 179,
 		KEY_KP_8          = 180,
 		KEY_KP_9          = 181,
-		KEY_UNKNOWN       = 182
+		KEY_UNKNOWN       = 182,
+		KEY_COUNT
 	};
 
 	// Raton
@@ -199,6 +200,7 @@ namespace Input
 		MOUSE_BUTTON_MIDDLE  = 2,
 		MOUSE_BUTTON_X1      = 3,  // boton lateral trasero
 		MOUSE_BUTTON_X2      = 4,  // boton lateral delantero
+		MOUSE_BUTTON_COUNT
 	};
 
 	enum MouseAxis : uint8_t
@@ -209,6 +211,7 @@ namespace Input
 		MOUSE_AXIS_REL_Y     = 3,  // movimiento relativo Y (delta)
 		MOUSE_AXIS_SCROLL_X  = 4,  // rueda horizontal
 		MOUSE_AXIS_SCROLL_Y  = 5,  // rueda vertical
+		MOUSE_AXIS_COUNT
 	};
 
 	// Gamepad
@@ -240,6 +243,7 @@ namespace Input
 		BUTTON_GP_8            = 23,
 		BUTTON_GP_9            = 24,
 		BUTTON_GP_10           = 25,
+		BUTTON_GP_COUNT
 	};
 
 	enum GamepadAxis : uint8_t
@@ -250,6 +254,8 @@ namespace Input
 		GAMEPAD_AXIS_RIGHT_Y       = 3,  // stick derecho, vertical      [-1, 1]
 		GAMEPAD_AXIS_LEFT_TRIGGER  = 4,  // gatillo izquierdo            [ 0, 1]
 		GAMEPAD_AXIS_RIGHT_TRIGGER = 5,  // gatillo derecho              [ 0, 1]
+		GAMEPAD_AXIS_COUNT
 	};
 
+	
 } // namespace Input
