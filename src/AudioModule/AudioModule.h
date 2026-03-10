@@ -64,6 +64,11 @@ public:
 	/// <param name="typeOfLooping">Retrives the type of looping</param>
 	void getLooping(int chID, int* typeOfLooping);
 
+	/// <summary>
+	/// Stops the disire sound
+	/// </summary>
+	/// <param name="chID">ID of the sound we are looking for</param>
+	/// <returns></returns>
 	bool stopPlaying(int chID);
 
 	/// <summary>
