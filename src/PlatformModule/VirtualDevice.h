@@ -3,18 +3,9 @@
 
 #include "InputDefs.h"
 
-namespace Input
-{
-    enum Key;
-    enum MouseButton;
-    enum MouseAxis;
-    enum GamepadButton;
-    enum GamepadAxis;
-}
-
 class PlatformModule;
 
-namespace Input
+namespace input
 {
 	// Clase para registrar el estado del mando
     class VirtualDevice {

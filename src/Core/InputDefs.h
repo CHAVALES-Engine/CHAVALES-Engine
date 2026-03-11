@@ -1,7 +1,8 @@
 #pragma once
 #include <cstdint>
+#include <variant>
 
-namespace Input
+namespace input
 {
 	// Teclado
 	enum Key : uint8_t
@@ -257,5 +258,12 @@ namespace Input
 		GAMEPAD_AXIS_COUNT
 	};
 
+	// Input action
+	using InputAction = std::variant<
+		Key, 
+		MouseButton, 
+		MouseAxis, 
+		GamepadButton, 
+		GamepadAxis>;
 	
 } // namespace Input

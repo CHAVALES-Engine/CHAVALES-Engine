@@ -100,9 +100,11 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\PlatformModule\InputMapper.cpp" />
     <ClCompile Include="..\..\src\PlatformModule\PlatformModule.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\src\PlatformModule\InputMapper.h" />
     <ClInclude Include="..\..\src\PlatformModule\PlatformModule.h" />
     <ClInclude Include="..\..\src\PlatformModule\VirtualDevice.h" />
   </ItemGroup>
