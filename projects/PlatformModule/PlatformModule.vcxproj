@@ -102,6 +102,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\src\PlatformModule\InputMapper.cpp" />
     <ClCompile Include="..\..\src\PlatformModule\PlatformModule.cpp" />
+    <ClCompile Include="..\..\src\PlatformModule\VirtualDevice.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\PlatformModule\InputMapper.h" />

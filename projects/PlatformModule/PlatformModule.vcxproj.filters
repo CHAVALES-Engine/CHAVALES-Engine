@@ -24,6 +24,9 @@
     <ClCompile Include="..\..\src\PlatformModule\InputMapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\PlatformModule\VirtualDevice.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\PlatformModule\PlatformModule.h">
