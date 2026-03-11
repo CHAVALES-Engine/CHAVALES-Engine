@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Cousine:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+:root {
+    --code-font-family: "Cousine", monospace;
+    --page-font-family: "Cousine", monospace;
+    /* Ajuste de tamanyo para Cousine*/
+    --code-font-size: 13px;
+    /* Colores personalizados */
+    --primary-color: #930064 !important;;            
+    --primary-dark-color: #DF6FA9 !important;;              /* Color para hover */
+    --page-background-color: #1E1E1E !important;;           /* Fondo */
+    --page-foreground-color: #F7F8FF !important;;           /* Texto */
+    --page-secondary-foreground-color: #DF6FA9 !important;; /* Texto secundario */
+    --separator-color: #252425 !important;;                 /* Separadores */
+    --side-nav-background-color: #252425 !important;;       /* Fondo del menu lateral */
+    --side-nav-height: 260px !important;
+}
+
+/* Fuerza la fuente directamente en los elementos */
+body,
+div,
+p,
+td,
+li,
+a,
+span,
+h1, h2, h3, h4, h5, h6,
+.title,
+.contents,
+#nav-tree,
+#side-nav,
+#doc-content {
+    font-family: "Cousine", monospace !important;
+}
+code,
+pre,
+.fragment,
+.line {
+    font-family: "Cousine", monospace !important;
+    font-size: 13px !important;
+}
+
+#projectname {
+    display: none !important;
+}
+#titlearea table {
+    width: 100% !important;
+}
+
+#projectlogo img {
+    height: 90px !important;
+    width: auto !important;
+    display: block !important;
+    margin: 0 auto !important;
+}
+
+#side-nav {
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100vh !important;
+    background-color: var(--side-nav-background-color) !important;
+}
+
+/* Flechas del nav tree - color personalizado */
+span.arrowhead {
+    border-color: #9fd055 !important;
+}
+
+.selected span.arrowhead {
+    border-color: #45818E !important;
+}
+
+/* También sobreescribe la variable que usa doxygen-awesome */
+html {
+    --primary-light-color: #9fd055 !important;
+}
