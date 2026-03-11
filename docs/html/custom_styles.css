@@ -1,0 +1,161 @@
+@import url('https://fonts.googleapis.com/css2?family=Cousine:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+:root {
+    --code-font-family: "Cousine", monospace;
+    --page-font-family: "Cousine", monospace;
+    /* Ajuste de tamanyo para Cousine*/
+    --code-font-size: 13px;
+    /* Colores personalizados */
+    --primary-color: #930064 !important;;            
+    --primary-dark-color: #DF6FA9 !important;;              /* Color para hover */
+    --page-background-color: #1E1E1E !important;;           /* Fondo */
+    --page-foreground-color: #F7F8FF !important;;           /* Texto */
+    --page-secondary-foreground-color: #DF6FA9 !important;; /* Texto secundario */
+    --separator-color: #252425 !important;;                 /* Separadores */
+    --side-nav-background-color: #252425 !important;;       /* Fondo del menu lateral */
+    --side-nav-height: 260px !important;
+}
+
+/* Fuerza la fuente directamente en los elementos */
+body,
+div,
+p,
+td,
+li,
+a,
+span,
+h1, h2, h3, h4, h5, h6,
+.title,
+.contents,
+#nav-tree,
+#side-nav,
+#doc-content {
+    font-family: "Cousine", monospace !important;
+}
+code,
+pre,
+.fragment,
+.line {
+    font-family: "Cousine", monospace !important;
+    font-size: 13px !important;
+}
+
+#projectname {
+    display: none !important;
+}
+#titlearea table {
+    width: 100% !important;
+}
+
+/* Flechas del nav tree */
+span.arrowhead {
+    border-color: #9fd055 !important;
+}
+.selected span.arrowhead {
+    border-color: #45818E !important;
+}
+
+/* ── Tabla de funciones───────────────────────────────── */
+/* Oculta descripciones inline, separadores y params de template */
+table.memberdecls tr[class^='memdesc'],
+table.memberdecls tr.memSeparator,
+table.memberdecls .memTemplParams {
+    display: none !important;
+}
+
+/* Tabla general */
+table.memberdecls {
+    border: 5px solid var(--separator-color) !important;
+    overflow: hidden !important;
+    margin: 10px 0 !important;
+}
+
+/* Todas las celdas de filas de miembros y templates */
+table.memberdecls td.memItemLeft,
+table.memberdecls td.memItemRight,
+table.memberdecls td.memTemplItemLeft,
+table.memberdecls td.memTemplItemRight {
+    padding: 5px 10px !important;
+    border-radius: 2px !important;
+    border: none !important;
+    border-bottom: 2px solid var(--separator-color) !important;
+    background-color: transparent !important;
+    vertical-align: middle !important;
+    font-size: 13px !important;
+}
+
+/* Columna izquierda */
+table.memberdecls td.memItemLeft,
+table.memberdecls td.memTemplItemLeft {
+    color: #9fd055 !important;
+    width: 120px !important;
+    min-width: 80px !important;
+    border-right: 1px solid var(--separator-color) !important;
+}
+
+/* Hover */
+table.memberdecls tr[class^='memitem']:hover td,
+table.memberdecls tr[class^='memTemplItem']:hover td {
+    background-color: rgba(159, 208, 85, 0.06) !important;
+}
+
+/* ── Scrollbar global verde ───────────────────────────────── */
+
+/* Firefox */
+* {
+    scrollbar-color: #9fd055 var(--side-nav-background-color) !important;
+    scrollbar-width: thin !important;
+}
+
+/* Webkit (Chrome, Edge, Safari) */
+::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+}
+
+#custom-footer {
+    margin-top: 40px;
+    padding: 20px var(--spacing-xlarge);
+    border-top: 1px solid var(--separator-color);
+    background-color: var(--page-background-color);
+    color: var(--page-secondary-foreground-color);
+    font-size: 13px;
+}
+
+#footer-content {
+    max-width: var(--content-maxwidth);
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+#custom-footer a {
+    color: #9fd055 !important;
+    text-decoration: none;
+}
+
+#custom-footer a:hover {
+    text-decoration: underline;
+}
+
+
+#doc-content::-webkit-scrollbar {
+    width: 7px;
+}
+
+#doc-content::-webkit-scrollbar-track {
+    background: var(--side-nav-background-color);
+}
+
+#doc-content::-webkit-scrollbar-thumb {
+    background-color: #9fd055;
+    border-radius: 10px;
+    border: 2px solid var(--side-nav-background-color);
+}
+
+#doc-content::-webkit-scrollbar-thumb:hover {
+    background-color: #b8e86a;
+}
