@@ -5,15 +5,29 @@
  */
 
 
+#include <string>
+#include <unordered_map>
+#include <variant>
 #include <Windows.h>
-
 
 struct SDL_Window; 
 union SDL_Event;
 
+class VirtualDevice;
+enum Key;
+enum MouseButton;
+enum MouseAxis;
+enum GamepadButton;
+enum GamepadAxis;
+using InputAction = std::variant<
+	Key,
+	MouseButton,
+	MouseAxis,
+	GamepadButton,
+	GamepadAxis>;
+
 /**
 * @brief Modulo de Plataforma
-*
 */
 class PlatformModule
 {
@@ -56,12 +70,23 @@ public:
 	* @brief Devuelve altura de la ventana
 	*/
 	const int getWindowHeight() const;
+
+	const bool isKeyPressed() const;
+
+	const bool isKeyReleased() const;
+
+	const float getAxis() const;
+
+	const bool isActionPressed(std::string) const;
+
+	const bool isActionReleased(std::string) const;
+
 private:
 	/**
 	* @brief procesa un evento de sdl
 	*/
 	const void processEvent(const SDL_Event& event);
-
+	std::unordered_map<uint8_t, VirtualDevice> _virtualDevices;
 	/**
 	* @brief Ventana de SDL
 	*/

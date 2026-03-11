@@ -265,5 +265,7 @@ namespace input
 		MouseAxis, 
 		GamepadButton, 
 		GamepadAxis>;
+
+	using DeviceID = uint8_t;
 	
 } // namespace Input
