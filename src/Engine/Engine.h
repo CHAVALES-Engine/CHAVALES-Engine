@@ -16,6 +16,7 @@ class PhysicsModule;
 namespace core
 {
 	class Scene;
+	class Vector3<>;
 }
 
 class ENGINE_API Engine
@@ -36,10 +37,6 @@ public:
 	* @brief Cierre limpio de los modulos del motor
 	*/
 	static void release();
-	/*
-	* Idealmente este metodo sera eliminado
-	*/
-	static PlatformModule* getPlatform();
 	/*
 	* @brief Metodo que sincroniza los modulos con el juego
 	*/
@@ -92,21 +89,21 @@ private:
 	* @brief
 	*	Referencia al modulo de platform
 	*/
-	PlatformModule* _platformModule = nullptr;
+	std::unique_ptr<PlatformModule> _platformModule = nullptr;
 	/*
 	* @brief
 	*	Referencia al modulo de render
 	*/
-	RenderModule* _renderModule = nullptr;
+	std::unique_ptr<RenderModule> _renderModule = nullptr;
 	/*
 	* @brief
 	*	Referencia al modulo de audio
 	*/
-	AudioModule* _audioModule = nullptr;
+	std::unique_ptr<AudioModule> _audioModule = nullptr;
 	/*
 	* @brief
 	*	Referencia al modulo de fisica
 	*/
-	PhysicsModule* _physicsModule = nullptr;
-	std::function<void(std::string)> _addAndSetScene; 
+	std::unique_ptr<PhysicsModule> _physicsModule = nullptr;
+	std::function<void(std::string)> _addAndSetScene;
 };

@@ -1,6 +1,8 @@
 ﻿
 #include "Engine.h"
 
+#include <memory>
+
 #include "PlatformModule.h"
 #include "RenderModule.h"
 #include "AudioModule.h"
@@ -33,11 +35,6 @@ void Engine::release()
 	}
 }
 
-PlatformModule* Engine::getPlatform()
-{
-	return _instance->_platformModule;
-}
-
 const bool Engine::syncronize()
 {
 	return _platformModule->syncronize();
@@ -57,24 +54,24 @@ bool Engine::_initPriv()
 	//Uso unique_ptr entonces no hace falta delete porque se maneja solo
 	
 	//Platform
-	unique_ptr<PlatformModule> platform(new PlatformModule());
-	if (!platform->Init()) return false;
+	_platformModule = std::make_unique<PlatformModule>();
+	if (!_platformModule->Init()) return false;
 	//Render
-	unique_ptr<RenderModule> render(new RenderModule());
-	if (!render->Init(platform->getWindowHandle(), platform->getWindowWidth(), platform->getWindowHeight()))
+	_renderModule = std::make_unique<RenderModule>();
+	if (!_renderModule->Init(_platformModule->getWindowHandle(), _platformModule->getWindowWidth(), _platformModule->getWindowHeight()))
 		return false;
 	//Audio
-	unique_ptr<AudioModule> audio(new AudioModule());
-	if (!audio->Init()) return false;
+	_audioModule = std::make_unique<AudioModule>();
+	if (!_audioModule->Init()) return false;
 	//Fisicas
-	unique_ptr<PhysicsModule> physics(new PhysicsModule());
-	if (!physics->Init()) return false;
+	_physicsModule = std::make_unique<PhysicsModule>();
+	if (!_physicsModule->Init()) return false;
 
 	//paso propiedades al engine
-	_platformModule = platform.release();
+	/*_platformModule = platform.release();
 	_renderModule = render.release();
 	_audioModule = audio.release();
-	_physicsModule = physics.release();
+	_physicsModule = physics.release();*/
 
 	return true;
 }

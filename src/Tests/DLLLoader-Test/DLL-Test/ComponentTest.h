@@ -4,7 +4,7 @@
 #include "Debug.h"
 #include "Engine.h"
 #include "Entity.h"
-#include "Timer.h"
+#include "TimeManager.h"
 
 class ComponentTest : public core::Component
 {
