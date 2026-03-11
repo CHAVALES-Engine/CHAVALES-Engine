@@ -10,6 +10,10 @@
 using namespace std;
 Engine* Engine::_instance = nullptr;
 
+Engine::~Engine()
+{
+}
+
 bool Engine::init()
 {
 	// utilizamos este tipo de inicializacion para tener mas control
@@ -26,10 +30,10 @@ Engine* Engine::instance()
 void Engine::release()
 {
 	if (_instance) {
-		delete _instance->_platformModule;
+		/*delete _instance->_platformModule;
 		delete _instance->_audioModule;
 		delete _instance->_physicsModule;
-		delete _instance->_renderModule;
+		delete _instance->_renderModule;*/
 		delete _instance;
 		_instance = nullptr;
 	}
@@ -47,6 +51,28 @@ const void Engine::addAndSetScene(std::string n) const
 
 const void Engine::setAddAndSetScene(std::function<void(std::string)> func){
 	_addAndSetScene = func;
+}
+
+void Engine::loadSound(const char* path, std::string id, bool sound3D, bool soundLooping, bool soundStream)
+{
+	_audioModule->loadSound(path, id, sound3D, soundLooping, soundStream);
+}
+
+void Engine::unloadSound(std::string id)
+{
+	_audioModule->unloadSound(id);
+}
+void Engine::setChannelVolume(int chID, float newVolume) 
+{
+	_audioModule->setChannelVolume(chID, newVolume);
+}
+void Engine::getLooping(int chID, int* typeOfLooping) 
+{
+	_audioModule->getLooping(chID, typeOfLooping);
+}
+bool Engine::stopPlaying(int chID)
+{
+	return _audioModule->stopPlaying(chID);
 }
 
 bool Engine::_initPriv()

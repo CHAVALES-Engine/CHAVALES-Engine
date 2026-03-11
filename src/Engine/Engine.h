@@ -22,6 +22,7 @@ namespace core
 class ENGINE_API Engine
 {
 public:
+	~Engine();
 	/*
 	* @brief
 	*	Inicializacion de modulos
@@ -48,31 +49,13 @@ public:
 	const void setAddAndSetScene(std::function<void(std::string)> func);
 
 	//Métodos del modulo de audio para poder ejecutarlos desde el juego
-	inline void loadSound(const char* path, std::string id, bool sound3D = true, bool soundLooping = false, bool soundStream = false)
-	{
-		_audioModule->loadSound(path, id, sound3D, soundLooping, soundStream);
-	};
-	inline void unloadSound(std::string id)
-	{
-		_audioModule->unloadSound(id);
-	};
-	inline int playSound(std::string id, const core::Vector3<> vec3 = { 0.0f,0.0f,0.0f }, float soundVolume = 0.0f, int looping = 0)
-	{
-		return _audioModule->playSound(id, vec3, soundVolume, looping);
-	};
-	inline void setChannelVolume(int chID, float newVolume = 0.0f)
-	{
-		_audioModule->setChannelVolume(chID, newVolume);
-	};
-	inline void getLooping(int chID, int* typeOfLooping)
-	{
-		_audioModule->getLooping(chID, typeOfLooping);
-	};
+	void loadSound(const char* path, std::string id, bool sound3D = true, bool soundLooping = false, bool soundStream = false);
+	void unloadSound(std::string id);
+	int playSound(std::string id, const core::Vector3<> vec3 = { 0.0f,0.0f,0.0f }, float soundVolume = 0.0f, int looping = 0);
+	void setChannelVolume(int chID, float newVolume = 0.0f);
+	void getLooping(int chID, int* typeOfLooping);
 
-	inline bool stopPlaying(int chID)
-	{
-		return _audioModule->stopPlaying(chID);
-	};
+	bool stopPlaying(int chID);
 
 private:
 	/*
