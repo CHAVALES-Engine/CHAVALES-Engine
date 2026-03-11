@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Cousine:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+:root {
+    /* 2. Definimos Cousine para los elementos de codigo */
+    --code-font-family: "Cousine", monospace;
+    /* Aplica la tipografia a toda la pagina */
+    --page-font-family: "Cousine", monospace;
+    /* Ajuste de tamanyo para Cousine*/
+    --code-font-size: 13px;
+    /* Colores personalizados */
+    --primary-color: #930064;            
+    --primary-dark-color: #DF6FA9;       /* Color para hover */
+    --page-background-color: #1E1E1E;    /* Fondo */
+    --page-foreground-color: #F7F8FF;    /* Texto */
+    --page-secondary-foreground-color: #DF6FA9; /* Texto secundario */
+    --separator-color: #45818E;       /* Separadores */
+    --side-nav-background-color: #9FD055; /* Verde claro */
+}
