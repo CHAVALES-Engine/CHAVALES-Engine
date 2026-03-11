@@ -16,7 +16,7 @@ class PhysicsModule;
 namespace core
 {
 	class Scene;
-	class Vector3<>;
+	class Vector3;
 }
 
 class ENGINE_API Engine
