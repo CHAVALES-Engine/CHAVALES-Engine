@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.16.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>My Project: Main Page</title>
+<title>My Project: ChavalesEngine</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -19,6 +19,8 @@
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="custom_styles.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -26,6 +28,7 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="CHAVALES.png"/></td>
   <td id="projectalign">
    <div id="projectname">My Project
    </div>
@@ -88,19 +91,64 @@ $(function(){initNavTree('index.html','',''); });
 </div>
 </div>
 
-<div class="header">
-  <div class="headertitle"><div class="title">My Project Documentation</div></div>
+<div><div class="header">
+  <div class="headertitle"><div class="title">ChavalesEngine </div></div>
 </div><!--header-->
 <div class="contents">
+<div class="textblock"><p><a class="anchor" id="mainpage"></a></p>
+<div align="center"> <img src="../img/CHAVALES.png" alt="" width="750px" class="inline"/> <h3>Motor de videojuegos desarrollado para Proyectos 3</h3>
+</div><div align="center"> </div><div align="center"><em>Grado en Desarrollo de Videojuegos - Universidad Complutense de Madrid (UCM)</em></div><div align="center"> </div><hr  />
+<h1 class="doxsection"><a class="anchor" id="autotoc_md1"></a>
+Equipo de Desarrollo</h1>
+<table style="width:100%; border:none;">
+<tr>
+<td>• Nieves Alonso Gilsanz</td><td>• Andrés García Navarro</td></tr>
+<tr>
+<td>• Javier Gómez Zúñiga</td><td>• Pablo Iglesias Rodrigo</td></tr>
+<tr>
+<td>• Sergio Naranjo Barroso</td><td>• Ismael Ortega Sánchez</td></tr>
+<tr>
+<td>• Iván Palomino Rodríguez</td><td>• Jule Page Galocha</td></tr>
+<tr>
+<td>• Daniel Ramos Sánchez-Manjavacas</td><td>• Cynthia Tristán Álvarez</td></tr>
+</table>
+<hr  />
+<h1 class="doxsection"><a class="anchor" id="autotoc_md3"></a>
+Arquitectura del Motor</h1>
+<p>El motor está diseñado siguiendo una arquitectura modular para facilitar la extensibilidad y el rendimiento.</p>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md4"></a>
+Módulos</h2>
+<p>La base del motor se divide en los siguientes bloques fundamentales:</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadLeft">Módulo  </th><th class="markdownTableHeadLeft">Descripción  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyLeft"><b>Core</b>  </td><td class="markdownTableBodyLeft">Definición de clases básicas y utilidades  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyLeft"><b>Plataforma</b>  </td><td class="markdownTableBodyLeft">Abstracción de ventana, entrada (input) y eventos del sistema.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyLeft"><b>Render</b>  </td><td class="markdownTableBodyLeft">Pipeline gráfico optimizado y gestión de materiales.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyLeft"><b>Físicas</b>  </td><td class="markdownTableBodyLeft">Integración de colisiones y dinámicas de cuerpos.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyLeft"><b>Recursos</b>  </td><td class="markdownTableBodyLeft">Carga y gestión de assets (texturas, modelos, scripts).  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyLeft"><b>Audio</b>  </td><td class="markdownTableBodyLeft">Sistema de sonido espacial y gestión de pistas.  </td></tr>
+</table>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
+Engine</h2>
+<ul>
+<li><b><a class="el" href="class_game_loader.html" title="GameLoader.">GameLoader</a>:</b> Sistema de carga dinámica de escenas.</li>
+<li><b><a class="el" href="class_state_machine.html">StateMachine</a>:</b> Control del flujo de estados del juego.</li>
+<li><b>ComponentDLLoader:</b> Carga de lógica de juego y plugins mediante bibliotecas dinámicas (DLLs).</li>
+<li><b>ComponentRegistry:</b> Registro de componentes dinamico, actualizado con cada carga de DLL.</li>
+<li><b>Tools:</b> Conjunto de utilidades para el desarrollo y depuración. </li>
+</ul>
+</div></div><!-- PageDoc -->
 <a href="doxygen_crawl.html"></a>
 </div><!-- contents -->
 </div><!-- doc-content -->
 </div><!-- container -->
-<!-- start footer part -->
-<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
-  <ul>
-    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
-  </ul>
-</div>
-</body>
-</html>
+<script>
+document.getElementById('projectlogo').onclick = function() { window.location.href = 'index.html'; };
+</script>
