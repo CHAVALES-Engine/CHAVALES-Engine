@@ -1,4 +1,4 @@
-#include "Message.h"
+#include "MessagesManager.h"
 
 template<typename... Args>
 bool core::MessagesManager::createMessage(const std::string& name)

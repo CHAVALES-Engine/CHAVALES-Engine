@@ -15,7 +15,7 @@ namespace input
 		 * @param actionName - Nombre de la accion.
 		 * @param inputAction - Input que lanza la accion.
 		 */
-		void addAction(std::string& const actionName, InputAction inputAction);
+		void addAction(const std::string& actionName, InputAction inputAction);
 		/**
 		 * @brief Quita una accion asociada a un nombre de accion.
 		 * @param actionName - accion de la que eliminar un input.
@@ -46,9 +46,9 @@ namespace input
 		bool hasAction(std::string& const actionName) const;
 	private:
 		/**
-		 * @brief Mapa de acciones
+		 * @brief Mapa de acciones.
 		 */
-		std::unordered_map<std::string, InputAction>;
+		std::unordered_map<std::string, std::vector<InputAction>>;
 	};
 
 }

@@ -104,6 +104,7 @@
     <ClInclude Include="..\..\src\Core\InputDefs.h" />
     <ClInclude Include="..\..\src\Core\Maths.h" />
     <ClInclude Include="..\..\src\Core\Message.h" />
+    <ClInclude Include="..\..\src\Core\MessagesManager.h" />
     <ClInclude Include="..\..\src\Core\PluginSDK.h" />
     <ClInclude Include="..\..\src\Core\Quaternion.h" />
     <ClInclude Include="..\..\src\Core\Scene.h" />
@@ -117,7 +118,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\src\Core\Component.cpp" />
     <ClCompile Include="..\..\src\Core\Entity.cpp" />
-    <ClCompile Include="..\..\src\Core\Message.cpp" />
+    <ClCompile Include="..\..\src\Core\MessagesManager.cpp" />
     <ClCompile Include="..\..\src\Core\Scene.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>

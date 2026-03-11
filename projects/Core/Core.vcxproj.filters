@@ -78,6 +78,9 @@
     <ClInclude Include="..\..\src\Core\InputDefs.h">
       <Filter>Header Files\Defs</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\Core\MessagesManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Core\Entity.cpp">
@@ -92,10 +95,10 @@
     <ClCompile Include="..\..\src\Core\Clock.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Core\Message.cpp">
+    <ClCompile Include="..\..\src\Core\TimeManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Core\TimeManager.cpp">
+    <ClCompile Include="..\..\src\Core\MessagesManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
