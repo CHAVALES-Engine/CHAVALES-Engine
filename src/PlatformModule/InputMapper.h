@@ -48,7 +48,7 @@ namespace input
 		/**
 		 * @brief Mapa de acciones.
 		 */
-		std::unordered_map<std::string, std::vector<InputAction>>;
+		std::unordered_map<std::string, std::vector<InputAction>> mapper;
 	};
 
 }

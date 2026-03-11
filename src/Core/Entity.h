@@ -7,7 +7,6 @@
 #include <vector>
 #include <string>
 #include "ec.h"
-#include "EngineAPI.h"
 
 class Scene;
 
@@ -15,7 +14,7 @@ namespace core
 {
 	using entityID = uint64_t;
 
-	class ENGINE_API Entity
+	class Entity
 	{
 	public:
 		Entity();

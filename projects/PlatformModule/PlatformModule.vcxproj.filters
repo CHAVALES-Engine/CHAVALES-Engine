@@ -33,7 +33,7 @@
       <Filter>Header Files\Input</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\PlatformModule\InputMapper.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

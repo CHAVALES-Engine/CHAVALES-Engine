@@ -13,13 +13,12 @@
 #include <unordered_map>
 
 #include "Debug.h"
-#include "EngineAPI.h"
 #include "ec.h"
 #include "Defs.h"
 
 namespace core
 {
-	class ENGINE_API Component
+	class Component
 	{
 	public:
 		Component();
