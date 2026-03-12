@@ -28,7 +28,7 @@ namespace core
 
 	void Entity::setAlive(bool a) { alive = a; }
 	void Entity::setVisible(bool v) { visible = v; }
-	void Entity::setEnabled(bool e) { enabled = e; }
+	void Entity::setEnabled(bool e) { enabled = e; } // deberia hacer enable/disable de cada componente?
 	void Entity::setDontDestroyOnLoad(bool ddol) { dontDestroyOnLoad = ddol; }
 	void Entity::setScene(Scene* s) { scene = s; }
 	void Entity::setEntityID(core::entityID id) { entityID = id; }
@@ -125,9 +125,8 @@ namespace core
 	Component* Entity::addComponent(std::shared_ptr<Component> c)
 	{
 		c->setEntity(this);
-		//c->ready();
-		//c->init();
-
+		c->enable();
+		c->ready();
 		components.push_back(std::move(c));
 		return components.back().get();
 	}
@@ -137,13 +136,15 @@ namespace core
 	{
 		// evitando duplicados
 		// esto lo hace O(n)
-		if (hasComponent<T>())
-			return getComponent<T>();
+		//if (hasComponent<T>())
+		//	return getComponent<T>();
 
 		std::shared_ptr<Component> c = std::make_shared<T>(std::forward<Ts>(args)...);
 		//T* c = new T(std::forward<Ts>(args)...);
 
 		c->setEntity(this);
+		c->enable();
+		c->ready();
 		T* c_ref = c.get();
 		components.push_back(std::move(c));
 		return c_ref;
@@ -156,6 +157,7 @@ namespace core
 		{
 			if (it->get() != nullptr)
 			{
+				(*it)->disable();
 				(*it)->destroy();
 				components.erase(it);
 				return;
