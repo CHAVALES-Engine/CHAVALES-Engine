@@ -23,7 +23,7 @@ PlatformModule::~PlatformModule()
 bool PlatformModule::Init()
 {
 	// Inicializacion de SDL
-	if (!SDL_InitSubSystem(SDL_INIT_VIDEO)) {	
+	if (!SDL_Init(SDL_INIT_EVENTS | SDL_INIT_VIDEO | SDL_INIT_GAMEPAD)) {
 		Debug::error("SDL Couldn't be initialized.");
 		return false;
 	}
@@ -32,7 +32,6 @@ bool PlatformModule::Init()
 		Debug::error("SDL Couldn't be Created.");
 		return false;
 	}
-	SDL_Init(SDL_INIT_EVENTS);
 
 	SDL_PropertiesID _props = SDL_GetWindowProperties(_window);
 
@@ -76,4 +75,88 @@ const int PlatformModule::getWindowHeight() const
 
 const void PlatformModule::processEvent(const SDL_Event& event)
 {
+	/*switch (event.type) {
+	case SDL_EVENT_GAMEPAD_ADDED: {
+		uint32_t id = event.gdevice.which;
+		SDL_Gamepad* gamepad = SDL_OpenGamepad(id);
+		if (gamepad) {
+			_gamepadHandles[id] = gamepad;
+			ControllerState st;
+			st.connected = true;
+			_controllerStates[id] = st;
+		}
+		break;
+	}
+	case SDL_EVENT_GAMEPAD_REMOVED: {
+		uint32_t id = event.gdevice.which;
+		auto it = _gamepadHandles.find(id);
+		if (it != _gamepadHandles.end()) {
+			SDL_CloseGamepad(it->second);
+			_gamepadHandles.erase(it);
+		}
+		_controllerStates.erase(id);
+		break;
+	}
+	case SDL_EVENT_GAMEPAD_AXIS_MOTION: {
+		uint32_t id = event.gaxis.which;
+		auto it = _controllerStates.find(id);
+		if (it != _controllerStates.end()) {
+			int axis = -1;
+			if (event.gaxis.axis == SDL_GAMEPAD_AXIS_LEFTX)
+				axis = 0;
+			else if (event.gaxis.axis == SDL_GAMEPAD_AXIS_LEFTY)
+				axis = 1;
+
+			if (axis >= 0 && axis < NUM_AXIS) {
+				it->second.axis[axis] = cleanAxisValue(event.gaxis.value);
+			}
+		}
+		break;
+	}
+	case SDL_EVENT_GAMEPAD_BUTTON_DOWN:
+	case SDL_EVENT_GAMEPAD_BUTTON_UP: {
+		uint32_t id = event.gbutton.which;
+		auto it = _controllerStates.find(id);
+		if (it != _controllerStates.end()) {
+			uint8_t buttonIndex = 255;
+			switch (event.gbutton.button) {
+			case SDL_GAMEPAD_BUTTON_SOUTH: buttonIndex = BUTTON_CROSS; break;
+			case SDL_GAMEPAD_BUTTON_EAST: buttonIndex = BUTTON_CIRCLE; break;
+			case SDL_GAMEPAD_BUTTON_WEST: buttonIndex = BUTTON_SQUARE; break;
+			case SDL_GAMEPAD_BUTTON_NORTH: buttonIndex = BUTTON_TRIANGLE; break;
+			case SDL_GAMEPAD_BUTTON_LEFT_SHOULDER: buttonIndex = BUTTON_LB; break;
+			case SDL_GAMEPAD_BUTTON_RIGHT_SHOULDER: buttonIndex = BUTTON_RB; break;
+			case SDL_GAMEPAD_BUTTON_BACK: buttonIndex = BUTTON_BACK; break;
+			case SDL_GAMEPAD_BUTTON_START: buttonIndex = BUTTON_START; break;
+			case SDL_GAMEPAD_BUTTON_LEFT_STICK: buttonIndex = BUTTON_LEFT_STICK; break;
+			case SDL_GAMEPAD_BUTTON_RIGHT_STICK: buttonIndex = BUTTON_RIGHT_STICK; break;
+			case SDL_GAMEPAD_BUTTON_GUIDE: buttonIndex = BUTTON_GUIDE; break;
+			}
+
+			if (buttonIndex != 255) {
+				if (event.type == SDL_EVENT_GAMEPAD_BUTTON_DOWN) {
+					it->second.buttonsMask |= (1ull << buttonIndex);
+				}
+				else {
+					it->second.buttonsMask &= ~(1ull << buttonIndex);
+				}
+			}
+		}
+		break;
+	}
+	case SDL_EVENT_KEY_DOWN: {
+		SDL_Keycode key = event.key.key;
+		auto& keys = _controllerStates[KEYBOARD_CONTROLLER_ID].pressedKeys;
+		_controllerStates[KEYBOARD_CONTROLLER_ID].addKey(static_cast<uint8_t>(key));
+		break;
+	}
+	case SDL_EVENT_KEY_UP: {
+		SDL_Keycode key = event.key.key;
+		auto& keys = _controllerStates[KEYBOARD_CONTROLLER_ID].pressedKeys;
+		_controllerStates[KEYBOARD_CONTROLLER_ID].removeKey(static_cast<uint8_t>(key));
+		break;
+	}
+	default:
+		break;
+	}*/
 }
