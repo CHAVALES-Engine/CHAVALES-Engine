@@ -1,0 +1,236 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.16.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>ChavalesEngine: Descripción</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="custom_styles.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="CHAVALES.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">ChavalesEngine
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.16.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Buscar',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('md_extra_2_manual_2_ejecutable_2_game_loader.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Cargando...</div>
+<div class="SRStatus" id="Searching">Buscando...</div>
+<div class="SRStatus" id="NoMatches">Nada coincide</div>
+</div>
+</div>
+</div>
+</div>
+
+<div><div class="header">
+  <div class="headertitle"><div class="title">Descripción </div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><p><a class="anchor" id="autotoc_md17"></a></p>
+<p><a class="el" href="class_game_loader.html" title="GameLoader.">GameLoader</a> es la clase de C++ encargada de hacer un puente entre LUA y C++, lee metatablas de LUA que configuran escenas, objetos y componentes e instancia lo que va necesitando.</p>
+<p>Idealmente, cuando lleguemos a la etapa de release, podríamos hacer un bakeado de los scripts de LUA a binario, para así acelerar procesos de lectura y ejecución.</p>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md18"></a>
+Ejemplo de implementación</h2>
+<p>LUA: </p><div class="fragment"><div class="line">Scene = { </div>
+<div class="line">    entities = { </div>
+<div class="line">        {</div>
+<div class="line">            Name = &quot;Orc&quot;,</div>
+<div class="line">            Transform = { x = 0, y = 10 }, </div>
+<div class="line">            Health = { max = 100 } </div>
+<div class="line">        }</div>
+<div class="line">    }</div>
+<div class="line">}</div>
+</div><!-- fragment --><p> (Posible implementación)</p>
+<hr  />
+ <h1 class="doxsection"><a class="anchor" id="autotoc_md20"></a>
+LUA en la carga de escenas</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md21"></a>
+Prefabs</h2>
+<p>Usando LUA podemos buscar scripts que devuelvan información de prefabs, Los scripts definen una entidad con sus componentes y propiedades.</p>
+<p>También se maneja una <b>caché de prefabs</b>, cargando aquellos que se usen una única vez, Cuando se lee una escena, si se encuentra una entrada con la palabra clave "prefab" se busca en la caché si existe una entrada correspondiente, si no se crea una entrada y se añade la configuración devuelta por LUA.</p>
+<div class="fragment"><div class="line">entities = {  </div>
+<div class="line">    { prefab = &quot;Orc&quot;, pos = {x=10, y=0} }, </div>
+<div class="line">    { prefab = &quot;Orc&quot;, pos = {x=20, y=0} }, </div>
+<div class="line">    { prefab = &quot;Chest&quot;, pos = {x=5, y=5}, loot = &quot;Gold&quot; } }</div>
+</div><!-- fragment --><p> (Posible implementación) </p><div class="fragment"><div class="line"><span class="keywordtype">void</span> <a class="code hl_function" href="class_game_loader.html#a68b2edc47eb36896be9dae72ea574a9a">GameLoader::loadScene</a>(std::string sceneFile) {</div>
+<div class="line">    sol::table sceneData = lua.script_file(sceneFile);</div>
+<div class="line">    sol::table entities = sceneData[<span class="stringliteral">&quot;entities&quot;</span>];</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; item : entities) {</div>
+<div class="line">        sol::table entry = item.second;</div>
+<div class="line">        </div>
+<div class="line">        Entity* newEntity = <span class="keyword">nullptr</span>;</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// ¿Es un Prefab?</span></div>
+<div class="line">        <span class="keywordflow">if</span> (entry[<span class="stringliteral">&quot;prefab&quot;</span>].valid()) {</div>
+<div class="line">            std::string prefabName = entry[<span class="stringliteral">&quot;prefab&quot;</span>];</div>
+<div class="line">            </div>
+<div class="line">            <span class="comment">// Revisar Caché</span></div>
+<div class="line">            <span class="keywordflow">if</span> (prefabCache.find(prefabName) == prefabCache.end()) {</div>
+<div class="line">                <span class="comment">// CACHE MISS: Pedir a Lua la definición base y guardarla</span></div>
+<div class="line">                prefabCache[prefabName] = loadPrefabDefinitionFromLua(prefabName);</div>
+<div class="line">            }</div>
+<div class="line">            </div>
+<div class="line">            <span class="comment">// Instanciar desde el molde de C++ (Muy rápido)</span></div>
+<div class="line">            newEntity = spawnFromBlueprint(prefabCache[prefabName]);</div>
+<div class="line">        } </div>
+<div class="line">        <span class="keywordflow">else</span> {</div>
+<div class="line">            <span class="comment">// Es una entidad única definida ahí mismo</span></div>
+<div class="line">            newEntity = parseRawEntity(entry);</div>
+<div class="line">        }</div>
+<div class="line"> </div>
+<div class="line">        <span class="comment">// Aplicar diferencias (Overrides)</span></div>
+<div class="line">        applyOverrides(newEntity, entry); <span class="comment">// Ej: Poner la posición específica</span></div>
+<div class="line">    }</div>
+<div class="line">}</div>
+<div class="ttc" id="aclass_game_loader_html_a68b2edc47eb36896be9dae72ea574a9a"><div class="ttname"><a href="class_game_loader.html#a68b2edc47eb36896be9dae72ea574a9a">GameLoader::loadScene</a></div><div class="ttdeci">static std::shared_ptr&lt; core::Scene &gt; loadScene(const sceneName &amp;n)</div><div class="ttdoc">Carga una escena dada de lua.</div><div class="ttdef"><b>Definition</b> GameLoader.cpp:246</div></div>
+</div><!-- fragment --><p> (Posible implementación)</p>
+<p>Para controlar la creación de prefabs deberíamos elegir una de estas dos opciones para el desarrollo, o incluso soportar ambas:</p><ol type="1">
+<li>Almacenar en LUA una <b>tabla maestra</b> de prefabs con nombres como "Orc" como entrada, así podemos acceder rápidamente a cada uno y coger su información.</li>
+<li>En caso de que el proyecto crezca mucho, quizás sea conveniente tener cada prefab en un archivo, y utilizar el nombre para construir un path para llegar al archivo .lua.</li>
+</ol>
+<hr  />
+ <h1 class="doxsection"><a class="anchor" id="autotoc_md23"></a>
+Usos de lua en runtime</h1>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md24"></a>
+Eventos de escena</h2>
+<p>La idea es implementar eventos concretos a los que llamar cuando pasa algo, por ejemplo:</p>
+<div class="fragment"><div class="line">-- Al iniciar el nivel </div>
+<div class="line">function OnSceneStart() </div>
+<div class="line">    print(&quot;El nivel ha comenzado&quot;) </div>
+<div class="line">    MotorAPI.Audio:playMusic(&quot;battle_theme.mp3&quot;)</div>
+<div class="line">end</div>
+<div class="line"> </div>
+<div class="line">function onAllEnemiesDead():</div>
+<div class="line">    print(&quot;Se han muerto todos los enemigos&quot;)</div>
+<div class="line">    MotorAPI.Render:setSkyColor(Color.Blue)</div>
+<div class="line">end</div>
+</div><!-- fragment --><p>Podemos implementar un sistema de suscripción en la escena, y desde componentes lanzar eventos que ejecuten funciones de escena, no se como de EC friendly es, pero es una idea de usos de LUA en ejecución. </p>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md25"></a>
+Consola de desarrollo para modificar parámetros</h2>
+<p>(Esto podría ayudarnos para, en caso de querer, hacer un editor mas adelante.)</p>
+<p>La <b>Consola de Desarrollo</b> es una ventana interactiva que conecta el teclado del desarrollador directamente con la Máquina Virtual (VM) de LUA mientras el juego corre.</p>
+<p>Técnicamente funciona como un bucle <b>REPL</b> (Read-Eval-Print Loop):</p><ol type="1">
+<li><b>Read:</b> Captura el texto que escribes.</li>
+<li><b>Eval:</b> Lo envía a LUA para que lo ejecute como código.</li>
+<li><b>Print:</b> Captura el resultado (o error) y lo muestra en pantalla.</li>
+</ol>
+<p>La herramienta estándar de la industria es <a href="https://www.dearimgui.com/">Dear ImGui</a>. Es ligera, fácil de integrar y se renderiza sobre el juego.</p>
+<p>Para implementarla, deberíamos implementar una clase <b>DeveloperConsole</b> que se inicialice al pulsar una tecla (por ejemplo "f1", "ctrl+c"...) capturar la entrada de teclado, y redirigir la salida de consola por esta nueva ventana.</p>
+<div class="fragment"><div class="line"><span class="keyword">class </span>DeveloperConsole { </div>
+<div class="line"><span class="keyword">private</span>: </div>
+<div class="line">    std::vector&lt;std::string&gt; logHistory; <span class="comment">// Guarda lo que sale en pantalla char </span></div>
+<div class="line">    inputBuffer[256]; <span class="comment">// escrito</span></div>
+<div class="line">    <span class="keywordtype">bool</span> isVisible = <span class="keyword">false</span>; </div>
+<div class="line">    sol::state* luaState; <span class="comment">// Referencia a VM de Lua </span></div>
+<div class="line"><span class="keyword">public</span>:</div>
+<div class="line">    DeveloperConsole(sol::state* lua); </div>
+<div class="line">    <span class="keywordtype">void</span> toggle(); <span class="comment">// Abrir/Cerrar</span></div>
+<div class="line">    <span class="keywordtype">void</span> render(); <span class="comment">// Dibujar la UI</span></div>
+<div class="line">    <span class="keywordtype">void</span> executeCommand(std::string cmd); <span class="comment">// Enviar a Lua </span></div>
+<div class="line">    <span class="comment">// Función para que C++ o Lua escriban en el log </span></div>
+<div class="line">    <span class="keywordtype">void</span> log(<span class="keyword">const</span> std::string&amp; message); </div>
+<div class="line">};</div>
+</div><!-- fragment --><p> (Posible implementación)</p>
+<p>En el bucle principal habría que ejecutar la lógica de consola solo si esta visible, y renderizarla por encima de todo con el mismo criterio.</p>
+<p>Ejemplos de comandos:</p><ul>
+<li><span class="tt">MotorAPI.Scene:load("Level2")</span>: Carga nivel instantánea.</li>
+<li><span class="tt">MotorAPI.Physics:setDebugDraw(true)</span>: Ver colliders.</li>
+<li><span class="tt">entity = Engine.create("Boss"); entity:setPosition(0, 50, 0)</span>: Spawnear jefe. </li>
+</ul>
+</div></div><!-- contents -->
+</div><!-- PageDoc -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<script>
+document.getElementById('projectlogo').onclick = function() { window.location.href = 'index.html'; };
+</script>
+<footer id="custom-footer">
+    <div id="footer-content">
+        <span>© 2026 Chavales Engine — UCM Proyectos 3</span>
+        <span>Generado con 
+            <a href="https://www.doxygen.org">Doxygen</a> 
+            y <a href="https://github.com/jothepro/doxygen-awesome-css">doxygen-awesome</a>
+        </span>
+    </div>
+</footer>
+</div>
+</div>
+</body>
+</html>

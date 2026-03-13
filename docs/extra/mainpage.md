@@ -60,3 +60,5 @@ La base del motor se divide en los siguientes bloques fundamentales:
 * **ComponentDLLoader:** Carga de lógica de juego y plugins mediante bibliotecas dinámicas (DLLs).
 * **ComponentRegistry:** Registro de componentes dinamico, actualizado con cada carga de DLL.
 * **Tools:** Conjunto de utilidades para el desarrollo y depuración.
+
+> nota

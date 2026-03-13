@@ -1,0 +1,345 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.16.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>ChavalesEngine: Archivo de código fuente C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/AudioModule/AudioModule.cpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="custom_styles.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="CHAVALES.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">ChavalesEngine
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.16.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Buscar',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('_audio_module_8cpp_source.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Cargando...</div>
+<div class="SRStatus" id="Searching">Buscando...</div>
+<div class="SRStatus" id="NoMatches">Nada coincide</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">AudioModule.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;AudioModule.h&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &quot;Debug.h&quot;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;fmod.hpp&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">using namespace </span>std;</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>AudioModule::AudioModule() : _nextChannelID(0)</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>{</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>}</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>AudioModule::~AudioModule()</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>{</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    <span class="keywordflow">if</span> (_system != <span class="keyword">nullptr</span>)</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    {</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        _system-&gt;release();</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    }</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>}</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="keywordtype">bool</span> AudioModule::Init()</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>{</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    FMOD_RESULT result;</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="comment">//Creates an FMOD System</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    result = FMOD::System_Create(&amp;_system);</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="keywordflow">if</span> (result != FMOD_OK)</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    {</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        <a class="code hl_function" href="class_debug.html#a6e160827124e6a6c09ad8190290cde07">Debug::error</a>(<span class="stringliteral">&quot;FMOD error: Couldn&#39;t create system&quot;</span>);</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    }</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="comment">//If Creation went OK, the system is initialized</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    result = _system-&gt;init(512, FMOD_INIT_NORMAL, 0);</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="keywordflow">if</span> (result != FMOD_OK)</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    {</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        <a class="code hl_function" href="class_debug.html#a6e160827124e6a6c09ad8190290cde07">Debug::error</a>(<span class="stringliteral">&quot;FMOD error: Couldn&#39;t initialize system&quot;</span>);</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    }</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>}</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="keywordtype">void</span> AudioModule::Update()</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>{</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    vector&lt;ChannelMap::iterator&gt; vecStoppedChannel;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span> i = _channelSound.begin(); i != _channelSound.end(); ++i)</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    {</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        <span class="keywordtype">bool</span> soundPlaying = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        i-&gt;second-&gt;isPlaying(&amp;soundPlaying);</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        <span class="keywordflow">if</span> (!soundPlaying)</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        {</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>            vecStoppedChannel.push_back(i);</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        }</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    }</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; it : vecStoppedChannel)</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    {</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        _channelSound.erase(it);</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    }</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    _system-&gt;update();</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>}</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="keywordtype">void</span> AudioModule::ShutDown()</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>{</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <span class="comment">//Destructora</span></div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    _system-&gt;release();</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="keyword">delete</span> _system; </div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>}</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
+<div class="foldopen" id="foldopen00067" data-start="{" data-end="}">
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="class_audio_module.html#a1eb35c1454bf7f3746b7d4cb69f20696">   67</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="class_audio_module.html#a1eb35c1454bf7f3746b7d4cb69f20696">AudioModule::loadSound</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* path, std::string <span class="keywordtype">id</span>, <span class="keywordtype">bool</span> sound3D, <span class="keywordtype">bool</span> soundLooping, <span class="keywordtype">bool</span> soundStream)</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>{</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    <span class="keyword">auto</span> itSoundFound = _soundMap.find(<span class="keywordtype">id</span>);</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    <span class="keywordflow">if</span> (itSoundFound != _soundMap.end())</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    {</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        <a class="code hl_function" href="class_debug.html#a6e160827124e6a6c09ad8190290cde07">Debug::error</a>(<span class="stringliteral">&quot;Sound creation error: Couldn&#39;t create sound, there is already a sound with this id: &quot;</span> + <span class="keywordtype">id</span>);</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    }</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    <span class="comment">//Depends in the parameters of the method</span></div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    FMOD_MODE eMode = FMOD_DEFAULT;</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    eMode |= sound3D ? FMOD_2D : FMOD_3D;</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    eMode |= soundLooping ? FMOD_LOOP_NORMAL : FMOD_LOOP_OFF;</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    eMode |= soundStream ? FMOD_CREATESTREAM : FMOD_CREATECOMPRESSEDSAMPLE;</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    <span class="comment">//Result helps to identifie exceptions</span></div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    FMOD_RESULT result;</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    FMOD::Sound* sound = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    result = _system-&gt;createSound(path, eMode, <span class="keyword">nullptr</span>, &amp;sound);</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    <span class="keywordflow">if</span> (sound &amp;&amp; result == FMOD_OK)</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    {</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        _soundMap[id] = sound;</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    }</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    {</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        <a class="code hl_function" href="class_debug.html#a6e160827124e6a6c09ad8190290cde07">Debug::error</a>(<span class="stringliteral">&quot;FMOD error: Couldn&#39;t locate sound&quot;</span>);</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    }</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>}</div>
+</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
+<div class="foldopen" id="foldopen00098" data-start="{" data-end="}">
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno"><a class="line" href="class_audio_module.html#ac9b0034e0ece51e6e3496af9a31b85ed">   98</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="class_audio_module.html#ac9b0034e0ece51e6e3496af9a31b85ed">AudioModule::unloadSound</a>(std::string <span class="keywordtype">id</span>)</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>{</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    <span class="keyword">auto</span> itSoundFound = _soundMap.find(<span class="keywordtype">id</span>);</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    <span class="keywordflow">if</span> (itSoundFound == _soundMap.end())</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    {</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        <a class="code hl_function" href="class_debug.html#a6e160827124e6a6c09ad8190290cde07">Debug::error</a>(<span class="stringliteral">&quot;Sound unloading error: Couldn&#39;t find sound, there isn&#39;t a loaded sound with this id: &quot;</span> + <span class="keywordtype">id</span>);</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    }</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    itSoundFound-&gt;second-&gt;release();</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    _soundMap.erase(itSoundFound);</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>}</div>
+</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span> </div>
+<div class="foldopen" id="foldopen00111" data-start="{" data-end="}">
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno"><a class="line" href="class_audio_module.html#a772c63525a48fce3e918b7d070a1b7a4">  111</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="class_audio_module.html#a772c63525a48fce3e918b7d070a1b7a4">AudioModule::playSound</a>(std::string <span class="keywordtype">id</span>, <span class="keyword">const</span> <a class="code hl_class" href="classcore_1_1_vector3.html">core::Vector3&lt;&gt;</a> vec3, <span class="keywordtype">float</span> soundVolume, <span class="keywordtype">int</span> looping)</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>{</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    <span class="keywordtype">int</span> nextChID = _nextChannelID++;</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    <span class="keyword">auto</span> itSoundFound = _soundMap.find(<span class="keywordtype">id</span>);</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    <span class="keywordflow">if</span> (itSoundFound == _soundMap.end())</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    {</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>        <a class="code hl_function" href="class_debug.html#a6e160827124e6a6c09ad8190290cde07">Debug::error</a>(<span class="stringliteral">&quot;Sound not found: Couldn&#39;t find sound, there isn&#39;t a loaded sound with this id: &quot;</span> + <span class="keywordtype">id</span>);</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>        <span class="keywordflow">return</span> -1;</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    }</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    FMOD::Channel* channel = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    _system-&gt;playSound(itSoundFound-&gt;second, <span class="keyword">nullptr</span>, <span class="keyword">true</span>, &amp;channel);</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    <span class="comment">//If channel has been correctly created, then registers it</span></div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    <span class="keywordflow">if</span> (channel) {</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>        FMOD_VECTOR pos = { vec3.<a class="code hl_function" href="classcore_1_1_vector3.html#a231a89804e45b36b5b4d2fadc4b4a0d9">getX</a>(),vec3.<a class="code hl_function" href="classcore_1_1_vector3.html#a835fb54d8f8b4bc515a861f77d225d25">getY</a>(),vec3.<a class="code hl_function" href="classcore_1_1_vector3.html#a12251eb22e64a263aca32036e813a0aa">getZ</a>() };</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>        channel-&gt;set3DAttributes(&amp;pos, <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>        channel-&gt;setVolume(soundVolume);</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>        channel-&gt;setPaused(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>        channel-&gt;setLoopCount(looping);</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>        _channelSound[nextChID] = channel;</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>    }</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    <span class="keywordflow">return</span> nextChID;</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>}</div>
+</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span> </div>
+<div class="foldopen" id="foldopen00134" data-start="{" data-end="}">
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno"><a class="line" href="class_audio_module.html#a51ebd8f07c3a0999406fdeb80c097f39">  134</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="class_audio_module.html#a51ebd8f07c3a0999406fdeb80c097f39">AudioModule::setChannelVolume</a>(<span class="keywordtype">int</span> chID, <span class="keywordtype">float</span> newVolume)</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>{</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    <span class="keyword">auto</span> itChFound = _channelSound.find(chID);</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>    <span class="keywordflow">if</span> (itChFound == _channelSound.end())</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>    {</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>        <a class="code hl_function" href="class_debug.html#a6e160827124e6a6c09ad8190290cde07">Debug::error</a>(<span class="stringliteral">&quot;Channel not found: Couldn&#39;t find channel, there isn&#39;t an existing channel with this id: &quot;</span> + to_string(chID));</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>    }</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>    itChFound-&gt;second-&gt;setVolume(newVolume);</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>}</div>
+</div>
+<div class="foldopen" id="foldopen00145" data-start="{" data-end="}">
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno"><a class="line" href="class_audio_module.html#abd075ef4f46ba30ef64cd4fa4a91eb6f">  145</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="class_audio_module.html#abd075ef4f46ba30ef64cd4fa4a91eb6f">AudioModule::getLooping</a>(<span class="keywordtype">int</span> chID, <span class="keywordtype">int</span>* typeOfLooping)</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>{</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>    <span class="keyword">auto</span> itChFound = _channelSound.find(chID);</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>    <span class="keywordflow">if</span> (itChFound == _channelSound.end())</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    {</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>        <a class="code hl_function" href="class_debug.html#a6e160827124e6a6c09ad8190290cde07">Debug::error</a>(<span class="stringliteral">&quot;Channel not found: Couldn&#39;t find channel, there isn&#39;t an existing channel with this id: &quot;</span> + to_string(chID));</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>    }</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>    itChFound-&gt;second-&gt;getLoopCount(typeOfLooping);</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>}</div>
+</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span> </div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span><span class="keywordtype">bool</span> AudioModule::stopPlaying(<span class="keywordtype">int</span> chID)</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>{</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>    <span class="keyword">auto</span> itChFound = _channelSound.find(chID);</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>    <span class="keywordflow">if</span> (itChFound == _channelSound.end())</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>    {</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>        <a class="code hl_function" href="class_debug.html#a6e160827124e6a6c09ad8190290cde07">Debug::error</a>(<span class="stringliteral">&quot;Channel not found: Couldn&#39;t find channel, there isn&#39;t an existing channel with this id: &quot;</span> + to_string(chID));</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>    }</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>    itChFound-&gt;second-&gt;stop();</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>}</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span> </div>
+<div class="foldopen" id="foldopen00169" data-start="{" data-end="}">
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno"><a class="line" href="class_audio_module.html#ac053f5d578aaffb7a52154d346af659e">  169</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="class_audio_module.html#ac053f5d578aaffb7a52154d346af659e">AudioModule::pauseChannel</a>(<span class="keywordtype">int</span> chID, <span class="keywordtype">bool</span> pause)</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>{</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>    <span class="keyword">auto</span> itChFound = _channelSound.find(chID);</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>    <span class="keywordflow">if</span> (itChFound == _channelSound.end())</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>    {</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>        <a class="code hl_function" href="class_debug.html#a6e160827124e6a6c09ad8190290cde07">Debug::error</a>(<span class="stringliteral">&quot;Channel not found: Couldn&#39;t find channel, there isn&#39;t an existing channel with this id: &quot;</span> + to_string(chID));</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>    }</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>    <span class="keywordflow">return</span> itChFound-&gt;second-&gt;setPaused(pause);</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>}</div>
+</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span> </div>
+<div class="foldopen" id="foldopen00180" data-start="{" data-end="}">
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno"><a class="line" href="class_audio_module.html#a1ba56209a9169e6b397f027b552740d9">  180</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="class_audio_module.html#a1ba56209a9169e6b397f027b552740d9">AudioModule::muteEverything</a>()</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>{</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = _channelSound.begin(); it != _channelSound.end(); ++it) {</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>        <span class="keywordtype">bool</span> isPlaying = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>        it-&gt;second-&gt;isPlaying(&amp;isPlaying);</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>        <span class="keywordflow">if</span> (isPlaying) {</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>            it-&gt;second-&gt;setPaused(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>        }</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>    }</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>}</div>
+</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span> </div>
+<div class="foldopen" id="foldopen00191" data-start="{" data-end="}">
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno"><a class="line" href="class_audio_module.html#a4c2e3b84c5d555e6b1af28c392ea4015">  191</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="class_audio_module.html#a4c2e3b84c5d555e6b1af28c392ea4015">AudioModule::unMuteEverything</a>()</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>{</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = _channelSound.begin(); it != _channelSound.end(); ++it) {</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>        <span class="keywordtype">bool</span> isPlaying = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>        it-&gt;second-&gt;isPlaying(&amp;isPlaying);</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>        <span class="keywordflow">if</span> (!isPlaying) {</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>            it-&gt;second-&gt;setPaused(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>        }</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>    }</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>}</div>
+</div>
+<div class="ttc" id="aclass_audio_module_html_a1ba56209a9169e6b397f027b552740d9"><div class="ttname"><a href="class_audio_module.html#a1ba56209a9169e6b397f027b552740d9">AudioModule::muteEverything</a></div><div class="ttdeci">void muteEverything()</div><div class="ttdoc">Method to mute all chanels.</div><div class="ttdef"><b>Definition</b> <a href="#l00180">AudioModule.cpp:180</a></div></div>
+<div class="ttc" id="aclass_audio_module_html_a1eb35c1454bf7f3746b7d4cb69f20696"><div class="ttname"><a href="class_audio_module.html#a1eb35c1454bf7f3746b7d4cb69f20696">AudioModule::loadSound</a></div><div class="ttdeci">bool loadSound(const char *path, std::string id, bool sound3D=true, bool soundLooping=false, bool soundStream=false)</div><div class="ttdoc">Loads sound via the path of the resource and the name of the sound, both by strings.</div><div class="ttdef"><b>Definition</b> <a href="#l00067">AudioModule.cpp:67</a></div></div>
+<div class="ttc" id="aclass_audio_module_html_a4c2e3b84c5d555e6b1af28c392ea4015"><div class="ttname"><a href="class_audio_module.html#a4c2e3b84c5d555e6b1af28c392ea4015">AudioModule::unMuteEverything</a></div><div class="ttdeci">void unMuteEverything()</div><div class="ttdoc">Method to unmute all chanels.</div><div class="ttdef"><b>Definition</b> <a href="#l00191">AudioModule.cpp:191</a></div></div>
+<div class="ttc" id="aclass_audio_module_html_a51ebd8f07c3a0999406fdeb80c097f39"><div class="ttname"><a href="class_audio_module.html#a51ebd8f07c3a0999406fdeb80c097f39">AudioModule::setChannelVolume</a></div><div class="ttdeci">bool setChannelVolume(int chID, float newVolume=0.0f)</div><div class="ttdoc">Method to set a Volume, the ID is of the channel of the sound that is going to be found.</div><div class="ttdef"><b>Definition</b> <a href="#l00134">AudioModule.cpp:134</a></div></div>
+<div class="ttc" id="aclass_audio_module_html_a772c63525a48fce3e918b7d070a1b7a4"><div class="ttname"><a href="class_audio_module.html#a772c63525a48fce3e918b7d070a1b7a4">AudioModule::playSound</a></div><div class="ttdeci">int playSound(std::string id, const core::Vector3&lt;&gt; vec3={ 0.0f, 0.0f, 0.0f }, float soundVolume=0.0f, int looping=0)</div><div class="ttdoc">It searches for a sound, if it is found yhe sound is associated to a channel,then it plays.</div><div class="ttdef"><b>Definition</b> <a href="#l00111">AudioModule.cpp:111</a></div></div>
+<div class="ttc" id="aclass_audio_module_html_abd075ef4f46ba30ef64cd4fa4a91eb6f"><div class="ttname"><a href="class_audio_module.html#abd075ef4f46ba30ef64cd4fa4a91eb6f">AudioModule::getLooping</a></div><div class="ttdeci">bool getLooping(int chID, int *typeOfLooping)</div><div class="ttdoc">Return if the channels is looping or not(0: no loop, 1: only plays one time, -1: loops infinently).</div><div class="ttdef"><b>Definition</b> <a href="#l00145">AudioModule.cpp:145</a></div></div>
+<div class="ttc" id="aclass_audio_module_html_ac053f5d578aaffb7a52154d346af659e"><div class="ttname"><a href="class_audio_module.html#ac053f5d578aaffb7a52154d346af659e">AudioModule::pauseChannel</a></div><div class="ttdeci">bool pauseChannel(int chID, bool pause)</div><div class="ttdoc">Method to pause a sound.</div><div class="ttdef"><b>Definition</b> <a href="#l00169">AudioModule.cpp:169</a></div></div>
+<div class="ttc" id="aclass_audio_module_html_ac9b0034e0ece51e6e3496af9a31b85ed"><div class="ttname"><a href="class_audio_module.html#ac9b0034e0ece51e6e3496af9a31b85ed">AudioModule::unloadSound</a></div><div class="ttdeci">bool unloadSound(std::string id)</div><div class="ttdoc">If the sound isn´t playing anymore it unloads it.</div><div class="ttdef"><b>Definition</b> <a href="#l00098">AudioModule.cpp:98</a></div></div>
+<div class="ttc" id="aclass_debug_html_a6e160827124e6a6c09ad8190290cde07"><div class="ttname"><a href="class_debug.html#a6e160827124e6a6c09ad8190290cde07">Debug::error</a></div><div class="ttdeci">static void error(Args &amp;&amp;... args)</div><div class="ttdoc">Mensaje de error. Escribe un mensaje de error ([E]) y en color rojo en consola.</div><div class="ttdef"><b>Definition</b> <a href="_debug_8h_source.html#l00150">Debug.h:150</a></div></div>
+<div class="ttc" id="aclasscore_1_1_vector3_html"><div class="ttname"><a href="classcore_1_1_vector3.html">core::Vector3</a></div><div class="ttdoc">Vector tridimensional.</div><div class="ttdef"><b>Definition</b> <a href="_vector3_8h_source.html#l00019">Vector3.h:20</a></div></div>
+<div class="ttc" id="aclasscore_1_1_vector3_html_a12251eb22e64a263aca32036e813a0aa"><div class="ttname"><a href="classcore_1_1_vector3.html#a12251eb22e64a263aca32036e813a0aa">core::Vector3::getZ</a></div><div class="ttdeci">T getZ() const</div><div class="ttdoc">Getter de Z.</div><div class="ttdef"><b>Definition</b> <a href="_vector3_8h_source.html#l00101">Vector3.h:101</a></div></div>
+<div class="ttc" id="aclasscore_1_1_vector3_html_a231a89804e45b36b5b4d2fadc4b4a0d9"><div class="ttname"><a href="classcore_1_1_vector3.html#a231a89804e45b36b5b4d2fadc4b4a0d9">core::Vector3::getX</a></div><div class="ttdeci">T getX() const</div><div class="ttdoc">Getter de X.</div><div class="ttdef"><b>Definition</b> <a href="_vector3_8h_source.html#l00085">Vector3.h:85</a></div></div>
+<div class="ttc" id="aclasscore_1_1_vector3_html_a835fb54d8f8b4bc515a861f77d225d25"><div class="ttname"><a href="classcore_1_1_vector3.html#a835fb54d8f8b4bc515a861f77d225d25">core::Vector3::getY</a></div><div class="ttdeci">T getY() const</div><div class="ttdoc">Getter de Y.</div><div class="ttdef"><b>Definition</b> <a href="_vector3_8h_source.html#l00093">Vector3.h:93</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<script>
+document.getElementById('projectlogo').onclick = function() { window.location.href = 'index.html'; };
+</script>
+<footer id="custom-footer">
+    <div id="footer-content">
+        <span>© 2026 Chavales Engine — UCM Proyectos 3</span>
+        <span>Generado con 
+            <a href="https://www.doxygen.org">Doxygen</a> 
+            y <a href="https://github.com/jothepro/doxygen-awesome-css">doxygen-awesome</a>
+        </span>
+    </div>
+</footer>
+</div>
+</div>
+</body>
+</html>

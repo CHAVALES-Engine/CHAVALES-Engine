@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.16.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>ChavalesEngine: Archivo de cÃ³digo fuente C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/Core/Timer.cpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="custom_styles.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="CHAVALES.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">ChavalesEngine
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.16.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Buscar',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('_timer_8cpp_source.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Cargando...</div>
+<div class="SRStatus" id="Searching">Buscando...</div>
+<div class="SRStatus" id="NoMatches">Nada coincide</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">Timer.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;Timer.h&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="foldopen" id="foldopen00003" data-start="{" data-end="}">
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno"><a class="line" href="classcore_1_1_timer_manager.html#a8425b4f0c00d07b5e11ff196928cf28f">    3</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classcore_1_1_timer_manager.html#a8425b4f0c00d07b5e11ff196928cf28f">core::TimerManager::update</a>()</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span>{</div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>    <span class="comment">//Debug::out(&quot;TIMER UPDATE SIZE: &quot;, _timers.size() );</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>    <span class="keywordflow">while</span> (!_timers.empty())</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>    {</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>        <a class="code hl_class" href="classcore_1_1_timer.html">Timer</a> t = _timers.top().prioridad;</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>        <span class="comment">//Debug::warning(&quot;Update timer: &quot;, t.id(), &quot; - &quot;, t.timeLeftMS());</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>        <span class="keywordflow">if</span> (t.<a class="code hl_function" href="classcore_1_1_timer.html#ae6a580611e9b47595a34926a82f8e826">timeLeftMS</a>() &gt; 0) <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        <a class="code hl_function" href="class_debug.html#ada8c3b548fc882ddffd0d55ee382ed6b">Debug::warning</a>(<span class="stringliteral">&quot;Timer &quot;</span>, t.id(), <span class="stringliteral">&quot; ended&quot;</span>);</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>        t.executeFunc();</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        _timers.pop();</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    }</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>}</div>
+</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="foldopen" id="foldopen00021" data-start="{" data-end="}">
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="classcore_1_1_timer_manager.html#a3b1de2b57927e1cef14afac12d5d5cd3">   21</a></span><a class="code hl_class" href="classcore_1_1_timer.html">core::Timer</a> <a class="code hl_function" href="classcore_1_1_timer_manager.html#a3b1de2b57927e1cef14afac12d5d5cd3">core::TimerManager::createTimer</a>(double_t duration, std::function&lt;<span class="keywordtype">void</span>()&gt; func)</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>{</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <a class="code hl_function" href="class_debug.html#acfc9212451ca86f9afa70a079961b05e">Debug::out</a>(<span class="stringliteral">&quot;timer..................&quot;</span>);</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keywordflow">if</span> (duration &lt;= 0.0)</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    {</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        <a class="code hl_function" href="class_debug.html#a6e160827124e6a6c09ad8190290cde07">Debug::error</a>(<span class="stringliteral">&quot;TimerManager::createTimer — invalid duration: &quot;</span>, duration);</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        <span class="keywordflow">return</span> {};</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    }</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="keywordflow">if</span> (func == <span class="keyword">nullptr</span>)</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    {</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        <a class="code hl_function" href="class_debug.html#a6e160827124e6a6c09ad8190290cde07">Debug::error</a>(<span class="stringliteral">&quot;TimerManager::createTimer — func is nullptr&quot;</span>);</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        <span class="keywordflow">return</span> {};</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    }</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="keyword">const</span> uint64_t now = <a class="code hl_function" href="classcore_1_1_clock.html#a2222a9c218c76a896a45d8602193bb3d">Clock::getRunningTime</a>();</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="keyword">const</span> uint64_t durationMS = (duration * 1000);</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <span class="keyword">const</span> uint64_t <span class="keywordtype">id</span> = ++_curId;</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <a class="code hl_class" href="classcore_1_1_timer.html">Timer</a> t(<span class="keywordtype">id</span>, now, durationMS, func);</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    _timers.push(<span class="keywordtype">id</span>, t);</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <a class="code hl_function" href="class_debug.html#ada8c3b548fc882ddffd0d55ee382ed6b">Debug::warning</a>(<span class="stringliteral">&quot;Timer: &quot;</span>, <span class="keywordtype">id</span>, <span class="stringliteral">&quot; created, duration: &quot;</span>, durationMS, <span class="stringliteral">&quot;s&quot;</span>);</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="keywordflow">return</span> t;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>}</div>
+</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="foldopen" id="foldopen00046" data-start="{" data-end="}">
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="classcore_1_1_timer_manager.html#aa51c1ce7e99f77fd7859c5cb326c7ea9">   46</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classcore_1_1_timer_manager.html#aa51c1ce7e99f77fd7859c5cb326c7ea9">core::TimerManager::pauseTimer</a>(<a class="code hl_class" href="classcore_1_1_timer.html">Timer</a>&amp; timer)</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>{</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="keywordtype">bool</span> ok = timer.<a class="code hl_function" href="classcore_1_1_timer.html#a81224ac595221ad11bef085333ae4bd0">pause</a>();</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keywordflow">if</span> (ok) _timers.update(timer.id(), timer);</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keywordflow">return</span> ok;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>}</div>
+</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="foldopen" id="foldopen00053" data-start="{" data-end="}">
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="classcore_1_1_timer_manager.html#a7b94095a3f3e92482dc33eb3d29842ff">   53</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classcore_1_1_timer_manager.html#a7b94095a3f3e92482dc33eb3d29842ff">core::TimerManager::resumeTimer</a>(<a class="code hl_class" href="classcore_1_1_timer.html">Timer</a>&amp; timer)</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>{</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <span class="keywordtype">bool</span> ok = timer.<a class="code hl_function" href="classcore_1_1_timer.html#a5b845f6664186bb1dddd4659280e2333">resume</a>();</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="keywordflow">if</span> (ok) _timers.update(timer.id(), timer);</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="keywordflow">return</span> ok;</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>}</div>
+</div>
+<div class="ttc" id="aclass_debug_html_a6e160827124e6a6c09ad8190290cde07"><div class="ttname"><a href="class_debug.html#a6e160827124e6a6c09ad8190290cde07">Debug::error</a></div><div class="ttdeci">static void error(Args &amp;&amp;... args)</div><div class="ttdoc">Mensaje de error. Escribe un mensaje de error ([E]) y en color rojo en consola.</div><div class="ttdef"><b>Definition</b> <a href="_debug_8h_source.html#l00150">Debug.h:150</a></div></div>
+<div class="ttc" id="aclass_debug_html_acfc9212451ca86f9afa70a079961b05e"><div class="ttname"><a href="class_debug.html#acfc9212451ca86f9afa70a079961b05e">Debug::out</a></div><div class="ttdeci">static void out(Args &amp;&amp;... args)</div><div class="ttdoc">Mensaje informativo. Escribe un mensaje informativo ([M]) y en color blanco en consola.</div><div class="ttdef"><b>Definition</b> <a href="_debug_8h_source.html#l00100">Debug.h:100</a></div></div>
+<div class="ttc" id="aclass_debug_html_ada8c3b548fc882ddffd0d55ee382ed6b"><div class="ttname"><a href="class_debug.html#ada8c3b548fc882ddffd0d55ee382ed6b">Debug::warning</a></div><div class="ttdeci">static void warning(Args &amp;&amp;... args)</div><div class="ttdoc">Mensaje de aviso. Escribe un mensaje de aviso ([W]) y en color amarillo en consola.</div><div class="ttdef"><b>Definition</b> <a href="_debug_8h_source.html#l00125">Debug.h:125</a></div></div>
+<div class="ttc" id="aclasscore_1_1_clock_html_a2222a9c218c76a896a45d8602193bb3d"><div class="ttname"><a href="classcore_1_1_clock.html#a2222a9c218c76a896a45d8602193bb3d">core::Clock::getRunningTime</a></div><div class="ttdeci">static uint64_t getRunningTime()</div><div class="ttdoc">Tiempo que lleva el programa en ejecucion.</div><div class="ttdef"><b>Definition</b> <a href="_clock_8cpp_source.html#l00019">Clock.cpp:19</a></div></div>
+<div class="ttc" id="aclasscore_1_1_timer_html"><div class="ttname"><a href="classcore_1_1_timer.html">core::Timer</a></div><div class="ttdoc">Estructura Timer.</div><div class="ttdef"><b>Definition</b> <a href="_timer_8h_source.html#l00023">Timer.h:24</a></div></div>
+<div class="ttc" id="aclasscore_1_1_timer_html_a5b845f6664186bb1dddd4659280e2333"><div class="ttname"><a href="classcore_1_1_timer.html#a5b845f6664186bb1dddd4659280e2333">core::Timer::resume</a></div><div class="ttdeci">bool resume()</div><div class="ttdoc">Reanuda el timer recalculando _endTime a partir del tiempo restante.</div><div class="ttdef"><b>Definition</b> <a href="_timer_8h_source.html#l00094">Timer.h:94</a></div></div>
+<div class="ttc" id="aclasscore_1_1_timer_html_a81224ac595221ad11bef085333ae4bd0"><div class="ttname"><a href="classcore_1_1_timer.html#a81224ac595221ad11bef085333ae4bd0">core::Timer::pause</a></div><div class="ttdeci">const bool pause()</div><div class="ttdoc">Pausa el timer guardando el tiempo restante.</div><div class="ttdef"><b>Definition</b> <a href="_timer_8h_source.html#l00079">Timer.h:79</a></div></div>
+<div class="ttc" id="aclasscore_1_1_timer_html_ae6a580611e9b47595a34926a82f8e826"><div class="ttname"><a href="classcore_1_1_timer.html#ae6a580611e9b47595a34926a82f8e826">core::Timer::timeLeftMS</a></div><div class="ttdeci">const uint64_t timeLeftMS()</div><div class="ttdoc">Devuelve el tiempo restante.</div><div class="ttdef"><b>Definition</b> <a href="_timer_8h_source.html#l00043">Timer.h:43</a></div></div>
+<div class="ttc" id="aclasscore_1_1_timer_manager_html_a3b1de2b57927e1cef14afac12d5d5cd3"><div class="ttname"><a href="classcore_1_1_timer_manager.html#a3b1de2b57927e1cef14afac12d5d5cd3">core::TimerManager::createTimer</a></div><div class="ttdeci">Timer createTimer(double_t duration, std::function&lt; void()&gt; func)</div><div class="ttdoc">Crea un timer nuveo y lo mete a la cola.</div><div class="ttdef"><b>Definition</b> <a href="#l00021">Timer.cpp:21</a></div></div>
+<div class="ttc" id="aclasscore_1_1_timer_manager_html_a7b94095a3f3e92482dc33eb3d29842ff"><div class="ttname"><a href="classcore_1_1_timer_manager.html#a7b94095a3f3e92482dc33eb3d29842ff">core::TimerManager::resumeTimer</a></div><div class="ttdeci">bool resumeTimer(Timer &amp;timer)</div><div class="ttdoc">Marca un timer para reanudarlo.</div><div class="ttdef"><b>Definition</b> <a href="#l00053">Timer.cpp:53</a></div></div>
+<div class="ttc" id="aclasscore_1_1_timer_manager_html_a8425b4f0c00d07b5e11ff196928cf28f"><div class="ttname"><a href="classcore_1_1_timer_manager.html#a8425b4f0c00d07b5e11ff196928cf28f">core::TimerManager::update</a></div><div class="ttdeci">void update()</div><div class="ttdoc">Actualiza la cola de timers ejecutando los que hayan llegado al final.</div><div class="ttdef"><b>Definition</b> <a href="#l00003">Timer.cpp:3</a></div></div>
+<div class="ttc" id="aclasscore_1_1_timer_manager_html_aa51c1ce7e99f77fd7859c5cb326c7ea9"><div class="ttname"><a href="classcore_1_1_timer_manager.html#aa51c1ce7e99f77fd7859c5cb326c7ea9">core::TimerManager::pauseTimer</a></div><div class="ttdeci">bool pauseTimer(Timer &amp;timer)</div><div class="ttdoc">Pausa un timer.</div><div class="ttdef"><b>Definition</b> <a href="#l00046">Timer.cpp:46</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<script>
+document.getElementById('projectlogo').onclick = function() { window.location.href = 'index.html'; };
+</script>
+<footer id="custom-footer">
+    <div id="footer-content">
+        <span>Â© 2026 Chavales Engine â€” UCM Proyectos 3</span>
+        <span>Generado con 
+            <a href="https://www.doxygen.org">Doxygen</a> 
+            y <a href="https://github.com/jothepro/doxygen-awesome-css">doxygen-awesome</a>
+        </span>
+    </div>
+</footer>
+</div>
+</div>
+</body>
+</html>
