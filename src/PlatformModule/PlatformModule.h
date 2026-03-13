@@ -17,13 +17,12 @@ namespace input
 	class InputMapper;
 	class VirtualDevice;
 }
-
+class Engine;
 /**
 * @brief Modulo de Plataforma, encargado de gestionar la ventana y los eventos de input.
 */
 class PlatformModule
 {
-public:
 	/**
 	* @brief Constructora vacia de PlatformModule
 	*
@@ -35,6 +34,7 @@ public:
 	* Elimina la ventana, el renderer y hace el Quit de SDL
 	*/
 	~PlatformModule();
+public:
 	/**
 	* @brief Inicializador de PlatformModule
 	*
@@ -64,35 +64,35 @@ public:
 	int getWindowHeight() const;
 	/*
 	 * @brief Devuelve si una tecla esta pulsada
-	 * @param inputAction - InputAction a comprobar
+	 * @param inputAction - InputEvent a comprobar
 	 * @param device - id del dispositivo a comprobar. -1 por defecto => el primero positivo que encuentre.
 	 */
-	bool isKeyPressed(input::InputAction inputAction, input::DeviceID device = -1) const;
+	bool isKeyPressed(input::InputEvent inputAction, input::DeviceID device = -1) const;
 	/*
 	 * @brief Devuelve si se ha dejado de pulsar una tecla
-	 * @param inputAction - InputAction a comprobar
+	 * @param inputAction - InputEvent a comprobar
 	 * @param device - id del dispositivo a comprobar. -1 por defecto => el primero positivo que encuentre.
 	 */
-	bool isKeyReleased(input::InputAction inputAction, input::DeviceID device = -1) const;
+	bool isKeyReleased(input::InputEvent inputAction, input::DeviceID device = -1) const;
 	/*
 	 * @brief Devuelve cuanto de accionado esta la accion a comprobar
-	 * @param inputAction - InputAction a comprobar
+	 * @param inputAction - InputEvent a comprobar
 	 * @param device - id del dispositivo a comprobar. -1 por defecto => el primero positivo que encuentre.
 	 * @return float - Devuelve de -1 a 1
 	 */
-	float getAxis(input::InputAction inputAction, input::DeviceID device = -1) const;
+	float getAxis(input::InputEvent inputAction, input::DeviceID device = -1) const;
 	/*
 	 * @brief Devuelve si se ha pulsado una accion
 	 * @param actionName - accion a comprobar
 	 * @param device - id del dispositivo a comprobar. -1 por defecto => el primero positivo que encuentre.
 	 */
-	bool isActionPressed(std::string actionName, input::DeviceID device = -1) const;
+	bool isActionPressed(const std::string& actionName, input::DeviceID device = -1) const;
 	/*
 	 * @brief Devuelve si se ha dejado de pulsar una accion
 	 * @param actionName - accion a comprobar
 	 * @param device - id del dispositivo a comprobar. -1 por defecto => el primero positivo que encuentre.
 	 */
-	bool isActionReleased(std::string actionName, input::DeviceID device = -1) const;
+	bool isActionReleased(const std::string& actionName, input::DeviceID device = -1) const;
 	/*
 	 * @brief Getter del input mapper para registrar acciones
 	 * @return input::InputMapper& - referencia al InputMapper
@@ -115,4 +115,5 @@ private:
 	* @brief Manejador de la ventanda de Windows
 	*/
 	HWND _windowHandle = nullptr;
+	friend Engine;
 };

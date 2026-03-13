@@ -73,6 +73,35 @@ const int PlatformModule::getWindowHeight() const
 	return SCREEN_HEIGHT;
 }
 
+bool PlatformModule::isKeyPressed(input::InputEvent inputAction, input::DeviceID device) const
+{
+}
+
+bool PlatformModule::isKeyReleased(input::InputEvent inputAction, input::DeviceID device) const
+{
+	return false;
+}
+
+float PlatformModule::getAxis(input::InputEvent inputAction, input::DeviceID device) const
+{
+	return 0.0f;
+}
+
+bool PlatformModule::isActionPressed(const std::string& actionName, input::DeviceID device) const
+{
+	return false;
+}
+
+bool PlatformModule::isActionReleased(const std::string& actionName, input::DeviceID device) const
+{
+	return false;
+}
+
+input::InputMapper& PlatformModule::getInputMapper()
+{
+	// TODO: insert return statement here
+}
+
 const void PlatformModule::processEvent(const SDL_Event& event)
 {
 	/*switch (event.type) {
