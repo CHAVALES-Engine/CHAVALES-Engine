@@ -9,6 +9,7 @@
 #include "Entity.h"
 #include "Component.h"
 #include "ComponentRegister.h"
+#include "GameConfigurator.h"
 
 namespace fs = std::filesystem;
 
@@ -252,25 +253,6 @@ std::shared_ptr<core::Scene> GameLoader::loadScene(const sceneName& n)
 	return s;
 }
 
-std::string GameLoader::askSceneName()
-{
-	std::string sceneName;
-
-	std::cout << "Introduce el nombre de la escena: ";
-	std::cin >> sceneName;
-
-	return sceneName;
-}
-
-std::string GameLoader::askRootName()
-{
-	std::string rootName;
-
-	std::cout << "Introduce la ruta del directorio principal: ";
-	std::cin >> rootName;
-
-	return rootName;
-}
 
 std::string GameLoader::findSceneFile(const std::string& sceneName, const std::string& root)
 {
@@ -292,11 +274,12 @@ std::string GameLoader::findSceneFile(const std::string& sceneName, const std::s
 
 std::shared_ptr<core::Scene> GameLoader::loadSceneFromSearch()
 {
-	std::string sceneName = askSceneName();
+	GameConfigurator gameConfig("scene_prueba", "..\..\..\..\..\2526-Grupo03-ChavalesEngine\bin\game\scenes");
+	std::string sceneName = gameConfig.getSceneName();
 
 	std::cout << "Buscando escena " << sceneName << ".lua" << std::endl;
 
-	std::string root = askRootName();
+	std::string root = gameConfig.getRoot();
 
 	if (!fs::exists(root) || !fs::is_directory(root))
 	{
