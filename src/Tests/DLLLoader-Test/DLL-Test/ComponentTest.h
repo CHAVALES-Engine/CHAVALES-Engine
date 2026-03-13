@@ -9,20 +9,23 @@
 class ComponentTest : public core::Component
 {
 	int health = 0;
+	int test = 0;
 
 	bool init(const Properties& p) override
 	{
 		// ejemplos de inicializacion:
 		// ejemplo 1
-		setProperty(p, "health", health);
+		
 		// ejemplo 2
-		health = getProperty<int>(p, "health");
-		return true;
+		//health = getProperty<int>(p, "health");
+		return setProperty(p, "health", health) 
+		&& setProperty<int>(p, "focal length", test);
 	}
 	
 	void ready() override
 	{
 		Debug::out("Hola :-) Mi vida es ", health);
+		Debug::out("test ", test);
 	}
 
 	void fixedUpdate() override
@@ -55,7 +58,6 @@ REGISTER_COMPONENT(ComponenteChavalTest);
 class TimerChangescene : public core::Component
 {
 	core::Timer t;
-
 	int tic = 1000;
 
 public:
@@ -63,6 +65,7 @@ public:
 	{
 
 	}
+
 	void ready() override
 	{
 		Debug::out("ready");
