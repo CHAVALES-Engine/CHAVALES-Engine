@@ -259,7 +259,7 @@ namespace input
 	};
 
 	// Input action
-	using InputAction = std::variant<
+	using InputEvent = std::variant<
 		Key, 
 		MouseButton, 
 		MouseAxis, 
@@ -267,5 +267,6 @@ namespace input
 		GamepadAxis>;
 
 	using DeviceID = uint8_t;
+	static constexpr DeviceID KEYBOARD_ID = 0;
 	static constexpr DeviceID ANY_DEVICE = -1;
 } // namespace Input

@@ -3,6 +3,7 @@
 #include <memory>
 #include <string>
 #include "EngineAPI.h"
+#include "Vector3.h"
 /*
  * @file Engine.h
  * @brief Defines the functions for the EngineAPI static library.
@@ -16,7 +17,6 @@ class PhysicsModule;
 namespace core
 {
 	class Scene;
-	class Vector3;
 }
 
 class ENGINE_API Engine
