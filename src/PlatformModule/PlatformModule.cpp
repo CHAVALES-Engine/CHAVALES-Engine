@@ -42,12 +42,12 @@ bool PlatformModule::Init()
 	return true;
 }
 
-const HWND PlatformModule::getWindowHandle() const
+HWND PlatformModule::getWindowHandle() const
 {
 	return _windowHandle;
 }
 
-const bool PlatformModule::syncronize()
+bool PlatformModule::syncronize()
 {
 	SDL_Event event;
 	
