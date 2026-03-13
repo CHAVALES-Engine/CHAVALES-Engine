@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.16.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>ChavalesEngine: Descripción:</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="custom_styles.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="CHAVALES.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">ChavalesEngine
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.16.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Buscar',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('md_extra_2_manual_2_m_x_c3_x_b3dulos_2_m_x_c3_x_b3dulo_01de_01_recursos.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Cargando...</div>
+<div class="SRStatus" id="Searching">Buscando...</div>
+<div class="SRStatus" id="NoMatches">Nada coincide</div>
+</div>
+</div>
+</div>
+</div>
+
+<div><div class="header">
+  <div class="headertitle"><div class="title">Descripción: </div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><p><a class="anchor" id="autotoc_md37"></a></p>
+<p>El módulo de recursos será el encargado de gestionar la carga y descarga de recursos en una pequeña caché.</p>
+<p>El módulo de recursos mapeará las ids internas de los recursos con un nombre (string) asociado, una vez cargado el juego el módulo de recursos recorre recursivamente la carpeta de assets mapeando las rutas a los ficheros con su id asociada. A petición del desarrollador, el módulo de recursos carga 1 vez cada recurso en su mapa correspondiente con la id indicada</p>
+<hr  />
+ <h1 class="doxsection"><a class="anchor" id="autotoc_md39"></a>
+Gestor de recursos de OGRE</h1>
+<p>Para lidiar con el gestor de recursos de ogre, se gestionarán los recursos para ogre en una clase propia. Estas clases envolverán los recursos de ogre y contendrán un puntero a los mismos, así conseguimos que coexistan ambos gestores de recursos. Por otro lado, ogre será el encargado de gestionar la memoria, mientras que el módulo de recursos será el encargado de gestionar la instancia.</p>
+<p>Código usado para parsear "resources.cfg" de ogre: </p><div class="fragment"><div class="line"><span class="comment">// Carga los paths de recursos del archivo de configuración</span></div>
+<div class="line">ConfigFile cf;</div>
+<div class="line">cf.load(<span class="stringliteral">&quot;resources.cfg&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// </span></div>
+<div class="line">ConfigFile::SectionIterator seci = cf.getSectionIterator();</div>
+<div class="line"> </div>
+<div class="line">String secName, typeName, archName;</div>
+<div class="line"><span class="keywordflow">while</span> (seci.hasMoreElements()){</div>
+<div class="line">    secName = seci.peekNextKey();</div>
+<div class="line">    ConfigFile::SettingsMultiMap *settings = seci.getNext();</div>
+<div class="line">    ConfigFile::SettingsMultiMap::iterator i;</div>
+<div class="line">    <span class="keywordflow">for</span>(i = settngs-&gt;begin(); i!= settings-&gt;end(); ++i){</div>
+<div class="line">        typeName = i-&gt;first;</div>
+<div class="line">        archName = i-&gt;second;</div>
+<div class="line">        ResourceGroupManager::getSingleton().addResourceLocation(</div>
+<div class="line">            archName, typeName, secName);</div>
+<div class="line">    }</div>
+<div class="line">}</div>
+</div><!-- fragment --><p> (Código del libro "Pro OGRE 3D Programming")</p>
+<p>Codigo para hardcodear el "resources.cfg" </p><div class="fragment"><div class="line">ResourceGroupManager *rgm = ResourceGroupManager::getSingletonPtr();</div>
+<div class="line">rgm-&gt;addResourceLocation(<span class="stringliteral">&quot;../media/packs/OgreCore.zip&quot;</span>, <span class="stringliteral">&quot;Zip&quot;</span>, <span class="stringliteral">&quot;Bootstrap&quot;</span>)</div>
+<div class="line">rgm-&gt;addResourceLocation(<span class="stringliteral">&quot;../media&quot;</span>, <span class="stringliteral">&quot;FileSystem&quot;</span>, <span class="stringliteral">&quot;General&quot;</span>)</div>
+<div class="line">rgm-&gt;addResourceLocation(<span class="stringliteral">&quot;../media/fonts&quot;</span>, <span class="stringliteral">&quot;FileSystem&quot;</span>, <span class="stringliteral">&quot;General&quot;</span>)</div>
+</div><!-- fragment --><p> (Código del libro "Pro OGRE 3D Programming")</p>
+<p>Una vez añadidas las locations, OGRE inicializa los recursos usando </p><div class="fragment"><div class="line"> C++</div>
+<div class="line">// Inicializa los grupos definidos anteriormente</div>
+<div class="line">ResourceGroupManager::getSingleton().initialiseAllResourceGroups();</div>
+<div class="line">// Inicializa manualmente cada grupo</div>
+<div class="line">ResourceGroupManager::getSingleton().initialiseResourceGroup(&quot;General&quot;);</div>
+<div class="line">ResourceGroupManager::getSingleton().initialiseResourceGroup(&quot;Bootstrap&quot;);</div>
+</div><!-- fragment --><p> (Código del libro "Pro OGRE 3D Programming")</p>
+<p>Este código puede sernos útil a la hora de cargar recursos en nuestro módulo de recursos.</p>
+<p>La idea es añadir e inicializar los recursos por grupos según queramos cargarlos y hacer load del grupo cuando los vayamos a usar. de la misma forma podemos hacer unload (creo?) </p>
+</div></div><!-- contents -->
+</div><!-- PageDoc -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<script>
+document.getElementById('projectlogo').onclick = function() { window.location.href = 'index.html'; };
+</script>
+<footer id="custom-footer">
+    <div id="footer-content">
+        <span>© 2026 Chavales Engine — UCM Proyectos 3</span>
+        <span>Generado con 
+            <a href="https://www.doxygen.org">Doxygen</a> 
+            y <a href="https://github.com/jothepro/doxygen-awesome-css">doxygen-awesome</a>
+        </span>
+    </div>
+</footer>
+</div>
+</div>
+</body>
+</html>

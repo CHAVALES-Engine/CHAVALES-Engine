@@ -24,31 +24,35 @@
 */
 var NAVTREE =
 [
-  [ "My Project", "index.html", [
-    [ "ChavalesEngine", "index.html", "index" ],
-    [ "Classes", "annotated.html", [
-      [ "Class List", "annotated.html", "annotated_dup" ],
-      [ "Class Index", "classes.html", null ],
-      [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],
-      [ "Class Members", "functions.html", [
-        [ "All", "functions.html", "functions_dup" ],
-        [ "Functions", "functions_func.html", "functions_func" ],
+  [ "ChavalesEngine", "index.html", [
+    [ "Equipo de Desarrollo", "index.html#autotoc_md1", null ],
+    [ "Arquitectura del Motor", "index.html#autotoc_md3", [
+      [ "Módulos", "index.html#autotoc_md4", null ],
+      [ "Engine", "index.html#autotoc_md5", null ]
+    ] ],
+    [ "Clases", "annotated.html", [
+      [ "Lista de clases", "annotated.html", "annotated_dup" ],
+      [ "Índice de clases", "classes.html", null ],
+      [ "Jerarquía de clases", "hierarchy.html", "hierarchy" ],
+      [ "Miembros de clases", "functions.html", [
+        [ "Todos", "functions.html", "functions_dup" ],
+        [ "Funciones", "functions_func.html", "functions_func" ],
         [ "Variables", "functions_vars.html", null ],
-        [ "Enumerations", "functions_enum.html", null ]
+        [ "Enumeraciones", "functions_enum.html", null ]
       ] ]
     ] ],
-    [ "Files", "files.html", [
-      [ "File List", "files.html", "files_dup" ]
+    [ "Archivos", "files.html", [
+      [ "Lista de archivos", "files.html", "files_dup" ]
     ] ]
   ] ]
 ];
 
 var NAVTREEINDEX =
 [
-"_audio_module_8h_source.html",
-"dir_a0d713cea12394a4c028036c439896df.html"
+"_audio_module_8cpp_source.html",
+"classcore_1_1_vector4.html#a78717af1e42eed81cac35cbebb6ec0cc"
 ];
 
-var SYNCONMSG = 'click to disable panel synchronization';
-var SYNCOFFMSG = 'click to enable panel synchronization';
-var LISTOFALLMEMBERS = 'List of all members';
+var SYNCONMSG = 'pulsar para deshabilitar sincronización';
+var SYNCOFFMSG = 'pulsar para habilitar sincronización';
+var LISTOFALLMEMBERS = 'Lista de todos los miembros';

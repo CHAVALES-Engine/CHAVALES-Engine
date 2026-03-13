@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.16.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>ChavalesEngine: Archivo de código fuente C:/Users/andres/Documents/GitHub/2526-Grupo03-ChavalesEngine/src/ExecutableProject/main.cpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="custom_styles.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="CHAVALES.png"/></td>
+  <td id="projectalign">
+   <div id="projectname">ChavalesEngine
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.16.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Buscar',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('main_8cpp_source.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Cargando...</div>
+<div class="SRStatus" id="Searching">Buscando...</div>
+<div class="SRStatus" id="NoMatches">Nada coincide</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">main.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/*</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment"> * @file main.cpp</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment"> * @brief Main file for initialization.</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment"> */</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;Engine.h&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;Debug.h&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;filesystem&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;StateMachine.h&quot;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &quot;ComponentDLLLoader.h&quot;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &quot;GameLoader.h&quot;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &quot;Scene.h&quot;</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keyword">using namespace </span>core;</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="keywordtype">int</span> main(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>* argv[])</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>{</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    <span class="comment">// Abre archivo .log</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <a class="code hl_function" href="class_debug.html#a6518a0e9c4e3186d410bffa88f98d1bd">Debug::open</a>();</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="comment">// Inicializa el Engine</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    Engine::init();</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    <a class="code hl_class" href="class_component_d_l_l_loader.html">ComponentDLLLoader</a> dllLoader;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="preprocessor">#if _DEBUG</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    dllLoader.<a class="code hl_function" href="class_component_d_l_l_loader.html#a27686a89a1ee692acb2171f02b7a6a07">load</a>(<span class="stringliteral">&quot;./ComponentsProject_d.dll&quot;</span>);</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="preprocessor">#else </span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    dllLoader.<a class="code hl_function" href="class_component_d_l_l_loader.html#a27686a89a1ee692acb2171f02b7a6a07">load</a>(<span class="stringliteral">&quot;./ComponentsProject_r.dll&quot;</span>);</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    dllLoader.<a class="code hl_function" href="class_component_d_l_l_loader.html#a27686a89a1ee692acb2171f02b7a6a07">load</a>(<span class="stringliteral">&quot;./game/DLL-Test.dll&quot;</span>);</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <a class="code hl_class" href="class_state_machine.html">StateMachine</a> _stateMachine;</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    _stateMachine.<a class="code hl_function" href="class_state_machine.html#a0f3eed2ac28edf164457ba5cc6cbc47a">addAndSetScene</a>(<span class="stringliteral">&quot;scene1&quot;</span>);</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    _stateMachine.<a class="code hl_function" href="class_state_machine.html#a7f472df5ab32f9f798251c485c8d2782">gameLoop</a>();</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="comment">// Cierra archivo .log</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <a class="code hl_function" href="class_debug.html#a2db0db3813d5bcffa7194057fa05f68e">Debug::close</a>();</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>}</div>
+<div class="ttc" id="aclass_component_d_l_l_loader_html"><div class="ttname"><a href="class_component_d_l_l_loader.html">ComponentDLLLoader</a></div><div class="ttdoc">La clase ComponentDLLLoader es la encargada de cargar dlls de componentes y buscar la funcion exporta...</div><div class="ttdef"><b>Definition</b> <a href="_component_d_l_l_loader_8h_source.html#l00021">ComponentDLLLoader.h:22</a></div></div>
+<div class="ttc" id="aclass_component_d_l_l_loader_html_a27686a89a1ee692acb2171f02b7a6a07"><div class="ttname"><a href="class_component_d_l_l_loader.html#a27686a89a1ee692acb2171f02b7a6a07">ComponentDLLLoader::load</a></div><div class="ttdeci">bool load(const std::string &amp;path)</div><div class="ttdoc">Metodo para cargar librerias.</div><div class="ttdef"><b>Definition</b> <a href="_component_d_l_l_loader_8cpp_source.html#l00018">ComponentDLLLoader.cpp:18</a></div></div>
+<div class="ttc" id="aclass_debug_html_a2db0db3813d5bcffa7194057fa05f68e"><div class="ttname"><a href="class_debug.html#a2db0db3813d5bcffa7194057fa05f68e">Debug::close</a></div><div class="ttdeci">static void close()</div><div class="ttdoc">Cierra el archivo de Log. No hace nada si no estaba abierto.</div><div class="ttdef"><b>Definition</b> <a href="_debug_8h_source.html#l00088">Debug.h:88</a></div></div>
+<div class="ttc" id="aclass_debug_html_a6518a0e9c4e3186d410bffa88f98d1bd"><div class="ttname"><a href="class_debug.html#a6518a0e9c4e3186d410bffa88f98d1bd">Debug::open</a></div><div class="ttdeci">static void open(const std::string &amp;file=&quot;log.log&quot;)</div><div class="ttdoc">Abre el fichero de Log. Si ya esta abierto el fichero no lo vuelve a abrir.</div><div class="ttdef"><b>Definition</b> <a href="_debug_8h_source.html#l00077">Debug.h:77</a></div></div>
+<div class="ttc" id="aclass_state_machine_html"><div class="ttname"><a href="class_state_machine.html">StateMachine</a></div><div class="ttdef"><b>Definition</b> <a href="_state_machine_8h_source.html#l00032">StateMachine.h:33</a></div></div>
+<div class="ttc" id="aclass_state_machine_html_a0f3eed2ac28edf164457ba5cc6cbc47a"><div class="ttname"><a href="class_state_machine.html#a0f3eed2ac28edf164457ba5cc6cbc47a">StateMachine::addAndSetScene</a></div><div class="ttdeci">void addAndSetScene(const sceneName &amp;n)</div><div class="ttdoc">Inserta una escena nueva en la maquina de estados y la setea como escena activa actualmente.</div><div class="ttdef"><b>Definition</b> <a href="_state_machine_8cpp_source.html#l00124">StateMachine.cpp:124</a></div></div>
+<div class="ttc" id="aclass_state_machine_html_a7f472df5ab32f9f798251c485c8d2782"><div class="ttname"><a href="class_state_machine.html#a7f472df5ab32f9f798251c485c8d2782">StateMachine::gameLoop</a></div><div class="ttdeci">void gameLoop()</div><div class="ttdoc">Bucle principal.</div><div class="ttdef"><b>Definition</b> <a href="_state_machine_8cpp_source.html#l00033">StateMachine.cpp:33</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<script>
+document.getElementById('projectlogo').onclick = function() { window.location.href = 'index.html'; };
+</script>
+<footer id="custom-footer">
+    <div id="footer-content">
+        <span>© 2026 Chavales Engine — UCM Proyectos 3</span>
+        <span>Generado con 
+            <a href="https://www.doxygen.org">Doxygen</a> 
+            y <a href="https://github.com/jothepro/doxygen-awesome-css">doxygen-awesome</a>
+        </span>
+    </div>
+</footer>
+</div>
+</div>
+</body>
+</html>
