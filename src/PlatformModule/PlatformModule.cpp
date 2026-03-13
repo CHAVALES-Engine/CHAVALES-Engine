@@ -104,7 +104,7 @@ input::InputMapper& PlatformModule::getInputMapper()
 
 const void PlatformModule::processEvent(const SDL_Event& event)
 {
-	/*switch (event.type) {
+	switch (event.type) {
 	case SDL_EVENT_GAMEPAD_ADDED: {
 		uint32_t id = event.gdevice.which;
 		SDL_Gamepad* gamepad = SDL_OpenGamepad(id);
@@ -187,5 +187,5 @@ const void PlatformModule::processEvent(const SDL_Event& event)
 	}
 	default:
 		break;
-	}*/
+	}
 }
