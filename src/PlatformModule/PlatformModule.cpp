@@ -63,12 +63,12 @@ const bool PlatformModule::syncronize()
 	return false;
 }
 
-const int PlatformModule::getWindowWidth() const
+int PlatformModule::getWindowWidth() const
 {
 	return SCREEN_WIDTH;
 }
 
-const int PlatformModule::getWindowHeight() const
+int PlatformModule::getWindowHeight() const
 {
 	return SCREEN_HEIGHT;
 }
@@ -104,7 +104,7 @@ input::InputMapper& PlatformModule::getInputMapper()
 
 const void PlatformModule::processEvent(const SDL_Event& event)
 {
-	switch (event.type) {
+	/*switch (event.type) {
 	case SDL_EVENT_GAMEPAD_ADDED: {
 		uint32_t id = event.gdevice.which;
 		SDL_Gamepad* gamepad = SDL_OpenGamepad(id);
@@ -187,5 +187,5 @@ const void PlatformModule::processEvent(const SDL_Event& event)
 	}
 	default:
 		break;
-	}
+	}*/
 }
