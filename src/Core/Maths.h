@@ -13,9 +13,18 @@
 namespace core
 {
 	// Macros
+	/** @brief
+	*	Constante que representa PI.
+	*/
 #define M_PI 3.141592653589793
+	/** @brief
+	*	Constante que representa el infinito.
+	*/
 #define M_INFINITY INFINITY;
-#define M_RAD2DEG 360 / (M_PI * 2); // constante de conversion de radianes a grados [ deg = rad * rad2deg ]
+	/** @brief
+	*	Constante de conversion de radianes a grados. Uso: [ deg = rad * rad2deg ].
+	*/
+#define M_RAD2DEG 360 / (M_PI * 2);
 
 	/**
 	 * @brief Funciones matematicas.

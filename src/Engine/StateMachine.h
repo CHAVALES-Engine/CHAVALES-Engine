@@ -29,9 +29,17 @@ struct scene
 //using stateMachine = std::unordered_map<sceneID, scenePtr>;
 using nameToID = std::unordered_map<sceneName, sceneID>;
 
+/**
+* @brief StateMachine.
+*
+*	Maquina de estados de la aplicacion, gestiona la escena actual y el bucle principal.
+*/
 class ENGINE_API StateMachine
 {
 public:
+	/**
+	* @brief Constructora de una StateMachine.
+	*/
 	StateMachine();
 	~StateMachine();
 

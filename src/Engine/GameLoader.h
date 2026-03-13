@@ -69,13 +69,15 @@ public:
 	static std::shared_ptr<core::Scene> loadScene(const sceneName& n);
 
 	/**
-	 * @brief Busca en la ruta el nombre de la escena y devuelve la ruta completa hasta el .lua
+	 * @brief Busca en la ruta el nombre de la escena y devuelve la ruta completa hasta el .lua.
 	 *
+	 * @param sceneName - Nombre de la escena a cargar.
+	 * @param root - Ruta donde buscar el nombre de la escena.
 	 */
 	static std::string findSceneFile(const std::string& sceneName, const std::string& root);
 
 	/**
-	 * LLama a preguntar por el nombre de la escena y usa findSceneFile para cargar el archivo .lua con loadLua
+	 * @brief LLama a preguntar por el nombre de la escena y usa findSceneFile para cargar el archivo .lua con loadLua.
 	 *
 	 */
 	static std::shared_ptr<core::Scene> loadSceneFromSearch();
