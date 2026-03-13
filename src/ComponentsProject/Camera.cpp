@@ -3,6 +3,12 @@
 #include "Entity.h"
 #include "Engine.h"
 
+#include <Debug.h>
+#include <PluginSDK.h>
+
+
+REGISTER_COMPONENT(Camera);
+
 Camera::Camera() : _FOVy(45.0f), _nearClipDistance(0.1f), _farClipDistance(1000.0f), _focalLength(1.0f), _bgColor(0.0f, 0.0f, 0.0f, 1.0f) {}
 
 Camera::~Camera()

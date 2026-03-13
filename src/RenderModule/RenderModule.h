@@ -42,6 +42,9 @@ private:
     std::vector<UIElement> _uiElements;
 };
 
+using entityID = uint64_t;
+using cameraID = uint64_t;
+
 class RenderModule
 {
 public:
@@ -85,15 +88,31 @@ public:
     /*
     * @brief Camara nueva. Se asigna un id por orden de creacion. Main Camera id 0 y añadidas manualmente 1 en adelante.
     */
-    void addCamera(core::Vector3<float> pos = {0.0, 0.0, 0.0}, core::Vector3<float> lookAt = { 0.0, 0.0, 0.0 });
+    void addCamera(const entityID& entityID, const float& FOVy, const float& nearClipDistance, const float& farClipDistance, const float& focalLength, const core::Color& bgColor);
     /*
     * @brief Borrar camara por id. A las camaras creadas posteriormente se les resta el id en 1.
     */
-    void deleteCamera(uint64_t id);
+    void deleteCamera(const cameraID& id);
     /*
     * @brief El viewport mostrara la vista de esta camara.
     */
-    void setActiveCamera(uint64_t id);
+    void setAsActiveCamera(const cameraID& id);
+    /*
+    * @brief Establecer FOVy.
+    */
+    void setCameraFOVy(const cameraID& id, const float& FOVy);
+    /*
+    * @brief Establecer distancia del plano cercano.
+    */
+    void setCameraNearClipDistance(const cameraID& id, const float& nearClipDistance);
+    /*
+    * @brief Establecer distancia del plano lejano.
+    */
+    void setCameraFarClipDistance(const cameraID& id, const float& farClipDistance);
+    /*
+    * @brief Establecer distancia focal.
+    */
+    void setCameraFocalLength(const cameraID& id, const float& focalLength);
     /*
     * @brief Limpiar camaras. Deja solo la main camera en posicion inicial.
     */

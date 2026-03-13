@@ -247,25 +247,23 @@ void RenderModule::setViewportBGColor(core::Color color)
     _vp->setBackgroundColour(Ogre::ColourValue(color.getX(), color.getY(), color.getZ()));
 }
 
-void RenderModule::addCamera(core::Vector3<float> pos, core::Vector3<float> lookAt)
+void RenderModule::addCamera(const entityID& entityID, const float& FOVy, const float& nearClipDistance, const float& farClipDistance, const float& focalLength, const core::Color& bgColor)
 {
-    /*if (!_sceneMgr) return;
+    /*Ogre::Camera* camera = _sceneMgr->createCamera("camera" + );
+    EngineNode aux = _engineNodes.back();
 
-    int id = _cameraNodes.size();
-    std::string camName = "Camera" + std::to_string(id);
-    Ogre::Camera* cam = _sceneMgr->createCamera(camName);
+    if (aux.nodeID = entityID)
+    {
+        aux.sceneNode->
+    }
 
-    Ogre::SceneNode* node = _sceneMgr->getRootSceneNode()->createChildSceneNode();
-    node->attachObject(cam);
+    else
+    {
 
-    node->setPosition(Ogre::Vector3(pos.getX(), pos.getY(), pos.getZ()));
-    node->lookAt(Ogre::Vector3(lookAt.getX(), lookAt.getY(), lookAt.getZ()), Ogre::Node::TS_WORLD);
-
-    _cameraNodes.push_back(node);
-    _cameras.push_back(cam);*/
+    }*/
 }
 
-void RenderModule::deleteCamera(uint64_t id)
+void RenderModule::deleteCamera(const cameraID& id)
 {
     /*if (id <= 0 || id >= (int)_cameraNodes.size()) return;
 
@@ -282,7 +280,7 @@ void RenderModule::deleteCamera(uint64_t id)
     _cameras.erase(_cameras.begin() + id);*/
 }
 
-void RenderModule::setActiveCamera(uint64_t id)
+void RenderModule::setAsActiveCamera(const cameraID& id)
 {
     /*if (!_vp || id < 0 || id >= (int)_cameraNodes.size()) return;
 
@@ -329,4 +327,24 @@ void RenderModule::shutdown()
     _root = nullptr;
     _window = nullptr;
     _sceneMgr = nullptr;
+}
+
+void RenderModule::setCameraFOVy(const cameraID& id, const float& FOVy)
+{
+    _cameras[id]->setFOVy(Ogre::Radian(FOVy));
+}
+
+void RenderModule::setCameraNearClipDistance(const cameraID& id, const float& nearClipDistance)
+{
+    _cameras[id]->setNearClipDistance(nearClipDistance);
+}
+
+void RenderModule::setCameraFarClipDistance(const cameraID& id, const float& farClipDistance)
+{
+    _cameras[id]->setFarClipDistance(farClipDistance);
+}
+
+void RenderModule::setCameraFocalLength(const cameraID& id, const float& focalLength)
+{
+    _cameras[id]->setFocalLength(focalLength);
 }
