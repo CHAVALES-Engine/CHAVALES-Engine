@@ -12,10 +12,6 @@
 using namespace std;
 Engine* Engine::_instance = nullptr;
 
-Engine::~Engine()
-{
-}
-
 bool Engine::init()
 {
 	// utilizamos este tipo de inicializacion para tener mas control

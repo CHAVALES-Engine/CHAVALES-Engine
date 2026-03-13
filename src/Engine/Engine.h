@@ -20,8 +20,8 @@ namespace core
 
 class ENGINE_API Engine
 {
+	~Engine() = default;
 public:
-	~Engine();
 	/*
 	* @brief
 	*	Inicializacion de modulos
