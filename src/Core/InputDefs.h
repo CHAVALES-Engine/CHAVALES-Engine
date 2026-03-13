@@ -206,12 +206,13 @@ namespace input
 
 	enum MouseAxis : uint8_t
 	{
-		MOUSE_AXIS_X         = 0,  // posicion absoluta X
-		MOUSE_AXIS_Y         = 1,  // posicion absoluta Y
-		MOUSE_AXIS_REL_X     = 2,  // movimiento relativo X (delta)
-		MOUSE_AXIS_REL_Y     = 3,  // movimiento relativo Y (delta)
-		MOUSE_AXIS_SCROLL_X  = 4,  // rueda horizontal
-		MOUSE_AXIS_SCROLL_Y  = 5,  // rueda vertical
+		MOUSE_AXIS_NONE		 = 0,
+		MOUSE_AXIS_X         = 1,  // posicion absoluta X
+		MOUSE_AXIS_Y         = 2,  // posicion absoluta Y
+		MOUSE_AXIS_REL_X     = 3,  // movimiento relativo X (delta)
+		MOUSE_AXIS_REL_Y     = 4,  // movimiento relativo Y (delta)
+		MOUSE_AXIS_SCROLL_X  = 5,  // rueda horizontal
+		MOUSE_AXIS_SCROLL_Y  = 6,  // rueda vertical
 		MOUSE_AXIS_COUNT
 	};
 
@@ -260,13 +261,22 @@ namespace input
 
 	// Input action
 	using InputEvent = std::variant<
-		Key, 
-		MouseButton, 
-		MouseAxis, 
-		GamepadButton, 
-		GamepadAxis>;
+		Key,
+		MouseButton,
+		MouseAxis,
+		GamepadButton,
+		GamepadAxis>; 
 
-	using DeviceID = uint8_t;
+	using InputAxis = std::variant<
+		MouseAxis,
+		GamepadAxis>; 
+
+	using InputButtons = std::variant<
+		Key,
+		MouseButton,
+		GamepadButton>;
+
+	using DeviceID = uint32_t;
 	static constexpr DeviceID KEYBOARD_ID = 0;
 	static constexpr DeviceID ANY_DEVICE = -1;
 } // namespace Input

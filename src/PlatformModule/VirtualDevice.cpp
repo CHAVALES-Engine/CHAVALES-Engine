@@ -11,6 +11,23 @@ void input::VirtualDevice::setConnected(bool con)
 	_connected = con;
 }
 
+void input::VirtualDevice::setAxis(input::InputAxis axis, float value)
+{
+	/*axis | match{
+	[](MouseAxis x) { _mouseAxisState[x] = value; },
+	[](GamepadAxis x) { _gamepadAxisState[x] = value; }
+	};*/
+}
+
+void input::VirtualDevice::setButton(input::InputButtons button, bool value)
+{/*
+	button | match{
+	[](Key x) { _keyState[x] = value; },
+	[](MouseButton x) { _mouseButtonState[x] = value; },
+	[](GamepadButton x) { _gamepadButtonState[x] = value; }
+	};*/
+}
+
 bool input::VirtualDevice::IsPressed(Key key) const
 {
 	return _connected && _keyState[key];

@@ -13,6 +13,7 @@
 
 struct SDL_Window;
 union SDL_Event;
+struct SDL_Gamepad;
 
 namespace input
 {
@@ -24,6 +25,7 @@ class Engine;
 */
 class PlatformModule
 {
+public:
 	/**
 	* @brief Constructora vacia de PlatformModule
 	*
@@ -35,7 +37,6 @@ class PlatformModule
 	* Elimina la ventana, el renderer y hace el Quit de SDL
 	*/
 	~PlatformModule();
-public:
 	/**
 	* @brief Inicializador de PlatformModule
 	*
@@ -105,9 +106,25 @@ private:
 	*/
 	const void processEvent(const SDL_Event& event);
 	/**
-	* @brief ´mapa de dispositivos virtuales
+	 * @brief Castea un axis de SDL a nuestro propio sistema.
+	 * @param event - Evento a castear.
+	 * @return input::InputAxis - Evento casteado.
+	 */
+	input::InputAxis castAxis(const SDL_Event& event);
+	/**
+	 * @brief Castea un button de SDL a nuestro propio sistema.
+	 * @param event - Evento a castear.
+	 * @return input::InputButtons - Evento casteado.
+	 */
+	input::InputButtons castButton(const SDL_Event& event);
+	/**
+	* @brief mapa de dispositivos virtuales
 	*/
-	std::unordered_map<uint8_t, input::VirtualDevice> _virtualDevices;
+	std::unordered_map<uint32_t, input::VirtualDevice> _virtualDevices;
+	/**
+	* @brief mapa de ids
+	*/
+	std::unordered_map<uint32_t, SDL_Gamepad> _devicesID;
 	/**
 	 */
 	input::InputMapper _inputMapper;

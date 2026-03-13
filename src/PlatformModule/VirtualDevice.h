@@ -74,7 +74,20 @@ namespace input
         * @param con - Estado a establecer.
         */
         void setConnected(bool con);
-
+    	/**
+        * @brief Para settear un valor a un axis;
+        * 
+        * @param axis - Axis a establecer.
+        * @param value - Cantidad accionada.
+        */
+        void setAxis(input::InputAxis axis, float value);
+        /**
+        * @brief Para settear un valor a un boton;
+        *
+        * @param button - Boton a establecer.
+        * @param value - Estado a establecer.
+        */
+        void setButton(input::InputButtons button, bool value);
         /**
         * @brief Clase PlatformModule amiga para poder acceder a metodos privados.
         */
