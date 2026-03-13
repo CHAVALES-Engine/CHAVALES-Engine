@@ -7,6 +7,8 @@
 #include "RenderModule.h"
 #include "AudioModule.h"
 #include "PhysicsModule.h"
+#include "InputMapper.h"
+
 using namespace std;
 Engine* Engine::_instance = nullptr;
 
@@ -30,10 +32,10 @@ Engine* Engine::instance()
 void Engine::release()
 {
 	if (_instance) {
-		/*delete _instance->_platformModule;
+		delete _instance->_platformModule;
 		delete _instance->_audioModule;
 		delete _instance->_physicsModule;
-		delete _instance->_renderModule;*/
+		delete _instance->_renderModule;
 		delete _instance;
 		_instance = nullptr;
 	}
@@ -84,24 +86,18 @@ bool Engine::_initPriv()
 	//Uso unique_ptr entonces no hace falta delete porque se maneja solo
 	
 	//Platform
-	_platformModule = std::make_unique<PlatformModule>();
+	_platformModule = new PlatformModule();
 	if (!_platformModule->Init()) return false;
 	//Render
-	_renderModule = std::make_unique<RenderModule>();
+	_renderModule = new RenderModule();
 	if (!_renderModule->Init(_platformModule->getWindowHandle(), _platformModule->getWindowWidth(), _platformModule->getWindowHeight()))
 		return false;
 	//Audio
-	_audioModule = std::make_unique<AudioModule>();
+	_audioModule = new AudioModule();
 	if (!_audioModule->Init()) return false;
 	//Fisicas
-	_physicsModule = std::make_unique<PhysicsModule>();
+	_physicsModule = new PhysicsModule();
 	if (!_physicsModule->Init()) return false;
-
-	//paso propiedades al engine
-	/*_platformModule = platform.release();
-	_renderModule = render.release();
-	_audioModule = audio.release();
-	_physicsModule = physics.release();*/
 
 	return true;
 }

@@ -99,7 +99,7 @@ public:
 	 * @brief Getter del input mapper para registrar acciones
 	 * @return input::InputMapper& - referencia al InputMapper
 	 */
-	input::InputMapper& getInputMapper();
+	input::InputMapper* getInputMapper();
 private:
 	/**
 	* @brief procesa un evento de sdl
@@ -124,10 +124,10 @@ private:
 	/**
 	* @brief mapa de ids
 	*/
-	std::unordered_map<uint32_t, SDL_Gamepad> _devicesID;
+	std::unordered_map<uint32_t, SDL_Gamepad*> _devicesID;
 	/**
 	 */
-	input::InputMapper _inputMapper;
+	input::InputMapper* _inputMapper;
 	/**
 	* @brief Ventana de SDL
 	*/

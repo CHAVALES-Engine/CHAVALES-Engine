@@ -16,6 +16,7 @@
 PlatformModule::PlatformModule() :
 	_window(nullptr), _windowHandle(nullptr)
 {
+	_inputMapper = new input::InputMapper();
 }
 
 PlatformModule::~PlatformModule()
@@ -102,7 +103,7 @@ bool PlatformModule::isActionReleased(const std::string& actionName, input::Devi
 	return false;
 }
 
-input::InputMapper& PlatformModule::getInputMapper()
+input::InputMapper* PlatformModule::getInputMapper()
 {
 	// TODO: insert return statement here
 	return _inputMapper;

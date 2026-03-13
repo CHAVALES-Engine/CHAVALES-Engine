@@ -1,6 +1,5 @@
 #pragma once
 #include <functional>
-#include <memory>
 #include <string>
 #include "EngineAPI.h"
 #include "Vector3.h"
@@ -73,21 +72,21 @@ private:
 	* @brief
 	*	Referencia al modulo de platform
 	*/
-	std::unique_ptr<PlatformModule> _platformModule = nullptr;
+	PlatformModule* _platformModule = nullptr;
 	/*
 	* @brief
 	*	Referencia al modulo de render
 	*/
-	std::unique_ptr<RenderModule> _renderModule = nullptr;
+	RenderModule* _renderModule = nullptr;
 	/*
 	* @brief
 	*	Referencia al modulo de audio
 	*/
-	std::unique_ptr<AudioModule> _audioModule = nullptr;
+	AudioModule* _audioModule = nullptr;
 	/*
 	* @brief
 	*	Referencia al modulo de fisica
 	*/
-	std::unique_ptr<PhysicsModule> _physicsModule = nullptr;
+	PhysicsModule* _physicsModule = nullptr;
 	std::function<void(std::string)> _addAndSetScene;
 };
