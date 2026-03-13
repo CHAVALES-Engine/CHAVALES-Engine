@@ -3,6 +3,8 @@
 #include <SDL3/SDL.h>
 
 #include <Debug.h>
+#include "VirtualDevice.h"
+#include "InputMapper.h"
 
 
 #define SCREEN_WIDTH 1280
@@ -75,6 +77,7 @@ int PlatformModule::getWindowHeight() const
 
 bool PlatformModule::isKeyPressed(input::InputEvent inputAction, input::DeviceID device) const
 {
+	return false;
 }
 
 bool PlatformModule::isKeyReleased(input::InputEvent inputAction, input::DeviceID device) const
@@ -100,6 +103,7 @@ bool PlatformModule::isActionReleased(const std::string& actionName, input::Devi
 input::InputMapper& PlatformModule::getInputMapper()
 {
 	// TODO: insert return statement here
+	return _inputMapper;
 }
 
 const void PlatformModule::processEvent(const SDL_Event& event)

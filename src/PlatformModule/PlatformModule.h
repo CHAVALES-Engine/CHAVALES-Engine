@@ -9,12 +9,13 @@
 #include <unordered_map>
 #include <Windows.h>
 #include "InputDefs.h"
+#include "InputMapper.h"
 
 struct SDL_Window;
 union SDL_Event;
+
 namespace input
 {
-	class InputMapper;
 	class VirtualDevice;
 }
 class Engine;
@@ -107,6 +108,9 @@ private:
 	* @brief ´mapa de dispositivos virtuales
 	*/
 	std::unordered_map<uint8_t, input::VirtualDevice> _virtualDevices;
+	/**
+	 */
+	input::InputMapper _inputMapper;
 	/**
 	* @brief Ventana de SDL
 	*/
