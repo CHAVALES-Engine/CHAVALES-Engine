@@ -69,18 +69,6 @@ public:
 	static std::shared_ptr<core::Scene> loadScene(const sceneName& n);
 
 	/**
-	 * @brief Pregunta por consola el nombre de la escena a buscar.
-	 *
-	 */
-	static std::string askSceneName();
-
-	/**
-	 * @brief Pregunta por consola el nombre de la ruta en la que buscar.
-	 *
-	 */
-	static std::string askRootName();
-
-	/**
 	 * @brief Busca en la ruta el nombre de la escena y devuelve la ruta completa hasta el .lua
 	 *
 	 */

@@ -104,6 +104,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\src\PhysicsModule\framework.h" />
     <ClInclude Include="..\..\src\PhysicsModule\PhysicsModule.h" />
+    <ClInclude Include="RigidBody.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\PhysicsModule\PhysicsModule.cpp" />
