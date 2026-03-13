@@ -7,8 +7,12 @@
 #include <Vector3.h>
 #include <Color.h>
 
+using cameraID = uint64_t;
+
 class Camera : public core::Component
 {
+	cameraID _cameraID;
+
 	float _FOVy;
 	float _nearClipDistance;
 	float _farClipDistance;
@@ -21,7 +25,9 @@ public:
 
 	bool init(const Properties& p) override;
 
-	void setFOVy(const float FOVy);
+	void setAsActiveCamera();
+
+	void setFOVy(const float& FOVy);
 	void setNearClipDistance(const float& nearClipDistance);
 	void setFarClipDistance(const float& farClipDistance);
 	void setFocalLength(const float& focalLength);
