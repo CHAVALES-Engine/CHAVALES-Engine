@@ -70,6 +70,10 @@ void Engine::getLooping(int chID, int* typeOfLooping)
 {
 	_audioModule->getLooping(chID, typeOfLooping);
 }
+void Engine::setListener(core::Vector3<> pos, core::Vector3<> forward, core::Vector3<> up, core::Vector3<> vel)
+{
+	_audioModule->setListener(pos, forward, up, vel);
+}
 bool Engine::stopPlaying(int chID)
 {
 	return _audioModule->stopPlaying(chID);

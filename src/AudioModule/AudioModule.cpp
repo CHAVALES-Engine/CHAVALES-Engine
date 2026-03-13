@@ -35,6 +35,7 @@ bool AudioModule::Init()
 		Debug::error("FMOD error: Couldn't initialize system");
 		return false;
 	}
+	_system->set3DSettings(1.0f, 1.0f, 1.0f);
 	return true;
 }
 
@@ -61,7 +62,7 @@ void AudioModule::ShutDown()
 {
 	//Destructora
 	_system->release();
-	delete _system;	
+	delete _system;
 }
 
 bool AudioModule::loadSound(const char* path, std::string id, bool sound3D, bool soundLooping, bool soundStream)
@@ -175,6 +176,15 @@ bool AudioModule::pauseChannel(int chID, bool pause)
 		return false;
 	}
 	return itChFound->second->setPaused(pause);
+}
+
+void AudioModule::setListener(core::Vector3<> pos, core::Vector3<> forward, core::Vector3<> up, core::Vector3<> vel)
+{
+	FMOD_VECTOR _pos = { pos.getX(), pos.getY(), pos.getZ() };
+	FMOD_VECTOR _vel = { vel.getX(), vel.getY(), vel.getZ() };
+	FMOD_VECTOR _forward = { forward.getX(), forward.getY(), forward.getZ() };
+	FMOD_VECTOR _up = { up.getX(), up.getY(), up.getZ() };
+	_system->set3DListenerAttributes(0, &_pos, &_vel, &_forward, &_up);
 }
 
 void AudioModule::muteEverything()

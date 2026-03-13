@@ -54,6 +54,7 @@ public:
 	int playSound(std::string id, const core::Vector3<> vec3 = { 0.0f,0.0f,0.0f }, float soundVolume = 0.0f, int looping = 0);
 	void setChannelVolume(int chID, float newVolume = 0.0f);
 	void getLooping(int chID, int* typeOfLooping);
+	void setListener(core::Vector3<> pos, core::Vector3<> forward, core::Vector3<> up, core::Vector3<> vel = { 0.0,0.0,0.0 });
 
 	bool stopPlaying(int chID);
 

@@ -80,6 +80,15 @@ public:
 	bool pauseChannel(int chID, bool pause);
 
 	/// <summary>
+	/// Updates de parameters of FMOD audio listener
+	/// </summary>
+	/// <param name="pos">Position of the Listener</param>
+	/// <param name="forward">Forward vector of the Listener</param>
+	/// <param name="up">Up vector of the Listenter</param>
+	/// <param name="vel">(optional) Velocity of the Listener, for Doppler effect</param>
+	void setListener(core::Vector3<> pos, core::Vector3<> forward, core::Vector3<> up, core::Vector3<> vel = { 0.0,0.0,0.0 });
+
+	/// <summary>
 	/// Method to mute all chanels
 	/// </summary>
 	void muteEverything();

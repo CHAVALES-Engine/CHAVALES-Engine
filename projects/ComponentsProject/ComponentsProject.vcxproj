@@ -14,11 +14,13 @@
     <ClInclude Include="..\..\src\ComponentsProject\Camera.h" />
     <ClInclude Include="..\..\src\ComponentsProject\MeshRenderer.h" />
     <ClInclude Include="..\..\src\ComponentsProject\Transform.h" />
+    <ClInclude Include="AudioListener.h" />
     <ClInclude Include="AudioSource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\ComponentsProject\Camera.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\Transform.cpp" />
+    <ClCompile Include="AudioListener.cpp" />
     <ClCompile Include="AudioSource.cpp" />
     <ClCompile Include="MeshRenderer.cpp" />
   </ItemGroup>
