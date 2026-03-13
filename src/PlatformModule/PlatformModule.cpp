@@ -63,12 +63,12 @@ const bool PlatformModule::syncronize()
 	return false;
 }
 
-const int PlatformModule::getWindowWidth() const
+int PlatformModule::getWindowWidth() const
 {
 	return SCREEN_WIDTH;
 }
 
-const int PlatformModule::getWindowHeight() const
+int PlatformModule::getWindowHeight() const
 {
 	return SCREEN_HEIGHT;
 }
