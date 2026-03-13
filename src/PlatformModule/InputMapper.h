@@ -15,13 +15,13 @@ namespace input
 		 * @param actionName - Nombre de la accion.
 		 * @param inputAction - Input que lanza la accion.
 		 */
-		void addAction(const std::string& actionName, InputAction inputAction, DeviceID = -1);
+		void addAction(const std::string& actionName, InputEvent inputAction, DeviceID = -1);
 		/**
 		 * @brief Quita una accion asociada a un nombre de accion.
 		 * @param actionName - accion de la que eliminar un input.
 		 * @param inputAction - Input que quitar del mapa.
 		 */
-		void removeAction(const std::string& actionName, InputAction inputAction, DeviceID = -1);
+		void removeAction(const std::string& actionName, InputEvent inputAction, DeviceID = -1);
 		/**
 		 * @brief Elimina una accion del mapa.
 		 * @param actionName - accion a eliminar.
@@ -32,7 +32,7 @@ namespace input
 		 * @param actionName - Accion a consultar.
 		 * @return std::vector<InputAction> - Vector de InputActions correspondientes.
 		 */
-		std::vector<InputAction> getInputActions(const std::string& actionName);
+		std::vector<InputEvent> getInputActions(const std::string& actionName);
 		/**
 		 * @brief Devuelve todas las acciones.
 		 * @return std::vector<std::string> - Nombres de acciones registradas.
@@ -55,7 +55,7 @@ namespace input
 		/**
 		 * @brief Mapa de acciones.
 		 */
-		std::unordered_map<std::string, std::vector<std::pair<DeviceID, InputAction>>> mapper;
+		std::unordered_map<std::string, std::vector<std::pair<DeviceID, InputEvent>>> mapper;
 	};
 
 }

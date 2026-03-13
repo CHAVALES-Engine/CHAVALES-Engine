@@ -259,7 +259,7 @@ namespace input
 	};
 
 	// Input action
-	using InputAction = std::variant<
+	using InputEvent = std::variant<
 		Key, 
 		MouseButton, 
 		MouseAxis, 
