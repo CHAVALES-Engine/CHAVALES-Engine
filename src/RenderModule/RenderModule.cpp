@@ -57,6 +57,11 @@ void ImGuiManager::Draw()
     ImGui::End();
 }
 
+RenderModule::~RenderModule()
+{
+    shutdown();
+}
+
 bool RenderModule::Init(const HWND handle, const int width, const int height)
 {
     try
@@ -214,7 +219,7 @@ void RenderModule::cleanScene()
     //_ui->Clear();
 }
 
-transformID RenderModule::addNode(const entityID& entityID, const core::Vector3<float>& pos, const core::Quaternion<float>& rot)
+transformID RenderModule::addNode(const entityID& entityID, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float> scale)
 {
     EngineNode aux = _engineNodes.back();
 
@@ -223,6 +228,7 @@ transformID RenderModule::addNode(const entityID& entityID, const core::Vector3<
         aux = _engineNodes.emplace_back(_sceneMgr->getRootSceneNode()->createChildSceneNode(), entityID);
         aux.sceneNode->setPosition(Ogre::Vector3(pos.getX(), pos.getY(), pos.getZ()));
         aux.sceneNode->setOrientation(Ogre::Quaternion(rot.getX(), rot.getY(), rot.getZ(), rot.getW()));
+        aux.sceneNode->setScale(Ogre::Vector3(scale.getX(), scale.getY(), scale.getZ()));
         return _nextTransformID++;
     }
     return _nextTransformID;
@@ -383,14 +389,6 @@ void RenderModule::cleanCameras()
     mainNode->setOrientation(Ogre::Quaternion::IDENTITY);*/
 }
 
-void RenderModule::shutdown()
-{
-    delete _root;
-    _root = nullptr;
-    _window = nullptr;
-    _sceneMgr = nullptr;
-}
-
 void RenderModule::setCameraFOVy(const cameraID& id, const float& FOVy)
 {
     if (id >= 0 && id < _cameras.size()) _cameras[id]->setFOVy(Ogre::Radian(FOVy));
@@ -409,4 +407,12 @@ void RenderModule::setCameraFarClipDistance(const cameraID& id, const float& far
 void RenderModule::setCameraFocalLength(const cameraID& id, const float& focalLength)
 {
     if (id >= 0 && id < _cameras.size()) _cameras[id]->setFocalLength(focalLength);
+}
+
+void RenderModule::shutdown()
+{
+    delete _root;
+    _root = nullptr;
+    _window = nullptr;
+    _sceneMgr = nullptr;
 }
