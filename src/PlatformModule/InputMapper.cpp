@@ -1,5 +1,8 @@
 #include "InputMapper.h"
 
+#include <algorithm>
+#include <vector>
+
 #include <Debug.h>
 
 
@@ -10,11 +13,12 @@ input::InputMapper::InputMapper()
 
 void input::InputMapper::addEvent(const std::string& actionName, InputEvent inputEvent, DeviceID id)
 {
-	if (hasAction(actionName))
+	if (!hasAction(actionName))
 	{
-		//PAIGRO???
-		Debug::warning("Action named \"", actionName, "\" does not exists so it is created.");
+		//PAIGRO??? Esto es mas informativo que otra cosa preguntar si la gente lo quiere o no.
+		Debug::warning("Action named \"", actionName, "\" does not exists so it will be created.");
 	}
+
 
 	// Si el evento ya esta no metemos nada.
 	if (_entryIsInMap(actionName, { id, inputEvent }))
@@ -22,6 +26,7 @@ void input::InputMapper::addEvent(const std::string& actionName, InputEvent inpu
 		Debug::error("Event named \"", actionName, "\" alredy exists so it is not added again.");
 		return;
 	}
+
 
 	// Metemos el evento y si es necesario la accion tambien.
 	_mapper[actionName].push_back({ id, inputEvent });
@@ -37,6 +42,7 @@ void input::InputMapper::removeEvent(const std::string& actionName, InputEvent i
 		return;
 	}
 
+
 	// Buscamos el evento y su id asociada, si no esta no se puede eliminar nada.
 	InputMappperEntry aux = { id, inputEvent };
 	auto position = std::find(_mapper[actionName].begin(), _mapper[actionName].end(), aux);
@@ -49,6 +55,7 @@ void input::InputMapper::removeEvent(const std::string& actionName, InputEvent i
 	// Eliminamos el evento.
 	_mapper[actionName].erase(position);
 	Debug::out("Event removed from action called \"", actionName, "\".");
+
 
 	// Si la accion se ha quedado vacia la eliminamos.
 	if (_mapper[actionName].empty()) _removeAction(actionName);
@@ -63,8 +70,8 @@ void input::InputMapper::removeEvents(const std::string& actionName)
 		return;
 	}
 
-	//PAIGRO todo
-
+	_mapper.erase(actionName); // Eliminamos toda la accion => se elimina todo lo de dentro tambien.
+	Debug::out("All events from \"", actionName, "\" deleted.");
 }
 
 void input::InputMapper::removeEventsFromID(const std::string& actionName, DeviceID id)
@@ -76,21 +83,36 @@ void input::InputMapper::removeEventsFromID(const std::string& actionName, Devic
 		return;
 	}
 
-	// PAIGR todo
+
+	std::vector<InputMappperEntry>& action = _mapper[actionName]; // Vector con id-IE de la accion.
+
+	// erase-remove_if idiom.
+	action.erase(// Erase con rango.
+		std::remove_if( // Recoloca dado un incio y final y el predicado.
+			action.begin(),
+			action.end(),
+			[id](const InputMappperEntry& entry) { return entry.first == id; }),
+		action.end());
+	Debug::out("Events with id: ", id, " removed from action named \"", actionName, "\".");
+
+	// Si la accion se ha quedado vacia la eliminamos.
+	if (_mapper[actionName].empty()) _removeAction(actionName);
 }
 
 std::vector<input::InputEvent> input::InputMapper::getInputEvents(const std::string& actionName, DeviceID id)
 {
+	// Si no existe la accion no se puede devolver nada.
 	if (!hasAction(actionName))
 	{
 		Debug::error("Action named \"", actionName, "\" does not exists so its events can not be returned.");
 		return {};
 	}
 
-	std::vector<InputMappperEntry> action = _mapper[actionName];
-	std::vector<InputEvent> events;
 
-	for (int i = 0; i < action.size(); i++)
+	std::vector<InputMappperEntry>& action = _mapper[actionName]; // Vector con id-IE de la accion.
+	std::vector<InputEvent> events; // Vecto de eventos a devolver.
+
+	for (size_t i = 0; i < action.size(); i++)
 	{
 		if (action[i].first == id)
 		{
@@ -103,19 +125,24 @@ std::vector<input::InputEvent> input::InputMapper::getInputEvents(const std::str
 
 std::vector<std::string> input::InputMapper::getActions()
 {
-	//PAIGRO todo
+	std::vector<std::string> actions; // Vector de acciones a devolver.
 
-	return std::vector<std::string>();
+	for (auto it : _mapper)
+	{
+		actions.push_back(it.first);
+	}
+
+	return actions;
 }
 
 bool input::InputMapper::hasAction(const std::string& actionName) const
 {
-	return (_mapper.find(actionName) == _mapper.end());
+	return (_mapper.find(actionName) != _mapper.end());
 }
 
 float input::InputMapper::getActionAxis(const std::string& actionName, DeviceID id) const
 {
-	//que?
+	// ANDRES AQUI va a Platform.
 
 	return 0.0f;
 }
@@ -125,7 +152,7 @@ void input::InputMapper::_removeAction(const std::string& actionName)
 {
 	if (_mapper.find(actionName) == _mapper.end())
 	{
-		Debug::error("Action named \"", actionName, "\" doesnt exists so it can not be removed.");
+		Debug::error("Action named \"", actionName, "\" does not exists so it can not be removed.");
 		return;
 	}
 
@@ -135,7 +162,7 @@ void input::InputMapper::_removeAction(const std::string& actionName)
 
 bool input::InputMapper::_entryIsInMap(const std::string& actionName, InputMappperEntry entry)
 {
-	if (_mapper.find(actionName) == _mapper.end())
+	if (!hasAction(actionName))
 	{
 		return false;
 	}
