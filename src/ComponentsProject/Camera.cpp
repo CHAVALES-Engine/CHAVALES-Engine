@@ -23,14 +23,14 @@ bool Camera::init(const Properties& p)
 	_farClipDistance = getProperty<float>(p, "far clip distance");
 	_focalLength = getProperty<float>(p, "focal length");
 	_bgColor = getProperty<core::Color>(p, "background color");
-	return true;
-
 	//_cameraID = Engine::addCamera(getEntity()->getEntityID(), _FOVy, _nearClipDistance, _farClipDistance, _focalLength, _bgColor);
+	return true;
 }
 
 void Camera::setAsActiveCamera()
 {
 	//Engine::setAsActiveCamera(_cameraID);
+	//Engine::setCameraBgColor(_cameraID, _bgColor);
 }
 
 void Camera::setFOVy(const float& FOVy)

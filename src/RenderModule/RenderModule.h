@@ -12,6 +12,7 @@
 #include <vector>
 #include <functional>
 #include "Vector3.h"
+#include "Quaternion.h"
 #include "Color.h"
 
 namespace Ogre
@@ -21,10 +22,16 @@ namespace Ogre
     class Camera;
 }
 
+using entityID = uint64_t;
+using transformID = uint64_t;
+using cameraID = uint64_t;
+
 struct EngineNode
 {
     Ogre::SceneNode* sceneNode;
-    uint64_t nodeID;
+    entityID nodeID;
+
+    EngineNode(Ogre::SceneNode* node, entityID id) : sceneNode(node), nodeID(id) {}
 };
 
 class ImGuiManager
@@ -41,9 +48,6 @@ private:
     Ogre::ImGuiOverlay* _ui;
     std::vector<UIElement> _uiElements;
 };
-
-using entityID = uint64_t;
-using cameraID = uint64_t;
 
 class RenderModule
 {
@@ -62,21 +66,33 @@ public:
 
     //Metodos transform
     /*
+    * @brief Anadir nodo.
+    */
+    transformID addNode(const entityID& entityID, const core::Vector3<float>& pos = core::Vector3<float>(0.0f, 0.0f, 0.0f), const core::Quaternion<float>& rot = core::Quaternion<float>(0.0f, 0.0f, 0.0f, 1.0f));
+    /*
     * @brief Leer posicion del nodo.
     */
-    core::Vector3<float> getNodePosition(uint64_t id);
+    core::Vector3<float> getNodePosition(const transformID& id);
     /*
     * @brief Establecer posicion del nodo.
     */
-    void setNodePosition(int id, core::Vector3<float> pos);
+    void setNodePosition(const transformID& id, const core::Vector3<float>& pos);
     /*
     * @brief Leer orientacion del nodo. Relativo a world space.
     */
-    core::Vector3<float> getNodeRotation(uint64_t id);
+    core::Quaternion<float> getNodeRotation(const transformID& id);
     /*
     * @brief Establecer orientacion del nodo. Relativo a world space.
     */
-    void setNodeRotation(uint64_t id, core::Vector3<float> lookAt);
+    void setNodeRotation(const transformID& id, const core::Quaternion<float>& rot);
+    /*
+    * @brief Leer escala del nodo. Relativo a world space.
+    */
+    core::Vector3<float> getNodeScale(const transformID& id);
+    /*
+    * @brief Establecer escala del nodo. Relativo a world space.
+    */
+    void setNodeScale(const transformID& id, const core::Vector3<float>& scale);
 
     //Metodos viewport
     /*
@@ -88,7 +104,7 @@ public:
     /*
     * @brief Camara nueva. Se asigna un id por orden de creacion. Main Camera id 0 y añadidas manualmente 1 en adelante.
     */
-    void addCamera(const entityID& entityID, const float& FOVy, const float& nearClipDistance, const float& farClipDistance, const float& focalLength, const core::Color& bgColor);
+    cameraID addCamera(const entityID& entityID, const float& FOVy, const float& nearClipDistance, const float& farClipDistance, const float& focalLength, const core::Color& bgColor);
     /*
     * @brief Borrar camara por id. A las camaras creadas posteriormente se les resta el id en 1.
     */
@@ -124,12 +140,14 @@ public:
     void addLight();
     void deleteLight();
     void setLightActive();
+    void cleanLights();
 
 
     //Metodos entidades
     void addEntity();
     void deleteEntity();
     void setEntityActive();
+    void cleanEntities();
 
 
     //Getter UI
@@ -140,4 +158,7 @@ private:
     std::vector<EngineNode> _engineNodes;
     std::vector<Ogre::Camera*> _cameras;
     ImGuiManager* _ui;
+
+    transformID _nextTransformID;
+    cameraID _nextCameraID;
 };

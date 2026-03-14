@@ -12,8 +12,12 @@
 #include <Quaternion.h>
 #include <Vector3.h>
 
+using transformID = uint64_t;
+
 class Transform : public core::Component
 {
+	transformID _transformID;
+
 	core::Vector3<> _localPosition;
 	core::Quaternion<> _localRotation;
 	core::Vector3<> _localScale;

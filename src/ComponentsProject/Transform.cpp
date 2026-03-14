@@ -1,5 +1,8 @@
 ﻿#include "Transform.h"
 
+#include "Entity.h"
+#include "Engine.h"
+
 #include <Debug.h>
 #include <PluginSDK.h>
 
@@ -20,6 +23,7 @@ bool Transform::init(const Properties& p)
 	_localPosition = getProperty<core::Vector3<>>(p, "position");
 	_localRotation = getProperty<core::Quaternion<>>(p, "rotation");
 	_localScale = getProperty<core::Vector3<>>(p, "scale");
+	//_transformID = Engine::addTransform(getEntity()->getEntityID(), getGlobalPosition(), getGlobalRotation(), getGlobalScale());
 	return true;
 }
 
@@ -34,9 +38,14 @@ void Transform::setGlobalPosition(core::Vector3<> gp)
 	{
 		_localPosition = gp;
 	}
+	//Engine::setTransformPosition(_transformID, gp);
 }
 
-void Transform::setLocalPosition(const core::Vector3<>& lp) { _localPosition = lp; }
+void Transform::setLocalPosition(const core::Vector3<>& lp)
+{
+	_localPosition = lp;
+	//Engine::setTransformPosition(_transformID, getGlobalPosition());
+}
 
 void Transform::setGlobalRotation(const core::Quaternion<>& gr)
 {
@@ -49,9 +58,14 @@ void Transform::setGlobalRotation(const core::Quaternion<>& gr)
 	{
 		_localRotation = gr;
 	}
+	//Engine::setTransformRotation(_transformID, gr);
 }
 
-void Transform::setLocalRotation(const core::Quaternion<>& lr) { _localRotation = lr; }
+void Transform::setLocalRotation(const core::Quaternion<>& lr)
+{
+	_localRotation = lr;
+	//Engine::setTransformRotation(_transformID, getGlobalRotation());
+}
 
 void Transform::setGlobalScale(const core::Vector3<>& gs)
 {
@@ -68,9 +82,14 @@ void Transform::setGlobalScale(const core::Vector3<>& gs)
 	{
 		_localScale = gs;
 	}
+	//Engine::setTransformScale(_transformID, gs);
 }
 
-void Transform::setLocalScale(const core::Vector3<>& ls) { _localScale = ls; }
+void Transform::setLocalScale(const core::Vector3<>& ls)
+{
+	_localScale = ls;
+	//Engine::setTransformScale(_transformID, getGlobalScale());
+}
 
 core::Vector3<> Transform::getGlobalPosition() const
 {
