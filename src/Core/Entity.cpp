@@ -12,9 +12,7 @@ namespace core
 		enabled(true),
 		scene(nullptr),
 		groupId(),
-		name()
-	{
-	}
+		name() {}
 
 	Entity::~Entity()
 	{
@@ -129,61 +127,5 @@ namespace core
 		c->ready();
 		components.push_back(std::move(c));
 		return components.back().get();
-	}
-
-	template <typename T, typename... Ts>
-	T* Entity::addComponent(Ts&&... args)
-	{
-		// evitando duplicados
-		// esto lo hace O(n)
-		//if (hasComponent<T>())
-		//	return getComponent<T>();
-
-		std::shared_ptr<Component> c = std::make_shared<T>(std::forward<Ts>(args)...);
-		//T* c = new T(std::forward<Ts>(args)...);
-
-		c->setEntity(this);
-		c->enable();
-		c->ready();
-		T* c_ref = c.get();
-		components.push_back(std::move(c));
-		return c_ref;
-	}
-
-	template <typename T>
-	void Entity::removeComponent()
-	{
-		for (auto it = components.begin(); it != components.end(); ++it)
-		{
-			if (it->get() != nullptr)
-			{
-				(*it)->disable();
-				(*it)->destroy();
-				components.erase(it);
-				return;
-			}
-		}
-	}
-
-	template <typename T>
-	T* Entity::getComponent()
-	{
-		for (std::shared_ptr<Component>& c : components)
-		{
-			if (T* ptr = dynamic_cast<T*>(c.get()))
-				return ptr;
-		}
-		return nullptr;
-	}
-
-	template <typename T>
-	bool Entity::hasComponent() const
-	{
-		for (const auto& c : components)
-		{
-			if (dynamic_cast<T*>(c.get()) != nullptr)
-				return true;
-		}
-		return false;
 	}
 }

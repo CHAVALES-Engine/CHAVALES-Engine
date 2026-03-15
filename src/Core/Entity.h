@@ -8,6 +8,7 @@
 #include <string>
 #include "ec.h"
 #include "EngineAPI.h"
+#include "Component.h"
 
 class Scene;
 
@@ -86,23 +87,65 @@ namespace core
 		* @brief
 		* O(n) 
 		*/
-		template <typename T, typename... Ts>
-		T* addComponent(Ts&&... args);
 		Component* addComponent(std::shared_ptr<Component> comp);
 
 		/*
 		* @brief
 		* O(n)
 		*/
-		template <typename T>
-		void removeComponent();
+		template <typename T, typename... Ts>
+		T* addComponent(Ts&... args)
+		{
+			// evitando duplicados
+			// esto lo hace O(n)
+			//if (hasComponent<T>())
+			//	return getComponent<T>();
+
+			std::shared_ptr<Component> c = std::make_shared<T>(std::forward<Ts>(args)...);
+			//T* c = new T(std::forward<Ts>(args)...);
+
+			c->setEntity(this);
+			c->enable();
+			c->ready();
+			T* c_ref = c.get();
+			components.push_back(std::move(c));
+			return c_ref;
+		}
+
 
 		/*
 		* @brief
 		* O(n)
 		*/
 		template <typename T>
-		T* getComponent();
+		void removeComponent()
+		{
+			for (auto it = components.begin(); it != components.end(); ++it)
+			{
+				if (it->get() != nullptr)
+				{
+					(*it)->disable();
+					(*it)->destroy();
+					components.erase(it);
+					return;
+				}
+			}
+		}
+
+		/*
+		* @brief
+		* O(n)
+		*/
+		template <typename T>
+		T* getComponent()
+		{
+			for (std::shared_ptr<Component>& c : components)
+			{
+				if (T* ptr = dynamic_cast<T*>(c.get()))
+					return ptr;
+			}
+			return nullptr;
+		}
 
 		// O(n)
 		/*
@@ -110,7 +153,15 @@ namespace core
 		* O(n)
 		*/
 		template <typename T>
-		bool hasComponent() const;
+		bool hasComponent() const
+		{
+			for (const auto& c : components)
+			{
+				if (dynamic_cast<T*>(c.get()) != nullptr)
+					return true;
+			}
+			return false;
+		}
 
 	protected:
 		std::vector<std::shared_ptr<Component>> components;
@@ -122,6 +173,5 @@ namespace core
 		grpId_t groupId;
 		std::string name;
 		bool dontDestroyOnLoad;
-		
 	};
 } // end of name space

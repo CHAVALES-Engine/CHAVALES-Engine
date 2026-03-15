@@ -85,9 +85,7 @@ namespace core
 		/**
 		* @brief Comportamiento antes de que el componente se destruya
 		*/
-		virtual void destroy()
-		{
-		}
+		virtual void destroy() {}
 
 		/**
 		* @brief 
