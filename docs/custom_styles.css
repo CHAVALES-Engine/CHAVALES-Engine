@@ -48,11 +48,13 @@ pre,
 }
 /* Flechas del nav tree */
 span.arrow {
+    font-family: inherit !important;
     color: #9fd055 !important;
 }
 
 /* Item seleccionado */
 .selected span.arrow {
+    font-family: inherit !important;
     color: #45818E !important;
 }
 
