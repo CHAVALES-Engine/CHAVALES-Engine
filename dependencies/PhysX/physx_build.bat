@@ -8,7 +8,7 @@ set "ROOTDIR=%~dp0"
 set "PHYSXDIR=%ROOTDIR%physx"
 set "SLN_DIR=%PHYSXDIR%\compiler\vc17win64-cpu-only"
 set "SOLUTION_FILE=%SLN_DIR%\PhysXSDK.sln"
-set "BUILDDIR=%SLN_DIR%\bin\win.x86_64.vc143.mt"
+set "BUILDDIR=%SLN_DIR%\bin\win.x86_64.vc143.md"
 set "LIBSDIR=%ROOTDIR%\libs"
 set "DEBUGDIR=%LIBSDIR%\Debug"
 set "RELEASEDIR=%LIBSDIR%\Release"
@@ -20,6 +20,8 @@ if not exist "%LIBSDIR%" mkdir "%LIBSDIR%"
 if not exist "%DEBUGDIR%" mkdir "%DEBUGDIR%"
 if not exist "%RELEASEDIR%" mkdir "%RELEASEDIR%"
 
+:: Limpia lo anterior
+rd /s /q "%SLN_DIR%" 2>nul
 
 pushd "%PHYSXDIR%"
 call generate_projects.bat vc17win64-cpu-only
