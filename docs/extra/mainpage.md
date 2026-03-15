@@ -1,7 +1,7 @@
 # ChavalesEngine {#mainpage}
 
 <div align="center">
-  <img src="../img/CHAVALES.png" width="750px">
+  <img src="CHAVALES.png" width="750px">
   <h3>Motor de videojuegos desarrollado para Proyectos 3</h3>
   <p><i>Grado en Desarrollo de Videojuegos - Universidad Complutense de Madrid (UCM)</i></p>
 </div>

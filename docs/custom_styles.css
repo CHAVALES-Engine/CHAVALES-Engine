@@ -47,11 +47,13 @@ pre,
     width: 100% !important;
 }
 /* Flechas del nav tree */
-span.arrowhead {
-    border-color: #9fd055 !important;
+span.arrow {
+    color: #9fd055 !important;
 }
-.selected span.arrowhead {
-    border-color: #45818E !important;
+
+/* Item seleccionado */
+.selected span.arrow {
+    color: #45818E !important;
 }
 
 /* ── Tabla de funciones───────────────────────────────── */
