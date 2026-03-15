@@ -88,10 +88,10 @@ namespace core
 		virtual void destroy() {}
 
 		/**
-		* @brief 
-		* @param props - 
-		* @param key - 
-		* @param param - 
+		* @brief Obtiene una propiedad tipada del conjunto de propiedades
+		* @param props Propiedades del componente
+		* @param key Clave de la propiedad
+		* @return Valor de la propiedad o el valor por defecto del tipo
 		*/
 		template <typename T>
 		inline T getProperty(
@@ -118,10 +118,11 @@ namespace core
 		}
 
 		/**
-		* @brief
-		* @param props -
-		* @param key -
-		* @param param -
+		* @brief Asigna a una variable el valor de una propiedad tipada
+		* @param props Propiedades del componente
+		* @param key Clave de la propiedad
+		* @param param Variable donde se almacenara el valor
+		* @return true si la propiedad existe y tiene el tipo esperado
 		*/
 		template <typename T>
 		inline bool setProperty(

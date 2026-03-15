@@ -49,48 +49,48 @@ namespace core
 		const std::vector<std::shared_ptr<Component>>& getComponents() const;
 
 		// --- LIFECYLE
-		/*
-		* @brief
+		/**
+		* @brief Inicializa la entidad
 		*/
 		//void init(const Properties& p);
-		/*
-		* @brief
+		/**
+		* @brief Ejecuta la fase de arranque de la entidad y sus componentes
 		*/
 		void ready();
-		/*
-		* @brief
+		/**
+		* @brief Activa la entidad y sus componentes
 		*/
 		void enable();
-		/*
-		* @brief
+		/**
+		* @brief Ejecuta la actualizacion en tiempo fijo
 		*/
 		void fixedUpdate();
-		/*
-		* @brief
+		/**
+		* @brief Ejecuta la actualizacion por frame
 		*/
 		void update(uint64_t dT);
-		/*
-		* @brief
+		/**
+		* @brief Renderiza la entidad
 		*/
 		//void render() const;
-		/*
-		* @brief
+		/**
+		* @brief Desactiva la entidad y sus componentes
 		*/
 		void disable();
-		/*
-		* @brief
+		/**
+		* @brief Destruye la entidad y sus componentes
 		*/
 		void destroy();
 
 		// --- EC
-		/*
-		* @brief
+		/**
+		* @brief Agrega un componente ya creado a la entidad
 		* O(n) 
 		*/
 		Component* addComponent(std::shared_ptr<Component> comp);
 
-		/*
-		* @brief
+		/**
+		* @brief Crea y agrega un componente del tipo indicado
 		* O(n)
 		*/
 		template <typename T, typename... Ts>
@@ -113,8 +113,8 @@ namespace core
 		}
 
 
-		/*
-		* @brief
+		/**
+		* @brief Elimina el primer componente del tipo indicado
 		* O(n)
 		*/
 		template <typename T>
@@ -132,8 +132,8 @@ namespace core
 			}
 		}
 
-		/*
-		* @brief
+		/**
+		* @brief Obtiene el primer componente del tipo indicado
 		* O(n)
 		*/
 		template <typename T>
@@ -148,8 +148,8 @@ namespace core
 		}
 
 		// O(n)
-		/*
-		* @brief
+		/**
+		* @brief Comprueba si la entidad contiene un componente del tipo indicado
 		* O(n)
 		*/
 		template <typename T>
