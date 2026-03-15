@@ -79,9 +79,4 @@ namespace PluginSDK {
 */
 extern "C" __declspec(dllexport) // Especificacion de exportacion que mantiene el nombre sin alterar por parametros en compilacion
 // (__declspec(dllexport))solo para windows
-const core::ComponentDescriptor* getPluginComponents(size_t& count)
-{
-	const auto& comps = PluginSDK::PluginComponentRegistry::instance().get();
-	count = comps.size();
-	return comps.empty() ? nullptr : comps.data();
-}
+const core::ComponentDescriptor* getPluginComponents(size_t& count);

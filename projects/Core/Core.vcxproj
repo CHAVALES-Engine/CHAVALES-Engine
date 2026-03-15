@@ -119,6 +119,7 @@
     <ClCompile Include="..\..\src\Core\Component.cpp" />
     <ClCompile Include="..\..\src\Core\Entity.cpp" />
     <ClCompile Include="..\..\src\Core\MessagesManager.cpp" />
+    <ClCompile Include="..\..\src\Core\PluginSDK.cpp" />
     <ClCompile Include="..\..\src\Core\Scene.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
