@@ -11,12 +11,12 @@ using namespace physx;
 //{
 //}
 
-PxDefaultAllocator		gAllocator;
-PxDefaultErrorCallback	gErrorCallback;
-
-PxFoundation* gFoundation = NULL;
-PxPhysics* gPhysics = NULL;
-PxPvd* gPvd = NULL;
+//PxDefaultAllocator		gAllocator;
+//PxDefaultErrorCallback	gErrorCallback;
+//
+//PxFoundation* gFoundation = NULL;
+//PxPhysics* gPhysics = NULL;
+//PxPvd* gPvd = NULL;
 
 PhysicsModule::PhysicsModule()
 {
@@ -24,7 +24,7 @@ PhysicsModule::PhysicsModule()
 
 bool PhysicsModule::Init()
 {
-    gFoundation = PxCreateFoundation(
+   /* gFoundation = PxCreateFoundation(
         PX_PHYSICS_VERSION,
         gAllocator,
         gErrorCallback
@@ -54,8 +54,13 @@ bool PhysicsModule::Init()
         gPvd
     );
 
-    PxInitExtensions(*gPhysics, gPvd);
+    PxInitExtensions(*gPhysics, gPvd);*/
 
-    return gPhysics != nullptr /*true*/;
+    return /*gPhysics != nullptr */true;
 }
 
+//---------------------------------------------------
+//VAMOS A NECESITAR:
+//UPDATE
+//ADDCOLLIDER
+//CREATESHAPE...
