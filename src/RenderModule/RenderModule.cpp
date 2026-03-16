@@ -5,6 +5,8 @@
 #include <OgreRenderSystem.h>
 #include <OgreGL3PlusRenderSystem.h>
 #include <OgreGL3PlusPlugin.h>
+#include <OgreMeshManager.h>
+#include <OgreAssimpLoader.h>
 #include <OgreStringConverter.h>
 
 #include <OgreSceneManager.h>
@@ -71,6 +73,8 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
         Ogre::GL3PlusPlugin* gl3Plugin = new Ogre::GL3PlusPlugin();
         _root->installPlugin(gl3Plugin);
 
+        //Ogre::AssimpLoader* assimpLoader = new Ogre::AssimpLoader();
+
         const Ogre::RenderSystemList& renderers = _root->getAvailableRenderers();
         if (renderers.empty())
             std::cerr << "No hay RenderSystems disponibles" << std::endl;
@@ -90,17 +94,11 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
         //Crear escena con main camera
         _sceneMgr = _root->createSceneManager();
 
-        /*Ogre::Camera* mainCamera = _sceneMgr->createCamera("MainCamera");
-        Ogre::SceneNode* cameraNode = _sceneMgr->getRootSceneNode()->createChildSceneNode();
-        _cameraNodes.push_back(cameraNode);
-        _cameraNodes[0]->setPosition(Ogre::Vector3(0, 5, 15));
-        _cameraNodes[0]->lookAt(Ogre::Vector3(0, 0, 0), Ogre::Node::TS_WORLD);
-        mainCamera->setNearClipDistance(0.1f);
-        mainCamera->setFarClipDistance(1000.0f);
-        mainCamera->setAutoAspectRatio(true);
+        addNode(0, { 0.0f, 5.0f, 15.0f }, { -20.0f, 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f });
+        addCamera(0, 45.0f, 0.1f, 1000.0f, 1.0f, { 0.0f, 0.0f, 0.0f, 1.0f });
 
-        _vp = _window->addViewport(mainCamera);
-        _vp->setBackgroundColour(Ogre::ColourValue(0.8f, 0.0f, 0.0f));*/
+        _vp = _window->addViewport(_cameras[0]);
+        _vp->setBackgroundColour(Ogre::ColourValue(0.8f, 0.0f, 0.0f));
 
         //ZONA DEMO INICIO
         Ogre::ResourceGroupManager& rgm = Ogre::ResourceGroupManager::getSingleton();
@@ -120,6 +118,7 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
             Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME
         );
 
+        rgm.addResourceLocation("../dependencies/ogre/src/ogre/Samples/Media/packs/metroid-floating/source", "FileSystem", "General");
         rgm.addResourceLocation("../dependencies/ogre/src/ogre/Samples/Media/packs/dragon.zip", "Zip", "General");
         rgm.initialiseAllResourceGroups();
         rgm.loadResourceGroup("General");
@@ -157,7 +156,7 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
 
         //for (unsigned int i = 0; i < cube->getNumSubEntities(); ++i) { cube->getSubEntity(i)->setMaterialName("BaseWhiteRTSS"); }
 
-        /*_entities.push_back(cubeNode);
+        _engineNodes.push_back({ cubeNode, 1 });
 
         Ogre::Light* light = _sceneMgr->createLight();
 
@@ -168,13 +167,15 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
 
         lightNode->attachObject(light);
 
-        _entities.push_back(lightNode);*/
+        _engineNodes.push_back({ lightNode, 2 });
         //ZONA DEMO FINAL
 
         //_ui = new ImGuiManager();
 
         _nextTransformID = 0;
         _nextCameraID = 0;
+
+        renderFrame();
 
         return true;
     }
@@ -221,11 +222,9 @@ void RenderModule::cleanScene()
 
 transformID RenderModule::addNode(const entityID& entityID, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float> scale)
 {
-    EngineNode aux = _engineNodes.back();
-
-    if (aux.nodeID != entityID)
+    if (_engineNodes.empty() || _engineNodes.back().nodeID != entityID)
     {
-        aux = _engineNodes.emplace_back(_sceneMgr->getRootSceneNode()->createChildSceneNode(), entityID);
+        EngineNode& aux = _engineNodes.emplace_back(_sceneMgr->getRootSceneNode()->createChildSceneNode(), entityID);
         aux.sceneNode->setPosition(Ogre::Vector3(pos.getX(), pos.getY(), pos.getZ()));
         aux.sceneNode->setOrientation(Ogre::Quaternion(rot.getX(), rot.getY(), rot.getZ(), rot.getW()));
         aux.sceneNode->setScale(Ogre::Vector3(scale.getX(), scale.getY(), scale.getZ()));
@@ -295,17 +294,12 @@ void RenderModule::setViewportBGColor(core::Color color)
 
 cameraID RenderModule::addCamera(const entityID& entityID, const float& FOVy, const float& nearClipDistance, const float& farClipDistance, const float& focalLength, const core::Color& bgColor)
 {
-    EngineNode aux = _engineNodes.back();
-
     //Si no existe un nodo con este entityID lo creamos
-    if (aux.nodeID != entityID)
-    {
-        addNode(entityID);
-        aux = _engineNodes.back();
-    }
+    addNode(entityID);
 
     Ogre::Camera* camera = _cameras.emplace_back(_sceneMgr->createCamera("camera" + std::to_string(_nextCameraID++)));
-    aux.sceneNode->attachObject(camera);
+    camera->setAutoAspectRatio(true);
+    _engineNodes.back().sceneNode->attachObject(camera);
 
     //Si es la primera se convierte automaticamente en la activa
     if (_nextCameraID == 0) setAsActiveCamera(_nextCameraID);
@@ -411,6 +405,7 @@ void RenderModule::setCameraFocalLength(const cameraID& id, const float& focalLe
 
 void RenderModule::shutdown()
 {
+    cleanScene();
     delete _root;
     _root = nullptr;
     _window = nullptr;
