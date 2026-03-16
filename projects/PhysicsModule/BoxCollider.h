@@ -3,7 +3,7 @@
 
 class BoxCollider : public Collider
 {
-public:
+private:
 	core::Vector3<> size = { 1,1,1 };//inicial
 public:
 	BoxCollider() = default;//para objs sin rigidbody

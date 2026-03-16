@@ -5,7 +5,7 @@ using namespace physx;
 
 class Collider
 {
-public:
+protected:
 
 	bool enabled = true;
 	bool isTrigger = false;
@@ -42,9 +42,7 @@ public:
 		}
 	}
 
-	void SetRigidbody(Rigidbody* rb) {
-		attachedRigidbody = rb;
-	}
+	void SetRigidbody(Rigidbody* rb) { attachedRigidbody = rb; }
 
 	//getters
 	bool IsEnabled() const { return enabled; }
