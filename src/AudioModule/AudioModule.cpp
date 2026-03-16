@@ -75,7 +75,7 @@ bool AudioModule::loadSound(const char* path, std::string id, bool sound3D, bool
 	}
 	//Depends in the parameters of the method
 	FMOD_MODE eMode = FMOD_DEFAULT;
-	eMode |= sound3D ? FMOD_2D : FMOD_3D;
+	eMode |= sound3D ? FMOD_3D : FMOD_2D;
 	eMode |= soundLooping ? FMOD_LOOP_NORMAL : FMOD_LOOP_OFF;
 	eMode |= soundStream ? FMOD_CREATESTREAM : FMOD_CREATECOMPRESSEDSAMPLE;
 
@@ -207,4 +207,28 @@ void AudioModule::unMuteEverything()
 			it->second->setPaused(false);
 		}
 	}
+}
+
+void AudioModule::setAudioPos(int chID, core::Vector3<> pos, core::Vector3<> vel)
+{
+	auto itCH = _channelSound.find(chID);
+	if (itCH == _channelSound.end()) return;
+	FMOD_VECTOR position = { pos.getX(),pos.getY(),pos.getZ() };
+	FMOD_VECTOR velocity = { vel.getX(),vel.getY(),vel.getZ() };
+	itCH->second->set3DAttributes(&position, &velocity);
+}
+
+bool AudioModule::isChannelPlaying(int chID)
+{
+	auto itChFound = _channelSound.find(chID);
+
+	if (itChFound == _channelSound.end())
+	{
+		return false;
+	}
+
+	bool isPlaying = false;
+	itChFound->second->isPlaying(&isPlaying);
+
+	return isPlaying;
 }

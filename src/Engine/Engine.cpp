@@ -130,6 +130,10 @@ void Engine::unloadSound(std::string id)
 {
 	_audioModule->unloadSound(id);
 }
+int Engine::playSound(std::string id, const core::Vector3<> vec3, float soundVolume, int looping)
+{
+	return _audioModule->playSound(id,vec3,soundVolume,looping);
+}
 void Engine::setChannelVolume(int chID, float newVolume) 
 {
 	_audioModule->setChannelVolume(chID, newVolume);
@@ -146,6 +150,17 @@ bool Engine::stopPlaying(int chID)
 {
 	return _audioModule->stopPlaying(chID);
 }
+
+void Engine::setSourcePosition(int chID, core::Vector3<> pos, core::Vector3<> vel)
+{
+	_audioModule->setAudioPos(chID, pos, vel);
+}
+
+bool Engine::isChannelPlaying(int chID)
+{
+	return _audioModule->isChannelPlaying(chID);
+}
+
 
 bool Engine::_initPriv()
 {

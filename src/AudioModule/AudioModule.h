@@ -98,6 +98,12 @@ public:
 	/// </summary>
 	void unMuteEverything();
 
+	void setAudioPos(int chID, core::Vector3<> pos, core::Vector3<> vel);
+
+	bool isChannelPlaying(int chID);
+
+	
+
 private:
 	FMOD::System* _system = nullptr;
 

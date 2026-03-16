@@ -5,6 +5,7 @@
 #include "Vector3.h"
 #include "Quaternion.h"
 #include "Color.h"
+#include <Vector3.h>
 /*
  * @file Engine.h
  * @brief Defines the functions for the EngineAPI static library.
@@ -18,6 +19,7 @@ class PhysicsModule;
 namespace core
 {
 	class Scene;
+	//class Vector3<>;
 }
 
 using entityID = uint64_t;
@@ -100,7 +102,7 @@ public:
     //Metodos camaras
 #pragma region camera
     /*
-    * @brief Camara nueva. Se asigna un id por orden de creacion. Main Camera id 0 y añadidas manualmente 1 en adelante.
+    * @brief Camara nueva. Se asigna un id por orden de creacion. Main Camera id 0 y aï¿½adidas manualmente 1 en adelante.
     */
     cameraID addCamera(const entityID& entityID, const float& FOVy, const float& nearClipDistance, const float& farClipDistance, const float& focalLength, const core::Color& bgColor);
     /*
@@ -128,7 +130,7 @@ public:
     */
     void setCameraFocalLength(const cameraID& id, const float& focalLength);
 #pragma endregion
-#pragma endregion
+#pragma region audio
 
 	//Metodos del modulo de audio
 	void loadSound(const char* path, std::string id, bool sound3D = true, bool soundLooping = false, bool soundStream = false);
@@ -139,6 +141,11 @@ public:
 	void setListener(core::Vector3<> pos, core::Vector3<> forward, core::Vector3<> up, core::Vector3<> vel = { 0.0,0.0,0.0 });
 
 	bool stopPlaying(int chID);
+	void setSourcePosition(int chID, core::Vector3<> pos, core::Vector3<> vel);
+	bool isChannelPlaying(int chID);
+	//int getChannel();
+
+#pragma endregion
 
 private:
 	/*

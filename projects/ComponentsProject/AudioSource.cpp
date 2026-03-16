@@ -1,12 +1,15 @@
 #include "AudioSource.h"
 #include "Engine.h"
+#include "Transform.h"
+#include "Entity.h"
 #include <Debug.h>
 #include <PluginSDK.h>
 
 
 REGISTER_COMPONENT(AudioSource);
 
-AudioSource::AudioSource(Engine* eng): _eng(eng)
+AudioSource::AudioSource(): _tr(nullptr), _lastPosition(0.0f, 0.0f, 0.0f), _id(), _mute(false), _is3D(false), _loop(false),
+_isStream(false), _soundVolume(0.0f),_chanelsID()
 {
 }
 
@@ -16,26 +19,54 @@ AudioSource::~AudioSource()
 
 bool AudioSource::init(const Properties& p)
 {
-	_position = getProperty<core::Vector3<>>(p, "position");
+	_id = getProperty<std::string>(p, "soundID");
+	_mute = getProperty<bool>(p, "mute");
+	_is3D = getProperty<bool>(p, "is3D");
+	_loop = getProperty<bool>(p, "loop");
+	_isStream = getProperty<bool>(p, "isStream");
+	_soundVolume = getProperty<float>(p, "soundVolume");
+
 	return true;
 }
 
-void AudioSource::loadSound(const char* path, std::string id, bool sound3D, bool soundLooping, bool soundStream)
+void AudioSource::ready()
 {
-	_eng->loadSound(path, id, sound3D, soundLooping, soundStream);
+	assert(entity->hasComponent<Transform>());
+	_tr = entity->getComponent<Transform>();
+	_lastPosition = _tr->getGlobalPosition();
 }
 
-void AudioSource::unloadSound(std::string id)
+void AudioSource::update(uint64_t deltaTime)
 {
-	_eng->unloadSound(id);
+	core::Vector3<> velocity = (_tr->getGlobalPosition() - _lastPosition) / deltaTime;
+	_lastPosition = _tr->getGlobalPosition();
+
+	for (int channelID : _chanelsID) {
+
+		Engine::instance()->setSourcePosition(channelID, _tr->getGlobalPosition(), velocity);
+	}
+	for (auto it = _chanelsID.begin(); it != _chanelsID.end(); )
+	{
+		if (!Engine::instance()->isChannelPlaying(*it))
+		{
+			it = _chanelsID.erase(it);
+		}
+		else
+		{
+			++it;
+		}
+	}
 }
 
-void AudioSource::playSound(std::string id, const core::Vector3<> vec3, float soundVolume, int looping)
+void AudioSource::playSound(std::string id, float soundVolume, bool loop)
 {
-	_eng->playSound(id, vec3, soundVolume, looping);
+	int looping = 0;
+	_loop = loop;
+	if (_loop) looping = -1;
+	_soundVolume = soundVolume; 
+	int chanelID = Engine::instance()->playSound(id, _tr->getGlobalPosition(), _soundVolume, looping);
+	if (chanelID != -1) {
+		_chanelsID.push_back(chanelID);
+	}
 }
 
-void AudioSource::setChannelVolume(int chID, float newVolume)
-{
-	_eng->setChannelVolume(chID, newVolume);
-}

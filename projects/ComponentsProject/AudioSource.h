@@ -1,22 +1,37 @@
 #pragma once
 #include <Component.h>
 #include <Vector3.h>
+#include <vector>
+#include <unordered_set>
+
 
 class Engine;
+class Transform;
+
 class AudioSource: public core::Component
 {
 private:
-	core::Vector3<> _position;
-	Engine* _eng;
+	Transform* _tr;
+
+	core::Vector3<float> _lastPosition;
+
+	std::string _id;
+	bool _mute;
+	bool _is3D;
+	bool _loop;
+	bool _isStream;
+	float _soundVolume;
+
+	std::vector<int> _chanelsID;
+
 public:
-	AudioSource(Engine* eng);
+	AudioSource();
 	~AudioSource() override;
 
 	bool init(const Properties& p) override;
+	virtual void ready() override;
+	virtual void update(uint64_t deltaTime) override;
 
-	void loadSound(const char* path, std::string id, bool sound3D = true, bool soundLooping = false, bool soundStream = false);
-	void unloadSound(std::string id);
-	void playSound(std::string id, const core::Vector3<> vec3 = { 0.0f,0.0f,0.0f }, float soundVolume = 0.0f, int looping = 0);
-	void setChannelVolume(int chID, float newVolume = 0.0f);
+	void playSound(std::string id, float soundVolume = 0.0f, bool loop = false );
 };
 
