@@ -22,7 +22,7 @@ namespace input
         * 
         * @returns bool - Estado de la tecla.
         */
-        bool IsPressed(Key key) const;
+        bool isPressed(Key key) const;
         /**
         * @brief Devuelve el estado de un boton del raton.
         *
@@ -30,7 +30,7 @@ namespace input
         *
         * @returns bool - Estado del boton.
         */
-        bool IsPressed(MouseButton button) const;
+        bool isPressed(MouseButton button) const;
         /**
         * @brief Devuelve el estado de un boton del pad.
         *
@@ -38,7 +38,7 @@ namespace input
         *
         * @returns bool - Estado del boton.
         */
-        bool IsPressed(GamepadButton button) const;
+        bool isPressed(GamepadButton button) const;
         /**
         * @brief Devuelve el estado de un eje del raton.
         *
@@ -46,7 +46,7 @@ namespace input
         *
         * @returns float - Estado del eje.
         */
-        float GetAxis(MouseAxis axis) const;
+        float getAxis(MouseAxis axis) const;
         /**
         * @brief Devuelve el estado de un eje del pad.
         *
@@ -54,14 +54,22 @@ namespace input
         *
         * @returns float - Estado del eje.
         */
-        float GetAxis(GamepadAxis axis) const;
+        float getAxis(GamepadAxis axis) const;
         /**
         * @brief Devuelve el estado del dispositivo.
         *
         * @returns bool - Estado del dispositivo.
         */
-        bool IsConnected() const;
-
+        bool isConnected() const;
+        /**
+         * @brief Devuelve el input de texto escrito.
+         * @return std::string& - String de texto escrito.
+         */
+        const std::string& getTextInput() const;
+        /**
+         * @brief Borra el buffer del input de texto para cuando se deja de escribir.
+         */
+        void clearTextInput();
     private:
 
         /**
@@ -73,21 +81,26 @@ namespace input
         * 
         * @param con - Estado a establecer.
         */
-        void setConnected(bool con);
+        void _setConnected(bool con);
     	/**
         * @brief Para settear un valor a un axis;
         * 
         * @param axis - Axis a establecer.
         * @param value - Cantidad accionada.
         */
-        void setAxis(input::InputAxis axis, float value);
+        void _setAxis(input::InputAxis axis, float value);
         /**
-        * @brief Para settear un valor a un boton;
+        * @brief Para settear un valor a un boton.
         *
         * @param button - Boton a establecer.
         * @param value - Estado a establecer.
         */
-        void setButton(input::InputButtons button, bool value);
+        void _setButton(input::InputButtons button, bool value);
+        /**
+         * @brief Anyade texto al buffer de texto cuando se esta haciendo input de texto.
+         * @param text - Texto que se anyade al buffer.
+         */
+        void _appendText(const std::string& text);
         /**
         * @brief Clase PlatformModule amiga para poder acceder a metodos privados.
         */
@@ -113,6 +126,10 @@ namespace input
         * @brief Array de tamanyo GAMEPAD_AXIS_COUNT con el estado de los ejes del pad.
         */
         float _gamepadAxisState[GamepadAxis::GAMEPAD_AXIS_COUNT] = {};
+        /**
+         * @brief Buffer de texto para cuando se esta haciento input de texto.
+         */
+        std::string _textBuffer;
         /**
         * @brief Estado del dispositivo.
         */

@@ -95,6 +95,9 @@ public:
 	 * @param device - id del dispositivo a comprobar. -1 por defecto => el primero positivo que encuentre.
 	 */
 	bool isActionReleased(const std::string& actionName, input::DeviceID device = -1) const;
+	void startTextInput() const;
+	void stopTextInput() const;
+	const std::string& getTextInput(input::DeviceID device = -1) const;
 	/*
 	 * @brief Getter del input mapper para registrar acciones
 	 * @return input::InputMapper& - referencia al InputMapper
@@ -104,7 +107,7 @@ private:
 	/**
 	* @brief procesa un evento de sdl
 	*/
-	const void processEvent(const SDL_Event& event);
+	void processEvent(const SDL_Event& event);
 	/**
 	 * @brief Castea un axis de SDL a nuestro propio sistema.
 	 * @param event - Evento a castear.
@@ -120,7 +123,7 @@ private:
 	/**
 	* @brief mapa de dispositivos virtuales
 	*/
-	std::unordered_map<uint32_t, input::VirtualDevice> _virtualDevices;
+	std::unordered_map<uint32_t, input::VirtualDevice*> _virtualDevices;
 	/**
 	* @brief mapa de ids
 	*/

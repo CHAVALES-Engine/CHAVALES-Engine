@@ -1,59 +1,83 @@
 #include "VirtualDevice.h"
 
+#include <unordered_map>
+
 
 input::VirtualDevice::VirtualDevice()
 {
 	_connected = true;
 }
 
-void input::VirtualDevice::setConnected(bool con)
+void input::VirtualDevice::_setConnected(bool con)
 {
 	_connected = con;
 }
 
-void input::VirtualDevice::setAxis(input::InputAxis axis, float value)
+void input::VirtualDevice::_setAxis(input::InputAxis axis, float value)
 {
-	/*axis | match{
-	[](MouseAxis x) { _mouseAxisState[x] = value; },
-	[](GamepadAxis x) { _gamepadAxisState[x] = value; }
-	};*/
+	std::visit([&](auto a) {
+		using T = decltype(a);
+		if constexpr (std::is_same_v<T, MouseAxis>)
+			_mouseAxisState[a] = value;
+		else if constexpr (std::is_same_v<T, GamepadAxis>)
+			_gamepadAxisState[a] = value;
+		}, axis);
 }
 
-void input::VirtualDevice::setButton(input::InputButtons button, bool value)
-{/*
-	button | match{
-	[](Key x) { _keyState[x] = value; },
-	[](MouseButton x) { _mouseButtonState[x] = value; },
-	[](GamepadButton x) { _gamepadButtonState[x] = value; }
-	};*/
+void input::VirtualDevice::_setButton(input::InputButtons button, bool value)
+{
+	std::visit([&](auto b) {
+		using T = decltype(b);
+		if constexpr (std::is_same_v<T, Key>)
+			_keyState[b] = value;
+		else if constexpr (std::is_same_v<T, MouseButton>)
+			_mouseButtonState[b] = value;
+		else if constexpr (std::is_same_v<T, GamepadButton>)
+			_gamepadButtonState[b] = value;
+		}, button);
 }
 
-bool input::VirtualDevice::IsPressed(Key key) const
+void input::VirtualDevice::_appendText(const std::string& text)
+{
+	_textBuffer += text;
+}
+
+bool input::VirtualDevice::isPressed(Key key) const
 {
 	return _connected && _keyState[key];
 }
 
-bool input::VirtualDevice::IsPressed(MouseButton button) const
+bool input::VirtualDevice::isPressed(MouseButton button) const
 {
 	return _connected && _mouseButtonState[button];
 }
 
-bool input::VirtualDevice::IsPressed(GamepadButton button) const
+bool input::VirtualDevice::isPressed(GamepadButton button) const
 {
 	return _connected && _gamepadButtonState[button];
 }
 
-float input::VirtualDevice::GetAxis(MouseAxis axis) const
+float input::VirtualDevice::getAxis(MouseAxis axis) const
 {
 	return _connected ? _mouseAxisState[axis] : 0.0f;
 }
 
-float input::VirtualDevice::GetAxis(GamepadAxis axis) const
+float input::VirtualDevice::getAxis(GamepadAxis axis) const
 {
 	return _connected ? _gamepadAxisState[axis] : 0.0f;
 }
 
-bool input::VirtualDevice::IsConnected() const
+bool input::VirtualDevice::isConnected() const
 {
 	return _connected;
+}
+
+const std::string& input::VirtualDevice::getTextInput() const
+{
+	return _textBuffer;
+}
+
+void input::VirtualDevice::clearTextInput()
+{
+	_textBuffer.clear();
 }
