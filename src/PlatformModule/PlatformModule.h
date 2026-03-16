@@ -97,7 +97,7 @@ public:
 	bool isActionReleased(const std::string& actionName, input::DeviceID device = -1) const;
 	void startTextInput() const;
 	void stopTextInput() const;
-	const std::string& getTextInput(input::DeviceID device = -1) const;
+	std::string getTextInput(input::DeviceID device = -1) const;
 	/*
 	 * @brief Getter del input mapper para registrar acciones
 	 * @return input::InputMapper& - referencia al InputMapper

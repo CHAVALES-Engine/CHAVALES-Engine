@@ -94,6 +94,14 @@ bool PlatformModule::isKeyPressed(input::InputEvent inputAction, input::DeviceID
 
 bool PlatformModule::isKeyReleased(input::InputEvent inputAction, input::DeviceID device) const
 {
+	/*if (device != -1)
+	{
+		auto it = _virtualDevices.find(device);
+		if (it != _virtualDevices.end())
+		{
+			it->second->isPressed(inputAction);
+		}
+	}*/
 	return false;
 }
 
@@ -122,14 +130,14 @@ void PlatformModule::stopTextInput() const
 	SDL_StopTextInput(_window);
 }
 
-const std::string& PlatformModule::getTextInput(input::DeviceID device) const
+std::string PlatformModule::getTextInput(input::DeviceID device) const
 {
 	auto it = _virtualDevices.find(device);
 	if (it != _virtualDevices.end())
+	{
 		return it->second->getTextInput();
-
-	static std::string empty;
-	return empty;
+	}
+	return {};
 }
 
 input::InputMapper* PlatformModule::getInputMapper()
