@@ -2,21 +2,21 @@
 //
 //#include "../../dependencies/PhysX/physx/include/PxPhysicsAPI.h"
 #include "PhysicsModule.h"
-#include "PxPhysicsAPI.h"
+#include <PxPhysicsAPI.h>
 #include <vector>
 using namespace physx;
 
 
-//void fnPhysicModule()
-//{
-//}
+void fnPhysicModule()
+{
+}
 
-//PxDefaultAllocator		gAllocator;
-//PxDefaultErrorCallback	gErrorCallback;
-//
-//PxFoundation* gFoundation = NULL;
-//PxPhysics* gPhysics = NULL;
-//PxPvd* gPvd = NULL;
+PxDefaultAllocator		gAllocator;
+PxDefaultErrorCallback	gErrorCallback;
+
+PxFoundation* gFoundation = NULL;
+PxPhysics* gPhysics = NULL;
+PxPvd* gPvd = NULL;
 
 PhysicsModule::PhysicsModule()
 {
@@ -24,7 +24,7 @@ PhysicsModule::PhysicsModule()
 
 bool PhysicsModule::Init()
 {
-   /* gFoundation = PxCreateFoundation(
+    gFoundation = PxCreateFoundation(
         PX_PHYSICS_VERSION,
         gAllocator,
         gErrorCallback
@@ -54,9 +54,9 @@ bool PhysicsModule::Init()
         gPvd
     );
 
-    PxInitExtensions(*gPhysics, gPvd);*/
+    PxInitExtensions(*gPhysics, gPvd);
 
-    return /*gPhysics != nullptr */true;
+    return gPhysics != nullptr ;
 }
 
 //---------------------------------------------------

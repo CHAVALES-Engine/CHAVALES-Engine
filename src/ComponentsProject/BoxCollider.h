@@ -1,5 +1,7 @@
 #pragma once
+#include <Vector3.h>
 #include "Collider.h"
+
 
 class BoxCollider : public Collider
 {

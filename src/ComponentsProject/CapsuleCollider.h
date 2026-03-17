@@ -1,7 +1,7 @@
 #pragma once
 #include "Collider.h"
 
-class CapsuleCollider : public Collider
+class CapsuleCollider : public Collider//Sirve de esfera si pones radio y altura iguales
 {
 private:
 	float radio = 0.5f;

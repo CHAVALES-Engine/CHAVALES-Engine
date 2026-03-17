@@ -13,7 +13,10 @@
   <ItemGroup>
     <ClInclude Include="..\..\src\ComponentsProject\AudioListener.h" />
     <ClInclude Include="..\..\src\ComponentsProject\AudioSource.h" />
+    <ClInclude Include="..\..\src\ComponentsProject\BoxCollider.h" />
     <ClInclude Include="..\..\src\ComponentsProject\Camera.h" />
+    <ClInclude Include="..\..\src\ComponentsProject\CapsuleCollider.h" />
+    <ClInclude Include="..\..\src\ComponentsProject\Collider.h" />
     <ClInclude Include="..\..\src\ComponentsProject\MeshRenderer.h" />
     <ClInclude Include="..\..\src\ComponentsProject\Transform.h" />
   </ItemGroup>
@@ -21,6 +24,7 @@
     <ClCompile Include="..\..\src\ComponentsProject\AudioListener.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\AudioSource.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\Camera.cpp" />
+    <ClCompile Include="..\..\src\ComponentsProject\Collider.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\Transform.cpp" />
     <ClCompile Include="MeshRenderer.cpp" />
   </ItemGroup>
