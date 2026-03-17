@@ -65,10 +65,10 @@ public:
 	* @brief Renderizar frame.
 	*/
 	void renderFrame();
-    /*
-    * @brief Limpiar escena.
-    */
-    void cleanScene();
+	/*
+	* @brief Limpiar escena.
+	*/
+	void cleanScene();
 #pragma endregion
 
 	//Metodos viewport
@@ -79,56 +79,56 @@ public:
 	void setViewportBGColor(core::Color color);
 #pragma endregion
 
-    //Metodos transform
+	//Metodos transform
 #pragma region transform
-    /*
-    * @brief Anadir nodo.
-    */
-    transformID addTransform(const entityID& entityID, const core::Vector3<float>& pos = core::Vector3<float>(0.0f, 0.0f, 0.0f), const core::Quaternion<float>& rot = core::Quaternion<float>(0.0f, 0.0f, 0.0f, 1.0f), const core::Vector3<float>& scale = core::Vector3<float>(1.0f, 1.0f, 1.0f));
-    /*
-    * @brief Establecer posicion del nodo.
-    */
-    void setTransformPosition(const transformID& id, const core::Vector3<float>& pos);
-    /*
-    * @brief Establecer orientacion del nodo. Relativo a world space.
-    */
-    void setTransformRotation(const transformID& id, const core::Quaternion<float>& rot);
-    /*
-    * @brief Establecer escala del nodo. Relativo a world space.
-    */
-    void setTransformScale(const transformID& id, const core::Vector3<float>& scale);
+	/*
+	* @brief Anadir nodo.
+	*/
+	transformID addTransform(const entityID& entityID, const core::Vector3<float>& pos = core::Vector3<float>(0.0f, 0.0f, 0.0f), const core::Quaternion<float>& rot = core::Quaternion<float>(0.0f, 0.0f, 0.0f, 1.0f), const core::Vector3<float>& scale = core::Vector3<float>(1.0f, 1.0f, 1.0f));
+	/*
+	* @brief Establecer posicion del nodo.
+	*/
+	void setTransformPosition(const transformID& id, const core::Vector3<float>& pos);
+	/*
+	* @brief Establecer orientacion del nodo. Relativo a world space.
+	*/
+	void setTransformRotation(const transformID& id, const core::Quaternion<float>& rot);
+	/*
+	* @brief Establecer escala del nodo. Relativo a world space.
+	*/
+	void setTransformScale(const transformID& id, const core::Vector3<float>& scale);
 #pragma endregion
 
-    //Metodos camaras
+	//Metodos camaras
 #pragma region camera
-    /*
-    * @brief Camara nueva. Se asigna un id por orden de creacion. Main Camera id 0 y a�adidas manualmente 1 en adelante.
-    */
-    cameraID addCamera(const entityID& entityID, const float& FOVy, const float& nearClipDistance, const float& farClipDistance, const float& focalLength, const core::Color& bgColor);
-    /*
-    * @brief Borrar camara por id. A las camaras creadas posteriormente se les resta el id en 1.
-    */
-    void deleteCamera(const cameraID& id);
-    /*
-    * @brief El viewport mostrara la vista de esta camara.
-    */
-    void setAsActiveCamera(const cameraID& id);
-    /*
-    * @brief Establecer FOVy.
-    */
-    void setCameraFOVy(const cameraID& id, const float& FOVy);
-    /*
-    * @brief Establecer distancia del plano cercano.
-    */
-    void setCameraNearClipDistance(const cameraID& id, const float& nearClipDistance);
-    /*
-    * @brief Establecer distancia del plano lejano.
-    */
-    void setCameraFarClipDistance(const cameraID& id, const float& farClipDistance);
-    /*
-    * @brief Establecer distancia focal.
-    */
-    void setCameraFocalLength(const cameraID& id, const float& focalLength);
+	/*
+	* @brief Camara nueva. Se asigna un id por orden de creacion. Main Camera id 0 y a�adidas manualmente 1 en adelante.
+	*/
+	cameraID addCamera(const entityID& entityID, const float& FOVy, const float& nearClipDistance, const float& farClipDistance, const float& focalLength, const core::Color& bgColor);
+	/*
+	* @brief Borrar camara por id. A las camaras creadas posteriormente se les resta el id en 1.
+	*/
+	void deleteCamera(const cameraID& id);
+	/*
+	* @brief El viewport mostrara la vista de esta camara.
+	*/
+	void setAsActiveCamera(const cameraID& id);
+	/*
+	* @brief Establecer FOVy.
+	*/
+	void setCameraFOVy(const cameraID& id, const float& FOVy);
+	/*
+	* @brief Establecer distancia del plano cercano.
+	*/
+	void setCameraNearClipDistance(const cameraID& id, const float& nearClipDistance);
+	/*
+	* @brief Establecer distancia del plano lejano.
+	*/
+	void setCameraFarClipDistance(const cameraID& id, const float& farClipDistance);
+	/*
+	* @brief Establecer distancia focal.
+	*/
+	void setCameraFocalLength(const cameraID& id, const float& focalLength);
 #pragma endregion
 #pragma region audio
 
@@ -144,6 +144,56 @@ public:
 	bool stopPlaying(int chID); 
 	bool pauseChannel(int chID, bool pause);
 	bool isChannelPlaying(int chID); 
+
+#pragma endregion
+
+#pragma region Platform
+
+	/**
+	* @brief Devuelve anchura de la ventana
+	*/
+	int getWindowWidth() const;
+	/**
+	* @brief Devuelve altura de la ventana
+	*/
+	int getWindowHeight() const;
+	/*
+	* @brief Devuelve si una tecla esta pulsada
+	* @param inputAction - InputEvent a comprobar
+	* @param device - id del dispositivo a comprobar. -1 por defecto => el primero positivo que encuentre.
+	*/
+	bool isKeyPressed(input::InputEvent inputAction, input::DeviceID device = input::ANY_DEVICE) const;
+	/*
+	* @brief Devuelve si se ha dejado de pulsar una tecla
+	* @param inputAction - InputEvent a comprobar
+	* @param device - id del dispositivo a comprobar. -1 por defecto => el primero positivo que encuentre.
+	*/
+	bool isKeyReleased(input::InputEvent inputAction, input::DeviceID device = input::ANY_DEVICE) const;
+	/*
+	* @brief Devuelve cuanto de accionado esta la accion a comprobar
+	* @param inputAction - InputEvent a comprobar
+	* @param device - id del dispositivo a comprobar. -1 por defecto => el primero positivo que encuentre.
+	* @return float - Devuelve de -1 a 1
+	*/
+	float getAxis(input::InputEvent inputAction, input::DeviceID device = input::ANY_DEVICE) const;
+	/*
+	* @brief Devuelve si se ha pulsado una accion
+	* @param actionName - accion a comprobar
+	* @param device - id del dispositivo a comprobar. -1 por defecto => el primero positivo que encuentre.
+	*/
+	bool isActionPressed(const std::string& actionName, input::DeviceID device = input::ANY_DEVICE) const;
+	/*
+	* @brief Devuelve si se ha dejado de pulsar una accion
+	* @param actionName - accion a comprobar
+	* @param device - id del dispositivo a comprobar. -1 por defecto => el primero positivo que encuentre.
+	*/
+	bool isActionReleased(const std::string& actionName, input::DeviceID device = input::ANY_DEVICE) const;
+	void startTextInput() const;
+	void stopTextInput() const;
+
+	// TODO METER METODOS DE INPUT MAPPER.
+
+#pragma endregion
 
 #pragma endregion
 
