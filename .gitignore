@@ -56,6 +56,8 @@ bld/
 !**/[Bb]in/game/
 ## pero ignora todos los archivos en game
 **/[Bb]in/game/*
+# Ignora el proyecto de ejemplo de physx
+[Dd]ependencies/[Pp]hys[Xx]/packman-repo/
 # pero no los dlls
 # !**/[Bb]in/game/*.dll
 # ni tampoco nada dentro de sus subcarpetas
