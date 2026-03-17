@@ -7,8 +7,9 @@
 #include <OgreGL3PlusPlugin.h>
 #include <OgreMeshManager.h>
 #include <OgreAssimpLoader.h>
+#include<assimp/Importer.hpp>
 #include <OgreStringConverter.h>
-
+#include <assimp/postprocess.h>
 #include <OgreSceneManager.h>
 #include <OgreCamera.h>
 #include <OgreViewport.h>
@@ -69,12 +70,23 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
     try
     {
         _root = new Ogre::Root("", "", "ogre.log");
-
         Ogre::GL3PlusPlugin* gl3Plugin = new Ogre::GL3PlusPlugin();
         _root->installPlugin(gl3Plugin);
 
-        //Ogre::AssimpLoader* assimpLoader = new Ogre::AssimpLoader();
+        //Ogre::AssimpPlugin* assimpPlugin = new Ogre::AssimpPlugin();
+        //_root->installPlugin(assimpPlugin);
 
+        /*const aiScene* scene = importer.ReadFile(
+            "../dependencies/ogre/src/ogre/Samples/Media/packs/metroid-floating/source/metroid_final.fbx",
+            aiProcess_Triangulate | aiProcess_GenNormals
+        );
+
+        if (!scene) {
+            std::cerr << "Assimp error: " << importer.GetErrorString() << std::endl;
+        }
+        else {
+            std::cout << "Modelo cargado correctamente" << std::endl;
+        }*/
         const Ogre::RenderSystemList& renderers = _root->getAvailableRenderers();
         if (renderers.empty())
             std::cerr << "No hay RenderSystems disponibles" << std::endl;

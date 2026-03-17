@@ -14,7 +14,7 @@ set "LIBSDIR=%ROOTDIR%libs"
 set "DEBUGDIR=%LIBSDIR%\Debug"
 set "RELEASESDIR=%LIBSDIR%\Release"
 set "PLATFORM=x64"
-
+set "ASSIMPDIR=%BUILDDIR%\assimp-6.0.3"
 :: Crear carpetas 
 if not exist "%BUILDDIR%" mkdir "%BUILDDIR%"
 if not exist "%LIBSDIR%" mkdir "%LIBSDIR%"
@@ -40,7 +40,7 @@ cmake -G "Visual Studio 17 2022" -A %PLATFORM% ^
  -DOGRE_BUILD_COMPONENT_TERRAIN=OFF ^
  -DOGRE_BUILD_COMPONENT_VOLUME=OFF ^
  -DOGRE_BUILD_COMPONENT_BULLET=OFF ^
- -DOGRE_BUILD_DEPENDENCIES=ON ^
+ -DOGRE_BUILD_DEPENDENCIES=OFF ^
  -DOGRE_BUILD_MSVC_MP=ON ^
  -DOGRE_BUILD_MSVC_ZM=ON ^
  -DOGRE_BUILD_PLUGIN_BSP=OFF ^
@@ -50,6 +50,7 @@ cmake -G "Visual Studio 17 2022" -A %PLATFORM% ^
  -DOGRE_BUILD_PLUGIN_PFX=ON ^
  -DOGRE_BUILD_PLUGIN_RSIMAGE=OFF ^
  -DOGRE_BUILD_PLUGIN_STBI=ON ^
+ -DOGRE_BUILD_PLUGIN_ASSIMP=ON ^
  -DOGRE_BUILD_RENDERSYSTEM_D3D9=OFF ^
  -DOGRE_BUILD_RENDERSYSTEM_D3D11=OFF ^
  -DOGRE_BUILD_RENDERSYSTEM_GL=OFF ^
@@ -73,7 +74,12 @@ cmake -G "Visual Studio 17 2022" -A %PLATFORM% ^
  -DOGRE_PROJECT_FOLDERS=ON ^
  -DOGRE_STATIC=ON ^
  -DOGRE_BUILD_SHARED_LIBS=OFF ^
+ -DASSIMP_ROOT_DIR="%ROOTDIR%assimp" ^
+ -DASSIMP_INCLUDE_DIR="%ROOTDIR%assimp\include" ^
+ -DASSIMP_LIBRARY_DEBUG="%ROOTDIR%assimp\lib\Debug\assimp-vc143-mt.lib" ^
+ -DASSIMP_LIBRARY_RELEASE="%ROOTDIR%assimp\lib\Release\assimp-vc143-mt.lib" ^
  "%SRCDIR%"
+
 
 if %errorlevel% neq 0 (
     echo ERROR: Fallo en configuracion Ogre
@@ -98,8 +104,24 @@ if %errorlevel% neq 0 (
     exit /b %errorlevel%
 )
 
-popd
+pushd "%ASSIMPDIR%"
+echo Compilando ASSIMP
+echo Compilando DEBUG
+msbuild Assimp.sln /p:Configuration=Debug /p:Platform=%PLATFORM%
+if %errorlevel% neq 0 (
+    echo ERROR: Fallo en build Debug
+    pause
+    exit /b %errorlevel%
+)
+msbuild Assimp.sln /p:Configuration=Release /p:Platform=%PLATFORM%
+if %errorlevel% neq 0 (
+    echo ERROR: Fallo en build Release
+    pause
+    exit /b %errorlevel%
+)
 
+popd
+popd
 
 del /q "%DEBUGDIR%\*.lib" 2>nul
 del /q "%RELEASESDIR%\*.lib" 2>nul

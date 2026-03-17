@@ -72,8 +72,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)dependencies\ogre\build\lib\Debug\;$(SolutionDir)dependencies\ogre\build\Dependencies\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Codec_AssimpStatic_d.lib;Codec_STBIStatic_d.lib;OgreGLSupportStatic_d.lib;OgreMainStatic_d.lib;Plugin_ParticleFXStatic_d.lib;RenderSystem_GL3PlusStatic_d.lib;RenderSystem_GLES2Static_d.lib;OgreOverlayStatic_d.lib;OgreRTShaderSystemStatic_d.lib;zlibstatic.lib;assimp-vc143-mt.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependencies\ogre\libs\Debug\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Codec_AssimpStatic_d.lib;Codec_STBIStatic_d.lib;OgreGLSupportStatic_d.lib;OgreMainStatic_d.lib;Plugin_ParticleFXStatic_d.lib;RenderSystem_GL3PlusStatic_d.lib;RenderSystem_GLES2Static_d.lib;OgreOverlayStatic_d.lib;OgreRTShaderSystemStatic_d.lib;zlibstatic.lib;freetype.lib;
+assimp-vc143-mtd.lib;
+zlibstatic.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -97,8 +99,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)dependencies\ogre\build\lib\Release\;$(SolutionDir)dependencies\ogre\build\Dependencies\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Codec_AssimpStatic.lib;Codec_STBIStatic.lib;OgreGLSupportStatic.lib;OgreMainStatic.lib;Plugin_ParticleFXStatic.lib;RenderSystem_GL3PlusStatic.lib;RenderSystem_GLES2Static.lib;OgreOverlayStatic.lib;OgreRTShaderSystemStatic.lib;zlibstatic.lib;assimp-vc143-mt.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependencies\ogre\libs\Release\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Codec_STBIStatic.lib;OgreGLSupportStatic.lib;OgreMainStatic.lib;Plugin_ParticleFXStatic.lib;RenderSystem_GL3PlusStatic.lib;RenderSystem_GLES2Static.lib;OgreOverlayStatic.lib;OgreRTShaderSystemStatic.lib;zlibstatic.lib;assimp-vc143-mt.lib;freetype.lib
+;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
