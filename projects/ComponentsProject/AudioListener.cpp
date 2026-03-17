@@ -9,7 +9,6 @@ REGISTER_COMPONENT(AudioListener);
 
 AudioListener::AudioListener() :
 	_transform(nullptr),
-	_eng(nullptr),
 	_lastPos()
 {
 }
@@ -17,7 +16,6 @@ AudioListener::AudioListener() :
 AudioListener::~AudioListener()
 {
 	_transform = nullptr;
-	_eng = nullptr;
 }
 
 bool AudioListener::init(const Properties& p)
@@ -35,5 +33,5 @@ void AudioListener::update(uint64_t deltaTime)
 {
 	core::Vector3<> vel = (_transform->getGlobalPosition() - _lastPos) / deltaTime;
 	_lastPos = _transform->getGlobalPosition();
-	_eng->setListener(_transform->getGlobalPosition(), _transform->forward(), _transform->up(), vel);
+	Engine::instance()->setListener(_transform->getGlobalPosition(), _transform->forward(), _transform->up(), vel);
 }
