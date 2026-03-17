@@ -136,14 +136,14 @@ public:
 	void loadSound(const char* path, std::string id, bool sound3D = true, bool soundLooping = false, bool soundStream = false);
 	void unloadSound(std::string id);
 	int playSound(std::string id, const core::Vector3<> vec3 = { 0.0f,0.0f,0.0f }, float soundVolume = 0.0f, int looping = 0);
+	void setListener(core::Vector3<> pos, core::Vector3<> forward, core::Vector3<> up, core::Vector3<> vel = { 0.0,0.0,0.0 }); 
+	void setSourcePosition(int chID, core::Vector3<> pos, core::Vector3<> vel); 
 	void setChannelVolume(int chID, float newVolume = 0.0f);
-	void getLooping(int chID, int* typeOfLooping);
-	void setListener(core::Vector3<> pos, core::Vector3<> forward, core::Vector3<> up, core::Vector3<> vel = { 0.0,0.0,0.0 });
-
-	bool stopPlaying(int chID);
-	void setSourcePosition(int chID, core::Vector3<> pos, core::Vector3<> vel);
-	bool isChannelPlaying(int chID);
-	//int getChannel();
+	void setDelay(int chID, unsigned long long start, unsigned long long end, bool stopChannel);
+	int getLooping(int chID) const;
+	bool stopPlaying(int chID); 
+	bool pauseChannel(int chID, bool pause);
+	bool isChannelPlaying(int chID); 
 
 #pragma endregion
 

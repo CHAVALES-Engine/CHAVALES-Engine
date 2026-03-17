@@ -232,3 +232,13 @@ bool AudioModule::isChannelPlaying(int chID)
 
 	return isPlaying;
 }
+
+void AudioModule::setDelay(int chID, unsigned long long start, unsigned long long end, bool stopChannel)
+{
+	auto itChFound = _channelSound.find(chID);
+
+	if (itChFound == _channelSound.end()) {
+		return;
+	}
+	itChFound->second->setDelay(start, end, stopChannel);
+}

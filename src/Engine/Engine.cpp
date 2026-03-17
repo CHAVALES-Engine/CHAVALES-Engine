@@ -138,9 +138,11 @@ void Engine::setChannelVolume(int chID, float newVolume)
 {
 	_audioModule->setChannelVolume(chID, newVolume);
 }
-void Engine::getLooping(int chID, int* typeOfLooping) 
+int Engine::getLooping(int chID) const
 {
-	_audioModule->getLooping(chID, typeOfLooping);
+	int looping = 0;
+	_audioModule->getLooping(chID, &looping);
+	return looping;
 }
 void Engine::setListener(core::Vector3<> pos, core::Vector3<> forward, core::Vector3<> up, core::Vector3<> vel)
 {
@@ -151,9 +153,19 @@ bool Engine::stopPlaying(int chID)
 	return _audioModule->stopPlaying(chID);
 }
 
+bool Engine::pauseChannel(int chID,bool pause)
+{
+	return _audioModule->pauseChannel(chID,pause);
+}
+
 void Engine::setSourcePosition(int chID, core::Vector3<> pos, core::Vector3<> vel)
 {
 	_audioModule->setAudioPos(chID, pos, vel);
+}
+
+void Engine::setDelay(int chID, unsigned long long start, unsigned long long end, bool stopChannel)
+{
+	_audioModule->setDelay(chID, start, end, stopChannel);
 }
 
 bool Engine::isChannelPlaying(int chID)
