@@ -63,9 +63,11 @@ void StateMachine::gameLoop()
 		}
 	}
 
-	// borrar todas las escenas con la finalizacion del juego
-	// llamar al onDestroy de todas las escenas
-	_currentScene.ptr->~Scene();
+	// llamar a la destructora de la escena
+	if (_currentScene.ptr != nullptr)
+	{
+		_currentScene.ptr->~Scene();
+	}
 	_currentScene.ptr = nullptr;
 
 	// vaciar los mapas
