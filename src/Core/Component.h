@@ -23,7 +23,7 @@ namespace core
 	{
 	public:
 		Component();
-		virtual ~Component();
+		~Component();
 
 		// --- SETTERS
 		/**

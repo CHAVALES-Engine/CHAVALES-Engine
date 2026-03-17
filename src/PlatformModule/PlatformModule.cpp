@@ -66,13 +66,10 @@ bool PlatformModule::syncronize()
 	SDL_Event event;
 
 	while (SDL_PollEvent(&event)) {
-		if (event.type == SDL_EVENT_QUIT) {
+		if (event.type == SDL_EVENT_QUIT)
 			return true;
-		}
 		else
-		{
-			processEvent(event);
-		}
+			_processEvent(event);
 	}
 	return false;
 }
@@ -94,14 +91,16 @@ bool PlatformModule::isKeyPressed(input::InputEvent inputAction, input::DeviceID
 
 bool PlatformModule::isKeyReleased(input::InputEvent inputAction, input::DeviceID device) const
 {
-	/*if (device != -1)
+	if (device != -1)
 	{
 		auto it = _virtualDevices.find(device);
 		if (it != _virtualDevices.end())
 		{
-			it->second->isPressed(inputAction);
+			/*std::holds_alternative<>(inputAction) {
+				it->second->isPressed(inputAction);
+			}*/
 		}
-	}*/
+	}
 	return false;
 }
 
@@ -146,7 +145,7 @@ input::InputMapper* PlatformModule::getInputMapper()
 	return _inputMapper;
 }
 
-input::InputButtons PlatformModule::castButton(const SDL_Event& event)
+input::InputButtons PlatformModule::_castButton(const SDL_Event& event)
 {
 	switch (event.type)
 	{
@@ -309,7 +308,7 @@ input::InputButtons PlatformModule::castButton(const SDL_Event& event)
 	}
 }
 
-input::InputAxis PlatformModule::castAxis(const SDL_Event& event)
+input::InputAxis PlatformModule::_castAxis(const SDL_Event& event)
 {
 	switch (event.type)
 	{
@@ -330,7 +329,7 @@ input::InputAxis PlatformModule::castAxis(const SDL_Event& event)
 	}
 }
 
-void PlatformModule::processEvent(const SDL_Event& event)
+void PlatformModule::_processEvent(const SDL_Event& event)
 {
 	switch (event.type) {
 		// GESTION DE MANDOS
@@ -359,7 +358,7 @@ void PlatformModule::processEvent(const SDL_Event& event)
 		uint32_t id = event.gaxis.which;
 		auto it = _virtualDevices.find(id);
 		if (it != _virtualDevices.end()) {
-			it->second->_setAxis(castAxis(event), event.gaxis.value);
+			it->second->_setAxis(_castAxis(event), event.gaxis.value);
 		}
 		break;
 	}
@@ -367,7 +366,7 @@ void PlatformModule::processEvent(const SDL_Event& event)
 		uint32_t id = event.gbutton.which;
 		auto it = _virtualDevices.find(id);
 		if (it != _virtualDevices.end()) {
-			it->second->_setButton(castButton(event), true);
+			it->second->_setButton(_castButton(event), true);
 		}
 		break;
 	}
@@ -375,7 +374,7 @@ void PlatformModule::processEvent(const SDL_Event& event)
 		uint32_t id = event.gbutton.which;
 		auto it = _virtualDevices.find(id);
 		if (it != _virtualDevices.end()) {
-			it->second->_setButton(castButton(event), false);
+			it->second->_setButton(_castButton(event), false);
 		}
 		break;
 	}
@@ -406,7 +405,7 @@ void PlatformModule::processEvent(const SDL_Event& event)
 	case SDL_EVENT_KEY_DOWN: {
 		auto it = _virtualDevices.find(input::KEYBOARD_ID);
 		if (it != _virtualDevices.end()) {
-			it->second->_setButton(castButton(event), true);
+			it->second->_setButton(_castButton(event), true);
 		}
 		break;
 	}
@@ -414,7 +413,7 @@ void PlatformModule::processEvent(const SDL_Event& event)
 	case SDL_EVENT_KEY_UP: {
 		auto it = _virtualDevices.find(input::KEYBOARD_ID);
 		if (it != _virtualDevices.end()) {
-			it->second->_setButton(castButton(event), false);
+			it->second->_setButton(_castButton(event), false);
 		}
 		break;
 	}

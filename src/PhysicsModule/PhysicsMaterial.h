@@ -7,8 +7,7 @@ public:
 	/**
 	* @brief Enumerador con los distintos tipos de intensidad respecto a la combinación.
 	*/
-	enum class CombineMode
-	{
+	enum class CombineMode {
 		Av,
 		Min,
 		Max,
@@ -26,16 +25,24 @@ public:
 	float dynamicFriction;
 
 	/**
-	* @brief Variable de resitution.
+	* @brief Variable de resitución.
 	*/
 	float restitution;
 
+	/**
+	* @brief Variable del tipo enumerador para la combinacion de fricción.
+	*/
 	CombineMode frictionCombine;
 
+	/**
+	* @brief Variable del tipo enumerador para la combinacion de rebote.
+	*/
 	CombineMode bounceCombine;
 
-	PhysicsMaterial()
-	{
+	/**
+	* @brief Constructor predeterminado.
+	*/
+	PhysicsMaterial() {
 		staticFriction = 0.6f;
 		dynamicFriction = 0.6f;
 		restitution = 0.0f;
@@ -44,14 +51,10 @@ public:
 		bounceCombine = CombineMode::Av;
 	}
 
-	PhysicsMaterial(
-		float staticF,
-		float dynamicF,
-		float rest,
-		CombineMode frictionMode = CombineMode::Av,
-		CombineMode bounceMode = CombineMode::Av
-	)
-	{
+	/**
+	* @brief Constructor para inicializar todos los valores segun el usuario.
+	*/
+	PhysicsMaterial(float staticF, float dynamicF, float rest, CombineMode frictionMode = CombineMode::Av, CombineMode bounceMode = CombineMode::Av) {
 		staticFriction = staticF;
 		dynamicFriction = dynamicF;
 		restitution = rest;
@@ -60,10 +63,12 @@ public:
 		bounceCombine = bounceMode;
 	}
 
-	static float Combine(float a, float b, CombineMode mode)
-	{
-		switch (mode)
-		{
+	/**
+	* @brief Combina la cantidad de friccion y rebote segun el modo.
+	* @return La friccion combinada.
+	*/
+	static float Combine(float a, float b, CombineMode mode) {
+		switch (mode) {
 		case CombineMode::Av:
 			return (a + b) * 0.5f;
 
@@ -80,39 +85,27 @@ public:
 		return (a + b) * 0.5f;
 	}
 
-	static float ComputeDynamicFriction(
-		const PhysicsMaterial& a,
-		const PhysicsMaterial& b
-	)
-	{
-		return Combine(
-			a.dynamicFriction,
-			b.dynamicFriction,
-			a.frictionCombine
-		);
+	/**
+	* @brief Computa la friccion dinámica.
+	* @return La combinacion dinámica de friccion.
+	*/
+	static float ComputeDynamicFriction(const PhysicsMaterial& a, const PhysicsMaterial& b) {
+		return Combine(a.dynamicFriction, b.dynamicFriction, a.frictionCombine);
 	}
 
-	static float ComputeStaticFriction(
-		const PhysicsMaterial& a,
-		const PhysicsMaterial& b
-	)
-	{
-		return Combine(
-			a.staticFriction,
-			b.staticFriction,
-			a.frictionCombine
-		);
+	/**
+	* @brief Computa la friccion estática.
+	* @return La combinacion estática de friccion.
+	*/
+	static float ComputeStaticFriction(const PhysicsMaterial& a, const PhysicsMaterial& b) {
+		return Combine(a.staticFriction, b.staticFriction, a.frictionCombine);
 	}
 
-	static float ComputeRestitution(
-		const PhysicsMaterial& a,
-		const PhysicsMaterial& b
-	)
-	{
-		return Combine(
-			a.restitution,
-			b.restitution,
-			a.bounceCombine
-		);
+	/**
+	* @brief Computa la restitución.
+	* @return La combinacion de restitución.
+	*/
+	static float ComputeRestitution(const PhysicsMaterial& a, const PhysicsMaterial& b) {
+		return Combine(a.restitution, b.restitution, a.bounceCombine);
 	}
 };

@@ -7,16 +7,16 @@
 #include <PluginSDK.h>
 
 REGISTER_COMPONENT(Transform);
-
-Transform::Transform() :
-	_localPosition(),
-	_localRotation(),
-	_localScale(1),
-	_parent(nullptr),
-	_children() {
-};
-
-Transform::~Transform() {}
+//
+//Transform::Transform() :
+//	_localPosition(),
+//	_localRotation(),
+//	_localScale(1),
+//	_parent(nullptr),
+//	_children() {
+//};
+//
+//Transform::~Transform() {}
 
 bool Transform::init(const Properties& p)
 {

@@ -71,8 +71,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)dependencies\PhysX\physx\bin\win.x86_64.vc143.md\debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(SolutionDir)dependencies\PhysX\physx\bin\win.x86_64.vc143.md\debug\PhysX_64.lib;$(SolutionDir)dependencies\PhysX\physx\bin\win.x86_64.vc143.md\debug\PhysXCommon_64.lib;$(SolutionDir)dependencies\PhysX\physx\bin\win.x86_64.vc143.md\debug\PhysXFoundation_64.lib;$(SolutionDir)dependencies\PhysX\physx\bin\win.x86_64.vc143.md\debug\PhysXExtensions_static_64.lib;$(SolutionDir)dependencies\PhysX\physx\bin\win.x86_64.vc143.md\debug\PhysXPvdSDK_static_64.lib;$(SolutionDir)dependencies\PhysX\physx\bin\win.x86_64.vc143.md\debug\PhysXCharacterKinematic_static_64.lib;$(SolutionDir)dependencies\PhysX\physx\bin\win.x86_64.vc143.md\debug\PhysXCooking_64.lib;$(SolutionDir)dependencies\PhysX\physx\bin\win.x86_64.vc143.md\debug\PhysXTask_static_64.lib;$(SolutionDir)dependencies\PhysX\physx\bin\win.x86_64.vc143.md\debug\PhysXVehicle2_static_64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependencies\PhysX\physx\bin\win.x86_64.vc143.md\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>PhysX_64.lib;PhysXCommon_64.lib;PhysXFoundation_64.lib;PhysXExtensions_static_64.lib;PhysXPvdSDK_static_64.lib;PhysXCharacterKinematic_static_64.lib;PhysXCooking_64.lib;PhysXTask_static_64.lib;PhysXVehicle2_static_64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -95,10 +95,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>$(SolutionDir)dependencies\PhysX\physx\bin\win.x86_64.vc143.md\release\PhysX_64.lib;$(SolutionDir)dependencies\PhysX\physx\bin\win.x86_64.vc143.md\release\PhysXCommon_64.lib;$(SolutionDir)dependencies\PhysX\physx\bin\win.x86_64.vc143.md\release\PhysXFoundation_64.lib;$(SolutionDir)dependencies\PhysX\physx\bin\win.x86_64.vc143.md\release\PhysXExtensions_static_64.lib;$(SolutionDir)dependencies\PhysX\physx\bin\win.x86_64.vc143.md\release\PhysXPvdSDK_static_64.lib;$(SolutionDir)dependencies\PhysX\physx\bin\win.x86_64.vc143.md\release\PhysXCharacterKinematic_static_64.lib;$(SolutionDir)dependencies\PhysX\physx\bin\win.x86_64.vc143.md\release\PhysXCooking_64.lib;$(SolutionDir)dependencies\PhysX\physx\bin\win.x86_64.vc143.md\release\PhysXTask_static_64.lib;$(SolutionDir)dependencies\PhysX\physx\bin\win.x86_64.vc143.md\release\PhysXVehicle2_static_64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>PhysX_64.lib;PhysXCommon_64.lib;PhysXFoundation_64.lib;PhysXExtensions_static_64.lib;PhysXPvdSDK_static_64.lib;PhysXCharacterKinematic_static_64.lib;PhysXCooking_64.lib;PhysXTask_static_64.lib;PhysXVehicle2_static_64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)dependencies\PhysX\physx\bin\win.x86_64.vc143.md\debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependencies\PhysX\physx\bin\win.x86_64.vc143.md\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>

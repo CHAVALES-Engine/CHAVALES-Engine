@@ -98,9 +98,32 @@ public:
 	/// </summary>
 	void unMuteEverything();
 
+	/// <summary>
+	/// Method to set the position of the desire sound
+	/// </summary>
+	/// <param name="chID">Id of the desire sound</param>
+	/// <param name="pos">New position of the sound</param>
+	/// <param name="vel">New velocity of propagation of the sound</param>
 	void setAudioPos(int chID, core::Vector3<> pos, core::Vector3<> vel);
 
+	/// <summary>
+	/// Method to observe if the channel is playing 
+	/// </summary>
+	/// <param name="chID">Id of the desire channel</param>
+	/// <returns></returns>
 	bool isChannelPlaying(int chID);
+
+	/// <summary>
+	/// Sets a sample accurate start (and/or stop) time relative
+	/// </summary>
+	/// <param name="chID">Id of the desire channel</param>
+	/// <param name="start">Parameter to start playing sound at</param>
+	/// <param name="end">Parameter to end playing sound at</param>
+	/// <param name="stopChannel">
+	/// True: When dspclock_end is reached, behaves like ChannelControl::stop has been called.
+	///	False: When dspclock_end is reached, behaves like ChannelControl::setPaused has been called.
+	/// </param>
+	void setDelay(int chID, unsigned long long start, unsigned long long end, bool stopChannel);
 
 	
 

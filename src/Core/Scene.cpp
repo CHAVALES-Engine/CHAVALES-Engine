@@ -112,6 +112,8 @@ void core::Scene::onDestroy()
 			}
 		}
 	}
+
+	_entities.clear();
 }
 
 void core::Scene::endGame()

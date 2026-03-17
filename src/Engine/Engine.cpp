@@ -47,7 +47,7 @@ const void Engine::addAndSetScene(std::string n) const
 	_addAndSetScene(n);
 }
 
-const void Engine::setAddAndSetScene(std::function<void(std::string)> func){
+const void Engine::setAddAndSetScene(std::function<void(std::string)> func) {
 	_addAndSetScene = func;
 }
 
@@ -88,7 +88,7 @@ void Engine::setTransformScale(const transformID& id, const core::Vector3<float>
 
 cameraID Engine::addCamera(const entityID& entityID, const float& FOVy, const float& nearClipDistance, const float& farClipDistance, const float& focalLength, const core::Color& bgColor)
 {
-    return _renderModule->addCamera(entityID, FOVy, nearClipDistance, farClipDistance, focalLength, bgColor);
+	return _renderModule->addCamera(entityID, FOVy, nearClipDistance, farClipDistance, focalLength, bgColor);
 }
 
 void Engine::deleteCamera(const cameraID& id)
@@ -132,15 +132,18 @@ void Engine::unloadSound(std::string id)
 }
 int Engine::playSound(std::string id, const core::Vector3<> vec3, float soundVolume, int looping)
 {
-	return _audioModule->playSound(id,vec3,soundVolume,looping);
+	return _audioModule->playSound(id, vec3, soundVolume, looping);
 }
-void Engine::setChannelVolume(int chID, float newVolume) 
+void Engine::setChannelVolume(int chID, float newVolume)
 {
 	_audioModule->setChannelVolume(chID, newVolume);
 }
-void Engine::getLooping(int chID, int* typeOfLooping) 
+
+int Engine::getLooping(int chID) const
 {
-	_audioModule->getLooping(chID, typeOfLooping);
+	int looping = 0;
+	_audioModule->getLooping(chID, &looping);
+	return looping;
 }
 void Engine::setListener(core::Vector3<> pos, core::Vector3<> forward, core::Vector3<> up, core::Vector3<> vel)
 {
@@ -151,9 +154,19 @@ bool Engine::stopPlaying(int chID)
 	return _audioModule->stopPlaying(chID);
 }
 
+bool Engine::pauseChannel(int chID,bool pause)
+{
+	return _audioModule->pauseChannel(chID,pause);
+}
+
 void Engine::setSourcePosition(int chID, core::Vector3<> pos, core::Vector3<> vel)
 {
 	_audioModule->setAudioPos(chID, pos, vel);
+}
+
+void Engine::setDelay(int chID, unsigned long long start, unsigned long long end, bool stopChannel)
+{
+	_audioModule->setDelay(chID, start, end, stopChannel);
 }
 
 bool Engine::isChannelPlaying(int chID)
@@ -161,11 +174,53 @@ bool Engine::isChannelPlaying(int chID)
 	return _audioModule->isChannelPlaying(chID);
 }
 
+#pragma region Platform
+
+int Engine::getWindowWidth() const
+{
+	return _platformModule->getWindowWidth();
+}
+int Engine::getWindowHeight() const
+{
+	return _platformModule->getWindowHeight();
+}
+bool Engine::isKeyPressed(input::InputEvent inputAction, input::DeviceID device) const
+{
+	return _platformModule->isKeyPressed(inputAction, device);
+}
+bool Engine::isKeyReleased(input::InputEvent inputAction, input::DeviceID device) const
+{
+	return _platformModule->isKeyReleased(inputAction, device);
+}
+float Engine::getAxis(input::InputEvent inputAction, input::DeviceID device) const
+{
+	return _platformModule->getAxis(inputAction, device);
+}
+bool Engine::isActionPressed(const std::string& actionName, input::DeviceID device) const
+{
+	return _platformModule->isActionPressed(actionName, device);
+}
+bool Engine::isActionReleased(const std::string& actionName, input::DeviceID device) const
+{
+	return _platformModule->isActionReleased(actionName, device);
+}
+void Engine::startTextInput() const
+{
+	_platformModule->startTextInput();
+}
+void Engine::stopTextInput() const
+{
+	_platformModule->stopTextInput();
+}
+
+// TODO Metodos de InoputMapper aqui.
+
+#pragma endregion
 
 bool Engine::_initPriv()
 {
 	//Uso unique_ptr entonces no hace falta delete porque se maneja solo
-	
+
 	//Platform
 	_platformModule = new PlatformModule();
 	if (!_platformModule->Init()) return false;

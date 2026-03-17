@@ -5,7 +5,6 @@
 #include <unordered_set>
 
 
-class Engine;
 class Transform;
 
 class AudioSource: public core::Component
@@ -21,17 +20,24 @@ private:
 	bool _loop;
 	bool _isStream;
 	float _soundVolume;
-
-	std::vector<int> _chanelsID;
+	int _channelID;
 
 public:
 	AudioSource();
-	~AudioSource() ;
+	~AudioSource() override;
 
 	bool init(const Properties& p) override;
 	virtual void ready() override;
 	virtual void update(uint64_t deltaTime) override;
 
-	void playSound(std::string id, float soundVolume = 0.0f, bool loop = false );
+	void playSound(float soundVolume = 0.0f);
+	int getLooping() const;
+	void setLooping(int loop);
+	void setVolume(float& newVolume);
+	void setVolume(float&& newVolume);
+	void stopSound() const;
+	void pauseSound(bool pause) const;
+	void setDelay(unsigned long long start, unsigned long long end, bool stopChannel) const;
+	std::string getSoundName() const;
 };
 
