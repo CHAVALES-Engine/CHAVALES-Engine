@@ -39,6 +39,31 @@ namespace input
         * @returns bool - Estado del boton.
         */
         bool isPressed(GamepadButton button) const;
+        // TODO
+        /**
+        * @brief Devuelve el estado de una tecla.
+        *
+        * @param key - Tecla a comprobar.
+        *
+        * @returns bool - Estado de la tecla.
+        */
+        bool isReleased(Key key) const;
+        /**
+        * @brief Devuelve el estado de un boton del raton.
+        *
+        * @param button - Boton a comprobar.
+        *
+        * @returns bool - Estado del boton.
+        */
+        bool isReleased(MouseButton button) const;
+        /**
+        * @brief Devuelve el estado de un boton del pad.
+        *
+        * @param button - Boton a comprobar.
+        *
+        * @returns bool - Estado del boton.
+        */
+        bool isReleased(GamepadButton button) const;
         /**
         * @brief Devuelve el estado de un eje del raton.
         *

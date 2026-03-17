@@ -86,6 +86,23 @@ int PlatformModule::getWindowHeight() const
 
 bool PlatformModule::isKeyPressed(input::InputEvent inputAction, input::DeviceID device) const
 {
+	if (device != -1)
+	{
+		auto it = _virtualDevices.find(device);
+		if (it != _virtualDevices.end())
+		{
+			if (std::holds_alternative<input::Key>(inputAction))
+				return it->second->isPressed(std::get<input::Key>(inputAction));
+			else if (std::holds_alternative<input::GamepadButton>(inputAction))
+				return it->second->isPressed(std::get<input::GamepadButton>(inputAction));
+			else if (std::holds_alternative<input::MouseButton>(inputAction))
+				return it->second->isPressed(std::get<input::MouseButton>(inputAction));
+			else
+				Debug::error("[Input] inputAction: "/*, inputAction*/, " not allowed");
+		}
+		else
+			Debug::error("[Input] device: ", device, " not found");
+	}
 	return false;
 }
 
@@ -96,21 +113,44 @@ bool PlatformModule::isKeyReleased(input::InputEvent inputAction, input::DeviceI
 		auto it = _virtualDevices.find(device);
 		if (it != _virtualDevices.end())
 		{
-			/*std::holds_alternative<>(inputAction) {
-				it->second->isPressed(inputAction);
-			}*/
+			if (std::holds_alternative<input::Key>(inputAction))
+				return it->second->isReleased(std::get<input::Key>(inputAction));
+			else if (std::holds_alternative<input::GamepadButton>(inputAction))
+				return it->second->isReleased(std::get<input::GamepadButton>(inputAction));
+			else if (std::holds_alternative<input::MouseButton>(inputAction))
+				return it->second->isReleased(std::get<input::MouseButton>(inputAction));
+			else
+				Debug::error("[Input] inputAction: "/*, inputAction*/, " not allowed");
 		}
+		else
+			Debug::error("[Input] device: ", device, " not found");
 	}
 	return false;
 }
 
 float PlatformModule::getAxis(input::InputEvent inputAction, input::DeviceID device) const
 {
+	if (device != -1)
+	{
+		auto it = _virtualDevices.find(device);
+		if (it != _virtualDevices.end())
+		{
+			if (std::holds_alternative<input::MouseAxis>(inputAction))
+				return it->second->getAxis(std::get<input::MouseAxis>(inputAction));
+			else if (std::holds_alternative<input::GamepadAxis>(inputAction))
+				return it->second->getAxis(std::get<input::GamepadAxis>(inputAction));
+			else 
+				Debug::error("[Input] inputAction: "/*, inputAction*/, " not allowed");
+		}
+		else
+			Debug::error("[Input] device: ", device, " not found");
+	}
 	return 0.0f;
 }
 
 bool PlatformModule::isActionPressed(const std::string& actionName, input::DeviceID device) const
 {
+
 	return false;
 }
 

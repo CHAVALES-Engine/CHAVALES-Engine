@@ -57,6 +57,21 @@ bool input::VirtualDevice::isPressed(GamepadButton button) const
 	return _connected && _gamepadButtonState[button];
 }
 
+bool input::VirtualDevice::isReleased(Key key) const
+{
+	return false;
+}
+
+bool input::VirtualDevice::isReleased(MouseButton button) const
+{
+	return false;
+}
+
+bool input::VirtualDevice::isReleased(GamepadButton button) const
+{
+	return false;
+}
+
 float input::VirtualDevice::getAxis(MouseAxis axis) const
 {
 	return _connected ? _mouseAxisState[axis] : 0.0f;
