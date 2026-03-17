@@ -8,6 +8,8 @@
 #include "Defs.h"
 #include "Scene.h"
 
+#include <filesystem>
+
 using sceneName = std::string;
 
 /**
@@ -81,4 +83,14 @@ public:
 	 *
 	 */
 	static std::shared_ptr<core::Scene> loadSceneFromSearch();
+
+	/**
+	 * @brief Control de recargado de la escena desde el archivo .lua.
+	 */
+	static bool reloadLua();
+
+private:
+	static inline std::string _path = "";
+	static inline std::filesystem::file_time_type _lastTime;
+	static inline uintmax_t _lastSize;
 };

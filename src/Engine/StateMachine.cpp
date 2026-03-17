@@ -38,8 +38,16 @@ void StateMachine::gameLoop()
 	{
 		_endGame = Engine::instance()->syncronize();
 		core::TimerManager::instance().update();
+
 		if (_currentScene.ptr != nullptr)
 		{
+			if (GameLoader::reloadLua()) // si es necesario recargar...
+			{
+				_currentScene.ptr->endGame(); // elimina escena anterior
+				scenePtr s = std::move(GameLoader::loadScene(_currentScene.name)); // vuelve a cargar
+				_currentScene.ptr = s;
+			}
+
 			_deltaTime = core::Clock::calculateDeltaTime(startTime);
 
 			core::Clock::setDeltaTime(_deltaTime); // para acceso general
@@ -140,7 +148,7 @@ void StateMachine::addAndSetScene(const sceneName& n)
 
 	if (s != nullptr) // si se ha cargado correctamente
 	{
-		Debug::out("[STATEMACHINE] Entrando a escena ", n);
+		Debug::out("STATEMACHINE: Entrando a escena ", n);
 
 		// destruye la escena actual
 		if (_currentScene.ptr != nullptr)
