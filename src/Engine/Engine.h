@@ -6,6 +6,8 @@
 #include "Quaternion.h"
 #include "Color.h"
 #include <Vector3.h>
+
+#include "InputDefs.h"
 /*
  * @file Engine.h
  * @brief Defines the functions for the EngineAPI static library.
