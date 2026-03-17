@@ -107,19 +107,19 @@ private:
 	/**
 	* @brief procesa un evento de sdl
 	*/
-	void processEvent(const SDL_Event& event);
+	void _processEvent(const SDL_Event& event);
 	/**
 	 * @brief Castea un axis de SDL a nuestro propio sistema.
 	 * @param event - Evento a castear.
 	 * @return input::InputAxis - Evento casteado.
 	 */
-	input::InputAxis castAxis(const SDL_Event& event);
+	input::InputAxis _castAxis(const SDL_Event& event);
 	/**
 	 * @brief Castea un button de SDL a nuestro propio sistema.
 	 * @param event - Evento a castear.
 	 * @return input::InputButtons - Evento casteado.
 	 */
-	input::InputButtons castButton(const SDL_Event& event);
+	input::InputButtons _castButton(const SDL_Event& event);
 	/**
 	* @brief mapa de dispositivos virtuales
 	*/
