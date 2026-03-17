@@ -8,18 +8,17 @@ set "ROOTDIR=%~dp0"
 set "PHYSXDIR=%ROOTDIR%physx"
 set "SLN_DIR=%PHYSXDIR%\compiler\vc17win64-cpu-only"
 set "SOLUTION_FILE=%SLN_DIR%\PhysXSDK.sln"
-set "BUILDDIR=%SLN_DIR%\bin\win.x86_64.vc143.md"
+set "BUILDDIR=%PHYSXDIR%\bin\win.x86_64.vc143.md"
 set "LIBSDIR=%ROOTDIR%\libs"
 set "DEBUGDIR=%LIBSDIR%\Debug"
 set "RELEASEDIR=%LIBSDIR%\Release"
 set "PLATFORM=x64"
-
-
+set "PM_PACKAGES_ROOT=%ROOTDIR%packman-repo"
 
 if not exist "%LIBSDIR%" mkdir "%LIBSDIR%"
 if not exist "%DEBUGDIR%" mkdir "%DEBUGDIR%"
 if not exist "%RELEASEDIR%" mkdir "%RELEASEDIR%"
-
+if not exist "%PM_PACKAGES_ROOT%" mkdir "%PM_PACKAGES_ROOT%"
 :: Limpia lo anterior
 rd /s /q "%SLN_DIR%" 2>nul
 
