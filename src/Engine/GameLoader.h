@@ -84,6 +84,9 @@ public:
 	 */
 	static std::shared_ptr<core::Scene> loadSceneFromSearch();
 
+	/**
+	 * @brief Control de recargado de la escena desde el archivo .lua.
+	 */
 	static bool reloadLua();
 
 private:
