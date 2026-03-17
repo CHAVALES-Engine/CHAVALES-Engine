@@ -147,6 +147,42 @@ namespace core
 			return nullptr;
 		}
 
+		/**
+		* @brief Elimina todos los componentes del mismo tipo indicado
+		* O(n)
+		*/
+		template <typename T>
+		void removeComponents()
+		{
+			for (auto it = components.begin(); it != components.end(); ++it)
+			{
+				if (it->get() != nullptr)
+				{
+					(*it)->disable();
+					(*it)->destroy();
+					components.erase(it);
+				}
+			}
+		}
+
+		/**
+		* @brief Obtiene todos los componentes del mismo tipo indicado
+		* O(n)
+		*/
+		template <typename T>
+		std::vector<T*> getComponents()
+		{
+			std::vector<T*> cmp; 
+			for (std::shared_ptr<Component>& c : components)
+			{
+				if (T* ptr = dynamic_cast<T*>(c.get()))
+					cmp.push_back(ptr);
+			}
+			if (cmp.empty())
+				return nullptr;
+			return cmp;
+		}
+
 		// O(n)
 		/**
 		* @brief Comprueba si la entidad contiene un componente del tipo indicado
