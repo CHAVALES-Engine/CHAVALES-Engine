@@ -200,6 +200,7 @@ void GameLoader::loadLua(
 	sol::state lua;
 	lua.open_libraries(sol::lib::base);
 	std::string path = p + n + ".lua";
+	_path = path;
 
 	defineUserTypes(lua);
 
@@ -317,4 +318,34 @@ std::shared_ptr<core::Scene> GameLoader::loadSceneFromSearch()
 	}
 
 	return scene;
+}
+
+bool GameLoader::reloadLua()
+{
+	try
+	{
+		std::filesystem::file_time_type ftime = std::filesystem::last_write_time(_path);
+		uintmax_t fsize = std::filesystem::file_size(_path);
+
+		if (ftime > _lastTime && // para saber la ultima modificacion en tiempo
+			_lastSize < fsize) // si se ha modificado el archivo de verdad
+		{
+			Debug::out("GAMELOADER: Recargando escena");
+
+			_lastTime = ftime;
+			_lastSize = fsize;
+
+			return true;
+		}
+
+		return false;
+	}
+	// si lo borras a mitad que limpie la memoria de esa escena y que vuelva a 
+	// preguntar que escena quieres cargar a continuacion, dando margen de recuperar la escena
+	// por si la has borrado sin querer
+	catch (...)
+	{
+		Debug::error("GAMELOADER: Error de hot reloading");
+		return false;
+	}
 }
