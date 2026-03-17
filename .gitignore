@@ -57,7 +57,7 @@ bld/
 ## pero ignora todos los archivos en game
 **/[Bb]in/game/*
 # pero no los dlls
-!**/[Bb]in/game/*.dll
+# !**/[Bb]in/game/*.dll
 # ni tampoco nada dentro de sus subcarpetas
 !**/[Bb]in/game/*/
 !**/[Bb]in/game/*/**

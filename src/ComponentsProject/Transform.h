@@ -25,8 +25,8 @@ class Transform : public core::Component
 	std::vector<Transform*> _children;
 
 public:
-	Transform();
-	~Transform() override;
+	//Transform();
+	//~Transform() ;
 
 	bool init(const Properties& p) override;
 

@@ -26,7 +26,7 @@ private:
 
 public:
 	AudioSource();
-	~AudioSource() override;
+	~AudioSource() ;
 
 	bool init(const Properties& p) override;
 	virtual void ready() override;

@@ -13,7 +13,7 @@ private:
 
 public:
 	AudioListener();
-	~AudioListener() override;
+	~AudioListener() ;
 
 	bool init(const Properties& p) override;
 	virtual void ready() override;
