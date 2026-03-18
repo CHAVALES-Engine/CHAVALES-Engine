@@ -1,5 +1,5 @@
 #pragma once
-#include "Vector3.h"
+#include "../../src/Core-Defs/Vector3.h"
 class Rigidbody {
 public:
 	/**

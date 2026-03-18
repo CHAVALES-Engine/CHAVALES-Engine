@@ -1,13 +1,10 @@
 #pragma once
-#include <Component.h>
+#include  "../../src/Core-Defs/Component.h"
 #include "../../src/PhysicsModule/RigidBody.h"
-//#include "../../src/PhysicsModule/PhysicsModule.h"
-//using namespace physx;
 
 namespace physx {
 	class PxShape;
 	class PxRigidActor;
-	class PxShapeFlag;
 }
 
 class Collider : public core::Component
@@ -31,17 +28,46 @@ public:
 
 	~Collider() {};
 
+	////setters
+	//void SetEnabled(bool value);
+	//void SetTrigger(bool value);
+	//void SetRigidbody(Rigidbody* rb);
+
+	////getters
+	//bool IsEnabled() const;
+	//bool IsTrigger() const;
+	//Rigidbody* GetRigidbody() const;
+
+	//core::Vector3<> GetWorldPosition();
+
+
 	//setters
-	void SetEnabled(bool value);
-	void SetTrigger(bool value);
-	void SetRigidbody(Rigidbody* rb);
+	void SetEnabled(bool value) {
+		enabled = value;
+	}
 
-	//getters
-	bool IsEnabled() const;
-	bool IsTrigger() const;
-	Rigidbody* GetRigidbody() const;
+	void SetTrigger(bool value) {
+		isTrigger = value;
+	}
 
-	core::Vector3<> GetWorldPosition();
+	void SetRigidbody(Rigidbody* rb) { attachedRigidbody = rb; }
+
+	//Getters
+	bool IsEnabled() const { return enabled; }
+	bool IsTrigger() const { return isTrigger; }
+	Rigidbody* GetRigidbody() const { return attachedRigidbody; }
+
+	core::Vector3<> GetWorldPosition() const {
+		if (attachedRigidbody)
+			return attachedRigidbody->getPosition() + center;
+		return center;
+	}
 
 	bool init(const Properties& p) override;
+
+	void SetShape(physx::PxShape* s) { shape = s; }
+	physx::PxShape* GetShape() const { return shape; }
+
+	void SetActor(physx::PxRigidActor* a) { actor = a; }
+	physx::PxRigidActor* GetActor() const { return actor; }
 };
