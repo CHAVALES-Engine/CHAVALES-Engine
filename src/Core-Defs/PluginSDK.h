@@ -72,6 +72,8 @@ namespace PluginSDK {
 // la variable estatica se llama como la clase que le pases, 
 // y crea una entrada en el registro local con su mismo nombre
 
+// Indica al linker que getPluginComponent, aunque no esta siendo usado en nuestro proyecto, debe ser incluido en el .obj
+#pragma comment(linker, "/INCLUDE:getPluginComponents")
 /*
 * @brief
 *	Funcion de C exportada para acceder a los componentes registrados por el singleton
