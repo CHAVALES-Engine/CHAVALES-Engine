@@ -8,8 +8,6 @@
 #include <stdlib.h>
 #include <cmath>
 
-#include "EngineAPI.h"
-
 namespace core
 {
 	// Macros
@@ -31,7 +29,7 @@ namespace core
 	 *
 	 *		Clase que implementa diferentes funciones y utilidades matematicas.
 	 */
-	class ENGINE_API Maths
+	class Maths
 	{
 	public:
 		Maths() = default;

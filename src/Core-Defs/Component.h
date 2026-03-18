@@ -14,12 +14,11 @@
 
 #include "Debug.h"
 #include "ec.h"
-#include "EngineAPI.h"
 #include "Defs.h"
 
 namespace core
 {
-	class ENGINE_API Component
+	class Component
 	{
 	public:
 		Component();

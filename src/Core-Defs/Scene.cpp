@@ -1,8 +1,6 @@
 #include "Scene.h"
 
 #include <cstdint>
-
-#include "EngineAPI.h"
 #include "Entity.h"
 
 class Entity;

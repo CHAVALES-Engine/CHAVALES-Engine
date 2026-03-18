@@ -8,8 +8,6 @@
 #include <string>
 #include <vector>
 
-#include "EngineAPI.h"
-
 class Entity;
 
 namespace core
@@ -25,7 +23,7 @@ namespace core
 	 *		Clase que implementa una escena, almacena sus entidades en un vector y 
 	 *		llama a los metodos de estas cuando corresponda segun la maquina de estados.
 	 */
-	class ENGINE_API Scene
+	class Scene
 	{
 	public:
 		/**

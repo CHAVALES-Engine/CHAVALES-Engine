@@ -25,8 +25,8 @@
     <ClCompile Include="..\..\src\ComponentsProject\AudioSource.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\Camera.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\Collider.cpp" />
+    <ClCompile Include="..\..\src\ComponentsProject\MeshRenderer.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\Transform.cpp" />
-    <ClCompile Include="MeshRenderer.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -81,15 +81,15 @@
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\Engine\;$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)src\Core\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\Engine\;$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)src\Core-Utils\;$(SolutionDir)src\Core-Defs\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
       </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(SolutionDir)libs\Engine\Engine_d.lib;$(SolutionDir)libs\Core\Core_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)libs\Engine\;$(SolutionDir)libs\Core\;$(SolutionDir)bin\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\Core-Defs\;$(SolutionDir)libs\Core-Utils\;$(SolutionDir)libs\Engine</AdditionalLibraryDirectories>
       <ImportLibrary>$(SolutionDir)libs\$(ProjectName)\$(TargetName).lib</ImportLibrary>
+      <AdditionalDependencies>Engine_d.lib;Core-Defs_d.lib;Core-Utils_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Lib>
       <AdditionalDependencies>$(SolutionDir)libs\Core\Core_d.lib;$(SolutionDir)libs\Engine\Engine_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -110,14 +110,14 @@
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)src\Engine\;$(SolutionDir)src\Core\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\Engine\;$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)src\Core-Utils\;$(SolutionDir)src\Core-Defs\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
       </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(SolutionDir)libs\Engine\Engine_r.lib;$(SolutionDir)libs\Core\Core_r.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)bin\;$(SolutionDir)libs\Core\;$(SolutionDir)libs\Engine</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Engine_r.lib;Core-Defs_r.lib;Core-Utils_r.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\Core-Defs\;$(SolutionDir)libs\Core-Utils\;$(SolutionDir)libs\Engine</AdditionalLibraryDirectories>
       <ImportLibrary>$(SolutionDir)libs\$(ProjectName)\$(TargetName).lib</ImportLibrary>
     </Link>
     <Lib>

@@ -4,7 +4,6 @@
  */
 #pragma once
 #include "Vector4.h"
-#include "EngineAPI.h"
 
 namespace core
 {

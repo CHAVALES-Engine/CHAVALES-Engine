@@ -32,7 +32,7 @@ class ComponentTest : public core::Component
 	{
 		if (health >= 0)
 		{
-			health -= 1;
+			health -= 1;    
 			Debug::out("Augh... Me han herido y mi vida ahora es ", health);
 			if (health < 0)
 				morir();
