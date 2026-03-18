@@ -59,23 +59,23 @@ public:
 	int getWindowHeight() const;
 	/*
 	 * @brief Devuelve si una tecla esta pulsada
-	 * @param inputAction - InputEvent a comprobar
+	 * @param inputEvent - InputEvent a comprobar
 	 * @param device - id del dispositivo a comprobar. ANY_DEVICE por defecto => si se ha pulsado en cualquier dispositivo.
 	 */
-	bool isKeyPressed(input::InputEvent inputAction, input::DeviceID device = input::ANY_DEVICE) const;
+	bool isKeyPressed(input::InputEvent inputEvent, input::DeviceID device = input::ANY_DEVICE) const;
 	/*
 	 * @brief Devuelve si se ha dejado de pulsar una tecla
-	 * @param inputAction - InputEvent a comprobar
+	 * @param inputEvent - InputEvent a comprobar
 	 * @param device - id del dispositivo a comprobar. ANY_DEVICE por defecto => si se ha dejado de pulsar en cualquier dispositivo.
 	 */
-	bool isKeyReleased(input::InputEvent inputAction, input::DeviceID device = input::ANY_DEVICE) const;
+	bool isKeyReleased(input::InputEvent inputEvent, input::DeviceID device = input::ANY_DEVICE) const;
 	/*
 	 * @brief Devuelve cuanto de accionado esta la accion a comprobar
-	 * @param inputAction - InputEvent a comprobar
+	 * @param inputEvent - InputEvent a comprobar
 	 * @param device - id del dispositivo a comprobar. ANY_DEVICE por defecto => el eje de cualquier dispositivo.
 	 * @return float - Devuelve de -1 a 1
 	 */
-	float getAxis(input::InputEvent inputAction, input::DeviceID device = input::ANY_DEVICE) const;
+	float getAxis(input::InputEvent inputEvent, input::DeviceID device = input::ANY_DEVICE) const;
 	/*
 	 * @brief Devuelve si se ha pulsado una accion
 	 * @param actionName - accion a comprobar
