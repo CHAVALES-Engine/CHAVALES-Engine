@@ -12,8 +12,12 @@
 #include <Quaternion.h>
 #include <Vector3.h>
 
+using transformID = uint64_t;
+
 class Transform : public core::Component
 {
+	transformID _transformID;
+
 	core::Vector3<> _localPosition;
 	core::Quaternion<> _localRotation;
 	core::Vector3<> _localScale;
@@ -21,10 +25,10 @@ class Transform : public core::Component
 	std::vector<Transform*> _children;
 
 public:
-	Transform();
-	~Transform() override;
+	//Transform();
+	//~Transform() ;
 
-	void init(const Properties& p) override;
+	bool init(const Properties& p) override;
 
 	void setGlobalPosition(core::Vector3<> gp);
 	void setLocalPosition(const core::Vector3<>& lp);
@@ -75,7 +79,6 @@ public:
 	void rotate(const core::Quaternion<>& q);
 	/**
 	 * @brief Aplica una rotacion v en formato vector a la rotacion local
-	 * @warning - SIN IMPLEMENTAR
 	 */
 	void rotate(core::Vector3<> v);
 

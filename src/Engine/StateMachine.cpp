@@ -10,7 +10,7 @@
 
 #include "Debug.h"
 #include "GameLoader.h"
-#include "Timer.h"
+#include "TimeManager.h"
 
 class GameLoader;
 
@@ -38,8 +38,16 @@ void StateMachine::gameLoop()
 	{
 		_endGame = Engine::instance()->syncronize();
 		core::TimerManager::instance().update();
+
 		if (_currentScene.ptr != nullptr)
 		{
+			if (GameLoader::reloadLua()) // si es necesario recargar...
+			{
+				_currentScene.ptr->endGame(); // elimina escena anterior
+				scenePtr s = std::move(GameLoader::loadScene(_currentScene.name)); // vuelve a cargar
+				_currentScene.ptr = s;
+			}
+
 			_deltaTime = core::Clock::calculateDeltaTime(startTime);
 
 			core::Clock::setDeltaTime(_deltaTime); // para acceso general
@@ -51,19 +59,26 @@ void StateMachine::gameLoop()
 			}
 
 			_currentScene.ptr->update(_deltaTime);
-			_currentScene.ptr->render();
+			//_currentScene.ptr->render();
 		}
 	}
 
-	// borrar todas las escenas con la finalizacion del juego
-	// llamar al onDestroy de todas las escenas
+	// llamar a la destructora de la escena
+	if (_currentScene.ptr != nullptr)
+	{
+		_currentScene.ptr->~Scene();
+	}
+	_currentScene.ptr = nullptr;
+
 	// vaciar los mapas
-	_stateMachine.clear();
-	_nameToID.clear();
+	//_stateMachine.clear();
+	//_nameToID.clear();
 }
 
+/*
 void StateMachine::addScene(sceneName n, scenePtr s)
 {
+	
 	// comprobar que no haya una escena con ese nombre ya
 	auto itN = _nameToID.find(n);
 	if (itN == _nameToID.end())
@@ -79,8 +94,10 @@ void StateMachine::addScene(sceneName n, scenePtr s)
 	{
 		std::cout << "Ya hay una escena con el nombre " << n << '\n';
 	}
-}
+	
+}*/
 
+/*
 void StateMachine::setScene(sceneName n)
 {
 	// busca si existe una escena con ese nombre
@@ -119,53 +136,37 @@ void StateMachine::setScene(sceneName n)
 			}
 		}
 	}
-}
+}*/
 
 void StateMachine::addAndSetScene(const sceneName& n)
 {
-	// comprobar que no haya una escena con ese nombre ya
-	auto itN = _nameToID.find(n);
-	if (itN == _nameToID.end())
-	{
 #if _DEBUG
-		// cargar nueva escena
-		scenePtr s = std::move(GameLoader::loadScene(n));
+	// cargar nueva escena
+	scenePtr s = std::move(GameLoader::loadScene(n));
 #else
-		//Cargar escena externa (prueba)
-		scenePtr s = std::move(GameLoader::loadSceneFromSearch());
+	//Cargar escena externa (prueba)
+	scenePtr s = std::move(GameLoader::loadSceneFromSearch());
 #endif
 
+	if (s != nullptr) // si se ha cargado correctamente
+	{
+		Debug::out("STATEMACHINE: Entrando a escena ", n);
 
-		if (s != nullptr)
-		{
-			Debug::out("[ESCENA] Entrando a escena ", n);
-			uint64_t id = _getNextId(); // genera id
-			_nameToID.insert({ n, id }); // guarda la escena en el mapa de nombres e id
-			_stateMachine.insert({ id, s }); // guarda la escena con id y puntero en la maquina de estados
+		// destruye la escena actual
+		if (_currentScene.ptr != nullptr)
+			_currentScene.ptr->onDestroy();
 
-			// desactiva la escena actual -> TODO: destruir escena
-			if (_currentScene.ptr != nullptr)
-				_currentScene.ptr->onDisable();
-
-			// setea nueva escena actual
-			_currentScene.id = id;
-			_currentScene.ptr = s;
-			_currentScene.name = n;
-
-			// activa la nueva escena actual
-			//_currentScene.ptr->onCreate();
-			//_currentScene.ptr->init();
-			_currentScene.ptr->onEnable();
-			_currentScene.ptr->setID(id);
-
-		}
+		// setea nueva escena actual
+		_currentScene.ptr = s;
+		_currentScene.name = n;
 	}
 	else
 	{
-		std::cout << "Ya hay una escena con el nombre " << n << '\n';
+		Debug::out("[STATEMACHINE] No se pudo cargar la escena ", n);
 	}
 }
 
+/*
 void StateMachine::deleteScene(sceneName n)
 {
 	// comprobar que existe una escena con ese nombre 
@@ -193,10 +194,13 @@ void StateMachine::deleteScene(sceneName n)
 			}
 		}
 	}
-}
+	
+}*/
 
+/*
 uint64_t StateMachine::_parseNameToID(std::string n)
 {
+	
 	auto itN = _nameToID.find(n);
 	if (itN == _nameToID.end())
 	{
@@ -206,4 +210,5 @@ uint64_t StateMachine::_parseNameToID(std::string n)
 	{
 		return itN->second;
 	}
-}
+	
+}*/

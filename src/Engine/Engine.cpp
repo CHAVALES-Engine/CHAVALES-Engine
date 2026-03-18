@@ -1,10 +1,14 @@
 ﻿
 #include "Engine.h"
 
+#include <memory>
+
 #include "PlatformModule.h"
 #include "RenderModule.h"
 #include "AudioModule.h"
 #include "PhysicsModule.h"
+#include "InputMapper.h"
+
 using namespace std;
 Engine* Engine::_instance = nullptr;
 
@@ -33,11 +37,6 @@ void Engine::release()
 	}
 }
 
-PlatformModule* Engine::getPlatform()
-{
-	return _instance->_platformModule;
-}
-
 const bool Engine::syncronize()
 {
 	return _platformModule->syncronize();
@@ -48,33 +47,193 @@ const void Engine::addAndSetScene(std::string n) const
 	_addAndSetScene(n);
 }
 
-const void Engine::setAddAndSetScene(std::function<void(std::string)> func){
+const void Engine::setAddAndSetScene(std::function<void(std::string)> func) {
 	_addAndSetScene = func;
 }
+
+void Engine::renderFrame()
+{
+	_renderModule->renderFrame();
+}
+
+void Engine::cleanScene()
+{
+	_renderModule->cleanScene();
+}
+
+void Engine::setViewportBGColor(core::Color color)
+{
+	_renderModule->setViewportBGColor(color);
+}
+
+transformID Engine::addTransform(const entityID& entityID, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float>& scale)
+{
+	return _renderModule->addNode(entityID, pos, rot, scale);
+}
+
+void Engine::setTransformPosition(const transformID& id, const core::Vector3<float>& pos)
+{
+	_renderModule->setNodePosition(id, pos);
+}
+
+void Engine::setTransformRotation(const transformID& id, const core::Quaternion<float>& rot)
+{
+	_renderModule->setNodeRotation(id, rot);
+}
+
+void Engine::setTransformScale(const transformID& id, const core::Vector3<float>& scale)
+{
+	_renderModule->setNodeScale(id, scale);
+}
+
+cameraID Engine::addCamera(const entityID& entityID, const float& FOVy, const float& nearClipDistance, const float& farClipDistance, const float& focalLength, const core::Color& bgColor)
+{
+	return _renderModule->addCamera(entityID, FOVy, nearClipDistance, farClipDistance, focalLength, bgColor);
+}
+
+void Engine::deleteCamera(const cameraID& id)
+{
+	_renderModule->deleteCamera(id);
+}
+
+void Engine::setAsActiveCamera(const cameraID& id)
+{
+	_renderModule->setAsActiveCamera(id);
+}
+
+void Engine::setCameraFOVy(const cameraID& id, const float& FOVy)
+{
+	_renderModule->setCameraFOVy(id, FOVy);
+}
+
+void Engine::setCameraNearClipDistance(const cameraID& id, const float& nearClipDistance)
+{
+	_renderModule->setCameraNearClipDistance(id, nearClipDistance);
+}
+
+void Engine::setCameraFarClipDistance(const cameraID& id, const float& farClipDistance)
+{
+	_renderModule->setCameraFarClipDistance(id, farClipDistance);
+}
+
+void Engine::setCameraFocalLength(const cameraID& id, const float& focalLength)
+{
+	_renderModule->setCameraFocalLength(id, focalLength);
+}
+
+void Engine::loadSound(const char* path, std::string id, bool sound3D, bool soundLooping, bool soundStream)
+{
+	_audioModule->loadSound(path, id, sound3D, soundLooping, soundStream);
+}
+
+void Engine::unloadSound(std::string id)
+{
+	_audioModule->unloadSound(id);
+}
+int Engine::playSound(std::string id, const core::Vector3<> vec3, float soundVolume, int looping)
+{
+	return _audioModule->playSound(id, vec3, soundVolume, looping);
+}
+void Engine::setChannelVolume(int chID, float newVolume)
+{
+	_audioModule->setChannelVolume(chID, newVolume);
+}
+
+int Engine::getLooping(int chID) const
+{
+	int looping = 0;
+	_audioModule->getLooping(chID, &looping);
+	return looping;
+}
+void Engine::setListener(core::Vector3<> pos, core::Vector3<> forward, core::Vector3<> up, core::Vector3<> vel)
+{
+	_audioModule->setListener(pos, forward, up, vel);
+}
+bool Engine::stopPlaying(int chID)
+{
+	return _audioModule->stopPlaying(chID);
+}
+
+bool Engine::pauseChannel(int chID,bool pause)
+{
+	return _audioModule->pauseChannel(chID,pause);
+}
+
+void Engine::setSourcePosition(int chID, core::Vector3<> pos, core::Vector3<> vel)
+{
+	_audioModule->setAudioPos(chID, pos, vel);
+}
+
+void Engine::setDelay(int chID, unsigned long long start, unsigned long long end, bool stopChannel)
+{
+	_audioModule->setDelay(chID, start, end, stopChannel);
+}
+
+bool Engine::isChannelPlaying(int chID)
+{
+	return _audioModule->isChannelPlaying(chID);
+}
+
+#pragma region Platform
+
+int Engine::getWindowWidth() const
+{
+	return _platformModule->getWindowWidth();
+}
+int Engine::getWindowHeight() const
+{
+	return _platformModule->getWindowHeight();
+}
+bool Engine::isKeyPressed(input::InputEvent inputAction, input::DeviceID device) const
+{
+	return _platformModule->isKeyPressed(inputAction, device);
+}
+bool Engine::isKeyReleased(input::InputEvent inputAction, input::DeviceID device) const
+{
+	return _platformModule->isKeyReleased(inputAction, device);
+}
+float Engine::getAxis(input::InputEvent inputAction, input::DeviceID device) const
+{
+	return _platformModule->getAxis(inputAction, device);
+}
+bool Engine::isActionPressed(const std::string& actionName, input::DeviceID device) const
+{
+	return _platformModule->isActionPressed(actionName, device);
+}
+bool Engine::isActionReleased(const std::string& actionName, input::DeviceID device) const
+{
+	return _platformModule->isActionReleased(actionName, device);
+}
+void Engine::startTextInput() const
+{
+	_platformModule->startTextInput();
+}
+void Engine::stopTextInput() const
+{
+	_platformModule->stopTextInput();
+}
+
+// TODO Metodos de InoputMapper aqui.
+
+#pragma endregion
 
 bool Engine::_initPriv()
 {
 	//Uso unique_ptr entonces no hace falta delete porque se maneja solo
-	
+
 	//Platform
-	unique_ptr<PlatformModule> platform(new PlatformModule());
-	if (!platform->Init()) return false;
+	_platformModule = new PlatformModule();
+	if (!_platformModule->Init()) return false;
 	//Render
-	unique_ptr<RenderModule> render(new RenderModule());
-	if (!render->Init(platform->getWindowHandle(), platform->getWindowWidth(), platform->getWindowHeight()))
+	_renderModule = new RenderModule();
+	if (!_renderModule->Init(_platformModule->getWindowHandle(), _platformModule->getWindowWidth(), _platformModule->getWindowHeight()))
 		return false;
 	//Audio
-	unique_ptr<AudioModule> audio(new AudioModule());
-	if (!audio->Init()) return false;
+	_audioModule = new AudioModule();
+	if (!_audioModule->Init()) return false;
 	//Fisicas
-	unique_ptr<PhysicsModule> physics(new PhysicsModule());
-	if (!physics->Init()) return false;
-
-	//paso propiedades al engine
-	_platformModule = platform.release();
-	_renderModule = render.release();
-	_audioModule = audio.release();
-	_physicsModule = physics.release();
+	_physicsModule = new PhysicsModule();
+	if (!_physicsModule->Init()) return false;
 
 	return true;
 }

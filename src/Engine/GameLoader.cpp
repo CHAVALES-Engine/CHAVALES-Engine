@@ -9,6 +9,7 @@
 #include "Entity.h"
 #include "Component.h"
 #include "ComponentRegister.h"
+#include "GameConfigurator.h"
 
 namespace fs = std::filesystem;
 
@@ -199,6 +200,7 @@ void GameLoader::loadLua(
 	sol::state lua;
 	lua.open_libraries(sol::lib::base);
 	std::string path = p + n + ".lua";
+	_path = path;
 
 	defineUserTypes(lua);
 
@@ -252,25 +254,6 @@ std::shared_ptr<core::Scene> GameLoader::loadScene(const sceneName& n)
 	return s;
 }
 
-std::string GameLoader::askSceneName()
-{
-	std::string sceneName;
-
-	std::cout << "Introduce el nombre de la escena: ";
-	std::cin >> sceneName;
-
-	return sceneName;
-}
-
-std::string GameLoader::askRootName()
-{
-	std::string rootName;
-
-	std::cout << "Introduce la ruta del directorio principal: ";
-	std::cin >> rootName;
-
-	return rootName;
-}
 
 std::string GameLoader::findSceneFile(const std::string& sceneName, const std::string& root)
 {
@@ -292,11 +275,12 @@ std::string GameLoader::findSceneFile(const std::string& sceneName, const std::s
 
 std::shared_ptr<core::Scene> GameLoader::loadSceneFromSearch()
 {
-	std::string sceneName = askSceneName();
+	GameConfigurator gameConfig("scene_prueba", "..\..\..\..\..\2526-Grupo03-ChavalesEngine\bin\game\scenes");
+	std::string sceneName = gameConfig.getSceneName();
 
 	std::cout << "Buscando escena " << sceneName << ".lua" << std::endl;
 
-	std::string root = askRootName();
+	std::string root = gameConfig.getRoot();
 
 	if (!fs::exists(root) || !fs::is_directory(root))
 	{
@@ -334,4 +318,34 @@ std::shared_ptr<core::Scene> GameLoader::loadSceneFromSearch()
 	}
 
 	return scene;
+}
+
+bool GameLoader::reloadLua()
+{
+	try
+	{
+		std::filesystem::file_time_type ftime = std::filesystem::last_write_time(_path);
+		uintmax_t fsize = std::filesystem::file_size(_path);
+
+		if (ftime > _lastTime && // para saber la ultima modificacion en tiempo
+			_lastSize < fsize) // si se ha modificado el archivo de verdad
+		{
+			Debug::out("GAMELOADER: Recargando escena");
+
+			_lastTime = ftime;
+			_lastSize = fsize;
+
+			return true;
+		}
+
+		return false;
+	}
+	// si lo borras a mitad que limpie la memoria de esa escena y que vuelva a 
+	// preguntar que escena quieres cargar a continuacion, dando margen de recuperar la escena
+	// por si la has borrado sin querer
+	catch (...)
+	{
+		Debug::error("GAMELOADER: Error de hot reloading");
+		return false;
+	}
 }

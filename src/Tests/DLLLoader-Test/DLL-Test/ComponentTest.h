@@ -4,31 +4,35 @@
 #include "Debug.h"
 #include "Engine.h"
 #include "Entity.h"
-#include "Timer.h"
+#include "TimeManager.h"
 
 class ComponentTest : public core::Component
 {
 	int health = 0;
+	int test = 0;
 
-	void init(const Properties& p) override
+	bool init(const Properties& p) override
 	{
 		// ejemplos de inicializacion:
 		// ejemplo 1
-		setProperty(p, "health", health);
+		
 		// ejemplo 2
-		health = getProperty<int>(p, "health");
+		//health = getProperty<int>(p, "health");
+		return setProperty(p, "health", health) 
+		&& setProperty<int>(p, "focal length", test);
 	}
 	
 	void ready() override
 	{
 		Debug::out("Hola :-) Mi vida es ", health);
+		Debug::out("test ", test);
 	}
 
 	void fixedUpdate() override
 	{
 		if (health >= 0)
 		{
-			health -= 1;
+			health -= 1;    
 			Debug::out("Augh... Me han herido y mi vida ahora es ", health);
 			if (health < 0)
 				morir();
@@ -54,7 +58,6 @@ REGISTER_COMPONENT(ComponenteChavalTest);
 class TimerChangescene : public core::Component
 {
 	core::Timer t;
-
 	int tic = 1000;
 
 public:
@@ -62,6 +65,7 @@ public:
 	{
 
 	}
+
 	void ready() override
 	{
 		Debug::out("ready");

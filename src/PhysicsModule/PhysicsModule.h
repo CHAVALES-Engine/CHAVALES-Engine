@@ -1,7 +1,10 @@
 #pragma once
-
+//#include <PxPhysicsAPI.h>
 // TODO: This is an example of a library function
+//#include "../../dependencies/PhysX/physx/include/PxPhysicsAPI.h"
 
+#include <vector>
+#include "../../src/ComponentsProject/Collider.h"
 
 class PhysicsModule
 {
@@ -11,11 +14,13 @@ public:
 	virtual ~PhysicsModule() = default;
 
 	bool Init();
+	void Update(float dt) {};
+	void AddCollider(Collider* col);
+
 private:
-	//PxDefaultAllocator		gAllocator;
-//PxDefaultErrorCallback	gErrorCallback;
-//
-//PxFoundation* gFoundation = NULL;
-//PxPhysics* gPhysics = NULL;
-//PxPvd* gPvd = NULL;
+
+	std::vector<Collider*> colliders;
+
+	void CreatePhysXShape(Collider* col);
+
 };

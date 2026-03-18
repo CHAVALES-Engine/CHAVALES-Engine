@@ -8,6 +8,8 @@
 #include "Defs.h"
 #include "Scene.h"
 
+#include <filesystem>
+
 using sceneName = std::string;
 
 /**
@@ -69,26 +71,26 @@ public:
 	static std::shared_ptr<core::Scene> loadScene(const sceneName& n);
 
 	/**
-	 * @brief Pregunta por consola el nombre de la escena a buscar.
+	 * @brief Busca en la ruta el nombre de la escena y devuelve la ruta completa hasta el .lua.
 	 *
-	 */
-	static std::string askSceneName();
-
-	/**
-	 * @brief Pregunta por consola el nombre de la ruta en la que buscar.
-	 *
-	 */
-	static std::string askRootName();
-
-	/**
-	 * @brief Busca en la ruta el nombre de la escena y devuelve la ruta completa hasta el .lua
-	 *
+	 * @param sceneName - Nombre de la escena a cargar.
+	 * @param root - Ruta donde buscar el nombre de la escena.
 	 */
 	static std::string findSceneFile(const std::string& sceneName, const std::string& root);
 
 	/**
-	 * LLama a preguntar por el nombre de la escena y usa findSceneFile para cargar el archivo .lua con loadLua
+	 * @brief LLama a preguntar por el nombre de la escena y usa findSceneFile para cargar el archivo .lua con loadLua.
 	 *
 	 */
 	static std::shared_ptr<core::Scene> loadSceneFromSearch();
+
+	/**
+	 * @brief Control de recargado de la escena desde el archivo .lua.
+	 */
+	static bool reloadLua();
+
+private:
+	static inline std::string _path = "";
+	static inline std::filesystem::file_time_type _lastTime;
+	static inline uintmax_t _lastSize;
 };

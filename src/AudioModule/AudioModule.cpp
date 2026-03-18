@@ -35,6 +35,7 @@ bool AudioModule::Init()
 		Debug::error("FMOD error: Couldn't initialize system");
 		return false;
 	}
+	_system->set3DSettings(1.0f, 1.0f, 1.0f);
 	return true;
 }
 
@@ -61,7 +62,7 @@ void AudioModule::ShutDown()
 {
 	//Destructora
 	_system->release();
-	delete _system;	
+	delete _system;
 }
 
 bool AudioModule::loadSound(const char* path, std::string id, bool sound3D, bool soundLooping, bool soundStream)
@@ -74,7 +75,7 @@ bool AudioModule::loadSound(const char* path, std::string id, bool sound3D, bool
 	}
 	//Depends in the parameters of the method
 	FMOD_MODE eMode = FMOD_DEFAULT;
-	eMode |= sound3D ? FMOD_2D : FMOD_3D;
+	eMode |= sound3D ? FMOD_3D : FMOD_2D;
 	eMode |= soundLooping ? FMOD_LOOP_NORMAL : FMOD_LOOP_OFF;
 	eMode |= soundStream ? FMOD_CREATESTREAM : FMOD_CREATECOMPRESSEDSAMPLE;
 
@@ -177,6 +178,15 @@ bool AudioModule::pauseChannel(int chID, bool pause)
 	return itChFound->second->setPaused(pause);
 }
 
+void AudioModule::setListener(core::Vector3<> pos, core::Vector3<> forward, core::Vector3<> up, core::Vector3<> vel)
+{
+	FMOD_VECTOR _pos = { pos.getX(), pos.getY(), pos.getZ() };
+	FMOD_VECTOR _vel = { vel.getX(), vel.getY(), vel.getZ() };
+	FMOD_VECTOR _forward = { forward.getX(), forward.getY(), forward.getZ() };
+	FMOD_VECTOR _up = { up.getX(), up.getY(), up.getZ() };
+	_system->set3DListenerAttributes(0, &_pos, &_vel, &_forward, &_up);
+}
+
 void AudioModule::muteEverything()
 {
 	for (auto it = _channelSound.begin(); it != _channelSound.end(); ++it) {
@@ -197,4 +207,38 @@ void AudioModule::unMuteEverything()
 			it->second->setPaused(false);
 		}
 	}
+}
+
+void AudioModule::setAudioPos(int chID, core::Vector3<> pos, core::Vector3<> vel)
+{
+	auto itCH = _channelSound.find(chID);
+	if (itCH == _channelSound.end()) return;
+	FMOD_VECTOR position = { pos.getX(),pos.getY(),pos.getZ() };
+	FMOD_VECTOR velocity = { vel.getX(),vel.getY(),vel.getZ() };
+	itCH->second->set3DAttributes(&position, &velocity);
+}
+
+bool AudioModule::isChannelPlaying(int chID)
+{
+	auto itChFound = _channelSound.find(chID);
+
+	if (itChFound == _channelSound.end())
+	{
+		return false;
+	}
+
+	bool isPlaying = false;
+	itChFound->second->isPlaying(&isPlaying);
+
+	return isPlaying;
+}
+
+void AudioModule::setDelay(int chID, unsigned long long start, unsigned long long end, bool stopChannel)
+{
+	auto itChFound = _channelSound.find(chID);
+
+	if (itChFound == _channelSound.end()) {
+		return;
+	}
+	itChFound->second->setDelay(start, end, stopChannel);
 }

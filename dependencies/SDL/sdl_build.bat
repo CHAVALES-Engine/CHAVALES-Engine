@@ -25,7 +25,7 @@ pushd "%BUILDDIR%"
 
 echo Configurando SDL3...
 
-cmake  -A %PLATFORM% ^
+cmake -G "Visual Studio 17 2022" -A %PLATFORM% ^
  -DSDL_AUDIO=OFF ^
  -DSDL_CAMERA=OFF ^
  -DSDL_GPU=ON ^

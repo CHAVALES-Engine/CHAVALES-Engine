@@ -1,20 +1,25 @@
+//#include "Debug.h"
+//namespace fs = std::filesystem;
+//#define SOL_ALL_SAFETIES_ON 1
+//#include <sol/sol.hpp>
+
+//#include "Entity.h"
+//#include "Component.h"
+//#include "Scene.h"
+//#include <ComponentRegister.h>
+//#include "ComponentDLLLoader.h"
+
 #include <iostream>
 #include <string>
 #include <filesystem>
+#include <fstream>
 
-#include "Debug.h"
-namespace fs = std::filesystem;
-#define SOL_ALL_SAFETIES_ON 1
-#include <sol/sol.hpp>
-
-#include "Entity.h"
-#include "Component.h"
-#include "Scene.h"
-#include <ComponentRegister.h>
-#include "ComponentDLLLoader.h"
+#include <chrono>
+#include <ctime>
 
 int main(int argc, char* argv[])
 {
+	/*
 	sol::state lua;
 	lua.script_file("./game/scenes/scene_prueba.lua");
 	sol::table scene = lua["scene"];
@@ -66,27 +71,37 @@ int main(int argc, char* argv[])
 	}
 
 	s->fixedUpdate();
+	*/
+
+	std::string path = "./game/scenes/scene1.lua";
+
+	std::filesystem::file_time_type lastTime;
+	auto lastSize = std::filesystem::file_size(path);
+
+	lastTime = std::filesystem::last_write_time(path);
+
+	while (true)
+	{
+		try
+		{
+			std::filesystem::file_time_type ftime = std::filesystem::last_write_time(path);
+			auto fsize = std::filesystem::file_size(path);
+
+			if (ftime > lastTime && // para saber la ultima modificacion en tiempo
+				lastSize < fsize) // si se ha modificado el archivo de verdad
+			{
+				std::cout << "modificado" << std::endl;
+				lastTime = ftime;
+				lastSize = fsize;
+			}
+		}
+		// si lo borras a mitad que limpie la memoria de esa escena y que vuelva a 
+		// preguntar que escena quieres cargar a continuacion, dando margen de recuperar la escena
+		// por si la has borrado sin querer
+		catch (...)
+		{
+			return 1;
+		}
+	}
+	return 0;
 }
-
-//  std::string path = "./hola";
-//  std::string file;
-//  for (const auto& entry : fs::directory_iterator(path))
-//  {
-	  //file = entry.path().generic_string();
-
-	  //std::ifstream entrada(file);
-
-	  //if (!entrada.is_open())
-	  //{
-	  //	return -1;
-	  //}
-
-	  //auto cinbuf = std::cin.rdbuf(entrada.rdbuf());
-
-	  //std::string entidadName;
-	  //std::cin >> entidadName;
-
-	  //std::cout << entidadName << '\n';
-
-	  //std::cin.rdbuf(cinbuf);
-//  }

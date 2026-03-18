@@ -64,6 +64,11 @@ public:
 	/// <param name="typeOfLooping">Retrives the type of looping</param>
 	bool getLooping(int chID, int* typeOfLooping);
 
+	/// <summary>
+	/// Stops the disire sound
+	/// </summary>
+	/// <param name="chID">ID of the sound we are looking for</param>
+	/// <returns></returns>
 	bool stopPlaying(int chID);
 
 	/// <summary>
@@ -75,6 +80,15 @@ public:
 	bool pauseChannel(int chID, bool pause);
 
 	/// <summary>
+	/// Updates de parameters of FMOD audio listener
+	/// </summary>
+	/// <param name="pos">Position of the Listener</param>
+	/// <param name="forward">Forward vector of the Listener</param>
+	/// <param name="up">Up vector of the Listenter</param>
+	/// <param name="vel">(optional) Velocity of the Listener, for Doppler effect</param>
+	void setListener(core::Vector3<> pos, core::Vector3<> forward, core::Vector3<> up, core::Vector3<> vel = { 0.0,0.0,0.0 });
+
+	/// <summary>
 	/// Method to mute all chanels
 	/// </summary>
 	void muteEverything();
@@ -83,6 +97,35 @@ public:
 	/// Method to unmute all chanels
 	/// </summary>
 	void unMuteEverything();
+
+	/// <summary>
+	/// Method to set the position of the desire sound
+	/// </summary>
+	/// <param name="chID">Id of the desire sound</param>
+	/// <param name="pos">New position of the sound</param>
+	/// <param name="vel">New velocity of propagation of the sound</param>
+	void setAudioPos(int chID, core::Vector3<> pos, core::Vector3<> vel);
+
+	/// <summary>
+	/// Method to observe if the channel is playing 
+	/// </summary>
+	/// <param name="chID">Id of the desire channel</param>
+	/// <returns></returns>
+	bool isChannelPlaying(int chID);
+
+	/// <summary>
+	/// Sets a sample accurate start (and/or stop) time relative
+	/// </summary>
+	/// <param name="chID">Id of the desire channel</param>
+	/// <param name="start">Parameter to start playing sound at</param>
+	/// <param name="end">Parameter to end playing sound at</param>
+	/// <param name="stopChannel">
+	/// True: When dspclock_end is reached, behaves like ChannelControl::stop has been called.
+	///	False: When dspclock_end is reached, behaves like ChannelControl::setPaused has been called.
+	/// </param>
+	void setDelay(int chID, unsigned long long start, unsigned long long end, bool stopChannel);
+
+	
 
 private:
 	FMOD::System* _system = nullptr;

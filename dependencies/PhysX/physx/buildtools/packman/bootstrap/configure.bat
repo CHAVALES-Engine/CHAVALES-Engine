@@ -22,7 +22,7 @@ if defined PM_PACKAGES_ROOT goto ENSURE_DIR
 
 :: If the folder isn't set we assume that the best place for it is on the drive that we are currently
 :: running from
-set PM_DRIVE=%CD:~0,2%
+set "PM_DRIVE=%~dp0"
 
 set PM_PACKAGES_ROOT=%PM_DRIVE%\packman-repo
 

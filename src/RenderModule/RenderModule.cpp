@@ -5,8 +5,11 @@
 #include <OgreRenderSystem.h>
 #include <OgreGL3PlusRenderSystem.h>
 #include <OgreGL3PlusPlugin.h>
+#include <OgreMeshManager.h>
+#include <OgreAssimpLoader.h>
+#include<assimp/Importer.hpp>
 #include <OgreStringConverter.h>
-
+#include <assimp/postprocess.h>
 #include <OgreSceneManager.h>
 #include <OgreCamera.h>
 #include <OgreViewport.h>
@@ -14,10 +17,17 @@
 #include <OgreLight.h>
 #include <OgreSceneNode.h>
 #include <OgreVector3.h>
+#include <OgreQuaternion.h>
+#include <OgreTechnique.h>
+#include <OgreSubEntity.h>
+#include <OgreGpuProgramManager.h>
+#include <OgreRTShaderSystem.h>
+#include <OgreShaderGenerator.h>
 #include <iostream>
 
 #include <OgreImGuiOverlay.h>
 #include <imgui.h>
+
 // RenderModule.cpp : Defines the functions for the static library.
 //
 
@@ -25,6 +35,7 @@ static Ogre::Root* _root = nullptr;
 static Ogre::RenderWindow* _window = nullptr;
 static Ogre::SceneManager* _sceneMgr = nullptr;
 static Ogre::Viewport* _vp = nullptr;
+static Ogre::RTShader::ShaderGenerator* _shaderGen;
 
 
 void ImGuiManager::AddElement(UIElement element)
@@ -49,15 +60,33 @@ void ImGuiManager::Draw()
     ImGui::End();
 }
 
+RenderModule::~RenderModule()
+{
+    shutdown();
+}
+
 bool RenderModule::Init(const HWND handle, const int width, const int height)
 {
     try
     {
         _root = new Ogre::Root("", "", "ogre.log");
-
         Ogre::GL3PlusPlugin* gl3Plugin = new Ogre::GL3PlusPlugin();
         _root->installPlugin(gl3Plugin);
 
+        //Ogre::AssimpPlugin* assimpPlugin = new Ogre::AssimpPlugin();
+        //_root->installPlugin(assimpPlugin);
+
+        /*const aiScene* scene = importer.ReadFile(
+            "../dependencies/ogre/src/ogre/Samples/Media/packs/metroid-floating/source/metroid_final.fbx",
+            aiProcess_Triangulate | aiProcess_GenNormals
+        );
+
+        if (!scene) {
+            std::cerr << "Assimp error: " << importer.GetErrorString() << std::endl;
+        }
+        else {
+            std::cout << "Modelo cargado correctamente" << std::endl;
+        }*/
         const Ogre::RenderSystemList& renderers = _root->getAvailableRenderers();
         if (renderers.empty())
             std::cerr << "No hay RenderSystems disponibles" << std::endl;
@@ -77,18 +106,88 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
         //Crear escena con main camera
         _sceneMgr = _root->createSceneManager();
 
-        Ogre::Camera* mainCamera = _sceneMgr->createCamera("MainCamera");
-        Ogre::SceneNode* cameraNode = _sceneMgr->getRootSceneNode()->createChildSceneNode();
-        _cameraNodes.push_back(cameraNode);
-        _cameraNodes[0]->setPosition(Ogre::Vector3(0, 0, 80));
-        _cameraNodes[0]->lookAt(Ogre::Vector3(0, 0, 0), Ogre::Node::TS_WORLD);
-        mainCamera->setNearClipDistance(0.1f);
-        mainCamera->setAutoAspectRatio(true);
+        addNode(0, { 0.0f, 5.0f, 15.0f }, { -20.0f, 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f });
+        addCamera(0, 45.0f, 0.1f, 1000.0f, 1.0f, { 0.0f, 0.0f, 0.0f, 1.0f });
 
-        _vp = _window->addViewport(mainCamera);
-        _vp->setBackgroundColour(Ogre::ColourValue(1.0f, 1.0f, 0.0f));
+        _vp = _window->addViewport(_cameras[0]);
+        _vp->setBackgroundColour(Ogre::ColourValue(0.8f, 0.0f, 0.0f));
 
-        _ui = new ImGuiManager();
+        //ZONA DEMO INICIO
+        Ogre::ResourceGroupManager& rgm = Ogre::ResourceGroupManager::getSingleton();
+
+        rgm.addResourceLocation("../dependencies/ogre/src/ogre/Media/Main", "FileSystem", "General");
+        rgm.addResourceLocation("../dependencies/ogre/src/ogre/Media/RTShaderLib", "FileSystem", "General");
+
+
+        Ogre::RTShader::ShaderGenerator::initialize();
+
+        _shaderGen = Ogre::RTShader::ShaderGenerator::getSingletonPtr();
+
+        _shaderGen->addSceneManager(_sceneMgr);
+        _shaderGen->setTargetLanguage("glsl");
+
+        Ogre::MaterialManager::getSingleton().setActiveScheme(
+            Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME
+        );
+
+        rgm.addResourceLocation("../dependencies/ogre/src/ogre/Samples/Media/packs/metroid-floating/source", "FileSystem", "General");
+        rgm.addResourceLocation("../dependencies/ogre/src/ogre/Samples/Media/packs/dragon.zip", "Zip", "General");
+        rgm.initialiseAllResourceGroups();
+        rgm.loadResourceGroup("General");
+
+        Ogre::MaterialPtr mat =
+            Ogre::MaterialManager::getSingleton().getByName("BaseWhite");
+
+        //Ogre::MaterialPtr mat = base->clone("BaseWhiteRTSS");
+
+        mat->load();
+
+        std::cout << "Total techniques: " << mat->getNumTechniques() << std::endl;
+
+        _shaderGen->createShaderBasedTechnique(
+            *mat,
+            Ogre::MaterialManager::DEFAULT_SCHEME_NAME,
+            Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true
+        );
+
+        _shaderGen->validateMaterial(
+            Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME,
+            mat->getName()
+        );
+
+        Ogre::MaterialManager::getSingleton().setActiveScheme(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME);
+
+        Ogre::Entity* cube = _sceneMgr->createEntity("dragon.mesh");
+
+        Ogre::SceneNode* cubeNode =
+            _sceneMgr->getRootSceneNode()->createChildSceneNode();
+
+        cubeNode->setPosition(Ogre::Vector3(-50, 0, -200));
+        cubeNode->yaw(Ogre::Degree(130));
+        cubeNode->attachObject(cube);
+
+        //for (unsigned int i = 0; i < cube->getNumSubEntities(); ++i) { cube->getSubEntity(i)->setMaterialName("BaseWhiteRTSS"); }
+
+        _engineNodes.push_back({ cubeNode, 1 });
+
+        Ogre::Light* light = _sceneMgr->createLight();
+
+        light->setType(Ogre::Light::LT_DIRECTIONAL);
+
+        Ogre::SceneNode* lightNode =
+            _sceneMgr->getRootSceneNode()->createChildSceneNode();
+
+        lightNode->attachObject(light);
+
+        _engineNodes.push_back({ lightNode, 2 });
+        //ZONA DEMO FINAL
+
+        //_ui = new ImGuiManager();
+
+        _nextTransformID = 0;
+        _nextCameraID = 0;
+
+        renderFrame();
 
         return true;
     }
@@ -116,53 +215,88 @@ void RenderModule::cleanScene()
     if (!_sceneMgr)
         return;
 
-    //Limpiar entidades
-    for (auto* node : _entities)
-    {
-        if (!node)
-        {
-            // Destruir objetos adjuntos
-            while (node->numAttachedObjects() > 0)
-            {
-                Ogre::MovableObject* obj = node->getAttachedObject(0);
-                node->detachObject(obj);
-
-                if (obj->getMovableType() == "Entity")
-                    _sceneMgr->destroyEntity(static_cast<Ogre::Entity*>(obj));
-                else
-                    _sceneMgr->destroyMovableObject(obj);
-            }
-
-            _sceneMgr->destroySceneNode(node);
-        }
-    }
-    _entities.clear();
-
-    //limpiar luces
-    for (auto* node : _lights)
-    {
-        if (!node)
-        {
-            while (node->numAttachedObjects() > 0)
-            {
-                Ogre::MovableObject* obj = node->getAttachedObject(0);
-                node->detachObject(obj);
-
-                if (obj->getMovableType() == "Light")
-                    _sceneMgr->destroyLight(static_cast<Ogre::Light*>(obj));
-                else
-                    _sceneMgr->destroyMovableObject(obj);
-            }
-
-            _sceneMgr->destroySceneNode(node);
-        }
-    }
-    _lights.clear();
-
     //Limpiar camaras
     cleanCameras();
 
-    _ui->Clear();
+    //Limpiar nodos
+    for (const EngineNode& engineNode : _engineNodes)
+    {
+        Ogre::SceneNode* sceneNode = engineNode.sceneNode;
+        if (sceneNode != nullptr)
+        {
+            _sceneMgr->destroySceneNode(sceneNode);
+        }
+    }
+    _engineNodes.clear();
+
+    //_ui->Clear();
+}
+
+transformID RenderModule::addNode(const entityID& entityID, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float> scale)
+{
+    if (_engineNodes.empty() || _engineNodes.back().nodeID != entityID)
+    {
+        EngineNode& aux = _engineNodes.emplace_back(_sceneMgr->getRootSceneNode()->createChildSceneNode(), entityID);
+        aux.sceneNode->setPosition(Ogre::Vector3(pos.getX(), pos.getY(), pos.getZ()));
+        aux.sceneNode->setOrientation(Ogre::Quaternion(rot.getX(), rot.getY(), rot.getZ(), rot.getW()));
+        aux.sceneNode->setScale(Ogre::Vector3(scale.getX(), scale.getY(), scale.getZ()));
+        return _nextTransformID++;
+    }
+    return _nextTransformID;
+}
+
+core::Vector3<float> RenderModule::getNodePosition(const transformID& id)
+{
+    if (id >= 0 && id < _engineNodes.size())
+    {
+        Ogre::Vector3 pos = _engineNodes[id].sceneNode->getPosition();
+        return core::Vector3<float>(pos.x, pos.y, pos.z);
+    }
+    else return core::Vector3<float>(0.0f, 0.0f, 0.0f);
+}
+
+void RenderModule::setNodePosition(const transformID& id, const core::Vector3<float>& pos)
+{
+    if (id >= 0 && id < _engineNodes.size())
+    {
+        _engineNodes[id].sceneNode->setPosition(pos.getX(), pos.getY(), pos.getZ());
+    }
+}
+
+core::Quaternion<float> RenderModule::getNodeRotation(const transformID& id)
+{
+    if (id >= 0 && id < _engineNodes.size())
+    {
+        Ogre::Quaternion rot = _engineNodes[id].sceneNode->getOrientation();
+        return core::Quaternion<float>(rot.x, rot.y, rot.z, rot.w);
+    }
+    else return core::Quaternion<float>(0.0f, 0.0f, 0.0f, 1.0f);
+}
+
+void RenderModule::setNodeRotation(const transformID& id, const core::Quaternion<float>& rot)
+{
+    if (id >= 0 && id < _engineNodes.size())
+    {
+        _engineNodes[id].sceneNode->setOrientation(rot.getX(), rot.getY(), rot.getZ(), rot.getW());
+    }
+}
+
+core::Vector3<float> RenderModule::getNodeScale(const transformID& id)
+{
+    if (id >= 0 && id < _engineNodes.size())
+    {
+        Ogre::Vector3 pos = _engineNodes[id].sceneNode->getScale();
+        return core::Vector3<float>(pos.x, pos.y, pos.z);
+    }
+    else return core::Vector3<float>(0.0f, 0.0f, 0.0f);
+}
+
+void RenderModule::setNodeScale(const transformID& id, const core::Vector3<float>& scale)
+{
+    if (id >= 0 && id < _engineNodes.size())
+    {
+        _engineNodes[id].sceneNode->setPosition(scale.getX(), scale.getY(), scale.getZ());
+    }
 }
 
 void RenderModule::setViewportBGColor(core::Color color)
@@ -170,27 +304,34 @@ void RenderModule::setViewportBGColor(core::Color color)
     _vp->setBackgroundColour(Ogre::ColourValue(color.getX(), color.getY(), color.getZ()));
 }
 
-void RenderModule::addCamera(core::Vector3<float> pos, core::Vector3<float> lookAt)
+cameraID RenderModule::addCamera(const entityID& entityID, const float& FOVy, const float& nearClipDistance, const float& farClipDistance, const float& focalLength, const core::Color& bgColor)
 {
-    if (!_sceneMgr) return;
+    //Si no existe un nodo con este entityID lo creamos
+    addNode(entityID);
 
-    int id = _cameraNodes.size();
-    std::string camName = "Camera" + std::to_string(id);
-    Ogre::Camera* cam = _sceneMgr->createCamera(camName);
+    Ogre::Camera* camera = _cameras.emplace_back(_sceneMgr->createCamera("camera" + std::to_string(_nextCameraID++)));
+    camera->setAutoAspectRatio(true);
+    _engineNodes.back().sceneNode->attachObject(camera);
 
-    Ogre::SceneNode* node = _sceneMgr->getRootSceneNode()->createChildSceneNode();
-    node->attachObject(cam);
-
-    node->setPosition(Ogre::Vector3(pos.getX(), pos.getY(), pos.getZ()));
-    node->lookAt(Ogre::Vector3(lookAt.getX(), lookAt.getY(), lookAt.getZ()), Ogre::Node::TS_WORLD);
-
-    _cameraNodes.push_back(node);
-    _cameras.push_back(cam);
+    //Si es la primera se convierte automaticamente en la activa
+    if (_nextCameraID == 0) setAsActiveCamera(_nextCameraID);
+    return _nextCameraID;
 }
 
-void RenderModule::deleteCamera(int id)
+void RenderModule::deleteCamera(const cameraID& id)
 {
-    if (id <= 0 || id >= (int)_cameraNodes.size()) return;
+    if (id >= 0 && id < _cameras.size())
+    {
+        Ogre::Camera* cam = _cameras[id];
+        Ogre::Viewport* vp = _window->getViewport(0);
+        //Desvinculamos del viewport en caso de actividad
+        if (vp->getCamera() == cam) vp->setCamera(nullptr);
+        Ogre::SceneNode* parent = cam->getParentSceneNode();
+        parent->detachObject(cam);
+        _sceneMgr->destroyCamera(cam);
+        _cameras.erase(_cameras.begin() + id);
+    }
+    /*if (id <= 0 || id >= (int)_cameraNodes.size()) return;
 
     Ogre::SceneNode* node = _cameraNodes[id];
     Ogre::Camera* cam = _cameras[id];
@@ -202,55 +343,34 @@ void RenderModule::deleteCamera(int id)
     _sceneMgr->destroySceneNode(node);
 
     _cameraNodes.erase(_cameraNodes.begin() + id);
-    _cameras.erase(_cameras.begin() + id);
+    _cameras.erase(_cameras.begin() + id);*/
 }
 
-void RenderModule::setActiveCamera(int id)
+void RenderModule::setAsActiveCamera(const cameraID& id)
 {
-    if (!_vp || id < 0 || id >= (int)_cameraNodes.size()) return;
-
-    Ogre::Camera* cam = _cameras[id];
-    if (!cam) return;
-
-    _vp->setCamera(cam);
-}
-
-core::Vector3<float> RenderModule::getCameraPosition(int id)
-{
-    if (id < 0 || id >= (int)_cameraNodes.size()) return { 0.0, 0.0, 0.0 };
-    Ogre::Vector3 pos = _cameraNodes[id]->getPosition();
-    return { pos.x, pos.y, pos.z };
-}
-
-void RenderModule::setCameraPosition(int id, core::Vector3<float> pos)
-{
-    if (id < 0 || id >= (int)_cameraNodes.size()) return;
-    _cameraNodes[id]->setPosition(Ogre::Vector3(pos.getX(), pos.getY(), pos.getZ()));
-}
-
-core::Vector3<float> RenderModule::getCameraLookAt(int id)
-{
-    if (id < 0 || id >= (int)_cameraNodes.size()) return { 0.0, 0.0, 0.0 };
-
-    Ogre::SceneNode* node = _cameraNodes[id];
-    Ogre::Vector3 dir = node->_getDerivedOrientation() * Ogre::Vector3::UNIT_Z;
-    Ogre::Vector3 pos = node->getPosition();
-    Ogre::Vector3 lookAt = pos + dir;
-    return { lookAt.x, lookAt.y, lookAt.z };
-}
-
-void RenderModule::setCameraLookAt(int id, core::Vector3<float> lookAt)
-{
-    if (id < 0 || id >= (int)_cameraNodes.size()) return;
-    _cameraNodes[id]->lookAt(Ogre::Vector3(lookAt.getX(), lookAt.getY(), lookAt.getZ()), Ogre::Node::TS_WORLD);
+    if (id >= 0 && id < _cameras.size()) _vp->setCamera(_cameras[id]);
 }
 
 void RenderModule::cleanCameras()
 {
-    if (_cameraNodes.empty()) return;
+    for (Ogre::Camera* cam : _cameras)
+    {
+        if (cam != nullptr)
+        {
+            Ogre::SceneNode* parent = cam->getParentSceneNode();
+            if (parent)
+                parent->detachObject(cam);
+
+            _sceneMgr->destroyCamera(cam);
+        }
+    }
+
+    _cameras.clear();
+    /*if (_cameraNodes.empty()) return;
 
     Ogre::SceneNode* mainNode = _cameraNodes[0];
     Ogre::Camera* mainCam = _cameras[0];
+    mainCam->setf
 
     for (size_t i = 1; i < _cameraNodes.size(); ++i)
     {
@@ -272,11 +392,32 @@ void RenderModule::cleanCameras()
 
     //Reset camara principal
     mainNode->setPosition(0, 0, 80);
-    mainNode->setOrientation(Ogre::Quaternion::IDENTITY);
+    mainNode->setOrientation(Ogre::Quaternion::IDENTITY);*/
+}
+
+void RenderModule::setCameraFOVy(const cameraID& id, const float& FOVy)
+{
+    if (id >= 0 && id < _cameras.size()) _cameras[id]->setFOVy(Ogre::Radian(FOVy));
+}
+
+void RenderModule::setCameraNearClipDistance(const cameraID& id, const float& nearClipDistance)
+{
+    if (id >= 0 && id < _cameras.size()) _cameras[id]->setNearClipDistance(nearClipDistance);
+}
+
+void RenderModule::setCameraFarClipDistance(const cameraID& id, const float& farClipDistance)
+{
+    if (id >= 0 && id < _cameras.size()) _cameras[id]->setFarClipDistance(farClipDistance);
+}
+
+void RenderModule::setCameraFocalLength(const cameraID& id, const float& focalLength)
+{
+    if (id >= 0 && id < _cameras.size()) _cameras[id]->setFocalLength(focalLength);
 }
 
 void RenderModule::shutdown()
 {
+    cleanScene();
     delete _root;
     _root = nullptr;
     _window = nullptr;
