@@ -11,8 +11,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        with:
-          submodules: recursive
 
       - name: Install Doxygen
         run: sudo apt-get install -y doxygen graphviz
@@ -23,7 +21,7 @@ jobs:
           doxygen Doxyfile
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: main
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs/html 
+          publish_dir: ./docs/html  # La carpeta donde Doxygen suelta el index.html
