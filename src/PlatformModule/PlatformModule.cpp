@@ -86,7 +86,7 @@ int PlatformModule::getWindowHeight() const
 
 bool PlatformModule::isKeyPressed(input::InputEvent inputAction, input::DeviceID device) const
 {
-	if (device != -1)
+	if (device != input::ANY_DEVICE)
 	{
 		auto it = _virtualDevices.find(device);
 		if (it != _virtualDevices.end())
@@ -108,7 +108,7 @@ bool PlatformModule::isKeyPressed(input::InputEvent inputAction, input::DeviceID
 
 bool PlatformModule::isKeyReleased(input::InputEvent inputAction, input::DeviceID device) const
 {
-	if (device != -1)
+	if (device != input::ANY_DEVICE)
 	{
 		auto it = _virtualDevices.find(device);
 		if (it != _virtualDevices.end())
@@ -130,7 +130,7 @@ bool PlatformModule::isKeyReleased(input::InputEvent inputAction, input::DeviceI
 
 float PlatformModule::getAxis(input::InputEvent inputAction, input::DeviceID device) const
 {
-	if (device != -1)
+	if (device != input::ANY_DEVICE)
 	{
 		auto it = _virtualDevices.find(device);
 		if (it != _virtualDevices.end())
