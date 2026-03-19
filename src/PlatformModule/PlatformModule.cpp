@@ -12,6 +12,24 @@
 #define SCREEN_HEIGHT 720
 #define WINDOW_NAME "ChavalesWindow"
 
+/**
+ * @brief Permite pasar multiples lambdas a std::visit combinandolas en un unico callable.
+ * Hereda de cada lambda y expone todos sus operator() en el mismo scope,
+ * dejando al compilador elegir el correcto segun el tipo activo del variant.
+ * @tparam Ts - Tipos de las lambdas a combinar.
+ */
+template<class... Ts>
+struct overloaded : Ts... { using Ts::operator()...; };
+
+/**
+ * @brief Deduction guide para overloaded.
+ * Permite escribir overloaded{lambda1, lambda2} sin especificar los tipos manualmente,
+ * ya que los tipos de las lambdas no tienen nombre accesible.
+ * @tparam Ts - Tipos de las lambdas a combinar.
+ */
+template<class... Ts>
+overloaded(Ts...) -> overloaded<Ts...>;
+
 PlatformModule::PlatformModule() :
 	_window(nullptr), _windowHandle(nullptr)
 {
@@ -76,88 +94,101 @@ bool PlatformModule::syncronize()
 
 int PlatformModule::getWindowWidth() const
 {
-	return SCREEN_WIDTH;
+	int w = 0;
+	SDL_GetWindowSize(_window, &w, nullptr);
+	return w;
 }
 
 int PlatformModule::getWindowHeight() const
 {
-	return SCREEN_HEIGHT;
+	int h = 0;
+	SDL_GetWindowSize(_window, nullptr, &h);
+	return h;
+}
+
+bool PlatformModule::isDeviceConnected(input::DeviceID device)
+{
+	bool connected = false;
+	auto it = _virtualDevices.find(device);
+	if (it != _virtualDevices.end()) connected = it->second->isConnected();
+	return (device != input::ANY_DEVICE) && connected;
 }
 
 bool PlatformModule::isKeyPressed(input::InputEvent inputEvent, input::DeviceID device) const
 {
-	if (device != input::ANY_DEVICE)
-	{
+	// Usa std::visit para seleccionar y ejecutar una funcion de tipo de dato del inputEvent.
+	// "func" es la funcion escogida segun el tipo de dato de inputEvent.
+	auto func = [&](const input::VirtualDevice* vd) -> bool {
+		return std::visit(overloaded{
+			[&](input::Key k) { return vd->isPressed(k); },
+			[&](input::GamepadButton b) { return vd->isPressed(b); },
+			[&](input::MouseButton b) { return vd->isPressed(b); },
+			[](auto&&) { Debug::error("[Input] inputEvent not allowed"); return false; }
+			}, inputEvent); // Le pasamos ya el InputEvent para no tener que gestionarlo luego.
+		};
+	// Si el device es uno concreto llama a su funcion.
+	if (device != input::ANY_DEVICE) {
 		auto it = _virtualDevices.find(device);
-		if (it != _virtualDevices.end())
-		{
-			if (std::holds_alternative<input::Key>(inputEvent))
-				return it->second->isPressed(std::get<input::Key>(inputEvent));
-			else if (std::holds_alternative<input::GamepadButton>(inputEvent))
-				return it->second->isPressed(std::get<input::GamepadButton>(inputEvent));
-			else if (std::holds_alternative<input::MouseButton>(inputEvent))
-				return it->second->isPressed(std::get<input::MouseButton>(inputEvent));
-			else
-				Debug::error("[Input] inputEvent: "/*, inputEvent*/, " not allowed");
-		}
-		else
-			Debug::error("[Input] device: ", device, " not found");
+		if (it != _virtualDevices.end()) return func(it->second);
+		Debug::error("[Input] device: ", device, " not found");
+		return false;
 	}
-	else
-	{
-		// TODO: comprobar los imputevent de todos los devices
-	}
+	// ANY_DEVICE - early exit en cuanto algun device tenga la tecla pulsada.
+	for (const auto& [id, vd] : _virtualDevices)
+		if (func(vd)) return true;
 	return false;
 }
 
 bool PlatformModule::isKeyReleased(input::InputEvent inputEvent, input::DeviceID device) const
 {
+	// Usa std::visit para seleccionar y ejecutar una funcion de tipo de dato del inputEvent.
+	// "func" es la funcion escogida segun el tipo de dato de inputEvent.
+	auto func = [&](const input::VirtualDevice* vd) -> bool {
+		return std::visit(overloaded{
+			[&](input::Key k) {return vd->isPressed(k); },
+			[&](input::GamepadButton b) {return vd->isPressed(b); },
+			[&](input::MouseButton b) {return vd->isPressed(b); },
+			[](auto&&) { Debug::error("[Input] inputEvent not allowed"); return false; }
+			}, inputEvent);
+		};
+	// Si el device es uno concreto llama a su funcion.
 	if (device != input::ANY_DEVICE)
 	{
 		auto it = _virtualDevices.find(device);
-		if (it != _virtualDevices.end())
-		{
-			if (std::holds_alternative<input::Key>(inputEvent))
-				return it->second->isReleased(std::get<input::Key>(inputEvent));
-			else if (std::holds_alternative<input::GamepadButton>(inputEvent))
-				return it->second->isReleased(std::get<input::GamepadButton>(inputEvent));
-			else if (std::holds_alternative<input::MouseButton>(inputEvent))
-				return it->second->isReleased(std::get<input::MouseButton>(inputEvent));
-			else
-				Debug::error("[Input] inputEvent: "/*, inputEvent*/, " not allowed");
-		}
-		else
-			Debug::error("[Input] device: ", device, " not found");
+		if (it != _virtualDevices.end()) return func(it->second);
+		Debug::error("[Input] device: ", device, " not found");
+		return false;
 	}
-	else
-	{
-		// TODO: comprobar los imputevent de todos los devices
-	}
+	// ANY_DEVICE - early exit en cuanto algun device tenga la tecla pulsada.
+	for (const auto& [id, vd] : _virtualDevices)
+		if (func(vd)) return true;
 	return false;
 }
 
 float PlatformModule::getAxis(input::InputEvent inputEvent, input::DeviceID device) const
 {
+	auto func = [&](const input::VirtualDevice* vd) -> float {
+		return std::visit(overloaded{
+			[&](input::MouseAxis a) {return vd->getAxis(a); },
+			[&](input::GamepadAxis a) {return vd->getAxis(a); },
+			[](auto&&) { Debug::error("[Input] inputEvent not allowed"); return 0.0f; }
+			}, inputEvent);
+		};
+	// Si el device es uno concreto llama a su funcion.
 	if (device != input::ANY_DEVICE)
 	{
 		auto it = _virtualDevices.find(device);
-		if (it != _virtualDevices.end())
-		{
-			if (std::holds_alternative<input::MouseAxis>(inputEvent))
-				return it->second->getAxis(std::get<input::MouseAxis>(inputEvent));
-			else if (std::holds_alternative<input::GamepadAxis>(inputEvent))
-				return it->second->getAxis(std::get<input::GamepadAxis>(inputEvent));
-			else 
-				Debug::error("[Input] inputEvent: "/*, inputEvent*/, " not allowed");
-		}
-		else
-			Debug::error("[Input] device: ", device, " not found");
+		if (it != _virtualDevices.end()) return func(it->second);
+		Debug::error("[Input] device: ", device, " not found");
+		return 0.0f;
 	}
-	else
-	{
-		// TODO: comprobar los imputevent de todos los devices
+	// ANY_DEVICE - Coge el mayor input de todos los device.
+	float maxVal = 0.0f;
+	for (const auto& [id, vd] : _virtualDevices){
+		float value = func(vd);
+		if (abs(value) > abs(maxVal)) maxVal = abs(value);
 	}
-	return 0.0f;
+	return maxVal;
 }
 
 bool PlatformModule::isActionPressed(const std::string& actionName, input::DeviceID device) const

@@ -10,7 +10,7 @@
 #include <string>
 #include <unordered_map>
 #include <Windows.h>
-#include "InputDefs.h"
+#include <InputDefs.h>
 #include "InputMapper.h"
 
 // Fordard declarations
@@ -57,6 +57,12 @@ public:
 	* @brief Devuelve altura de la ventana.
 	*/
 	int getWindowHeight() const;
+	/**
+	 * @brief Comprueba si un dispositivo esta conectado.
+	 * @param device - id del dispositivo a comprobar.
+	 * @return bool - True o false si esta conectado o no.
+	 */
+	bool isDeviceConnected(input::DeviceID device);
 	/*
 	 * @brief Devuelve si una tecla esta pulsada
 	 * @param inputEvent - InputEvent a comprobar
@@ -72,7 +78,7 @@ public:
 	/*
 	 * @brief Devuelve cuanto de accionado esta la accion a comprobar
 	 * @param inputEvent - InputEvent a comprobar
-	 * @param device - id del dispositivo a comprobar. ANY_DEVICE por defecto => el eje de cualquier dispositivo.
+	 * @param device - id del dispositivo a comprobar. ANY_DEVICE por defecto => la media de los ejes de los dispositivos.
 	 * @return float - Devuelve de -1 a 1
 	 */
 	float getAxis(input::InputEvent inputEvent, input::DeviceID device = input::ANY_DEVICE) const;
