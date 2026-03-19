@@ -6,10 +6,10 @@
 #include <OgreGL3PlusRenderSystem.h>
 #include <OgreGL3PlusPlugin.h>
 #include <OgreMeshManager.h>
+#include <OgreTextureManager.h>
 #include <OgreAssimpLoader.h>
-#include<assimp/Importer.hpp>
+#include <OgreSTBICodec.h>
 #include <OgreStringConverter.h>
-#include <assimp/postprocess.h>
 #include <OgreSceneManager.h>
 #include <OgreCamera.h>
 #include <OgreViewport.h>
@@ -73,8 +73,13 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
         Ogre::GL3PlusPlugin* gl3Plugin = new Ogre::GL3PlusPlugin();
         _root->installPlugin(gl3Plugin);
 
-        //Ogre::AssimpPlugin* assimpPlugin = new Ogre::AssimpPlugin();
-        //_root->installPlugin(assimpPlugin);
+        Ogre::AssimpPlugin* assimpPlugin = new Ogre::AssimpPlugin();
+        _root->installPlugin(assimpPlugin);
+
+        Ogre::Codec::registerCodec(new Ogre::STBIImageCodec("jpg"));
+        Ogre::Codec::registerCodec(new Ogre::STBIImageCodec("jpeg"));
+        Ogre::Codec::registerCodec(new Ogre::STBIImageCodec("png"));
+        Ogre::Codec::registerCodec(new Ogre::STBIImageCodec("tga"));
 
         /*const aiScene* scene = importer.ReadFile(
             "../dependencies/ogre/src/ogre/Samples/Media/packs/metroid-floating/source/metroid_final.fbx",
@@ -110,7 +115,7 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
         addCamera(0, 45.0f, 0.1f, 1000.0f, 1.0f, { 0.0f, 0.0f, 0.0f, 1.0f });
 
         _vp = _window->addViewport(_cameras[0]);
-        _vp->setBackgroundColour(Ogre::ColourValue(0.8f, 0.0f, 0.0f));
+        _vp->setBackgroundColour(Ogre::ColourValue(0.02f, 0.22f, 0.11f));
 
         //ZONA DEMO INICIO
         Ogre::ResourceGroupManager& rgm = Ogre::ResourceGroupManager::getSingleton();
@@ -132,38 +137,215 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
 
         rgm.addResourceLocation("../dependencies/ogre/src/ogre/Samples/Media/packs/metroid-floating/source", "FileSystem", "General");
         rgm.addResourceLocation("../dependencies/ogre/src/ogre/Samples/Media/packs/dragon.zip", "Zip", "General");
+        rgm.addResourceLocation("../dependencies/ogre/src/ogre/Samples/Media/packs/metroid-floating/sourceimages/membrane", "FileSystem", "membrane");
+        rgm.addResourceLocation("../dependencies/ogre/src/ogre/Samples/Media/packs/metroid-floating/sourceimages/body", "FileSystem", "body");
+        rgm.addResourceLocation("../dependencies/ogre/src/ogre/Samples/Media/packs/metroid-floating/sourceimages/nuclei", "FileSystem", "nuclei");
+        rgm.addResourceLocation("../dependencies/ogre/src/ogre/Samples/Media/packs/metroid-floating/sourceimages/mandibles", "FileSystem", "mandibles");
         rgm.initialiseAllResourceGroups();
         rgm.loadResourceGroup("General");
 
-        Ogre::MaterialPtr mat =
+        Ogre::MaterialPtr whiteMat =
             Ogre::MaterialManager::getSingleton().getByName("BaseWhite");
 
         //Ogre::MaterialPtr mat = base->clone("BaseWhiteRTSS");
 
-        mat->load();
+        whiteMat->load();
 
-        std::cout << "Total techniques: " << mat->getNumTechniques() << std::endl;
+        std::cout << "Total techniques: " << whiteMat->getNumTechniques() << std::endl;
 
         _shaderGen->createShaderBasedTechnique(
-            *mat,
+            *whiteMat,
             Ogre::MaterialManager::DEFAULT_SCHEME_NAME,
             Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true
         );
 
         _shaderGen->validateMaterial(
             Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME,
-            mat->getName()
+            whiteMat->getName()
         );
 
         Ogre::MaterialManager::getSingleton().setActiveScheme(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME);
 
-        Ogre::Entity* cube = _sceneMgr->createEntity("dragon.mesh");
+        Ogre::Entity* cube = _sceneMgr->createEntity("metroid_final.fbx");
+
+        /*for (unsigned int i = 0; i < cube->getNumSubEntities(); ++i)
+        {
+            Ogre::SubEntity* sub = cube->getSubEntity(i);
+            Ogre::MaterialPtr mat = sub->getMaterial();
+
+            std::cout << "SubEntity " << i << ": material = " << mat->getName() << std::endl;
+
+            for (unsigned int t = 0; t < mat->getNumTechniques(); ++t)
+            {
+                Ogre::Technique* tech = mat->getTechnique(t);
+                for (unsigned int p = 0; p < tech->getNumPasses(); ++p)
+                {
+                    Ogre::Pass* pass = tech->getPass(p);
+                    for (unsigned int tu = 0; tu < pass->getNumTextureUnitStates(); ++tu)
+                    {
+                        Ogre::TextureUnitState* tus = pass->getTextureUnitState(tu);
+                        std::cout << "   TextureUnitState " << tu
+                            << " = " << tus->getTextureName() << std::endl;
+                    }
+                }
+            }
+        }*/
+
+        for (unsigned int i = 0; i < cube->getNumSubEntities(); ++i)
+        {
+            Ogre::SubEntity* sub = cube->getSubEntity(i);
+            Ogre::MaterialPtr mat = sub->getMaterial();
+
+            // Asegúrate que el material esté completamente cargado
+            mat->load();
+
+            // Generar técnica RTSS sobre el material ya cargado
+            _shaderGen->createShaderBasedTechnique(
+                *mat,
+                Ogre::MaterialManager::DEFAULT_SCHEME_NAME,
+                Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME,
+                true
+            );
+
+            _shaderGen->validateMaterial(
+                Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME,
+                mat->getName()
+            );
+        }
+
+        //Materiales
+        //////////////////////////////////////////////////////
+        Ogre::SubEntity* membraneSub = cube->getSubEntity(0);
+
+        Ogre::MaterialPtr membraneMat = membraneSub->getMaterial();
+        membraneSub->setMaterial(membraneMat);
+
+        if (membraneMat->getNumTechniques() == 0)
+            membraneMat->createTechnique();
+        Ogre::Technique* membraneTech = membraneMat->getTechnique(0);
+        if (membraneTech->getNumPasses() == 0)
+            membraneTech->createPass();
+        Ogre::Pass* membranePass = membraneTech->getPass(0);
+
+        Ogre::TexturePtr membraneTex = Ogre::TextureManager::getSingleton().load(
+            "Base_Color.jpeg", "membrane", Ogre::TEX_TYPE_2D, 0
+        );
+
+        Ogre::TextureUnitState* membraneTus = membranePass->createTextureUnitState();
+        membraneTus->setTexture(membraneTex);
+        membraneTus->setColourOperation(Ogre::LBO_MODULATE);
+
+        _shaderGen->createShaderBasedTechnique(
+            *membraneMat,
+            Ogre::MaterialManager::DEFAULT_SCHEME_NAME,
+            Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME,
+            true
+        );
+        _shaderGen->validateMaterial(
+            Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME,
+            membraneMat->getName()
+        );
+        //////////////////////////////////////////////////////
+        Ogre::SubEntity* bodySub = cube->getSubEntity(1);
+
+        Ogre::MaterialPtr bodyMat = bodySub->getMaterial();
+        bodySub->setMaterial(bodyMat);
+
+        if (bodyMat->getNumTechniques() == 0)
+            bodyMat->createTechnique();
+        Ogre::Technique* bodyTech = bodyMat->getTechnique(0);
+        if (bodyTech->getNumPasses() == 0)
+            bodyTech->createPass();
+        Ogre::Pass* bodyPass = bodyTech->getPass(0);
+
+        Ogre::TexturePtr bodyText = Ogre::TextureManager::getSingleton().load(
+            "Base_Color.jpeg", "body", Ogre::TEX_TYPE_2D, 0
+        );
+
+        Ogre::TextureUnitState* bodyTus = bodyPass->createTextureUnitState();
+        bodyTus->setTexture(bodyText);
+        bodyTus->setColourOperation(Ogre::LBO_MODULATE);
+
+        _shaderGen->createShaderBasedTechnique(
+            *bodyMat,
+            Ogre::MaterialManager::DEFAULT_SCHEME_NAME,
+            Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME,
+            true
+        );
+        _shaderGen->validateMaterial(
+            Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME,
+            bodyMat->getName()
+        );
+        //////////////////////////////////////////////////////
+        Ogre::SubEntity* nucleiSub = cube->getSubEntity(2);
+
+        Ogre::MaterialPtr nucleiMat = nucleiSub->getMaterial();
+        nucleiSub->setMaterial(nucleiMat);
+
+        if (nucleiMat->getNumTechniques() == 0)
+            nucleiMat->createTechnique();
+        Ogre::Technique* nucleiTech = nucleiMat->getTechnique(0);
+        if (nucleiTech->getNumPasses() == 0)
+            nucleiTech->createPass();
+        Ogre::Pass* nucleiPass = nucleiTech->getPass(0);
+
+        Ogre::TexturePtr nucleiTex = Ogre::TextureManager::getSingleton().load(
+            "Base_Color.jpeg", "nuclei", Ogre::TEX_TYPE_2D, 0
+        );
+
+        Ogre::TextureUnitState* nucleiTus = nucleiPass->createTextureUnitState();
+        nucleiTus->setTexture(nucleiTex);
+        nucleiTus->setColourOperation(Ogre::LBO_MODULATE);
+
+        _shaderGen->createShaderBasedTechnique(
+            *nucleiMat,
+            Ogre::MaterialManager::DEFAULT_SCHEME_NAME,
+            Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME,
+            true
+        );
+        _shaderGen->validateMaterial(
+            Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME,
+            nucleiMat->getName()
+        );
+        //////////////////////////////////////////////////////
+        Ogre::SubEntity* mandiblesSub = cube->getSubEntity(6);
+
+        Ogre::MaterialPtr mandiblesMat = mandiblesSub->getMaterial();
+        mandiblesSub->setMaterial(mandiblesMat);
+
+        if (mandiblesMat->getNumTechniques() == 0)
+            mandiblesMat->createTechnique();
+        Ogre::Technique* mandiblesTech = mandiblesMat->getTechnique(0);
+        if (mandiblesTech->getNumPasses() == 0)
+            mandiblesTech->createPass();
+        Ogre::Pass* mandiblesPass = mandiblesTech->getPass(0);
+
+        Ogre::TexturePtr mandiblesTex = Ogre::TextureManager::getSingleton().load(
+            "Base_Color.jpeg", "mandibles", Ogre::TEX_TYPE_2D, 0
+        );
+
+        Ogre::TextureUnitState* mandiblesTus = mandiblesPass->createTextureUnitState();
+        mandiblesTus->setTexture(mandiblesTex);
+        mandiblesTus->setColourOperation(Ogre::LBO_MODULATE);
+
+        _shaderGen->createShaderBasedTechnique(
+            *mandiblesMat,
+            Ogre::MaterialManager::DEFAULT_SCHEME_NAME,
+            Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME,
+            true
+        );
+        _shaderGen->validateMaterial(
+            Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME,
+            mandiblesMat->getName()
+        );
+        //////////////////////////////////////////////////////
 
         Ogre::SceneNode* cubeNode =
             _sceneMgr->getRootSceneNode()->createChildSceneNode();
 
-        cubeNode->setPosition(Ogre::Vector3(-50, 0, -200));
+        cubeNode->setPosition(Ogre::Vector3(-2, 5, 11));
         cubeNode->yaw(Ogre::Degree(130));
+        cubeNode->setScale(0.1f, 0.1f, 0.1f);
         cubeNode->attachObject(cube);
 
         //for (unsigned int i = 0; i < cube->getNumSubEntities(); ++i) { cube->getSubEntity(i)->setMaterialName("BaseWhiteRTSS"); }
@@ -301,7 +483,7 @@ void RenderModule::setNodeScale(const transformID& id, const core::Vector3<float
 
 void RenderModule::setViewportBGColor(core::Color color)
 {
-    _vp->setBackgroundColour(Ogre::ColourValue(color.getX(), color.getY(), color.getZ()));
+    _vp->setBackgroundColour(Ogre::ColourValue(color.getRed(), color.getGreen(), color.getBlue()));
 }
 
 cameraID RenderModule::addCamera(const entityID& entityID, const float& FOVy, const float& nearClipDistance, const float& farClipDistance, const float& focalLength, const core::Color& bgColor)
@@ -313,8 +495,17 @@ cameraID RenderModule::addCamera(const entityID& entityID, const float& FOVy, co
     camera->setAutoAspectRatio(true);
     _engineNodes.back().sceneNode->attachObject(camera);
 
+    camera->setFOVy(Ogre::Radian(FOVy));
+    camera->setNearClipDistance(nearClipDistance);
+    camera->setFarClipDistance(farClipDistance);
+    camera->setFocalLength(focalLength);
+
     //Si es la primera se convierte automaticamente en la activa
-    if (_nextCameraID == 0) setAsActiveCamera(_nextCameraID);
+    if (_nextCameraID == 0)
+    {
+        setAsActiveCamera(_nextCameraID);
+        _vp->setBackgroundColour(Ogre::ColourValue(bgColor.getRed(), bgColor.getGreen(), bgColor.getBlue()));
+    }
     return _nextCameraID;
 }
 
