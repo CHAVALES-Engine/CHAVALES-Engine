@@ -140,7 +140,7 @@ namespace input
         *
         * @returns float - Estado del eje variante.
         */
-        float getAxis(GamepadAxis axis) const;
+        float getAxis(InputAxis axis) const;
 
 
         /**
