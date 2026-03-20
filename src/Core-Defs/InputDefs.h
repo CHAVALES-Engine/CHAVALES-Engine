@@ -8,9 +8,9 @@ namespace input
 	 * @brief Para declarar estos arrays estamos usando X-Macros
 	 * Las X-Macros son una lista usada para mantener sincronizados varios datos sintener que escribir varias veces lo mismo
 	 * En este caso lo usamos para:
-	 *      - Generar enums de los diferentes InputEvent que se pueden registrar. 
+	 *      - Generar enums de los diferentes InputEvent que se pueden registrar.
 	 *      - Asignar un nombre a cada InputEvent en un mapa.
-	 *      
+	 *
 	 */
 
 #define INPUT_KEYS(X) \
@@ -199,7 +199,7 @@ namespace input
         X(KEY_UNKNOWN,       182) \
         X(KEY_COUNT,         183)
 
-	// Raton - Botones
+	 // Raton - Botones
 #define INPUT_MOUSE_BUTTONS(X) \
         X(MOUSE_BUTTON_LEFT,   0) \
         X(MOUSE_BUTTON_RIGHT,  1) \
@@ -296,6 +296,23 @@ namespace input
 #undef X
 	};
 
+	/**
+	 * @brief Permite pasar multiples lambdas a std::visit combinandolas en un unico callable.
+	 * Hereda de cada lambda y expone todos sus operator() en el mismo scope,
+	 * dejando al compilador elegir el correcto segun el tipo activo del variant.
+	 * @tparam Ts - Tipos de las lambdas a combinar.
+	 */
+	template<class... Ts>
+	struct overloaded : Ts... { using Ts::operator()...; };
+
+	/**
+	 * @brief Deduction guide para overloaded.
+	 * Permite escribir overloaded{lambda1, lambda2} sin especificar los tipos manualmente,
+	 * ya que los tipos de las lambdas no tienen nombre accesible.
+	 * @tparam Ts - Tipos de las lambdas a combinar.
+	 */
+	template<class... Ts>
+	overloaded(Ts...) -> overloaded<Ts...>;
 
 	// Aliases y constantes
 	using InputEvent = std::variant<

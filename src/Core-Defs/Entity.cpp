@@ -124,7 +124,7 @@ namespace core
 	{
 		c->setEntity(this);
 		c->enable();
-		c->ready();
+		//c->ready();
 		components.push_back(std::move(c));
 		return components.back().get();
 	}

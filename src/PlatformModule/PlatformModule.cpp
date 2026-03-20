@@ -4,6 +4,8 @@
 #include <SDL3/SDL_gamepad.h>
 
 #include <Debug.h>
+#include <optional>
+
 #include "VirtualDevice.h"
 #include "InputMapper.h"
 
@@ -12,23 +14,6 @@
 #define SCREEN_HEIGHT 720
 #define WINDOW_NAME "ChavalesWindow"
 
-/**
- * @brief Permite pasar multiples lambdas a std::visit combinandolas en un unico callable.
- * Hereda de cada lambda y expone todos sus operator() en el mismo scope,
- * dejando al compilador elegir el correcto segun el tipo activo del variant.
- * @tparam Ts - Tipos de las lambdas a combinar.
- */
-template<class... Ts>
-struct overloaded : Ts... { using Ts::operator()...; };
-
-/**
- * @brief Deduction guide para overloaded.
- * Permite escribir overloaded{lambda1, lambda2} sin especificar los tipos manualmente,
- * ya que los tipos de las lambdas no tienen nombre accesible.
- * @tparam Ts - Tipos de las lambdas a combinar.
- */
-template<class... Ts>
-overloaded(Ts...) -> overloaded<Ts...>;
 
 PlatformModule::PlatformModule() :
 	_window(nullptr), _windowHandle(nullptr)
@@ -119,7 +104,7 @@ bool PlatformModule::isKeyPressed(input::InputEvent inputEvent, input::DeviceID 
 	// Usa std::visit para seleccionar y ejecutar una funcion de tipo de dato del inputEvent.
 	// "func" es la funcion escogida segun el tipo de dato de inputEvent.
 	auto func = [&](const input::VirtualDevice* vd) -> bool {
-		return std::visit(overloaded{
+		return std::visit(input::overloaded{
 			[&](input::Key k) { return vd->isPressed(k); },
 			[&](input::GamepadButton b) { return vd->isPressed(b); },
 			[&](input::MouseButton b) { return vd->isPressed(b); },
@@ -144,7 +129,7 @@ bool PlatformModule::isKeyReleased(input::InputEvent inputEvent, input::DeviceID
 	// Usa std::visit para seleccionar y ejecutar una funcion de tipo de dato del inputEvent.
 	// "func" es la funcion escogida segun el tipo de dato de inputEvent.
 	auto func = [&](const input::VirtualDevice* vd) -> bool {
-		return std::visit(overloaded{
+		return std::visit(input::overloaded{
 			[&](input::Key k) {return vd->isPressed(k); },
 			[&](input::GamepadButton b) {return vd->isPressed(b); },
 			[&](input::MouseButton b) {return vd->isPressed(b); },
@@ -168,7 +153,7 @@ bool PlatformModule::isKeyReleased(input::InputEvent inputEvent, input::DeviceID
 float PlatformModule::getAxis(input::InputEvent inputEvent, input::DeviceID device) const
 {
 	auto func = [&](const input::VirtualDevice* vd) -> float {
-		return std::visit(overloaded{
+		return std::visit(input::overloaded{
 			[&](input::MouseAxis a) {return vd->getAxis(a); },
 			[&](input::GamepadAxis a) {return vd->getAxis(a); },
 			[](auto&&) { Debug::error("[Input] inputEvent not allowed"); return 0.0f; }
@@ -229,13 +214,12 @@ std::string PlatformModule::getTextInput(input::DeviceID device) const
 	return {};
 }
 
-input::InputMapper* PlatformModule::getInputMapper()
+const input::InputMapper* PlatformModule::getInputMapper() const
 {
-	// TODO: insert return statement here
 	return _inputMapper;
 }
 
-input::InputButtons PlatformModule::_castButton(const SDL_Event& event)
+input::InputButtons PlatformModule::_castButton(const SDL_Event& event) const
 {
 	switch (event.type)
 	{
@@ -398,7 +382,7 @@ input::InputButtons PlatformModule::_castButton(const SDL_Event& event)
 	}
 }
 
-input::InputAxis PlatformModule::_castAxis(const SDL_Event& event)
+input::InputAxis PlatformModule::_castAxis(const SDL_Event& event) const
 {
 	switch (event.type)
 	{
@@ -455,7 +439,7 @@ void PlatformModule::_processEvent(const SDL_Event& event)
 	case SDL_EVENT_GAMEPAD_BUTTON_DOWN: {
 		uint32_t id = event.gbutton.which;
 		auto it = _virtualDevices.find(id);
-		if (it != _virtualDevices.end()) {
+		if (it != _virtualDevices.end() && event.key.repeat >= 1) {
 			it->second->_setButton(_castButton(event), true);
 		}
 		break;
@@ -463,7 +447,7 @@ void PlatformModule::_processEvent(const SDL_Event& event)
 	case SDL_EVENT_GAMEPAD_BUTTON_UP: {
 		uint32_t id = event.gbutton.which;
 		auto it = _virtualDevices.find(id);
-		if (it != _virtualDevices.end()) {
+		if (it != _virtualDevices.end() &&  event.key.repeat >= 1) {
 			it->second->_setButton(_castButton(event), false);
 		}
 		break;
@@ -494,7 +478,7 @@ void PlatformModule::_processEvent(const SDL_Event& event)
 	case SDL_EVENT_MOUSE_BUTTON_DOWN:
 	case SDL_EVENT_KEY_DOWN: {
 		auto it = _virtualDevices.find(input::KEYBOARD_ID);
-		if (it != _virtualDevices.end()) {
+		if (it != _virtualDevices.end() /*&& (it->second->isPressed(_castButton(event)), event.key.repeat)*/) {
 			it->second->_setButton(_castButton(event), true);
 		}
 		break;
@@ -502,7 +486,7 @@ void PlatformModule::_processEvent(const SDL_Event& event)
 	case SDL_EVENT_MOUSE_BUTTON_UP:
 	case SDL_EVENT_KEY_UP: {
 		auto it = _virtualDevices.find(input::KEYBOARD_ID);
-		if (it != _virtualDevices.end()) {
+		if (it != _virtualDevices.end() && event.key.repeat) {
 			it->second->_setButton(_castButton(event), false);
 		}
 		break;
