@@ -1,10 +1,4 @@
 ﻿#pragma once
-/*
- * @file PlatformModule.h
- * @brief Define las funciones del Modulo de Plataforma:
- *	- Funciones de personalizacion de la ventana.
- *	- Funciones para gestionar el input.
- */
 
 
 #include <string>
@@ -22,6 +16,11 @@ namespace input
 	class VirtualDevice;
 }
 
+/*
+ * @brief Define las funciones del Modulo de Plataforma:
+ *	- Funciones de personalizacion de la ventana.
+ *	- Funciones para gestionar el input.
+ */
 class PlatformModule
 {
 public:
