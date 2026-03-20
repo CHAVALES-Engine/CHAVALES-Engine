@@ -22,8 +22,9 @@ using Property = std::variant<
 	core::Vector3<>,
 	core::Vector4<>,
 	core::Quaternion<>,
-	core::Color
+	core::Color,
 	//Sound
+	const char*
 >;
 
 using Properties = std::unordered_map<std::string, Property>;

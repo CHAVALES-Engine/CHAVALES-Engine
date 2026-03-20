@@ -135,7 +135,7 @@ public:
 #pragma region audio
 
 	//Metodos del modulo de audio
-	void loadSound(const char* path, std::string id, bool sound3D = true, bool soundLooping = false, bool soundStream = false);
+	void loadSound(std::string path, std::string id, bool sound3D = true, bool soundLooping = false, bool soundStream = false);
 	void unloadSound(std::string id);
 	int playSound(std::string id, const core::Vector3<> vec3 = { 0.0f,0.0f,0.0f }, float soundVolume = 0.0f, int looping = 0);
 	void setListener(core::Vector3<> pos, core::Vector3<> forward, core::Vector3<> up, core::Vector3<> vel = { 0.0,0.0,0.0 });

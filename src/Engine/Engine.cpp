@@ -121,7 +121,7 @@ void Engine::setCameraFocalLength(const cameraID& id, const float& focalLength)
 	_renderModule->setCameraFocalLength(id, focalLength);
 }
 
-void Engine::loadSound(const char* path, std::string id, bool sound3D, bool soundLooping, bool soundStream)
+void Engine::loadSound(std::string path, std::string id, bool sound3D, bool soundLooping, bool soundStream)
 {
 	_audioModule->loadSound(path, id, sound3D, soundLooping, soundStream);
 }
@@ -224,7 +224,7 @@ void Engine::stopTextInput() const
 
 std::string Engine::getTextInput(input::DeviceID device) const
 {
-	_platformModule->getTextInput(device);
+	return _platformModule->getTextInput(device);
 }
 
 //------Metodos de InputMapper:

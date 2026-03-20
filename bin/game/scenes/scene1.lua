@@ -11,10 +11,16 @@ scene = { -- entidades en escena
 				scale = Vector3.new(1)
 			},
 			TimerChangescene = {
-				["focal length"] = 10,
-				vec = {
-					1,2,3,4
-				}
+				["focal length"] = 10
+			},
+			AudioSource = {
+				soundPath = "smb_1-up.wav",
+				soundID = "example",
+				mute = false,
+				is3D = true,
+				loop = true,
+				isStream = true,
+				soundVolume = 7.0
 			}
 		}
 	}

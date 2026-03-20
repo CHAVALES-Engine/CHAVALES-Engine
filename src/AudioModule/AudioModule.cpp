@@ -65,7 +65,7 @@ void AudioModule::ShutDown()
 	delete _system;
 }
 
-bool AudioModule::loadSound(const char* path, std::string id, bool sound3D, bool soundLooping, bool soundStream)
+bool AudioModule::loadSound(string path, string id, bool sound3D, bool soundLooping, bool soundStream)
 {
 	auto itSoundFound = _soundMap.find(id);
 	if (itSoundFound != _soundMap.end())
@@ -74,18 +74,20 @@ bool AudioModule::loadSound(const char* path, std::string id, bool sound3D, bool
 		return false;
 	}
 	//Depends in the parameters of the method
-	FMOD_MODE eMode = FMOD_DEFAULT;
-	eMode |= sound3D ? FMOD_3D : FMOD_2D;
-	eMode |= soundLooping ? FMOD_LOOP_NORMAL : FMOD_LOOP_OFF;
-	eMode |= soundStream ? FMOD_CREATESTREAM : FMOD_CREATECOMPRESSEDSAMPLE;
+	FMOD_MODE eMode = FMOD_DEFAULT; 
+	eMode |= sound3D ? FMOD_3D : FMOD_2D; 
+	eMode |= soundLooping ? FMOD_LOOP_NORMAL : FMOD_LOOP_OFF; 
+	eMode |= soundStream ? FMOD_CREATESTREAM : FMOD_CREATECOMPRESSEDSAMPLE; 
 
 	//Result helps to identifie exceptions
 	FMOD_RESULT result;
 	FMOD::Sound* sound = nullptr;
-	result = _system->createSound(path, eMode, nullptr, &sound);
+	
+	result = _system->createSound(path.c_str(), FMOD_3D, nullptr, &sound);
 
-	if (sound && result == FMOD_OK)
+	if (result == FMOD_OK)
 	{
+		cout << "guay" << std::endl;
 		_soundMap[id] = sound;
 		return true;
 	}
@@ -138,6 +140,7 @@ bool AudioModule::setChannelVolume(int chID, float newVolume)
 	if (itChFound == _channelSound.end())
 	{
 		Debug::error("Channel not found: Couldn't find channel, there isn't an existing channel with this id: " + to_string(chID));
+		Debug::out("Me cago");
 		return false;
 	}
 	itChFound->second->setVolume(newVolume);

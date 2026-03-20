@@ -14,6 +14,7 @@ private:
 
 	core::Vector3<float> _lastPosition;
 
+	std::string _path;
 	std::string _id;
 	bool _mute;
 	bool _is3D;
@@ -30,7 +31,7 @@ public:
 	virtual void ready() override;
 	virtual void update(uint64_t deltaTime) override;
 
-	void playSound(float soundVolume = 0.0f);
+	void playSound();
 	int getLooping() const;
 	void setLooping(int loop);
 	void setVolume(float& newVolume);

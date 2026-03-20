@@ -33,7 +33,7 @@ public:
 	/// <param name="sound3D">If the sound is 3D or not</param>
 	/// <param name="soundLooping">If the sound loops infinetly or not</param>
 	/// <param name="soundStream">If the sound is Stream or CompressedSound</param>
-	bool loadSound(const char* path, std::string id, bool sound3D = true, bool soundLooping = false, bool soundStream = false);
+	bool loadSound(std::string path, std::string id, bool sound3D = true, bool soundLooping = false, bool soundStream = true);
 
 	/// <summary>
 	/// If the sound isn´t playing anymore it unloads it

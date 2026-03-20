@@ -8,8 +8,8 @@
 
 REGISTER_COMPONENT(AudioSource);
 
-AudioSource::AudioSource(): _tr(nullptr), _lastPosition(0.0f, 0.0f, 0.0f), _id(), _mute(false), _is3D(false), _loop(false),
-_isStream(false), _soundVolume(0.0f),_channelID(-1)
+AudioSource::AudioSource(): _tr(nullptr), _lastPosition(0.0f, 0.0f, 0.0f), _path(), _id(), _mute(false), _is3D(false), _loop(false),
+_isStream(false), _soundVolume(0.0f),_channelID()
 {
 }
 
@@ -19,6 +19,7 @@ AudioSource::~AudioSource()
 
 bool AudioSource::init(const Properties& p)
 {
+	_path = getProperty<std::string>(p, "soundPath");
 	_id = getProperty<std::string>(p, "soundID");
 	_mute = getProperty<bool>(p, "mute");
 	_is3D = getProperty<bool>(p, "is3D");
@@ -33,6 +34,8 @@ void AudioSource::ready()
 	assert(entity->hasComponent<Transform>());
 	_tr = entity->getComponent<Transform>();
 	_lastPosition = _tr->getGlobalPosition();
+	Engine::instance()->loadSound("C:/2526-Grupo03-ChavalesEngine/bin/game/scenes/smb_1-up.wav", _id);
+	playSound();
 }
 
 void AudioSource::update(uint64_t deltaTime)
@@ -40,6 +43,7 @@ void AudioSource::update(uint64_t deltaTime)
 	core::Vector3<> velocity = (_tr->getGlobalPosition() - _lastPosition) / deltaTime;
 	_lastPosition = _tr->getGlobalPosition();
 
+	playSound();
 	Engine::instance()->setSourcePosition(_channelID, _tr->getGlobalPosition(), velocity);
 
 	if (!Engine::instance()->isChannelPlaying(_channelID))
@@ -48,15 +52,11 @@ void AudioSource::update(uint64_t deltaTime)
 	}
 }
 
-void AudioSource::playSound(float soundVolume)
+void AudioSource::playSound()
 {
 	int looping = 0;
 	if (_loop) looping = -1;
-	_soundVolume = soundVolume; 
-	if (looping != -1) 
-	{
-		_channelID = Engine::instance()->playSound(_id, _tr->getGlobalPosition(), _soundVolume, looping);
-	}
+	_channelID = Engine::instance()->playSound(_id, _tr->getGlobalPosition(), _soundVolume, looping);
 }
 
 int AudioSource::getLooping() const
