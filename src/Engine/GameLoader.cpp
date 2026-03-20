@@ -43,13 +43,13 @@ void GameLoader::parseObject(const sol::object& obj, const std::string& clave, P
 		}
 	case sol::type::table:
 		{
-			if (obj.is<std::vector<float>>())
-			{
-				props[clave] = obj.as<std::vector<float>>();
-			}
-			else if (obj.is<std::vector<int>>())
+			if (obj.is<std::vector<int>>())
 			{
 				props[clave] = obj.as<std::vector<int>>();
+			}
+			else if (obj.is<std::vector<float>>())
+			{
+				props[clave] = obj.as<std::vector<float>>();
 			}
 			else if (obj.is<std::vector<std::string>>())
 			{
@@ -61,8 +61,9 @@ void GameLoader::parseObject(const sol::object& obj, const std::string& clave, P
 			}
 			else if (obj.is<std::vector<sol::table>>())
 			{
-				//parseObject()
+				//parseObject(second, obj.first, props);
 			}
+			break;
 		}
 	case sol::type::userdata:
 		{
