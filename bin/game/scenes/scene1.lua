@@ -11,7 +11,10 @@ scene = { -- entidades en escena
 				scale = Vector3.new(1)
 			},
 			TimerChangescene = {
-				["focal length"] = 10
+				["focal length"] = 10,
+				vec = {
+					1,2,3,4
+				}
 			}
 		}
 	}

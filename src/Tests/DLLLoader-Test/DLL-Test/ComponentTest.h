@@ -59,6 +59,7 @@ class TimerChangescene : public core::Component
 {
 	core::Timer t;
 	int tic = 1000;
+	std::vector<int> vec;
 
 public:
 	TimerChangescene()
@@ -66,9 +67,18 @@ public:
 
 	}
 
+	bool init(const Properties& p) override
+	{
+		return setProperty(p, "vec", vec);
+	}
+
 	void ready() override
 	{
-		Debug::out("ready");
+		Debug::out(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>ready");
+		for (int lol : vec)
+		{
+			Debug::out(lol);
+		}
 
 		t = core::TimerManager::instance().createTimer(10, [this]() { this->changeScene(); });
 	}
