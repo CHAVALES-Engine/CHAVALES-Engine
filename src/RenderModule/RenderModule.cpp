@@ -227,6 +227,9 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
             membraneTech->createPass();
         Ogre::Pass* membranePass = membraneTech->getPass(0);
 
+        membranePass->setSceneBlending(Ogre::SBT_TRANSPARENT_ALPHA);
+        membranePass->setDepthWriteEnabled(false);
+
         Ogre::TexturePtr membraneTex = Ogre::TextureManager::getSingleton().load(
             "Base_Color.jpeg", "membrane", Ogre::TEX_TYPE_2D, 0
         );
@@ -234,6 +237,26 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
         Ogre::TextureUnitState* membraneTus = membranePass->createTextureUnitState();
         membraneTus->setTexture(membraneTex);
         membraneTus->setColourOperation(Ogre::LBO_MODULATE);
+        membranePass->setDiffuse(1.0f, 1.0f, 1.0f, 0.7f);
+
+        /*Ogre::TexturePtr membraneTexOp = Ogre::TextureManager::getSingleton().load(
+            "Opacity.jpg", "membrane", Ogre::TEX_TYPE_2D, 0
+        );
+
+        Ogre::TextureUnitState* membraneTusOp = membranePass->createTextureUnitState();
+        membraneTusOp->setTexture(membraneTexOp);
+
+        membraneTusOp->setColourOperationEx(
+            Ogre::LBX_SOURCE1,
+            Ogre::LBS_CURRENT,
+            Ogre::LBS_CURRENT
+        );
+
+        membraneTusOp->setAlphaOperation(
+            Ogre::LBX_SOURCE1,
+            Ogre::LBS_TEXTURE,
+            Ogre::LBS_TEXTURE
+        );*/
         //////////////////////////////////////////////////////
         Ogre::SubEntity* bodySub = cube->getSubEntity(1);
 
@@ -274,6 +297,26 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
         Ogre::TextureUnitState* nucleiTus = nucleiPass->createTextureUnitState();
         nucleiTus->setTexture(nucleiTex);
         nucleiTus->setColourOperation(Ogre::LBO_MODULATE);
+        //////////////////////////////////////////////////////
+        Ogre::SubEntity* neuronsSub = cube->getSubEntity(10);
+
+        Ogre::MaterialPtr neuronsMat = neuronsSub->getMaterial();
+        neuronsSub->setMaterial(neuronsMat);
+
+        if (neuronsMat->getNumTechniques() == 0)
+            neuronsMat->createTechnique();
+        Ogre::Technique* neuronsTech = neuronsMat->getTechnique(0);
+        if (neuronsTech->getNumPasses() == 0)
+            neuronsTech->createPass();
+        Ogre::Pass* neuronsPass = neuronsTech->getPass(0);
+
+        Ogre::TexturePtr neuronsTex = Ogre::TextureManager::getSingleton().load(
+            "Base_Color.jpeg", "nuclei", Ogre::TEX_TYPE_2D, 0
+        );
+
+        Ogre::TextureUnitState* neuronsTus = neuronsPass->createTextureUnitState();
+        neuronsTus->setTexture(neuronsTex);
+        neuronsTus->setColourOperation(Ogre::LBO_MODULATE);
         //////////////////////////////////////////////////////
         Ogre::SubEntity* mandiblesSub = cube->getSubEntity(6);
 
