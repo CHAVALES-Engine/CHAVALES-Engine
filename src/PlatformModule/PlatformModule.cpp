@@ -214,7 +214,7 @@ std::string PlatformModule::getTextInput(input::DeviceID device) const
 	return {};
 }
 
-const input::InputMapper* PlatformModule::getInputMapper() const
+input::InputMapper* PlatformModule::getInputMapper() const
 {
 	return _inputMapper;
 }

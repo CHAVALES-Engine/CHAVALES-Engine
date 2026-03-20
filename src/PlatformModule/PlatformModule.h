@@ -24,6 +24,7 @@ namespace input
 class PlatformModule
 {
 public:
+
 	/**
 	* @brief Constructora vacia de PlatformModule.
 	*/
@@ -110,8 +111,10 @@ public:
 	 * @brief Getter del input mapper para registrar acciones
 	 * @return input::InputMapper& - referencia al InputMapper
 	 */
-	const input::InputMapper* getInputMapper() const;
+	input::InputMapper* getInputMapper() const;
+
 private:
+
 	/**
 	* @brief procesa un evento de sdl
 	*/

@@ -138,18 +138,20 @@ public:
 	void loadSound(const char* path, std::string id, bool sound3D = true, bool soundLooping = false, bool soundStream = false);
 	void unloadSound(std::string id);
 	int playSound(std::string id, const core::Vector3<> vec3 = { 0.0f,0.0f,0.0f }, float soundVolume = 0.0f, int looping = 0);
-	void setListener(core::Vector3<> pos, core::Vector3<> forward, core::Vector3<> up, core::Vector3<> vel = { 0.0,0.0,0.0 }); 
-	void setSourcePosition(int chID, core::Vector3<> pos, core::Vector3<> vel); 
+	void setListener(core::Vector3<> pos, core::Vector3<> forward, core::Vector3<> up, core::Vector3<> vel = { 0.0,0.0,0.0 });
+	void setSourcePosition(int chID, core::Vector3<> pos, core::Vector3<> vel);
 	void setChannelVolume(int chID, float newVolume = 0.0f);
 	void setDelay(int chID, unsigned long long start, unsigned long long end, bool stopChannel);
 	int getLooping(int chID) const;
-	bool stopPlaying(int chID); 
+	bool stopPlaying(int chID);
 	bool pauseChannel(int chID, bool pause);
-	bool isChannelPlaying(int chID); 
+	bool isChannelPlaying(int chID);
 
 #pragma endregion
 
 #pragma region Platform
+
+	//------Metodos de PlatformModule:
 
 	/**
 	* @brief Devuelve anchura de la ventana
@@ -190,10 +192,77 @@ public:
 	* @param device - id del dispositivo a comprobar. -1 por defecto => el primero positivo que encuentre.
 	*/
 	bool isActionReleased(const std::string& actionName, input::DeviceID device = input::ANY_DEVICE) const;
+	/*
+	* @brief Indica a la ventana que tome input de texto.
+	*/
 	void startTextInput() const;
+	/*
+	* @brief Indica a la ventana que deje de tomar input de texto.
+	*/
 	void stopTextInput() const;
+	/*
+	* @brief Devuelve el texto introducido por el dispositivo
+	* @param device - id del dispositivo a comprobar. ANY_DEVICE por defecto => la suma del input de todos los dispositivos.
+	*/
+	std::string getTextInput(input::DeviceID device = input::ANY_DEVICE) const;
 
-	// TODO METER METODOS DE INPUT MAPPER.
+	//------Metodos de InputMapper:
+
+	/**
+	* @brief Mete un evento asociada a un nombre de accion.
+	*
+	* @param actionName - Nombre de la accion.
+	* @param InputEvent - Input que lanza el evento.
+	* @param id - Id del dispositivo a comprobar. -1 por defecto => el primero positivo que encuentre.
+	*/
+	void addEvent(const std::string& actionName, input::InputEvent inputEvent, input::DeviceID id = input::ANY_DEVICE);
+
+	/**
+	* @brief Quita una evento asociado a una accion.
+	*
+	* @param actionName - Accion de la que eliminar un input.
+	* @param InputEvent - Evento que quitar del mapa.
+	* @param id - Id del dispositivo a comprobar. -1 por defecto => elimina todos los eventos del tipo dado.
+	*/
+	void removeEvent(const std::string& actionName, input::InputEvent inputEvent, input::DeviceID id = input::ANY_DEVICE);
+	/**
+	* @brief Elimina todos los eventos asociados a una accion.
+	*
+	* @param actionName - Accion cuyos eventos hay que eliminar.
+	*/
+	void removeEvents(const std::string& actionName);
+	/**
+	* @brief Elimina todos los eventos asociados a una accion y a un id.
+	*
+	* @param actionName - Accion cuyos eventos hay que eliminar.
+	* @param id - Id del dispositivo a comprobar. -1 por defecto => elimina todos los eventos de la accion (llama a removeEvents(actionName)).
+	*/
+	void removeEventsFromID(const std::string& actionName, input::DeviceID id = input::ANY_DEVICE);
+
+	/**
+	* @brief Devuelve todos los eventos correspondientes a una accion.
+	*
+	* @param actionName - Accion a consultar.
+	* @param id - Id del dispositivo a comprobar. -1 por defecto => Devuelve todos los eventos de esa accion.
+	*
+	* @return std::vector<InputAction> - Vector de InputActions correspondientes.
+	*/
+	std::vector<input::InputEvent> getInputEvents(const std::string& actionName, input::DeviceID id = input::ANY_DEVICE);
+	/**
+	* @brief Devuelve todas las acciones.
+	*
+	* @return std::vector<std::string> - Nombres de acciones registradas.
+	*/
+	std::vector<std::string> getActions();
+
+	/**
+	* @brief Devuelve si tiene un nombre de accion registrada.
+	*
+	* @param actionName - Nombre de la accion a consultar.
+	*
+	* @return bool - Devuelve true si esta mapeada.
+	*/
+	bool hasAction(const std::string& actionName) const;
 
 #pragma endregion
 

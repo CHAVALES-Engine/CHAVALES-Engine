@@ -154,9 +154,9 @@ bool Engine::stopPlaying(int chID)
 	return _audioModule->stopPlaying(chID);
 }
 
-bool Engine::pauseChannel(int chID,bool pause)
+bool Engine::pauseChannel(int chID, bool pause)
 {
-	return _audioModule->pauseChannel(chID,pause);
+	return _audioModule->pauseChannel(chID, pause);
 }
 
 void Engine::setSourcePosition(int chID, core::Vector3<> pos, core::Vector3<> vel)
@@ -176,44 +176,92 @@ bool Engine::isChannelPlaying(int chID)
 
 #pragma region Platform
 
+//------Metodo de PlatformModule:
 int Engine::getWindowWidth() const
 {
 	return _platformModule->getWindowWidth();
 }
+
 int Engine::getWindowHeight() const
 {
 	return _platformModule->getWindowHeight();
 }
+
 bool Engine::isKeyPressed(input::InputEvent inputAction, input::DeviceID device) const
 {
 	return _platformModule->isKeyPressed(inputAction, device);
 }
+
 bool Engine::isKeyReleased(input::InputEvent inputAction, input::DeviceID device) const
 {
 	return _platformModule->isKeyReleased(inputAction, device);
 }
+
 float Engine::getAxis(input::InputEvent inputAction, input::DeviceID device) const
 {
 	return _platformModule->getAxis(inputAction, device);
 }
+
 bool Engine::isActionPressed(const std::string& actionName, input::DeviceID device) const
 {
 	return _platformModule->isActionPressed(actionName, device);
 }
+
 bool Engine::isActionReleased(const std::string& actionName, input::DeviceID device) const
 {
 	return _platformModule->isActionReleased(actionName, device);
 }
+
 void Engine::startTextInput() const
 {
 	_platformModule->startTextInput();
 }
+
 void Engine::stopTextInput() const
 {
 	_platformModule->stopTextInput();
 }
 
-// TODO Metodos de InoputMapper aqui.
+std::string Engine::getTextInput(input::DeviceID device) const
+{
+	_platformModule->getTextInput(device);
+}
+
+//------Metodos de InputMapper:
+void Engine::addEvent(const std::string& actionName, input::InputEvent inputEvent, input::DeviceID id)
+{
+	_platformModule->getInputMapper()->addEvent(actionName, inputEvent, id);
+}
+
+void Engine::removeEvent(const std::string& actionName, input::InputEvent inputEvent, input::DeviceID id)
+{
+	_platformModule->getInputMapper()->removeEvent(actionName, inputEvent, id);
+}
+
+void Engine::removeEvents(const std::string& actionName)
+{
+	_platformModule->getInputMapper()->removeEvents(actionName);
+}
+
+void Engine::removeEventsFromID(const std::string& actionName, input::DeviceID id)
+{
+	_platformModule->getInputMapper()->removeEventsFromID(actionName, id);
+}
+
+std::vector<input::InputEvent> Engine::getInputEvents(const std::string& actionName, input::DeviceID id)
+{
+	return _platformModule->getInputMapper()->getInputEvents(actionName, id);
+}
+
+std::vector<std::string> Engine::getActions()
+{
+	return _platformModule->getInputMapper()->getActions();
+}
+
+bool Engine::hasAction(const std::string& actionName) const
+{
+	return _platformModule->getInputMapper()->hasAction(actionName);
+}
 
 #pragma endregion
 

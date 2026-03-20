@@ -189,10 +189,6 @@ namespace input
          * @param text - Texto que se anyade al buffer.
          */
         void _appendText(const std::string& text);
-        /**
-        * @brief Clase PlatformModule amiga para poder acceder a metodos privados.
-        */
-        friend class PlatformModule;
 
 
         //------Arrays de teclas:
@@ -246,5 +242,10 @@ namespace input
         * @brief Estado del dispositivo.
         */
         bool _connected = false;
+
+        /**
+        * @brief Clase PlatformModule amiga para poder acceder a metodos privados.
+        */
+        friend class PlatformModule;
     };
 }
