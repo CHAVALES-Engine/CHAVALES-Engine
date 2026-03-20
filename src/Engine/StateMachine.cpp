@@ -41,6 +41,7 @@ void StateMachine::gameLoop()
 
 		if (_currentScene.ptr != nullptr)
 		{
+
 			if (GameLoader::reloadLua()) // si es necesario recargar...
 			{
 				_currentScene.ptr->endGame(); // elimina escena anterior

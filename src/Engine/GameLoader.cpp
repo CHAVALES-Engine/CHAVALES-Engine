@@ -273,7 +273,7 @@ std::shared_ptr<core::Scene> GameLoader::loadScene(const sceneName& n)
 	std::shared_ptr<core::Scene> s = std::make_shared<core::Scene>(n);
 
 	loadLua(s, n);
-
+	_firstReload = true;
 	return s;
 }
 
@@ -350,15 +350,24 @@ bool GameLoader::reloadLua()
 		std::filesystem::file_time_type ftime = std::filesystem::last_write_time(_path);
 		uintmax_t fsize = std::filesystem::file_size(_path);
 
-		if (ftime > _lastTime && // para saber la ultima modificacion en tiempo
-			_lastSize < fsize) // si se ha modificado el archivo de verdad
+		if (!_firstReload)
 		{
-			Debug::out("GAMELOADER: Recargando escena");
+			if (ftime > _lastTime && // para saber la ultima modificacion en tiempo
+				_lastSize < fsize) // si se ha modificado el archivo de verdad
+			{
+				Debug::out("GAMELOADER: Recargando escena");
 
+				_lastTime = ftime;
+				_lastSize = fsize;
+
+				return true;
+			}
+		}
+		else
+		{
 			_lastTime = ftime;
 			_lastSize = fsize;
-
-			return true;
+			_firstReload = false;
 		}
 
 		return false;
