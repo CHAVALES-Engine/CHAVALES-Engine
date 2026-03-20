@@ -110,7 +110,7 @@ public:
 	 * @brief Getter del input mapper para registrar acciones
 	 * @return input::InputMapper& - referencia al InputMapper
 	 */
-	input::InputMapper* getInputMapper();
+	const input::InputMapper* getInputMapper() const;
 private:
 	/**
 	* @brief procesa un evento de sdl
@@ -121,13 +121,13 @@ private:
 	 * @param event - Evento a castear.
 	 * @return input::InputAxis - Evento casteado.
 	 */
-	input::InputAxis _castAxis(const SDL_Event& event);
+	input::InputAxis _castAxis(const SDL_Event& event) const;
 	/**
 	 * @brief Castea un button de SDL a nuestro propio sistema.
 	 * @param event - Evento a castear.
 	 * @return input::InputButtons - Evento casteado.
 	 */
-	input::InputButtons _castButton(const SDL_Event& event);
+	input::InputButtons _castButton(const SDL_Event& event) const;
 	/**
 	* @brief mapa de dispositivos virtuales
 	*/
