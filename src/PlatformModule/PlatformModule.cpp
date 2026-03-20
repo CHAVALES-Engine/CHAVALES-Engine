@@ -478,7 +478,7 @@ void PlatformModule::_processEvent(const SDL_Event& event)
 	case SDL_EVENT_MOUSE_BUTTON_DOWN:
 	case SDL_EVENT_KEY_DOWN: {
 		auto it = _virtualDevices.find(input::KEYBOARD_ID);
-		if (it != _virtualDevices.end() /*&& (it->second->isPressed(_castButton(event)), event.key.repeat)*/) {
+		if (it != _virtualDevices.end() && (it->second->isReleased(_castButton(event)) && event.key.repeat)) {
 			it->second->_setButton(_castButton(event), true);
 		}
 		break;
@@ -486,7 +486,7 @@ void PlatformModule::_processEvent(const SDL_Event& event)
 	case SDL_EVENT_MOUSE_BUTTON_UP:
 	case SDL_EVENT_KEY_UP: {
 		auto it = _virtualDevices.find(input::KEYBOARD_ID);
-		if (it != _virtualDevices.end() && event.key.repeat) {
+		if (it != _virtualDevices.end() && (!it->second->isJustPressed(_castButton(event)) && event.key.repeat)) {
 			it->second->_setButton(_castButton(event), false);
 		}
 		break;
