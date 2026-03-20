@@ -93,4 +93,6 @@ private:
 	static inline std::string _path = "";
 	static inline std::filesystem::file_time_type _lastTime;
 	static inline uintmax_t _lastSize;
+
+	static inline bool _firstReload = true;
 };

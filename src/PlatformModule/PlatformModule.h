@@ -1,16 +1,10 @@
 ﻿#pragma once
-/*
- * @file PlatformModule.h
- * @brief Define las funciones del Modulo de Plataforma:
- *	- Funciones de personalizacion de la ventana.
- *	- Funciones para gestionar el input.
- */
 
 
 #include <string>
 #include <unordered_map>
 #include <Windows.h>
-#include "InputDefs.h"
+#include <InputDefs.h>
 #include "InputMapper.h"
 
 // Fordard declarations
@@ -22,6 +16,11 @@ namespace input
 	class VirtualDevice;
 }
 
+/*
+ * @brief Define las funciones del Modulo de Plataforma:
+ *	- Funciones de personalizacion de la ventana.
+ *	- Funciones para gestionar el input.
+ */
 class PlatformModule
 {
 public:
@@ -57,25 +56,31 @@ public:
 	* @brief Devuelve altura de la ventana.
 	*/
 	int getWindowHeight() const;
+	/**
+	 * @brief Comprueba si un dispositivo esta conectado.
+	 * @param device - id del dispositivo a comprobar.
+	 * @return bool - True o false si esta conectado o no.
+	 */
+	bool isDeviceConnected(input::DeviceID device);
 	/*
 	 * @brief Devuelve si una tecla esta pulsada
-	 * @param inputAction - InputEvent a comprobar
+	 * @param inputEvent - InputEvent a comprobar
 	 * @param device - id del dispositivo a comprobar. ANY_DEVICE por defecto => si se ha pulsado en cualquier dispositivo.
 	 */
-	bool isKeyPressed(input::InputEvent inputAction, input::DeviceID device = input::ANY_DEVICE) const;
+	bool isKeyPressed(input::InputEvent inputEvent, input::DeviceID device = input::ANY_DEVICE) const;
 	/*
 	 * @brief Devuelve si se ha dejado de pulsar una tecla
-	 * @param inputAction - InputEvent a comprobar
+	 * @param inputEvent - InputEvent a comprobar
 	 * @param device - id del dispositivo a comprobar. ANY_DEVICE por defecto => si se ha dejado de pulsar en cualquier dispositivo.
 	 */
-	bool isKeyReleased(input::InputEvent inputAction, input::DeviceID device = input::ANY_DEVICE) const;
+	bool isKeyReleased(input::InputEvent inputEvent, input::DeviceID device = input::ANY_DEVICE) const;
 	/*
 	 * @brief Devuelve cuanto de accionado esta la accion a comprobar
-	 * @param inputAction - InputEvent a comprobar
-	 * @param device - id del dispositivo a comprobar. ANY_DEVICE por defecto => el eje de cualquier dispositivo.
+	 * @param inputEvent - InputEvent a comprobar
+	 * @param device - id del dispositivo a comprobar. ANY_DEVICE por defecto => la media de los ejes de los dispositivos.
 	 * @return float - Devuelve de -1 a 1
 	 */
-	float getAxis(input::InputEvent inputAction, input::DeviceID device = input::ANY_DEVICE) const;
+	float getAxis(input::InputEvent inputEvent, input::DeviceID device = input::ANY_DEVICE) const;
 	/*
 	 * @brief Devuelve si se ha pulsado una accion
 	 * @param actionName - accion a comprobar
@@ -105,7 +110,7 @@ public:
 	 * @brief Getter del input mapper para registrar acciones
 	 * @return input::InputMapper& - referencia al InputMapper
 	 */
-	input::InputMapper* getInputMapper();
+	const input::InputMapper* getInputMapper() const;
 private:
 	/**
 	* @brief procesa un evento de sdl
@@ -116,13 +121,13 @@ private:
 	 * @param event - Evento a castear.
 	 * @return input::InputAxis - Evento casteado.
 	 */
-	input::InputAxis _castAxis(const SDL_Event& event);
+	input::InputAxis _castAxis(const SDL_Event& event) const;
 	/**
 	 * @brief Castea un button de SDL a nuestro propio sistema.
 	 * @param event - Evento a castear.
 	 * @return input::InputButtons - Evento casteado.
 	 */
-	input::InputButtons _castButton(const SDL_Event& event);
+	input::InputButtons _castButton(const SDL_Event& event) const;
 	/**
 	* @brief mapa de dispositivos virtuales
 	*/
