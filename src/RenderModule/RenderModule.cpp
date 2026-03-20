@@ -234,17 +234,6 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
         Ogre::TextureUnitState* membraneTus = membranePass->createTextureUnitState();
         membraneTus->setTexture(membraneTex);
         membraneTus->setColourOperation(Ogre::LBO_MODULATE);
-
-        _shaderGen->createShaderBasedTechnique(
-            *membraneMat,
-            Ogre::MaterialManager::DEFAULT_SCHEME_NAME,
-            Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME,
-            true
-        );
-        _shaderGen->validateMaterial(
-            Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME,
-            membraneMat->getName()
-        );
         //////////////////////////////////////////////////////
         Ogre::SubEntity* bodySub = cube->getSubEntity(1);
 
@@ -265,17 +254,6 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
         Ogre::TextureUnitState* bodyTus = bodyPass->createTextureUnitState();
         bodyTus->setTexture(bodyText);
         bodyTus->setColourOperation(Ogre::LBO_MODULATE);
-
-        _shaderGen->createShaderBasedTechnique(
-            *bodyMat,
-            Ogre::MaterialManager::DEFAULT_SCHEME_NAME,
-            Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME,
-            true
-        );
-        _shaderGen->validateMaterial(
-            Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME,
-            bodyMat->getName()
-        );
         //////////////////////////////////////////////////////
         Ogre::SubEntity* nucleiSub = cube->getSubEntity(2);
 
@@ -296,17 +274,6 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
         Ogre::TextureUnitState* nucleiTus = nucleiPass->createTextureUnitState();
         nucleiTus->setTexture(nucleiTex);
         nucleiTus->setColourOperation(Ogre::LBO_MODULATE);
-
-        _shaderGen->createShaderBasedTechnique(
-            *nucleiMat,
-            Ogre::MaterialManager::DEFAULT_SCHEME_NAME,
-            Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME,
-            true
-        );
-        _shaderGen->validateMaterial(
-            Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME,
-            nucleiMat->getName()
-        );
         //////////////////////////////////////////////////////
         Ogre::SubEntity* mandiblesSub = cube->getSubEntity(6);
 
@@ -327,17 +294,6 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
         Ogre::TextureUnitState* mandiblesTus = mandiblesPass->createTextureUnitState();
         mandiblesTus->setTexture(mandiblesTex);
         mandiblesTus->setColourOperation(Ogre::LBO_MODULATE);
-
-        _shaderGen->createShaderBasedTechnique(
-            *mandiblesMat,
-            Ogre::MaterialManager::DEFAULT_SCHEME_NAME,
-            Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME,
-            true
-        );
-        _shaderGen->validateMaterial(
-            Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME,
-            mandiblesMat->getName()
-        );
         //////////////////////////////////////////////////////
 
         Ogre::SceneNode* cubeNode =
