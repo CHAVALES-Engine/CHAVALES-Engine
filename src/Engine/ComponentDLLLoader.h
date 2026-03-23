@@ -50,12 +50,15 @@ public:
 	* @return bool - Si se ha descargado correctamente.
 	*/
 	bool unload(const std::string& path);
+
 private:
 	struct LoadedLibrary {
 		#if _WIN64
 		HMODULE handle;
 		#endif // _WIN64
 		std::string path;
+		std::string tempPath;
+		FILETIME lastWriteTime;
 	};
 	/**
 	* @brief

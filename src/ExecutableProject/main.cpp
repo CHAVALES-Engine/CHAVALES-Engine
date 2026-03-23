@@ -17,28 +17,11 @@ using namespace core;
 
 int main(int argc, char* argv[])
 {
-	// Abre archivo .log
-	Debug::open();
-
 	// Inicializa el Engine
 	Engine::init();
-
-
-	ComponentDLLLoader dllLoader;
-#if _DEBUG
-	dllLoader.load("./ComponentsProject_d.dll");
-#else 
-	dllLoader.load("./ComponentsProject_r.dll");
-#endif
-
-	dllLoader.load("./game/DLL-Test.dll");
-
-	StateMachine _stateMachine;
-
-	_stateMachine.addAndSetScene("scene1");
-	_stateMachine.gameLoop();
-
-	// Cierra archivo .log
-	Debug::close();
+	// Lanza el bucle de juego
+	Engine::instance()->startLoop();
+	// Cierre limpio del engine
+	Engine::release();
 	return 0;
 }

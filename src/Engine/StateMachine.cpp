@@ -8,6 +8,7 @@
 #include <Engine.h>
 #include <iostream>
 
+#include "ComponentRegister.h"
 #include "Debug.h"
 #include "GameLoader.h"
 #include "TimeManager.h"
@@ -70,6 +71,7 @@ void StateMachine::gameLoop()
 		_currentScene.ptr->~Scene();
 	}
 	_currentScene.ptr = nullptr;
+
 
 	// vaciar los mapas
 	//_stateMachine.clear();

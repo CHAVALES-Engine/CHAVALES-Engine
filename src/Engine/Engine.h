@@ -17,7 +17,8 @@ class PlatformModule;
 class RenderModule;
 class AudioModule;
 class PhysicsModule;
-
+class ComponentDLLLoader;
+class StateMachine;
 namespace core
 {
 	class Scene;
@@ -33,8 +34,7 @@ class ENGINE_API Engine
 	~Engine() = default;
 public:
 	/*
-	* @brief
-	*	Inicializacion de modulos
+	* @brief Inicializacion del motor
 	* @return bool - True si se ha inicializado correctamente
 	*/
 	static bool init();
@@ -48,9 +48,13 @@ public:
 	*/
 	static void release();
 	/*
+	* @brief Lanza el bucle de juego
+	*/
+	void startLoop();
+	/*
 	* @brief Metodo que sincroniza los modulos con el juego
 	*/
-	const bool syncronize();
+	bool syncronize() const;
 	/**
 	 *
 	 */
@@ -230,5 +234,15 @@ private:
 	*	Referencia al modulo de fisica
 	*/
 	PhysicsModule* _physicsModule = nullptr;
+	/*
+	* @brief
+	*	Referencia al cargador de dlls
+	*/
+	ComponentDLLLoader* _componentDLLLoader = nullptr;
+	/*
+	* @brief
+	*	Referencia a la maquina de estados
+	*/
+	StateMachine* _stateMachine = nullptr;
 	std::function<void(std::string)> _addAndSetScene;
 };
