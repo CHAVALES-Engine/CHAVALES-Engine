@@ -21,7 +21,7 @@
     <ClInclude Include="..\..\src\ComponentsProject\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\ComponentsProject\MeshRenderer.h">
+    <ClInclude Include="..\..\src\ComponentsProject\ModelRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\ComponentsProject\AudioListener.h">
@@ -56,7 +56,7 @@
     <ClCompile Include="..\..\src\ComponentsProject\Collider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\ComponentsProject\MeshRenderer.cpp">
+    <ClCompile Include="..\..\src\ComponentsProject\ModelRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -23,10 +23,13 @@
 #include <OgreGpuProgramManager.h>
 #include <OgreRTShaderSystem.h>
 #include <OgreShaderGenerator.h>
+#include <OgreLogManager.h>
 #include <iostream>
 
 #include <OgreImGuiOverlay.h>
 #include <imgui.h>
+
+#include <assimp/postprocess.h>
 
 // RenderModule.cpp : Defines the functions for the static library.
 //
@@ -70,6 +73,8 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
     try
     {
         _root = new Ogre::Root("", "", "ogre.log");
+        
+
         Ogre::GL3PlusPlugin* gl3Plugin = new Ogre::GL3PlusPlugin();
         _root->installPlugin(gl3Plugin);
 
@@ -81,17 +86,8 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
         Ogre::Codec::registerCodec(new Ogre::STBIImageCodec("png"));
         Ogre::Codec::registerCodec(new Ogre::STBIImageCodec("tga"));
 
-        /*const aiScene* scene = importer.ReadFile(
-            "../dependencies/ogre/src/ogre/Samples/Media/packs/metroid-floating/source/metroid_final.fbx",
-            aiProcess_Triangulate | aiProcess_GenNormals
-        );
+        Ogre::LogManager::getSingleton().getDefaultLog()->setDebugOutputEnabled(false);
 
-        if (!scene) {
-            std::cerr << "Assimp error: " << importer.GetErrorString() << std::endl;
-        }
-        else {
-            std::cout << "Modelo cargado correctamente" << std::endl;
-        }*/
         const Ogre::RenderSystemList& renderers = _root->getAvailableRenderers();
         if (renderers.empty())
             std::cerr << "No hay RenderSystems disponibles" << std::endl;
@@ -166,6 +162,24 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
 
         Ogre::MaterialManager::getSingleton().setActiveScheme(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME);
 
+        /*Ogre::MeshPtr mesh = Ogre::MeshManager::getSingleton().createManual("metroid", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+
+        Ogre::SkeletonPtr skeleton;
+
+        Ogre::AssimpLoader loader;
+        Ogre::AssimpLoader::Options opts;
+        opts.postProcessSteps =
+            aiProcess_Triangulate |
+            aiProcess_JoinIdenticalVertices |
+            aiProcess_GenNormals;
+
+        bool ok = loader.load("C:/Users/danie/Documents/2526-Grupo03-ChavalesEngine/dependencies/ogre/src/ogre/Samples/Media/packs/metroid-floating/source/metroid_final.fbx", mesh.get(), skeleton, opts);
+
+        if (!ok)
+            std::cout << "Error cargando mesh con AssimpLoader\n";
+
+        Ogre::Entity* cube = _sceneMgr->createEntity("metroid", mesh);*/
+
         Ogre::Entity* cube = _sceneMgr->createEntity("metroid_final.fbx");
 
         /*for (unsigned int i = 0; i < cube->getNumSubEntities(); ++i)
@@ -196,10 +210,9 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
             Ogre::SubEntity* sub = cube->getSubEntity(i);
             Ogre::MaterialPtr mat = sub->getMaterial();
 
-            // Asegúrate que el material esté completamente cargado
             mat->load();
 
-            // Generar técnica RTSS sobre el material ya cargado
+            // Generar tecnica RTSS sobre el material ya cargado
             _shaderGen->createShaderBasedTechnique(
                 *mat,
                 Ogre::MaterialManager::DEFAULT_SCHEME_NAME,
@@ -510,7 +523,7 @@ cameraID RenderModule::addCamera(const entityID& entityID, const float& FOVy, co
 
 void RenderModule::deleteCamera(const cameraID& id)
 {
-    if (id >= 0 && id < _cameras.size())
+    if (id >= 0 && id < _cameras.size() && _cameras[id] != nullptr)
     {
         Ogre::Camera* cam = _cameras[id];
         Ogre::Viewport* vp = _window->getViewport(0);

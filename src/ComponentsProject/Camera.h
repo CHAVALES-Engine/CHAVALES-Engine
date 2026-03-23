@@ -21,7 +21,7 @@ class Camera : public core::Component
 
 public:
 	Camera();
-	~Camera() ;
+	~Camera();
 
 	bool init(const Properties& p) override;
 
