@@ -15,6 +15,7 @@
 #include <OgreViewport.h>
 #include <OgreEntity.h>
 #include <OgreLight.h>
+#include <OgreRay.h>
 #include <OgreSceneNode.h>
 #include <OgreVector3.h>
 #include <OgreQuaternion.h>
@@ -25,7 +26,6 @@
 #include <OgreShaderGenerator.h>
 #include <OgreLogManager.h>
 #include <iostream>
-
 #include <OgreImGuiOverlay.h>
 #include <imgui.h>
 
@@ -412,6 +412,9 @@ void RenderModule::cleanScene()
     //Limpiar camaras
     cleanCameras();
 
+    //Limpiar luces
+    cleanLights();
+
     //Limpiar nodos
     for (const EngineNode& engineNode : _engineNodes)
     {
@@ -616,6 +619,90 @@ void RenderModule::setCameraFarClipDistance(const cameraID& id, const float& far
 void RenderModule::setCameraFocalLength(const cameraID& id, const float& focalLength)
 {
     if (id >= 0 && id < _cameras.size()) _cameras[id]->setFocalLength(focalLength);
+}
+
+
+
+lightID RenderModule::addLight(const entityID& entityID, int type, const core::Color& color, float intensity) {
+    //Si no existe un nodo con este entityID lo creamos
+    addNode(entityID);
+
+    Ogre::Light* light = _sceneMgr->createLight("light" + std::to_string(_nextLightID++));
+    
+    switch (type) {
+        case 0: light->setType(Ogre::Light::LT_POINT); break;
+        case 1: light->setType(Ogre::Light::LT_DIRECTIONAL); break;
+        case 2: light->setType(Ogre::Light::LT_SPOTLIGHT); break;
+        case 3: light->setType(Ogre::Light::LT_RECTLIGHT); break;
+    }
+    
+    light->setDiffuseColour(color.getRed(), color.getGreen(), color.getBlue());
+    light->setSpecularColour(color.getRed(), color.getGreen(), color.getBlue());
+
+    light->setPowerScale(intensity);
+    
+    _engineNodes.back().sceneNode->attachObject(light);
+
+
+    _lights.push_back(light);
+    
+    return _nextLightID++;
+}
+void  RenderModule::deleteLight(const lightID& id) {
+    if (id >= 0 && id < _lights.size())
+    {
+        Ogre::Light* light = _lights[id];
+        Ogre::SceneNode* parent = light->getParentSceneNode();
+        parent->detachObject(light);
+        _sceneMgr->destroyLight(light);
+        _lights.erase(_lights.begin() + id);
+        
+    }
+}
+
+void RenderModule::setLightActive(const lightID& id, bool active) {
+    _lights[id]->setVisible(active);
+}
+
+void RenderModule::cleanLights() {
+    for (Ogre::Light* light : _lights)
+    {
+        if (light != nullptr)
+        {
+            Ogre::SceneNode* parent = light->getParentSceneNode();
+            if (parent)
+                parent->detachObject(light);
+
+            _sceneMgr->destroyLight(light);
+        }
+    }
+
+    _lights.clear();
+}
+
+void RenderModule::setLightType(const lightID& id, int type) {
+    Ogre::Light* light = _lights[id];
+    switch (type) {
+    case 0: light->setType(Ogre::Light::LT_POINT); break;
+    case 1: light->setType(Ogre::Light::LT_DIRECTIONAL); break;
+    case 2: light->setType(Ogre::Light::LT_SPOTLIGHT); break;
+    case 3: light->setType(Ogre::Light::LT_RECTLIGHT); break;
+    }
+}
+
+void RenderModule::setLightColor(const lightID& id, const core::Color& color) {
+    _lights[id]->setDiffuseColour(color.getRed(), color.getGreen(), color.getBlue());
+}
+
+void RenderModule::setLightIntensity(const lightID& id, float intensity) {
+    _lights[id]->setPowerScale(intensity);
+}
+
+void RenderModule::setLightDirection(const lightID& id, const core::Vector3<float>& dir) {
+    //_lights[id]->setDirection(Ogre::Vector3(dir.getX(), dir.getY(), dir.getZ()));
+}
+void RenderModule::setLightSpotRange(const lightID& id, float inner, float outer, float falloff) {
+    _lights[id]->setSpotlightRange(Ogre::Degree(inner), Ogre::Degree(outer), falloff);
 }
 
 void RenderModule::shutdown()

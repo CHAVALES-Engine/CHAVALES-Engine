@@ -20,11 +20,13 @@ namespace Ogre
     class SceneNode;
     class ImGuiOverlay;
     class Camera;
+    class Light;
 }
 
 using entityID = uint64_t;
 using transformID = uint64_t;
 using cameraID = uint64_t;
+using lightID = uint64_t;
 
 struct EngineNode
 {
@@ -139,11 +141,44 @@ public:
 
 
     //Metodos luces
-    void addLight();
-    void deleteLight();
-    void setLightActive();
-    void cleanLights();
 
+    /*
+    * @brief Luz nueva. Se asigna un id por orden de creacion. Main Luz id 0 y añadidas manualmente 1 en adelante.
+    */
+    lightID addLight(const entityID& entityID, int type, const core::Color& color, float intensity);
+    /*
+    * @brief Borrar luz por id. A las luces creadas posteriormente se les resta el id en 1.
+    */
+    void deleteLight(const lightID& id);
+    /*
+   * @brief activar/descativar camara
+   */
+    void setLightActive(const lightID& id, bool active);
+    /*
+    * @brief activar/descativar camara
+    */
+    void cleanLights();
+    /*
+    * @brief Establecer el tipo de luz
+    */
+    void setLightType(const lightID& id, int type);
+    /*
+    * @brief Establecer el color de la luz
+    */
+    void setLightColor(const lightID& id, const core::Color& color);
+    /*
+    * @brief Establecer la intensidad de luz
+    */
+    void setLightIntensity(const lightID& id, float intensity);
+    /*
+    * @brief Establecer la direccion de luz
+    */
+    void setLightDirection(const lightID& id, const core::Vector3<float>& dir);
+    /*
+    * @brief Establecer el cono de luz (ángulo interno, ángulo externo y suavidad de degradado)
+    */
+    void setLightSpotRange(const lightID& id, float inner, float outer, float falloff);
+   
 
     //Metodos entidades
     void addEntity();
@@ -159,8 +194,10 @@ public:
 private:
     std::vector<EngineNode> _engineNodes;
     std::vector<Ogre::Camera*> _cameras;
+    std::vector<Ogre::Light*> _lights;
     ImGuiManager* _ui;
 
     transformID _nextTransformID;
     cameraID _nextCameraID;
+    lightID _nextLightID;
 };

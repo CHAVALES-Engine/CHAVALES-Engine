@@ -1,5 +1,4 @@
-﻿
-#include "Engine.h"
+﻿#include "Engine.h"
 
 #include <memory>
 
@@ -119,6 +118,51 @@ void Engine::setCameraFarClipDistance(const cameraID& id, const float& farClipDi
 void Engine::setCameraFocalLength(const cameraID& id, const float& focalLength)
 {
 	_renderModule->setCameraFocalLength(id, focalLength);
+}
+
+lightID Engine::addLight(const entityID& entityID, int type, const core::Color& color, float intensity)
+{
+	return _renderModule->addLight(entityID, type,color, intensity);
+}
+
+void Engine::deleteLight(const lightID& id)
+{
+	_renderModule->deleteLight(id);
+}
+
+void Engine::setLightActive(const lightID& id, bool active)
+{
+	_renderModule->setLightActive(id, active);
+}
+
+void Engine::cleanLights()
+{
+	_renderModule->cleanLights();
+}
+
+void Engine::setLightType(const lightID& id, int type)
+{
+	_renderModule->setLightType(id, type);
+}
+
+void Engine::setLightColor(const lightID& id, const core::Color& color)
+{
+	_renderModule->setLightColor(id, color);
+}
+
+void Engine::setLightIntensity(const lightID& id, float intensity)
+{
+	_renderModule->setLightIntensity(id, intensity);
+}
+
+void Engine::setLightDirection(const lightID& id, const core::Vector3<float>& dir)
+{
+	_renderModule->setLightDirection(id, dir);
+}
+
+void Engine::setLightSpotRange(const lightID& id, float inner, float outer, float falloff)
+{
+	_renderModule->setLightSpotRange(id, inner, outer, falloff);
 }
 
 void Engine::loadSound(std::string path, std::string id, bool sound3D, bool soundLooping, bool soundStream)

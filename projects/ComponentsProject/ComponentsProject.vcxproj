@@ -19,6 +19,7 @@
     <ClInclude Include="..\..\src\ComponentsProject\Collider.h" />
     <ClInclude Include="..\..\src\ComponentsProject\ModelRenderer.h" />
     <ClInclude Include="..\..\src\ComponentsProject\Transform.h" />
+    <ClInclude Include="Light.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\ComponentsProject\AudioListener.cpp" />
@@ -27,6 +28,7 @@
     <ClCompile Include="..\..\src\ComponentsProject\Collider.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\ModelRenderer.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\Transform.cpp" />
+    <ClCompile Include="Light.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
