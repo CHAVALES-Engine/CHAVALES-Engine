@@ -20,94 +20,95 @@ void GameLoader::parseObject(const sol::object& obj, const std::string& clave, P
 	switch (obj.get_type())
 	{
 	case sol::type::number:
+	{
+		if (obj.is<int>())
 		{
-			if (obj.is<int>())
-			{
-				props[clave] = obj.as<int>();
-			}
-			else
-			{
-				props[clave] = obj.as<float>();
-			}
-			break;
+			props[clave] = obj.as<int>();
 		}
+		else
+		{
+			props[clave] = obj.as<float>();
+		}
+		break;
+	}
 	case sol::type::boolean:
-		{
-			props[clave] = obj.as<bool>();
-			break;
-		}
+	{
+		props[clave] = obj.as<bool>();
+		break;
+	}
 	case sol::type::string:
-		{
-			props[clave] = obj.as<std::string>();
-			break;
-		}
+	{
+		props[clave] = obj.as<std::string>();
+		break;
+	}
 	case sol::type::table:
+	{
+		std::vector<Property> vec;
+		for (auto& o : obj.as<sol::table>())
 		{
-			if (obj.is<std::vector<int>>())
+			auto& value = o.second;
+			if (value.is<int>())
 			{
-				Debug::out("SOY TABLA DE INT");
-				//props[clave] = obj.as<std::vector<int>>();
+				Debug::out("INT");
+				vec.emplace_back(value.as<int>());
 			}
-			else if (obj.is<std::vector<float>>())
+			else if (value.is<float>())
 			{
-				Debug::out("SOY TABLA DE FLOAT");
-				//props[clave] = obj.as<std::vector<float>>();
+				Debug::out("FLOAT");
+				vec.emplace_back(value.as<float>());
 			}
-			else if (obj.is<std::vector<std::string>>())
+			else if (value.is<std::string>())
 			{
-				Debug::out("SOY TABLA DE STRING");
-				//props[clave] = obj.as<std::vector<std::string>>();
+				Debug::out("STRING");
+				vec.emplace_back(value.as<std::string>());
 			}
-			else if (obj.is<std::vector<bool>>())
+			else if (value.is<bool>())
 			{
-				Debug::out("SOY TABLA DE BOOL");
-				//props[clave] = obj.as<std::vector<bool>>();
+				Debug::out("BOOL");
+				vec.emplace_back(value.as<bool>());
 			}
-			else if (obj.is<std::vector<sol::table>>())
-			{
-				Debug::out("SOY TABLA DE TABLAS!!!!!!!!!!");
-				//parseObject(second, obj.first, props);
-			}
-			break;
 		}
+		//props[clave] = vec;
+		break;
+	}
 	case sol::type::userdata:
+	{
+		if (obj.is<core::Vector2<>>())
 		{
-			if (obj.is<core::Vector2<>>())
-			{
-				//Debug::out("GAMELOADER: vector2");
-				props[clave] = obj.as<core::Vector2<>>();
-			}
-			else if (obj.is<core::Vector3<>>())
-			{
-				//Debug::out("GAMELOADER: vector3");
-				props[clave] = obj.as<core::Vector3<>>();
-			}
-			else if (obj.is<core::Vector4<>>())
-			{
-				//Debug::out("GAMELOADER: vector4");
-				props[clave] = obj.as<core::Vector4<>>();
-			}
-			else if (obj.is<core::Quaternion<>>())
-			{
-				//Debug::out("GAMELOADER: quaternion");
-				props[clave] = obj.as<core::Quaternion<>>();
-			}
-			else if (obj.is<core::Color>())
-			{
-				//Debug::out("GAMELOADER: color");
-				props[clave] = obj.as<core::Color>();
-			}
-			else
-			{
-				Debug::error("GAMELOADER: El tipo del parametro de ", clave, " no esta definido.");
-			}
-			break;
+			//Debug::out("GAMELOADER: vector2");
+			props[clave] = obj.as<core::Vector2<>>();
 		}
+		else if (obj.is<core::Vector3<>>())
+		{
+			//Debug::out("GAMELOADER: vector3");
+			props[clave] = obj.as<core::Vector3<>>();
+		}
+		else if (obj.is<core::Vector4<>>())
+		{
+			//Debug::out("GAMELOADER: vector4");
+			props[clave] = obj.as<core::Vector4<>>();
+		}
+		else if (obj.is<core::Quaternion<>>())
+		{
+			//Debug::out("GAMELOADER: quaternion");
+			props[clave] = obj.as<core::Quaternion<>>();
+		}
+		else if (obj.is<core::Color>())
+		{
+			//Debug::out("GAMELOADER: color");
+			props[clave] = obj.as<core::Color>();
+		}
+		else
+		{
+			Debug::error("GAMELOADER: El tipo del parametro de ", clave, " no esta definido.");
+		}
+		break;
+	}
 	default:
-		{
-			Debug::error("GAMELOADER: El tipo del parametro de ", clave, " no es valido.");
-			break;
-		}
+	{
+		Debug::error("GAMELOADER: El tipo del parametro de ", clave, " no es valido.");
+		break;
+	}
 	}
 }
 
@@ -175,18 +176,18 @@ void GameLoader::defineUserTypes(sol::state& lua)
 	lua.new_usertype<core::Vector2<>>(
 		"Vector2",
 		sol::constructors<
-			core::Vector2<>(),
-			core::Vector2<>(float),
-			core::Vector2<>(float, float)>(),
+		core::Vector2<>(),
+		core::Vector2<>(float),
+		core::Vector2<>(float, float)>(),
 		"x", &core::Vector2<>::getX,
 		"y", &core::Vector2<>::getY);
 
 	lua.new_usertype<core::Vector3<>>(
 		"Vector3",
 		sol::constructors<
-			core::Vector3<>(),
-			core::Vector3<>(float),
-			core::Vector3<>(float, float, float)>(),
+		core::Vector3<>(),
+		core::Vector3<>(float),
+		core::Vector3<>(float, float, float)>(),
 		"x", &core::Vector3<>::getX,
 		"y", &core::Vector3<>::getY,
 		"z", &core::Vector3<>::getZ);
@@ -194,9 +195,9 @@ void GameLoader::defineUserTypes(sol::state& lua)
 	lua.new_usertype<core::Vector4<>>(
 		"Vector4",
 		sol::constructors<
-			core::Vector4<>(),
-			core::Vector4<>(float),
-			core::Vector4<>(float, float, float, float)>(),
+		core::Vector4<>(),
+		core::Vector4<>(float),
+		core::Vector4<>(float, float, float, float)>(),
 		"x", &core::Vector4<>::getX,
 		"y", &core::Vector4<>::getY,
 		"z", &core::Vector4<>::getZ,
@@ -205,8 +206,8 @@ void GameLoader::defineUserTypes(sol::state& lua)
 	lua.new_usertype<core::Quaternion<>>(
 		"Quaternion",
 		sol::constructors<
-			core::Quaternion<>(),
-			core::Quaternion<>(float, float, float, float)>(),
+		core::Quaternion<>(),
+		core::Quaternion<>(float, float, float, float)>(),
 		"x", &core::Quaternion<>::getX,
 		"y", &core::Quaternion<>::getY,
 		"z", &core::Quaternion<>::getZ,

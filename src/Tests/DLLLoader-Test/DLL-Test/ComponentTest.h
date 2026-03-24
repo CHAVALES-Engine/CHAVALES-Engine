@@ -14,6 +14,7 @@ class ComponentTest : public core::Component
 	std::vector<float> vecFloats;
 	std::vector<std::string> vecString;
 	std::vector<bool> vecBools;
+	std::vector<Property> vecMixed;
 
 	bool init(const Properties& p) override
 	{
@@ -23,11 +24,11 @@ class ComponentTest : public core::Component
 		//health = getProperty<int>(p, "health");
 
 		// ejemplo 2
-		return setProperty(p, "health", health);
-			//&& setProperty(p, "vecString", vecString);
-			//&& setProperty(p, "vecInts", vecInts);
-			//&& setProperty(p, "vecFloats", vecFloats)
-			//&& setProperty(p, "vecBools", vecBools);	
+		return setProperty(p, "health", health)
+			&& setProperty(p, "vecString", vecString)
+			&& setProperty(p, "vecInts", vecInts)
+			&& setProperty(p, "vecFloats", vecFloats)
+			&& setProperty(p, "vecBools", vecBools);	
 	}
 	
 	void ready() override
@@ -44,6 +45,9 @@ class ComponentTest : public core::Component
 			Debug::out(s);
 		Debug::out(">>bools<<");
 		for (const auto& s : vecBools)
+			Debug::out(s);
+		Debug::out(">>mixed<<");
+		for (const auto& s : vecMixed)
 			Debug::out(s);
 		
 		Debug::out("Hola :-) Mi vida es ", health);

@@ -35,6 +35,12 @@ scene = { -- entidades en escena
 					6.9,
 					9.6,
 					0.0
+				},
+				vecMixed = {
+					false,
+					"uno",
+					2,
+					0.0
 				}
 			},
 			AudioSource = {
