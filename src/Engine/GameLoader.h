@@ -89,6 +89,22 @@ public:
 	 */
 	static bool reloadLua();
 
+	/**
+	 * @brief Comprueba si una tabla sol es un vector de tipo especificado en la plantilla
+	 * @param table - tabla leida de sol
+	 * @returns Si la tabla es traducible a un vector de plantilla
+	 */
+	template<typename T>
+	bool isVectorOf(const sol::table& table);
+
+	/**
+	 * @brief Traduce una tabla sol a vector de tipo especificado en el template
+	 * @param table - tabla leida de sol
+	 * @returns vector de tipo T con el contenido de la tabla
+	 */
+	template<typename T>
+	std::vector<T> parseVector(const sol::table& table);
+
 private:
 	static inline std::string _path = "";
 	static inline std::filesystem::file_time_type _lastTime;
