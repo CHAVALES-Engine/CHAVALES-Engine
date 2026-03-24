@@ -233,6 +233,18 @@ bool Engine::isChannelPlaying(int chID)
 	return _audioModule->isChannelPlaying(chID);
 }
 
+void Engine::setLooping(int chID, int typeOfLooping)
+{
+	_audioModule->setLooping(chID, typeOfLooping);
+}
+
+float Engine::getVolume(int chID)
+{
+	float volume;
+	_audioModule->getVolume(chID, volume);
+	return volume;
+}
+
 #pragma region Platform
 
 //------Metodo de PlatformModule:

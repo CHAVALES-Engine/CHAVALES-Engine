@@ -64,6 +64,8 @@ public:
 	/// <param name="typeOfLooping">Retrives the type of looping</param>
 	bool getLooping(int chID, int* typeOfLooping);
 
+	void setLooping(int chID, int typeOfLooping);
+
 	/// <summary>
 	/// Stops the disire sound
 	/// </summary>
@@ -125,7 +127,7 @@ public:
 	/// </param>
 	void setDelay(int chID, unsigned long long start, unsigned long long end, bool stopChannel);
 
-	
+	void getVolume(int chID, float& volume);
 
 private:
 	FMOD::System* _system = nullptr;
