@@ -2,6 +2,7 @@
 #include <Debug.h>
 #include <Component.h>
 #include <ComponentRegister.h>
+#include <filesystem>
 
 std::vector<ComponentDLLLoader::LoadedLibrary> ComponentDLLLoader::_libraries;
 
@@ -32,7 +33,12 @@ bool ComponentDLLLoader::load(const std::string& path)
 		entry.tempPath = _makeTempPath(path);
 	}
 	// copiamos la libreria en un archivo temporal
-	//if (CopyFileA(entry.path, entry.tempPath))
+	if (!std::filesystem::copy_file(entry.path, entry.tempPath))
+	{
+		Debug::error("LoadLibrary failed: CopyLibrary: [", path,"]");
+		return false;
+	}
+
 	// Windows busca una dll y la carga en la memoria del programa.
 	if ((entry.handle = LoadLibraryA(path.c_str())) == nullptr) {
 		Debug::error("LoadLibrary failed: ", path, " err=", GetLastError());

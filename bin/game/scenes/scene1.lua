@@ -10,8 +10,7 @@ scene = { -- entidades en escena
 				-- escala local
 				scale = Vector3.new(1)
 			},
-			-- TimerChangescene = {
-				
+			-- TimerChangescene = {	
 			-- },
 			ComponentTest = {
 				health = 10,
@@ -47,7 +46,24 @@ scene = { -- entidades en escena
 				isStream = true,
 				playOnReady = false,
 				soundVolume = 4.0
+			},
+			TimerChangescene = {
+				["focal length"] = 10,
+				vec = {
+					1,2,3,4
+				}
 			}
 		}
 	}
+	-- ,
+	-- entidad2 ={
+	-- 	components = {
+	-- 		Transform = {
+	-- 			position = Vector3.new(4,5,6),
+	-- 			rotation = Quaternion.new(),
+	-- 			scale = Vector3.new(2)
+	-- 		},
+	-- 		AudioSource = {
+	-- 	}
+	-- }
 }
