@@ -78,7 +78,7 @@ namespace core
 		 * @brief Parte del ciclo de escena. Se llama cuando esta se acaba el juego.
 		 *
 		 */
-		void endGame();
+		void clearScene();
 
 		/**
 		 * @brief Inserta una nueva entidad en el vector de entidades.
