@@ -10,6 +10,7 @@
 #endif // _WIN64
 
 #include <vector>
+#include <string>
 #include <functional>
 #include "Vector3.h"
 #include "Quaternion.h"
@@ -20,12 +21,15 @@ namespace Ogre
     class SceneNode;
     class ImGuiOverlay;
     class Camera;
+    class Entity;
     class Light;
 }
 
 using entityID = uint64_t;
 using transformID = uint64_t;
 using cameraID = uint64_t;
+using modelID = uint64_t;
+using subMeshID = uint64_t;
 using lightID = uint64_t;
 
 struct EngineNode
@@ -139,6 +143,15 @@ public:
     void cleanCameras();
 
 
+    //Metodos modelos
+    /*
+    * @brief Modelo nuevo. Se asigna un id por orden de creacion. Main Luz id 0 y añadidas manualmente 1 en adelante. 
+    */
+    modelID addModel(const entityID& entityID, std::string modelFolder, std::string modelFile);
+    /*
+    * @brief Asignar color base a submesh
+    */
+    void setDiffuse(const modelID& id, const subMeshID& subID, std::string textureFolder, std::string textureFile);
 
     //Metodos luces
 
@@ -194,10 +207,12 @@ public:
 private:
     std::vector<EngineNode> _engineNodes;
     std::vector<Ogre::Camera*> _cameras;
+    std::vector<Ogre::Entity*> _models;
     std::vector<Ogre::Light*> _lights;
     ImGuiManager* _ui;
 
     transformID _nextTransformID;
     cameraID _nextCameraID;
+    modelID _nextModelID;
     lightID _nextLightID;
 };

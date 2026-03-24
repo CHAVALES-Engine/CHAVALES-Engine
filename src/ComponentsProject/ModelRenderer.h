@@ -10,13 +10,13 @@
 
 using modelID = uint64_t;
 
-struct Texture
+/*struct Texture
 {
 	std::string textureFolder;
 	std::string textureFile;
 
 	Texture(const std::string& folder, const std::string& file) : textureFolder(folder), textureFile(file) {}
-};
+};*/
 
 class ModelRenderer : public core::Component
 {
@@ -26,13 +26,17 @@ class ModelRenderer : public core::Component
 	std::string _modelFile;
 
 	int _nTextures;
-	//Clave: Nombre textura		Valor: struct Texture(carpeta archivo, nombre archivo)
-	std::unordered_map<std::string, Texture> _textures;
+	/*
+	* @brief Clave: Nombre textura		Valor: par(carpeta archivo, nombre archivo)
+	* */
+	std::unordered_map<std::string, std::pair<std::string, std::string>> _textures;
 
 public:
 	ModelRenderer();
 	~ModelRenderer();
 
 	bool init(const Properties& p) override;
+
+	void setDiffuse(std::string textureName, int submesh = 0);
 };
 

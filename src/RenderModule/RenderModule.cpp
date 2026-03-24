@@ -39,6 +39,7 @@ static Ogre::RenderWindow* _window = nullptr;
 static Ogre::SceneManager* _sceneMgr = nullptr;
 static Ogre::Viewport* _vp = nullptr;
 static Ogre::RTShader::ShaderGenerator* _shaderGen;
+static Ogre::ResourceGroupManager* _rgm;
 
 
 void ImGuiManager::AddElement(UIElement element)
@@ -114,10 +115,10 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
         _vp->setBackgroundColour(Ogre::ColourValue(0.02f, 0.22f, 0.11f));
 
         //ZONA DEMO INICIO
-        Ogre::ResourceGroupManager& rgm = Ogre::ResourceGroupManager::getSingleton();
+        _rgm = &Ogre::ResourceGroupManager::getSingleton();
 
-        rgm.addResourceLocation("../dependencies/ogre/src/ogre/Media/Main", "FileSystem", "General");
-        rgm.addResourceLocation("../dependencies/ogre/src/ogre/Media/RTShaderLib", "FileSystem", "General");
+        _rgm->addResourceLocation("../dependencies/ogre/src/ogre/Media/Main", "FileSystem", "General");
+        _rgm->addResourceLocation("../dependencies/ogre/src/ogre/Media/RTShaderLib", "FileSystem", "General");
 
 
         Ogre::RTShader::ShaderGenerator::initialize();
@@ -131,17 +132,16 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
             Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME
         );
 
-        rgm.addResourceLocation("../dependencies/ogre/src/ogre/Samples/Media/packs/metroid-floating/source", "FileSystem", "General");
-        rgm.addResourceLocation("../dependencies/ogre/src/ogre/Samples/Media/packs/dragon.zip", "Zip", "General");
-        rgm.addResourceLocation("../dependencies/ogre/src/ogre/Samples/Media/packs/metroid-floating/sourceimages/membrane", "FileSystem", "membrane");
-        rgm.addResourceLocation("../dependencies/ogre/src/ogre/Samples/Media/packs/metroid-floating/sourceimages/body", "FileSystem", "body");
-        rgm.addResourceLocation("../dependencies/ogre/src/ogre/Samples/Media/packs/metroid-floating/sourceimages/nuclei", "FileSystem", "nuclei");
-        rgm.addResourceLocation("../dependencies/ogre/src/ogre/Samples/Media/packs/metroid-floating/sourceimages/mandibles", "FileSystem", "mandibles");
-        rgm.initialiseAllResourceGroups();
-        rgm.loadResourceGroup("General");
+        _rgm->addResourceLocation("../dependencies/ogre/src/ogre/Samples/Media/packs/metroid-floating/source", "FileSystem", "General");
+        _rgm->addResourceLocation("../dependencies/ogre/src/ogre/Samples/Media/packs/dragon.zip", "Zip", "General");
+        _rgm->addResourceLocation("../dependencies/ogre/src/ogre/Samples/Media/packs/metroid-floating/sourceimages/membrane", "FileSystem", "membrane");
+        _rgm->addResourceLocation("../dependencies/ogre/src/ogre/Samples/Media/packs/metroid-floating/sourceimages/body", "FileSystem", "body");
+        _rgm->addResourceLocation("../dependencies/ogre/src/ogre/Samples/Media/packs/metroid-floating/sourceimages/nuclei", "FileSystem", "nuclei");
+        _rgm->addResourceLocation("../dependencies/ogre/src/ogre/Samples/Media/packs/metroid-floating/sourceimages/mandibles", "FileSystem", "mandibles");
+        _rgm->initialiseAllResourceGroups();
+        _rgm->loadResourceGroup("General");
 
-        Ogre::MaterialPtr whiteMat =
-            Ogre::MaterialManager::getSingleton().getByName("BaseWhite");
+        Ogre::MaterialPtr whiteMat = Ogre::MaterialManager::getSingleton().getByName("BaseWhite");
 
         //Ogre::MaterialPtr mat = base->clone("BaseWhiteRTSS");
 
@@ -380,6 +380,8 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
 
         _nextTransformID = 0;
         _nextCameraID = 0;
+        _nextModelID = 0;
+        _nextLightID = 0;
 
         renderFrame();
 
@@ -425,6 +427,7 @@ void RenderModule::cleanScene()
         }
     }
     _engineNodes.clear();
+    _nextTransformID = 0;
 
     //_ui->Clear();
 }
@@ -495,6 +498,8 @@ void RenderModule::setNodeScale(const transformID& id, const core::Vector3<float
         _engineNodes[id].sceneNode->setPosition(scale.getX(), scale.getY(), scale.getZ());
     }
 }
+
+
 
 void RenderModule::setViewportBGColor(core::Color color)
 {
@@ -572,6 +577,7 @@ void RenderModule::cleanCameras()
     }
 
     _cameras.clear();
+    _nextCameraID = 0;
     /*if (_cameraNodes.empty()) return;
 
     Ogre::SceneNode* mainNode = _cameraNodes[0];
@@ -603,25 +609,82 @@ void RenderModule::cleanCameras()
 
 void RenderModule::setCameraFOVy(const cameraID& id, const float& FOVy)
 {
-    if (id >= 0 && id < _cameras.size()) _cameras[id]->setFOVy(Ogre::Radian(FOVy));
+    if (id >= 0 && id < _cameras.size() && _cameras[id] != nullptr) _cameras[id]->setFOVy(Ogre::Radian(FOVy));
 }
 
 void RenderModule::setCameraNearClipDistance(const cameraID& id, const float& nearClipDistance)
 {
-    if (id >= 0 && id < _cameras.size()) _cameras[id]->setNearClipDistance(nearClipDistance);
+    if (id >= 0 && id < _cameras.size() && _cameras[id] != nullptr) _cameras[id]->setNearClipDistance(nearClipDistance);
 }
 
 void RenderModule::setCameraFarClipDistance(const cameraID& id, const float& farClipDistance)
 {
-    if (id >= 0 && id < _cameras.size()) _cameras[id]->setFarClipDistance(farClipDistance);
+    if (id >= 0 && id < _cameras.size() && _cameras[id] != nullptr) _cameras[id]->setFarClipDistance(farClipDistance);
 }
 
 void RenderModule::setCameraFocalLength(const cameraID& id, const float& focalLength)
 {
-    if (id >= 0 && id < _cameras.size()) _cameras[id]->setFocalLength(focalLength);
+    if (id >= 0 && id < _cameras.size() && _cameras[id] != nullptr) _cameras[id]->setFocalLength(focalLength);
 }
 
 
+
+modelID RenderModule::addModel(const entityID& entityID, std::string modelFolder, std::string modelFile)
+{
+    addNode(entityID);
+
+    Ogre::Entity* model = _models.emplace_back(_sceneMgr->createEntity("model" + std::to_string(_nextModelID++), modelFile));
+    _engineNodes.back().sceneNode->attachObject(model);
+
+    for (unsigned int i = 0; i < model->getNumSubEntities(); ++i)
+    {
+        Ogre::SubEntity* sub = model->getSubEntity(i);
+        Ogre::MaterialPtr mat = sub->getMaterial();
+
+        mat->load();
+
+        // Generar tecnica RTSS sobre el material ya cargado
+        _shaderGen->createShaderBasedTechnique(
+            *mat,
+            Ogre::MaterialManager::DEFAULT_SCHEME_NAME,
+            Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME,
+            true
+        );
+
+        _shaderGen->validateMaterial(
+            Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME,
+            mat->getName()
+        );
+    }
+
+    return _nextModelID;
+}
+
+void RenderModule::setDiffuse(const modelID& id, const subMeshID& subID, std::string textureFolder, std::string textureFile)
+{
+    if (id >= 0 && id < _models.size() && _models[id] != nullptr)
+    {
+        Ogre::Entity* model = _models[id];
+        Ogre::SubEntity* sub = model->getSubEntity(subID);
+
+        Ogre::MaterialPtr mat = sub->getMaterial();
+        sub->setMaterial(mat);
+
+        if (mat->getNumTechniques() == 0)
+            mat->createTechnique();
+        Ogre::Technique* tech = mat->getTechnique(0);
+        if (tech->getNumPasses() == 0)
+            tech->createPass();
+        Ogre::Pass* pass = tech->getPass(0);
+
+
+        Ogre::TexturePtr text = Ogre::TextureManager::getSingleton().load(textureFile, "diffuse_" + std::to_string(id) + "_" + std::to_string(subID), Ogre::TEX_TYPE_2D, 0);
+
+        Ogre::TextureUnitState* tus = pass->createTextureUnitState();
+        tus->setTexture(text);
+        tus->setColourOperation(Ogre::LBO_MODULATE);
+    }
+}
 
 lightID RenderModule::addLight(const entityID& entityID, int type, const core::Color& color, float intensity) {
     //Si no existe un nodo con este entityID lo creamos
@@ -643,25 +706,23 @@ lightID RenderModule::addLight(const entityID& entityID, int type, const core::C
     
     _engineNodes.back().sceneNode->attachObject(light);
 
-
     _lights.push_back(light);
     
-    return _nextLightID++;
+    return _nextLightID;
 }
 void  RenderModule::deleteLight(const lightID& id) {
-    if (id >= 0 && id < _lights.size())
+    if (id >= 0 && id < _lights.size() && _lights[id] != nullptr)
     {
         Ogre::Light* light = _lights[id];
         Ogre::SceneNode* parent = light->getParentSceneNode();
         parent->detachObject(light);
         _sceneMgr->destroyLight(light);
-        _lights.erase(_lights.begin() + id);
-        
+        _lights.erase(_lights.begin() + id);  
     }
 }
 
 void RenderModule::setLightActive(const lightID& id, bool active) {
-    _lights[id]->setVisible(active);
+    if (id >= 0 && id < _lights.size() && _lights[id] != nullptr) _lights[id]->setVisible(active);
 }
 
 void RenderModule::cleanLights() {
@@ -678,6 +739,7 @@ void RenderModule::cleanLights() {
     }
 
     _lights.clear();
+    _nextLightID = 0;
 }
 
 void RenderModule::setLightType(const lightID& id, int type) {
@@ -691,18 +753,18 @@ void RenderModule::setLightType(const lightID& id, int type) {
 }
 
 void RenderModule::setLightColor(const lightID& id, const core::Color& color) {
-    _lights[id]->setDiffuseColour(color.getRed(), color.getGreen(), color.getBlue());
+    if (id >= 0 && id < _lights.size() && _lights[id] != nullptr) _lights[id]->setDiffuseColour(color.getRed(), color.getGreen(), color.getBlue());
 }
 
 void RenderModule::setLightIntensity(const lightID& id, float intensity) {
-    _lights[id]->setPowerScale(intensity);
+    if (id >= 0 && id < _lights.size() && _lights[id] != nullptr) _lights[id]->setPowerScale(intensity);
 }
 
 void RenderModule::setLightDirection(const lightID& id, const core::Vector3<float>& dir) {
-    //_lights[id]->setDirection(Ogre::Vector3(dir.getX(), dir.getY(), dir.getZ()));
+    //if (id >= 0 && id < _lights.size() && _lights[id] != nullptr) _lights[id]->setDirection(Ogre::Vector3(dir.getX(), dir.getY(), dir.getZ()));
 }
 void RenderModule::setLightSpotRange(const lightID& id, float inner, float outer, float falloff) {
-    _lights[id]->setSpotlightRange(Ogre::Degree(inner), Ogre::Degree(outer), falloff);
+    if (id >= 0 && id < _lights.size() && _lights[id] != nullptr) _lights[id]->setSpotlightRange(Ogre::Degree(inner), Ogre::Degree(outer), falloff);
 }
 
 void RenderModule::shutdown()
