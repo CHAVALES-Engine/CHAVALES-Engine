@@ -56,7 +56,7 @@ void AudioSource::playSound()
 {
 	int looping = 0;
 	if (_loop) looping = -1;
-	_channelID = Engine::instance()->playSound(_id, _tr->getGlobalPosition(), _soundVolume, looping);
+	_channelID = Engine::instance()->playSound(_id, _soundVolume, looping, _tr->getGlobalPosition());
 }
 
 int AudioSource::getLooping() const
