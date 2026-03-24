@@ -46,9 +46,9 @@ class ComponentTest : public core::Component
 		Debug::out(">>bools<<");
 		for (const auto& s : vecBools)
 			Debug::out(s);
-		Debug::out(">>mixed<<");
-		for (const auto& s : vecMixed)
-			Debug::out(s);
+		//Debug::out(">>mixed<<");
+		//for (const auto& s : vecMixed)
+		//	Debug::out(s);
 		
 		Debug::out("Hola :-) Mi vida es ", health);
 		Debug::out("test ", test);
