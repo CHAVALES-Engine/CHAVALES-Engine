@@ -165,18 +165,18 @@ void Engine::setLightSpotRange(const lightID& id, float inner, float outer, floa
 	_renderModule->setLightSpotRange(id, inner, outer, falloff);
 }
 
-void Engine::loadSound(std::string path, std::string id, bool sound3D, bool soundLooping, bool soundStream)
+void Engine::loadSound(std::string path, std::string id, bool soundStream, bool soundLooping, bool sound3D)
 {
-	_audioModule->loadSound(path, id, sound3D, soundLooping, soundStream);
+	_audioModule->loadSound(path, id, soundStream, soundLooping, sound3D );
 }
 
 void Engine::unloadSound(std::string id)
 {
 	_audioModule->unloadSound(id);
 }
-int Engine::playSound(std::string id, const core::Vector3<> vec3, float soundVolume, int looping)
+int Engine::playSound(std::string id, float soundVolume, int looping, const core::Vector3<> vec3, const core::Vector3<> vel3)
 {
-	return _audioModule->playSound(id, vec3, soundVolume, looping);
+	return _audioModule->playSound(id,soundVolume, looping, vec3, vel3);
 }
 void Engine::setChannelVolume(int chID, float newVolume)
 {

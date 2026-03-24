@@ -33,7 +33,7 @@ public:
 	/// <param name="sound3D">If the sound is 3D or not</param>
 	/// <param name="soundLooping">If the sound loops infinetly or not</param>
 	/// <param name="soundStream">If the sound is Stream or CompressedSound</param>
-	bool loadSound(std::string path, std::string id, bool sound3D = true, bool soundLooping = false, bool soundStream = true);
+	bool loadSound(std::string path, std::string id, bool soundStream = true, bool soundLooping = false, bool sound3D = true);
 
 	/// <summary>
 	/// If the sound isn´t playing anymore it unloads it
@@ -48,7 +48,7 @@ public:
 	/// <param name="vec3">Position of the sound that is going to be played</param>
 	/// <param name="soundVolume">Volume of the sound</param>
 	/// <returns></returns>
-	int playSound(std::string id, const core::Vector3<> vec3 = { 0.0f,0.0f,0.0f }, float soundVolume = 0.0f, int looping = 0);
+	int playSound(std::string id, float soundVolume = 0.0f, int looping = 0, const core::Vector3<> pos3 = { 0.0f, 0.0f,0.0f }, const core::Vector3<> vel3 = { 0.0f,0.0f,0.0f });
 
 	/// <summary>
 	/// Method to set a Volume, the ID is of the channel of the sound that is going to be found

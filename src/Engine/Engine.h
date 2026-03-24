@@ -179,9 +179,19 @@ public:
 #pragma region audio
 
 	//Metodos del modulo de audio
-	void loadSound(std::string path, std::string id, bool sound3D = true, bool soundLooping = false, bool soundStream = false);
+	/*
+	* @brief Crear un sonido en el módulo de audio.
+	Recibe un path y un id, además de parámetros de configuración, como si es stream (sonido corto) o no (música), si tiene loop o si es 3D.
+	*/
+	void loadSound(std::string path, std::string id, bool soundStream = true, bool soundLooping = false, bool sound3D = true);
+	/*
+	* @brief Descarga un sonido del módulo de audio recibiendo su id.
+	*/
 	void unloadSound(std::string id);
-	int playSound(std::string id, const core::Vector3<> vec3 = { 0.0f,0.0f,0.0f }, float soundVolume = 0.0f, int looping = 0);
+	/*
+	* @brief reproduce un sonido del módulo de audio recibiendo su id.
+	*/
+	int playSound(std::string id, float soundVolume = 0.0f, int looping = 0, const core::Vector3<> pos3 = {0.0f, 0.0f,0.0f}, const core::Vector3<> vel3 = {0.0f,0.0f,0.0f});
 	void setListener(core::Vector3<> pos, core::Vector3<> forward, core::Vector3<> up, core::Vector3<> vel = { 0.0,0.0,0.0 });
 	void setSourcePosition(int chID, core::Vector3<> pos, core::Vector3<> vel);
 	void setChannelVolume(int chID, float newVolume = 0.0f);

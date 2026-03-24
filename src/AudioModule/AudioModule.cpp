@@ -65,7 +65,7 @@ void AudioModule::ShutDown()
 	delete _system;
 }
 
-bool AudioModule::loadSound(string path, string id, bool sound3D, bool soundLooping, bool soundStream)
+bool AudioModule::loadSound(string path, string id,  bool soundStream, bool soundLooping, bool sound3D)
 {
 	auto itSoundFound = _soundMap.find(id);
 	if (itSoundFound != _soundMap.end())
@@ -111,7 +111,7 @@ bool AudioModule::unloadSound(std::string id)
 	return true;
 }
 
-int AudioModule::playSound(std::string id, const core::Vector3<> vec3, float soundVolume, int looping)
+int AudioModule::playSound(std::string id, float soundVolume, int looping, const core::Vector3<> pos3, const core::Vector3<> vel3)
 {
 	int nextChID = _nextChannelID++;
 	auto itSoundFound = _soundMap.find(id);
@@ -124,8 +124,9 @@ int AudioModule::playSound(std::string id, const core::Vector3<> vec3, float sou
 	_system->playSound(itSoundFound->second, nullptr, true, &channel);
 	//If channel has been correctly created, then registers it
 	if (channel) {
-		FMOD_VECTOR pos = { vec3.getX(),vec3.getY(),vec3.getZ() };
-		channel->set3DAttributes(&pos, nullptr);
+		FMOD_VECTOR pos = { pos3.getX(),pos3.getY(),pos3.getZ() };
+		FMOD_VECTOR vel = { vel3.getX(),vel3.getY(),vel3.getZ() };
+		channel->set3DAttributes(&pos, &vel);
 		channel->setVolume(soundVolume);
 		channel->setPaused(false);
 		channel->setLoopCount(looping);
