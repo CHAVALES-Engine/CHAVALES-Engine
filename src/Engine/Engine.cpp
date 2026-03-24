@@ -170,11 +170,6 @@ void Engine::setLightIntensity(const lightID& id, float intensity)
 	_renderModule->setLightIntensity(id, intensity);
 }
 
-void Engine::setLightDirection(const lightID& id, const core::Vector3<float>& dir)
-{
-	_renderModule->setLightDirection(id, dir);
-}
-
 void Engine::setLightSpotRange(const lightID& id, float inner, float outer, float falloff)
 {
 	_renderModule->setLightSpotRange(id, inner, outer, falloff);

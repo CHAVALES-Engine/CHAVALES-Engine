@@ -21,7 +21,6 @@ private:
 	core::Color _color;
 	float _intensity;
 
-	core::Vector3<float> _direction;
 	float _innerAngle;
 	float _outerAngle;
 	float _falloff;
@@ -43,7 +42,6 @@ public:
 	Type getType() const;
 	core::Color getColor() const;
 	float getIntensity() const;
-	core::Vector3<float> getDirection() const;
 	
 	float getInnerAngle() const;
 	float getOuterAngle() const;

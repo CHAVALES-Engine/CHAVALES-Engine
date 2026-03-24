@@ -760,9 +760,6 @@ void RenderModule::setLightIntensity(const lightID& id, float intensity) {
     if (id >= 0 && id < _lights.size() && _lights[id] != nullptr) _lights[id]->setPowerScale(intensity);
 }
 
-void RenderModule::setLightDirection(const lightID& id, const core::Vector3<float>& dir) {
-    //if (id >= 0 && id < _lights.size() && _lights[id] != nullptr) _lights[id]->setDirection(Ogre::Vector3(dir.getX(), dir.getY(), dir.getZ()));
-}
 void RenderModule::setLightSpotRange(const lightID& id, float inner, float outer, float falloff) {
     if (id >= 0 && id < _lights.size() && _lights[id] != nullptr) _lights[id]->setSpotlightRange(Ogre::Degree(inner), Ogre::Degree(outer), falloff);
 }

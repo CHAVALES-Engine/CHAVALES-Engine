@@ -8,7 +8,7 @@
 
 REGISTER_COMPONENT(Light);
 
-Light::Light() : _type(Type::POINT), _color(1, 1, 1, 1), _intensity(1.0f), _direction(0, -1, 0), _innerAngle(15.0f), _outerAngle(45.0f), _falloff(1.0f)
+Light::Light() : _type(Type::POINT), _color(1, 1, 1, 1), _intensity(1.0f), _innerAngle(15.0f), _outerAngle(45.0f), _falloff(1.0f)
 {
 }
 
@@ -23,7 +23,6 @@ bool Light::init(const Properties& p)
 
 	_color = getProperty<core::Color>(p, "color");
 	_intensity = getProperty<float>(p, "intensity");
-	_direction = getProperty<core::Vector3<float>>(p, "direction");
 	_innerAngle = getProperty<float> (p, "inner");
 	_outerAngle = getProperty<float>(p, "outer");
 	_falloff = getProperty<float>(p, "falloff");
@@ -59,10 +58,6 @@ core::Color Light::getColor() const {
 }
 float Light::getIntensity() const {
 	return _intensity;
-}
-
-core::Vector3<float> Light::getDirection() const {
-	return _direction;
 }
 
 float Light::getInnerAngle() const {

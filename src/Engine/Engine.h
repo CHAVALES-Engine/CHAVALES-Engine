@@ -168,10 +168,6 @@ public:
 	*/
 	void setLightIntensity(const lightID& id, float intensity);
 	/*
-	* @brief Establecer la direccion de luz
-	*/
-	void setLightDirection(const lightID& id, const core::Vector3<float>& dir);
-	/*
 	* @brief Establecer el cono de luz (ángulo interno, ángulo externo y suavidad de degradado)
 	*/
 	void setLightSpotRange(const lightID& id, float inner, float outer, float falloff);
