@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="C:\hlocal\Paigro\2526-Grupo03-ChavalesEngine\src\Tests\Input - Test\InputTest.cpp">
+    <ClCompile Include="..\..\..\src\Tests\Input - Test\InputTest.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>

@@ -469,7 +469,6 @@ void PlatformModule::_processEvent(const SDL_Event& event)
 	}
 	case SDL_EVENT_MOUSE_WHEEL:
 	{
-
 		auto it = _virtualDevices.find(input::KEYBOARD_ID);
 		if (it != _virtualDevices.end()) {
 			if (event.wheel.x != 0)
@@ -479,16 +478,34 @@ void PlatformModule::_processEvent(const SDL_Event& event)
 		}
 		break;
 	}
-	case SDL_EVENT_MOUSE_BUTTON_DOWN:
-	case SDL_EVENT_KEY_DOWN: {
+	case SDL_EVENT_MOUSE_BUTTON_DOWN: {
 		auto it = _virtualDevices.find(input::KEYBOARD_ID);
-		if (it != _virtualDevices.end() && (!it->second->isReleased(_castButton(event)) && event.key.repeat)) {
-			Debug::out("AAAA");
+		if (it != _virtualDevices.end() &&
+			(!it->second->isPressed(_castButton(event)) ||
+				(!it->second->isJustPressed(_castButton(event)) && event.key.repeat)))
+		{
 			it->second->_setButton(_castButton(event), true);
 		}
 		break;
 	}
-	case SDL_EVENT_MOUSE_BUTTON_UP:
+	case SDL_EVENT_KEY_DOWN: {
+		auto it = _virtualDevices.find(input::KEYBOARD_ID);
+		if (it != _virtualDevices.end() &&
+			(!it->second->isPressed(_castButton(event)) ||
+				(!it->second->isJustPressed(_castButton(event)) && event.key.repeat)))
+		{
+			Debug::out("TECLADOOOOOOOOOOOOOOOOOO");
+			it->second->_setButton(_castButton(event), true);
+		}
+		break;
+	}
+	case SDL_EVENT_MOUSE_BUTTON_UP: {
+		auto it = _virtualDevices.find(input::KEYBOARD_ID);
+		if (it != _virtualDevices.end() && (!it->second->isJustPressed(_castButton(event)) && event.key.repeat)) {
+			it->second->_setButton(_castButton(event), false);
+		}
+		break;
+	}
 	case SDL_EVENT_KEY_UP: {
 		auto it = _virtualDevices.find(input::KEYBOARD_ID);
 		if (it != _virtualDevices.end() && (!it->second->isJustPressed(_castButton(event)) && event.key.repeat)) {
@@ -506,4 +523,3 @@ void PlatformModule::_processEvent(const SDL_Event& event)
 		break;
 	}
 }
-

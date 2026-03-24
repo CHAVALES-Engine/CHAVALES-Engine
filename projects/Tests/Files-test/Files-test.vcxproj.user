@@ -5,6 +5,11 @@
     <LocalDebuggerAttach>true</LocalDebuggerAttach>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Input-Test|x64'">
+    <LocalDebuggerWorkingDirectory>$(SolutionDir)test\Files-test</LocalDebuggerWorkingDirectory>
+    <LocalDebuggerAttach>true</LocalDebuggerAttach>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LocalDebuggerWorkingDirectory>$(SolutionDir)test\Files-test</LocalDebuggerWorkingDirectory>
     <LocalDebuggerAttach>true</LocalDebuggerAttach>
