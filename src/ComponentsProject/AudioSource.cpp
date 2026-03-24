@@ -34,7 +34,7 @@ void AudioSource::ready()
 	assert(entity->hasComponent<Transform>());
 	_tr = entity->getComponent<Transform>();
 	_lastPosition = _tr->getGlobalPosition();
-	Engine::instance()->loadSound("C:/2526-Grupo03-ChavalesEngine/bin/game/scenes/smb_1-up.wav", _id);
+	Engine::instance()->loadSound("C:/2526-Grupo03-ChavalesEngine/bin/game/scenes/smb_1-up.wav", _id,_is3D,_loop,_isStream);
 	playSound();
 }
 
@@ -42,8 +42,6 @@ void AudioSource::update(uint64_t deltaTime)
 {
 	core::Vector3<> velocity = (_tr->getGlobalPosition() - _lastPosition) / deltaTime;
 	_lastPosition = _tr->getGlobalPosition();
-
-	playSound();
 	Engine::instance()->setSourcePosition(_channelID, _tr->getGlobalPosition(), velocity);
 
 	if (!Engine::instance()->isChannelPlaying(_channelID))
@@ -64,9 +62,18 @@ int AudioSource::getLooping() const
 	return Engine::instance()->getLooping(_channelID);
 }
 
-void AudioSource::setLooping(int loop)
+void AudioSource::setLooping(int& loop) const
 {
-	_loop = loop ? true : false;
+	Engine::instance()->setLooping(_channelID, loop);
+}
+void AudioSource::setLooping(int&& loop) const
+{
+	Engine::instance()->setLooping(_channelID, loop);
+}
+
+float AudioSource::getVolume() const
+{
+	return Engine::instance()->getVolume(_channelID);
 }
 
 void AudioSource::setVolume(float& newVolume)

@@ -31,14 +31,18 @@ public:
 	virtual void ready() override;
 	virtual void update(uint64_t deltaTime) override;
 
-	void playSound();
 	int getLooping() const;
-	void setLooping(int loop);
+	void setLooping(int& loop) const;
+	void setLooping(int&& loop) const;
+	float getVolume() const;
 	void setVolume(float& newVolume);
 	void setVolume(float&& newVolume);
 	void stopSound() const;
 	void pauseSound(bool pause) const;
 	void setDelay(unsigned long long start, unsigned long long end, bool stopChannel) const;
 	std::string getSoundName() const;
+private:
+	void playSound();
+
 };
 

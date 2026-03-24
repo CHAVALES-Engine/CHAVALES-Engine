@@ -204,6 +204,8 @@ public:
 	bool stopPlaying(int chID);
 	bool pauseChannel(int chID, bool pause);
 	bool isChannelPlaying(int chID);
+	void setLooping(int chID,int typeOfLooping);
+	float getVolume(int chID);
 
 #pragma endregion
 
