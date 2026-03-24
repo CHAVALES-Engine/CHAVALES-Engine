@@ -8,6 +8,8 @@
 #include <Engine.h>
 #include <iostream>
 
+#include "ComponentDLLLoader.h"
+#include "ComponentRegister.h"
 #include "Debug.h"
 #include "GameLoader.h"
 #include "TimeManager.h"
@@ -42,7 +44,7 @@ void StateMachine::gameLoop()
 		if (_currentScene.ptr != nullptr)
 		{
 
-			if (GameLoader::reloadLua()) // si es necesario recargar...
+			if (GameLoader::reloadLua() || ComponentDLLLoader::checkReload()) // si es necesario recargar...
 			{
 				_currentScene.ptr->endGame(); // elimina escena anterior
 				scenePtr s = std::move(GameLoader::loadScene(_currentScene.name)); // vuelve a cargar

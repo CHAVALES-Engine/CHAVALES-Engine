@@ -34,6 +34,8 @@ void Engine::release()
 		delete _instance;
 		_instance = nullptr;
 	}
+	// Cierra archivo .log
+	Debug::close();
 }
 
 const bool Engine::syncronize()
@@ -311,8 +313,8 @@ bool Engine::hasAction(const std::string& actionName) const
 
 bool Engine::_initPriv()
 {
-	//Uso unique_ptr entonces no hace falta delete porque se maneja solo
-
+	// Abre archivo .log
+	Debug::open();
 	//Platform
 	_platformModule = new PlatformModule();
 	if (!_platformModule->Init()) return false;
@@ -327,5 +329,16 @@ bool Engine::_initPriv()
 	_physicsModule = new PhysicsModule();
 	if (!_physicsModule->Init()) return false;
 
+
+	_componentDLLLoader = new ComponentDLLLoader;
+#if _DEBUG
+	_componentDLLLoader->load("./ComponentsProject_d.dll");
+#else 
+	_componentDLLLoader.load("./ComponentsProject_r.dll");
+#endif
+	_componentDLLLoader->load("./game/DLL-Test.dll");
+
+	_stateMachine = new StateMachine;
+		
 	return true;
 }
