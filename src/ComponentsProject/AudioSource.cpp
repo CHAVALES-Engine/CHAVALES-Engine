@@ -25,6 +25,7 @@ bool AudioSource::init(const Properties& p)
 	_is3D = getProperty<bool>(p, "is3D");
 	_loop = getProperty<bool>(p, "loop");
 	_isStream = getProperty<bool>(p, "isStream");
+	_playOnReady = getProperty<bool>(p, "playOnReady");
 	_soundVolume = getProperty<float>(p, "soundVolume");
 	return true;
 }

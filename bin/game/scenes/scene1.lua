@@ -20,6 +20,7 @@ scene = { -- entidades en escena
 				is3D = true,
 				loop = true,
 				isStream = true,
+				playOnReady = false,
 				soundVolume = 4.0
 			}
 		}
