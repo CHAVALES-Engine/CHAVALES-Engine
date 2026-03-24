@@ -118,9 +118,13 @@ bool PlatformModule::isKeyPressed(input::InputEvent inputEvent, input::DeviceID 
 		Debug::error("[Input] device: ", device, " not found");
 		return false;
 	}
+
 	// ANY_DEVICE - early exit en cuanto algun device tenga la tecla pulsada.
 	for (const auto& [id, vd] : _virtualDevices)
-		if (func(vd)) return true;
+		if (func(vd))
+		{
+			return true;
+		}
 	return false;
 }
 
@@ -169,7 +173,7 @@ float PlatformModule::getAxis(input::InputEvent inputEvent, input::DeviceID devi
 	}
 	// ANY_DEVICE - Coge el mayor input de todos los device.
 	float maxVal = 0.0f;
-	for (const auto& [id, vd] : _virtualDevices){
+	for (const auto& [id, vd] : _virtualDevices) {
 		float value = func(vd);
 		if (abs(value) > abs(maxVal)) maxVal = abs(value);
 	}
@@ -447,7 +451,7 @@ void PlatformModule::_processEvent(const SDL_Event& event)
 	case SDL_EVENT_GAMEPAD_BUTTON_UP: {
 		uint32_t id = event.gbutton.which;
 		auto it = _virtualDevices.find(id);
-		if (it != _virtualDevices.end() &&  event.key.repeat >= 1) {
+		if (it != _virtualDevices.end() && event.key.repeat >= 1) {
 			it->second->_setButton(_castButton(event), false);
 		}
 		break;
@@ -478,7 +482,8 @@ void PlatformModule::_processEvent(const SDL_Event& event)
 	case SDL_EVENT_MOUSE_BUTTON_DOWN:
 	case SDL_EVENT_KEY_DOWN: {
 		auto it = _virtualDevices.find(input::KEYBOARD_ID);
-		if (it != _virtualDevices.end() && (it->second->isReleased(_castButton(event)) && event.key.repeat)) {
+		if (it != _virtualDevices.end() && (!it->second->isReleased(_castButton(event)) && event.key.repeat)) {
+			Debug::out("AAAA");
 			it->second->_setButton(_castButton(event), true);
 		}
 		break;

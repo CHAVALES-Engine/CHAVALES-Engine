@@ -1,7 +1,5 @@
 #include "VirtualDevice.h"
-
-#include <unordered_map>
-
+#include <Debug.h>
 
 input::VirtualDevice::VirtualDevice()
 {
@@ -34,6 +32,7 @@ void input::VirtualDevice::_setButton(input::InputButtons button, bool value)
 		using T = decltype(b);
 		if constexpr (std::is_same_v<T, Key>)
 		{
+			Debug::out( _keyState[b]);
 			_keyLastState[b] = _keyState[b];
 			_keyState[b] = value;
 		}

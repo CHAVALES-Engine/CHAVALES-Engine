@@ -20,6 +20,7 @@ private:
 	bool _is3D;
 	bool _loop;
 	bool _isStream;
+	bool _playOnReady;
 	float _soundVolume;
 	int _channelID;
 

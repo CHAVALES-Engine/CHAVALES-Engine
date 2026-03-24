@@ -45,22 +45,27 @@ void GameLoader::parseObject(const sol::object& obj, const std::string& clave, P
 		{
 			if (obj.is<std::vector<int>>())
 			{
-				props[clave] = obj.as<std::vector<int>>();
+				Debug::out("SOY TABLA DE INT");
+				//props[clave] = obj.as<std::vector<int>>();
 			}
 			else if (obj.is<std::vector<float>>())
 			{
-				props[clave] = obj.as<std::vector<float>>();
+				Debug::out("SOY TABLA DE FLOAT");
+				//props[clave] = obj.as<std::vector<float>>();
 			}
 			else if (obj.is<std::vector<std::string>>())
 			{
-				props[clave] = obj.as<std::vector<std::string>>();
+				Debug::out("SOY TABLA DE STRING");
+				//props[clave] = obj.as<std::vector<std::string>>();
 			}
 			else if (obj.is<std::vector<bool>>())
 			{
-				props[clave] = obj.as<std::vector<bool>>();
+				Debug::out("SOY TABLA DE BOOL");
+				//props[clave] = obj.as<std::vector<bool>>();
 			}
 			else if (obj.is<std::vector<sol::table>>())
 			{
+				Debug::out("SOY TABLA DE TABLAS!!!!!!!!!!");
 				//parseObject(second, obj.first, props);
 			}
 			break;
@@ -69,27 +74,27 @@ void GameLoader::parseObject(const sol::object& obj, const std::string& clave, P
 		{
 			if (obj.is<core::Vector2<>>())
 			{
-				Debug::out("GAMELOADER: vector2");
+				//Debug::out("GAMELOADER: vector2");
 				props[clave] = obj.as<core::Vector2<>>();
 			}
 			else if (obj.is<core::Vector3<>>())
 			{
-				Debug::out("GAMELOADER: vector3");
+				//Debug::out("GAMELOADER: vector3");
 				props[clave] = obj.as<core::Vector3<>>();
 			}
 			else if (obj.is<core::Vector4<>>())
 			{
-				Debug::out("GAMELOADER: vector4");
+				//Debug::out("GAMELOADER: vector4");
 				props[clave] = obj.as<core::Vector4<>>();
 			}
 			else if (obj.is<core::Quaternion<>>())
 			{
-				Debug::out("GAMELOADER: quaternion");
+				//Debug::out("GAMELOADER: quaternion");
 				props[clave] = obj.as<core::Quaternion<>>();
 			}
 			else if (obj.is<core::Color>())
 			{
-				Debug::out("GAMELOADER: color");
+				//Debug::out("GAMELOADER: color");
 				props[clave] = obj.as<core::Color>();
 			}
 			else
