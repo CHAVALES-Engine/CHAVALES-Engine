@@ -10,8 +10,33 @@ scene = { -- entidades en escena
 				-- escala local
 				scale = Vector3.new(1)
 			},
-			TimerChangescene = {
-				["focal length"] = 10
+			-- TimerChangescene = {
+				
+			-- },
+			ComponentTest = {
+				health = 10,
+				alive = true,
+				-- name = "godotillo",
+				vecBools = {
+					false,
+					true,
+					false
+				},
+				vecString = {
+					"uno",
+					"dos",
+					"tres"
+				},
+				vecInts = {
+					1,
+					2,
+					3
+				},
+				vecFloats = {
+					6.9,
+					9.6,
+					0.0
+				}
 			},
 			AudioSource = {
 				soundPath = "smb_1-up.wav",
