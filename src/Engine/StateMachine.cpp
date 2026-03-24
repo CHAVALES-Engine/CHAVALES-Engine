@@ -73,6 +73,7 @@ void StateMachine::gameLoop()
 	}
 	_currentScene.ptr = nullptr;
 
+
 	// vaciar los mapas
 	//_stateMachine.clear();
 	//_nameToID.clear();
