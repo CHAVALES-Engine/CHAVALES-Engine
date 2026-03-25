@@ -166,11 +166,18 @@ void GameLoader::parseComponent(core::Entity* e, std::pair<sol::object, sol::obj
 
 		// --- a este nivel va el init:
 		// inicializacion de los parametros de un componente a traves de los datos de lua
-		component->init(properties);
+		bool init = component->init(properties);
 
-		// --- mete el componente a la entidad creada
-		e->addComponent(std::move(component));
-		Debug::out("GAMELOADER: Componente ", componenteName, " cargado para la entidad ", e->getName(), ".");
+		if (init)
+		{
+			// --- mete el componente a la entidad creada
+			e->addComponent(std::move(component));
+			Debug::out("GAMELOADER: Componente ", componenteName, " cargado para la entidad ", e->getName(), ".");
+		}
+		else
+		{
+			Debug::warning("GAMELOADER: Error al cargar componente ", componenteName, ": no se pudo inicializar correctamente.");
+		}
 	}
 	else
 	{
