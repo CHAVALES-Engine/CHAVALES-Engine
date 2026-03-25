@@ -117,8 +117,8 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
         //ZONA DEMO INICIO
         _rgm = &Ogre::ResourceGroupManager::getSingleton();
 
-        _rgm->addResourceLocation("../dependencies/ogre/src/ogre/Media/Main", "FileSystem", "General");
-        _rgm->addResourceLocation("../dependencies/ogre/src/ogre/Media/RTShaderLib", "FileSystem", "General");
+        _rgm->addResourceLocation("../dependencies/ogre/src/ogre/Media/Main", "FileSystem", "Scene");
+        _rgm->addResourceLocation("../dependencies/ogre/src/ogre/Media/RTShaderLib", "FileSystem", "Scene");
 
 
         Ogre::RTShader::ShaderGenerator::initialize();
@@ -132,14 +132,13 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
             Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME
         );
 
-        _rgm->addResourceLocation("../dependencies/ogre/src/ogre/Samples/Media/packs/metroid-floating/source", "FileSystem", "General");
-        _rgm->addResourceLocation("../dependencies/ogre/src/ogre/Samples/Media/packs/dragon.zip", "Zip", "General");
+        _rgm->addResourceLocation("../dependencies/ogre/src/ogre/Samples/Media/packs/metroid-floating/source", "FileSystem", "Scene");
+        _rgm->addResourceLocation("../dependencies/ogre/src/ogre/Samples/Media/packs/dragon.zip", "Zip", "Scene");
         _rgm->addResourceLocation("../dependencies/ogre/src/ogre/Samples/Media/packs/metroid-floating/sourceimages/membrane", "FileSystem", "membrane");
         _rgm->addResourceLocation("../dependencies/ogre/src/ogre/Samples/Media/packs/metroid-floating/sourceimages/body", "FileSystem", "body");
         _rgm->addResourceLocation("../dependencies/ogre/src/ogre/Samples/Media/packs/metroid-floating/sourceimages/nuclei", "FileSystem", "nuclei");
         _rgm->addResourceLocation("../dependencies/ogre/src/ogre/Samples/Media/packs/metroid-floating/sourceimages/mandibles", "FileSystem", "mandibles");
         _rgm->initialiseAllResourceGroups();
-        _rgm->loadResourceGroup("General");
 
         Ogre::MaterialPtr whiteMat = Ogre::MaterialManager::getSingleton().getByName("BaseWhite");
 
@@ -417,6 +416,9 @@ void RenderModule::cleanScene()
     //Limpiar luces
     cleanLights();
 
+    //Limpiar modelos
+    cleanModels();
+
     //Limpiar nodos
     for (const EngineNode& engineNode : _engineNodes)
     {
@@ -430,7 +432,23 @@ void RenderModule::cleanScene()
     _nextTransformID = 0;
 
     //_ui->Clear();
+
+    Ogre::StringVector groups = _rgm->getResourceGroups();
+
+    for (const std::string& groupName : groups)
+    {
+        // Liberar modelos y textruas
+        _rgm->unloadResourceGroup(groupName);
+
+        // Limpiar lista
+        _rgm->clearResourceGroup(groupName);
+
+        // Borrar grupo
+        _rgm->destroyResourceGroup(groupName);
+    }
 }
+
+
 
 transformID RenderModule::addNode(const entityID& entityID, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float> scale)
 {
@@ -447,7 +465,7 @@ transformID RenderModule::addNode(const entityID& entityID, const core::Vector3<
 
 core::Vector3<float> RenderModule::getNodePosition(const transformID& id)
 {
-    if (id >= 0 && id < _engineNodes.size())
+    if (id >= 0 && id < _engineNodes.size() && _engineNodes[id].sceneNode != nullptr)
     {
         Ogre::Vector3 pos = _engineNodes[id].sceneNode->getPosition();
         return core::Vector3<float>(pos.x, pos.y, pos.z);
@@ -457,7 +475,7 @@ core::Vector3<float> RenderModule::getNodePosition(const transformID& id)
 
 void RenderModule::setNodePosition(const transformID& id, const core::Vector3<float>& pos)
 {
-    if (id >= 0 && id < _engineNodes.size())
+    if (id >= 0 && id < _engineNodes.size() && _engineNodes[id].sceneNode != nullptr)
     {
         _engineNodes[id].sceneNode->setPosition(pos.getX(), pos.getY(), pos.getZ());
     }
@@ -465,7 +483,7 @@ void RenderModule::setNodePosition(const transformID& id, const core::Vector3<fl
 
 core::Quaternion<float> RenderModule::getNodeRotation(const transformID& id)
 {
-    if (id >= 0 && id < _engineNodes.size())
+    if (id >= 0 && id < _engineNodes.size() && _engineNodes[id].sceneNode != nullptr)
     {
         Ogre::Quaternion rot = _engineNodes[id].sceneNode->getOrientation();
         return core::Quaternion<float>(rot.x, rot.y, rot.z, rot.w);
@@ -475,7 +493,7 @@ core::Quaternion<float> RenderModule::getNodeRotation(const transformID& id)
 
 void RenderModule::setNodeRotation(const transformID& id, const core::Quaternion<float>& rot)
 {
-    if (id >= 0 && id < _engineNodes.size())
+    if (id >= 0 && id < _engineNodes.size() && _engineNodes[id].sceneNode != nullptr)
     {
         _engineNodes[id].sceneNode->setOrientation(rot.getX(), rot.getY(), rot.getZ(), rot.getW());
     }
@@ -483,7 +501,7 @@ void RenderModule::setNodeRotation(const transformID& id, const core::Quaternion
 
 core::Vector3<float> RenderModule::getNodeScale(const transformID& id)
 {
-    if (id >= 0 && id < _engineNodes.size())
+    if (id >= 0 && id < _engineNodes.size() && _engineNodes[id].sceneNode != nullptr)
     {
         Ogre::Vector3 pos = _engineNodes[id].sceneNode->getScale();
         return core::Vector3<float>(pos.x, pos.y, pos.z);
@@ -493,7 +511,7 @@ core::Vector3<float> RenderModule::getNodeScale(const transformID& id)
 
 void RenderModule::setNodeScale(const transformID& id, const core::Vector3<float>& scale)
 {
-    if (id >= 0 && id < _engineNodes.size())
+    if (id >= 0 && id < _engineNodes.size() && _engineNodes[id].sceneNode != nullptr)
     {
         _engineNodes[id].sceneNode->setPosition(scale.getX(), scale.getY(), scale.getZ());
     }
@@ -534,11 +552,10 @@ void RenderModule::deleteCamera(const cameraID& id)
     if (id >= 0 && id < _cameras.size() && _cameras[id] != nullptr)
     {
         Ogre::Camera* cam = _cameras[id];
-        Ogre::Viewport* vp = _window->getViewport(0);
         //Desvinculamos del viewport en caso de actividad
-        if (vp->getCamera() == cam) vp->setCamera(nullptr);
+        if (_vp->getCamera() == cam) _vp->setCamera(nullptr);
         Ogre::SceneNode* parent = cam->getParentSceneNode();
-        parent->detachObject(cam);
+        if (parent) parent->detachObject(cam);
         _sceneMgr->destroyCamera(cam);
         _cameras.erase(_cameras.begin() + id);
     }
@@ -559,7 +576,7 @@ void RenderModule::deleteCamera(const cameraID& id)
 
 void RenderModule::setAsActiveCamera(const cameraID& id)
 {
-    if (id >= 0 && id < _cameras.size()) _vp->setCamera(_cameras[id]);
+    if (id >= 0 && id < _cameras.size() && _cameras[id] != nullptr) _vp->setCamera(_cameras[id]);
 }
 
 void RenderModule::cleanCameras()
@@ -575,7 +592,7 @@ void RenderModule::cleanCameras()
             _sceneMgr->destroyCamera(cam);
         }
     }
-
+    _vp->setCamera(nullptr);
     _cameras.clear();
     _nextCameraID = 0;
     /*if (_cameraNodes.empty()) return;
@@ -632,8 +649,12 @@ void RenderModule::setCameraFocalLength(const cameraID& id, const float& focalLe
 modelID RenderModule::addModel(const entityID& entityID, std::string modelFolder, std::string modelFile)
 {
     addNode(entityID);
-
-    Ogre::Entity* model = _models.emplace_back(_sceneMgr->createEntity("model" + std::to_string(_nextModelID++), modelFile));
+    if (!_rgm->resourceGroupExists(modelFolder))
+    {
+        _rgm->addResourceLocation("carpetilla resources textures" + modelFolder, "FileSystem", modelFolder);
+        _rgm->loadResourceGroup(modelFolder);
+    }
+    Ogre::Entity* model = _models.emplace_back(_sceneMgr->createEntity(modelFile + std::to_string(_nextModelID++), modelFile));
     _engineNodes.back().sceneNode->attachObject(model);
 
     for (unsigned int i = 0; i < model->getNumSubEntities(); ++i)
@@ -660,6 +681,36 @@ modelID RenderModule::addModel(const entityID& entityID, std::string modelFolder
     return _nextModelID;
 }
 
+void RenderModule::deleteModel(const modelID& id)
+{
+    if (id >= 0 && id < _models.size() && _models[id] != nullptr)
+    {
+        Ogre::Entity* model = _models[id];
+        Ogre::SceneNode* parent = model->getParentSceneNode();
+        parent->detachObject(model);
+        _sceneMgr->destroyEntity(model);
+        _models.erase(_models.begin() + id);
+    }
+}
+
+void RenderModule::cleanModels()
+{
+    for (Ogre::Entity* model : _models)
+    {
+        if (model != nullptr)
+        {
+            Ogre::SceneNode* parent = model->getParentSceneNode();
+            if (parent)
+                parent->detachObject(model);
+
+            _sceneMgr->destroyEntity(model);
+        }
+    }
+
+    _models.clear();
+    _nextModelID = 0;
+}
+
 void RenderModule::setDiffuse(const modelID& id, const subMeshID& subID, std::string textureFolder, std::string textureFile)
 {
     if (id >= 0 && id < _models.size() && _models[id] != nullptr)
@@ -677,14 +728,32 @@ void RenderModule::setDiffuse(const modelID& id, const subMeshID& subID, std::st
             tech->createPass();
         Ogre::Pass* pass = tech->getPass(0);
 
-
-        Ogre::TexturePtr text = Ogre::TextureManager::getSingleton().load(textureFile, "diffuse_" + std::to_string(id) + "_" + std::to_string(subID), Ogre::TEX_TYPE_2D, 0);
+        if (!_rgm->resourceGroupExists(textureFolder))
+        {
+            _rgm->addResourceLocation("carpetilla resources textures" + textureFolder, "FileSystem", textureFolder);
+            _rgm->loadResourceGroup(textureFolder);
+        }
+        Ogre::TexturePtr text = Ogre::TextureManager::getSingleton().load(textureFile, "diffuse_" + textureFile, Ogre::TEX_TYPE_2D, 0);
 
         Ogre::TextureUnitState* tus = pass->createTextureUnitState();
         tus->setTexture(text);
         tus->setColourOperation(Ogre::LBO_MODULATE);
     }
 }
+
+void RenderModule::setModelVisible(const modelID& id, const bool& visible)
+{
+    if (id >= 0 && id < _models.size() && _models[id] != nullptr)
+    {
+        Ogre::Entity* model = _models[id];
+        Ogre::SceneNode* node = model->getParentSceneNode();
+        if (node)
+            node->setVisible(visible, false);
+    }
+    
+}
+
+
 
 lightID RenderModule::addLight(const entityID& entityID, int type, const core::Color& color, float intensity) {
     //Si no existe un nodo con este entityID lo creamos
@@ -715,7 +784,7 @@ void  RenderModule::deleteLight(const lightID& id) {
     {
         Ogre::Light* light = _lights[id];
         Ogre::SceneNode* parent = light->getParentSceneNode();
-        parent->detachObject(light);
+        if (parent) parent->detachObject(light);
         _sceneMgr->destroyLight(light);
         _lights.erase(_lights.begin() + id);  
     }
@@ -733,7 +802,6 @@ void RenderModule::cleanLights() {
             Ogre::SceneNode* parent = light->getParentSceneNode();
             if (parent)
                 parent->detachObject(light);
-
             _sceneMgr->destroyLight(light);
         }
     }
@@ -743,12 +811,15 @@ void RenderModule::cleanLights() {
 }
 
 void RenderModule::setLightType(const lightID& id, int type) {
-    Ogre::Light* light = _lights[id];
-    switch (type) {
-    case 0: light->setType(Ogre::Light::LT_POINT); break;
-    case 1: light->setType(Ogre::Light::LT_DIRECTIONAL); break;
-    case 2: light->setType(Ogre::Light::LT_SPOTLIGHT); break;
-    case 3: light->setType(Ogre::Light::LT_RECTLIGHT); break;
+    if (id >= 0 && id < _lights.size() && _lights[id] != nullptr)
+    {
+        Ogre::Light* light = _lights[id];
+        switch (type) {
+        case 0: light->setType(Ogre::Light::LT_POINT); break;
+        case 1: light->setType(Ogre::Light::LT_DIRECTIONAL); break;
+        case 2: light->setType(Ogre::Light::LT_SPOTLIGHT); break;
+        case 3: light->setType(Ogre::Light::LT_RECTLIGHT); break;
+        }
     }
 }
 
