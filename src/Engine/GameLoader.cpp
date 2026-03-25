@@ -350,7 +350,7 @@ std::shared_ptr<core::Scene> GameLoader::loadSceneFromSearch()
 
 	if (path.empty())
 	{
-		Debug::error("No se encontró la escena ", sceneName);
+		Debug::error("No se encontrï¿½ la escena ", sceneName);
 		return nullptr;
 	}
 
