@@ -79,7 +79,7 @@ private:
 	 * @brief Descarga una libreria y elimina la entrada del vector.
 	 * @param library  - Libreria a borrar.
 	 */
-	void _unload(LoadedLibrary& library);
+	bool _unload(LoadedLibrary& library);
 	/**
 	 * @brief Recarga una libreria.
 	 * @param library - Libreria a recargar.

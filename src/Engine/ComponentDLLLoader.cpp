@@ -34,8 +34,7 @@ bool ComponentDLLLoader::load(const std::string& path)
 	// Comprobamos duplicados.
 	for (const auto& l : _libraries) {
 		if (l.path == path) {
-			Debug::warning("Reloading [", path, "]");
-			unload(path);
+			Debug::error("load: Library already loaded [", path, "]");
 			break;
 		}
 	}
@@ -88,14 +87,15 @@ void ComponentDLLLoader::unLoadAll()
 
 bool ComponentDLLLoader::unload(const std::string& path)
 {
+	bool ok = true;
 	for (auto it = _libraries.begin(); it != _libraries.end(); ++it) {
 		if (it->path == path) {
-			_unload(*it);
+			ok = _unload(*it);
 			_libraries.erase(it); // eliminar del vector
-			return true;
+			return ok;
 		}
 	}
-	return true;
+	return ok;
 }
 
 bool ComponentDLLLoader::checkReload()
@@ -130,12 +130,12 @@ void ComponentDLLLoader::setReloadCallback(ReloadCallback const& cb)
 	_reloadCallback = cb;
 }
 
-void ComponentDLLLoader::_unload(LoadedLibrary& library)
+bool ComponentDLLLoader::_unload(LoadedLibrary& library)
 {
 	Debug::warning("Unloading[", library.path, "]");
-	FreeLibrary(library.handle);
+	if (!FreeLibrary(library.handle))return false;
 	library.handle = nullptr;
-	DeleteFileA(library.tempPath.c_str());
+	return DeleteFileA(library.tempPath.c_str());
 }
 
 void ComponentDLLLoader::_reload(LoadedLibrary& library)
