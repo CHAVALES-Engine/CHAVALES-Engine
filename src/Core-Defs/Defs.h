@@ -14,18 +14,17 @@ using Property = std::variant<
 	float,
 	bool,
 	std::string,
-	std::vector<int>,
-	std::vector<float>,
-	std::vector<bool>,
-	std::vector<std::string>,
 	core::Vector2<>,
 	core::Vector3<>,
 	core::Vector4<>,
 	core::Quaternion<>,
 	core::Color,
-	//Sound
-	const char*
+	const char*,
+	std::vector<int>,
+	std::vector<float>,
+	std::vector<bool>,
+	std::vector<std::string>,
+	std::vector<core::Vector3<>>
 >;
 
 using Properties = std::unordered_map<std::string, Property>;
-

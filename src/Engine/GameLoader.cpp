@@ -15,6 +15,38 @@ namespace fs = std::filesystem;
 
 #define SOL_ALL_SAFETIES_ON 1
 
+template<typename T>
+bool GameLoader::isVectorOf(const sol::table& table)
+{
+	int expectedIndex = 1;
+
+	for (auto& kv : table)
+	{
+		if (!kv.first.is<int>() || kv.first.as<int>() != expectedIndex)
+			return false;
+
+		if (!kv.second.is<T>())
+			return false;
+
+		expectedIndex++;
+	}
+
+	return true;
+}
+
+template<typename T>
+std::vector<T> GameLoader::parseVector(const sol::table& table)
+{
+	std::vector<T> result;
+
+	for (auto& kv : table)
+	{
+		result.push_back(kv.second.as<T>());
+	}
+
+	return result;
+}
+
 void GameLoader::parseObject(const sol::object& obj, const std::string& clave, Properties& props)
 {
 	switch (obj.get_type())
@@ -43,59 +75,55 @@ void GameLoader::parseObject(const sol::object& obj, const std::string& clave, P
 	}
 	case sol::type::table:
 	{
-		std::vector<Property> vec;
-		for (auto& o : obj.as<sol::table>())
+		sol::table t = obj;
+
+		if (isVectorOf<int>(t))
 		{
-			auto& value = o.second;
-			if (value.is<int>())
-			{
-				Debug::out("INT");
-				vec.emplace_back(value.as<int>());
-			}
-			else if (value.is<float>())
-			{
-				Debug::out("FLOAT");
-				vec.emplace_back(value.as<float>());
-			}
-			else if (value.is<std::string>())
-			{
-				Debug::out("STRING");
-				vec.emplace_back(value.as<std::string>());
-			}
-			else if (value.is<bool>())
-			{
-				Debug::out("BOOL");
-				vec.emplace_back(value.as<bool>());
-			}
+			props[clave] = parseVector<int>(t);
 		}
-		//props[clave] = vec;
+		else if (isVectorOf<float>(t))
+		{
+			props[clave] = parseVector<float>(t);
+		}
+		else if (isVectorOf<std::string>(t))
+		{
+			props[clave] = parseVector<std::string>(t);
+		}
+		else if (isVectorOf<bool>(t))
+		{
+			props[clave] = parseVector<bool>(t);
+		}
+		else if (isVectorOf<core::Vector3<>>(t))
+		{
+			props[clave] = parseVector<core::Vector3<>>(t);
+		}
+		else
+		{
+			Debug::error("GAMELOADER: Tabla no compatible en ", clave);
+		}
+
 		break;
 	}
 	case sol::type::userdata:
 	{
 		if (obj.is<core::Vector2<>>())
 		{
-			//Debug::out("GAMELOADER: vector2");
 			props[clave] = obj.as<core::Vector2<>>();
 		}
 		else if (obj.is<core::Vector3<>>())
 		{
-			//Debug::out("GAMELOADER: vector3");
 			props[clave] = obj.as<core::Vector3<>>();
 		}
 		else if (obj.is<core::Vector4<>>())
 		{
-			//Debug::out("GAMELOADER: vector4");
 			props[clave] = obj.as<core::Vector4<>>();
 		}
 		else if (obj.is<core::Quaternion<>>())
 		{
-			//Debug::out("GAMELOADER: quaternion");
 			props[clave] = obj.as<core::Quaternion<>>();
 		}
 		else if (obj.is<core::Color>())
 		{
-			//Debug::out("GAMELOADER: color");
 			props[clave] = obj.as<core::Color>();
 		}
 		else
@@ -322,7 +350,7 @@ std::shared_ptr<core::Scene> GameLoader::loadSceneFromSearch()
 
 	if (path.empty())
 	{
-		Debug::error("No se encontró la escena ", sceneName);
+		Debug::error("No se encontrï¿½ la escena ", sceneName);
 		return nullptr;
 	}
 

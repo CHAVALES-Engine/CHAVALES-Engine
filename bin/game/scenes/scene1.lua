@@ -15,7 +15,7 @@ scene = { -- entidades en escena
 			ComponentTest = {
 				health = 10,
 				alive = true,
-				-- name = "godotillo",
+				name = "godotillo",
 				vecBools = {
 					false,
 					true,
@@ -36,11 +36,10 @@ scene = { -- entidades en escena
 					9.6,
 					0.0
 				},
-				vecMixed = {
-					false,
-					"uno",
-					2,
-					0.0
+				vecVecs = { 
+					Vector3.new(1),
+					Vector3.new(2),
+					Vector3.new(3),
 				}
 			},
 			AudioSource = {
