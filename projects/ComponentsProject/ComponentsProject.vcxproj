@@ -30,6 +30,17 @@
     <ClCompile Include="..\..\src\ComponentsProject\Transform.cpp" />
     <ClCompile Include="Light.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Core-Defs\Core-Defs.vcxproj">
+      <Project>{0eb183ee-3578-4ada-9962-55e9b7457f17}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Core-Utils\Core-Utils.vcxproj">
+      <Project>{5b01a994-a157-4713-b7d6-62268883e636}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Engine\Engine.vcxproj">
+      <Project>{19c229d6-650d-4440-8b69-512b9458618e}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -89,7 +100,7 @@
       <SubSystem>
       </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)libs\Core-Defs\;$(SolutionDir)libs\Core-Utils\;$(SolutionDir)libs\Engine</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\Core-Defs\;$(SolutionDir)libs\Core-Utils\;$(SolutionDir)libs\Engine\</AdditionalLibraryDirectories>
       <ImportLibrary>$(SolutionDir)libs\$(ProjectName)\$(TargetName).lib</ImportLibrary>
       <AdditionalDependencies>Engine_d.lib;Core-Defs_d.lib;Core-Utils_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
@@ -119,7 +130,7 @@
       </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>Engine_r.lib;Core-Defs_r.lib;Core-Utils_r.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)libs\Core-Defs\;$(SolutionDir)libs\Core-Utils\;$(SolutionDir)libs\Engine</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\Core-Defs\;$(SolutionDir)libs\Core-Utils\;$(SolutionDir)libs\Engine\</AdditionalLibraryDirectories>
       <ImportLibrary>$(SolutionDir)libs\$(ProjectName)\$(TargetName).lib</ImportLibrary>
     </Link>
     <Lib>

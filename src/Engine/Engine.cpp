@@ -353,11 +353,11 @@ bool Engine::_initPriv()
 	Debug::open();
 
 #if _DEBUG
-	ComponentDLLLoader::load("./ComponentsProject_d.dll");
+	ComponentDLLLoader::instance().load("./ComponentsProject_d.dll");
 #else 
-	ComponentDLLLoader::load("./ComponentsProject_r.dll");
+	ComponentDLLLoader::instance().load("./ComponentsProject_r.dll");
 #endif
-	ComponentDLLLoader::load("./game/DLL-Test.dll");
+	ComponentDLLLoader::instance().load("./game/DLL-Test.dll");
 
 	_stateMachine = new StateMachine;
 		
