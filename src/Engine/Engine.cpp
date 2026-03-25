@@ -352,13 +352,12 @@ bool Engine::_initPriv()
 	// Abre archivo .log
 	Debug::open();
 
-	_componentDLLLoader = new ComponentDLLLoader;
 #if _DEBUG
-	_componentDLLLoader->load("./ComponentsProject_d.dll");
+	ComponentDLLLoader::load("./ComponentsProject_d.dll");
 #else 
-	_componentDLLLoader.load("./ComponentsProject_r.dll");
+	ComponentDLLLoader::load("./ComponentsProject_r.dll");
 #endif
-	_componentDLLLoader->load("./game/DLL-Test.dll");
+	ComponentDLLLoader::load("./game/DLL-Test.dll");
 
 	_stateMachine = new StateMachine;
 		

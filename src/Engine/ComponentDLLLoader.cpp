@@ -32,10 +32,15 @@ bool ComponentDLLLoader::load(const std::string& path)
 		entry.path = path;
 		entry.tempPath = _makeTempPath(path);
 	}
+
 	// copiamos la libreria en un archivo temporal
-	if (!std::filesystem::copy_file(entry.path, entry.tempPath))
+	try
 	{
-		Debug::error("LoadLibrary failed: CopyLibrary: [", path,"]");
+		std::filesystem::copy_file(entry.path, entry.tempPath, std::filesystem::copy_options::overwrite_existing);
+	}
+	catch (const std::filesystem::filesystem_error& e)
+	{
+		Debug::error("LoadLibrary failed: CopyLibrary: [", path,"] ", e.what());
 		return false;
 	}
 
