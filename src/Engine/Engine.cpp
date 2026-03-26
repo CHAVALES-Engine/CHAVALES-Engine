@@ -35,9 +35,12 @@ void Engine::release()
 	Debug::close();
 	if (_instance) {
 		delete _instance->_platformModule;
+		delete _instance->_input;
+
 		delete _instance->_audioModule;
 		delete _instance->_physicsModule;
 		delete _instance->_renderModule;
+
 		delete _instance->_stateMachine;
 		delete _instance;
 		_instance = nullptr;
@@ -53,18 +56,14 @@ void Engine::startLoop()
 	_stateMachine->gameLoop();
 }
 
-bool Engine::syncronize() const
+bool Engine::pollEvents() const
 {
 	return _platformModule->syncronize();
 }
 
 const void Engine::addAndSetScene(std::string n) const
 {
-	_addAndSetScene(n);
-}
-
-const void Engine::setAddAndSetScene(std::function<void(std::string)> func) {
-	_addAndSetScene = func;
+	_stateMachine->addAndSetScene(n);
 }
 
 void Engine::renderFrame()

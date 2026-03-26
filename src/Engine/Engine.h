@@ -55,16 +55,13 @@ public:
 	*/
 	void startLoop();
 	/*
-	* @brief Metodo que sincroniza los modulos con el juego
+	* @brief Metodo que sincroniza los eventos de input.
 	*/
-	bool syncronize() const;
+	bool pollEvents() const;
 	/**
 	 *
 	 */
 	const void addAndSetScene(std::string n) const;
-	const void setAddAndSetScene(std::function<void(std::string)> func);
-
-
 
 	//Metodos del modulo de render
 #pragma region Render
@@ -258,5 +255,4 @@ private:
 	*	Referencia a la maquina de estados
 	*/
 	StateMachine* _stateMachine = nullptr;
-	std::function<void(std::string)> _addAndSetScene;
 };

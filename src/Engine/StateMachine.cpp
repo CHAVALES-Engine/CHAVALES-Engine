@@ -22,9 +22,6 @@ StateMachine::StateMachine() :
 	_endGame(false)
 {
 	_deltaTime = 0;
-	Engine::instance()->setAddAndSetScene([this](std::string n) {
-			this->addAndSetScene(n);
-		});
 }
 
 StateMachine::~StateMachine()
@@ -38,12 +35,12 @@ void StateMachine::gameLoop()
 
 	while (!_endGame) // bucle de juego
 	{
-		_endGame = Engine::instance()->syncronize();
+		_endGame = Engine::instance()->pollEvents();
 		core::TimerManager::instance().update();
 
 		if (_currentScene.ptr != nullptr)
 		{
-
+			Engine::instance()->cleanScene();
 			if (GameLoader::reloadLua() || ComponentDLLLoader::instance().checkReload()) // si es necesario recargar...
 			{
 				Debug::warning("Reloading scene [", _currentScene.name, "]");
@@ -64,6 +61,7 @@ void StateMachine::gameLoop()
 
 			_currentScene.ptr->update(_deltaTime);
 			//_currentScene.ptr->render();
+			Engine::instance()->renderFrame();
 		}
 	}
 
