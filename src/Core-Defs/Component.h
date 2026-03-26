@@ -18,6 +18,32 @@
 
 namespace core
 {
+	/*
+	 * +-----------+
+	 * | COMPONENT |
+	 * +-----------+
+	 * 
+	 * --- Ejemplo de uso en lua ---
+	 * Component = {
+	 *		-- ejemplo de tipo basico/tipos del proyecto
+	 *		atributo1 = ...,
+	 *		-- ejemplo de TAD vector
+	 *		atributo2 = 
+	 *		{
+	 *			...,
+	 *			...
+	 *		}
+	 * }
+	 * 
+	 * --- Ejemplo de inicializacion ---
+	 * En bool init(const Properties& p):
+	 *		# Ej1, asignacion:
+	 * component = getProperty<tipo>(properties, "atributo1");
+	 *		# Ej2, setter: 
+	 * return setProperty(properties, "atributo1", component);
+	 * 
+	*/
+
 	class Component
 	{
 	public:
