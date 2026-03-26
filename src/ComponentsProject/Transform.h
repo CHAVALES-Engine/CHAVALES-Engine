@@ -14,7 +14,6 @@
 
 using transformID = uint64_t;
 
-
 /*
  * +-----------+
  * | TRANSFORM |
@@ -22,10 +21,13 @@ using transformID = uint64_t;
  *
  * --- Ejemplo de uso en lua ---
  * Transform = {
- *		position = vector3.new,
- *		rotation = quaternion.new,
- *		scale = vector3.new
+ *		position = Vector3.new(float...),
+ *		rotation = Quaternion.new(float...),
+ *		scale = Vector3.new(float...),
+ *		parent = ... -- TODO (uid)
+ *		children = ... -- TODO (uid)
  * }
+ *
  *
  * --- Ejemplo de inicializacion ---
  * En bool init(const Properties& p):
