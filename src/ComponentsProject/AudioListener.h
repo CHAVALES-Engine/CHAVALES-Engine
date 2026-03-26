@@ -4,6 +4,25 @@
 
 class Transform;
 class Engine;
+
+/*
+ * +----------------+
+ * | AUDIO LISTENER |
+ * +----------------+
+ *
+ * --- Ejemplo de uso en lua ---
+ * AudioListener = {
+ *		...
+ * }
+ *
+ * --- Ejemplo de inicializacion ---
+ * En bool init(const Properties& p):
+ *		# Ej1, asignacion:
+ * component = getProperty<tipo>(properties, "atributo1");
+ *		# Ej2, setter:
+ * return setProperty(properties, "atributo1", component);
+ *
+*/
 class AudioListener : public core::Component
 {
 private:

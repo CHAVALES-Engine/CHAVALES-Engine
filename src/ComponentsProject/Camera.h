@@ -9,6 +9,24 @@
 
 using cameraID = uint64_t;
 
+/*
+ * +--------+
+ * | CAMERA |
+ * +--------+
+ *
+ * --- Ejemplo de uso en lua ---
+ * Camera = {
+ *		...
+ * }
+ *
+ * --- Ejemplo de inicializacion ---
+ * En bool init(const Properties& p):
+ *		# Ej1, asignacion:
+ * ...
+ *		# Ej2, setter:
+ * ...
+ *
+*/
 class Camera : public core::Component
 {
 	cameraID _cameraID;

@@ -7,6 +7,31 @@
 
 class Transform;
 
+/*
+ * +--------------+
+ * | AUDIO SOURCE |
+ * +--------------+
+ *
+ * --- Ejemplo de uso en lua ---
+ * AudioSource = {
+ *		soundPath = string,
+ *		soundID = int,
+ *		mute = bool,
+ *		is3D = bool,
+ *		loop = bool,
+ *		isStream = bool,
+ *		soundVolume = float
+ * }
+ *
+ * --- Ejemplo de inicializacion ---
+ * En bool init(const Properties& p):
+ *		# Ej1, asignacion:
+ * component = getProperty<tipo>(properties, "atributo1");
+ *		# Ej2, setter:
+ * return setProperty(properties, "atributo1", component);
+ *
+*/
+
 class AudioSource: public core::Component
 {
 private:

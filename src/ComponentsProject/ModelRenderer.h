@@ -18,6 +18,24 @@ using modelID = uint64_t;
 	Texture(const std::string& folder, const std::string& file) : textureFolder(folder), textureFile(file) {}
 };*/
 
+/*
+ * +----------------+
+ * | MODEL RENDERER |
+ * +----------------+
+ *
+ * --- Ejemplo de uso en lua ---
+ * ModelRenderer = {
+ *		...
+ * }
+ *
+ * --- Ejemplo de inicializacion ---
+ * En bool init(const Properties& p):
+ *		# Ej1, asignacion:
+ * ...
+ *		# Ej2, setter:
+ * ...
+ *
+*/
 class ModelRenderer : public core::Component
 {
 	modelID _modelID;

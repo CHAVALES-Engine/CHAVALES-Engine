@@ -10,6 +10,24 @@
 
 using lightID = uint64_t;
 
+/*
+ * +-------+
+ * | LIGHT |
+ * +-------+
+ *
+ * --- Ejemplo de uso en lua ---
+ * Light = {
+ *		...
+ * }
+ *
+ * --- Ejemplo de inicializacion ---
+ * En bool init(const Properties& p):
+ *		# Ej1, asignacion:
+ * ...
+ *		# Ej2, setter:
+ * ...
+ *
+*/
 class Light : public core::Component
 {
 public:

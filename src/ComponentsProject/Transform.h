@@ -14,6 +14,27 @@
 
 using transformID = uint64_t;
 
+
+/*
+ * +-----------+
+ * | TRANSFORM |
+ * +-----------+
+ *
+ * --- Ejemplo de uso en lua ---
+ * Transform = {
+ *		position = vector3.new,
+ *		rotation = quaternion.new,
+ *		scale = vector3.new
+ * }
+ *
+ * --- Ejemplo de inicializacion ---
+ * En bool init(const Properties& p):
+ *		# Ej1, asignacion:
+ * component = getProperty<tipo>(properties, "atributo1");
+ *		# Ej2, setter:
+ * return setProperty(properties, "atributo1", component);
+ *
+*/
 class Transform : public core::Component
 {
 	transformID _transformID;

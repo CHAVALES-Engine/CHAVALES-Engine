@@ -26,12 +26,12 @@ namespace core
 	 * --- Ejemplo de uso en lua ---
 	 * Component = {
 	 *		-- ejemplo de tipo basico/tipos del proyecto
-	 *		atributo1 = ...,
+	 *		atributo1 = tipo,
 	 *		-- ejemplo de TAD vector
 	 *		atributo2 = 
 	 *		{
-	 *			...,
-	 *			...
+	 *			tipo,
+	 *			tipo
 	 *		}
 	 * }
 	 * 

@@ -7,6 +7,24 @@ namespace physx {
 	class PxRigidActor;
 }
 
+/*
+ * +----------+
+ * | COLLIDER |
+ * +----------+
+ *
+ * --- Ejemplo de uso en lua ---
+ * Collider = {
+ *		...
+ * }
+ *
+ * --- Ejemplo de inicializacion ---
+ * En bool init(const Properties& p):
+ *		# Ej1, asignacion:
+ * ...
+ *		# Ej2, setter:
+ * ...
+ *
+*/
 class Collider : public core::Component
 {
 protected:

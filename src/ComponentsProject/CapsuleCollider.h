@@ -1,6 +1,24 @@
 #pragma once
 #include "Collider.h"
 
+/*
+ * +------------------+
+ * | CAPSULE COLLIDER |
+ * +------------------+
+ *
+ * --- Ejemplo de uso en lua ---
+ * CapsuleCollider = {
+ *		...
+ * }
+ *
+ * --- Ejemplo de inicializacion ---
+ * En bool init(const Properties& p):
+ *		# Ej1, asignacion:
+ * ...
+ *		# Ej2, setter:
+ * ...
+ *
+*/
 class CapsuleCollider : public Collider//Sirve de esfera si pones radio y altura iguales
 {
 private:

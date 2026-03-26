@@ -2,7 +2,24 @@
 #include "../../src/Core-Defs/Vector3.h"
 #include "Collider.h"
 
-
+/*
+ * +--------------+
+ * | BOX COLLIDER |
+ * +--------------+
+ *
+ * --- Ejemplo de uso en lua ---
+ * BoxCollider = {
+ *		...
+ * }
+ *
+ * --- Ejemplo de inicializacion ---
+ * En bool init(const Properties& p):
+ *		# Ej1, asignacion:
+ * ...
+ *		# Ej2, setter:
+ * ...
+ *
+*/
 class BoxCollider : public Collider
 {
 private:
