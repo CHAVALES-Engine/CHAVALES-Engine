@@ -60,15 +60,20 @@ scene = { -- entidades en escena
 			}
 		}
 	}
-	-- ,
-	-- entidad2 ={
-	-- 	components = {
-	-- 		Transform = {
-	-- 			position = Vector3.new(4,5,6),
-	-- 			rotation = Quaternion.new(),
-	-- 			scale = Vector3.new(2)
-	-- 		},
-	-- 		AudioSource = {
-	-- 	}
-	-- }
+	,
+	entidad2 ={
+		components = {
+			Transform = {
+				position = Vector3.new(4,5,6),
+				rotation = Quaternion.new(),
+				scale = Vector3.new(2)
+			},
+			ModelRenderer = {
+				model folder = "cube.obj",
+				materialPath = "material.tres",
+				castShadows = true,
+				receiveShadows = true
+			}
+		}
+	}
 }
