@@ -278,10 +278,6 @@ bool Engine::_initPriv()
 	_physicsModule = new PhysicsModule();
 	if (!_physicsModule->Init()) return false;
 
-
-	// Abre archivo .log
-	Debug::open();
-
 #if _DEBUG
 	ComponentDLLLoader::instance().load("./ComponentsProject_d.dll");
 #else 
@@ -290,7 +286,6 @@ bool Engine::_initPriv()
 	ComponentDLLLoader::instance().load("./game/DLL-Test.dll");		
 	
 	_stateMachine = new StateMachine;
-	
 	
 	return true;
 }

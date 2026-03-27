@@ -56,6 +56,7 @@ public:
 	void startLoop();
 	/*
 	* @brief Metodo que sincroniza los eventos de input.
+	* @return bool - Booleano para saber si se ha cerrado la ventana.
 	*/
 	bool pollEvents() const;
 	/**

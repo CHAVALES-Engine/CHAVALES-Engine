@@ -101,6 +101,8 @@ bool PlatformModule::isDeviceConnected(input::DeviceID device)
 
 bool PlatformModule::isKeyPressed(input::InputEvent inputEvent, input::DeviceID device) const
 {
+	if (_textInputActive && !_isTextInputAllowed(inputEvent))
+		return false;
 	// Usa std::visit para seleccionar y ejecutar una funcion de tipo de dato del inputEvent.
 	// "func" es la funcion escogida segun el tipo de dato de inputEvent.
 	auto func = [&](const input::VirtualDevice* vd) -> bool {
@@ -123,6 +125,7 @@ bool PlatformModule::isKeyPressed(input::InputEvent inputEvent, input::DeviceID 
 	for (const auto& [id, vd] : _virtualDevices)
 		if (func(vd))
 		{
+			//Debug::out("Tecla: ", toString(inputEvent), " pressed");
 			return true;
 		}
 	return false;
@@ -130,6 +133,7 @@ bool PlatformModule::isKeyPressed(input::InputEvent inputEvent, input::DeviceID 
 
 bool PlatformModule::isKeyReleased(input::InputEvent inputEvent, input::DeviceID device) const
 {
+	if (_textInputActive && !_isTextInputAllowed(inputEvent)) return false;
 	// Usa std::visit para seleccionar y ejecutar una funcion de tipo de dato del inputEvent.
 	// "func" es la funcion escogida segun el tipo de dato de inputEvent.
 	auto func = [&](const input::VirtualDevice* vd) -> bool {
@@ -150,7 +154,11 @@ bool PlatformModule::isKeyReleased(input::InputEvent inputEvent, input::DeviceID
 	}
 	// ANY_DEVICE - early exit en cuanto algun device tenga la tecla pulsada.
 	for (const auto& [id, vd] : _virtualDevices)
-		if (func(vd)) return true;
+		if (func(vd))
+		{
+			//Debug::out("Tecla: ", toString(inputEvent), " pressed");
+			return true;
+		}
 	return false;
 }
 
@@ -177,6 +185,7 @@ float PlatformModule::getAxis(input::InputEvent inputEvent, input::DeviceID devi
 		float value = func(vd);
 		if (abs(value) > abs(maxVal)) maxVal = abs(value);
 	}
+	//Debug::out("Tecla: ", toString(inputEvent), " pressed");
 	return maxVal;
 }
 
@@ -198,24 +207,34 @@ bool PlatformModule::isActionReleased(const std::string& actionName, input::Devi
 	return false;
 }
 
-void PlatformModule::startTextInput() const
+void PlatformModule::startTextInput(bool blockKeyboard)
 {
+	_blockKeyboard = blockKeyboard;
+	_textInputActive = true;
 	SDL_StartTextInput(_window);
 }
 
-void PlatformModule::stopTextInput() const
+void PlatformModule::stopTextInput()
 {
+	_textInputActive = false;
 	SDL_StopTextInput(_window);
 }
 
 std::string PlatformModule::getTextInput(input::DeviceID device) const
 {
-	auto it = _virtualDevices.find(device);
+	input::DeviceID id = (device == input::ANY_DEVICE) ? input::KEYBOARD_ID : device;
+	auto it = _virtualDevices.find(id);
 	if (it != _virtualDevices.end())
-	{
 		return it->second->getTextInput();
-	}
 	return {};
+}
+
+void PlatformModule::clearTextInput(input::DeviceID device)
+{
+	input::DeviceID id = (device == input::ANY_DEVICE) ? input::KEYBOARD_ID : device;
+	auto it = _virtualDevices.find(id);
+	if (it != _virtualDevices.end())
+		it->second->clearTextInput();
 }
 
 input::InputMapper* PlatformModule::getInputMapper() const
@@ -414,6 +433,7 @@ void PlatformModule::_processEvent(const SDL_Event& event)
 	case SDL_EVENT_GAMEPAD_ADDED: {
 		uint32_t id = event.gdevice.which;
 		SDL_Gamepad* gamepad = SDL_OpenGamepad(id);
+		Debug::warning("New Gamepad: ", id);
 		if (gamepad) {
 			_devicesID[id] = gamepad;
 			input::VirtualDevice* virtualDevice = new input::VirtualDevice();
@@ -478,37 +498,24 @@ void PlatformModule::_processEvent(const SDL_Event& event)
 		}
 		break;
 	}
-	case SDL_EVENT_MOUSE_BUTTON_DOWN: {
-		auto it = _virtualDevices.find(input::KEYBOARD_ID);
-		if (it != _virtualDevices.end() &&
-			(!it->second->isPressed(_castButton(event)) ||
-				(!it->second->isJustPressed(_castButton(event)) && event.key.repeat)))
-		{
-			it->second->_setButton(_castButton(event), true);
-		}
-		break;
-	}
+	case SDL_EVENT_MOUSE_BUTTON_DOWN:
 	case SDL_EVENT_KEY_DOWN: {
 		auto it = _virtualDevices.find(input::KEYBOARD_ID);
 		if (it != _virtualDevices.end() &&
 			(!it->second->isPressed(_castButton(event)) ||
 				(!it->second->isJustPressed(_castButton(event)) && event.key.repeat)))
 		{
-			Debug::out("TECLADOOOOOOOOOOOOOOOOOO");
 			it->second->_setButton(_castButton(event), true);
 		}
 		break;
 	}
-	case SDL_EVENT_MOUSE_BUTTON_UP: {
-		auto it = _virtualDevices.find(input::KEYBOARD_ID);
-		if (it != _virtualDevices.end() && (!it->second->isJustPressed(_castButton(event)) && event.key.repeat)) {
-			it->second->_setButton(_castButton(event), false);
-		}
-		break;
-	}
+	case SDL_EVENT_MOUSE_BUTTON_UP:
 	case SDL_EVENT_KEY_UP: {
 		auto it = _virtualDevices.find(input::KEYBOARD_ID);
-		if (it != _virtualDevices.end() && (!it->second->isJustPressed(_castButton(event)) && event.key.repeat)) {
+		if (it != _virtualDevices.end() &&
+			(it->second->isPressed(_castButton(event)) ||
+				(!it->second->isReleased(_castButton(event)) && event.key.repeat)))
+		{
 			it->second->_setButton(_castButton(event), false);
 		}
 		break;
@@ -522,4 +529,22 @@ void PlatformModule::_processEvent(const SDL_Event& event)
 	default:
 		break;
 	}
+}
+
+bool PlatformModule::_isTextInputAllowed(input::InputEvent inputEvent) const
+{
+	if (!_blockKeyboard) return true;
+	// Teclas permitidas
+	static const std::vector<input::Key> allowed = {
+		input::KEY_DELETE,
+		input::KEY_ESCAPE,
+		input::KEY_ENTER,
+		input::KEY_KP_ENTER
+	};
+	return std::visit(input::overloaded{
+		[&](input::Key k) {
+			return std::find(allowed.begin(), allowed.end(), k) != allowed.end();
+		},
+		[](auto&&) { return true; }
+		}, inputEvent);
 }

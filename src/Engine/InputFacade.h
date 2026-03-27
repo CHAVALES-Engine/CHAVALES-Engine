@@ -3,16 +3,24 @@
 #include <vector>
 
 #include "InputDefs.h"
+#include "EngineAPI.h"
 
 class Engine;
 class PlatformModule;
 
-class InputFacade
+class ENGINE_API InputFacade
 {
 private:
 	InputFacade(PlatformModule* platform);
 public:
-	//------ Raw input:
+	//------Raw input:
+
+	/**
+	 * @brief Comprueba si un dispositivo esta conectado.
+	 * @param device - id del dispositivo a comprobar.
+	 * @return bool - True o false si esta conectado o no.
+	 */
+	bool isDeviceConnected(input::DeviceID device) const;
 	/*
 	* @brief Devuelve si una tecla esta pulsada
 	* @param inputAction - InputEvent a comprobar
@@ -47,7 +55,7 @@ public:
 	/*
 	* @brief Indica a la ventana que tome input de texto.
 	*/
-	void startTextInput() const;
+	void startTextInput(bool blockKeyboard = true) const;
 	/*
 	* @brief Indica a la ventana que deje de tomar input de texto.
 	*/
@@ -57,6 +65,11 @@ public:
 	* @param device - id del dispositivo a comprobar. ANY_DEVICE por defecto => la suma del input de todos los dispositivos.
 	*/
 	std::string getTextInput(input::DeviceID device = input::ANY_DEVICE) const;
+	/*
+	 * @brief Borra el buffer del input escrito.
+	 * @param device - id del dispositivo a comprobar. ANY_DEVICE por defecto => la suma del input de todos los dispositivos.
+	 */
+	void clearTextInput(input::DeviceID device = input::ANY_DEVICE) const;
 
 	//------Metodos de InputMapper:
 
@@ -67,7 +80,7 @@ public:
 	* @param InputEvent - Input que lanza el evento.
 	* @param id - Id del dispositivo a comprobar. -1 por defecto => el primero positivo que encuentre.
 	*/
-	void addEvent(const std::string& actionName, input::InputEvent inputEvent, input::DeviceID id = input::ANY_DEVICE);
+	void addEventToAction(const std::string& actionName, input::InputEvent inputEvent, input::DeviceID id = input::ANY_DEVICE) const;
 
 	/**
 	* @brief Quita una evento asociado a una accion.
@@ -76,20 +89,20 @@ public:
 	* @param InputEvent - Evento que quitar del mapa.
 	* @param id - Id del dispositivo a comprobar. -1 por defecto => elimina todos los eventos del tipo dado.
 	*/
-	void removeEvent(const std::string& actionName, input::InputEvent inputEvent, input::DeviceID id = input::ANY_DEVICE);
+	void removeEvent(const std::string& actionName, input::InputEvent inputEvent, input::DeviceID id = input::ANY_DEVICE) const;
 	/**
 	* @brief Elimina todos los eventos asociados a una accion.
 	*
 	* @param actionName - Accion cuyos eventos hay que eliminar.
 	*/
-	void removeEvents(const std::string& actionName);
+	void removeEvents(const std::string& actionName) const;
 	/**
 	* @brief Elimina todos los eventos asociados a una accion y a un id.
 	*
 	* @param actionName - Accion cuyos eventos hay que eliminar.
 	* @param id - Id del dispositivo a comprobar. -1 por defecto => elimina todos los eventos de la accion (llama a removeEvents(actionName)).
 	*/
-	void removeEventsFromID(const std::string& actionName, input::DeviceID id = input::ANY_DEVICE);
+	void removeEventsFromID(const std::string& actionName, input::DeviceID id = input::ANY_DEVICE) const;
 
 	/**
 	* @brief Devuelve todos los eventos correspondientes a una accion.
@@ -99,13 +112,13 @@ public:
 	*
 	* @return std::vector<InputAction> - Vector de InputActions correspondientes.
 	*/
-	std::vector<input::InputEvent> getInputEvents(const std::string& actionName, input::DeviceID id = input::ANY_DEVICE);
+	std::vector<input::InputEvent> getInputEvents(const std::string& actionName, input::DeviceID id = input::ANY_DEVICE) const;
 	/**
 	* @brief Devuelve todas las acciones.
 	*
 	* @return std::vector<std::string> - Nombres de acciones registradas.
 	*/
-	std::vector<std::string> getActions();
+	std::vector<std::string> getActions() const;
 
 	/**
 	* @brief Devuelve si tiene un nombre de accion registrada.

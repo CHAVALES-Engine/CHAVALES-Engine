@@ -1,8 +1,14 @@
 #include "InputFacade.h"
 #include <PlatformModule.h>
 
-InputFacade::InputFacade(PlatformModule* platform): _platform(platform)
-{}
+InputFacade::InputFacade(PlatformModule* platform) : _platform(platform)
+{
+}
+
+bool InputFacade::isDeviceConnected(input::DeviceID device) const
+{
+	return _platform->isDeviceConnected(device);
+}
 
 //------ Raw InputFacade
 bool InputFacade::isKeyPressed(input::InputEvent inputAction, input::DeviceID device) const
@@ -30,9 +36,9 @@ bool InputFacade::isActionReleased(const std::string& actionName, input::DeviceI
 	return _platform->isActionReleased(actionName, device);
 }
 
-void InputFacade::startTextInput() const
+void InputFacade::startTextInput(bool blockKeyboard) const
 {
-	_platform->startTextInput();
+	_platform->startTextInput(blockKeyboard);
 }
 
 void InputFacade::stopTextInput() const
@@ -45,33 +51,38 @@ std::string InputFacade::getTextInput(input::DeviceID device) const
 	return _platform->getTextInput(device);
 }
 
-//------Metodos de InputMapper:
-void InputFacade::addEvent(const std::string& actionName, input::InputEvent inputEvent, input::DeviceID id)
+void InputFacade::clearTextInput(input::DeviceID device) const
 {
-	_platform->getInputMapper()->addEvent(actionName, inputEvent, id);
+	_platform->clearTextInput(device);
 }
 
-void InputFacade::removeEvent(const std::string& actionName, input::InputEvent inputEvent, input::DeviceID id)
+//------Metodos de InputMapper:
+void InputFacade::addEventToAction(const std::string& actionName, input::InputEvent inputEvent, input::DeviceID id) const
+{
+	_platform->getInputMapper()->addEventToAction(actionName, inputEvent, id);
+}
+
+void InputFacade::removeEvent(const std::string& actionName, input::InputEvent inputEvent, input::DeviceID id) const
 {
 	_platform->getInputMapper()->removeEvent(actionName, inputEvent, id);
 }
 
-void InputFacade::removeEvents(const std::string& actionName)
+void InputFacade::removeEvents(const std::string& actionName) const
 {
 	_platform->getInputMapper()->removeEvents(actionName);
 }
 
-void InputFacade::removeEventsFromID(const std::string& actionName, input::DeviceID id)
+void InputFacade::removeEventsFromID(const std::string& actionName, input::DeviceID id) const
 {
 	_platform->getInputMapper()->removeEventsFromID(actionName, id);
 }
 
-std::vector<input::InputEvent> InputFacade::getInputEvents(const std::string& actionName, input::DeviceID id)
+std::vector<input::InputEvent> InputFacade::getInputEvents(const std::string& actionName, input::DeviceID id) const
 {
 	return _platform->getInputMapper()->getInputEvents(actionName, id);
 }
 
-std::vector<std::string> InputFacade::getActions()
+std::vector<std::string> InputFacade::getActions() const
 {
 	return _platform->getInputMapper()->getActions();
 }

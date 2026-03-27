@@ -28,7 +28,7 @@ namespace input
 		* @param InputEvent - Input que lanza el evento.
 		* @param id - Id del dispositivo a comprobar. -1 por defecto => el primero positivo que encuentre.
 		*/
-		void addEvent(const std::string& actionName, InputEvent inputEvent, DeviceID id = ANY_DEVICE);
+		void addEventToAction(const std::string& actionName, InputEvent inputEvent, DeviceID id = ANY_DEVICE);
 
 		/**
 		* @brief Quita una evento asociado a una accion.
@@ -82,7 +82,7 @@ namespace input
 		/**
 		* @brief Constructora de InputMapper.
 		*/
-		InputMapper();
+		InputMapper() = default;
 
 		/**
 		* @brief Mapa de acciones.
