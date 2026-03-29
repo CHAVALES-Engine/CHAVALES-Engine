@@ -27,14 +27,16 @@
 #include <OgreLogManager.h>
 #include <iostream>
 #include <OgreImGuiOverlay.h>
+#include <OgreOverlaySystem.h>
 #include <imgui.h>
-
 #include <assimp/postprocess.h>
+#include <OgreOverlayManager.h>
 
 // RenderModule.cpp : Defines the functions for the static library.
 //
 
 static Ogre::Root* _root = nullptr;
+static Ogre::OverlaySystem* _overlaySystem = nullptr;
 static Ogre::RenderWindow* _window = nullptr;
 static Ogre::SceneManager* _sceneMgr = nullptr;
 static Ogre::Viewport* _vp = nullptr;
@@ -54,19 +56,35 @@ void ImGuiManager::Clear()
 
 void ImGuiManager::Draw()
 {
-    ImGui::Begin("Canvas");
+    Ogre::ImGuiOverlay::NewFrame();
 
     for (auto& element : _uiElements)
     {
-        element();
+        if (element) element();
     }
 
-    ImGui::End();
+    ImGui::ShowDemoWindow();
+
+    ImGui::Render();
 }
 
 RenderModule::~RenderModule()
 {
     shutdown();
+}
+void ImGuiManager::Init() {
+    _vp->setOverlaysEnabled(true); 
+    IMGUI_CHECKVERSION(); 
+    ImGui::CreateContext(); 
+    ImGui::StyleColorsDark(); 
+    ImGuiIO& io = ImGui::GetIO(); 
+    io.Fonts->AddFontDefault(); 
+    io.Fonts->Build(); 
+    overlay = static_cast<Ogre::ImGuiOverlay*>(
+        Ogre::OverlayManager::getSingleton().create("ImGuiOverlay")
+        );
+        overlay->setZOrder(500);
+        overlay->show();
 }
 
 bool RenderModule::Init(const HWND handle, const int width, const int height)
@@ -374,15 +392,24 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
 
         _engineNodes.push_back({ lightNode, 2 });
         //ZONA DEMO FINAL
+        _overlaySystem = new Ogre::OverlaySystem();
+        _sceneMgr->addRenderQueueListener(_overlaySystem);
+    
 
-        //_ui = new ImGuiManager();
-
+        _ui = new ImGuiManager();
+        _ui->Init();
+        _ui->AddElement([]() {
+            ImGui::ShowDemoWindow();
+            ImGui::Begin("Test");
+            ImGui::Text("FUNCIONA");
+            ImGui::End();
+            });
         _nextTransformID = 0;
         _nextCameraID = 0;
         _nextModelID = 0;
         _nextLightID = 0;
 
-        renderFrame();
+        //renderFrame();
 
         return true;
     }
@@ -397,11 +424,15 @@ void RenderModule::renderFrame()
 {
     if (_root)
     {
-        _root->renderOneFrame();
+
         if (_ui)
         {
             _ui->Draw();
         }
+     
+        
+        _root->renderOneFrame();
+
     }
 }
 
@@ -411,7 +442,7 @@ void RenderModule::cleanScene()
         return;
 
     //Limpiar camaras
-    cleanCameras();
+   // cleanCameras();
 
     //Limpiar luces
     cleanLights();
@@ -838,6 +869,10 @@ void RenderModule::setLightSpotRange(const lightID& id, float inner, float outer
 void RenderModule::shutdown()
 {
     cleanScene();
+    if (_overlaySystem) {
+        delete _overlaySystem;
+        _overlaySystem = nullptr;
+    }
     delete _root;
     _root = nullptr;
     _window = nullptr;

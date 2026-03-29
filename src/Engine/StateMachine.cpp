@@ -1,4 +1,4 @@
-#include "StateMachine.h"
+﻿#include "StateMachine.h"
 
 #include <chrono>
 #include <stdexcept>
@@ -40,7 +40,7 @@ void StateMachine::gameLoop()
 
 		if (_currentScene.ptr != nullptr)
 		{
-			Engine::instance()->cleanScene();
+			//Engine::instance()->cleanScene();
 			if (GameLoader::reloadLua() || ComponentDLLLoader::instance().checkReload()) // si es necesario recargar...
 			{
 				Debug::warning("Reloading scene [", _currentScene.name, "]");

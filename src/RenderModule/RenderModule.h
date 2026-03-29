@@ -23,6 +23,7 @@ namespace Ogre
     class Camera;
     class Entity;
     class Light;
+
 }
 
 using entityID = uint64_t;
@@ -49,9 +50,9 @@ public:
     void AddElement(UIElement element);
     void Clear();
     void Draw();
-
+    Ogre::ImGuiOverlay* overlay;
 private:
-    Ogre::ImGuiOverlay* _ui;
+   
     std::vector<UIElement> _uiElements;
 };
 
@@ -215,7 +216,7 @@ public:
 
 
     //Getter UI
-    ImGuiManager getUI();
+    ImGuiManager* getUI() { return _ui; }
 
     void shutdown();
 private:
