@@ -86,12 +86,10 @@ void ImGuiManager::Init() {
     );
 
     overlay = static_cast<Ogre::ImGuiOverlay*>(
-        Ogre::OverlayManager::getSingleton().getByName("ImGuiOverlay")
-        );
+        Ogre::OverlayManager::getSingleton().create("ImGuiOverlay"));
+
     overlay->setZOrder(500);
     overlay->show();
-
-       
 }
 
 bool RenderModule::Init(const HWND handle, const int width, const int height)
