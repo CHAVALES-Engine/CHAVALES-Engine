@@ -121,7 +121,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)libs\;$(SolutionDir)dependencies\;$(SolutionDir)dependencies\lua\libs\$(Configuration)\;$(SolutionDir)dependencies\lua\src\;$(SolutionDir)dependencies\fmod\lib\x64\;$(SolutionDir)dependencies\SDL\libs\$(Configuration)\;$(SolutionDir)bin\;$(SolutionDir)libs\RenderModule\;$(SolutionDir)libs\Core\;$(SolutionDir)libs\Engine\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\;$(SolutionDir)dependencies\;$(SolutionDir)dependencies\lua\libs\$(Configuration)\;$(SolutionDir)dependencies\lua\src\;$(SolutionDir)dependencies\fmod\lib\x64\;$(SolutionDir)dependencies\SDL\libs\$(Configuration)\;$(SolutionDir)bin\;$(SolutionDir)libs\RenderModule\;$(SolutionDir)libs\Core-Utils\;$(SolutionDir)libs\Core-Defs\;$(SolutionDir)libs\Engine\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>Engine_d.lib;LuaBuild.lib;fmodL_vc.lib;fmodstudio_vc.lib;opengl32.lib;Core-Defs_d.lib;Core-Utils_d.lib;SDL3-static.lib;Version.lib;Winmm.lib;Imm32.lib;Setupapi.lib;User32.lib;Gdi32.lib;Shell32.lib;Ole32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ProjectReference>
@@ -142,7 +142,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)libs\;$(SolutionDir)dependencies\;$(SolutionDir)dependencies\lua\libs\$(Configuration)\;$(SolutionDir)dependencies\lua\src\;$(SolutionDir)dependencies\fmod\lib\x64\;$(SolutionDir)dependencies\SDL\libs\$(Configuration)\;$(SolutionDir)bin\;$(SolutionDir)libs\RenderModule\;$(SolutionDir)libs\Core\;$(SolutionDir)libs\Engine\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\;$(SolutionDir)dependencies\;$(SolutionDir)dependencies\lua\libs\$(Configuration)\;$(SolutionDir)dependencies\lua\src\;$(SolutionDir)dependencies\fmod\lib\x64\;$(SolutionDir)dependencies\SDL\libs\$(Configuration)\;$(SolutionDir)bin\;$(SolutionDir)libs\RenderModule\;$(SolutionDir)libs\Core-Defs\;$(SolutionDir)libs\Core-Utils\;$(SolutionDir)libs\Engine\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>Engine_r.lib;LuaBuild.lib;fmod_vc.lib;fmodstudio_vc.lib;opengl32.lib;Core-Defs_r.lib;Core-Utils_r.lib;SDL3-static.lib;Version.lib;Winmm.lib;Imm32.lib;Setupapi.lib;User32.lib;Gdi32.lib;Shell32.lib;Ole32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
