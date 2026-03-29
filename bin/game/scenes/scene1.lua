@@ -69,7 +69,7 @@ scene = { -- entidades en escena
 				scale = Vector3.new(2)
 			},
 			ModelRenderer = {
-				model folder = "cube.obj",
+				["model folder"] = "cube.obj",
 				materialPath = "material.tres",
 				castShadows = true,
 				receiveShadows = true

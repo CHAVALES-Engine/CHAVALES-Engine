@@ -56,16 +56,13 @@ void ImGuiManager::Clear()
 
 void ImGuiManager::Draw()
 {
-    Ogre::ImGuiOverlay::NewFrame();
+
+   
 
     for (auto& element : _uiElements)
     {
         if (element) element();
     }
-
-    ImGui::ShowDemoWindow();
-
-    ImGui::Render();
 }
 
 RenderModule::~RenderModule()
@@ -73,18 +70,28 @@ RenderModule::~RenderModule()
     shutdown();
 }
 void ImGuiManager::Init() {
-    _vp->setOverlaysEnabled(true); 
-    IMGUI_CHECKVERSION(); 
-    ImGui::CreateContext(); 
-    ImGui::StyleColorsDark(); 
-    ImGuiIO& io = ImGui::GetIO(); 
-    io.Fonts->AddFontDefault(); 
-    io.Fonts->Build(); 
+    _vp->setOverlaysEnabled(true);
+
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGui::StyleColorsDark();
+
+    ImGuiIO& io = ImGui::GetIO();
+    io.Fonts->AddFontDefault();
+    io.Fonts->Build();
+
+    io.DisplaySize = ImVec2(
+        (float)_vp->getActualWidth(),
+        (float)_vp->getActualHeight()
+    );
+
     overlay = static_cast<Ogre::ImGuiOverlay*>(
-        Ogre::OverlayManager::getSingleton().create("ImGuiOverlay")
+        Ogre::OverlayManager::getSingleton().getByName("ImGuiOverlay")
         );
-        overlay->setZOrder(500);
-        overlay->show();
+    overlay->setZOrder(500);
+    overlay->show();
+
+       
 }
 
 bool RenderModule::Init(const HWND handle, const int width, const int height)
@@ -196,10 +203,10 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
 
         _ui = new ImGuiManager();
         _ui->Init();
+        _ui->Clear();
         _ui->AddElement([]() {
-            ImGui::ShowDemoWindow();
             ImGui::Begin("Test");
-            ImGui::Text("FUNCIONA");
+            ImGui::Text("SI VES ESTO FUNCIONA");
             ImGui::End();
             });
         _nextTransformID = 0;
@@ -220,18 +227,16 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
 
 void RenderModule::renderFrame()
 {
-    if (_root)
-    {
+    Ogre::ImGuiOverlay::NewFrame();
 
-        if (_ui)
-        {
-            _ui->Draw();
-        }
-     
-        
-        _root->renderOneFrame();
-        setNodeRotation(1, core::Quaternion(0.0f, 0.0043633f, 0.0f, 0.9999905f) * getNodeRotation(1));
-    }
+
+    if (_ui)
+        _ui->Draw();
+
+    ImGui::Render();
+
+    _root->renderOneFrame();
+    setNodeRotation(1, core::Quaternion(0.0f, 0.0043633f, 0.0f, 0.9999905f) * getNodeRotation(1));
 }
 
 void RenderModule::cleanScene()
