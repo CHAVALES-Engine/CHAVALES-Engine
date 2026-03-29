@@ -69,6 +69,7 @@ RenderModule::~RenderModule()
 {
     shutdown();
 }
+
 void ImGuiManager::Init() {
     _vp->setOverlaysEnabled(true);
 
@@ -110,7 +111,7 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
         Ogre::Codec::registerCodec(new Ogre::STBIImageCodec("png"));
         Ogre::Codec::registerCodec(new Ogre::STBIImageCodec("tga"));
 
-        Ogre::LogManager::getSingleton().getDefaultLog()->setDebugOutputEnabled(false);
+        //Ogre::LogManager::getSingleton().getDefaultLog()->setDebugOutputEnabled(false);
 
         const Ogre::RenderSystemList& renderers = _root->getAvailableRenderers();
         if (renderers.empty())
@@ -184,17 +185,28 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
         setDiffuse(0, 10, "metroid-floating/sourceimages/nuclei", "Base_Color.jpeg");
         setDiffuse(0, 6, "metroid-floating/sourceimages/mandibles", "Base_Color.jpeg");
 
-        Ogre::Light* light = _sceneMgr->createLight();
+        Ogre::AnimationStateSet* animSet = _models[0]->getAllAnimationStates();
 
-        light->setType(Ogre::Light::LT_DIRECTIONAL);
+        if (animSet)
+        {
+            Ogre::AnimationStateIterator it = animSet->getAnimationStateIterator();
+            int i = 0;
 
-        Ogre::SceneNode* lightNode =
-            _sceneMgr->getRootSceneNode()->createChildSceneNode();
+            while (it.hasMoreElements())
+            {
+                Ogre::AnimationState* anim = it.getNext();
+                anim = _models[0]->getAnimationState(anim->getAnimationName());
+                anim->setEnabled(true);
+                anim->setLoop(true);
+            }
+        }
+        else
+        {
+            std::cout << "No hay animaciones" << std::endl;
+        }
 
-        lightNode->attachObject(light);
+        addLight(2, 1, core::Color(1.0f, 1.0f, 1.0f, 1.0f), 1.0f);
 
-        _engineNodes.push_back({ lightNode, 2 });
-        //ZONA DEMO FINAL
         _overlaySystem = new Ogre::OverlaySystem();
         _sceneMgr->addRenderQueueListener(_overlaySystem);
     
@@ -226,15 +238,30 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
 void RenderModule::renderFrame()
 {
     Ogre::ImGuiOverlay::NewFrame();
-
-
     if (_ui)
         _ui->Draw();
 
     ImGui::Render();
 
     _root->renderOneFrame();
-    setNodeRotation(1, core::Quaternion(0.0f, 0.0043633f, 0.0f, 0.9999905f) * getNodeRotation(1));
+    Ogre::AnimationStateSet* animSet = _models[0]->getAllAnimationStates();
+
+    if (animSet)
+    {
+        Ogre::AnimationStateIterator it = animSet->getAnimationStateIterator();
+        int i = 0;
+
+        while (it.hasMoreElements())
+        {
+            Ogre::AnimationState* anim = it.getNext();
+            _models[0]->getAnimationState(anim->getAnimationName())->addTime(0.01f);
+        }
+    }
+    else
+    {
+        std::cout << "No hay animaciones" << std::endl;
+    }
+    //setNodeRotation(1, core::Quaternion(0.0f, 0.00218166f, 0.0f, 0.9999976f) * getNodeRotation(1));
 }
 
 void RenderModule::cleanScene()
