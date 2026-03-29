@@ -1,5 +1,5 @@
 #pragma once
-#pragma comment(lib, "bcrypt.lib")
+#include <cstdint>
 
 
 namespace core

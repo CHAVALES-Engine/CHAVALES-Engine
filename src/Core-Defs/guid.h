@@ -13,8 +13,8 @@ struct guid
 	/**
 	 * @brief Hay que dividir la UID en 2 porque no existe un uint128_t, y UID es un struct con 4 ints de 32
 	 */
-	uint64_t high;	// indica timestamp [Data1: 4 bytes][Data2: 2 bytes][Data3: 2 bytes]
-	uint64_t low;	// Indica variante + secuencia de reloj + MAC [Data4: 8 bytes]
+	uint64_t high;	// Indica variante + secuencia de reloj + MAC [Data4: 8 bytes]
+	uint64_t low;	// indica timestamp [Data1: 4 bytes][Data2: 2 bytes][Data3: 2 bytes]
 
 	/**
 	 * @brief Sobrecarga del operador == para comparativas.
