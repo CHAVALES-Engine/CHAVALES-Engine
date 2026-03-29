@@ -677,7 +677,7 @@ void RenderModule::setCameraFocalLength(const cameraID& id, const float& focalLe
 
 
 
-modelID RenderModule::addModel(const entityID& entityID, std::string modelFolder, std::string modelFile)
+modelID RenderModule::addModel(const entityID& entityID, const std::string& modelFolder, const std::string& modelFile)
 {
     addNode(entityID);
     if (!_rgm->resourceGroupExists(modelFolder))
@@ -742,7 +742,7 @@ void RenderModule::cleanModels()
     _nextModelID = 0;
 }
 
-void RenderModule::setDiffuse(const modelID& id, const subMeshID& subID, std::string textureFolder, std::string textureFile)
+void RenderModule::setDiffuse(const modelID& id, const subMeshID& subID, const std::string& textureFolder, const std::string& textureFile)
 {
     if (id >= 0 && id < _models.size() && _models[id] != nullptr)
     {
@@ -772,6 +772,30 @@ void RenderModule::setDiffuse(const modelID& id, const subMeshID& subID, std::st
     }
 }
 
+void RenderModule::setTint(const modelID& id, const subMeshID& subID, const core::Color& tint)
+{
+    if (id >= 0 && id < _models.size() && _models[id] != nullptr)
+    {
+        Ogre::Entity* model = _models[id];
+        Ogre::SubEntity* sub = model->getSubEntity(subID);
+
+        Ogre::MaterialPtr mat = sub->getMaterial();
+        sub->setMaterial(mat);
+
+        if (mat->getNumTechniques() == 0)
+            mat->createTechnique();
+        Ogre::Technique* tech = mat->getTechnique(0);
+        if (tech->getNumPasses() == 0)
+            tech->createPass();
+        Ogre::Pass* pass = tech->getPass(0);
+
+        pass->setSceneBlending(Ogre::SBT_TRANSPARENT_ALPHA);
+        pass->setDepthWriteEnabled(false);
+
+        pass->setDiffuse(tint.getRed(), tint.getGreen(), tint.getBlue(), tint.getAlpha());
+    }
+}
+
 void RenderModule::setModelVisible(const modelID& id, const bool& visible)
 {
     if (id >= 0 && id < _models.size() && _models[id] != nullptr)
@@ -786,7 +810,7 @@ void RenderModule::setModelVisible(const modelID& id, const bool& visible)
 
 
 
-lightID RenderModule::addLight(const entityID& entityID, int type, const core::Color& color, float intensity) {
+lightID RenderModule::addLight(const entityID& entityID, const int& type, const core::Color& color, const float& intensity) {
     //Si no existe un nodo con este entityID lo creamos
     addNode(entityID);
 
@@ -821,7 +845,7 @@ void  RenderModule::deleteLight(const lightID& id) {
     }
 }
 
-void RenderModule::setLightActive(const lightID& id, bool active) {
+void RenderModule::setLightActive(const lightID& id, const bool& active) {
     if (id >= 0 && id < _lights.size() && _lights[id] != nullptr) _lights[id]->setVisible(active);
 }
 
@@ -841,7 +865,7 @@ void RenderModule::cleanLights() {
     _nextLightID = 0;
 }
 
-void RenderModule::setLightType(const lightID& id, int type) {
+void RenderModule::setLightType(const lightID& id, const int& type) {
     if (id >= 0 && id < _lights.size() && _lights[id] != nullptr)
     {
         Ogre::Light* light = _lights[id];
@@ -858,11 +882,11 @@ void RenderModule::setLightColor(const lightID& id, const core::Color& color) {
     if (id >= 0 && id < _lights.size() && _lights[id] != nullptr) _lights[id]->setDiffuseColour(color.getRed(), color.getGreen(), color.getBlue());
 }
 
-void RenderModule::setLightIntensity(const lightID& id, float intensity) {
+void RenderModule::setLightIntensity(const lightID& id, const float& intensity) {
     if (id >= 0 && id < _lights.size() && _lights[id] != nullptr) _lights[id]->setPowerScale(intensity);
 }
 
-void RenderModule::setLightSpotRange(const lightID& id, float inner, float outer, float falloff) {
+void RenderModule::setLightSpotRange(const lightID& id, const float& inner, const float& outer, const float& falloff) {
     if (id >= 0 && id < _lights.size() && _lights[id] != nullptr) _lights[id]->setSpotlightRange(Ogre::Degree(inner), Ogre::Degree(outer), falloff);
 }
 

@@ -69,7 +69,7 @@ public:
     //void resize(int width, int height);
 
     /*
-    * @brief Limpiar escena.
+    * @brief Borrar todos los elementos de la escena.
     */
     void cleanScene();
 
@@ -154,7 +154,7 @@ public:
     /*
     * @brief Modelo nuevo. Se asigna un id por orden de creacion. Main Luz id 0 y añadidas manualmente 1 en adelante. 
     */
-    modelID addModel(const entityID& entityID, std::string modelFolder, std::string modelFile);
+    modelID addModel(const entityID& entityID, const std::string& modelFolder, const std::string& modelFile);
     /*
     * @brief Borrar modelo.
     */
@@ -164,9 +164,13 @@ public:
     */
     void cleanModels();
     /*
-    * @brief Asignar color base a submesh
+    * @brief Asignar color base a submesh.
     */
-    void setDiffuse(const modelID& id, const subMeshID& subID, std::string textureFolder, std::string textureFile);
+    void setDiffuse(const modelID& id, const subMeshID& subID, const std::string& textureFolder, const std::string& textureFile);
+    /*
+    * @brief Tintar la textura del material. Incluye canal alpha para transparencia.
+    */
+    void setTint(const modelID& id, const subMeshID& subID, const core::Color& tint);
     /*
     * @brief Establecer si el modelo es visible
     */
@@ -177,7 +181,7 @@ public:
     /*
     * @brief Luz nueva. Se asigna un id por orden de creacion. Main Luz id 0 y añadidas manualmente 1 en adelante.
     */
-    lightID addLight(const entityID& entityID, int type, const core::Color& color, float intensity);
+    lightID addLight(const entityID& entityID, const int& type, const core::Color& color, const float& intensity);
     /*
     * @brief Borrar luz por id. A las luces creadas posteriormente se les resta el id en 1.
     */
@@ -185,7 +189,7 @@ public:
     /*
    * @brief Establecer actividad de luz.
    */
-    void setLightActive(const lightID& id, bool active);
+    void setLightActive(const lightID& id, const bool& active);
     /*
     * @brief Limpiar luces.
     */
@@ -193,7 +197,7 @@ public:
     /*
     * @brief Establecer el tipo de luz.
     */
-    void setLightType(const lightID& id, int type);
+    void setLightType(const lightID& id, const int& type);
     /*
     * @brief Establecer el color de la luz.
     */
@@ -201,11 +205,11 @@ public:
     /*
     * @brief Establecer la intensidad de luz.
     */
-    void setLightIntensity(const lightID& id, float intensity);
+    void setLightIntensity(const lightID& id, const float& intensity);
    /*
     * @brief Establecer el cono de luz (angulo interno, angulo externo y suavidad de degradado).
     */
-    void setLightSpotRange(const lightID& id, float inner, float outer, float falloff);
+    void setLightSpotRange(const lightID& id, const float& inner, const float& outer, const float& falloff);
    
 
     //Metodos entidades

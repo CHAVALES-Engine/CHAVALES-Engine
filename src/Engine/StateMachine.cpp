@@ -40,7 +40,6 @@ void StateMachine::gameLoop()
 
 		if (_currentScene.ptr != nullptr)
 		{
-			//Engine::instance()->cleanScene();
 			if (GameLoader::reloadLua() || ComponentDLLLoader::instance().checkReload()) // si es necesario recargar...
 			{
 				Debug::warning("Reloading scene [", _currentScene.name, "]");

@@ -136,7 +136,32 @@ void Engine::setCameraFocalLength(const cameraID& id, const float& focalLength)
 	_renderModule->setCameraFocalLength(id, focalLength);
 }
 
-lightID Engine::addLight(const entityID& entityID, int type, const core::Color& color, float intensity)
+void Engine::addModel(const entityID& entityID, const std::string& modelFolder, const std::string& modelFile)
+{
+	_renderModule->addModel(entityID, modelFolder, modelFile);
+}
+
+void Engine::deleteModel(const modelID& id)
+{
+	_renderModule->deleteModel(id);
+}
+
+void Engine::setSubmeshDiffuse(const modelID& id, const std::string& textureFolder, const std::string& textureFile, const int& submesh)
+{
+	_renderModule->setDiffuse(id, submesh, textureFolder, textureFile);
+}
+
+void Engine::setSubmeshTint(const modelID& id, const core::Color& tint, const int& submesh)
+{
+	_renderModule->setTint(id, submesh, tint);
+}
+
+void Engine::setModelVisible(const modelID& id, const bool& visible)
+{
+	_renderModule->setModelVisible(id, visible);
+}
+
+lightID Engine::addLight(const entityID& entityID, const int& type, const core::Color& color, const float& intensity)
 {
 	return _renderModule->addLight(entityID, type,color, intensity);
 }
@@ -146,17 +171,12 @@ void Engine::deleteLight(const lightID& id)
 	_renderModule->deleteLight(id);
 }
 
-void Engine::setLightActive(const lightID& id, bool active)
+void Engine::setLightActive(const lightID& id, const bool& active)
 {
 	_renderModule->setLightActive(id, active);
 }
 
-void Engine::cleanLights()
-{
-	_renderModule->cleanLights();
-}
-
-void Engine::setLightType(const lightID& id, int type)
+void Engine::setLightType(const lightID& id, const int& type)
 {
 	_renderModule->setLightType(id, type);
 }
@@ -166,12 +186,12 @@ void Engine::setLightColor(const lightID& id, const core::Color& color)
 	_renderModule->setLightColor(id, color);
 }
 
-void Engine::setLightIntensity(const lightID& id, float intensity)
+void Engine::setLightIntensity(const lightID& id, const float& intensity)
 {
 	_renderModule->setLightIntensity(id, intensity);
 }
 
-void Engine::setLightSpotRange(const lightID& id, float inner, float outer, float falloff)
+void Engine::setLightSpotRange(const lightID& id, const float& inner, const float& outer, const float& falloff)
 {
 	_renderModule->setLightSpotRange(id, inner, outer, falloff);
 }

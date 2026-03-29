@@ -44,6 +44,7 @@ class ModelRenderer : public core::Component
 	std::string _modelFile;
 
 	int _nTextures;
+
 	/*
 	* @brief Clave: Nombre textura		Valor: par(carpeta archivo, nombre archivo)
 	* */
@@ -56,5 +57,7 @@ public:
 	bool init(const Properties& p) override;
 
 	void setDiffuse(std::string textureName, int submesh = 0);
+	void setTint(core::Color tint, int submesh = 0);
+	void setVisible(bool visible);
 };
 

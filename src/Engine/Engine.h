@@ -30,6 +30,7 @@ namespace core
 using entityID = uint64_t;
 using transformID = uint64_t;
 using cameraID = uint64_t;
+using modelID = uint64_t;
 using lightID = uint64_t;
 
 class ENGINE_API Engine
@@ -138,27 +139,48 @@ public:
 	void setCameraFocalLength(const cameraID& id, const float& focalLength);
 #pragma endregion
 
+	//Metodos modelos
+#pragma region model
+	/*
+	* @brief anade un modelo a la escena.
+	*/
+	void addModel(const entityID& entityID, const std::string& modelFolder, const std::string& modelFile);
+	/*
+	* @brief Borra un modelo de la escena.
+	*/
+	void deleteModel(const modelID& id);
+	/*
+	* @brief Borra un modelo de la escena.
+	*/
+	void setSubmeshDiffuse(const modelID& id, const std::string& textureFolder, const std::string& textureFile, const int& submesh);
+	/*
+	* @brief Establecer tinte de material.
+	*/
+	void setSubmeshTint(const modelID& id, const core::Color& tint, const int& submesh);
+	/*
+	* @brief Establecer si el modelo es visible.
+	*/
+	void setModelVisible(const modelID& id, const bool& visible);
+#pragma endregion
+
+	//Metodos luces
 #pragma region light
 	/*
 	* @brief Luz nueva. Se asigna un id por orden de creacion. Main Luz id 0 y añadidas manualmente 1 en adelante.
 	*/
-	lightID addLight(const entityID& entityID, int type, const core::Color& color, float intensity);
+	lightID addLight(const entityID& entityID, const int& type, const core::Color& color, const float& intensity);
 	/*
 	* @brief Borrar luz por id. A las luces creadas posteriormente se les resta el id en 1.
 	*/
 	void deleteLight(const lightID& id);
 	/*
-	* @brief activar/descativar camara
+	* @brief Establecer actividad de luz.
 	*/
-	void setLightActive(const lightID& id, bool active);
-	/*
-	* @brief activar/descativar camara
-	*/
-	void cleanLights();
+	void setLightActive(const lightID& id, const bool& active);
 	/*
 	* @brief Establecer el tipo de luz
 	*/
-	void setLightType(const lightID& id, int type);
+	void setLightType(const lightID& id, const int& type);
 	/*
 	* @brief Establecer el color de la luz
 	*/
@@ -166,16 +188,15 @@ public:
 	/*
 	* @brief Establecer la intensidad de luz
 	*/
-	void setLightIntensity(const lightID& id, float intensity);
+	void setLightIntensity(const lightID& id, const float& intensity);
 	/*
 	* @brief Establecer el cono de luz (ángulo interno, ángulo externo y suavidad de degradado)
 	*/
-	void setLightSpotRange(const lightID& id, float inner, float outer, float falloff);
-
-
+	void setLightSpotRange(const lightID& id, const float& inner, const float& outer, const float& falloff);
+#pragma endregion
 #pragma endregion
 
-
+	//Metodos audio
 #pragma region audio
 
 	//Metodos del modulo de audio
@@ -213,7 +234,7 @@ public:
 	* @brief Devuelve altura de la ventana
 	*/
 	int getWindowHeight() const;
-#pragma endregion
+
 	InputFacade* input() const;
 
 private:
