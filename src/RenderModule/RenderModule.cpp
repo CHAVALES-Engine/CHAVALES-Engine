@@ -27,10 +27,11 @@
 #include <OgreLogManager.h>
 #include <iostream>
 #include <OgreImGuiOverlay.h>
+#include <OgreOverlayManager.h>
 #include <OgreOverlaySystem.h>
 #include <imgui.h>
 #include <assimp/postprocess.h>
-#include <OgreOverlayManager.h>
+
 
 // RenderModule.cpp : Defines the functions for the static library.
 //
@@ -56,13 +57,13 @@ void ImGuiManager::Clear()
 
 void ImGuiManager::Draw()
 {
-
-   
-
-    for (auto& element : _uiElements)
-    {
-        if (element) element();
-    }
+    _overlay->NewFrame();
+    ImGui::ShowDemoWindow();
+    ImDrawData* draw_data = ImGui::GetDrawData();
+    if (!draw_data || draw_data->CmdListsCount == 0)
+        std::cout << "No draw commands generated\n";
+    else
+        std::cout << "Draw commands generated: " << draw_data->CmdListsCount << "\n";
 }
 
 RenderModule::~RenderModule()
@@ -70,14 +71,15 @@ RenderModule::~RenderModule()
     shutdown();
 }
 
-void ImGuiManager::Init() {
+void ImGuiManager::Init()
+{
+    _overlay = new Ogre::ImGuiOverlay();
+    Ogre::OverlayManager::getSingleton().addOverlay(_overlay);
+    _overlay->show();
+
     _vp->setOverlaysEnabled(true);
 
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-    ImGui::StyleColorsDark();
-
-    ImGuiIO& io = ImGui::GetIO();
+    /*ImGuiIO& io = ImGui::GetIO();
     io.Fonts->AddFontDefault();
     io.Fonts->Build();
 
@@ -86,11 +88,9 @@ void ImGuiManager::Init() {
         (float)_vp->getActualHeight()
     );
 
-    overlay = static_cast<Ogre::ImGuiOverlay*>(
-        Ogre::OverlayManager::getSingleton().create("ImGuiOverlay"));
+    std::cout << "Context: " << ImGui::GetCurrentContext() << std::endl;
 
-    overlay->setZOrder(500);
-    overlay->show();
+    std::cout << "DisplaySize: " << io.DisplaySize.x << ", " << io.DisplaySize.y << std::endl;*/
 }
 
 bool RenderModule::Init(const HWND handle, const int width, const int height)
@@ -211,14 +211,15 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
         _sceneMgr->addRenderQueueListener(_overlaySystem);
     
 
-        _ui = new ImGuiManager();
+        /*_ui = new ImGuiManager();
         _ui->Init();
         _ui->Clear();
         _ui->AddElement([]() {
-            ImGui::Begin("Test");
+            static bool open = true;
+            ImGui::Begin("Test", &open);
             ImGui::Text("SI VES ESTO FUNCIONA");
             ImGui::End();
-            });
+            });*/
         _nextTransformID = 0;
         _nextCameraID = 0;
         _nextModelID = 0;
@@ -237,11 +238,8 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
 
 void RenderModule::renderFrame()
 {
-    Ogre::ImGuiOverlay::NewFrame();
-    if (_ui)
-        _ui->Draw();
-
-    ImGui::Render();
+    /*if (_ui)
+        _ui->Draw();*/
 
     _root->renderOneFrame();
     Ogre::AnimationStateSet* animSet = _models[0]->getAllAnimationStates();

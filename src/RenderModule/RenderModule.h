@@ -50,7 +50,7 @@ public:
     void AddElement(UIElement element);
     void Clear();
     void Draw();
-    Ogre::ImGuiOverlay* overlay;
+    Ogre::ImGuiOverlay* _overlay;
 private:
    
     std::vector<UIElement> _uiElements;
