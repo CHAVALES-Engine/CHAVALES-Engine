@@ -20,6 +20,25 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\ChavalesEditor\ChavalesEditor.cpp" />
+    <ClCompile Include="..\..\src\ChavalesEditor\imgui\backends\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="..\..\src\ChavalesEditor\imgui\backends\imgui_impl_sdl3.cpp" />
+    <ClCompile Include="..\..\src\ChavalesEditor\imgui\imgui.cpp" />
+    <ClCompile Include="..\..\src\ChavalesEditor\imgui\imgui_demo.cpp" />
+    <ClCompile Include="..\..\src\ChavalesEditor\imgui\imgui_draw.cpp" />
+    <ClCompile Include="..\..\src\ChavalesEditor\imgui\imgui_tables.cpp" />
+    <ClCompile Include="..\..\src\ChavalesEditor\imgui\imgui_widgets.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\ChavalesEditor\imgui\backends\imgui_impl_opengl3.h" />
+    <ClInclude Include="..\..\src\ChavalesEditor\imgui\backends\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="..\..\src\ChavalesEditor\imgui\backends\imgui_impl_sdl3.h" />
+    <ClInclude Include="..\..\src\ChavalesEditor\imgui\imconfig.h" />
+    <ClInclude Include="..\..\src\ChavalesEditor\imgui\imgui.h" />
+    <ClInclude Include="..\..\src\ChavalesEditor\imgui\imgui_internal.h" />
+    <ClInclude Include="..\..\src\ChavalesEditor\imgui\imstb_rectpack.h" />
+    <ClInclude Include="..\..\src\ChavalesEditor\imgui\imstb_textedit.h" />
+    <ClInclude Include="..\..\src\ChavalesEditor\imgui\misc\cpp\imgui_stdlib.h" />
+    <ClInclude Include="..\..\src\ChavalesEditor\imgui\misc\single_file\imgui_single_file.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
