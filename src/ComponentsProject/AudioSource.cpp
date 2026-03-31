@@ -56,7 +56,7 @@ void AudioSource::playSound()
 {
 	int looping = 0;
 	if (_loop) looping = -1;
-	_channelID = Engine::instance()->playSound(_id, _tr->getGlobalPosition(), _soundVolume, looping);
+	_channelID = Engine::instance()->playSound(_id, _soundVolume, looping,_tr->getGlobalPosition());
 }
 
 int AudioSource::getLooping() const
@@ -91,7 +91,7 @@ void AudioSource::pauseSound(bool pause) const
 	Engine::instance()->pauseChannel(_channelID,pause);
 }
 
-void AudioSource::setDelay(unsigned long long start, unsigned long long end, bool stopChannel) const
+void AudioSource::setDelay(double start, double end, bool stopChannel) const
 {
 	Engine::instance()->setDelay(_channelID,start, end, stopChannel);
 }

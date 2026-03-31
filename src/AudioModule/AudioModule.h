@@ -48,7 +48,7 @@ public:
 	/// <param name="vec3">Position of the sound that is going to be played</param>
 	/// <param name="soundVolume">Volume of the sound</param>
 	/// <returns></returns>
-	int playSound(std::string id, float soundVolume = 0.0f, int looping = 0, const core::Vector3<> pos3 = { 0.0f, 0.0f,0.0f }, const core::Vector3<> vel3 = { 0.0f,0.0f,0.0f });
+	int playSound(std::string id, float soundVolume, int looping = 0, const core::Vector3<> pos3 = { 0.0f, 0.0f,0.0f }, const core::Vector3<> vel3 = { 0.0f,0.0f,0.0f });
 
 	/// <summary>
 	/// Method to set a Volume, the ID is of the channel of the sound that is going to be found
@@ -123,12 +123,13 @@ public:
 	/// True: When dspclock_end is reached, behaves like ChannelControl::stop has been called.
 	///	False: When dspclock_end is reached, behaves like ChannelControl::setPaused has been called.
 	/// </param>
-	void setDelay(int chID, unsigned long long start, unsigned long long end, bool stopChannel);
+	void setDelay(int chID, double start, double end, bool stopChannel);
 
 	
 
 private:
 	FMOD::System* _system = nullptr;
+	int nativeRate; //Rate of audio refresh, taken from device
 
 	int _nextChannelID;
 	SoundMap _soundMap; //Map of sounds

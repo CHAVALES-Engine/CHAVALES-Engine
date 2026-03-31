@@ -36,6 +36,7 @@ bool AudioModule::Init()
 		return false;
 	}
 	_system->set3DSettings(1.0f, 1.0f, 1.0f);
+	_system->getSoftwareFormat(&nativeRate, 0, 0);
 	return true;
 }
 
@@ -237,12 +238,14 @@ bool AudioModule::isChannelPlaying(int chID)
 	return isPlaying;
 }
 
-void AudioModule::setDelay(int chID, unsigned long long start, unsigned long long end, bool stopChannel)
+void AudioModule::setDelay(int chID, double start, double end, bool stopChannel)
 {
+	unsigned long long sampleStart = (start / 1000) * nativeRate;
+	unsigned long long sampleEnd = (end / 1000) * nativeRate;
 	auto itChFound = _channelSound.find(chID);
 
 	if (itChFound == _channelSound.end()) {
 		return;
 	}
-	itChFound->second->setDelay(start, end, stopChannel);
+	itChFound->second->setDelay(sampleStart, sampleEnd, stopChannel);
 }

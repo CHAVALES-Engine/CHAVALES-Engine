@@ -38,7 +38,7 @@ public:
 	void setVolume(float&& newVolume);
 	void stopSound() const;
 	void pauseSound(bool pause) const;
-	void setDelay(unsigned long long start, unsigned long long end, bool stopChannel) const;
+	void setDelay(double start, double end, bool stopChannel) const;
 	std::string getSoundName() const;
 };
 
