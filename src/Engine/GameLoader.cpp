@@ -319,7 +319,6 @@ std::shared_ptr<core::Scene> GameLoader::loadScene(const sceneName& n)
 	return s;
 }
 
-
 std::string GameLoader::findSceneFile(const std::string& sceneName, const std::string& root)
 {
 	std::string target = sceneName + ".lua";
@@ -338,16 +337,14 @@ std::string GameLoader::findSceneFile(const std::string& sceneName, const std::s
 	return "";
 }
 
-std::shared_ptr<core::Scene> GameLoader::loadSceneFromSearch()
+std::shared_ptr<core::Scene> GameLoader::loadSceneFromSearch(const std::string& sceneName)
 {
-	GameConfigurator gameConfig("scene_prueba", "..\..\..\..\..\2526-Grupo03-ChavalesEngine\bin\game\scenes");
-	std::string sceneName = gameConfig.getSceneName();
+	std::string root = core::GameConfigurator::_scenesRoot;
 
 	std::cout << "Buscando escena " << sceneName << ".lua" << std::endl;
 
-	std::string root = gameConfig.getRoot();
-
-	if (!fs::exists(root) || !fs::is_directory(root))
+	if (!fs::exists(root) || 
+		!fs::is_directory(root))
 	{
 		Debug::error("La ruta indicada no es un directorio valido: ", root);
 		return nullptr;
@@ -357,7 +354,7 @@ std::shared_ptr<core::Scene> GameLoader::loadSceneFromSearch()
 
 	if (path.empty())
 	{
-		Debug::error("No se encontr� la escena ", sceneName);
+		Debug::error("No se encontro la escena ", sceneName);
 		return nullptr;
 	}
 

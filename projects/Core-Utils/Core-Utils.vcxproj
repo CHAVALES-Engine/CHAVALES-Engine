@@ -20,6 +20,7 @@
     <ClInclude Include="..\..\src\Core-Utils\Clock.h" />
     <ClInclude Include="..\..\src\Core-Utils\Crypto.h" />
     <ClInclude Include="..\..\src\Core-Utils\EngineAPI.h" />
+    <ClInclude Include="..\..\src\Core-Utils\GameConfigurator.h" />
     <ClInclude Include="..\..\src\Core-Utils\Message.h" />
     <ClInclude Include="..\..\src\Core-Utils\MessagesManager.h" />
     <ClInclude Include="..\..\src\Core-Utils\TimeManager.h" />

@@ -82,7 +82,7 @@ public:
 	 * @brief LLama a preguntar por el nombre de la escena y usa findSceneFile para cargar el archivo .lua con loadLua.
 	 *
 	 */
-	static std::shared_ptr<core::Scene> loadSceneFromSearch();
+	static std::shared_ptr<core::Scene> loadSceneFromSearch(const std::string& sceneName);
 
 	/**
 	 * @brief Control de recargado de la escena desde el archivo .lua.

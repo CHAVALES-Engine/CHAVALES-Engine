@@ -46,7 +46,7 @@ namespace core
 	static const Vector4 YELLOW = Vector4(1.0, 0.92, 0.016, 1.0);
 
 	/**
-	 * @brief Color que representa un color en RGBA.
+	 * @brief Clase que representa un color en RGBA.
 	 *
 	 *		Clase para representar un color en formato RGBA
 	 *		rojo (r), verde (g), azul (b), and alfa (a).

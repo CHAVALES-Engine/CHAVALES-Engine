@@ -12,16 +12,21 @@
 #include "ComponentDLLLoader.h"
 #include "GameLoader.h"
 #include "Scene.h"
+//#include "../ChavalesEditor/ChavalesEditor.h"
 
 using namespace core;
 
 int main(int argc, char* argv[])
 {
-	// Inicializa el Engine
-	Engine::init();
-	// Lanza el bucle de juego
-	Engine::instance()->startLoop();
-	// Cierre limpio del engine
-	Engine::release();
+	//if (!ChavalesEditor::runEditor())
+	{
+		// Inicializa el Engine
+		Engine::init();
+		// Lanza el bucle de juego
+		Engine::instance()->startLoop();
+		// Cierre limpio del engine
+		Engine::release();
+	}
+
 	return 0;
 }

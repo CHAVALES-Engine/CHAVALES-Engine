@@ -1,3 +1,5 @@
+#include "ChavalesEditor.h"
+
 // Dear ImGui: standalone example application for SDL3 + OpenGL
 // (SDL is a cross-platform general purpose library for handling windows, inputs, OpenGL/Vulkan/Metal graphics context creation, etc.)
 
@@ -7,11 +9,20 @@
 // - Documentation        https://dearimgui.com/docs (same as your local docs/ folder).
 // - Introduction, links and more at the top of imgui.cpp
 
+#include <iostream>
+
 #include "imgui.h"
 #include "imgui_impl_sdl3.h"
 #include "imgui_impl_opengl3.h"
 #include <stdio.h>
+#include <string>
 #include <SDL3/SDL.h>
+
+#include <tchar.h>
+#include <windows.h>
+#include <processthreadsapi.h>
+
+#include "GameConfigurator.h"
 #if defined(IMGUI_IMPL_OPENGL_ES2)
 #include <SDL3/SDL_opengles2.h>
 #else
@@ -20,10 +31,11 @@
 
 #ifdef __EMSCRIPTEN__
 #include "../libs/emscripten/emscripten_mainloop_stub.h"
+#include "ChavalesEditor.h"
 #endif
 
 // Main code
-int main(int, char**)
+bool ChavalesEditor::runEditor()
 {
     // Setup SDL
     // [If using SDL_MAIN_USE_CALLBACKS: all code below until the main loop starts would likely be your SDL_AppInit() function]
@@ -70,7 +82,7 @@ int main(int, char**)
     SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
     float main_scale = SDL_GetDisplayContentScale(SDL_GetPrimaryDisplay());
     SDL_WindowFlags window_flags = SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIDDEN | SDL_WINDOW_HIGH_PIXEL_DENSITY;
-    SDL_Window* window = SDL_CreateWindow("Dear ImGui SDL3+OpenGL3 example", (int)(1280 * main_scale), (int)(800 * main_scale), window_flags);
+    SDL_Window* window = SDL_CreateWindow("ChavalesEditor", (int)(1280 * main_scale), (int)(800 * main_scale), window_flags);
     if (window == nullptr)
     {
         printf("Error: SDL_CreateWindow(): %s\n", SDL_GetError());
@@ -176,6 +188,7 @@ int main(int, char**)
             ImGui::ShowDemoWindow(&show_demo_window);
 
         // 2. Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
+        /*
         {
             static float f = 0.0f;
             static int counter = 0;
@@ -197,6 +210,7 @@ int main(int, char**)
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
             ImGui::End();
         }
+        */
 
         // 3. Show another simple window.
         if (show_another_window)
@@ -205,6 +219,58 @@ int main(int, char**)
             ImGui::Text("Hello from another window!");
             if (ImGui::Button("Close Me"))
                 show_another_window = false;
+            ImGui::End();
+        }
+
+        // Chavales editor
+        {
+            core::GameConfigurator::_firstScene = "";
+            static float f = 0.0f;
+            static int counter = 0;
+
+            static const char* texto1 = "eng";
+            static const char* texto2 = "esp";
+            static const char* texto = texto2;
+
+            ImGui::Begin("ChavalesEngine Project Settings");        // Create a window called "Hello, world!" and append into it.
+
+            static char str1[128] = "";
+            ImGui::InputTextWithHint("Escena inicial", "nombre del .lua", str1, IM_COUNTOF(str1), ImGuiInputTextFlags_CharsNoBlank);
+
+            static char str2[128] = "";
+            ImGui::InputTextWithHint("Ruta de las escenas", "ruta", str2, IM_COUNTOF(str2), ImGuiInputTextFlags_CharsNoBlank);
+
+            ImGui::Text(texto);               // Display some text (you can use a format strings too)
+            ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
+
+            //ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
+            //ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
+
+            /*
+            if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
+                texto2 = texto1;
+
+            ImGui::SameLine();
+            ImGui::Text("counter = %d", counter);
+            */
+
+            if (ImGui::Button("Guardar"))
+            {
+                std::cout << "Primera escena: " << str1 << std::endl;
+                std::cout << "Ruta para escenas: " << str2 << std::endl;
+            }
+
+            if (ImGui::Button("Empezar"))
+            {
+                core::GameConfigurator::_firstScene = str1;
+                core::GameConfigurator::_scenesRoot = str2;
+
+                std::cout << "[CHAVALESEDITOR] Primera escena: " << str1 << std::endl << "Ruta para escenas: " << str2 << std::endl;
+
+                return false;
+            }
+
+            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
             ImGui::End();
         }
 
@@ -230,5 +296,57 @@ int main(int, char**)
     SDL_DestroyWindow(window);
     SDL_Quit();
 
-    return 0;
+    return true;
+}
+
+int ChavalesEditor::startup()
+{
+    // additional information
+    STARTUPINFOA si = {0};
+    LPPROCESS_INFORMATION pi = nullptr;
+
+    // set the size of the structures
+    ZeroMemory(&si, sizeof(STARTUPINFOA));
+    si.cb = sizeof(STARTUPINFOA);
+    ZeroMemory(&pi, sizeof(LPPROCESS_INFORMATION));
+
+    const char* rr = "..\\..\\2526-Grupo03-ChavalesEngine\\bin\\ExecutableProject_r.exe";
+    const char* rd = "..\\..\\2526-Grupo03-ChavalesEngine\\bin\\ExecutableProject_d.exe";
+
+    if (CreateProcessA(
+#if _DEBUG
+        rd,
+#else
+        rr,
+#endif
+        NULL,
+        NULL,
+        NULL,
+        FALSE,
+        0,
+        NULL,
+        NULL,
+        &si,
+        pi) == 0)
+    {
+        std::cout << GetLastError() << std::endl;
+        return 1;
+    }
+    else
+    {
+	    // cerrar identificadores
+	    CloseHandle(pi->hProcess);
+	    CloseHandle(pi->hThread);
+
+	    return 0;
+    }
+}
+
+int main()
+{
+    if (!ChavalesEditor::runEditor())
+    {
+        int su = ChavalesEditor::startup();
+        return su;
+    }
 }

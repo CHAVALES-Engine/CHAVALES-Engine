@@ -10,6 +10,7 @@
 #include <InputMapper.h>
 
 #include "ComponentDLLLoader.h"
+#include "GameConfigurator.h"
 #include "StateMachine.h"
 #include "InputFacade.h"
 
@@ -52,7 +53,7 @@ void Engine::release()
 void Engine::startLoop()
 {
 	// Bucle de juego
-	_stateMachine->addAndSetScene("scene1");
+	_stateMachine->addAndSetScene(core::GameConfigurator::_firstScene); // carga la primera escena
 	_stateMachine->gameLoop();
 }
 
