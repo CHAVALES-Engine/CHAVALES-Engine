@@ -1,4 +1,10 @@
 #pragma once
+/**
+* @file MessagesManager
+* @brief Clase manejadora de Mensajes.
+*		TODO: Descripcion de los mensajes
+*/
+
 #include "Message.h"
 #include <unordered_map>
 #include <string>
@@ -8,9 +14,6 @@
 
 namespace core
 {
-	/**
-	* @brief Clase manejadora de Mensajes.
-	*/
 	class ENGINE_API MessagesManager
 	{
 	public:

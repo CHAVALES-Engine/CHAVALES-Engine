@@ -98,7 +98,7 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)libs\Core-Defs\;$(SolutionDir)libs\Core-Utils\;$(SolutionDir)dependencies\ogre\libs\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Core-Defs_r.lib;Core-Utils_r.lib;Codec_STBIStatic.lib;OgreGLSupportStatic.lib;OgreMainStatic.lib;Plugin_ParticleFXStatic.lib;RenderSystem_GL3PlusStatic.lib;RenderSystem_GLES2Static.lib;OgreOverlayStatic.lib;OgreRTShaderSystemStatic.lib;zlibstatic.lib;assimp-vc143-mt.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Core-Defs_r.lib;Core-Utils_r.lib;Codec_AssimpStatic.lib;Codec_STBIStatic.lib;OgreGLSupportStatic.lib;OgreMainStatic.lib;Plugin_ParticleFXStatic.lib;RenderSystem_GL3PlusStatic.lib;RenderSystem_GLES2Static.lib;OgreOverlayStatic.lib;OgreRTShaderSystemStatic.lib;zlibstatic.lib;assimp-vc143-mt.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
