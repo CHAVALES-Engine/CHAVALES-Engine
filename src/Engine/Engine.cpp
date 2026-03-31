@@ -239,7 +239,7 @@ void Engine::setSourcePosition(int chID, core::Vector3<> pos, core::Vector3<> ve
 	_audioModule->setAudioPos(chID, pos, vel);
 }
 
-void Engine::setDelay(int chID, unsigned long long start, unsigned long long end, bool stopChannel)
+void Engine::setDelay(int chID, double start, double end, bool stopChannel)
 {
 	_audioModule->setDelay(chID, start, end, stopChannel);
 }

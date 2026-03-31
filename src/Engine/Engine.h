@@ -201,7 +201,7 @@ public:
 
 	//Metodos del modulo de audio
 	/*
-	* @brief Crear un sonido en el módulo de audio.
+	* @brief Crea un sonido en el módulo de audio.
 	Recibe un path y un id, además de parámetros de configuración, como si es stream (sonido corto) o no (música), si tiene loop o si es 3D.
 	*/
 	void loadSound(std::string path, std::string id, bool soundStream = true, bool soundLooping = false, bool sound3D = true);
@@ -210,16 +210,40 @@ public:
 	*/
 	void unloadSound(std::string id);
 	/*
-	* @brief reproduce un sonido del módulo de audio recibiendo su id.
+	* @brief Reproduce un sonido del módulo de audio recibiendo su id y su configuración: volumen, loop (si creado con looping: -1 = indef, 0 = one time, 1 = loop once), posición y velocidad (para audio 3D)
 	*/
-	int playSound(std::string id, float soundVolume = 0.0f, int looping = 0, const core::Vector3<> pos3 = {0.0f, 0.0f,0.0f}, const core::Vector3<> vel3 = {0.0f,0.0f,0.0f});
+	int playSound(std::string id, float soundVolume, int looping = 0, const core::Vector3<> pos3 = {0.0f, 0.0f,0.0f}, const core::Vector3<> vel3 = {0.0f,0.0f,0.0f});
+	/*
+	* @brief Configura en el módulo de audio el listener de la escena, recibiendo su posicion, forward y up, y adicionalmente la velocidad para el audio 3D (efecto Doppler)
+	*/
 	void setListener(core::Vector3<> pos, core::Vector3<> forward, core::Vector3<> up, core::Vector3<> vel = { 0.0,0.0,0.0 });
+	/*
+	* @brief Actualiza la posición y velocidad de un audio 3D
+	*/
 	void setSourcePosition(int chID, core::Vector3<> pos, core::Vector3<> vel);
+	/*
+	* @brief Actualiza el volumen de un canal
+	*/
 	void setChannelVolume(int chID, float newVolume = 0.0f);
-	void setDelay(int chID, unsigned long long start, unsigned long long end, bool stopChannel);
+	/*
+	* @brief Devuelve la configuracion de loopeo que tiene un audio
+	*/
 	int getLooping(int chID) const;
+	/*
+	* @brief Detiene y libera un canal
+	*/
 	bool stopPlaying(int chID);
+	/*
+	* @brief Pausa o reanuda un canal y el audio que reproduce
+	*/
 	bool pauseChannel(int chID, bool pause);
+	/*
+	* @brief Configura el milisegundo de inicio y de final del audio que se reproduciran
+	*/
+	void setDelay(int chID, double start, double end, bool stopChannel);
+	/*
+	* @brief Devuelve si un canal esta pausado (false) o en reproduccion (true)
+	*/
 	bool isChannelPlaying(int chID);
 	void setLooping(int chID,int typeOfLooping);
 	float getVolume(int chID);

@@ -99,7 +99,7 @@ void AudioSource::pauseSound(bool pause) const
 	Engine::instance()->pauseChannel(_channelID,pause);
 }
 
-void AudioSource::setDelay(unsigned long long start, unsigned long long end, bool stopChannel) const
+void AudioSource::setDelay(double start, double end, bool stopChannel) const
 {
 	Engine::instance()->setDelay(_channelID,start, end, stopChannel);
 }
