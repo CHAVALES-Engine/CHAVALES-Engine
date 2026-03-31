@@ -14,13 +14,12 @@
 #include "imgui.h"
 #include "imgui_impl_sdl3.h"
 #include "imgui_impl_opengl3.h"
-#include <stdio.h>
 #include <string>
 #include <SDL3/SDL.h>
 
-#include <tchar.h>
 #include <windows.h>
-#include <processthreadsapi.h>
+#include <stdio.h>
+#include <tchar.h>
 
 #include "GameConfigurator.h"
 #if defined(IMGUI_IMPL_OPENGL_ES2)
@@ -301,6 +300,45 @@ bool ChavalesEditor::runEditor()
 
 int ChavalesEditor::startup()
 {
+#if _DEBUG
+    const wchar_t* target_cmd = {L"ExecutableProject_d.exe"};
+#else
+    const char* target_cmd = {L"ExecutableProject_r.exe"};
+#endif
+
+    STARTUPINFO si;
+    PROCESS_INFORMATION pi;
+
+    std::wcout << "[CHAVALESEDITOR] Ejecutando " << target_cmd << std::endl;
+
+    memset(&si, 0, sizeof(STARTUPINFO));
+    si.cb = sizeof(STARTUPINFO);
+    memset(&pi, 0, sizeof(PROCESS_INFORMATION));
+
+    BOOL rv = CreateProcess(
+        target_cmd,
+        NULL,
+        NULL,
+        NULL,
+        FALSE,
+        CREATE_NEW_CONSOLE,
+        NULL,
+        NULL,
+        &si,
+        &pi
+    );
+
+    if (rv == FALSE) {
+        return 1;
+    }
+    ::CloseHandle(pi.hThread);
+
+    ::WaitForSingleObject(pi.hProcess, INFINITE);
+    ::CloseHandle(pi.hProcess);
+
+    return 0;
+
+    /*
     // additional information
     STARTUPINFOA si = {0};
     LPPROCESS_INFORMATION pi = nullptr;
@@ -310,15 +348,8 @@ int ChavalesEditor::startup()
     si.cb = sizeof(STARTUPINFOA);
     ZeroMemory(&pi, sizeof(LPPROCESS_INFORMATION));
 
-    const char* rr = "..\\..\\2526-Grupo03-ChavalesEngine\\bin\\ExecutableProject_r.exe";
-    const char* rd = "..\\..\\2526-Grupo03-ChavalesEngine\\bin\\ExecutableProject_d.exe";
-
     if (CreateProcessA(
-#if _DEBUG
-        rd,
-#else
-        rr,
-#endif
+
         NULL,
         NULL,
         NULL,
@@ -340,6 +371,7 @@ int ChavalesEditor::startup()
 
 	    return 0;
     }
+	*/
 }
 
 int main()

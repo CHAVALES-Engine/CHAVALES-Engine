@@ -10,6 +10,7 @@
 
 #include "StateMachine.h"
 #include "ComponentDLLLoader.h"
+#include "GameConfigurator.h"
 #include "GameLoader.h"
 #include "Scene.h"
 
@@ -17,6 +18,10 @@ using namespace core;
 
 int main(int argc, char* argv[])
 {
+	Debug::out("[MAIN] Inicializando ChavalesEngine");
+
+	//core::GameConfigurator::_firstScene = argv[1];
+
 	// Inicializa el Engine
 	Engine::init();
 	// Lanza el bucle de juego
