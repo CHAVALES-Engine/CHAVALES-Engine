@@ -11,8 +11,6 @@
 
 #include "guid.h"
 
-class Entity;
-
 namespace core
 {
 	class Entity;

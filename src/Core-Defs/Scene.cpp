@@ -131,6 +131,7 @@ namespace core {
 		e->setEntityID(guid);
 		_entities[e->getEntityID()] = e;
 		_entitiesNames[e->getName()] = guid;
+		e->setScene(this);
 	}
 
 	std::unordered_map<ChavalesGUID, core::Entity*> core::Scene::getEntities() const

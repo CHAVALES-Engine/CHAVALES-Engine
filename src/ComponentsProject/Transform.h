@@ -24,8 +24,9 @@ using transformID = uint64_t;
  *		position = Vector3.new(float...),
  *		rotation = Quaternion.new(float...),
  *		scale = Vector3.new(float...),
- *		children = ... -- TODO (uid)
- *		parent = ... -- (En principio no)
+ *		children = {
+ *			"entidad2", "entidad3"
+ *			}
  * }
  *
  *

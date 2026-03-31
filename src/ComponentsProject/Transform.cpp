@@ -37,10 +37,8 @@ void Transform::ready()
 			Debug::warning("Transform: hijo no encontrado: ", childName);
 			continue;
 		}
-		Transform* childTransform = childEntity->getComponent<Transform>();
-		if (childTransform) {
+		if (Transform* childTransform = childEntity->getComponent<Transform>()) 
 			childTransform->setParent(this);
-		}
 	}
 	_pendingChildren.clear();
 }

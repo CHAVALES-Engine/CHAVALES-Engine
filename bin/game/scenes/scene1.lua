@@ -8,7 +8,8 @@ scene = { -- entidades en escena
 				-- rotacion local
 				rotation = Quaternion.new(),
 				-- escala local
-				scale = Vector3.new(1)
+				scale = Vector3.new(1),
+				children = {"entidad2"}
 			},
 			-- TimerChangescene = {	
 			-- },
