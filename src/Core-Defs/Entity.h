@@ -7,13 +7,14 @@
 #include <vector>
 #include <string>
 #include "ec.h"
+#include "guid.h"
 #include "Component.h"
 
 class Scene;
 
 namespace core
 {
-	using entityID = uint64_t;
+	using entityID = ChavalesGUID;
 
 	class Entity
 	{
@@ -41,7 +42,7 @@ namespace core
 		bool isEnabled() const;
 		bool getDontDestoroyOnLoad() const;
 		const Scene* getScene() const;
-		entityID getEntityID();
+		entityID getEntityID() const;
 		grpId_t getGroupId() const;
 		//bool inGroup(grpId_t id) const;
 		const std::string& getName() const;

@@ -24,8 +24,8 @@ using transformID = uint64_t;
  *		position = Vector3.new(float...),
  *		rotation = Quaternion.new(float...),
  *		scale = Vector3.new(float...),
- *		parent = ... -- TODO (uid)
  *		children = ... -- TODO (uid)
+ *		parent = ... -- (En principio no)
  * }
  *
  *
@@ -39,6 +39,8 @@ using transformID = uint64_t;
 */
 class Transform : public core::Component
 {
+	
+
 	transformID _transformID;
 
 	core::Vector3<> _localPosition;
@@ -46,12 +48,17 @@ class Transform : public core::Component
 	core::Vector3<> _localScale;
 	Transform* _parent;
 	std::vector<Transform*> _children;
-
+	/**
+	 * @brief Lista de nombres de entidades a anyadir como hijos (Solo se usa en la inicializacion de componentes).
+	 */
+	std::vector<std::string> _pendingChildren;
 public:
 	//Transform();
 	//~Transform() ;
 
 	bool init(const Properties& p) override;
+
+	void ready() override;
 
 	void setGlobalPosition(core::Vector3<> gp);
 	void setLocalPosition(const core::Vector3<>& lp);
@@ -91,6 +98,11 @@ public:
 	 * @brief Deshereda a todos sus hijos
 	 */
 	void detachChildren();
+	/**
+	 * @brief Devuelve los hijos pendientes a asignar (util para la inicializacion).
+	 * @return std::vector<std::string>& - Lista de nombres de hijos.
+	 */
+	std::vector<std::string>& getpendingChildren();
 
 	/**
 	 * @brief Aplica una traslacion t en formato vector a la posicion local

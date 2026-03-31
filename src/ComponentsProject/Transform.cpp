@@ -1,7 +1,8 @@
 ﻿#include "Transform.h"
 
-#include "Entity.h"
-#include "Engine.h"
+#include <Scene.h> // Primero debe estar scene por que si no usa la forward declare de Scene en Entity
+#include <Entity.h>
+#include <Engine.h>
 
 #include <Debug.h>
 #include <PluginSDK.h>
@@ -23,8 +24,25 @@ bool Transform::init(const Properties& p)
 	_localPosition = getProperty<core::Vector3<>>(p, "position");
 	_localRotation = getProperty<core::Quaternion<>>(p, "rotation");
 	_localScale = getProperty<core::Vector3<>>(p, "scale");
+	_pendingChildren = getProperty<std::vector<std::string>>(p, "children");
 	//_transformID = Engine::addTransform(getEntity()->getEntityID(), getGlobalPosition(), getGlobalRotation(), getGlobalScale());
 	return true;
+}
+
+void Transform::ready()
+{
+	for (const std::string& childName : _pendingChildren) {
+		core::Entity* childEntity = getEntity()->getScene()->findEntityByName(childName);
+		if (!childEntity) {
+			Debug::warning("Transform: hijo no encontrado: ", childName);
+			continue;
+		}
+		Transform* childTransform = childEntity->getComponent<Transform>();
+		if (childTransform) {
+			childTransform->setParent(this);
+		}
+	}
+	_pendingChildren.clear();
 }
 
 void Transform::setGlobalPosition(core::Vector3<> gp)
@@ -216,6 +234,11 @@ void Transform::detachChildren()
 		detachChild(c);
 	}
 	_children.clear();
+}
+
+std::vector<std::string>& Transform::getpendingChildren()
+{
+	return _pendingChildren;
 }
 
 void Transform::translate(const core::Vector3<>& t)

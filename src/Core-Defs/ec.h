@@ -14,6 +14,7 @@ namespace core
 	class Manager;
 	class Entity;
 	class Component;
+	class Scene;
 
 	// we hide the actual type of the entity
 	//using entity_t = Entity*;
