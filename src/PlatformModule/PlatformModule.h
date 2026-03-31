@@ -96,17 +96,24 @@ public:
 	bool isActionReleased(const std::string& actionName, input::DeviceID device = input::ANY_DEVICE) const;
 	/*
 	 * @brief Indica a la ventana que tome input de texto.
+	 * @param blockKeyboard - Booleano que indica si se debe bloquear el input de teclado mientras se escibe.
 	 */
-	void startTextInput() const;
+	void startTextInput(bool blockKeyboard = true);
 	/*
 	 * @brief Indica a la ventana que deje de tomar input de texto.
 	 */
-	void stopTextInput() const;
+	void stopTextInput();
 	/*
-	 * @brief Devuelve el texto introducido por el dispositivo
-	 * @param device - id del dispositivo a comprobar. ANY_DEVICE por defecto => la suma del input de todos los dispositivos.
+	 * @brief Devuelve el texto introducido por el dispositivo.
+	 * @param device - id del dispositivo a registrar. ANY_DEVICE por defecto => la suma del input de todos los dispositivos.
+	 * @return std::string - Input del texto.
 	 */
 	std::string getTextInput(input::DeviceID device = input::ANY_DEVICE) const;
+	/*
+	 * @brief Borra el buffer del input escrito.
+	 * @param device - id del dispositivo a comprobar. ANY_DEVICE por defecto => la suma del input de todos los dispositivos.
+	 */
+	void clearTextInput(input::DeviceID device = input::ANY_DEVICE);
 	/*
 	 * @brief Getter del input mapper para registrar acciones
 	 * @return input::InputMapper& - referencia al InputMapper
@@ -114,11 +121,16 @@ public:
 	input::InputMapper* getInputMapper() const;
 
 private:
-
 	/**
 	* @brief procesa un evento de sdl
 	*/
 	void _processEvent(const SDL_Event& event);
+	/**
+	 * @brief Comprueba si un input event esta permitido mientras se escribe (escape, enter, KP_enter).
+	 * @param inputEvent - Evento a comprobar.
+	 * @return bool - Si el evento esta permitido en el modo escribir.
+	 */
+	bool _isTextInputAllowed(input::InputEvent inputEvent) const;
 	/**
 	 * @brief Castea un axis de SDL a nuestro propio sistema.
 	 * @param event - Evento a castear.
@@ -131,6 +143,14 @@ private:
 	 * @return input::InputButtons - Evento casteado.
 	 */
 	input::InputButtons _castButton(const SDL_Event& event) const;
+	/**
+	 * @brief Indica si bloquear el teclado mientras se escribe.
+	 */
+	bool _blockKeyboard = true;
+	/**
+	 * @brief Se esta escribiendo.
+	 */
+	bool _textInputActive = false;
 	/**
 	* @brief mapa de dispositivos virtuales
 	*/

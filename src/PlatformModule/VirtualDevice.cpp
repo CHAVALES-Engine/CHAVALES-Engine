@@ -1,7 +1,5 @@
 #include "VirtualDevice.h"
-
-#include <unordered_map>
-
+#include <Debug.h>
 
 input::VirtualDevice::VirtualDevice()
 {
@@ -34,6 +32,7 @@ void input::VirtualDevice::_setButton(input::InputButtons button, bool value)
 		using T = decltype(b);
 		if constexpr (std::is_same_v<T, Key>)
 		{
+			Debug::out(_keyState[b]);
 			_keyLastState[b] = _keyState[b];
 			_keyState[b] = value;
 		}
@@ -72,54 +71,56 @@ bool input::VirtualDevice::isPressed(GamepadButton button) const
 
 bool input::VirtualDevice::isPressed(InputButtons button) const
 {
+	bool result = false;
 	std::visit([&](auto b) {
 		using T = decltype(b);
 		if constexpr (std::is_same_v<T, Key>)
 		{
-			return isPressed(b);
+			result = isPressed(b);
 		}
 		else if constexpr (std::is_same_v<T, MouseButton>)
 		{
-			return isPressed(b);
+			result = isPressed(b);
 		}
 		else if constexpr (std::is_same_v<T, GamepadButton>)
 		{
-			return isPressed(b);
+			result = isPressed(b);
 		}
 		}, button);
-	return false;
+	return result;
 }
 
 bool input::VirtualDevice::isReleased(Key key) const
 {
-	return _connected && !_keyState && _keyLastState;
+	return _connected && !_keyState[key] && _keyLastState[key];
 }
 
 bool input::VirtualDevice::isReleased(MouseButton button) const
 {
-	return _connected && !_mouseButtonState && _mouseButtonLastState;
+	return _connected && !_mouseButtonState[button] && _mouseButtonLastState[button];
 }
 
 bool input::VirtualDevice::isReleased(GamepadButton button) const
 {
-	return _connected && !_gamepadButtonState && _gamepadButtonLastState;
+	return _connected && !_gamepadButtonState[button] && _gamepadButtonLastState[button];
 }
 
 bool input::VirtualDevice::isReleased(InputButtons button) const
 {
+	bool result = false;
 	std::visit([&](auto b) {
 		using T = decltype(b);
 		if constexpr (std::is_same_v<T, Key>)
 		{
-			return isReleased(b);
+			result = isReleased(b);
 		}
 		else if constexpr (std::is_same_v<T, MouseButton>)
 		{
-			return isReleased(b);
+			result = isReleased(b);
 		}
 		else if constexpr (std::is_same_v<T, GamepadButton>)
 		{
-			return isReleased(b);
+			result = isReleased(b);
 		}
 		}, button);
 	return false;
@@ -127,37 +128,38 @@ bool input::VirtualDevice::isReleased(InputButtons button) const
 
 bool input::VirtualDevice::isJustPressed(Key key) const
 {
-	return _connected && _keyState && !_keyLastState;
+	return _connected && _keyState[key] && !_keyLastState[key];
 }
 
 bool input::VirtualDevice::isJustPressed(MouseButton button) const
 {
-	return _connected && _mouseButtonState && !_mouseButtonLastState;
+	return _connected && _mouseButtonState[button] && !_mouseButtonLastState[button];
 }
 
 bool input::VirtualDevice::isJustPressed(GamepadButton button) const
 {
-	return _connected && _gamepadButtonState && !_gamepadButtonLastState;
+	return _connected && _gamepadButtonState[button] && !_gamepadButtonLastState[button];
 }
 
 bool input::VirtualDevice::isJustPressed(InputButtons button) const
 {
+	bool result = false;
 	std::visit([&](auto b) {
 		using T = decltype(b);
 		if constexpr (std::is_same_v<T, Key>)
 		{
-			return isJustPressed(b);
+			result = isJustPressed(b);
 		}
 		else if constexpr (std::is_same_v<T, MouseButton>)
 		{
-			return isJustPressed(b);
+			result = isJustPressed(b);
 		}
 		else if constexpr (std::is_same_v<T, GamepadButton>)
 		{
-			return isJustPressed(b);
+			result = isJustPressed(b);
 		}
 		}, button);
-	return false;
+	return result;
 }
 
 float input::VirtualDevice::getAxis(MouseAxis axis) const
@@ -172,18 +174,19 @@ float input::VirtualDevice::getAxis(GamepadAxis axis) const
 
 float input::VirtualDevice::getAxis(InputAxis axis) const
 {
+	float result = 0.0;
 	std::visit([&](auto a) {
 		using T = decltype(a);
 		if constexpr (std::is_same_v<T, MouseAxis>)
 		{
-			return getAxis(a);
+			result = getAxis(a);
 		}
 		else if constexpr (std::is_same_v<T, GamepadAxis>)
 		{
-			return getAxis(a);
+			result = getAxis(a);
 		}
 		}, axis);
-	return 0.0f;
+	return result;
 }
 
 bool input::VirtualDevice::isConnected() const

@@ -9,6 +9,28 @@
 
 using cameraID = uint64_t;
 
+/*
+ * +--------+
+ * | CAMERA |
+ * +--------+
+ *
+ * --- Ejemplo de uso en lua ---
+ * Camera = {
+ *		FOVy = float,
+ *		near clip distance = float,
+ *		far clip distance = float,
+ *		focal length = float,
+ *		background color = Color
+ * }
+ *
+ * --- Ejemplo de inicializacion ---
+ * En bool init(const Properties& p):
+ *		# Ej1, asignacion:
+ * component = getProperty<tipo>(properties, "atributo1");
+ *		# Ej2, setter:
+ * return setProperty(properties, "atributo1", component);
+ *
+*/
 class Camera : public core::Component
 {
 	cameraID _cameraID;

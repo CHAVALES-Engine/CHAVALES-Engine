@@ -84,11 +84,10 @@ bool AudioModule::loadSound(string path, string id,  bool soundStream, bool soun
 	FMOD_RESULT result;
 	FMOD::Sound* sound = nullptr;
 	
-	result = _system->createSound(path.c_str(), FMOD_3D, nullptr, &sound);
+	result = _system->createSound(path.c_str(), eMode, nullptr, &sound);
 
 	if (result == FMOD_OK)
 	{
-		cout << "guay" << std::endl;
 		_soundMap[id] = sound;
 		return true;
 	}
@@ -142,7 +141,6 @@ bool AudioModule::setChannelVolume(int chID, float newVolume)
 	if (itChFound == _channelSound.end())
 	{
 		Debug::error("Channel not found: Couldn't find channel, there isn't an existing channel with this id: " + to_string(chID));
-		Debug::out("Me cago");
 		return false;
 	}
 	itChFound->second->setVolume(newVolume);
@@ -158,6 +156,17 @@ bool AudioModule::getLooping(int chID, int* typeOfLooping)
 	}
 	itChFound->second->getLoopCount(typeOfLooping);
 	return true;
+}
+
+void AudioModule::setLooping(int chID, int typeOfLooping)
+{
+	auto itChFound = _channelSound.find(chID);
+	if (itChFound == _channelSound.end())
+	{
+		Debug::error("Channel not found: Couldn't find channel, there isn't an existing channel with this id: " + to_string(chID));
+		return;
+	}
+	itChFound->second->setLoopCount(typeOfLooping);
 }
 
 bool AudioModule::stopPlaying(int chID)
@@ -248,4 +257,14 @@ void AudioModule::setDelay(int chID, double start, double end, bool stopChannel)
 		return;
 	}
 	itChFound->second->setDelay(sampleStart, sampleEnd, stopChannel);
+}
+
+void AudioModule::getVolume(int chID, float& volume)
+{
+	auto itChFound = _channelSound.find(chID);
+
+	if (itChFound == _channelSound.end()) {
+		return;
+	}
+	itChFound->second->getVolume(&volume);
 }

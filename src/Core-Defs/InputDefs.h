@@ -333,73 +333,73 @@ namespace input
 	static constexpr DeviceID KEYBOARD_ID = 0;
 	static constexpr DeviceID ANY_DEVICE = static_cast<DeviceID>(-1);
 
+
+} // namespace Input
 	// toString — array estatico generado por las X-Macros
 	// O(0) en runtime
 
-	inline std::string_view toString(Key k)
+	inline std::string_view toString(input::Key k)
 	{
 		static constexpr std::string_view names[] = {
 			#define X(name, value) #name,
 			INPUT_KEYS(X)
 			#undef X
 		};
-		if (static_cast<uint8_t>(k) >= static_cast<uint8_t>(KEY_COUNT))
+		if (static_cast<uint8_t>(k) >= static_cast<uint8_t>(input::KEY_COUNT))
 			return "KEY_INVALID";
 		return names[k];
 	}
 
-	inline std::string_view toString(MouseButton b)
+	inline std::string_view toString(input::MouseButton b)
 	{
 		static constexpr std::string_view names[] = {
 			#define X(name, value) #name,
 			INPUT_MOUSE_BUTTONS(X)
 			#undef X
 		};
-		if (static_cast<uint8_t>(b) >= static_cast<uint8_t>(MOUSE_BUTTON_COUNT))
+		if (static_cast<uint8_t>(b) >= static_cast<uint8_t>(input::MOUSE_BUTTON_COUNT))
 			return "MOUSE_BUTTON_INVALID";
 		return names[b];
 	}
 
-	inline std::string_view toString(MouseAxis a)
+	inline std::string_view toString(input::MouseAxis a)
 	{
 		static constexpr std::string_view names[] = {
 			#define X(name, value) #name,
 			INPUT_MOUSE_AXES(X)
 			#undef X
 		};
-		if (static_cast<uint8_t>(a) >= static_cast<uint8_t>(MOUSE_AXIS_COUNT))
+		if (static_cast<uint8_t>(a) >= static_cast<uint8_t>(input::MOUSE_AXIS_COUNT))
 			return "MOUSE_AXIS_INVALID";
 		return names[a];
 	}
 
-	inline std::string_view toString(GamepadButton b)
+	inline std::string_view toString(input::GamepadButton b)
 	{
 		static constexpr std::string_view names[] = {
 			#define X(name, value) #name,
 			INPUT_GAMEPAD_BUTTONS(X)
 			#undef X
 		};
-		if (static_cast<uint8_t>(b) >= static_cast<uint8_t>(BUTTON_GP_COUNT))
+		if (static_cast<uint8_t>(b) >= static_cast<uint8_t>(input::BUTTON_GP_COUNT))
 			return "GAMEPAD_BUTTON_INVALID";
 		return names[b];
 	}
 
-	inline std::string_view toString(GamepadAxis a)
+	inline std::string_view toString(input::GamepadAxis a)
 	{
 		static constexpr std::string_view names[] = {
 			#define X(name, value) #name,
 			INPUT_GAMEPAD_AXES(X)
 			#undef X
 		};
-		if (static_cast<uint8_t>(a) >= static_cast<uint8_t>(GAMEPAD_AXIS_COUNT))
+		if (static_cast<uint8_t>(a) >= static_cast<uint8_t>(input::GAMEPAD_AXIS_COUNT))
 			return "GAMEPAD_AXIS_INVALID";
 		return names[a];
 	}
 
 	// toString para InputEvent (variant)
-	inline std::string_view toString(const InputEvent& e)
+	inline std::string_view toString(const input::InputEvent& e)
 	{
 		return std::visit([](auto v) { return toString(v); }, e);
 	}
-
-} // namespace Input

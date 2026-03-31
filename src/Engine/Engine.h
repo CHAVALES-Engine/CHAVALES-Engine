@@ -19,6 +19,8 @@ class AudioModule;
 class PhysicsModule;
 class ComponentDLLLoader;
 class StateMachine;
+class InputFacade;
+
 namespace core
 {
 	class Scene;
@@ -28,6 +30,7 @@ namespace core
 using entityID = uint64_t;
 using transformID = uint64_t;
 using cameraID = uint64_t;
+using modelID = uint64_t;
 using lightID = uint64_t;
 
 class ENGINE_API Engine
@@ -53,16 +56,14 @@ public:
 	*/
 	void startLoop();
 	/*
-	* @brief Metodo que sincroniza los modulos con el juego
+	* @brief Metodo que sincroniza los eventos de input.
+	* @return bool - Booleano para saber si se ha cerrado la ventana.
 	*/
-	bool syncronize() const;
+	bool pollEvents() const;
 	/**
 	 *
 	 */
 	const void addAndSetScene(std::string n) const;
-	const void setAddAndSetScene(std::function<void(std::string)> func);
-
-
 
 	//Metodos del modulo de render
 #pragma region Render
@@ -138,27 +139,48 @@ public:
 	void setCameraFocalLength(const cameraID& id, const float& focalLength);
 #pragma endregion
 
+	//Metodos modelos
+#pragma region model
+	/*
+	* @brief anade un modelo a la escena.
+	*/
+	void addModel(const entityID& entityID, const std::string& modelFolder, const std::string& modelFile);
+	/*
+	* @brief Borra un modelo de la escena.
+	*/
+	void deleteModel(const modelID& id);
+	/*
+	* @brief Borra un modelo de la escena.
+	*/
+	void setSubmeshDiffuse(const modelID& id, const std::string& textureFolder, const std::string& textureFile, const int& submesh);
+	/*
+	* @brief Establecer tinte de material.
+	*/
+	void setSubmeshTint(const modelID& id, const core::Color& tint, const int& submesh);
+	/*
+	* @brief Establecer si el modelo es visible.
+	*/
+	void setModelVisible(const modelID& id, const bool& visible);
+#pragma endregion
+
+	//Metodos luces
 #pragma region light
 	/*
 	* @brief Luz nueva. Se asigna un id por orden de creacion. Main Luz id 0 y añadidas manualmente 1 en adelante.
 	*/
-	lightID addLight(const entityID& entityID, int type, const core::Color& color, float intensity);
+	lightID addLight(const entityID& entityID, const int& type, const core::Color& color, const float& intensity);
 	/*
 	* @brief Borrar luz por id. A las luces creadas posteriormente se les resta el id en 1.
 	*/
 	void deleteLight(const lightID& id);
 	/*
-	* @brief activar/descativar camara
+	* @brief Establecer actividad de luz.
 	*/
-	void setLightActive(const lightID& id, bool active);
-	/*
-	* @brief activar/descativar camara
-	*/
-	void cleanLights();
+	void setLightActive(const lightID& id, const bool& active);
 	/*
 	* @brief Establecer el tipo de luz
 	*/
-	void setLightType(const lightID& id, int type);
+	void setLightType(const lightID& id, const int& type);
 	/*
 	* @brief Establecer el color de la luz
 	*/
@@ -166,20 +188,15 @@ public:
 	/*
 	* @brief Establecer la intensidad de luz
 	*/
-	void setLightIntensity(const lightID& id, float intensity);
-	/*
-	* @brief Establecer la direccion de luz
-	*/
-	void setLightDirection(const lightID& id, const core::Vector3<float>& dir);
+	void setLightIntensity(const lightID& id, const float& intensity);
 	/*
 	* @brief Establecer el cono de luz (ángulo interno, ángulo externo y suavidad de degradado)
 	*/
-	void setLightSpotRange(const lightID& id, float inner, float outer, float falloff);
-
-
+	void setLightSpotRange(const lightID& id, const float& inner, const float& outer, const float& falloff);
+#pragma endregion
 #pragma endregion
 
-
+	//Metodos audio
 #pragma region audio
 
 	//Metodos del modulo de audio
@@ -228,12 +245,10 @@ public:
 	* @brief Devuelve si un canal esta pausado (false) o en reproduccion (true)
 	*/
 	bool isChannelPlaying(int chID);
+	void setLooping(int chID,int typeOfLooping);
+	float getVolume(int chID);
 
 #pragma endregion
-
-#pragma region Platform
-
-	//------Metodos de PlatformModule:
 
 	/**
 	* @brief Devuelve anchura de la ventana
@@ -243,112 +258,8 @@ public:
 	* @brief Devuelve altura de la ventana
 	*/
 	int getWindowHeight() const;
-	/*
-	* @brief Devuelve si una tecla esta pulsada
-	* @param inputAction - InputEvent a comprobar
-	* @param device - id del dispositivo a comprobar. -1 por defecto => el primero positivo que encuentre.
-	*/
-	bool isKeyPressed(input::InputEvent inputAction, input::DeviceID device = input::ANY_DEVICE) const;
-	/*
-	* @brief Devuelve si se ha dejado de pulsar una tecla
-	* @param inputAction - InputEvent a comprobar
-	* @param device - id del dispositivo a comprobar. -1 por defecto => el primero positivo que encuentre.
-	*/
-	bool isKeyReleased(input::InputEvent inputAction, input::DeviceID device = input::ANY_DEVICE) const;
-	/*
-	* @brief Devuelve cuanto de accionado esta la accion a comprobar
-	* @param inputAction - InputEvent a comprobar
-	* @param device - id del dispositivo a comprobar. -1 por defecto => el primero positivo que encuentre.
-	* @return float - Devuelve de -1 a 1
-	*/
-	float getAxis(input::InputEvent inputAction, input::DeviceID device = input::ANY_DEVICE) const;
-	/*
-	* @brief Devuelve si se ha pulsado una accion
-	* @param actionName - accion a comprobar
-	* @param device - id del dispositivo a comprobar. -1 por defecto => el primero positivo que encuentre.
-	*/
-	bool isActionPressed(const std::string& actionName, input::DeviceID device = input::ANY_DEVICE) const;
-	/*
-	* @brief Devuelve si se ha dejado de pulsar una accion
-	* @param actionName - accion a comprobar
-	* @param device - id del dispositivo a comprobar. -1 por defecto => el primero positivo que encuentre.
-	*/
-	bool isActionReleased(const std::string& actionName, input::DeviceID device = input::ANY_DEVICE) const;
-	/*
-	* @brief Indica a la ventana que tome input de texto.
-	*/
-	void startTextInput() const;
-	/*
-	* @brief Indica a la ventana que deje de tomar input de texto.
-	*/
-	void stopTextInput() const;
-	/*
-	* @brief Devuelve el texto introducido por el dispositivo
-	* @param device - id del dispositivo a comprobar. ANY_DEVICE por defecto => la suma del input de todos los dispositivos.
-	*/
-	std::string getTextInput(input::DeviceID device = input::ANY_DEVICE) const;
 
-	//------Metodos de InputMapper:
-
-	/**
-	* @brief Mete un evento asociada a un nombre de accion.
-	*
-	* @param actionName - Nombre de la accion.
-	* @param InputEvent - Input que lanza el evento.
-	* @param id - Id del dispositivo a comprobar. -1 por defecto => el primero positivo que encuentre.
-	*/
-	void addEvent(const std::string& actionName, input::InputEvent inputEvent, input::DeviceID id = input::ANY_DEVICE);
-
-	/**
-	* @brief Quita una evento asociado a una accion.
-	*
-	* @param actionName - Accion de la que eliminar un input.
-	* @param InputEvent - Evento que quitar del mapa.
-	* @param id - Id del dispositivo a comprobar. -1 por defecto => elimina todos los eventos del tipo dado.
-	*/
-	void removeEvent(const std::string& actionName, input::InputEvent inputEvent, input::DeviceID id = input::ANY_DEVICE);
-	/**
-	* @brief Elimina todos los eventos asociados a una accion.
-	*
-	* @param actionName - Accion cuyos eventos hay que eliminar.
-	*/
-	void removeEvents(const std::string& actionName);
-	/**
-	* @brief Elimina todos los eventos asociados a una accion y a un id.
-	*
-	* @param actionName - Accion cuyos eventos hay que eliminar.
-	* @param id - Id del dispositivo a comprobar. -1 por defecto => elimina todos los eventos de la accion (llama a removeEvents(actionName)).
-	*/
-	void removeEventsFromID(const std::string& actionName, input::DeviceID id = input::ANY_DEVICE);
-
-	/**
-	* @brief Devuelve todos los eventos correspondientes a una accion.
-	*
-	* @param actionName - Accion a consultar.
-	* @param id - Id del dispositivo a comprobar. -1 por defecto => Devuelve todos los eventos de esa accion.
-	*
-	* @return std::vector<InputAction> - Vector de InputActions correspondientes.
-	*/
-	std::vector<input::InputEvent> getInputEvents(const std::string& actionName, input::DeviceID id = input::ANY_DEVICE);
-	/**
-	* @brief Devuelve todas las acciones.
-	*
-	* @return std::vector<std::string> - Nombres de acciones registradas.
-	*/
-	std::vector<std::string> getActions();
-
-	/**
-	* @brief Devuelve si tiene un nombre de accion registrada.
-	*
-	* @param actionName - Nombre de la accion a consultar.
-	*
-	* @return bool - Devuelve true si esta mapeada.
-	*/
-	bool hasAction(const std::string& actionName) const;
-
-#pragma endregion
-
-#pragma endregion
+	InputFacade* input() const;
 
 private:
 	/*
@@ -366,6 +277,10 @@ private:
 	*	Referencia al modulo de platform
 	*/
 	PlatformModule* _platformModule = nullptr;
+	/**
+	 * @brief Referencia a la api publica del input
+	 */
+	InputFacade* _input;
 	/*
 	* @brief
 	*	Referencia al modulo de render
@@ -383,13 +298,7 @@ private:
 	PhysicsModule* _physicsModule = nullptr;
 	/*
 	* @brief
-	*	Referencia al cargador de dlls
-	*/
-	ComponentDLLLoader* _componentDLLLoader = nullptr;
-	/*
-	* @brief
 	*	Referencia a la maquina de estados
 	*/
 	StateMachine* _stateMachine = nullptr;
-	std::function<void(std::string)> _addAndSetScene;
 };

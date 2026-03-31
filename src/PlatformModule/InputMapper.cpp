@@ -5,13 +5,7 @@
 
 #include <Debug.h>
 
-
-input::InputMapper::InputMapper()
-{
-
-}
-
-void input::InputMapper::addEvent(const std::string& actionName, InputEvent inputEvent, DeviceID id)
+void input::InputMapper::addEventToAction(const std::string& actionName, InputEvent inputEvent, DeviceID id)
 {
 	if (!hasAction(actionName))
 	{

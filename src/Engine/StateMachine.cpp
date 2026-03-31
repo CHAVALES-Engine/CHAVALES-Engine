@@ -1,4 +1,4 @@
-#include "StateMachine.h"
+﻿#include "StateMachine.h"
 
 #include <chrono>
 #include <stdexcept>
@@ -22,9 +22,6 @@ StateMachine::StateMachine() :
 	_endGame(false)
 {
 	_deltaTime = 0;
-	Engine::instance()->setAddAndSetScene([this](std::string n) {
-			this->addAndSetScene(n);
-		});
 }
 
 StateMachine::~StateMachine()
@@ -38,14 +35,14 @@ void StateMachine::gameLoop()
 
 	while (!_endGame) // bucle de juego
 	{
-		_endGame = Engine::instance()->syncronize();
+		_endGame = Engine::instance()->pollEvents();
 		core::TimerManager::instance().update();
 
 		if (_currentScene.ptr != nullptr)
 		{
-
-			if (GameLoader::reloadLua() || ComponentDLLLoader::checkReload()) // si es necesario recargar...
+			if (GameLoader::reloadLua() || ComponentDLLLoader::instance().checkReload()) // si es necesario recargar...
 			{
+				Debug::warning("Reloading scene [", _currentScene.name, "]");
 				_currentScene.ptr->clearScene(); // elimina escena anterior
 				scenePtr s = std::move(GameLoader::loadScene(_currentScene.name)); // vuelve a cargar
 				_currentScene.ptr = s;
@@ -63,6 +60,7 @@ void StateMachine::gameLoop()
 
 			_currentScene.ptr->update(_deltaTime);
 			//_currentScene.ptr->render();
+			Engine::instance()->renderFrame();
 		}
 	}
 

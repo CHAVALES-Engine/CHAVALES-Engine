@@ -13,6 +13,7 @@ class Engine;
 /**
 * @brief La clase ComponentDLLLoader es la encargada de cargar dlls de componentes y buscar la funcion exportadora
 *		del registro local de componentes de cada dll, para pasarselos al registro global del motor.
+*		Es una clase singleton para ser facilmente accesible por aquello que la necesite.
 *		
 *		> Actualmente este dllloader es solo usable en windows
 */
@@ -22,27 +23,32 @@ private:
 	ComponentDLLLoader() = default;
 	/**
 	* @brief Destructor.
-	*
-	*		Descarga todas las librerias.
+	*	Descarga todas las librerias.
 	*/
 	~ComponentDLLLoader();
 	// @brief Callback que se llama cuando una DLL se recarga
 	using ReloadCallback = std::function<void(const std::string& path)>;
 public:
+
+	// Eliminar copia y movimiento
+	ComponentDLLLoader(const ComponentDLLLoader&) = delete;
+	ComponentDLLLoader& operator=(const ComponentDLLLoader&) = delete;
+	ComponentDLLLoader(ComponentDLLLoader&&) = delete;
+	ComponentDLLLoader& operator=(ComponentDLLLoader&&) = delete;
+
+	static ComponentDLLLoader& instance();
 	/**
-	* @brief Metodo para cargar librerias.
-	*
-	*		Carga la libreria del path.
+	* @brief Metodo para carga de libreria desde un path.
 	* @param path - Path a la libreria.
 	* @return bool - Si ha cargado de forma exitosa.
 	*/
-	static bool load(const std::string& path);
+	bool load(const std::string& path);
 	/**
-	* @brief Metodo para descarga la libreria del path.
+	* @brief Metodo para descarga de libreria desde un path.
 	* @param path - Path a la libreria.
 	* @return bool - Si se ha descargado correctamente.
 	*/
-	static bool unload(const std::string& path);	
+	bool unload(const std::string& path);	
 	/**
 	* @brief Descarga todas las lubrerias dinamicas.
 	*/
@@ -50,7 +56,7 @@ public:
 	/**
 	 * @brief Comprueba si es necesario recargar alguna de las dll.
 	 */
-	static bool checkReload();
+	bool checkReload();
 	/**
 	 * @brief Settea un callback de reload, llamado cuando se tenga que recargar una dll.
 	 * @param cb - std::function<void(const std::string& path)> funcion a llamar.
@@ -69,26 +75,38 @@ private:
 		FILETIME	lastWriteTime;
 		int			idOnVector;
 	};
-
 	/**
-	 * @brief Descarga una libreria a partir de su entrada en el vector.
-	 * @param entry 
-	 * @return 
+	 * @brief Descarga una libreria y elimina la entrada del vector.
+	 * @param library  - Libreria a borrar.
 	 */
-	static void _unload(LoadedLibrary& entry);
+	bool _unload(LoadedLibrary& library);
 	/**
 	 * @brief Recarga una libreria.
-	 * @param entry 
+	 * @param library - Libreria a recargar.
 	 */
-	static void _reload(LoadedLibrary& entry);
-
-	static std::string _makeTempPath(const std::string& originalPath);
-
-	static FILETIME _getFileWriteTime(const std::string& path);
+	void _reload(LoadedLibrary& library);
+	/**
+	 * @brief Construye un "path_hot" temporal para leerlo y poder modificar mientras el original.
+	 * @param originalPath - Path a hacer un "path_hot".
+	 * @return std::string - Path temporal.
+	 */
+	std::string _makeTempPath(const std::string& originalPath);
+	/**
+	 * @brief Coge el momento en el que ha sido escrito un fichero.
+	 * @param path - Ruta al fichero a comprobar.
+	 * @return FILETIME - Struct de windows que representa el instante de tiempo.
+	 */
+	FILETIME _getFileWriteTime(const std::string& path);
+	/**
+	 * @brief Comprueba si un fichero esta siendo modificado.
+	 * @param path - Ruta al fichero a comprobar.
+	 * @return bool - Si el fichero esta libre.
+	 */
+	bool _isFileFree(const std::string& path);
 	/**
 	* @brief Vector contenedor de informacion de dlls.
 	*/
-	static std::vector<LoadedLibrary> _libraries;
+	std::vector<LoadedLibrary> _libraries;
 	/**
 	 * @brief Funcion lambda a llamar cuando se hace un reload de una libreria
 	 */

@@ -69,6 +69,7 @@
     <ClInclude Include="..\..\src\Core-Defs\Vector4.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\Core-Defs\guid.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

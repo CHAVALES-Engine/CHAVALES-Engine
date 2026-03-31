@@ -10,20 +10,46 @@ class ComponentTest : public core::Component
 {
 	int health = 0;
 	int test = 0;
+	std::vector<int> vecInts;
+	std::vector<float> vecFloats;
+	std::vector<std::string> vecString;
+	std::vector<bool> vecBools;
+	std::vector<core::Vector3<>> vecVecs;
 
 	bool init(const Properties& p) override
 	{
 		// ejemplos de inicializacion:
-		// ejemplo 1
 		
-		// ejemplo 2
+		// ejemplo 1
 		//health = getProperty<int>(p, "health");
-		return setProperty(p, "health", health) 
-		&& setProperty<int>(p, "focal length", test);
+
+		// ejemplo 2
+		return setProperty(p, "health", health)
+			&& setProperty(p, "vecString", vecString)
+			&& setProperty(p, "vecInts", vecInts)
+			&& setProperty(p, "vecFloats", vecFloats)
+			&& setProperty(p, "vecBools", vecBools)
+			&& setProperty(p, "vecVecs", vecVecs);
 	}
 	
 	void ready() override
 	{
+		//Debug::out(">>READY<<");
+		//Debug::out(">>ints<<");
+		//for (const auto& s : vecInts)
+		//	Debug::out(s);
+		//Debug::out(">>floats<<");
+		//for (const auto& s : vecFloats)
+		//	Debug::out(s);
+		//Debug::out(">>strings<<");
+		//for (const auto& s : vecString)
+		//	Debug::out(s);
+		//Debug::out(">>bools<<");
+		//for (const auto& s : vecBools)
+		//	Debug::out(s);
+		//for (const auto& s : vecVecs)
+		//	Debug::out(s);
+		
 		Debug::out("Hola :-) Mi vida es ", health);
 		Debug::out("test ", test);
 	}
@@ -59,7 +85,6 @@ class TimerChangescene : public core::Component
 {
 	core::Timer t;
 	int tic = 1000;
-	std::vector<int> vec;
 
 public:
 	TimerChangescene()
@@ -69,17 +94,11 @@ public:
 
 	bool init(const Properties& p) override
 	{
-		return setProperty(p, "vec", vec);
+		return true;
 	}
 
 	void ready() override
 	{
-		Debug::out(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>ready");
-		for (int lol : vec)
-		{
-			Debug::out(lol);
-		}
-
 		t = core::TimerManager::instance().createTimer(10, [this]() { this->changeScene(); });
 	}
 

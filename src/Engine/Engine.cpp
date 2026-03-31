@@ -2,13 +2,16 @@
 
 #include <memory>
 
-#include "PlatformModule.h"
-#include "RenderModule.h"
-#include "AudioModule.h"
+#include <PlatformModule.h>
+#include <RenderModule.h>
+#include <AudioModule.h>
+#include <PhysicsModule.h>
+
+#include <InputMapper.h>
+
 #include "ComponentDLLLoader.h"
-#include "PhysicsModule.h"
-#include "InputMapper.h"
 #include "StateMachine.h"
+#include "InputFacade.h"
 
 using namespace std;
 Engine* Engine::_instance = nullptr;
@@ -32,10 +35,12 @@ void Engine::release()
 	Debug::close();
 	if (_instance) {
 		delete _instance->_platformModule;
+		delete _instance->_input;
+
 		delete _instance->_audioModule;
 		delete _instance->_physicsModule;
 		delete _instance->_renderModule;
-		delete _instance->_componentDLLLoader;
+
 		delete _instance->_stateMachine;
 		delete _instance;
 		_instance = nullptr;
@@ -51,18 +56,14 @@ void Engine::startLoop()
 	_stateMachine->gameLoop();
 }
 
-bool Engine::syncronize() const
+bool Engine::pollEvents() const
 {
 	return _platformModule->syncronize();
 }
 
 const void Engine::addAndSetScene(std::string n) const
 {
-	_addAndSetScene(n);
-}
-
-const void Engine::setAddAndSetScene(std::function<void(std::string)> func) {
-	_addAndSetScene = func;
+	_stateMachine->addAndSetScene(n);
 }
 
 void Engine::renderFrame()
@@ -135,7 +136,32 @@ void Engine::setCameraFocalLength(const cameraID& id, const float& focalLength)
 	_renderModule->setCameraFocalLength(id, focalLength);
 }
 
-lightID Engine::addLight(const entityID& entityID, int type, const core::Color& color, float intensity)
+void Engine::addModel(const entityID& entityID, const std::string& modelFolder, const std::string& modelFile)
+{
+	_renderModule->addModel(entityID, modelFolder, modelFile);
+}
+
+void Engine::deleteModel(const modelID& id)
+{
+	_renderModule->deleteModel(id);
+}
+
+void Engine::setSubmeshDiffuse(const modelID& id, const std::string& textureFolder, const std::string& textureFile, const int& submesh)
+{
+	_renderModule->setDiffuse(id, submesh, textureFolder, textureFile);
+}
+
+void Engine::setSubmeshTint(const modelID& id, const core::Color& tint, const int& submesh)
+{
+	_renderModule->setTint(id, submesh, tint);
+}
+
+void Engine::setModelVisible(const modelID& id, const bool& visible)
+{
+	_renderModule->setModelVisible(id, visible);
+}
+
+lightID Engine::addLight(const entityID& entityID, const int& type, const core::Color& color, const float& intensity)
 {
 	return _renderModule->addLight(entityID, type,color, intensity);
 }
@@ -145,17 +171,12 @@ void Engine::deleteLight(const lightID& id)
 	_renderModule->deleteLight(id);
 }
 
-void Engine::setLightActive(const lightID& id, bool active)
+void Engine::setLightActive(const lightID& id, const bool& active)
 {
 	_renderModule->setLightActive(id, active);
 }
 
-void Engine::cleanLights()
-{
-	_renderModule->cleanLights();
-}
-
-void Engine::setLightType(const lightID& id, int type)
+void Engine::setLightType(const lightID& id, const int& type)
 {
 	_renderModule->setLightType(id, type);
 }
@@ -165,17 +186,12 @@ void Engine::setLightColor(const lightID& id, const core::Color& color)
 	_renderModule->setLightColor(id, color);
 }
 
-void Engine::setLightIntensity(const lightID& id, float intensity)
+void Engine::setLightIntensity(const lightID& id, const float& intensity)
 {
 	_renderModule->setLightIntensity(id, intensity);
 }
 
-void Engine::setLightDirection(const lightID& id, const core::Vector3<float>& dir)
-{
-	_renderModule->setLightDirection(id, dir);
-}
-
-void Engine::setLightSpotRange(const lightID& id, float inner, float outer, float falloff)
+void Engine::setLightSpotRange(const lightID& id, const float& inner, const float& outer, const float& falloff)
 {
 	_renderModule->setLightSpotRange(id, inner, outer, falloff);
 }
@@ -233,7 +249,18 @@ bool Engine::isChannelPlaying(int chID)
 	return _audioModule->isChannelPlaying(chID);
 }
 
-#pragma region Platform
+void Engine::setLooping(int chID, int typeOfLooping)
+{
+	_audioModule->setLooping(chID, typeOfLooping);
+}
+
+float Engine::getVolume(int chID)
+{
+	float volume;
+	_audioModule->getVolume(chID, volume);
+	return volume;
+}
+
 
 //------Metodo de PlatformModule:
 int Engine::getWindowWidth() const
@@ -246,83 +273,11 @@ int Engine::getWindowHeight() const
 	return _platformModule->getWindowHeight();
 }
 
-bool Engine::isKeyPressed(input::InputEvent inputAction, input::DeviceID device) const
+InputFacade* Engine::input() const
 {
-	return _platformModule->isKeyPressed(inputAction, device);
+	return _input;
 }
 
-bool Engine::isKeyReleased(input::InputEvent inputAction, input::DeviceID device) const
-{
-	return _platformModule->isKeyReleased(inputAction, device);
-}
-
-float Engine::getAxis(input::InputEvent inputAction, input::DeviceID device) const
-{
-	return _platformModule->getAxis(inputAction, device);
-}
-
-bool Engine::isActionPressed(const std::string& actionName, input::DeviceID device) const
-{
-	return _platformModule->isActionPressed(actionName, device);
-}
-
-bool Engine::isActionReleased(const std::string& actionName, input::DeviceID device) const
-{
-	return _platformModule->isActionReleased(actionName, device);
-}
-
-void Engine::startTextInput() const
-{
-	_platformModule->startTextInput();
-}
-
-void Engine::stopTextInput() const
-{
-	_platformModule->stopTextInput();
-}
-
-std::string Engine::getTextInput(input::DeviceID device) const
-{
-	return _platformModule->getTextInput(device);
-}
-
-//------Metodos de InputMapper:
-void Engine::addEvent(const std::string& actionName, input::InputEvent inputEvent, input::DeviceID id)
-{
-	_platformModule->getInputMapper()->addEvent(actionName, inputEvent, id);
-}
-
-void Engine::removeEvent(const std::string& actionName, input::InputEvent inputEvent, input::DeviceID id)
-{
-	_platformModule->getInputMapper()->removeEvent(actionName, inputEvent, id);
-}
-
-void Engine::removeEvents(const std::string& actionName)
-{
-	_platformModule->getInputMapper()->removeEvents(actionName);
-}
-
-void Engine::removeEventsFromID(const std::string& actionName, input::DeviceID id)
-{
-	_platformModule->getInputMapper()->removeEventsFromID(actionName, id);
-}
-
-std::vector<input::InputEvent> Engine::getInputEvents(const std::string& actionName, input::DeviceID id)
-{
-	return _platformModule->getInputMapper()->getInputEvents(actionName, id);
-}
-
-std::vector<std::string> Engine::getActions()
-{
-	return _platformModule->getInputMapper()->getActions();
-}
-
-bool Engine::hasAction(const std::string& actionName) const
-{
-	return _platformModule->getInputMapper()->hasAction(actionName);
-}
-
-#pragma endregion
 
 bool Engine::_initPriv()
 {
@@ -331,6 +286,7 @@ bool Engine::_initPriv()
 	//Platform
 	_platformModule = new PlatformModule();
 	if (!_platformModule->Init()) return false;
+	_input = new InputFacade(_platformModule);
 	//Render
 	_renderModule = new RenderModule();
 	if (!_renderModule->Init(_platformModule->getWindowHandle(), _platformModule->getWindowWidth(), _platformModule->getWindowHeight()))
@@ -342,18 +298,14 @@ bool Engine::_initPriv()
 	_physicsModule = new PhysicsModule();
 	if (!_physicsModule->Init()) return false;
 
-	// Abre archivo .log
-	Debug::open();
-
-	_componentDLLLoader = new ComponentDLLLoader;
 #if _DEBUG
-	_componentDLLLoader->load("./ComponentsProject_d.dll");
+	ComponentDLLLoader::instance().load("./ComponentsProject_d.dll");
 #else 
-	_componentDLLLoader.load("./ComponentsProject_r.dll");
+	ComponentDLLLoader::instance().load("./ComponentsProject_r.dll");
 #endif
-	_componentDLLLoader->load("./game/DLL-Test.dll");
-
+	ComponentDLLLoader::instance().load("./game/DLL-Test.dll");		
+	
 	_stateMachine = new StateMachine;
-		
+	
 	return true;
 }

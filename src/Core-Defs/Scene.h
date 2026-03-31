@@ -7,15 +7,16 @@
 #include <cstdint>
 #include <string>
 #include <vector>
+#include <unordered_map>
 
-class Entity;
+#include "guid.h"
 
 namespace core
 {
 	class Entity;
 	using sceneName = std::string;
 	using sceneID = uint64_t;
-	using entityID = uint64_t;
+	using entityID = ChavalesGUID;
 
 	/**
 	 * @brief Escena.
@@ -91,7 +92,15 @@ namespace core
 		 * @brief Devuelve el vector de entidades de la escena.
 		 *
 		 */
-		std::vector<Entity*> getEntities() const;
+		//std::vector<Entity*> getEntities() const;
+		std::unordered_map<entityID, core::Entity*> getEntities() const;
+
+		/**
+		 * @brief Busca una entidad a partir de su nombre.
+		 * @param name - string del nombre.
+		 * @return Entity& - referencia a la entidad.
+		 */
+		Entity* findEntityByName(std::string const& name)const;
 
 		/**
 		 * @brief Devuelve el nombre de la escena.
@@ -101,7 +110,6 @@ namespace core
 		{
 			return _name;
 		}
-
 		/**
 		 * @brief Devuelve el id de la escena.
 		 *
@@ -114,13 +122,23 @@ namespace core
 	private:
 		sceneName _name;
 		sceneID _id;
-		entityID _nextEntityID;
+		//entityID _nextEntityID;
 		bool _active = false;
 
 		/**
 		 * @brief Vector de entidades en la escena actualmente.
 		 *
 		 */
-		std::vector<core::Entity*> _entities;
+		//std::vector<core::Entity*> _entities;
+		/**
+		 * @brief Unorderer map de entidades en la escena actualmente.
+		 *
+		 */
+		std::unordered_map<entityID, core::Entity*> _entities;
+		/**
+		 * @brief Unorderer map de nombres de entidades y su guid para buscar rapidamente.
+		 *
+		 */
+		std::unordered_map<std::string, entityID> _entitiesNames;
 	};
 }

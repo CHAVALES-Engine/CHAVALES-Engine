@@ -10,6 +10,7 @@
 #endif // _WIN64
 
 #include <vector>
+#include <string>
 #include <functional>
 #include "Vector3.h"
 #include "Quaternion.h"
@@ -20,12 +21,16 @@ namespace Ogre
     class SceneNode;
     class ImGuiOverlay;
     class Camera;
+    class Entity;
     class Light;
+
 }
 
 using entityID = uint64_t;
 using transformID = uint64_t;
 using cameraID = uint64_t;
+using modelID = uint64_t;
+using subMeshID = uint64_t;
 using lightID = uint64_t;
 
 struct EngineNode
@@ -45,9 +50,9 @@ public:
     void AddElement(UIElement element);
     void Clear();
     void Draw();
-
+    Ogre::ImGuiOverlay* _overlay;
 private:
-    Ogre::ImGuiOverlay* _ui;
+   
     std::vector<UIElement> _uiElements;
 };
 
@@ -64,9 +69,11 @@ public:
     //void resize(int width, int height);
 
     /*
-    * @brief Limpiar escena.
+    * @brief Borrar todos los elementos de la escena.
     */
     void cleanScene();
+
+
 
     //Metodos transform
     /*
@@ -98,11 +105,15 @@ public:
     */
     void setNodeScale(const transformID& id, const core::Vector3<float>& scale);
 
+
+
     //Metodos viewport
     /*
     * @brief Cambiar color de fondo.
     */
     void setViewportBGColor(core::Color color);
+
+
 
     //Metodos camaras
     /*
@@ -139,45 +150,66 @@ public:
     void cleanCameras();
 
 
+    //Metodos modelos
+    /*
+    * @brief Modelo nuevo. Se asigna un id por orden de creacion. Main Luz id 0 y añadidas manualmente 1 en adelante. 
+    */
+    modelID addModel(const entityID& entityID, const std::string& modelFolder, const std::string& modelFile);
+    /*
+    * @brief Borrar modelo.
+    */
+    void deleteModel(const modelID& id);
+    /*
+    * @brief Limpiar modelos
+    */
+    void cleanModels();
+    /*
+    * @brief Asignar color base a submesh.
+    */
+    void setDiffuse(const modelID& id, const subMeshID& subID, const std::string& textureFolder, const std::string& textureFile);
+    /*
+    * @brief Tintar la textura del material. Incluye canal alpha para transparencia.
+    */
+    void setTint(const modelID& id, const subMeshID& subID, const core::Color& tint);
+    /*
+    * @brief Establecer si el modelo es visible
+    */
+    void setModelVisible(const modelID& id, const bool& visible);
+
 
     //Metodos luces
-
     /*
     * @brief Luz nueva. Se asigna un id por orden de creacion. Main Luz id 0 y añadidas manualmente 1 en adelante.
     */
-    lightID addLight(const entityID& entityID, int type, const core::Color& color, float intensity);
+    lightID addLight(const entityID& entityID, const int& type, const core::Color& color, const float& intensity);
     /*
     * @brief Borrar luz por id. A las luces creadas posteriormente se les resta el id en 1.
     */
     void deleteLight(const lightID& id);
     /*
-   * @brief activar/descativar camara
+   * @brief Establecer actividad de luz.
    */
-    void setLightActive(const lightID& id, bool active);
+    void setLightActive(const lightID& id, const bool& active);
     /*
-    * @brief activar/descativar camara
+    * @brief Limpiar luces.
     */
     void cleanLights();
     /*
-    * @brief Establecer el tipo de luz
+    * @brief Establecer el tipo de luz.
     */
-    void setLightType(const lightID& id, int type);
+    void setLightType(const lightID& id, const int& type);
     /*
-    * @brief Establecer el color de la luz
+    * @brief Establecer el color de la luz.
     */
     void setLightColor(const lightID& id, const core::Color& color);
     /*
-    * @brief Establecer la intensidad de luz
+    * @brief Establecer la intensidad de luz.
     */
-    void setLightIntensity(const lightID& id, float intensity);
-    /*
-    * @brief Establecer la direccion de luz
+    void setLightIntensity(const lightID& id, const float& intensity);
+   /*
+    * @brief Establecer el cono de luz (angulo interno, angulo externo y suavidad de degradado).
     */
-    void setLightDirection(const lightID& id, const core::Vector3<float>& dir);
-    /*
-    * @brief Establecer el cono de luz (ángulo interno, ángulo externo y suavidad de degradado)
-    */
-    void setLightSpotRange(const lightID& id, float inner, float outer, float falloff);
+    void setLightSpotRange(const lightID& id, const float& inner, const float& outer, const float& falloff);
    
 
     //Metodos entidades
@@ -188,16 +220,18 @@ public:
 
 
     //Getter UI
-    ImGuiManager getUI();
+    ImGuiManager* getUI() { return _ui; }
 
     void shutdown();
 private:
     std::vector<EngineNode> _engineNodes;
     std::vector<Ogre::Camera*> _cameras;
+    std::vector<Ogre::Entity*> _models;
     std::vector<Ogre::Light*> _lights;
     ImGuiManager* _ui;
 
     transformID _nextTransformID;
     cameraID _nextCameraID;
+    modelID _nextModelID;
     lightID _nextLightID;
 };

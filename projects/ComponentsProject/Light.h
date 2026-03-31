@@ -10,6 +10,24 @@
 
 using lightID = uint64_t;
 
+/*
+ * +-------+
+ * | LIGHT |
+ * +-------+
+ *
+ * --- Ejemplo de uso en lua ---
+ * Light = {
+ *		...
+ * }
+ *
+ * --- Ejemplo de inicializacion ---
+ * En bool init(const Properties& p):
+ *		# Ej1, asignacion:
+ * ...
+ *		# Ej2, setter:
+ * ...
+ *
+*/
 class Light : public core::Component
 {
 public:
@@ -21,7 +39,6 @@ private:
 	core::Color _color;
 	float _intensity;
 
-	core::Vector3<float> _direction;
 	float _innerAngle;
 	float _outerAngle;
 	float _falloff;
@@ -43,7 +60,6 @@ public:
 	Type getType() const;
 	core::Color getColor() const;
 	float getIntensity() const;
-	core::Vector3<float> getDirection() const;
 	
 	float getInnerAngle() const;
 	float getOuterAngle() const;

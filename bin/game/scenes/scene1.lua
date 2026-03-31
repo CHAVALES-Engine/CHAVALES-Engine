@@ -8,10 +8,40 @@ scene = { -- entidades en escena
 				-- rotacion local
 				rotation = Quaternion.new(),
 				-- escala local
-				scale = Vector3.new(1)
+				scale = Vector3.new(1),
+				children = {"entidad2"}
 			},
-			TimerChangescene = {
-				["focal length"] = 10
+			-- TimerChangescene = {	
+			-- },
+			ComponentTest = {
+				health = 10,
+				alive = true,
+				name = "godotillo",
+				vecBools = {
+					false,
+					true,
+					false
+				},
+				vecString = {
+					"uno",
+					"dos",
+					"tres"
+				},
+				vecInts = {
+					1,
+					2,
+					3
+				},
+				vecFloats = {
+					6.9,
+					9.6,
+					0.0
+				},
+				vecVecs = { 
+					Vector3.new(1),
+					Vector3.new(2),
+					Vector3.new(3),
+				}
 			},
 			AudioSource = {
 				soundPath = "smb_1-up.wav",
@@ -20,7 +50,30 @@ scene = { -- entidades en escena
 				is3D = true,
 				loop = true,
 				isStream = true,
-				soundVolume = 7.0
+				playOnReady = false,
+				soundVolume = 4.0
+			},
+			TimerChangescene = {
+				["focal length"] = 10,
+				vec = {
+					1,2,3,4
+				}
+			}
+		}
+	}
+	,
+	entidad2 ={
+		components = {
+			Transform = {
+				position = Vector3.new(4,5,6),
+				rotation = Quaternion.new(),
+				scale = Vector3.new(2)
+			},
+			ModelRenderer = {
+				["model folder"] = "cube.obj",
+				materialPath = "material.tres",
+				castShadows = true,
+				receiveShadows = true
 			}
 		}
 	}

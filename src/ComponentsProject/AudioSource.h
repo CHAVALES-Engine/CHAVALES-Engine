@@ -7,6 +7,31 @@
 
 class Transform;
 
+/*
+ * +--------------+
+ * | AUDIO SOURCE |
+ * +--------------+
+ *
+ * --- Ejemplo de uso en lua ---
+ * AudioSource = {
+ *		soundPath = string,
+ *		soundID = int,
+ *		mute = bool,
+ *		is3D = bool,
+ *		loop = bool,
+ *		isStream = bool,
+ *		soundVolume = float
+ * }
+ *
+ * --- Ejemplo de inicializacion ---
+ * En bool init(const Properties& p):
+ *		# Ej1, asignacion:
+ * component = getProperty<tipo>(properties, "atributo1");
+ *		# Ej2, setter:
+ * return setProperty(properties, "atributo1", component);
+ *
+*/
+
 class AudioSource: public core::Component
 {
 private:
@@ -20,6 +45,7 @@ private:
 	bool _is3D;
 	bool _loop;
 	bool _isStream;
+	bool _playOnReady;
 	float _soundVolume;
 	int _channelID;
 
@@ -31,14 +57,18 @@ public:
 	virtual void ready() override;
 	virtual void update(uint64_t deltaTime) override;
 
-	void playSound();
 	int getLooping() const;
-	void setLooping(int loop);
+	void setLooping(int& loop) const;
+	void setLooping(int&& loop) const;
+	float getVolume() const;
 	void setVolume(float& newVolume);
 	void setVolume(float&& newVolume);
 	void stopSound() const;
 	void pauseSound(bool pause) const;
 	void setDelay(double start, double end, bool stopChannel) const;
 	std::string getSoundName() const;
+private:
+	void playSound();
+
 };
 
