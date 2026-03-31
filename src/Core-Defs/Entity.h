@@ -20,6 +20,7 @@ namespace core
 	{
 	public:
 		Entity();
+		Entity(std::string);
 		virtual ~Entity(); // Destroys the entity
 
 		// prohibimos copia
@@ -41,7 +42,7 @@ namespace core
 		bool isVisible() const;
 		bool isEnabled() const;
 		bool getDontDestoroyOnLoad() const;
-		const Scene* getScene() const;
+		Scene* getScene() const;
 		entityID getEntityID() const;
 		grpId_t getGroupId() const;
 		//bool inGroup(grpId_t id) const;

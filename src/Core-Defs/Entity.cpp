@@ -6,14 +6,17 @@
 
 namespace core
 {
-	Entity::Entity() :
+	Entity::Entity() : Entity(""){}
+
+	Entity::Entity(std::string):
 		components(),
 		alive(true),
 		visible(true),
 		enabled(true),
 		scene(nullptr),
 		groupId(),
-		name() {}
+		name()
+	{}
 
 	Entity::~Entity()
 	{
@@ -40,7 +43,7 @@ namespace core
 
 	bool Entity::getDontDestoroyOnLoad() const { return dontDestroyOnLoad; }
 
-	const Scene* Entity::getScene() const { return scene; }
+	Scene* Entity::getScene() const { return scene; }
 	ChavalesGUID Entity::getEntityID() const { return entityID; }
 	grpId_t Entity::getGroupId() const { return groupId; }
 	//bool core::Entity::inGroup(grpId_t id) const;
