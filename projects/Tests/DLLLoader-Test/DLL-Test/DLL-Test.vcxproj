@@ -72,8 +72,8 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>Engine_d.lib;Core-Defs_d.lib;Core-Utils_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)libs\Engine\;$(SolutionDir)libs\Core-Defs\;$(SolutionDir)libs\Core-Utils\;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Engine_d.lib;Core-Defs_d.lib;Core-Utils_d.lib;ComponentsProject_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\Engine\;$(SolutionDir)libs\Core-Defs\;$(SolutionDir)libs\Core-Utils\;$(SolutionDir)libs\ComponentsProject\</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -93,8 +93,8 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>Engine_r.lib;Core-Defs_r.lib;Core-Utils_r.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)libs\Engine\;$(SolutionDir)libs\Core-Defs\;$(SolutionDir)libs\Core-Utils\;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Engine_r.lib;Core-Defs_r.lib;Core-Utils_r.lib;ComponentsProject_r.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\Engine\;$(SolutionDir)libs\Core-Defs\;$(SolutionDir)libs\Core-Utils\;$(SolutionDir)libs\ComponentsProject\</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

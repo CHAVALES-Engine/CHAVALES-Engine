@@ -11,6 +11,7 @@
 #include <Component.h>
 #include <Quaternion.h>
 #include <Vector3.h>
+#include <EngineAPI.h>
 
 using transformID = uint64_t;
 
@@ -38,7 +39,7 @@ using transformID = uint64_t;
  * return setProperty(properties, "atributo1", component);
  *
 */
-class Transform : public core::Component
+class ENGINE_API Transform : public core::Component
 {
 	
 
@@ -52,7 +53,7 @@ class Transform : public core::Component
 	/**
 	 * @brief Lista de nombres de entidades a anyadir como hijos (Solo se usa en la inicializacion de componentes).
 	 */
-	std::vector<std::string> _pendingChildren;
+	//std::vector<std::string> _pendingChildren;
 public:
 	//Transform();
 	//~Transform() ;
@@ -99,11 +100,6 @@ public:
 	 * @brief Deshereda a todos sus hijos
 	 */
 	void detachChildren();
-	/**
-	 * @brief Devuelve los hijos pendientes a asignar (util para la inicializacion).
-	 * @return std::vector<std::string>& - Lista de nombres de hijos.
-	 */
-	std::vector<std::string>& getpendingChildren();
 
 	/**
 	 * @brief Aplica una traslacion t en formato vector a la posicion local

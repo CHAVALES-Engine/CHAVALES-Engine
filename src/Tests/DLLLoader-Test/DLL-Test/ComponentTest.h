@@ -4,7 +4,12 @@
 #include "Debug.h"
 #include "Engine.h"
 #include "Entity.h"
+#include "InputFacade.h"
+#include "Scene.h"
 #include "TimeManager.h"
+#include "../../../ComponentsProject/AudioSource.h"
+
+class AudioSource;
 
 class ComponentTest : public core::Component
 {
@@ -19,19 +24,19 @@ class ComponentTest : public core::Component
 	bool init(const Properties& p) override
 	{
 		// ejemplos de inicializacion:
-		
+
 		// ejemplo 1
 		//health = getProperty<int>(p, "health");
 
 		// ejemplo 2
-		return setProperty(p, "health", health)
+		/*return setProperty(p, "health", health)
 			&& setProperty(p, "vecString", vecString)
 			&& setProperty(p, "vecInts", vecInts)
 			&& setProperty(p, "vecFloats", vecFloats)
 			&& setProperty(p, "vecBools", vecBools)
-			&& setProperty(p, "vecVecs", vecVecs);
+			&& setProperty(p, "vecVecs", vecVecs);*/
 	}
-	
+
 	void ready() override
 	{
 		//Debug::out(">>READY<<");
@@ -49,21 +54,25 @@ class ComponentTest : public core::Component
 		//	Debug::out(s);
 		//for (const auto& s : vecVecs)
 		//	Debug::out(s);
-		
+
 		Debug::out("Hola :-) Mi vida es ", health);
 		Debug::out("test ", test);
 	}
 
 	void fixedUpdate() override
 	{
-		if (health >= 0)
+		if (Engine::instance()->input()->isKeyPressed(input::KEY_A))
+			getEntity()->getScene()->findEntityByName("entidad1")->getComponent<AudioSource>()->playSound();
+		if (Engine::instance()->input()->isKeyPressed(input::KEY_S))
+			getEntity()->getScene()->findEntityByName("entidad1")->getComponent<AudioSource>()->stopSound();
+		/*if (health >= 0)
 		{
-			health -= 1;    
+			health -= 1;
 			Debug::out("Augh... Me han herido y mi vida ahora es ", health);
 			if (health < 0)
 				morir();
-		}
-	} 
+		}*/
+	}
 
 	void morir()
 	{

@@ -3,6 +3,7 @@
 #include <Vector3.h>
 #include <vector>
 #include <unordered_set>
+#include <EngineAPI.h>
 
 
 class Transform;
@@ -32,7 +33,7 @@ class Transform;
  *
 */
 
-class AudioSource: public core::Component
+class ENGINE_API AudioSource: public core::Component
 {
 private:
 	Transform* _tr;
@@ -67,8 +68,8 @@ public:
 	void pauseSound(bool pause) const;
 	void setDelay(double start, double end, bool stopChannel) const;
 	std::string getSoundName() const;
-private:
 	void playSound();
+private:
 
 };
 
