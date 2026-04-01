@@ -62,7 +62,7 @@ public:
 	 *
 	 * @param lua - Estado de lua donde definir los tipos.
 	 */
-	static void loadLua(std::shared_ptr<core::Scene>& s, const sceneName& n, const std::string& p = "./game/scenes/");
+	static void loadLua(std::shared_ptr<core::Scene>& s, const sceneName& n, const std::string& p);
 
 	/**
 	 * @brief Carga una escena dada de lua.

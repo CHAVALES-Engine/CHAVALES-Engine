@@ -24,6 +24,13 @@ int main(int argc, char* argv[])
 
 	// Inicializa el Engine
 	Engine::init();
+
+	Debug::out("[MAIN] Inicializando ChavalesEngine");
+
+	Debug::out(core::GameConfigurator::_scenesRoot);
+
+	core::GameConfigurator::_firstScene = argv[2];
+
 	// Lanza el bucle de juego
 	Engine::instance()->startLoop();
 	// Cierre limpio del engine

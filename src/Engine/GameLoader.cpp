@@ -345,7 +345,12 @@ std::shared_ptr<core::Scene> GameLoader::loadScene(const sceneName& n)
 {
 	std::shared_ptr<core::Scene> s = std::make_shared<core::Scene>(n);
 
-	loadLua(s, n);
+#if _DEBUG
+	loadLua(s, n, "./game/scenes/");
+#else
+	loadLua(s, n, core::GameConfigurator::_scenesRoot);
+#endif
+
 	_firstReload = true;
 	return s;
 }

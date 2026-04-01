@@ -264,7 +264,7 @@ bool ChavalesEditor::runEditor()
                 core::GameConfigurator::_firstScene = str1;
                 core::GameConfigurator::_scenesRoot = str2;
 
-                std::cout << "[CHAVALESEDITOR] Primera escena: " << str1 << std::endl << "Ruta para escenas: " << str2 << std::endl;
+                std::cout << "[CHAVALESEDITOR] Primera escena: " << str1 << std::endl << "[CHAVALESEDITOR] Ruta para escenas: " << str2 << std::endl;
 
                 return false;
             }
@@ -301,9 +301,9 @@ bool ChavalesEditor::runEditor()
 int ChavalesEditor::startup()
 {
 #if _DEBUG
-    const wchar_t* target_cmd = {L"ExecutableProject_d.exe"};
+    const wchar_t* target_cmd(L"ExecutableProject_d.exe");
 #else
-    const char* target_cmd = {L"ExecutableProject_r.exe"};
+    const wchar_t* target_cmd(L"ExecutableProject_r.exe");
 #endif
 
     STARTUPINFO si;
@@ -315,9 +315,19 @@ int ChavalesEditor::startup()
     si.cb = sizeof(STARTUPINFO);
     memset(&pi, 0, sizeof(PROCESS_INFORMATION));
 
+    //wchar_t* argv = new wchar_t[2];
+
+    //LPWSTR args = (LPWSTR)core::GameConfigurator::_firstScene.c_str();
+
+    wstring s1(L" ExecutableProject_d.exe ");
+    wstring fs(std::begin(core::GameConfigurator::_firstScene), std::end(core::GameConfigurator::_firstScene));
+
+    s1.append(fs);
+    s1.append(L"\0");
+
     BOOL rv = CreateProcess(
         target_cmd,
-        NULL,
+        const_cast<LPWSTR>(s1.c_str()),
         NULL,
         NULL,
         FALSE,
@@ -337,41 +347,6 @@ int ChavalesEditor::startup()
     ::CloseHandle(pi.hProcess);
 
     return 0;
-
-    /*
-    // additional information
-    STARTUPINFOA si = {0};
-    LPPROCESS_INFORMATION pi = nullptr;
-
-    // set the size of the structures
-    ZeroMemory(&si, sizeof(STARTUPINFOA));
-    si.cb = sizeof(STARTUPINFOA);
-    ZeroMemory(&pi, sizeof(LPPROCESS_INFORMATION));
-
-    if (CreateProcessA(
-
-        NULL,
-        NULL,
-        NULL,
-        FALSE,
-        0,
-        NULL,
-        NULL,
-        &si,
-        pi) == 0)
-    {
-        std::cout << GetLastError() << std::endl;
-        return 1;
-    }
-    else
-    {
-	    // cerrar identificadores
-	    CloseHandle(pi->hProcess);
-	    CloseHandle(pi->hThread);
-
-	    return 0;
-    }
-	*/
 }
 
 int main()
@@ -381,4 +356,6 @@ int main()
         int su = ChavalesEditor::startup();
         return su;
     }
+
+    return 0;
 }
