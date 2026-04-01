@@ -69,7 +69,7 @@
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)src\Core-Defs\;$(SolutionDir)src\Core-Utils\;$(SolutionDir)dependencies\sol;$(SolutionDir)dependencies\lua\;$(SolutionDir)dependencies\lua\src\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)src\Core-Defs\;$(SolutionDir)src\Core-Utils\;$(SolutionDir)dependencies\;$(SolutionDir)dependencies\sol\;$(SolutionDir)dependencies\lua\;$(SolutionDir)dependencies\lua\src\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -92,7 +92,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)src\Core-Defs\;$(SolutionDir)src\Core-Utils\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)src\Core-Defs\;$(SolutionDir)src\Core-Utils\;$(SolutionDir)dependencies\;$(SolutionDir)dependencies\sol\;$(SolutionDir)dependencies\lua\;$(SolutionDir)dependencies\lua\src\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
