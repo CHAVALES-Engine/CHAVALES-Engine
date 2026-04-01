@@ -8,25 +8,28 @@
 #include <Debug.h>
 #include <filesystem>
 
-#include "StateMachine.h"
-#include "ComponentDLLLoader.h"
 #include "GameConfigurator.h"
-#include "GameLoader.h"
-#include "Scene.h"
 
-using namespace core;
 
 int main(int argc, char* argv[])
 {
+	
 	// Inicializa el Engine
-	Debug::out("[MAIN] Inicializando ChavalesEngine");
 	Engine::init();
-
+	
 	// Inicializa configuracion
-	core::GameConfigurator::_firstScene = argv[2];
-	Debug::out("[MAIN] Escena inicial setteada a " + core::GameConfigurator::_firstScene);
-	core::GameConfigurator::_scenesRoot = argv[3];
-	Debug::out("[MAIN] Ruta de escenas setteada a " + core::GameConfigurator::_scenesRoot);
+	if (argc > 1){
+		core::GameConfigurator::_firstScene = argv[2];
+		Debug::out("[MAIN] Escena inicial setteada a " + core::GameConfigurator::_firstScene);
+		core::GameConfigurator::_scenesRoot = argv[3];
+		Debug::out("[MAIN] Ruta de escenas setteada a " + core::GameConfigurator::_scenesRoot);
+	}
+	else
+		core::GameConfigurator::LoadFromFile(CONFIGURATOR_PATH);
+	
+	Debug::out("[MAIN] Inicializando ChavalesEngine");
+
+	Debug::out(core::GameConfigurator::_scenesRoot);
 
 	// Lanza el bucle de juego
 	Engine::instance()->startLoop();

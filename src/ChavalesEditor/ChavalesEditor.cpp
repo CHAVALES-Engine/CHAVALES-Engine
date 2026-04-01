@@ -237,6 +237,7 @@ bool ChavalesEditor::runEditor()
             {
                 core::GameConfigurator::_firstScene = str1;
                 core::GameConfigurator::_scenesRoot = str2;
+                core::GameConfigurator::SaveToFile(CONFIGURATOR_PATH);
 
                 std::cout << "[CHAVALESEDITOR] Primera escena: " << str1 << std::endl << "[CHAVALESEDITOR] Ruta para escenas: " << str2 << std::endl;
 

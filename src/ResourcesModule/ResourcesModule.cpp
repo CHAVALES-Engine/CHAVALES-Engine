@@ -72,7 +72,7 @@ bool ResourcesModule::Init(const std::string& n, const std::string& p)
 		// si no lo consigue saca error
 		Debug::error("GAMELOADER: Error cargando assets: ", _assetsRoute);
 		Debug::error("Lua exception: ", e.what());
-		return;
+		return false;
 	}
 
 	sol::table assetsFile = lua["assets"];
