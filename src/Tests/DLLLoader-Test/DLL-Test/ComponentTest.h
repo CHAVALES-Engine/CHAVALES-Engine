@@ -35,6 +35,7 @@ class ComponentTest : public core::Component
 			&& setProperty(p, "vecFloats", vecFloats)
 			&& setProperty(p, "vecBools", vecBools)
 			&& setProperty(p, "vecVecs", vecVecs);*/
+		return true;
 	}
 
 	void ready() override
