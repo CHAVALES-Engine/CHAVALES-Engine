@@ -194,8 +194,6 @@ public:
 	*/
 	void setLightSpotRange(const lightID& id, const float& inner, const float& outer, const float& falloff);
 #pragma endregion
-#pragma endregion
-
 	//Metodos audio
 #pragma region audio
 
