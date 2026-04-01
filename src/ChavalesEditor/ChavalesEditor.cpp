@@ -315,10 +315,6 @@ int ChavalesEditor::startup()
     si.cb = sizeof(STARTUPINFO);
     memset(&pi, 0, sizeof(PROCESS_INFORMATION));
 
-    //wchar_t* argv = new wchar_t[2];
-
-    //LPWSTR args = (LPWSTR)core::GameConfigurator::_firstScene.c_str();
-
     wstring s1(L" ExecutableProject_d.exe ");
     wstring fs(std::begin(core::GameConfigurator::_firstScene), std::end(core::GameConfigurator::_firstScene));
 
