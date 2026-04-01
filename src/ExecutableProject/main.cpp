@@ -20,7 +20,7 @@ int main(int argc, char* argv[])
 {
 	Debug::out("[MAIN] Inicializando ChavalesEngine");
 
-	//core::GameConfigurator::_firstScene = argv[1];
+	core::GameConfigurator::_firstScene = argv[2];
 
 	// Inicializa el Engine
 	Engine::init();

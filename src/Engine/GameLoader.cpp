@@ -144,7 +144,7 @@ void GameLoader::parseComponent(core::Entity* e, std::pair<sol::object, sol::obj
 {
 	// encontramos su nombre e intentamos instanciar un componente con una clase con tal nombre
 	std::string componenteName = componenteObj.first.as<std::string>();
-	std::shared_ptr<core::Component> component = ComponentRegister::instance().create(componenteName);
+	std::shared_ptr<core::Component> component = e->getComponent(componenteName);
 
 	if (component != nullptr)
 	{
@@ -170,23 +170,23 @@ void GameLoader::parseComponent(core::Entity* e, std::pair<sol::object, sol::obj
 
 		if (init)
 		{
-			// --- mete el componente a la entidad creada
-			e->addComponent(std::move(component));
 			Debug::out("GAMELOADER: Componente ", componenteName, " cargado para la entidad ", e->getName(), ".");
 		}
 		else
 		{
+			// --- quita el componente a la entidad
+			e->removeComponent(componenteName);
 			Debug::warning("GAMELOADER: Error al cargar componente ", componenteName, ": no se pudo inicializar correctamente.");
 		}
 	}
 	else
 	{
 		// si no se ha conseguido crear el componente porque no estaba bien registrado
-		Debug::warning("GAMELOADER: Componente ", componenteName, " no registrado.");
+		Debug::warning("GAMELOADER: Componente ", componenteName, " no registrado en la entidad ", e->getName(), ".");
 	}
 }
 
-void GameLoader::parseEntity(core::Entity* e, std::pair<sol::object, sol::object>& entidadObj)
+void GameLoader::instanceEntity(core::Entity* e, std::pair<sol::object, sol::object>& entidadObj)
 {
 	// nombre de la entidad
 	std::string entidadName = entidadObj.first.as<std::string>();
@@ -195,6 +195,27 @@ void GameLoader::parseEntity(core::Entity* e, std::pair<sol::object, sol::object
 	// crea la entidad
 	e->setName(entidadName);
 
+	// dentro de la entidad, accedo a la tabla de componentes
+	sol::table partes = entidadObj.second;
+	sol::table componentes = partes["components"];
+
+	for (auto& componenteObj : componentes)
+	{
+		// --- instancia cada componente de la tabla de componentes de la entidad
+		std::string componenteName = componenteObj.first.as<std::string>();
+		std::shared_ptr<core::Component> component = ComponentRegister::instance().create(componenteName);
+		// anyade el componente a la entidad si existe el componente
+		if (component != nullptr){
+			component->setName(componenteName);
+			e->addComponent(std::move(component)); // anyade sin inicializar
+		}
+		else
+			Debug::warning("GAMELOADER: Componente ", componenteName, " no registrado.");
+	}
+}
+
+void GameLoader::initializeEntity(core::Entity* e, std::pair<sol::object, sol::object>& entidadObj)
+{
 	// dentro de la entidad, accedo a la tabla de componentes
 	sol::table partes = entidadObj.second;
 	sol::table componentes = partes["components"];
@@ -292,7 +313,7 @@ void GameLoader::loadLua(
 		// --- para cada entidad leida
 		core::Entity* e = new core::Entity();
 
-		parseEntity(e, entidadObj);
+		instanceEntity(e, entidadObj);
 
 		// --- a este nivel se llamaria al awake:
 		// metodo de logica de un componente sin garantizar que el resto de componentes y entidades esten inicializados
@@ -303,6 +324,16 @@ void GameLoader::loadLua(
 
 		// --- mete la entidad en la escena
 		s->addEntity(e);
+	}
+
+	for (auto& entidadObj : scene)
+	{
+		// --- para cada entidad leida
+		std::string name = entidadObj.first.as<std::string>();
+		core::Entity* e = s->findEntityByName(name);
+		if (!e) continue;
+		// inicializamos los componentes
+		initializeEntity(e, entidadObj);
 	}
 
 	// --- a este nivel se llama al ready:

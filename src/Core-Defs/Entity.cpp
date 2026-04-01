@@ -6,9 +6,9 @@
 
 namespace core
 {
-	Entity::Entity() : Entity(""){}
+	Entity::Entity() : Entity("") {}
 
-	Entity::Entity(std::string):
+	Entity::Entity(std::string) :
 		components(),
 		alive(true),
 		visible(true),
@@ -16,7 +16,8 @@ namespace core
 		scene(nullptr),
 		groupId(),
 		name()
-	{}
+	{
+	}
 
 	Entity::~Entity()
 	{
@@ -49,6 +50,27 @@ namespace core
 	//bool core::Entity::inGroup(grpId_t id) const;
 	const std::string& Entity::getName() const { return name; }
 	const std::vector<std::shared_ptr<Component>>& Entity::getComponents() const { return components; }
+
+	std::shared_ptr<Component> Entity::getComponent(const std::string& name) const {
+		for (auto& c : components) {
+			if (c->getName() == name)
+				return c;
+		}
+		return nullptr;
+	}
+
+	void Entity::removeComponent(const std::string& name)
+	{
+		for (auto it = components.begin(); it != components.end(); ++it)
+		{
+			if ((*it)->getName() == name)
+			{
+				(*it)->disable();
+				(*it)->destroy();
+				components.erase(it);
+			}
+		}
+	}
 
 	//void Entity::init(const Properties& p)
 	//{

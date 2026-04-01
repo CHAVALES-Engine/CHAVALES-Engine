@@ -61,6 +61,7 @@ namespace core
 		* @param v - estado
 		*/
 		void setEnabled(bool v);
+		void setName(std::string const& name);
 
 		// --- GETTERS
 		/**
@@ -71,6 +72,10 @@ namespace core
 		* @returs Si esta activo o no
 		*/
 		bool isEnabled() const;
+		/**
+		 * @return El nombre del componente
+		 */
+		const std::string& getName() const;
 
 		// --- LIFECYCLE
 		/**
@@ -181,6 +186,7 @@ namespace core
 		}
 
 	protected:
+		std::string _name;
 		Entity* entity;
 		bool enabled;
 	};

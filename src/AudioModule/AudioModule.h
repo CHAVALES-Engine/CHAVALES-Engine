@@ -129,6 +129,8 @@ public:
 
 	void getVolume(int chID, float& volume);
 
+	bool isValidChannel(int chID);
+
 private:
 	FMOD::System* _system = nullptr;
 	int nativeRate; //Rate of audio refresh, taken from device
