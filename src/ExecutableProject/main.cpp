@@ -10,6 +10,7 @@
 
 #include "StateMachine.h"
 #include "ComponentDLLLoader.h"
+#include "GameConfigurator.h"
 #include "GameLoader.h"
 #include "Scene.h"
 
@@ -17,6 +18,7 @@ using namespace core;
 
 int main(int argc, char* argv[])
 {
+	core::GameConfigurator::_firstScene = "scene1";
 	// Inicializa el Engine
 	Engine::init();
 	// Lanza el bucle de juego

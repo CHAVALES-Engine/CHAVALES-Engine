@@ -47,7 +47,7 @@ namespace core
 		grpId_t getGroupId() const;
 		//bool inGroup(grpId_t id) const;
 		const std::string& getName() const;
-		const std::vector<std::shared_ptr<Component>>& getComponents() const;
+		const std::vector<std::shared_ptr<Component>>& getComponents() const; 
 
 		// --- LIFECYLE
 		/**
@@ -147,6 +147,12 @@ namespace core
 			}
 			return nullptr;
 		}
+		/**
+		* @brief Obtiene el primer componente con el nombre indicado
+		* O(n)
+		*/
+		std::shared_ptr<Component> getComponent(const std::string& name) const;
+
 
 		/**
 		* @brief Elimina todos los componentes del mismo tipo indicado
@@ -165,7 +171,11 @@ namespace core
 				}
 			}
 		}
-
+		/**
+		* @brief Elimina todos los componentes del nombre
+		* O(n)
+		*/
+		void removeComponent(const std::string& name);
 		/**
 		* @brief Obtiene todos los componentes del mismo tipo indicado
 		* O(n)

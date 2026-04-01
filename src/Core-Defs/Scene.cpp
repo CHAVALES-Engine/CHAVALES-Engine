@@ -129,7 +129,7 @@ namespace core {
 	{
 		entityID guid = ChavalesGUID::generate();
 		e->setEntityID(guid);
-		_entities[e->getEntityID()] = e;
+		_entities[guid] = e;
 		_entitiesNames[e->getName()] = guid;
 		e->setScene(this);
 	}

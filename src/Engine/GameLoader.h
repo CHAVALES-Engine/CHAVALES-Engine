@@ -47,7 +47,8 @@ public:
 	 * @param e - Entidad a la que pertenecera el componente.
 	 * @param componenteObj - Par nombre, objeto de sol a traducir.
 	 */
-	static void parseEntity(core::Entity* e, std::pair<sol::object, sol::object>& entidadObj);
+	static void instanceEntity(core::Entity* e, std::pair<sol::object, sol::object>& entidadObj);
+	static void initializeEntity(core::Entity* e, std::pair<sol::object, sol::object>& entidadObj);
 
 	/**
 	 * @brief Para definir tipos de clases propias que poder traducir desde lua.
