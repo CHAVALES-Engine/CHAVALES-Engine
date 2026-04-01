@@ -18,18 +18,15 @@ using namespace core;
 
 int main(int argc, char* argv[])
 {
-	Debug::out("[MAIN] Inicializando ChavalesEngine");
-
-	core::GameConfigurator::_firstScene = argv[2];
-
 	// Inicializa el Engine
+	Debug::out("[MAIN] Inicializando ChavalesEngine");
 	Engine::init();
 
-	Debug::out("[MAIN] Inicializando ChavalesEngine");
-
-	Debug::out(core::GameConfigurator::_scenesRoot);
-
+	// Inicializa configuracion
 	core::GameConfigurator::_firstScene = argv[2];
+	Debug::out("[MAIN] Escena inicial setteada a " + core::GameConfigurator::_firstScene);
+	core::GameConfigurator::_scenesRoot = argv[3];
+	Debug::out("[MAIN] Ruta de escenas setteada a " + core::GameConfigurator::_scenesRoot);
 
 	// Lanza el bucle de juego
 	Engine::instance()->startLoop();
