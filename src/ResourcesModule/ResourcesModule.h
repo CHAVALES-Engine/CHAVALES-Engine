@@ -1,13 +1,39 @@
 #pragma once
 #include <unordered_map>
 #include <string>
+#include <vector>
 #include <filesystem>
 #include <sol.hpp>
 
-typedef std::unordered_map<std::string, std::string> Audios;
-typedef std::unordered_map<std::string, std::string> Models;
-typedef std::unordered_map<std::string, std::string> Particles; 
-typedef std::unordered_map<std::string, std::string> Textures; 
+using AssetName = std::string; //To clarify the string
+using FileName = std::string; //To clarify the string
+using FolderName = std::string; //To clarify the string
+
+
+typedef std::unordered_map<AssetName, std::string> Audios;
+typedef std::unordered_map<AssetName, std::pair<FolderName, FileName>> Models;
+typedef std::unordered_map<AssetName, std::pair<FolderName, FileName>> Particles;
+typedef std::unordered_map<AssetName, std::pair<FolderName, FileName>> Textures;
+
+
+/*
+ * +------------------+
+ * | RESOURCES MODULE |
+ * +------------------+
+ *
+ * --- Ejemplo de uso en lua ---
+ * assets = {
+ *		Mesh = {
+ *			metroid = {
+ *				sourceFolder = "metroid-floating/source", -> esta es la ruta donde se encuntra el modelo (para particulas y texturas igual)
+ *				fileName = "metroid_final.fbx" -> esta es la malla (para particulas y texturas igual)
+ *			}
+ *		},
+ *		Audio = {
+ *			lifeUp = "C:/2526-Grupo03-ChavalesEngine/bin/game/scenes/assets/smb_1-up.wav" -> nombre del audio = ruta del audio
+ *		}
+ * }
+*/
 
 
 class ResourcesModule
@@ -23,28 +49,56 @@ public:
 	/// </summary>
 	/// <param name="name">Name of the audio</param>
 	/// <returns></returns>
-	std::string loadAudio(std::string name);
+	std::string getAudio(AssetName name);
 
 	/// <summary>
 	/// Getter to recive the desire mesh
 	/// </summary>
 	/// <param name="name">Name of the mesh</param>
 	/// <returns></returns>
-	std::string loadMesh(std::string name);
+	std::pair<FolderName, FileName> getMesh(AssetName name);
 
 	/// <summary>
 	/// Getter to recive the desire particle
 	/// </summary>
 	/// <param name="name">Nombre del particle</param>
 	/// <returns></returns>
-	std::string loadParticle(std::string name);
+	std::pair<FolderName, FileName> getParticle(AssetName name);
 
 	/// <summary>
 	/// Getter to recive the desire texture
 	/// </summary>
 	/// <param name="name">Nombre del texture</param>
 	/// <returns></returns>
-	std::string loadTexture(std::string name);
+	std::pair<FolderName, FileName> getTexture(AssetName name);
+
+	/// <summary>
+	/// Method to set the Path of the found audio
+	/// </summary>
+	/// <param name="name">Name of the desire asset</param>
+	/// <param name="newRoute">Name of the new path</param>
+	void setAudioSource(AssetName name, FolderName newRoute);
+
+	/// <summary>
+	/// Method to set the Path of the found model
+	/// </summary>
+	/// <param name="name">Name of the desire asset</param>
+	/// <param name="newRoute">Name of the new path</param>
+	void setMeshSource(AssetName name, FolderName newRoute);
+
+	/// <summary>
+	/// Method to set the Path of the found particle
+	/// </summary>
+	/// <param name="name">Name of the desire asset</param>
+	/// <param name="newRoute">Name of the new path</param>
+	void setParticleSource(AssetName name, FolderName newRoute);
+
+	/// <summary>
+	/// Method to set the Path of the found texture
+	/// </summary>
+	/// <param name="name">Name of the desire asset</param>
+	/// <param name="newRoute">Name of the new path</param>
+	void setTextureSource(AssetName name, FolderName newRoute);
 
 
 private:
@@ -57,6 +111,7 @@ private:
 	/// <returns></returns>
 	bool loadInternalAsset(sol::table assetsType,std::string typeOfAsset);
 	
+	std::pair<FolderName, FileName> loadOgreAsset(std::string assetName,std::pair<sol::object, sol::object>& assetType);
 	
 	std::string _assetsRoute; //Route of the assets.lua
 

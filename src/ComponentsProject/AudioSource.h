@@ -15,7 +15,6 @@ class Transform;
  *
  * --- Ejemplo de uso en lua ---
  * AudioSource = {
- *		soundPath = string,
  *		soundID = int,
  *		mute = bool,
  *		is3D = bool,
@@ -40,7 +39,6 @@ private:
 
 	core::Vector3<float> _lastPosition;
 
-	std::string _path;
 	std::string _id;
 	bool _mute;
 	bool _is3D;

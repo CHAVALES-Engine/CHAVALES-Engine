@@ -6,6 +6,7 @@
 #include <RenderModule.h>
 #include <AudioModule.h>
 #include <PhysicsModule.h>
+#include <ResourcesModule.h>
 
 #include <InputMapper.h>
 
@@ -40,6 +41,7 @@ void Engine::release()
 		delete _instance->_audioModule;
 		delete _instance->_physicsModule;
 		delete _instance->_renderModule;
+		delete _instance->_resourecesModule;
 
 		delete _instance->_stateMachine;
 		delete _instance;
@@ -302,6 +304,11 @@ float Engine::getVolume(int chID)
 	return volume;
 }
 
+std::string Engine::getAudioByName(std::string name)
+{
+	return _resourecesModule->getAudio(name);
+}
+
 
 //------Metodo de PlatformModule:
 int Engine::getWindowWidth() const
@@ -338,6 +345,9 @@ bool Engine::_initPriv()
 	//Fisicas
 	_physicsModule = new PhysicsModule();
 	if (!_physicsModule->Init()) return false;
+
+	_resourecesModule = new ResourcesModule();
+	if (!_resourecesModule->Init("./assetsLits", "./game/scenes/assets")) return false;
 
 #if _DEBUG
 	ComponentDLLLoader::instance().load("./ComponentsProject_d.dll");

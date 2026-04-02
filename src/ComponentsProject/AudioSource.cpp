@@ -8,8 +8,8 @@
 
 REGISTER_COMPONENT(AudioSource);
 
-AudioSource::AudioSource() : _tr(nullptr), _lastPosition(0.0f, 0.0f, 0.0f), _path(), _id(), _mute(false), _is3D(false), _loop(false),
-_isStream(false), _soundVolume(0.0f), _channelID()
+AudioSource::AudioSource() : _tr(nullptr), _lastPosition(0.0f, 0.0f, 0.0f), _id(), _mute(false), _is3D(false), _loop(false),
+_isStream(),_playOnReady(), _soundVolume(0.0f), _channelID()
 {
 }
 
@@ -19,7 +19,6 @@ AudioSource::~AudioSource()
 
 bool AudioSource::init(const Properties& p)
 {
-	_path = getProperty<std::string>(p, "soundPath");
 	_id = getProperty<std::string>(p, "soundID");
 	_mute = getProperty<bool>(p, "mute");
 	_is3D = getProperty<bool>(p, "is3D");
@@ -35,7 +34,7 @@ void AudioSource::ready()
 	assert(entity->hasComponent<Transform>());
 	_tr = entity->getComponent<Transform>();
 	_lastPosition = _tr->getGlobalPosition();
-	Engine::instance()->loadSound(_path, _id, _is3D, _loop, _isStream);
+	Engine::instance()->loadSound(Engine::instance()->getAudioByName(_id), _id, _is3D, _loop, _isStream);
 	if (_playOnReady)
 		playSound();
 }

@@ -9,13 +9,26 @@ ResourcesModule::~ResourcesModule()
 {
 }
 
+std::pair<FolderName, FileName> ResourcesModule::loadOgreAsset(std::string assetName,std::pair<sol::object, sol::object>& assetType)
+{ 
+	std::string meshAsset = assetType.first.as<std::string>();
+	sol::table assetsType = assetType.second;
+	std::vector<std::string> auxVector;
+	int i = 0;
+	for (auto& mallas : assetsType) {
+		std::string sourceName = mallas.second.as<std::string>();
+		auxVector.push_back(sourceName);
+	}
+	return { auxVector[1],auxVector[0] };
+}
+
 bool ResourcesModule::loadInternalAsset(sol::table assetsType, std::string typeOfAsset)
 {
 	for (auto& assets : assetsType) {
 		std::string nameOfAsset = assets.first.as<std::string>(); 
-		std::string assetPath = assets.second.as<std::string>(); 
 		if (typeOfAsset == "Audio")
 		{
+			std::string assetPath = assets.second.as<std::string>(); 
 			auto it = _audioMap.find(nameOfAsset);
 			if (it != _audioMap.end()) {
 				Debug::error("ERROR: Audio existente con ese nombre");
@@ -24,13 +37,13 @@ bool ResourcesModule::loadInternalAsset(sol::table assetsType, std::string typeO
 			_audioMap[nameOfAsset] = assetPath;
 		}
 		else if (typeOfAsset == "Mesh")
-		{
+		{			
 			auto it = _modelsMap.find(nameOfAsset);
 			if (it != _modelsMap.end()) {
 				Debug::error("ERROR: Malla existente con ese nombre");
 				return false;
 			}
-			_modelsMap[nameOfAsset] = assetPath;
+			_modelsMap[nameOfAsset] = loadOgreAsset(nameOfAsset, assets);
 		}
 		else if (typeOfAsset == "Texture")
 		{
@@ -39,7 +52,7 @@ bool ResourcesModule::loadInternalAsset(sol::table assetsType, std::string typeO
 				Debug::error("ERROR: Textura existente con ese nombre");
 				return false;
 			}
-			_texturesMap[nameOfAsset] = assetPath;
+			_texturesMap[nameOfAsset] = loadOgreAsset(nameOfAsset, assets);
 		}
 		else if (typeOfAsset == "Particles")
 		{
@@ -48,11 +61,10 @@ bool ResourcesModule::loadInternalAsset(sol::table assetsType, std::string typeO
 				Debug::error("ERROR: Particulas existente con ese nombre");
 				return false;
 			}
-			_particlesMap[nameOfAsset] = assetPath;
+			_particlesMap[nameOfAsset] = loadOgreAsset(nameOfAsset, assets);
 		}
 	}
 	return true;
-
 }
 
 bool ResourcesModule::Init(const std::string& n, const std::string& p)
@@ -83,70 +95,81 @@ bool ResourcesModule::Init(const std::string& n, const std::string& p)
 		std::string typeOfAsset = assets.first.as<std::string>();
 		sol::table assetsType = assets.second;
 		
-		if (typeOfAsset == "Audio") 
-		{
-			sol::table audio = assetsType["Audio"]; 
-			if (!loadInternalAsset(audio, typeOfAsset)) {
-				return false;
-			}
+		if (!loadInternalAsset(assetsType, typeOfAsset)) {
+			return false;
 		}
-		else if (typeOfAsset == "Mesh") 
-		{
-			sol::table mesh = assetsType["Mesh"];
-			if (!loadInternalAsset(mesh, typeOfAsset)) {
-				return false;
-			}
-		}
-		else if (typeOfAsset == "Texture")
-		{
-			sol::table texture = assetsType["Texture"];
-			if (!loadInternalAsset(texture, typeOfAsset)) {
-				return false;
-			}
-		}
-		else if (typeOfAsset == "Particles") 
-		{ 
-			sol::table particles = assetsType["Particles"];
-			if (!loadInternalAsset(particles, typeOfAsset)) {
-				return false;
-			}
-		} 
 	}
 	return true;
 }
 
-std::string ResourcesModule::loadAudio(std::string name)
+std::string ResourcesModule::getAudio(AssetName name)
 {
 	auto it = _audioMap.find(name);
-	if (it != _audioMap.end()) {
+	if (it == _audioMap.end()) {
 		Debug::error("ERROR: Audio no encontrado");
 	}
 	return it->second;
 }
 
-std::string ResourcesModule::loadMesh(std::string name)
+std::pair<FolderName, FileName> ResourcesModule::getMesh(AssetName name)
 {
 	auto it = _modelsMap.find(name);
-	if (it != _modelsMap.end()) {
+	if (it == _modelsMap.end()) {
 		Debug::error("ERROR: Modelo no encontrado");
 	}
 	return it->second;
 }
 
-std::string ResourcesModule::loadParticle(std::string name)
+std::pair<FolderName, FileName> ResourcesModule::getParticle(AssetName name)
 {
 	auto it = _particlesMap.find(name);
-	if (it != _particlesMap.end()) {
+	if (it == _particlesMap.end()) {
 		Debug::error("ERROR: Particulas no encontrada");
 	}
 	return it->second;
 }
 
-std::string ResourcesModule::loadTexture(std::string name)
+std::pair<FolderName, FileName> ResourcesModule::getTexture(AssetName name)
 {
 	auto it = _texturesMap.find(name);
-	if (it != _texturesMap.end()) {
+	if (it == _texturesMap.end()) {
 		Debug::error("ERROR: Textura no encontrada");
 	}
 	return it->second;
+}
+
+void ResourcesModule::setAudioSource(AssetName name, FolderName newRoute)
+{
+	auto it = _audioMap.find(name);
+	if (it == _audioMap.end()) {
+		Debug::error("ERROR: Audio no encontrado");
+	}
+	_audioMap[name] = newRoute;
+}
+
+void ResourcesModule::setMeshSource(AssetName name, FolderName newRoute)
+{
+	auto it = _modelsMap.find(name);
+	if (it == _modelsMap.end()) {
+		Debug::error("ERROR: Modelo no encontrado");
+	}
+	_modelsMap[name].first = newRoute;
+}
+
+void ResourcesModule::setParticleSource(AssetName name, FolderName newRoute)
+{
+	auto it = _particlesMap.find(name);
+	if (it == _particlesMap.end()) {
+		Debug::error("ERROR: Particulas no encontrada");
+	}
+	_particlesMap[name].first = newRoute;
+}
+
+void ResourcesModule::setTextureSource(AssetName name, FolderName newRoute)
+{
+	auto it = _texturesMap.find(name);
+	if (it == _texturesMap.end()) {
+		Debug::error("ERROR: Textura no encontrado");
+	}
+	_texturesMap[name].first = newRoute;
 }

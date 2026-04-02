@@ -21,6 +21,7 @@ class PhysicsModule;
 class ComponentDLLLoader;
 class StateMachine;
 class InputFacade;
+class ResourcesModule;
 
 namespace core
 {
@@ -288,6 +289,12 @@ public:
 
 #pragma endregion
 
+#pragma region resources
+
+	std::string getAudioByName(std::string name);
+
+#pragma endregion
+
 	/**
 	* @brief Devuelve anchura de la ventana
 	*/
@@ -334,6 +341,11 @@ private:
 	*	Referencia al modulo de fisica
 	*/
 	PhysicsModule* _physicsModule = nullptr;
+	/*
+	* @brief
+	*	Referencia al modulo de recursos
+	*/
+	ResourcesModule* _resourecesModule = nullptr;
 	/*
 	* @brief
 	*	Referencia a la maquina de estados

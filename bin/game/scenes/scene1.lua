@@ -44,8 +44,7 @@ scene = { -- entidades en escena
 				}
 			},
 			AudioSource = {
-				soundPath = "./game/scenes/smb_1-up.wav",
-				soundID = "0",
+				soundID = "lifeUp",
 				mute = false,
 				is3D = true,
 				loop = true,
