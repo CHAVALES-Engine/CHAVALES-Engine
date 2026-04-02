@@ -24,7 +24,11 @@ using Property = std::variant<
 	std::vector<float>,
 	std::vector<bool>,
 	std::vector<std::string>,
-	std::vector<core::Vector3<>>
+	std::vector<core::Vector2<>>,
+	std::vector<core::Vector3<>>,
+	std::vector<core::Vector4<>>,
+	std::vector<core::Quaternion<>>,
+	std::vector<core::Color>
 >;
 
 using Properties = std::unordered_map<std::string, Property>;

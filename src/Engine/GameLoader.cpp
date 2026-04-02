@@ -93,13 +93,29 @@ void GameLoader::parseObject(const sol::object& obj, const std::string& clave, P
 		{
 			props[clave] = parseVector<bool>(t);
 		}
+		else if (isVectorOf<core::Vector2<>>(t))
+		{
+			props[clave] = parseVector<core::Vector2<>>(t);
+		}
 		else if (isVectorOf<core::Vector3<>>(t))
 		{
 			props[clave] = parseVector<core::Vector3<>>(t);
 		}
+		else if (isVectorOf<core::Vector4<>>(t))
+		{
+			props[clave] = parseVector<core::Vector4<>>(t);
+		}
+		else if (isVectorOf<core::Quaternion<>>(t))
+		{
+			props[clave] = parseVector<core::Quaternion<>>(t);
+		}
+		else if (isVectorOf<core::Color>(t))
+		{
+			props[clave] = parseVector<core::Color>(t);
+		}
 		else
 		{
-			Debug::error("GAMELOADER: Tabla no compatible en ", clave);
+			Debug::error("GAMELOADER: Parametro tabla no compatible en ", clave);
 		}
 
 		break;

@@ -307,5 +307,12 @@ namespace core
 		}
 
 	};
+
+	template <typename T>
+	inline std::ostream& operator<<(std::ostream& os, const Quaternion<T>& q)
+	{
+		os << "(" << q.getX() << ", " << q.getY() << ", " << q.getZ() << ", " << q.getW() << ")";
+		return os;
+	}
 }
 

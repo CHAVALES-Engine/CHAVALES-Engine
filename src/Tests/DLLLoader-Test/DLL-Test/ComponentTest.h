@@ -20,6 +20,10 @@ class ComponentTest : public core::Component
 	std::vector<std::string> vecString;
 	std::vector<bool> vecBools;
 	std::vector<core::Vector3<>> vecVecs;
+	std::vector<core::Vector2<>> vec1;
+	std::vector<core::Vector4<>> vec2;
+	std::vector<core::Color> vec3;
+	std::vector<core::Quaternion<>> vec4;
 
 	bool init(const Properties& p) override
 	{
@@ -29,32 +33,28 @@ class ComponentTest : public core::Component
 		//health = getProperty<int>(p, "health");
 
 		// ejemplo 2
-		/*return setProperty(p, "health", health)
-			&& setProperty(p, "vecString", vecString)
-			&& setProperty(p, "vecInts", vecInts)
-			&& setProperty(p, "vecFloats", vecFloats)
-			&& setProperty(p, "vecBools", vecBools)
-			&& setProperty(p, "vecVecs", vecVecs);*/
+		setProperty(p, "vec1", vec1);
+		setProperty(p, "vec2", vec2);
+		setProperty(p, "vec3", vec3);
+		setProperty(p, "vec4", vec4);
 		return true;
 	}
 
 	void ready() override
 	{
-		//Debug::out(">>READY<<");
-		//Debug::out(">>ints<<");
-		//for (const auto& s : vecInts)
-		//	Debug::out(s);
-		//Debug::out(">>floats<<");
-		//for (const auto& s : vecFloats)
-		//	Debug::out(s);
-		//Debug::out(">>strings<<");
-		//for (const auto& s : vecString)
-		//	Debug::out(s);
-		//Debug::out(">>bools<<");
-		//for (const auto& s : vecBools)
-		//	Debug::out(s);
-		//for (const auto& s : vecVecs)
-		//	Debug::out(s);
+		Debug::out(">>READY<<");
+		Debug::out(">>Vector2<<");
+		for (const auto& s : vec1)
+			Debug::out(s);
+		Debug::out(">>Vector4<<");
+		for (const auto& s : vec2)
+			Debug::out(s);
+		Debug::out(">>Color<<");
+		for (const auto& s : vec3)
+			Debug::out(s);
+		Debug::out(">>Quaternion<<");
+		for (const auto& s : vec4)
+			Debug::out(s);
 
 		Debug::out("Hola :-) Mi vida es ", health);
 		Debug::out("test ", test);

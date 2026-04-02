@@ -11,8 +11,6 @@ scene = { -- entidades en escena
 				scale = Vector3.new(1),
 				children = {"entidad2"}
 			},
-			-- TimerChangescene = {	
-			-- },
 			ComponentTest = {
 				health = 10,
 				alive = true,
@@ -37,11 +35,22 @@ scene = { -- entidades en escena
 					9.6,
 					0.0
 				},
-				vecVecs = { 
-					Vector3.new(1),
-					Vector3.new(2),
-					Vector3.new(3),
-				}
+				vec1 = {
+					Vector2.new(1),
+					Vector2.new(1)
+				},
+				vec2 = {
+					Vector4.new(2),
+					Vector4.new(2)
+				},
+				vec3 = {
+					Color.new(1,1,1,0),
+					Color.new(0.5, 0.75, 0.25, 1),
+				},
+				vec4 = {
+					Quaternion.new(),
+					Quaternion.new()
+				},
 			},
 			AudioSource = {
 				soundID = "lifeUp",
