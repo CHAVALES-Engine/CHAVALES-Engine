@@ -16,6 +16,8 @@
 #include "Quaternion.h"
 #include "Color.h"
 
+#include "guid.h"
+
 namespace Ogre
 {
     class SceneNode;
@@ -23,13 +25,14 @@ namespace Ogre
     class Camera;
     class Entity;
     class Light;
-
+    class AnimationState;
 }
 
-using entityID = uint64_t;
+using entityID = ChavalesGUID;
 using transformID = uint64_t;
 using cameraID = uint64_t;
 using modelID = uint64_t;
+using animationID = uint64_t;
 using subMeshID = uint64_t;
 using lightID = uint64_t;
 
@@ -80,6 +83,10 @@ public:
     * @brief Anadir nodo.
     */
     transformID addNode(const entityID& entityID, const core::Vector3<float>& pos = core::Vector3<float>(0.0f, 0.0f, 0.0f), const core::Quaternion<float>& rot = core::Quaternion<float>(0.0f, 0.0f, 0.0f, 1.0f), const core::Vector3<float> scale = core::Vector3<float>(1.0f, 1.0f, 1.0f));
+    /*
+    * @brief Getter de nodo. Devuelve -1 si no existe.
+    */
+    transformID getNode(const entityID& entityID);
     /*
     * @brief Leer posicion del nodo.
     */
@@ -177,6 +184,47 @@ public:
     void setModelVisible(const modelID& id, const bool& visible);
 
 
+    //Metodos animaciones
+    /*
+    * @brief Anadir animator.
+    */
+    void addAnimator(const entityID& entityID, modelID& modelID);
+    /*
+    * @brief Limpiar animaciones
+    */
+    void cleanAnimations();
+    /*
+    * @brief Registrar animacion de esqueleto.
+    */
+    animationID registerSkeletonAnim(const modelID& modelID, const std::string& animationName, const bool& loop);
+    /*
+    * @brief Crear animacion de transform.
+    */
+    animationID createTransformAnimation(const entityID& entityID, const std::string& animationName, const bool& loop, const float& totalDuration);
+    /*
+    * @brief Anadir keyframe a animacion de transform.
+    */
+    void addTransformKeyFrame(const animationID& animationID,
+                              const float& timePos, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float>& scale);
+    /*
+    * @brief Anadir keyframe a animacion de transform con rotacion sencilla.
+    */
+    void addTransformKeyFrame(const animationID& animationID,
+                              const float& timePos, const core::Vector3<float>& pos, const float& rot, const int& axis, const core::Vector3<float>& scale);
+    /*
+    * @brief Establecer animacion activa.
+    */
+    void setAnimEnabled(const animationID& animationID, const bool& active);
+    /*
+    * @brief Reanudar animacíon a partir de cierto instante de tiempo.
+    */
+    void setAnimTimePos(const animationID& animationID, const float& timePos);
+    /*
+    * @brief Actualizar animacion.
+    */
+    void updateAnimation(const animationID& animationID, const uint64_t& deltaTime);
+
+
     //Metodos luces
     /*
     * @brief Luz nueva. Se asigna un id por orden de creacion. Main Luz id 0 y añadidas manualmente 1 en adelante.
@@ -210,13 +258,6 @@ public:
     * @brief Establecer el cono de luz (angulo interno, angulo externo y suavidad de degradado).
     */
     void setLightSpotRange(const lightID& id, const float& inner, const float& outer, const float& falloff);
-   
-
-    //Metodos entidades
-    void addEntity();
-    void deleteEntity();
-    void setEntityActive();
-    void cleanEntities();
 
 
     //Getter UI
@@ -227,11 +268,13 @@ private:
     std::vector<EngineNode> _engineNodes;
     std::vector<Ogre::Camera*> _cameras;
     std::vector<Ogre::Entity*> _models;
+    std::vector<Ogre::AnimationState*> _animations;
     std::vector<Ogre::Light*> _lights;
     ImGuiManager* _ui;
 
     transformID _nextTransformID;
     cameraID _nextCameraID;
     modelID _nextModelID;
+    animationID _nextAnimationID;
     lightID _nextLightID;
 };

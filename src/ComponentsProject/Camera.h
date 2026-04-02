@@ -4,7 +4,6 @@
  */
 #pragma once
 #include <Component.h>
-#include <Vector3.h>
 #include <Color.h>
 
 using cameraID = uint64_t;

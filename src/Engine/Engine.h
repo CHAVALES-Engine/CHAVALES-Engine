@@ -8,6 +8,7 @@
 #include <Vector3.h>
 
 #include "InputDefs.h"
+#include "guid.h"
 /*
  * @file Engine.h
  * @brief Defines the functions for the EngineAPI static library.
@@ -27,10 +28,11 @@ namespace core
 	//class Vector3<>;
 }
 
-using entityID = uint64_t;
+using entityID = ChavalesGUID;
 using transformID = uint64_t;
 using cameraID = uint64_t;
 using modelID = uint64_t;
+using animationID = uint64_t;
 using lightID = uint64_t;
 
 class ENGINE_API Engine
@@ -161,6 +163,44 @@ public:
 	* @brief Establecer si el modelo es visible.
 	*/
 	void setModelVisible(const modelID& id, const bool& visible);
+#pragma endregion
+
+	//Metodos animaciones
+#pragma region animation
+	/*
+	* @brief Anadir animator.
+	*/
+	void addAnimator(const entityID& entityID, modelID& modelID);
+	/*
+	* @brief Registrar animacion de esqueleto.
+	*/
+	animationID registerSkeletonAnim(const modelID& modelID, const std::string& animationName, const bool& loop);
+	/*
+	* @brief Crear animacion de transform.
+	*/
+	animationID createTransformAnimation(const entityID& entityID, const std::string& animationName, const bool& loop, const float& totalDuration);
+	/*
+	* @brief Anadir keyframe a animacion de transform. Time pos en segundos.
+	*/
+	void addTransformKeyFrame(const animationID& animationID,
+							  const float& timePos, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float>& scale);
+	/*
+	* @brief Anadir keyframe a animacion de transform con rotacion sencilla. Time pos en segundos.
+	*/
+	void addTransformKeyFrame(const animationID& animationID,
+							  const float& timePos, const core::Vector3<float>& pos, const float& rot, const int& axis, const core::Vector3<float>& scale);
+	/*
+	* @brief Establecer animacion activa.
+	*/
+	void setAnimEnabled(const animationID& animationID, const bool& active);
+	/*
+	* @brief Reanudar animacíon a partir de cierto instante de tiempo.
+	*/
+	void setAnimTimePos(const animationID& animationID, const float& timePos);
+	/*
+	* @brief Actualizar animacion.
+	*/
+	void updateAnimation(const animationID& animationID, const uint64_t& deltaTime);
 #pragma endregion
 
 	//Metodos luces

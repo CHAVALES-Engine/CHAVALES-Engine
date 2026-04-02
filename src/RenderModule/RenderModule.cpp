@@ -14,6 +14,7 @@
 #include <OgreCamera.h>
 #include <OgreViewport.h>
 #include <OgreEntity.h>
+#include <OgreKeyFrame.h>
 #include <OgreLight.h>
 #include <OgreRay.h>
 #include <OgreSceneNode.h>
@@ -111,7 +112,7 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
         Ogre::Codec::registerCodec(new Ogre::STBIImageCodec("png"));
         Ogre::Codec::registerCodec(new Ogre::STBIImageCodec("tga"));
 
-        //Ogre::LogManager::getSingleton().getDefaultLog()->setDebugOutputEnabled(false);
+        Ogre::LogManager::getSingleton().getDefaultLog()->setDebugOutputEnabled(false);
 
         const Ogre::RenderSystemList& renderers = _root->getAvailableRenderers();
         if (renderers.empty())
@@ -132,10 +133,10 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
         //Crear escena con main camera
         _sceneMgr = _root->createSceneManager();
 
-        addNode(0, { 0.0f, 5.0f, 15.0f }, { 0.0f, 0.0f, 0.0f, -20.0f }, { 1.0f, 1.0f, 1.0f });
-        addCamera(0, 45.0f, 0.1f, 1000.0f, 1.0f, { 0.0f, 0.0f, 0.0f, 1.0f });
+        entityID zero = ChavalesGUID::generate();
+        addNode(zero, { 0.0f, 5.0f, 15.0f }, { 0.0f, 0.0f, 0.0f, -20.0f }, { 1.0f, 1.0f, 1.0f });
+        addCamera(zero, 45.0f, 0.1f, 1000.0f, 1.0f, { 0.0f, 0.0f, 0.0f, 1.0f });
 
-        _vp = _window->addViewport(_cameras[0]);
         _vp->setBackgroundColour(Ogre::ColourValue(0.02f, 0.22f, 0.11f));
 
         //ZONA DEMO INICIO
@@ -176,8 +177,9 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
 
         Ogre::Entity* cube = _sceneMgr->createEntity("metroid", mesh);*/
 
-        addNode(1, core::Vector3(-2.0f, 5.0f, 11.0f), core::Quaternion(0.0f, -0.906f, 0.0f, -0.423f), core::Vector3(0.1f, 0.1f, 0.1f));
-        addModel(1, "metroid-floating/source", "metroid_final.fbx");
+        entityID one = ChavalesGUID::generate();
+        addNode(one, core::Vector3(-2.0f, 5.0f, 11.0f), core::Quaternion(0.0f, -0.906f, 0.0f, -0.423f), core::Vector3(0.1f, 0.1f, 0.1f));
+        addModel(one, "metroid-floating/source", "metroid_final.fbx");
         setDiffuse(0, 0, "metroid-floating/sourceimages/membrane", "Base_Color.jpeg");
         setTint(0, 0, core::Color(1.0f, 1.0f, 1.0f, 0.7f));
         setDiffuse(0, 1, "metroid-floating/sourceimages/body", "Base_Color.jpeg");
@@ -205,7 +207,8 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
             std::cout << "No hay animaciones" << std::endl;
         }
 
-        addLight(2, 1, core::Color(1.0f, 1.0f, 1.0f, 1.0f), 1.0f);
+        entityID two = ChavalesGUID::generate();
+        addLight(two, 1, core::Color(1.0f, 1.0f, 1.0f, 1.0f), 1.0f);
 
         _overlaySystem = new Ogre::OverlaySystem();
         _sceneMgr->addRenderQueueListener(_overlaySystem);
@@ -223,9 +226,10 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
         _nextTransformID = 0;
         _nextCameraID = 0;
         _nextModelID = 0;
+        _nextAnimationID = 0;
         _nextLightID = 0;
 
-        //renderFrame();
+        renderFrame();
 
         return true;
     }
@@ -268,10 +272,13 @@ void RenderModule::cleanScene()
         return;
 
     //Limpiar camaras
-   // cleanCameras();
+    cleanCameras();
 
     //Limpiar luces
     cleanLights();
+
+    //Limpiar animaciones
+    cleanAnimations();
 
     //Limpiar modelos
     cleanModels();
@@ -318,6 +325,15 @@ transformID RenderModule::addNode(const entityID& entityID, const core::Vector3<
         return _nextTransformID++;
     }
     return _nextTransformID;
+}
+
+transformID RenderModule::getNode(const entityID& entityID)
+{
+    for (int i = _engineNodes.size() - 1; i >= 0; i--)
+    {
+        if (_engineNodes[i].nodeID == entityID) return i;
+    }
+    return -1;
 }
 
 core::Vector3<float> RenderModule::getNodePosition(const transformID& id)
@@ -386,7 +402,7 @@ cameraID RenderModule::addCamera(const entityID& entityID, const float& FOVy, co
     //Si no existe un nodo con este entityID lo creamos
     addNode(entityID);
 
-    Ogre::Camera* camera = _cameras.emplace_back(_sceneMgr->createCamera("camera" + std::to_string(_nextCameraID++)));
+    Ogre::Camera* camera = _cameras.emplace_back(_sceneMgr->createCamera("camera" + std::to_string(_nextCameraID)));
     camera->setAutoAspectRatio(true);
     _engineNodes.back().sceneNode->attachObject(camera);
 
@@ -401,7 +417,7 @@ cameraID RenderModule::addCamera(const entityID& entityID, const float& FOVy, co
         setAsActiveCamera(_nextCameraID);
         _vp->setBackgroundColour(Ogre::ColourValue(bgColor.getRed(), bgColor.getGreen(), bgColor.getBlue()));
     }
-    return _nextCameraID;
+    return _nextCameraID++;
 }
 
 void RenderModule::deleteCamera(const cameraID& id)
@@ -433,7 +449,17 @@ void RenderModule::deleteCamera(const cameraID& id)
 
 void RenderModule::setAsActiveCamera(const cameraID& id)
 {
-    if (id >= 0 && id < _cameras.size() && _cameras[id] != nullptr) _vp->setCamera(_cameras[id]);
+    if (id >= 0 && id < _cameras.size() && _cameras[id] != nullptr)
+    {
+        if (_vp == nullptr)
+        {
+            _vp = _window->addViewport(_cameras[id]);
+        }
+        else
+        {
+            _vp->setCamera(_cameras[id]);
+        }
+    }
 }
 
 void RenderModule::cleanCameras()
@@ -511,7 +537,7 @@ modelID RenderModule::addModel(const entityID& entityID, const std::string& mode
         _rgm->addResourceLocation("../dependencies/ogre/src/ogre/Samples/Media/packs/" + modelFolder, "FileSystem", modelFolder);
         _rgm->loadResourceGroup(modelFolder);
     }
-    Ogre::Entity* model = _models.emplace_back(_sceneMgr->createEntity(modelFile + std::to_string(_nextModelID++), modelFile));
+    Ogre::Entity* model = _models.emplace_back(_sceneMgr->createEntity(modelFile + std::to_string(_nextModelID), modelFile));
     _engineNodes.back().sceneNode->attachObject(model);
 
     for (unsigned int i = 0; i < model->getNumSubEntities(); ++i)
@@ -535,7 +561,7 @@ modelID RenderModule::addModel(const entityID& entityID, const std::string& mode
         );
     }
 
-    return _nextModelID;
+    return _nextModelID++;
 }
 
 void RenderModule::deleteModel(const modelID& id)
@@ -636,11 +662,147 @@ void RenderModule::setModelVisible(const modelID& id, const bool& visible)
 
 
 
+void RenderModule::addAnimator(const entityID& entityID, modelID& modelID)
+{
+    transformID nodeID = addNode(entityID);
+    modelID = -1;
+    auto& node = _engineNodes[nodeID].sceneNode;
+    for (unsigned int i = 0; i < node->numAttachedObjects(); ++i)
+    {
+        Ogre::MovableObject* obj = node->getAttachedObject(i);
+        Ogre::Entity* ent = dynamic_cast<Ogre::Entity*>(obj);
+        if (ent)
+        {
+            modelID = _nextModelID - 1;
+            return;
+        }
+    }
+}
+
+void RenderModule::cleanAnimations()
+{
+    for (Ogre::AnimationState* state : _animations)
+    {
+        if (state != nullptr)
+        {
+            Ogre::String name = state->getAnimationName();
+            state->setEnabled(false);
+
+            //Destruir solo si es transform animation. Las de esqueleto se borran junto a la entidad.
+            if (_sceneMgr->hasAnimation(name))
+            {
+                _sceneMgr->destroyAnimationState(name);
+                _sceneMgr->destroyAnimation(name);
+            }
+        }
+    }
+
+    _animations.clear();
+    _nextAnimationID = 0;
+}
+
+animationID RenderModule::registerSkeletonAnim(const modelID& modelID, const std::string& animationName, const bool& loop)
+{
+    if (modelID >= 0 && modelID < _models.size() && _models[modelID] != nullptr)
+    {
+        auto anim = _animations.emplace_back(_models[modelID]->getAnimationState(animationName));
+        if (anim == nullptr)
+            return -1;
+        _animations.back()->setLoop(loop);
+        return _nextAnimationID++;
+    }
+    return -1;
+}
+
+animationID RenderModule::createTransformAnimation(const entityID& entityID, const std::string& animationName, const bool& loop, const float& totalDuration)
+{
+    transformID nodeID = getNode(entityID);
+    if (nodeID != -1 && _engineNodes[nodeID].sceneNode != nullptr)
+    {
+        Ogre::Animation* animation = _sceneMgr->createAnimation(animationName + std::to_string(_nextAnimationID), totalDuration);
+        animation->setInterpolationMode(Ogre::Animation::IM_LINEAR);
+        animation->createNodeTrack(0, _engineNodes[nodeID].sceneNode);
+        _animations.emplace_back(_sceneMgr->createAnimationState(animationName + std::to_string(_nextAnimationID)));
+        _animations.back()->setLoop(loop);
+        return _nextAnimationID++;
+    }
+    return -1;
+}
+
+void RenderModule::addTransformKeyFrame(const animationID& animationID, const float& timePos, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float>& scale)
+{
+    if (animationID >= 0 && animationID < _animations.size() && _animations[animationID] != nullptr)
+    {
+        Ogre::Animation* anim = _sceneMgr->getAnimation(_animations[animationID]->getAnimationName());
+
+        Ogre::NodeAnimationTrack* track = anim->getNodeTrack(0);
+
+        Ogre::TransformKeyFrame* kf = track->createNodeKeyFrame(timePos);
+        kf->setTranslate(Ogre::Vector3(pos.getX(), pos.getY(), pos.getZ()));
+        kf->setRotation(Ogre::Quaternion(rot.getW(), rot.getX(), rot.getY(), rot.getZ()));
+        kf->setScale(Ogre::Vector3(scale.getX(), scale.getY(), scale.getZ()));
+    }
+}
+
+void RenderModule::addTransformKeyFrame(const animationID& animationID, const float& timePos, const core::Vector3<float>& pos, const float& rot, const int& axis, const core::Vector3<float>& scale)
+{
+    if (animationID >= 0 && animationID < _animations.size() && _animations[animationID] != nullptr)
+    {
+        Ogre::Animation* anim = _sceneMgr->getAnimation(_animations[animationID]->getAnimationName());
+
+        Ogre::NodeAnimationTrack* track = anim->getNodeTrack(0);
+
+        Ogre::TransformKeyFrame* kf = track->createNodeKeyFrame(timePos);
+        kf->setTranslate(Ogre::Vector3(pos.getX(), pos.getY(), pos.getZ()));
+        Ogre::Vector3 ogreAxis;
+        switch (axis)
+        {
+        case 0:
+            ogreAxis = Ogre::Vector3::UNIT_X;
+            break;
+        case 1:
+            ogreAxis = Ogre::Vector3::UNIT_Y;
+            break;
+        case 2:
+            ogreAxis = Ogre::Vector3::UNIT_Z;
+            break;
+        }
+        kf->setRotation(Ogre::Quaternion(Ogre::Degree(rot), ogreAxis));
+        kf->setScale(Ogre::Vector3(scale.getX(), scale.getY(), scale.getZ()));
+    }
+}
+
+void RenderModule::setAnimEnabled(const animationID& animationID, const bool& active)
+{
+    if (animationID >= 0 && animationID < _animations.size() && _animations[animationID] != nullptr)
+    {
+        _animations[animationID]->setEnabled(active);
+    }
+}
+
+void RenderModule::setAnimTimePos(const animationID& animationID, const float& timePos)
+{
+    if (animationID >= 0 && animationID < _animations.size() && _animations[animationID] != nullptr)
+    {
+        _animations[animationID]->setTimePosition(timePos);
+    }
+}
+
+void RenderModule::updateAnimation(const animationID& animationID, const uint64_t& deltaTime)
+{
+    if (animationID >= 0 && animationID < _animations.size() && _animations[animationID] != nullptr)
+    {
+        _animations[animationID]->addTime((float)deltaTime / 1000.0f);
+    }
+}
+
+
+
 lightID RenderModule::addLight(const entityID& entityID, const int& type, const core::Color& color, const float& intensity) {
     //Si no existe un nodo con este entityID lo creamos
     addNode(entityID);
 
-    Ogre::Light* light = _sceneMgr->createLight("light" + std::to_string(_nextLightID++));
+    Ogre::Light* light = _sceneMgr->createLight("light" + std::to_string(_nextLightID));
     
     switch (type) {
         case 0: light->setType(Ogre::Light::LT_POINT); break;
@@ -658,7 +820,7 @@ lightID RenderModule::addLight(const entityID& entityID, const int& type, const 
 
     _lights.push_back(light);
     
-    return _nextLightID;
+    return _nextLightID++;
 }
 void  RenderModule::deleteLight(const lightID& id) {
     if (id >= 0 && id < _lights.size() && _lights[id] != nullptr)

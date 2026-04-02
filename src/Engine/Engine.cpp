@@ -162,6 +162,46 @@ void Engine::setModelVisible(const modelID& id, const bool& visible)
 	_renderModule->setModelVisible(id, visible);
 }
 
+void Engine::addAnimator(const entityID& entityID, modelID& modelID)
+{
+	_renderModule->addAnimator(entityID, modelID);
+}
+
+animationID Engine::registerSkeletonAnim(const modelID& modelID, const std::string& animationName, const bool& loop)
+{
+	return _renderModule->registerSkeletonAnim(modelID, animationName, loop);
+}
+
+animationID Engine::createTransformAnimation(const entityID& entityID, const std::string& animationName, const bool& loop, const float& totalDuration)
+{
+	return _renderModule->createTransformAnimation(entityID, animationName, loop, totalDuration);
+}
+
+void Engine::addTransformKeyFrame(const animationID& animationID, const float& timePos, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float>& scale)
+{
+	_renderModule->addTransformKeyFrame(animationID, timePos, pos, rot, scale);
+}
+
+void Engine::addTransformKeyFrame(const animationID& animationID, const float& timePos, const core::Vector3<float>& pos, const float& rot, const int& axis, const core::Vector3<float>& scale)
+{
+	_renderModule->addTransformKeyFrame(animationID, timePos, pos, rot, axis, scale);
+}
+
+void Engine::setAnimEnabled(const animationID& animationID, const bool& active)
+{
+	_renderModule->setAnimEnabled(animationID, active);
+}
+
+void Engine::setAnimTimePos(const animationID& animationID, const float& timePos)
+{
+	_renderModule->setAnimTimePos(animationID, timePos);
+}
+
+void Engine::updateAnimation(const animationID& animationID, const uint64_t& deltaTime)
+{
+	_renderModule->updateAnimation(animationID, deltaTime);
+}
+
 lightID Engine::addLight(const entityID& entityID, const int& type, const core::Color& color, const float& intensity)
 {
 	return _renderModule->addLight(entityID, type,color, intensity);

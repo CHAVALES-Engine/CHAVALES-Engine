@@ -27,6 +27,14 @@ struct ChavalesGUID
 		return high == other.high && low == other.low;
 	}
 	/**
+	 * @brief Sobrecarga del operador != para comparativas.
+	 * @param other - guid con la que comparar.
+	 * @return bool - Es distinto?
+	 */
+	bool operator!=(const ChavalesGUID& other) const {
+		return !(*this == other);
+	}
+	/**
 	 * @brief Metodo que convierte el guid en string representado como numeros en hexadecimal.
 	 * @return std::string - Numero hexadecimal a string.
 	 */

@@ -10,14 +10,6 @@
 
 using modelID = uint64_t;
 
-/*struct Texture
-{
-	std::string textureFolder;
-	std::string textureFile;
-
-	Texture(const std::string& folder, const std::string& file) : textureFolder(folder), textureFile(file) {}
-};*/
-
 /*
  * +----------------+
  * | MODEL RENDERER |
