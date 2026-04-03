@@ -59,7 +59,7 @@ namespace core
 		* @brief
 		*	Color del vacio
 		*/
-		static inline core::Color _clearColor =	CHAVAL_VACIO;
+		static inline core::Color _clearColor = CHAVAL_VACIO;
 		/*
 		* @brief
 		*	Ancho de la ventana
@@ -90,12 +90,20 @@ namespace core
 		static toml::table Serialize()
 		{
 			return toml::table{ {
-				{ "scenes", toml::table{{
-					{ "root",        _scenesRoot },
-					{ "first_scene", _firstScene }
+				{ "game", toml::table{{
+					{ "first_scene", _firstScene }, 
+					{ "game_dll", _gameDLL }
 				}}},
-				{ "assets", toml::table{{
-					{ "root", _assetsRoot }
+				{ "window", toml::table{{
+					{ "window_name", _windowName },
+					{ "icon_root", _iconRoot },
+
+					{ "clear_color_r", _clearColor.getRed() },
+					{ "clear_color_g", _clearColor.getGreen() },
+					{ "clear_color_b", _clearColor.getBlue() },
+
+					{ "window_width", _windowWidth },
+					{ "window_height",_windowHeight }
 				}}}
 			} };
 		}
@@ -104,9 +112,20 @@ namespace core
 		 */
 		static void Deserialize(const toml::table& data)
 		{
-			_scenesRoot = data["scenes"]["root"].value_or("");
-			_firstScene = data["scenes"]["first_scene"].value_or("");
-			_assetsRoot = data["assets"]["root"].value_or("");
+			_firstScene = data["game"]["first_scene"].value_or("");
+			_gameDLL = data["game"]["game_dll"].value_or("");
+
+			_windowName = data["window"]["window_name"].value_or("");
+			_iconRoot = data["window"]["icon_root"].value_or("");
+
+			float r = data["window"]["clear_color_r"].as_floating_point()->get();
+			float g = data["window"]["clear_color_r"].as_floating_point()->get();
+			float b = data["window"]["clear_color_r"].as_floating_point()->get();
+
+			_clearColor = { r,g,b,1.0f};
+
+			_windowWidth = data["window"]["window_width"].as_integer()->get();
+			_windowHeight = data["window"]["window_height"].as_integer()->get();
 		}
 		/**
 		 * @brief Guardar a disco.

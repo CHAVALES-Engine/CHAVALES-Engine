@@ -7,8 +7,6 @@
 
 namespace core
 {
-	
-
 	/**
 	 * @brief Clase que representa un color en RGBA.
 	 *
@@ -110,5 +108,5 @@ namespace core
 	/**
 	 * @brief Constante que representa el clear color por defecto Chaval Vacio rgba(0.118,0.118,0.118,1.0).
 	 */
-	static const Color CHAVAL_VACIO = Color(0.118f, 0.118f, 0.118f, 1.0f);
+	static const Color CHAVAL_VACIO = Color(0.118, 0.118, 0.118, 1.0);
 }

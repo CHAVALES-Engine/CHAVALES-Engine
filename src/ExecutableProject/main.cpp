@@ -39,6 +39,7 @@ static void configureGame(size_t argc, char* argv[])
 		Debug::out("[MAIN] Nombre de la DLL ", core::GameConfigurator::_gameDLL);
 
 		core::GameConfigurator::_windowName = argv[5];
+		std::replace(core::GameConfigurator::_windowName.begin(), core::GameConfigurator::_windowName.end(), '_', ' ');
 		Debug::out("[MAIN] Nombre de la ventana ", core::GameConfigurator::_windowName);
 
 		core::GameConfigurator::_iconRoot = argv[6];

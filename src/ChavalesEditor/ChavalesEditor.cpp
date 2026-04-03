@@ -59,18 +59,7 @@ static bool checkConfigInput(const std::string& firstScene,
     std::filesystem::path dirIcon(core::GameConfigurator::_assetsRoot);
     std::filesystem::path fileIcon = dirIcon / (iconRoot + ".png");
 
-    if ((fs::exists(fileScn)))
-    {
-        std::cout << "holaaaaaaaaa" << std::endl;
-    }
-
-    if (fs::exists(fileIcon))
-	{
-        std::cout << "adioooooooooooooos" << std::endl;
-    }
-
-    return (fs::exists(fileScn) && 
-        fs::exists(fileIcon));
+    return (fs::exists(fileScn) && fs::exists(fileIcon));
 }
 
 // Main code
@@ -280,25 +269,40 @@ bool ChavalesEditor::runEditor()
 
             if (ImGui::Button("Guardar configuracion"))
             {
-                std::cout << "Escena inicial: " << str1 << std::endl;
+                // si no hay input de nada vacio
+                if (!((strcmp(str1, "") == 0) ||
+                    (strcmp(str4, "") == 0) ||
+                    (strcmp(str5, "") == 0) ||
+                    (strcmp(str6, "") == 0)))
+                {
+                    if (checkConfigInput(str1, str6))
+                    {
+                        core::GameConfigurator::_useTOML = disabled ? "SI" : "NO";
 
-                std::cout << "Color del vacio: " << clear_color.x << " " 
-            									<< clear_color.y << " "
-            									<< clear_color.z << " "
-            									<< clear_color.w << " "
-            									<< std::endl;
+                        core::GameConfigurator::_firstScene = str1;
+                        core::GameConfigurator::_gameDLL = str4;
 
-                std::cout << "DLL del juego: " << str4 << std::endl;
-                std::cout << "Nombre de la ventana: " << str5 << std::endl;
-                std::cout << "Ruta del icono: " << str6 << std::endl;
+                        core::GameConfigurator::_windowName = str5;
+                        std::replace(core::GameConfigurator::_windowName.begin(), core::GameConfigurator::_windowName.end(), ' ', '_');
 
-                std::cout << "Ventana: " << width << "x" << height << std::endl;
+                        core::GameConfigurator::_iconRoot = str6;
 
-                std::cout << "Configuracion previa: " << disabled << std::endl;
+                        core::GameConfigurator::_clearColor = { clear_color.x, clear_color.y, clear_color.z, 1.0f };
 
-                // TODO: NO PODER GUARDAR SI NO ESTAN TODOS LOS DATOS?
+                        core::GameConfigurator::_windowWidth = width;
+                        core::GameConfigurator::_windowHeight = height;
 
-                core::GameConfigurator::SaveToFile(CONFIGURATOR_PATH);
+                        core::GameConfigurator::SaveToFile(CONFIGURATOR_PATH);
+                    }
+                    else
+                    {
+                        incorrectos = true;
+                    }
+                }
+                else
+                {
+                    aviso = true;
+                }
             }
             ImGui::SameLine(); HelpMarker("Asegurese de que la configuracion a guardar es correcta.\n Se sobreescribira la ultima configuracion registrada.");
 
@@ -315,9 +319,6 @@ bool ChavalesEditor::runEditor()
                 {
                     if (checkConfigInput(str1, str6))
                     {
-	                    /*core::GameConfigurator::_scenesRoot = str2;
-	                    core::GameConfigurator::_assetsRoot = str3;*/
-
 	                    core::GameConfigurator::_useTOML = disabled ? "SI" : "NO";
 
 	                    core::GameConfigurator::_firstScene = str1;
