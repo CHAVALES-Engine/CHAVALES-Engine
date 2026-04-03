@@ -3,10 +3,7 @@
 
 #include "Color.h"
 #include "Debug.h"
-using namespace std;
-
 #include "EngineAPI.h"
-
 
 #define TOML_HEADER_ONLY 1
 #define CONFIGURATOR_PATH "./configurator.toml"

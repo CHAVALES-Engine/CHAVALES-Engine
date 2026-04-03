@@ -1,6 +1,6 @@
 /*
  * @file main.cpp
- * @brief Main file for initialization.
+ * @brief Inicializacion.
  */
 #include <iostream>
 
@@ -15,23 +15,8 @@ static void configureGame(size_t argc, char* argv[])
 	if (argc <= 2)
 		return;
 
-	std::cout << argv[2] << std::endl;
-
 	if (strcmp(argv[2], "NO") == 0) // no usar configuracion guardada
 	{
-		/*
-		argv[2] -> usar(1)/no usar(0) toml
-		argv[3] -> primera escena
-		argv[4] -> .dll
-		argv[5] -> nombre ventana
-		argv[6] -> icono
-		argv[7] -> clear color r
-		argv[8] -> clear color g
-		argv[9] -> clear color b
-		argv[10] -> ancho
-		argv[11] -> alto
-		*/
-
 		core::GameConfigurator::_firstScene = argv[3];
 		Debug::out("[MAIN] Escena inicial ", core::GameConfigurator::_firstScene);
 
@@ -82,7 +67,7 @@ int main(int argc, char* argv[])
 		// Lanza el bucle de juego
 		Engine::instance()->startLoop();
 	}
-	catch (exception e) 
+	catch (std::exception e) 
 	{
 		Debug::error(e.what());
 		return 1;

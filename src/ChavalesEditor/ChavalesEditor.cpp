@@ -62,6 +62,31 @@ static bool checkConfigInput(const std::string& firstScene,
     return (fs::exists(fileScn) && fs::exists(fileIcon));
 }
 
+static void saveConfigInput(bool disabled, 
+    const std::string& str1, 
+    const std::string& str4,
+    const std::string& str5,
+    const std::string& str6,
+    ImVec4 clear_color, 
+    int width,
+    int height)
+{
+    core::GameConfigurator::_useTOML = disabled ? "SI" : "NO";
+
+    core::GameConfigurator::_firstScene = str1;
+    core::GameConfigurator::_gameDLL = str4;
+
+    core::GameConfigurator::_windowName = str5;
+    std::replace(core::GameConfigurator::_windowName.begin(), core::GameConfigurator::_windowName.end(), ' ', '_');
+
+    core::GameConfigurator::_iconRoot = str6;
+
+    core::GameConfigurator::_clearColor = { clear_color.x, clear_color.y, clear_color.z, 1.0f };
+
+    core::GameConfigurator::_windowWidth = width;
+    core::GameConfigurator::_windowHeight = height;
+}
+
 // Main code
 bool ChavalesEditor::runEditor()
 {
@@ -110,7 +135,7 @@ bool ChavalesEditor::runEditor()
     SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
     float main_scale = SDL_GetDisplayContentScale(SDL_GetPrimaryDisplay());
     SDL_WindowFlags window_flags = SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIDDEN | SDL_WINDOW_HIGH_PIXEL_DENSITY;
-    SDL_Window* window = SDL_CreateWindow("ChavalesEditor", (int)(1280 * main_scale), (int)(800 * main_scale), window_flags);
+    SDL_Window* window = SDL_CreateWindow("ChavalesEditor", (int)(800 * main_scale), (int)(500 * main_scale), window_flags);
     if (window == nullptr)
     {
         printf("Error: SDL_CreateWindow(): %s\n", SDL_GetError());
@@ -137,7 +162,6 @@ bool ChavalesEditor::runEditor()
 
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
-    //ImGui::StyleColorsLight();
 
     // Setup scaling
     ImGuiStyle& style = ImGui::GetStyle();
@@ -160,35 +184,22 @@ bool ChavalesEditor::runEditor()
     //style.FontSizeBase = 20.0f;
     //io.Fonts->AddFontDefaultVector();
     //io.Fonts->AddFontDefaultBitmap();
-    //io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\segoeui.ttf");
-    //io.Fonts->AddFontFromFileTTF("../../misc/fonts/DroidSans.ttf");
-    //io.Fonts->AddFontFromFileTTF("../../misc/fonts/Roboto-Medium.ttf");
     //io.Fonts->AddFontFromFileTTF("../../misc/fonts/Cousine-Regular.ttf");
     //ImFont* font = io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\ArialUni.ttf");
     //IM_ASSERT(font != nullptr);
 
     // Our state
-    bool show_demo_window = true;
-    bool show_another_window = false;
-    ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+    ImVec4 clear_color = ImVec4(0.118, 0.118, 0.118, 1.0);
 
     // Main loop
     bool done = false;
 #ifdef __EMSCRIPTEN__
-    // For an Emscripten build we are disabling file-system access, so let's not attempt to do a fopen() of the imgui.ini file.
-    // You may manually call LoadIniSettingsFromMemory() to load settings from your own storage.
     io.IniFilename = nullptr;
     EMSCRIPTEN_MAINLOOP_BEGIN
 #else
     while (!done)
 #endif
     {
-        // Poll and handle events (inputs, window resize, etc.)
-        // You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
-        // - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application, or clear/overwrite your copy of the mouse data.
-        // - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application, or clear/overwrite your copy of the keyboard data.
-        // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
-        // [If using SDL_MAIN_USE_CALLBACKS: call ImGui_ImplSDL3_ProcessEvent() from your SDL_AppEvent() function]
         SDL_Event event;
         while (SDL_PollEvent(&event))
         {
@@ -199,7 +210,6 @@ bool ChavalesEditor::runEditor()
                 done = true;
         }
 
-        // [If using SDL_MAIN_USE_CALLBACKS: all code below would likely be your SDL_AppIterate() function]
         if (SDL_GetWindowFlags(window) & SDL_WINDOW_MINIMIZED)
         {
             SDL_Delay(10);
@@ -211,30 +221,18 @@ bool ChavalesEditor::runEditor()
         ImGui_ImplSDL3_NewFrame();
         ImGui::NewFrame();
 
-        // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
-        if (show_demo_window)
-            ImGui::ShowDemoWindow(&show_demo_window);
-
         // Chavales editor
         {
             static bool disabled = false;
             static bool aviso = false;
             static bool incorrectos = false;
 
-            ImGui::Begin("ChavalesEngine Project Settings");
-
-            ImGui::Checkbox("Demo Window", &show_demo_window);
+            ImGui::Begin("ChavalesEngine Configuracion");
 
 			ImGui::BeginDisabled(disabled);
 
             static char str1[128] = "";
             ImGui::InputTextWithHint("Escena inicial", "nombre del .lua", str1, IM_COUNTOF(str1), ImGuiInputTextFlags_CharsNoBlank);
-
-            //static char str2[128] = "";
-            //ImGui::InputTextWithHint("Ruta de las escenas", "ruta escenas", str2, IM_COUNTOF(str2), ImGuiInputTextFlags_CharsNoBlank);
-
-            //static char str3[128] = "";
-            //ImGui::InputTextWithHint("Ruta de los recursos", "ruta recursos", str3, IM_COUNTOF(str3), ImGuiInputTextFlags_CharsNoBlank);
 
             static char str4[128] = "";
             ImGui::InputTextWithHint("Dll del juego", "nombre del .dll", str4, IM_COUNTOF(str4), ImGuiInputTextFlags_CharsNoBlank);
@@ -253,6 +251,7 @@ bool ChavalesEditor::runEditor()
 
             int minW = 128;
             int maxW = 7680;
+
         	int minH = 128;
             int maxH = 4320;
 
@@ -270,94 +269,64 @@ bool ChavalesEditor::runEditor()
             if (ImGui::Button("Guardar configuracion"))
             {
                 // si no hay input de nada vacio
-                if (!((strcmp(str1, "") == 0) ||
-                    (strcmp(str4, "") == 0) ||
-                    (strcmp(str5, "") == 0) ||
-                    (strcmp(str6, "") == 0)))
+                if (!((strcmp(str1, "") == 0) || (strcmp(str4, "") == 0) || (strcmp(str5, "") == 0) || (strcmp(str6, "") == 0)))
                 {
                     if (checkConfigInput(str1, str6))
                     {
-                        core::GameConfigurator::_useTOML = disabled ? "SI" : "NO";
-
-                        core::GameConfigurator::_firstScene = str1;
-                        core::GameConfigurator::_gameDLL = str4;
-
-                        core::GameConfigurator::_windowName = str5;
-                        std::replace(core::GameConfigurator::_windowName.begin(), core::GameConfigurator::_windowName.end(), ' ', '_');
-
-                        core::GameConfigurator::_iconRoot = str6;
-
-                        core::GameConfigurator::_clearColor = { clear_color.x, clear_color.y, clear_color.z, 1.0f };
-
-                        core::GameConfigurator::_windowWidth = width;
-                        core::GameConfigurator::_windowHeight = height;
-
+                        saveConfigInput(disabled, str1, str4, str5, str6, clear_color, width, height);
                         core::GameConfigurator::SaveToFile(CONFIGURATOR_PATH);
                     }
-                    else
-                    {
-                        incorrectos = true;
-                    }
+                    else incorrectos = true;
                 }
-                else
-                {
-                    aviso = true;
-                }
+                else aviso = true;
             }
             ImGui::SameLine(); HelpMarker("Asegurese de que la configuracion a guardar es correcta.\n Se sobreescribira la ultima configuracion registrada.");
 
-            //ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
 			ImGui::EndDisabled();
 
             if (ImGui::Button("Empezar"))
             {
                 // si no hay input de nada vacio
-                if (!((strcmp(str1, "") == 0) ||
-                    (strcmp(str4, "") == 0) ||
-                    (strcmp(str5, "") == 0) ||
-                    (strcmp(str6, "") == 0)))
+                if (!((strcmp(str1, "") == 0) || (strcmp(str4, "") == 0) || (strcmp(str5, "") == 0) || (strcmp(str6, "") == 0)))
                 {
                     if (checkConfigInput(str1, str6))
                     {
-	                    core::GameConfigurator::_useTOML = disabled ? "SI" : "NO";
-
-	                    core::GameConfigurator::_firstScene = str1;
-	                    core::GameConfigurator::_gameDLL = str4;
-
-	                    core::GameConfigurator::_windowName = str5;
-	                    std::replace(core::GameConfigurator::_windowName.begin(), core::GameConfigurator::_windowName.end(), ' ', '_');
-
-	                    core::GameConfigurator::_iconRoot = str6;
-
-	                    core::GameConfigurator::_clearColor = { clear_color.x, clear_color.y, clear_color.z, 1.0f };
-
-	                    core::GameConfigurator::_windowWidth = width;
-	                    core::GameConfigurator::_windowHeight = height;
-
+                        saveConfigInput(disabled, str1, str4, str5, str6, clear_color, width, height);
 	                    return false;
 	                }
-                    else
-                    {
-                        incorrectos = true;
-                    }
+                    else incorrectos = true;
                 }
-                else
-                {
-                    aviso = true;
-                }
+                else aviso = true;
             }
 
-            if (aviso)
-            {
-				ImGui::Text("RELLENA TODOS LOS CAMPOS");
-            }
+            if (aviso) ImGui::Text("RELLENA TODOS LOS CAMPOS");
 
-            if (incorrectos)
-            {
-                ImGui::Text("ALGUNOS CAMPOS SON INCORRECTOS");
-            }
+            if (incorrectos) ImGui::Text("ALGUNOS CAMPOS SON INCORRECTOS");
 
             ImGui::Checkbox("Usar configuracion anterior", &disabled);
+            if (disabled)
+            {
+                core::GameConfigurator::LoadFromFile(CONFIGURATOR_PATH);
+                strcpy_s(str1, sizeof str1, core::GameConfigurator::_firstScene.c_str());
+                strcpy_s(str4, sizeof str4, core::GameConfigurator::_gameDLL.c_str());
+                strcpy_s(str5, sizeof str5, core::GameConfigurator::_windowName.c_str());
+                strcpy_s(str6, sizeof str6, core::GameConfigurator::_iconRoot.c_str());
+                clear_color.x = core::GameConfigurator::_clearColor.getRed();
+                clear_color.y = core::GameConfigurator::_clearColor.getGreen();
+                clear_color.z = core::GameConfigurator::_clearColor.getBlue();
+                width = core::GameConfigurator::_windowWidth;
+                height = core::GameConfigurator::_windowHeight;
+            }
+            else
+            {
+                strcpy_s(str1, sizeof str1, "");
+                strcpy_s(str4, sizeof str4, "");
+                strcpy_s(str5, sizeof str5, "");
+                strcpy_s(str6, sizeof str6, "");
+                clear_color = ImVec4(0.118, 0.118, 0.118, 1.0);
+                width = 1920;
+                height = 1080;
+            }
             ImGui::SameLine(); HelpMarker("Se usara la ultima configuracion guardada en el archivo de configuracion .toml");
 
             ImGui::TextLinkOpenURL("Documentacion ChavalesEngine", "https://proyecto3-fdi-ucm.github.io/2526-Grupo03-ChavalesEngine/");
@@ -378,7 +347,6 @@ bool ChavalesEditor::runEditor()
 #endif
 
     // Cleanup
-    // [If using SDL_MAIN_USE_CALLBACKS: all code below would likely be your SDL_AppQuit() function]
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplSDL3_Shutdown();
     ImGui::DestroyContext();
@@ -407,64 +375,50 @@ int ChavalesEditor::startup()
     si.cb = sizeof(STARTUPINFO);
     memset(&pi, 0, sizeof(PROCESS_INFORMATION));
 
-    wstring s1(L" ExecutableProject_d.exe ");
+    std::wstring s1(L" ExecutableProject_d.exe ");
 
-    /*
-    argv[2] -> usar(1)/no usar(0) toml
-    argv[3] -> primera escena
-    argv[4] -> .dll
-    argv[5] -> nombre ventana
-    argv[6] -> icono
-    argv[7] -> clear color r
-    argv[8] -> clear color g
-    argv[9] -> clear color b
-    argv[10] -> ancho
-    argv[11] -> alto
-    */
-
-    // argv[2] -> usar(SI)/no usar(NO) toml
-    wstring toml(std::begin(core::GameConfigurator::_useTOML), std::end(core::GameConfigurator::_useTOML));
+    std::wstring toml(std::begin(core::GameConfigurator::_useTOML), std::end(core::GameConfigurator::_useTOML));
     s1.append(toml);
     s1.append(L" ");
     // argv[3]->primera escena
-    wstring fs(std::begin(core::GameConfigurator::_firstScene), std::end(core::GameConfigurator::_firstScene));
+    std::wstring fs(std::begin(core::GameConfigurator::_firstScene), std::end(core::GameConfigurator::_firstScene));
     s1.append(fs);
     s1.append(L" ");
     // argv[4] -> .dll
-    wstring dll(std::begin(core::GameConfigurator::_gameDLL), std::end(core::GameConfigurator::_gameDLL));
+    std::wstring dll(std::begin(core::GameConfigurator::_gameDLL), std::end(core::GameConfigurator::_gameDLL));
     s1.append(dll);
     s1.append(L" ");
     // argv[5]->nombre ventana
-    wstring name(std::begin(core::GameConfigurator::_windowName), std::end(core::GameConfigurator::_windowName));
+    std::wstring name(std::begin(core::GameConfigurator::_windowName), std::end(core::GameConfigurator::_windowName));
     s1.append(name);
     s1.append(L" ");
     // argv[6]->icono
-    wstring icon(std::begin(core::GameConfigurator::_iconRoot), std::end(core::GameConfigurator::_iconRoot));
+    std::wstring icon(std::begin(core::GameConfigurator::_iconRoot), std::end(core::GameConfigurator::_iconRoot));
     s1.append(icon);
     s1.append(L" ");
     // argv[7]->clear color r
     std::string r = std::to_string(core::GameConfigurator::_clearColor.getRed());
-    wstring rw(std::begin(r), std::end(r));
+    std::wstring rw(std::begin(r), std::end(r));
     s1.append(rw);
     s1.append(L" ");
     // argv[8]->clear color g
     std::string g = std::to_string(core::GameConfigurator::_clearColor.getGreen());
-    wstring gw(std::begin(g), std::end(g));
+    std::wstring gw(std::begin(g), std::end(g));
     s1.append(gw);
     s1.append(L" ");
     // argv[9]->clear color b
     std::string b = std::to_string(core::GameConfigurator::_clearColor.getBlue());
-    wstring bw(std::begin(b), std::end(b));
+    std::wstring bw(std::begin(b), std::end(b));
     s1.append(bw);
     s1.append(L" ");
     // argv[10]->ancho
     std::string w = std::to_string(core::GameConfigurator::_windowWidth);
-    wstring ww(std::begin(w), std::end(w));
+    std::wstring ww(std::begin(w), std::end(w));
     s1.append(ww);
     s1.append(L" ");
     // argv[11]->alto
     std::string h = std::to_string(core::GameConfigurator::_windowHeight);
-    wstring hw(std::begin(h), std::end(h));
+    std::wstring hw(std::begin(h), std::end(h));
     s1.append(hw);
 
     // fin
