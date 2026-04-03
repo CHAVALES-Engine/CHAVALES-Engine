@@ -83,7 +83,7 @@ namespace core
 			}
 			catch (const toml::parse_error& e)
 			{
-				Debug::error("GameConfigurator: {}", e.description());
+				Debug::error("GAME CONFIGURATOR: ", e.description());
 				return false;
 			}
 		}

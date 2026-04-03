@@ -23,7 +23,7 @@ bool ComponentDLLLoader::load(const std::string& path)
 	// Comprueba si existe el fichero
 	WIN32_FILE_ATTRIBUTE_DATA attr;
 	if (!GetFileAttributesExA(path.c_str(), GetFileExInfoStandard, &attr)) {
-		Debug::error("File not found: ", path, " err=", GetLastError());
+		Debug::error("COMPONENT DLL LOADER: File not found: ", path, " err=", GetLastError());
 		return false;
 	}
 
@@ -34,35 +34,35 @@ bool ComponentDLLLoader::load(const std::string& path)
 	// Comprobamos duplicados.
 	for (const auto& l : _libraries) {
 		if (l.path == path) {
-			Debug::error("load: Library already loaded [", path, "]");
+			Debug::error("COMPONENT DLL LOADER: Library already loaded [", path, "]");
 			break;
 		}
 	}
-	Debug::warning("loading [", entry.path, "]");
+	Debug::warning("COMPONENT DLL LOADER: loading [", entry.path, "]");
 	entry.tempPath = _makeTempPath(entry.path); // Path temporal para leerlo y dejando libre al anterior.
 	// Copia la libreria a una temporal.
 	if (!CopyFileA(entry.path.c_str(), entry.tempPath.c_str(), FALSE)) {
-		Debug::error("CopyFile failed for ", entry.path, " err=", GetLastError());
+		Debug::error("COMPONENT DLL LOADER: CopyFile failed for ", entry.path, " err=", GetLastError());
 		return false;
 	}
 	entry.lastWriteTime = _getFileWriteTime(entry.path); // Momento en el que ha sido modificado el fichero.
 	// Windows busca una dll en el path y la carga en la memoria del programa.
 	if ((entry.handle = LoadLibraryA(entry.tempPath.c_str())) == nullptr) {
-		Debug::error("LoadLibrary failed: ", entry.path, " err=", GetLastError());
+		Debug::error("COMPONENT DLL LOADER: LoadLibrary failed: ", entry.path, " err=", GetLastError());
 		return false;
 	}
 	// Obtenemos la direccion de memoria de la funcion exportada "getPluginComponents".
 	GetComponentsFn getComponents = (GetComponentsFn)GetProcAddress(entry.handle, "getPluginComponents");
 	// Si no se ha devuelto nada lanzamos error y salimos.
 	if (!getComponents) {
-		Debug::error("The export components function \"getPluginComponents not\" found in ", entry.path);
+		Debug::error("COMPONENT DLL LOADER: The export components function \"getPluginComponents not\" found in ", entry.path);
 		FreeLibrary(entry.handle);
 		return false;
 	}
 	// Cogemos los componentDescriptor de todos los componentes en la dll.
 	size_t count = 0;
 	const core::ComponentDescriptor* descriptors = getComponents(count);
-	Debug::out("Registering ", std::to_string(count), " components on [", entry.path, "]");
+	Debug::out("COMPONENT DLL LOADER: Registering ", std::to_string(count), " components on [", entry.path, "]");
 	// Registramos los componentes cargados en el registro del engine,
 	for (size_t i = 0; i < count; ++i) {
 		ComponentRegister::instance().registComponent(
@@ -156,11 +156,11 @@ void ComponentDLLLoader::_reload(LoadedLibrary& library)
 	// Descarga y recarga de libreria.
 	std::string	path = library.path;
 	if (!unload(path)) {
-		Debug::error("Reload: Something went wrong with unload library");
+		Debug::error("COMPONENT DLL LOADER: Reload: Something went wrong with unload library");
 		return;
 	}
 	if (!load(path)) {
-		Debug::error("Reload: Something went wrong with load library");
+		Debug::error("COMPONENT DLL LOADER: Reload: Something went wrong with load library");
 		return;
 	}
 	if (_reloadCallback) _reloadCallback(path);

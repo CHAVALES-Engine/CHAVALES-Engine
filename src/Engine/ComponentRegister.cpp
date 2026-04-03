@@ -14,9 +14,9 @@ bool ComponentRegister::registComponent(const std::string& name, core::Component
 	auto [it, inserted] = _components.try_emplace(name, ComponentConstructor);
 	// Si no se ha registrado lanza un warning
 	if (!inserted)
-		Debug::warning("Component: [", name, "] Already registered.");
+		Debug::warning("COMPONENT REGISTER: [", name, "] Already registered.");
 	else
-		Debug::out("Component: [", name, "] Registered");
+		Debug::out("COMPONENT REGISTER: [", name, "] Registered");
 	return inserted;
 }
 
@@ -24,10 +24,10 @@ std::shared_ptr<core::Component> ComponentRegister::create(const std::string& na
 {
 	auto it = _components.find(name);
 	if (it == _components.end()) {
-		Debug::error("Component: [", name, "] not registered.");
+		Debug::error("COMPONENT REGISTER: [", name, "] not registered.");
 		return nullptr;
 	}
-	Debug::out("Component: [", name, "] created.");
+	Debug::out("COMPONENT REGISTER: [", name, "] created.");
 
 	return it->second();
 }
@@ -36,6 +36,6 @@ bool ComponentRegister::unregisterComponent(const std::string& name)
 {
 	bool removed = (_components.erase(name) > 0);
 	if (!removed)
-		Debug::warning("Component: [", name, "] not registered.");
+		Debug::warning("COMPONENT REGISTER: [", name, "] not registered.");
 	return removed;
 }

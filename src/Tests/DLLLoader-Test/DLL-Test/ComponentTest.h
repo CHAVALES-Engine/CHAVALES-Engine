@@ -33,28 +33,28 @@ class ComponentTest : public core::Component
 		//health = getProperty<int>(p, "health");
 
 		// ejemplo 2
-		setProperty(p, "vec1", vec1);
-		setProperty(p, "vec2", vec2);
-		setProperty(p, "vec3", vec3);
-		setProperty(p, "vec4", vec4);
-		return true;
+		//setProperty(p, "vec1", vec1);
+		//setProperty(p, "vec2", vec2);
+		//setProperty(p, "vec3", vec3);
+		//setProperty(p, "vec4", vec4);
+		return setProperty(p, "health", health);
 	}
 
 	void ready() override
 	{
-		Debug::out(">>READY<<");
-		Debug::out(">>Vector2<<");
-		for (const auto& s : vec1)
-			Debug::out(s);
-		Debug::out(">>Vector4<<");
-		for (const auto& s : vec2)
-			Debug::out(s);
-		Debug::out(">>Color<<");
-		for (const auto& s : vec3)
-			Debug::out(s);
-		Debug::out(">>Quaternion<<");
-		for (const auto& s : vec4)
-			Debug::out(s);
+		//Debug::out(">>READY<<");
+		//Debug::out(">>Vector2<<");
+		//for (const auto& s : vec1)
+		//	Debug::out(s);
+		//Debug::out(">>Vector4<<");
+		//for (const auto& s : vec2)
+		//	Debug::out(s);
+		//Debug::out(">>Color<<");
+		//for (const auto& s : vec3)
+		//	Debug::out(s);
+		//Debug::out(">>Quaternion<<");
+		//for (const auto& s : vec4)
+		//	Debug::out(s);
 
 		Debug::out("Hola :-) Mi vida es ", health);
 		Debug::out("test ", test);
