@@ -84,6 +84,7 @@ int main(int argc, char* argv[])
 	catch (exception e) 
 	{
 		Debug::error(e.what());
+		return 1;
 	}
 
 	return 0;

@@ -32,7 +32,7 @@ namespace core
 		* @brief
 		*	Nombre del .lua de la escena inicial
 		*/
-		static inline std::string _firstScene = "";
+		static inline std::string _firstScene = "scene1";
 		/*
 		* @brief
 		*	Nombre del .dll del juego
