@@ -239,6 +239,86 @@ void Engine::setLightSpotRange(const lightID& id, const float& inner, const floa
 	_renderModule->setLightSpotRange(id, inner, outer, falloff);
 }
 
+particleGenID Engine::addParticleGen(const entityID& entityID, const std::string& textureFolder, const std::string& textureFile)
+{
+	return _renderModule->addParticleGen(entityID, textureFolder, textureFile);
+}
+
+void Engine::deleteParticleGen(const particleGenID& id)
+{
+	_renderModule->deleteParticleGen(id);
+}
+
+void Engine::setParticleGenEnabled(const particleGenID& id, const bool& enabled)
+{
+	_renderModule->setParticleGenEnabled(id, enabled);
+}
+
+void Engine::setParticleGenEmitting(const particleGenID& id, const bool& emitting)
+{
+	_renderModule->setParticleGenEmitting(id, emitting);
+}
+
+void Engine::setParticleGenQuota(const particleGenID& id, const float& quota)
+{
+	_renderModule->setParticleGenQuota(id, quota);
+}
+
+void Engine::setParticleGenEmissionRate(const particleGenID& id, const float& rate)
+{
+	_renderModule->setParticleGenEmissionRate(id, rate);
+}
+
+void Engine::setParticleGenDuration(const particleGenID& id, const float& duration)
+{
+	_renderModule->setParticleGenDuration(id, duration);
+}
+
+void Engine::setParticleGenTimeToLive(const particleGenID& id, const float& time)
+{
+	_renderModule->setParticleGenTimeToLive(id, time);
+}
+
+void Engine::setParticleGenVelocity(const particleGenID& id, const float& velocity)
+{
+	_renderModule->setParticleGenVelocity(id, velocity);
+}
+
+void Engine::setParticleGenMinVelocity(const particleGenID& id, const float& velocity)
+{
+	_renderModule->setParticleGenMinVelocity(id, velocity);
+}
+
+void Engine::setParticleGenMaxVelocity(const particleGenID& id, const float& velocity)
+{
+	_renderModule->setParticleGenMaxVelocity(id, velocity);
+}
+
+void Engine::setParticleGenDirection(const particleGenID& id, const core::Vector3<float>& direction)
+{
+	_renderModule->setParticleGenDirection(id, direction);
+}
+
+void Engine::setParticleGenAngle(const particleGenID& id, const float& angle)
+{
+	_renderModule->setParticleGenAngle(id, angle);
+}
+
+void Engine::setParticleGenPartWidth(const particleGenID& id, const float& width)
+{
+	_renderModule->setParticleGenPartWidth(id, width);
+}
+
+void Engine::setParticleGenPartHeight(const particleGenID& id, const float& height)
+{
+	_renderModule->setParticleGenPartHeight(id, height);
+}
+
+void Engine::setParticleGenPartColor(const particleGenID& id, const core::Color& color)
+{
+	_renderModule->setParticleGenPartColor(id, color);
+}
+
 void Engine::loadSound(std::string path, std::string id, bool soundStream, bool soundLooping, bool sound3D)
 {
 	_audioModule->loadSound(path, id, soundStream, soundLooping, sound3D );

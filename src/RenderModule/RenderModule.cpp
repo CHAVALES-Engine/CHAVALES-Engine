@@ -25,6 +25,8 @@
 #include <OgreGpuProgramManager.h>
 #include <OgreRTShaderSystem.h>
 #include <OgreShaderGenerator.h>
+#include <OgreParticleSystem.h>
+#include <OgreParticleEmitter.h>
 #include <OgreLogManager.h>
 #include <iostream>
 #include <OgreImGuiOverlay.h>
@@ -548,17 +550,9 @@ modelID RenderModule::addModel(const entityID& entityID, const std::string& mode
         mat->load();
 
         // Generar tecnica RTSS sobre el material ya cargado
-        _shaderGen->createShaderBasedTechnique(
-            *mat,
-            Ogre::MaterialManager::DEFAULT_SCHEME_NAME,
-            Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME,
-            true
-        );
+        _shaderGen->createShaderBasedTechnique(*mat, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
 
-        _shaderGen->validateMaterial(
-            Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME,
-            mat->getName()
-        );
+        _shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME,mat->getName());
     }
 
     return _nextModelID++;
@@ -876,6 +870,179 @@ void RenderModule::setLightIntensity(const lightID& id, const float& intensity) 
 
 void RenderModule::setLightSpotRange(const lightID& id, const float& inner, const float& outer, const float& falloff) {
     if (id >= 0 && id < _lights.size() && _lights[id] != nullptr) _lights[id]->setSpotlightRange(Ogre::Degree(inner), Ogre::Degree(outer), falloff);
+}
+
+
+
+particleGenID RenderModule::addParticleGen(const entityID& entityID, const std::string& textureFolder, const std::string& textureFile)
+{
+    addNode(entityID);
+
+    if (!_rgm->resourceGroupExists(textureFolder))
+    {
+        _rgm->addResourceLocation("../dependencies/ogre/src/ogre/Samples/Media/packs/" + textureFolder, "FileSystem", textureFolder);
+        _rgm->loadResourceGroup(textureFolder);
+    }
+
+    std::string matName = "ParticleMat_" + std::to_string(_nextParticleGenID);
+
+    Ogre::MaterialPtr mat = Ogre::MaterialManager::getSingleton().create(matName,Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+
+    mat->setReceiveShadows(false);
+
+    Ogre::Pass* pass = mat->getTechnique(0)->getPass(0);
+    pass->setLightingEnabled(false);
+    pass->setSceneBlending(Ogre::SBT_TRANSPARENT_ALPHA);
+    pass->setDepthWriteEnabled(false);
+
+    if (!_rgm->resourceGroupExists(textureFolder))
+    {
+        _rgm->addResourceLocation(
+            "../dependencies/ogre/src/ogre/Samples/Media/packs/" + textureFolder,
+            "FileSystem",
+            textureFolder
+        );
+        _rgm->loadResourceGroup(textureFolder);
+    }
+
+    Ogre::TexturePtr text = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
+
+    Ogre::TextureUnitState* tus = pass->createTextureUnitState();
+    tus->setTexture(text);
+    tus->setColourOperation(Ogre::LBO_MODULATE);
+
+    mat->load();
+
+    //Asignar RTSS
+    _shaderGen->createShaderBasedTechnique(*mat,Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
+    _shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, mat->getName());
+
+    Ogre::ParticleSystem* ps = _particleGens.emplace_back(_sceneMgr->createParticleSystem("ParticleGen_" + std::to_string(_nextParticleGenID)));
+
+    ps->setMaterialName(matName);
+    ps->addEmitter("Point");
+    _engineNodes.back().sceneNode->attachObject(ps);
+
+    return _nextParticleGenID++;
+}
+
+void RenderModule::deleteParticleGen(const particleGenID& id)
+{
+    if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+    {
+        Ogre::ParticleSystem* ps = _particleGens[id];
+
+        Ogre::SceneNode* parent = ps->getParentSceneNode();
+        if (parent)
+            parent->detachObject(ps);
+
+        _sceneMgr->destroyParticleSystem(ps);
+
+        _particleGens.erase(_particleGens.begin() + id);
+    }
+}
+
+void RenderModule::cleanParticleGens()
+{
+    for (Ogre::ParticleSystem* ps : _particleGens)
+    {
+        if (ps != nullptr)
+        {
+            Ogre::SceneNode* parent = ps->getParentSceneNode();
+            if (parent)
+                parent->detachObject(ps);
+
+            _sceneMgr->destroyParticleSystem(ps);
+        }
+    }
+
+    _particleGens.clear();
+    _nextParticleGenID = 0;
+}
+
+void RenderModule::setParticleGenEnabled(const particleGenID& id, const bool& enabled)
+{
+    if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+        _particleGens[id]->getEmitter(0)->setEnabled(enabled);
+}
+
+void RenderModule::setParticleGenEmitting(const particleGenID& id, const bool& emitting)
+{
+    if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+        _particleGens[id]->getEmitter(0)->setEnabled(emitting);
+}
+
+void RenderModule::setParticleGenQuota(const particleGenID& id, const float& quota)
+{
+    if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+        _particleGens[id]->setParticleQuota(static_cast<size_t>(quota));
+}
+
+void RenderModule::setParticleGenEmissionRate(const particleGenID& id, const float& rate)
+{
+    if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+        _particleGens[id]->getEmitter(0)->setEmissionRate(rate);
+}
+
+void RenderModule::setParticleGenDuration(const particleGenID& id, const float& duration)
+{
+    if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+        _particleGens[id]->getEmitter(0)->setDuration(duration);
+}
+
+void RenderModule::setParticleGenTimeToLive(const particleGenID& id, const float& time)
+{
+    if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+        _particleGens[id]->getEmitter(0)->setTimeToLive(time);
+}
+
+void RenderModule::setParticleGenVelocity(const particleGenID& id, const float& velocity)
+{
+    if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+        _particleGens[id]->getEmitter(0)->setParticleVelocity(velocity);
+}
+
+void RenderModule::setParticleGenMinVelocity(const particleGenID& id, const float& velocity)
+{
+    if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+        _particleGens[id]->getEmitter(0)->setMinParticleVelocity(velocity);
+}
+
+void RenderModule::setParticleGenMaxVelocity(const particleGenID& id, const float& velocity)
+{
+    if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+        _particleGens[id]->getEmitter(0)->setMaxParticleVelocity(velocity);
+}
+
+void RenderModule::setParticleGenDirection(const particleGenID& id, const core::Vector3<float>& direction)
+{
+    if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+        _particleGens[id]->getEmitter(0)->setDirection(Ogre::Vector3(direction.getX(), direction.getY(), direction.getZ())
+    );
+}
+
+void RenderModule::setParticleGenAngle(const particleGenID& id, const float& angle)
+{
+    if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+        _particleGens[id]->getEmitter(0)->setAngle(Ogre::Degree(angle));
+}
+
+void RenderModule::setParticleGenPartWidth(const particleGenID& id, const float& width)
+{
+    if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+        _particleGens[id]->setDefaultWidth(width);
+}
+
+void RenderModule::setParticleGenPartHeight(const particleGenID& id, const float& height)
+{
+    if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+        _particleGens[id]->setDefaultHeight(height);
+}
+
+void RenderModule::setParticleGenPartColor(const particleGenID& id, const core::Color& color)
+{
+    if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+        _particleGens[id]->getEmitter(0)->setColour(Ogre::ColourValue(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()));
 }
 
 void RenderModule::shutdown()

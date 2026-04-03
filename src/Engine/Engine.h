@@ -35,6 +35,7 @@ using cameraID = uint64_t;
 using modelID = uint64_t;
 using animationID = uint64_t;
 using lightID = uint64_t;
+using particleGenID = uint64_t;
 
 class ENGINE_API Engine
 {
@@ -235,6 +236,77 @@ public:
 	*/
 	void setLightSpotRange(const lightID& id, const float& inner, const float& outer, const float& falloff);
 #pragma endregion
+
+	//Metodos particulas
+#pragma region particle
+	//Metodos particulas
+	/*
+	* @brief Anadir generador de particulas.
+	*/
+	particleGenID addParticleGen(const entityID& entityID, const std::string& textureFolder, const std::string& textureFile);
+	/*
+	* @brief Borrar generador de particulas.
+	*/
+	void deleteParticleGen(const particleGenID& id);
+	/*
+	* @brief Establecer actividad de generador de particulas.
+	*/
+	void setParticleGenEnabled(const particleGenID& id, const bool& enabled);
+	/*
+	* @brief Establecer emision de generador de particulas.
+	*/
+	void setParticleGenEmitting(const particleGenID& id, const bool& emitting);
+	/*
+	* @brief Establecer cantidad total de particulas del generador.
+	*/
+	void setParticleGenQuota(const particleGenID& id, const float& quota);
+	/*
+	* @brief Establecer ratio de emision de generador de particulas.
+	*/
+	void setParticleGenEmissionRate(const particleGenID& id, const float& rate);
+	/*
+	* @brief Establecer tiempo de emision del generador de particulas.
+	*/
+	void setParticleGenDuration(const particleGenID& id, const float& duration);
+	/*
+	* @brief Establecer tiempo de vida de particulas del generador.
+	*/
+	void setParticleGenTimeToLive(const particleGenID& id, const float& time);
+	/*
+	* @brief Establecer velocidad de particulas del generador.
+	*/
+	void setParticleGenVelocity(const particleGenID& id, const float& velocity);
+	/*
+	* @brief Establecer velocidad minima de particulas del generador.
+	*/
+	void setParticleGenMinVelocity(const particleGenID& id, const float& velocity);
+	/*
+	* @brief Establecer velocidad maxima de particulas del generador.
+	*/
+	void setParticleGenMaxVelocity(const particleGenID& id, const float& velocity);
+	/*
+	* @brief Establecer direccion de particulas del generador.
+	*/
+	void setParticleGenDirection(const particleGenID& id, const core::Vector3<float>& direction);
+	/*
+	* @brief Establecer angulo de dipsersion de particulas del generador.
+	*/
+	void setParticleGenAngle(const particleGenID& id, const float& angle);
+	/*
+	* @brief Establecer ancho de particulas del generador.
+	*/
+	void setParticleGenPartWidth(const particleGenID& id, const float& width);
+	/*
+	* @brief Establecer alto de particulas del generador.
+	*/
+	void setParticleGenPartHeight(const particleGenID& id, const float& height);
+	/*
+	* @brief Establecer color de particulas del generador.
+	*/
+	void setParticleGenPartColor(const particleGenID& id, const core::Color& color);
+#pragma endregion
+#pragma endregion
+
 	//Metodos audio
 #pragma region audio
 

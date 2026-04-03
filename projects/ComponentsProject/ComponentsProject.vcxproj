@@ -11,26 +11,28 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\src\ComponentsProject\Animator.h" />
     <ClInclude Include="..\..\src\ComponentsProject\AudioListener.h" />
     <ClInclude Include="..\..\src\ComponentsProject\AudioSource.h" />
     <ClInclude Include="..\..\src\ComponentsProject\BoxCollider.h" />
     <ClInclude Include="..\..\src\ComponentsProject\Camera.h" />
     <ClInclude Include="..\..\src\ComponentsProject\CapsuleCollider.h" />
     <ClInclude Include="..\..\src\ComponentsProject\Collider.h" />
+    <ClInclude Include="..\..\src\ComponentsProject\Light.h" />
     <ClInclude Include="..\..\src\ComponentsProject\ModelRenderer.h" />
+    <ClInclude Include="..\..\src\ComponentsProject\ParticleGen.h" />
     <ClInclude Include="..\..\src\ComponentsProject\Transform.h" />
-    <ClInclude Include="Light.h" />
-    <ClInclude Include="Animator.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\ComponentsProject\Animator.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\AudioListener.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\AudioSource.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\Camera.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\Collider.cpp" />
+    <ClCompile Include="..\..\src\ComponentsProject\Light.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\ModelRenderer.cpp" />
+    <ClCompile Include="..\..\src\ComponentsProject\ParticleGen.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\Transform.cpp" />
-    <ClCompile Include="Light.cpp" />
-    <ClCompile Include="Animator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core-Defs\Core-Defs.vcxproj">
