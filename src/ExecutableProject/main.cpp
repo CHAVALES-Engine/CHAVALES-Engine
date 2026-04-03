@@ -17,7 +17,7 @@ static void configureGame(size_t argc, char* argv[])
 
 	std::cout << argv[2] << std::endl;
 
-	if (argc > 1 && strcmp(argv[2], "NO") == 0) // no usar configuracion guardada
+	if (strcmp(argv[2], "NO") == 0) // no usar configuracion guardada
 	{
 		/*
 		argv[2] -> usar(1)/no usar(0) toml
@@ -44,17 +44,17 @@ static void configureGame(size_t argc, char* argv[])
 		core::GameConfigurator::_iconRoot = argv[6];
 		Debug::out("[MAIN] Ruta del icono ", core::GameConfigurator::_iconRoot);
 
-		core::GameConfigurator::_clearColor = { std::stof(argv[7]) , std::stof(argv[8]) , std::stof(argv[9]) , 1.0f };
-		Debug::out("[MAIN] Clear color ",
+		core::GameConfigurator::_clearColor = { std::stof(argv[7]) , std::stof(argv[8]) , std::stof(argv[9]) , 1.0f};
+		Debug::out("[MAIN] Clear color ", 
 			core::GameConfigurator::_clearColor.getRed(), " ",
 			core::GameConfigurator::_clearColor.getGreen(), " ",
 			core::GameConfigurator::_clearColor.getBlue());
 
 		core::GameConfigurator::_windowWidth = std::stoi(argv[10]);
-		Debug::out("[MAIN] Ancho ", core::GameConfigurator::_windowWidth);
+		Debug::out("[MAIN] Ancho " , core::GameConfigurator::_windowWidth);
 
 		core::GameConfigurator::_windowHeight = std::stoi(argv[11]);
-		Debug::out("[MAIN] Alto ", core::GameConfigurator::_windowHeight);
+		Debug::out("[MAIN] Alto " , core::GameConfigurator::_windowHeight);
 	}
 	else
 	{
@@ -70,18 +70,18 @@ int main(int argc, char* argv[])
 	configureGame(argc, argv);
 
 	// Inicializa el Engine
-	if (!Engine::init())
+	if (!Engine::init()) 
 	{
 		Engine::release();
 		return 1;
 	}
-
+	
 	try
 	{
 		// Lanza el bucle de juego
 		Engine::instance()->startLoop();
 	}
-	catch (exception e)
+	catch (exception e) 
 	{
 		Debug::error(e.what());
 		return 1;
