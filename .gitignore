@@ -445,3 +445,6 @@ FodyWeavers.xsd
 
 # test
 [Tt]est/
+
+# subir la configuracion
+#!**/[Bb]in/*.toml
