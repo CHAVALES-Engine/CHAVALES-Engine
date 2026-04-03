@@ -10,8 +10,11 @@
 
 #include "GameConfigurator.h"
 
-static void configureGame(char* argv[])
+static void configureGame(size_t argc, char* argv[])
 {
+	if (argc <= 2)
+		return;
+
 	std::cout << argv[2] << std::endl;
 
 	if (strcmp(argv[2], "NO") == 0) // no usar configuracion guardada
@@ -64,7 +67,7 @@ int main(int argc, char* argv[])
 	Debug::out("[MAIN] Inicializando ChavalesEngine");
 
 	// Inicializa configuracion
-	configureGame(argv);
+	configureGame(argc, argv);
 
 	// Inicializa el Engine
 	if (!Engine::init()) 
