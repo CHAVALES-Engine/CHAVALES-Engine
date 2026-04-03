@@ -347,14 +347,20 @@ bool Engine::_initPriv()
 	if (!_physicsModule->Init()) return false;
 
 	_resourecesModule = new ResourcesModule();
-	if (!_resourecesModule->Init("./assetsLits", "./game/scenes/assets")) return false;
+	if (!_resourecesModule->Init()) return false;
 
 #if _DEBUG
 	ComponentDLLLoader::instance().load("./ComponentsProject_d.dll");
 #else 
 	ComponentDLLLoader::instance().load("./ComponentsProject_r.dll");
 #endif
-	ComponentDLLLoader::instance().load("./game/DLL-Test.dll");		
+
+#if _DEBUG
+	ComponentDLLLoader::instance().load("./game/DLL-Test.dll");
+#else
+	std::string path = "./game/" + core::GameConfigurator::_gameDLL + ".dll";
+	ComponentDLLLoader::instance().load(path);
+#endif
 	
 	_stateMachine = new StateMachine;
 	

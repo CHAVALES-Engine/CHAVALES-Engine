@@ -42,7 +42,7 @@ public:
 	ResourcesModule();
 	~ResourcesModule();
 
-	bool Init(const std::string& n,const std::string& p);
+	bool Init();
 
 	/// <summary>
 	/// Getter to recive the desire audio
@@ -113,11 +113,11 @@ private:
 	
 	std::pair<FolderName, FileName> loadOgreAsset(std::string assetName,std::pair<sol::object, sol::object>& assetType);
 	
-	std::string _assetsRoute; //Route of the assets.lua
+	std::string _assetsRoute; // Route of the assets.lua
 
-	Audios _audioMap; //Map to reserve all audios used in the game
-	Models _modelsMap;  //Map to reserve all models used in the game
-	Particles _particlesMap;  //Map to reserve all particles used in the game
-	Textures _texturesMap;  //Map to reserve all textures used in the game
+	Audios _audioMap; // Map to reserve all audios used in the game
+	Models _modelsMap;  // Map to reserve all models used in the game
+	Particles _particlesMap;  // Map to reserve all particles used in the game
+	Textures _texturesMap;  // Map to reserve all textures used in the game
 };
 

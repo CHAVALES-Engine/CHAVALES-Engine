@@ -33,6 +33,18 @@
 #include "ChavalesEditor.h"
 #endif
 
+static void HelpMarker(const char* desc)
+{
+    ImGui::TextDisabled("(?)");
+    if (ImGui::BeginItemTooltip())
+    {
+        ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
+        ImGui::TextUnformatted(desc);
+        ImGui::PopTextWrapPos();
+        ImGui::EndTooltip();
+    }
+}
+
 // Main code
 bool ChavalesEditor::runEditor()
 {
@@ -186,65 +198,97 @@ bool ChavalesEditor::runEditor()
         if (show_demo_window)
             ImGui::ShowDemoWindow(&show_demo_window);
 
-        if (show_another_window)
-        {
-            ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-            ImGui::Text("Hello from another window!");
-            if (ImGui::Button("Close Me"))
-                show_another_window = false;
-            ImGui::End();
-        }
-
         // Chavales editor
         {
-            core::GameConfigurator::_firstScene = "";
-            static float f = 0.0f;
-            static int counter = 0;
-
-            static const char* texto1 = "eng";
-            static const char* texto2 = "esp";
-            static const char* texto = texto2;
+            static bool disabled = false;
 
             ImGui::Begin("ChavalesEngine Project Settings");
+
+			ImGui::BeginDisabled(disabled);
 
             static char str1[128] = "";
             ImGui::InputTextWithHint("Escena inicial", "nombre del .lua", str1, IM_COUNTOF(str1), ImGuiInputTextFlags_CharsNoBlank);
 
             static char str2[128] = "";
-            ImGui::InputTextWithHint("Ruta de las escenas", "ruta", str2, IM_COUNTOF(str2), ImGuiInputTextFlags_CharsNoBlank);
+            ImGui::InputTextWithHint("Ruta de las escenas", "ruta escenas", str2, IM_COUNTOF(str2), ImGuiInputTextFlags_CharsNoBlank);
 
-            ImGui::Text(texto);
+            static char str3[128] = "";
+            ImGui::InputTextWithHint("Ruta de los recursos", "ruta recursos", str3, IM_COUNTOF(str3), ImGuiInputTextFlags_CharsNoBlank);
+
+            static char str4[128] = "";
+            ImGui::InputTextWithHint("Dll del juego", "nombre del .dll", str4, IM_COUNTOF(str4), ImGuiInputTextFlags_CharsNoBlank);
+
+            static char str5[128] = "";
+            ImGui::InputTextWithHint("Nombre de la ventana", "nombre de la ventana", str5, IM_COUNTOF(str5));
+
+            static char str6[128] = "";
+            ImGui::InputTextWithHint("Ruta del icono ", "icono", str6, IM_COUNTOF(str6));
+            ImGui::SameLine(); HelpMarker("La ruta debe ser relativa al directorio de recursos.");
+
             ImGui::Checkbox("Demo Window", &show_demo_window);
 
-            //ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-            //ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
+            ImGui::ColorEdit3("Color del vacio", (float*)&clear_color); 
 
-            /*
-            if (ImGui::Button("Button"))
-                texto2 = texto1;
+            static int width = 1920;
+            static int height = 1080;
 
-            ImGui::SameLine();
-            ImGui::Text("counter = %d", counter);
-            */
+            int minW = 128;
+            int maxW = 7680;
+        	int minH = 128;
+            int maxH = 4320;
 
-            if (ImGui::Button("Guardar"))
+            if (ImGui::InputInt("Ancho de la ventana", &width, ImGuiInputTextFlags_CharsNoBlank))
             {
-                std::cout << "Primera escena: " << str1 << std::endl;
-                std::cout << "Ruta para escenas: " << str2 << std::endl;
+                if (width < minW) width = minW;
+                if (width > maxW) width = maxW;
             }
+            if (ImGui::InputInt("Alto de la ventana", &height, ImGuiInputTextFlags_CharsNoBlank))
+            {
+                if (height < minH) height = minH;
+                if (height > maxH) height = maxH;
+            }
+
+            if (ImGui::Button("Guardar configuracion"))
+            {
+                std::cout << "Escena inicial: " << str1 << std::endl;
+                std::cout << "Ruta de las escenas: " << str2 << std::endl;
+                std::cout << "Ruta de los recursos: " << str3 << std::endl;
+
+                std::cout << "Color del vacio: " << clear_color.x << " " 
+            									<< clear_color.y << " "
+            									<< clear_color.z << " "
+            									<< clear_color.w << " "
+            									<< std::endl;
+
+                std::cout << "DLL del juego: " << str4 << std::endl;
+                std::cout << "Nombre de la ventana: " << str5 << std::endl;
+                std::cout << "Ruta del icono: " << str6 << std::endl;
+
+                std::cout << "Ventana: " << width << "x" << height << std::endl;
+
+                std::cout << "Configuracion previa: " << disabled << std::endl;
+
+                core::GameConfigurator::SaveToFile(CONFIGURATOR_PATH);
+            }
+
+            //ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
+			ImGui::EndDisabled();
 
             if (ImGui::Button("Empezar"))
             {
                 core::GameConfigurator::_firstScene = str1;
                 core::GameConfigurator::_scenesRoot = str2;
-                core::GameConfigurator::SaveToFile(CONFIGURATOR_PATH);
-
+                core::GameConfigurator::_assetsRoot = str3;
+                core::GameConfigurator::_gameDLL = str4;
                 std::cout << "[CHAVALESEDITOR] Primera escena: " << str1 << std::endl << "[CHAVALESEDITOR] Ruta para escenas: " << str2 << std::endl;
 
                 return false;
             }
 
-            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
+            ImGui::Checkbox("Usar configuracion anterior", &disabled);
+
+            ImGui::TextLinkOpenURL("Documentacion ChavalesEngine", "https://proyecto3-fdi-ucm.github.io/2526-Grupo03-ChavalesEngine/");
+
             ImGui::End();
         }
 

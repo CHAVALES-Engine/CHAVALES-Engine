@@ -32,10 +32,23 @@ namespace core
 		*	Nombre del .lua de la escena inicial
 		*/
 		static inline std::string _firstScene = "";
+		/*
+		* @brief
+		*	Nombre del .dll del juego
+		*/
+		static inline std::string _gameDLL = "";
 
 		// --- Assets
+		/*
+		* @brief
+		*	Ruta donde buscar los assets del juego
+		*/
 		static inline std::string _assetsRoot = "";
-
+		/*
+		* @brief
+		*	Nombre del .lua de la lista de assets
+		*/
+		static inline std::string _assetsList = "";
 
 		// Serializacion
 		/**

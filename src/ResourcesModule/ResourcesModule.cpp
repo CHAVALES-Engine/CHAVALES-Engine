@@ -1,5 +1,6 @@
 #include "ResourcesModule.h"
 #include "Debug.h"
+#include "GameConfigurator.h"
 
 ResourcesModule::ResourcesModule(): _assetsRoute(), _audioMap(), _modelsMap(), _texturesMap(), _particlesMap()
 {
@@ -67,11 +68,11 @@ bool ResourcesModule::loadInternalAsset(sol::table assetsType, std::string typeO
 	return true;
 }
 
-bool ResourcesModule::Init(const std::string& n, const std::string& p)
+bool ResourcesModule::Init()
 {
 	sol::state lua;
 	lua.open_libraries(sol::lib::base); 
-	std::string path = p + n + ".lua";
+	std::string path = core::GameConfigurator::_assetsRoot + core::GameConfigurator::_assetsList + ".lua";
 	_assetsRoute = path; 
 	
 	try
