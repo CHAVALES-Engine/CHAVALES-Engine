@@ -15,7 +15,10 @@ int main(int argc, char* argv[])
 {
 	
 	// Inicializa el Engine
-	Engine::init();
+	if (!Engine::init()){
+		Engine::release();
+		return 1;
+	}
 	
 	// Inicializa configuracion
 	if (argc > 1){
@@ -30,9 +33,13 @@ int main(int argc, char* argv[])
 	Debug::out("[MAIN] Inicializando ChavalesEngine");
 
 	Debug::out(core::GameConfigurator::_scenesRoot);
-
+	try{
 	// Lanza el bucle de juego
 	Engine::instance()->startLoop();
+	}
+	catch (exception e) {
+		Debug::error(e.what());
+	}
 	// Cierre limpio del engine
 	Engine::release();
 

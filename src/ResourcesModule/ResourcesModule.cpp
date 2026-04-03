@@ -88,10 +88,15 @@ bool ResourcesModule::Init()
 		return false;
 	}
 
-	sol::table assetsFile = lua["assets"];
+	sol::optional<sol::table> assetsFile = lua.get<sol::optional<sol::table>>("assets");
+	if (!assetsFile.has_value())
+	{
+		Debug::error("GAMELOADER: El archivo lua no contiene tabla 'assets': ", _assetsRoute);
+		return false;
+	}
 	Debug::out("GAMELOADER: Assets cargando.");
 
-	for (auto& assets : assetsFile) 
+	for (auto& assets : assetsFile.value()) 
 	{
 		std::string typeOfAsset = assets.first.as<std::string>();
 		sol::table assetsType = assets.second;

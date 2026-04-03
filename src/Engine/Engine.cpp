@@ -32,15 +32,19 @@ Engine* Engine::instance()
 
 void Engine::release()
 {
-	// Cierra archivo .log
-	Debug::close();
 	if (_instance) {
 		delete _instance->_platformModule;
 		delete _instance->_input;
 
 		delete _instance->_audioModule;
 		delete _instance->_physicsModule;
-		delete _instance->_renderModule;
+		try {
+			delete _instance->_renderModule;
+		}
+		catch (exception e)
+		{
+			Debug::error(e.what());
+		}
 		delete _instance->_resourecesModule;
 
 		delete _instance->_stateMachine;
@@ -53,9 +57,10 @@ void Engine::release()
 
 void Engine::startLoop()
 {
+	if (!_stateMachine) return;
 	// Bucle de juego
-	//_stateMachine->addAndSetScene(core::GameConfigurator::_firstScene); // carga la primera escena
-	_stateMachine->addAndSetScene("scene1"); // carga la primera escena
+	_stateMachine->addAndSetScene(core::GameConfigurator::_firstScene); // carga la primera escena
+	//_stateMachine->addAndSetScene("scene1"); // carga la primera escena
 	_stateMachine->gameLoop();
 }
 
@@ -206,7 +211,7 @@ void Engine::updateAnimation(const animationID& animationID, const uint64_t& del
 
 lightID Engine::addLight(const entityID& entityID, const int& type, const core::Color& color, const float& intensity)
 {
-	return _renderModule->addLight(entityID, type,color, intensity);
+	return _renderModule->addLight(entityID, type, color, intensity);
 }
 
 void Engine::deleteLight(const lightID& id)
@@ -321,7 +326,7 @@ void Engine::setParticleGenPartColor(const particleGenID& id, const core::Color&
 
 void Engine::loadSound(std::string path, std::string id, bool soundStream, bool soundLooping, bool sound3D)
 {
-	_audioModule->loadSound(path, id, soundStream, soundLooping, sound3D );
+	_audioModule->loadSound(path, id, soundStream, soundLooping, sound3D);
 }
 
 void Engine::unloadSound(std::string id)
@@ -330,7 +335,7 @@ void Engine::unloadSound(std::string id)
 }
 int Engine::playSound(std::string id, float soundVolume, int looping, const core::Vector3<> vec3, const core::Vector3<> vel3)
 {
-	return _audioModule->playSound(id,soundVolume, looping, vec3, vel3);
+	return _audioModule->playSound(id, soundVolume, looping, vec3, vel3);
 }
 void Engine::setChannelVolume(int chID, float newVolume)
 {
@@ -413,21 +418,42 @@ bool Engine::_initPriv()
 	Debug::open();
 	//Platform
 	_platformModule = new PlatformModule();
-	if (!_platformModule->Init()) return false;
+	if (!_platformModule->Init()) {
+		delete _platformModule;
+		_platformModule = nullptr;
+		return false;
+	}
 	_input = new InputFacade(_platformModule);
 	//Render
 	_renderModule = new RenderModule();
-	if (!_renderModule->Init(_platformModule->getWindowHandle(), _platformModule->getWindowWidth(), _platformModule->getWindowHeight()))
+	if (!_renderModule->Init(_platformModule->getWindowHandle(), _platformModule->getWindowWidth(), _platformModule->getWindowHeight())) {
+		delete _renderModule;
+		_renderModule = nullptr;
 		return false;
+	}
 	//Audio
 	_audioModule = new AudioModule();
-	if (!_audioModule->Init()) return false;
+	if (!_audioModule->Init()) {
+		delete _audioModule;
+		_audioModule = nullptr;
+		return false;
+	}
 	//Fisicas
 	_physicsModule = new PhysicsModule();
-	if (!_physicsModule->Init()) return false;
+	if (!_physicsModule->Init()) {
+		delete _physicsModule;
+		_physicsModule = nullptr;
+		return false;
+	}
 
+	//Resources
 	_resourecesModule = new ResourcesModule();
-	if (!_resourecesModule->Init()) return false;
+	if (!_resourecesModule->Init()) {
+		delete _resourecesModule;
+		_resourecesModule = nullptr;
+		return false;
+	}
+	_stateMachine = new StateMachine();
 
 #if _DEBUG
 	ComponentDLLLoader::instance().load("./ComponentsProject_d.dll");
@@ -441,8 +467,7 @@ bool Engine::_initPriv()
 	std::string path = "./game/" + core::GameConfigurator::_gameDLL + ".dll";
 	ComponentDLLLoader::instance().load(path);
 #endif
-	
-	_stateMachine = new StateMachine;
-	
+
+
 	return true;
 }
