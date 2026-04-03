@@ -109,9 +109,9 @@ private:
 	/// <param name="typeOfAsset">Name of the desire asset</param>
 	/// <param name="asset">Group of all assets</param>
 	/// <returns></returns>
-	bool loadInternalAsset(sol::table assetsType,std::string typeOfAsset);
+	bool loadInternalAsset(const sol::table& assetsType,const std::string& typeOfAsset);
 	
-	std::pair<FolderName, FileName> loadOgreAsset(std::string assetName,std::pair<sol::object, sol::object>& assetType);
+	std::pair<FolderName, FileName> loadOgreAsset(const std::string& assetName,std::pair<sol::object, sol::object>& assetType);
 	
 	std::string _assetsRoute; // Route of the assets.lua
 

@@ -363,7 +363,7 @@ public:
 
 #pragma region resources
 
-	std::string getAudioByName(std::string name);
+	std::string getAudioByName(const std::string& name);
 
 #pragma endregion
 

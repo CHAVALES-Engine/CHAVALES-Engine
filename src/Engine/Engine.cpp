@@ -388,7 +388,7 @@ float Engine::getVolume(int chID)
 	return volume;
 }
 
-std::string Engine::getAudioByName(std::string name)
+std::string Engine::getAudioByName(const std::string& name)
 {
 	return _resourecesModule->getAudio(name);
 }

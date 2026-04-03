@@ -6,7 +6,8 @@ assets = {
 		}
 	},
 	Audio = { --Audios
-		lifeUp = "C:/2526-Grupo03-ChavalesEngine/bin/game/scenes/assets/smb_1-up.wav"
+		lifeUp = "./game/assets/smb_1-up.wav",
+		lifeDown = "./game/assets/smb_1-up.wav",
 	},
 	Particles = { --Particulas
 
