@@ -60,7 +60,6 @@ void Engine::startLoop()
 	if (!_stateMachine) return;
 	// Bucle de juego
 	_stateMachine->addAndSetScene(core::GameConfigurator::_firstScene); // carga la primera escena
-	//_stateMachine->addAndSetScene("scene1"); // carga la primera escena
 	_stateMachine->gameLoop();
 }
 

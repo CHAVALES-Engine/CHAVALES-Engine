@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 
+#include "Color.h"
 #include "Debug.h"
 using namespace std;
 
@@ -26,7 +27,7 @@ namespace core
 		* @brief
 		*	Ruta donde buscar las escenas del juego
 		*/
-		static inline std::string _scenesRoot = "";
+		static inline std::string _scenesRoot = "./game/scenes/";
 		/*
 		* @brief
 		*	Nombre del .lua de la escena inicial
@@ -37,18 +38,50 @@ namespace core
 		*	Nombre del .dll del juego
 		*/
 		static inline std::string _gameDLL = "";
+		/*
+		* @brief
+		*	Si se usara o no el .toml para la carga
+		*/
+		static inline std::string _useTOML = "";
+
+		// --- SDL
+		/*
+		* @brief
+		*	Nombre de la ventana del juego
+		*/
+		static inline std::string _windowName = "";
+		/*
+		* @brief
+		*	Ruta para la imagen del icono relativa a la carpeta de assets
+		*/
+		static inline std::string _iconRoot = "";
+		/*
+		* @brief
+		*	Color del vacio
+		*/
+		static inline core::Color _clearColor =	CHAVAL_VACIO;
+		/*
+		* @brief
+		*	Ancho de la ventana
+		*/
+		static inline int _windowWidth = 1920;
+		/*
+		* @brief
+		*	Alto de la ventana
+		*/
+		static inline int _windowHeight = 1080;
 
 		// --- Assets
 		/*
 		* @brief
 		*	Ruta donde buscar los assets del juego
 		*/
-		static inline std::string _assetsRoot = "";
+		static inline std::string _assetsRoot = "./game/assets/";
 		/*
 		* @brief
 		*	Nombre del .lua de la lista de assets
 		*/
-		static inline std::string _assetsList = "";
+		static inline std::string _assetsList = "assetList";
 
 		// Serializacion
 		/**

@@ -9,6 +9,7 @@
 // - Documentation        https://dearimgui.com/docs (same as your local docs/ folder).
 // - Introduction, links and more at the top of imgui.cpp
 
+#include <algorithm>
 #include <iostream>
 
 #include "imgui.h"
@@ -20,6 +21,9 @@
 #include <windows.h>
 #include <stdio.h>
 #include <tchar.h>
+
+#include <filesystem>
+namespace fs = std::filesystem;
 
 #include "GameConfigurator.h"
 #if defined(IMGUI_IMPL_OPENGL_ES2)
@@ -43,6 +47,30 @@ static void HelpMarker(const char* desc)
         ImGui::PopTextWrapPos();
         ImGui::EndTooltip();
     }
+}
+
+// false si no es una configuracion valida
+static bool checkConfigInput(const std::string& firstScene, 
+    const std::string& iconRoot)
+{
+    std::filesystem::path dirScn(core::GameConfigurator::_scenesRoot);
+    std::filesystem::path fileScn =  dirScn / (firstScene + ".lua");
+
+    std::filesystem::path dirIcon(core::GameConfigurator::_assetsRoot);
+    std::filesystem::path fileIcon = dirIcon / (iconRoot + ".png");
+
+    if ((fs::exists(fileScn)))
+    {
+        std::cout << "holaaaaaaaaa" << std::endl;
+    }
+
+    if (fs::exists(fileIcon))
+	{
+        std::cout << "adioooooooooooooos" << std::endl;
+    }
+
+    return (fs::exists(fileScn) && 
+        fs::exists(fileIcon));
 }
 
 // Main code
@@ -201,19 +229,23 @@ bool ChavalesEditor::runEditor()
         // Chavales editor
         {
             static bool disabled = false;
+            static bool aviso = false;
+            static bool incorrectos = false;
 
             ImGui::Begin("ChavalesEngine Project Settings");
+
+            ImGui::Checkbox("Demo Window", &show_demo_window);
 
 			ImGui::BeginDisabled(disabled);
 
             static char str1[128] = "";
             ImGui::InputTextWithHint("Escena inicial", "nombre del .lua", str1, IM_COUNTOF(str1), ImGuiInputTextFlags_CharsNoBlank);
 
-            static char str2[128] = "";
-            ImGui::InputTextWithHint("Ruta de las escenas", "ruta escenas", str2, IM_COUNTOF(str2), ImGuiInputTextFlags_CharsNoBlank);
+            //static char str2[128] = "";
+            //ImGui::InputTextWithHint("Ruta de las escenas", "ruta escenas", str2, IM_COUNTOF(str2), ImGuiInputTextFlags_CharsNoBlank);
 
-            static char str3[128] = "";
-            ImGui::InputTextWithHint("Ruta de los recursos", "ruta recursos", str3, IM_COUNTOF(str3), ImGuiInputTextFlags_CharsNoBlank);
+            //static char str3[128] = "";
+            //ImGui::InputTextWithHint("Ruta de los recursos", "ruta recursos", str3, IM_COUNTOF(str3), ImGuiInputTextFlags_CharsNoBlank);
 
             static char str4[128] = "";
             ImGui::InputTextWithHint("Dll del juego", "nombre del .dll", str4, IM_COUNTOF(str4), ImGuiInputTextFlags_CharsNoBlank);
@@ -222,12 +254,10 @@ bool ChavalesEditor::runEditor()
             ImGui::InputTextWithHint("Nombre de la ventana", "nombre de la ventana", str5, IM_COUNTOF(str5));
 
             static char str6[128] = "";
-            ImGui::InputTextWithHint("Ruta del icono ", "icono", str6, IM_COUNTOF(str6));
-            ImGui::SameLine(); HelpMarker("La ruta debe ser relativa al directorio de recursos.");
+            ImGui::InputTextWithHint("Ruta del icono ", "icono", str6, IM_COUNTOF(str6), ImGuiInputTextFlags_CharsNoBlank);
+            ImGui::SameLine(); HelpMarker("La ruta debe ser relativa al directorio de recursos. No debe contener espacios.");
 
-            ImGui::Checkbox("Demo Window", &show_demo_window);
-
-            ImGui::ColorEdit3("Color del vacio", (float*)&clear_color); 
+            ImGui::ColorEdit3("Color del vacio", (float*)&clear_color, ImGuiColorEditFlags_NoAlpha);
 
             static int width = 1920;
             static int height = 1080;
@@ -251,8 +281,6 @@ bool ChavalesEditor::runEditor()
             if (ImGui::Button("Guardar configuracion"))
             {
                 std::cout << "Escena inicial: " << str1 << std::endl;
-                std::cout << "Ruta de las escenas: " << str2 << std::endl;
-                std::cout << "Ruta de los recursos: " << str3 << std::endl;
 
                 std::cout << "Color del vacio: " << clear_color.x << " " 
             									<< clear_color.y << " "
@@ -268,24 +296,68 @@ bool ChavalesEditor::runEditor()
 
                 std::cout << "Configuracion previa: " << disabled << std::endl;
 
+                // TODO: NO PODER GUARDAR SI NO ESTAN TODOS LOS DATOS?
+
                 core::GameConfigurator::SaveToFile(CONFIGURATOR_PATH);
             }
+            ImGui::SameLine(); HelpMarker("Asegurese de que la configuracion a guardar es correcta.\n Se sobreescribira la ultima configuracion registrada.");
 
             //ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
 			ImGui::EndDisabled();
 
             if (ImGui::Button("Empezar"))
             {
-                core::GameConfigurator::_firstScene = str1;
-                core::GameConfigurator::_scenesRoot = str2;
-                core::GameConfigurator::_assetsRoot = str3;
-                core::GameConfigurator::_gameDLL = str4;
-                std::cout << "[CHAVALESEDITOR] Primera escena: " << str1 << std::endl << "[CHAVALESEDITOR] Ruta para escenas: " << str2 << std::endl;
+                // si no hay input de nada vacio
+                if (!((strcmp(str1, "") == 0) ||
+                    (strcmp(str4, "") == 0) ||
+                    (strcmp(str5, "") == 0) ||
+                    (strcmp(str6, "") == 0)))
+                {
+                    if (checkConfigInput(str1, str6))
+                    {
+	                    /*core::GameConfigurator::_scenesRoot = str2;
+	                    core::GameConfigurator::_assetsRoot = str3;*/
 
-                return false;
+	                    core::GameConfigurator::_useTOML = disabled ? "SI" : "NO";
+
+	                    core::GameConfigurator::_firstScene = str1;
+	                    core::GameConfigurator::_gameDLL = str4;
+
+	                    core::GameConfigurator::_windowName = str5;
+	                    std::replace(core::GameConfigurator::_windowName.begin(), core::GameConfigurator::_windowName.end(), ' ', '_');
+
+	                    core::GameConfigurator::_iconRoot = str6;
+
+	                    core::GameConfigurator::_clearColor = { clear_color.x, clear_color.y, clear_color.z, 1.0f };
+
+	                    core::GameConfigurator::_windowWidth = width;
+	                    core::GameConfigurator::_windowHeight = height;
+
+	                    return false;
+	                }
+                    else
+                    {
+                        incorrectos = true;
+                    }
+                }
+                else
+                {
+                    aviso = true;
+                }
+            }
+
+            if (aviso)
+            {
+				ImGui::Text("RELLENA TODOS LOS CAMPOS");
+            }
+
+            if (incorrectos)
+            {
+                ImGui::Text("ALGUNOS CAMPOS SON INCORRECTOS");
             }
 
             ImGui::Checkbox("Usar configuracion anterior", &disabled);
+            ImGui::SameLine(); HelpMarker("Se usara la ultima configuracion guardada en el archivo de configuracion .toml");
 
             ImGui::TextLinkOpenURL("Documentacion ChavalesEngine", "https://proyecto3-fdi-ucm.github.io/2526-Grupo03-ChavalesEngine/");
 
@@ -335,11 +407,66 @@ int ChavalesEditor::startup()
     memset(&pi, 0, sizeof(PROCESS_INFORMATION));
 
     wstring s1(L" ExecutableProject_d.exe ");
+
+    /*
+    argv[2] -> usar(1)/no usar(0) toml
+    argv[3] -> primera escena
+    argv[4] -> .dll
+    argv[5] -> nombre ventana
+    argv[6] -> icono
+    argv[7] -> clear color r
+    argv[8] -> clear color g
+    argv[9] -> clear color b
+    argv[10] -> ancho
+    argv[11] -> alto
+    */
+
+    // argv[2] -> usar(SI)/no usar(NO) toml
+    wstring toml(std::begin(core::GameConfigurator::_useTOML), std::end(core::GameConfigurator::_useTOML));
+    s1.append(toml);
+    s1.append(L" ");
+    // argv[3]->primera escena
     wstring fs(std::begin(core::GameConfigurator::_firstScene), std::end(core::GameConfigurator::_firstScene));
-    wstring sr(std::begin(core::GameConfigurator::_scenesRoot), std::end(core::GameConfigurator::_scenesRoot));
     s1.append(fs);
     s1.append(L" ");
-    s1.append(sr);
+    // argv[4] -> .dll
+    wstring dll(std::begin(core::GameConfigurator::_gameDLL), std::end(core::GameConfigurator::_gameDLL));
+    s1.append(dll);
+    s1.append(L" ");
+    // argv[5]->nombre ventana
+    wstring name(std::begin(core::GameConfigurator::_windowName), std::end(core::GameConfigurator::_windowName));
+    s1.append(name);
+    s1.append(L" ");
+    // argv[6]->icono
+    wstring icon(std::begin(core::GameConfigurator::_iconRoot), std::end(core::GameConfigurator::_iconRoot));
+    s1.append(icon);
+    s1.append(L" ");
+    // argv[7]->clear color r
+    std::string r = std::to_string(core::GameConfigurator::_clearColor.getRed());
+    wstring rw(std::begin(r), std::end(r));
+    s1.append(rw);
+    s1.append(L" ");
+    // argv[8]->clear color g
+    std::string g = std::to_string(core::GameConfigurator::_clearColor.getGreen());
+    wstring gw(std::begin(g), std::end(g));
+    s1.append(gw);
+    s1.append(L" ");
+    // argv[9]->clear color b
+    std::string b = std::to_string(core::GameConfigurator::_clearColor.getBlue());
+    wstring bw(std::begin(b), std::end(b));
+    s1.append(bw);
+    s1.append(L" ");
+    // argv[10]->ancho
+    std::string w = std::to_string(core::GameConfigurator::_windowWidth);
+    wstring ww(std::begin(w), std::end(w));
+    s1.append(ww);
+    s1.append(L" ");
+    // argv[11]->alto
+    std::string h = std::to_string(core::GameConfigurator::_windowHeight);
+    wstring hw(std::begin(h), std::end(h));
+    s1.append(hw);
+
+    // fin
     s1.append(L"\0");
 
     BOOL rv = CreateProcess(
