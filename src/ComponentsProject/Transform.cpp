@@ -34,7 +34,7 @@ bool Transform::init(const Properties& p)
 		if (Transform* childTransform = childEntity->getComponent<Transform>()) 
 			childTransform->setParent(this);
 	}
-	pendingChildren.clear();
+	//pendingChildren.clear();
 	//_transformID = Engine::addTransform(getEntity()->getEntityID(), getGlobalPosition(), getGlobalRotation(), getGlobalScale());
 	return true;
 }

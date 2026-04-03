@@ -66,7 +66,8 @@ void StateMachine::gameLoop()
 	// llamar a la destructora de la escena
 	if (_currentScene.ptr != nullptr)
 	{
-		_currentScene.ptr->~Scene();
+		_currentScene.ptr->onDestroy();
+		//_currentScene.ptr->~Scene();
 	}
 	_currentScene.ptr = nullptr;
 }
