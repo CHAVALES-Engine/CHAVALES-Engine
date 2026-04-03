@@ -110,14 +110,17 @@ private:
 	/// <param name="asset">Group of all assets</param>
 	/// <returns></returns>
 	bool loadInternalAsset(const sol::table& assetsType,const std::string& typeOfAsset);
-	
 	std::pair<FolderName, FileName> loadOgreAsset(const std::string& assetName,std::pair<sol::object, sol::object>& assetType);
+
+	void buildFileIndex(const std::string& root);
 	
-	std::string _assetsRoute; // Route of the assets.lua
+	std::string _assetsListPath; // Route of the assets.lua
+	std::unordered_map<FileName, FolderName> _fileIndex; 
 
 	Audios _audioMap; // Map to reserve all audios used in the game
 	Models _modelsMap;  // Map to reserve all models used in the game
 	Particles _particlesMap;  // Map to reserve all particles used in the game
 	Textures _texturesMap;  // Map to reserve all textures used in the game
+
 };
 

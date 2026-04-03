@@ -1,13 +1,31 @@
 #include "ResourcesModule.h"
 #include "Debug.h"
 #include "GameConfigurator.h"
+#include <filesystem>
 
-ResourcesModule::ResourcesModule(): _assetsRoute(), _audioMap(), _modelsMap(), _texturesMap(), _particlesMap()
+namespace fs = std::filesystem;
+
+ResourcesModule::ResourcesModule(): _assetsListPath(), _audioMap(), _modelsMap(), _texturesMap(), _particlesMap()
 {
 }
 
 ResourcesModule::~ResourcesModule()
 {
+}
+
+void ResourcesModule::buildFileIndex(const std::string& root)
+{
+	for (const auto& entry : fs::recursive_directory_iterator(root)) 
+	{
+		if (!entry.is_regular_file()) 
+			continue;
+
+		//std::string relative = fs::relative(entry.path(), root).string();
+		//_fileIndex[relative] = entry.path().string();
+
+		std::string filename = entry.path().filename().string();
+		_fileIndex[filename] = entry.path().string();
+	}
 }
 
 std::pair<FolderName, FileName> ResourcesModule::loadOgreAsset(const std::string& assetName,std::pair<sol::object, sol::object>& assetType)
@@ -33,17 +51,29 @@ bool ResourcesModule::loadInternalAsset(const sol::table& assetsType, const std:
 			std::string assetPath = assets.second.as<std::string>(); 
 			auto it = _audioMap.find(nameOfAsset);
 			if (it != _audioMap.end()) {
-				Debug::error("ERROR: Audio ya existente con ese nombre");
+				Debug::error("ERROR: Audio ya existente con nombre ", nameOfAsset);
 				return false;
 			}
-			Debug::out("RESOURCES: Assetpath ", "./assets/" + assetPath);
-			_audioMap[nameOfAsset] = assetPath;
+
+			auto itFile = _fileIndex.find(assetPath);
+
+			if (itFile == _fileIndex.end()) { // fallback
+				std::string filename = fs::path(assetPath).filename().string();
+				itFile = _fileIndex.find(filename);
+			}
+
+			if (itFile == _fileIndex.end()) {
+				Debug::error("ERROR: No se encontro el audio: ", assetPath, " en ", core::GameConfigurator::_assetsRoot);
+				return false;
+			}
+
+			_audioMap[nameOfAsset] = itFile->second;
 		}
 		else if (typeOfAsset == "Mesh")
 		{			
 			auto it = _modelsMap.find(nameOfAsset);
 			if (it != _modelsMap.end()) {
-				Debug::error("ERROR: Malla ya existente con ese nombre");
+				Debug::error("ERROR: Malla ya existente con nombre ", nameOfAsset);
 				return false;
 			}
 			_modelsMap[nameOfAsset] = loadOgreAsset(nameOfAsset, assets);
@@ -52,7 +82,7 @@ bool ResourcesModule::loadInternalAsset(const sol::table& assetsType, const std:
 		{
 			auto it = _texturesMap.find(nameOfAsset);
 			if (it != _texturesMap.end()) {
-				Debug::error("ERROR: Textura ya existente con ese nombre");
+				Debug::error("ERROR: Textura ya existente con nombre  ", nameOfAsset);
 				return false;
 			}
 			_texturesMap[nameOfAsset] = loadOgreAsset(nameOfAsset, assets);
@@ -61,13 +91,13 @@ bool ResourcesModule::loadInternalAsset(const sol::table& assetsType, const std:
 		{
 			auto it = _particlesMap.find(nameOfAsset);
 			if (it != _particlesMap.end()) {
-				Debug::error("ERROR: Particula ya existente con ese nombre");
+				Debug::error("ERROR: Particula ya existente con nombre ", nameOfAsset);
 				return false;
 			}
 			_particlesMap[nameOfAsset] = loadOgreAsset(nameOfAsset, assets);
 		}
 		else {
-			Debug::error("ERROR: Tipo de recurso no valido");
+			Debug::error("ERROR: Tipo de recurso", typeOfAsset," no valido");
 			return false;
 		}
 		Debug::out("RESOURCES: ", nameOfAsset, " cargado");
@@ -80,17 +110,17 @@ bool ResourcesModule::Init()
 	sol::state lua;
 	lua.open_libraries(sol::lib::base); 
 	std::string path = core::GameConfigurator::_assetsRoot + core::GameConfigurator::_assetsList + ".lua";
-	_assetsRoute = path; 
+	_assetsListPath = path; 
 	
 	try
 	{
 		// intenta leer archivo
-		lua.safe_script_file(_assetsRoute);
+		lua.safe_script_file(_assetsListPath);
 	}
 	catch (const sol::error& e)
 	{
 		// si no lo consigue saca error
-		Debug::error("RESOURCES: Error cargando assets: ", _assetsRoute);
+		Debug::error("RESOURCES: Error cargando assets: ", _assetsListPath);
 		Debug::error("Lua exception: ", e.what());
 		return false;
 	}
@@ -98,11 +128,14 @@ bool ResourcesModule::Init()
 	sol::optional<sol::table> assetsFile = lua.get<sol::optional<sol::table>>("assets");
 	if (!assetsFile.has_value())
 	{
-		Debug::error("RESOURCES: El archivo lua no contiene tabla 'assets': ", _assetsRoute);
+		Debug::error("RESOURCES: El archivo lua no contiene tabla 'assets': ", _assetsListPath);
 		return false;
 	}
-	Debug::out("RESOURCES: Cargando recursos desde ", _assetsRoute);
 
+	Debug::out("RESOURCES: Indexando recursos en ", core::GameConfigurator::_assetsRoot);
+	buildFileIndex(core::GameConfigurator::_assetsRoot);
+
+	Debug::out("RESOURCES: Cargando recursos desde ", core::GameConfigurator::_assetsRoot);
 	for (auto& assets : assetsFile.value()) 
 	{
 		std::string typeOfAsset = assets.first.as<std::string>();
@@ -121,7 +154,6 @@ std::string ResourcesModule::getAudio(AssetName name)
 	if (it == _audioMap.end()) {
 		Debug::error("ERROR: Audio no encontrado");
 	}
-	Debug::warning("BUSCANDO AUDIO ", it->first, " ", it->second);
 	return it->second;
 }
 

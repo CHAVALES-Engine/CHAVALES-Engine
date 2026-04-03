@@ -7,7 +7,7 @@ assets = {
 	},
 	Audio = { --Audios
 		lifeUp = "./game/assets/smb_1-up.wav",
-		lifeDown = "./game/assets/smb_1-up.wav",
+		lifeDown = "smb_1-up.wav",
 	},
 	Particles = { --Particulas
 
