@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\ResourcesModule\framework.h">
+    <ClInclude Include="..\..\src\ResourcesModule\ResourcesModule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

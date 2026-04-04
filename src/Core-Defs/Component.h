@@ -18,6 +18,32 @@
 
 namespace core
 {
+	/*
+	 * +-----------+
+	 * | COMPONENT |
+	 * +-----------+
+	 * 
+	 * --- Ejemplo de uso en lua ---
+	 * Component = {
+	 *		-- ejemplo de tipo basico/tipos del proyecto
+	 *		atributo1 = tipo,
+	 *		-- ejemplo de TAD vector
+	 *		atributo2 = 
+	 *		{
+	 *			tipo,
+	 *			tipo
+	 *		}
+	 * }
+	 * 
+	 * --- Ejemplo de inicializacion ---
+	 * En bool init(const Properties& p):
+	 *		# Ej1, asignacion:
+	 * component = getProperty<tipo>(properties, "atributo1");
+	 *		# Ej2, setter: 
+	 * return setProperty(properties, "atributo1", component);
+	 * 
+	*/
+
 	class Component
 	{
 	public:
@@ -35,6 +61,7 @@ namespace core
 		* @param v - estado
 		*/
 		void setEnabled(bool v);
+		void setName(std::string const& name);
 
 		// --- GETTERS
 		/**
@@ -45,6 +72,10 @@ namespace core
 		* @returs Si esta activo o no
 		*/
 		bool isEnabled() const;
+		/**
+		 * @return El nombre del componente
+		 */
+		const std::string& getName() const;
 
 		// --- LIFECYCLE
 		/**
@@ -155,6 +186,7 @@ namespace core
 		}
 
 	protected:
+		std::string _name;
 		Entity* entity;
 		bool enabled;
 	};

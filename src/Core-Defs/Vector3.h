@@ -5,6 +5,7 @@
 #pragma once
 
 #include <cmath>
+#include <ostream>
 
 class GameLoader;
 
@@ -309,4 +310,11 @@ namespace core
 	private:
 		
 	};
+
+	template <typename T>
+	inline std::ostream& operator<<(std::ostream& os, const Vector3<T>& v)
+	{
+		os << "(" << v.getX() << ", " << v.getY() << ", " << v.getZ() << ")";
+		return os;
+	}
 }

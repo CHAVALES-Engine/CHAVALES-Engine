@@ -109,6 +109,7 @@
     <ClInclude Include="..\..\src\Core-Defs\Defs.h" />
     <ClInclude Include="..\..\src\Core-Defs\ec.h" />
     <ClInclude Include="..\..\src\Core-Defs\Entity.h" />
+    <ClInclude Include="..\..\src\Core-Defs\guid.h" />
     <ClInclude Include="..\..\src\Core-Defs\IndexPQ.h" />
     <ClInclude Include="..\..\src\Core-Defs\InputDefs.h" />
     <ClInclude Include="..\..\src\Core-Defs\Manager.h" />

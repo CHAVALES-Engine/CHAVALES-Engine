@@ -47,7 +47,8 @@ public:
 	 * @param e - Entidad a la que pertenecera el componente.
 	 * @param componenteObj - Par nombre, objeto de sol a traducir.
 	 */
-	static void parseEntity(core::Entity* e, std::pair<sol::object, sol::object>& entidadObj);
+	static void instanceEntity(core::Entity* e, std::pair<sol::object, sol::object>& entidadObj);
+	static void initializeEntity(core::Entity* e, std::pair<sol::object, sol::object>& entidadObj);
 
 	/**
 	 * @brief Para definir tipos de clases propias que poder traducir desde lua.
@@ -61,7 +62,7 @@ public:
 	 *
 	 * @param lua - Estado de lua donde definir los tipos.
 	 */
-	static void loadLua(std::shared_ptr<core::Scene>& s, const sceneName& n, const std::string& p = "./game/scenes/");
+	static void loadLua(std::shared_ptr<core::Scene>& s, const sceneName& n, const std::string& p);
 
 	/**
 	 * @brief Carga una escena dada de lua.
@@ -82,12 +83,28 @@ public:
 	 * @brief LLama a preguntar por el nombre de la escena y usa findSceneFile para cargar el archivo .lua con loadLua.
 	 *
 	 */
-	static std::shared_ptr<core::Scene> loadSceneFromSearch();
+	static std::shared_ptr<core::Scene> loadSceneFromSearch(const std::string& sceneName);
 
 	/**
 	 * @brief Control de recargado de la escena desde el archivo .lua.
 	 */
 	static bool reloadLua();
+
+	/**
+	 * @brief Comprueba si una tabla sol es un vector de tipo especificado en la plantilla
+	 * @param table - tabla leida de sol
+	 * @returns Si la tabla es traducible a un vector de plantilla
+	 */
+	template<typename T>
+	static bool isVectorOf(const sol::table& table);
+
+	/**
+	 * @brief Traduce una tabla sol a vector de tipo especificado en el template
+	 * @param table - tabla leida de sol
+	 * @returns vector de tipo T con el contenido de la tabla
+	 */
+	template<typename T>
+	static std::vector<T> parseVector(const sol::table& table);
 
 private:
 	static inline std::string _path = "";

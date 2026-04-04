@@ -7,18 +7,20 @@
 #include <vector>
 #include <string>
 #include "ec.h"
+#include "guid.h"
 #include "Component.h"
 
 class Scene;
 
 namespace core
 {
-	using entityID = uint64_t;
+	using entityID = ChavalesGUID;
 
 	class Entity
 	{
 	public:
 		Entity();
+		Entity(std::string);
 		virtual ~Entity(); // Destroys the entity
 
 		// prohibimos copia
@@ -40,12 +42,12 @@ namespace core
 		bool isVisible() const;
 		bool isEnabled() const;
 		bool getDontDestoroyOnLoad() const;
-		const Scene* getScene() const;
-		entityID getEntityID();
+		Scene* getScene() const;
+		entityID getEntityID() const;
 		grpId_t getGroupId() const;
 		//bool inGroup(grpId_t id) const;
 		const std::string& getName() const;
-		const std::vector<std::shared_ptr<Component>>& getComponents() const;
+		const std::vector<std::shared_ptr<Component>>& getComponents() const; 
 
 		// --- LIFECYLE
 		/**
@@ -145,6 +147,12 @@ namespace core
 			}
 			return nullptr;
 		}
+		/**
+		* @brief Obtiene el primer componente con el nombre indicado
+		* O(n)
+		*/
+		std::shared_ptr<Component> getComponent(const std::string& name) const;
+
 
 		/**
 		* @brief Elimina todos los componentes del mismo tipo indicado
@@ -163,7 +171,11 @@ namespace core
 				}
 			}
 		}
-
+		/**
+		* @brief Elimina todos los componentes del nombre
+		* O(n)
+		*/
+		void removeComponent(const std::string& name);
 		/**
 		* @brief Obtiene todos los componentes del mismo tipo indicado
 		* O(n)

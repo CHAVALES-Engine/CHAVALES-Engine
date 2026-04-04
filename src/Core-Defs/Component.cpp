@@ -21,6 +21,11 @@ void core::Component::setEnabled(bool v)
 	enabled ? enable() : disable();
 }
 
+void core::Component::setName(std::string const& name)
+{
+	_name = name;
+}
+
 core::Entity* core::Component::getEntity() const
 {
 	return entity;
@@ -29,4 +34,9 @@ core::Entity* core::Component::getEntity() const
 bool core::Component::isEnabled() const
 {
 	return enabled;
+}
+
+const std::string& core::Component::getName() const
+{
+	return _name;
 }

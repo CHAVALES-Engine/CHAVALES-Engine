@@ -2,13 +2,18 @@
 
 #include <memory>
 
-#include "PlatformModule.h"
-#include "RenderModule.h"
-#include "AudioModule.h"
+#include <PlatformModule.h>
+#include <RenderModule.h>
+#include <AudioModule.h>
+#include <PhysicsModule.h>
+#include <ResourcesModule.h>
+
+#include <InputMapper.h>
+
 #include "ComponentDLLLoader.h"
-#include "PhysicsModule.h"
-#include "InputMapper.h"
+#include "GameConfigurator.h"
 #include "StateMachine.h"
+#include "InputFacade.h"
 
 using namespace std;
 Engine* Engine::_instance = nullptr;
@@ -17,7 +22,6 @@ bool Engine::init()
 {
 	// utilizamos este tipo de inicializacion para tener mas control
 	if (_instance == nullptr) _instance = new Engine();
-
 	return _instance->_initPriv();
 }
 
@@ -28,14 +32,21 @@ Engine* Engine::instance()
 
 void Engine::release()
 {
-	// Cierra archivo .log
-	Debug::close();
 	if (_instance) {
 		delete _instance->_platformModule;
+		delete _instance->_input;
+
 		delete _instance->_audioModule;
 		delete _instance->_physicsModule;
-		delete _instance->_renderModule;
-		delete _instance->_componentDLLLoader;
+		try {
+			delete _instance->_renderModule;
+		}
+		catch (exception e)
+		{
+			Debug::error(e.what());
+		}
+		delete _instance->_resourecesModule;
+
 		delete _instance->_stateMachine;
 		delete _instance;
 		_instance = nullptr;
@@ -46,23 +57,20 @@ void Engine::release()
 
 void Engine::startLoop()
 {
+	if (!_stateMachine) return;
 	// Bucle de juego
-	_stateMachine->addAndSetScene("scene1");
+	_stateMachine->addAndSetScene(core::GameConfigurator::_firstScene); // carga la primera escena
 	_stateMachine->gameLoop();
 }
 
-bool Engine::syncronize() const
+bool Engine::pollEvents() const
 {
 	return _platformModule->syncronize();
 }
 
 const void Engine::addAndSetScene(std::string n) const
 {
-	_addAndSetScene(n);
-}
-
-const void Engine::setAddAndSetScene(std::function<void(std::string)> func) {
-	_addAndSetScene = func;
+	_stateMachine->addAndSetScene(n);
 }
 
 void Engine::renderFrame()
@@ -135,9 +143,74 @@ void Engine::setCameraFocalLength(const cameraID& id, const float& focalLength)
 	_renderModule->setCameraFocalLength(id, focalLength);
 }
 
-lightID Engine::addLight(const entityID& entityID, int type, const core::Color& color, float intensity)
+void Engine::addModel(const entityID& entityID, const std::string& modelFolder, const std::string& modelFile)
 {
-	return _renderModule->addLight(entityID, type,color, intensity);
+	_renderModule->addModel(entityID, modelFolder, modelFile);
+}
+
+void Engine::deleteModel(const modelID& id)
+{
+	_renderModule->deleteModel(id);
+}
+
+void Engine::setSubmeshDiffuse(const modelID& id, const std::string& textureFolder, const std::string& textureFile, const int& submesh)
+{
+	_renderModule->setDiffuse(id, submesh, textureFolder, textureFile);
+}
+
+void Engine::setSubmeshTint(const modelID& id, const core::Color& tint, const int& submesh)
+{
+	_renderModule->setTint(id, submesh, tint);
+}
+
+void Engine::setModelVisible(const modelID& id, const bool& visible)
+{
+	_renderModule->setModelVisible(id, visible);
+}
+
+void Engine::addAnimator(const entityID& entityID, modelID& modelID)
+{
+	_renderModule->addAnimator(entityID, modelID);
+}
+
+animationID Engine::registerSkeletonAnim(const modelID& modelID, const std::string& animationName, const bool& loop)
+{
+	return _renderModule->registerSkeletonAnim(modelID, animationName, loop);
+}
+
+animationID Engine::createTransformAnimation(const entityID& entityID, const std::string& animationName, const bool& loop, const float& totalDuration)
+{
+	return _renderModule->createTransformAnimation(entityID, animationName, loop, totalDuration);
+}
+
+void Engine::addTransformKeyFrame(const animationID& animationID, const float& timePos, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float>& scale)
+{
+	_renderModule->addTransformKeyFrame(animationID, timePos, pos, rot, scale);
+}
+
+void Engine::addTransformKeyFrame(const animationID& animationID, const float& timePos, const core::Vector3<float>& pos, const float& rot, const int& axis, const core::Vector3<float>& scale)
+{
+	_renderModule->addTransformKeyFrame(animationID, timePos, pos, rot, axis, scale);
+}
+
+void Engine::setAnimEnabled(const animationID& animationID, const bool& active)
+{
+	_renderModule->setAnimEnabled(animationID, active);
+}
+
+void Engine::setAnimTimePos(const animationID& animationID, const float& timePos)
+{
+	_renderModule->setAnimTimePos(animationID, timePos);
+}
+
+void Engine::updateAnimation(const animationID& animationID, const uint64_t& deltaTime)
+{
+	_renderModule->updateAnimation(animationID, deltaTime);
+}
+
+lightID Engine::addLight(const entityID& entityID, const int& type, const core::Color& color, const float& intensity)
+{
+	return _renderModule->addLight(entityID, type, color, intensity);
 }
 
 void Engine::deleteLight(const lightID& id)
@@ -145,17 +218,12 @@ void Engine::deleteLight(const lightID& id)
 	_renderModule->deleteLight(id);
 }
 
-void Engine::setLightActive(const lightID& id, bool active)
+void Engine::setLightActive(const lightID& id, const bool& active)
 {
 	_renderModule->setLightActive(id, active);
 }
 
-void Engine::cleanLights()
-{
-	_renderModule->cleanLights();
-}
-
-void Engine::setLightType(const lightID& id, int type)
+void Engine::setLightType(const lightID& id, const int& type)
 {
 	_renderModule->setLightType(id, type);
 }
@@ -165,24 +233,99 @@ void Engine::setLightColor(const lightID& id, const core::Color& color)
 	_renderModule->setLightColor(id, color);
 }
 
-void Engine::setLightIntensity(const lightID& id, float intensity)
+void Engine::setLightIntensity(const lightID& id, const float& intensity)
 {
 	_renderModule->setLightIntensity(id, intensity);
 }
 
-void Engine::setLightDirection(const lightID& id, const core::Vector3<float>& dir)
-{
-	_renderModule->setLightDirection(id, dir);
-}
-
-void Engine::setLightSpotRange(const lightID& id, float inner, float outer, float falloff)
+void Engine::setLightSpotRange(const lightID& id, const float& inner, const float& outer, const float& falloff)
 {
 	_renderModule->setLightSpotRange(id, inner, outer, falloff);
 }
 
+particleGenID Engine::addParticleGen(const entityID& entityID, const std::string& textureFolder, const std::string& textureFile)
+{
+	return _renderModule->addParticleGen(entityID, textureFolder, textureFile);
+}
+
+void Engine::deleteParticleGen(const particleGenID& id)
+{
+	_renderModule->deleteParticleGen(id);
+}
+
+void Engine::setParticleGenEnabled(const particleGenID& id, const bool& enabled)
+{
+	_renderModule->setParticleGenEnabled(id, enabled);
+}
+
+void Engine::setParticleGenEmitting(const particleGenID& id, const bool& emitting)
+{
+	_renderModule->setParticleGenEmitting(id, emitting);
+}
+
+void Engine::setParticleGenQuota(const particleGenID& id, const float& quota)
+{
+	_renderModule->setParticleGenQuota(id, quota);
+}
+
+void Engine::setParticleGenEmissionRate(const particleGenID& id, const float& rate)
+{
+	_renderModule->setParticleGenEmissionRate(id, rate);
+}
+
+void Engine::setParticleGenDuration(const particleGenID& id, const float& duration)
+{
+	_renderModule->setParticleGenDuration(id, duration);
+}
+
+void Engine::setParticleGenTimeToLive(const particleGenID& id, const float& time)
+{
+	_renderModule->setParticleGenTimeToLive(id, time);
+}
+
+void Engine::setParticleGenVelocity(const particleGenID& id, const float& velocity)
+{
+	_renderModule->setParticleGenVelocity(id, velocity);
+}
+
+void Engine::setParticleGenMinVelocity(const particleGenID& id, const float& velocity)
+{
+	_renderModule->setParticleGenMinVelocity(id, velocity);
+}
+
+void Engine::setParticleGenMaxVelocity(const particleGenID& id, const float& velocity)
+{
+	_renderModule->setParticleGenMaxVelocity(id, velocity);
+}
+
+void Engine::setParticleGenDirection(const particleGenID& id, const core::Vector3<float>& direction)
+{
+	_renderModule->setParticleGenDirection(id, direction);
+}
+
+void Engine::setParticleGenAngle(const particleGenID& id, const float& angle)
+{
+	_renderModule->setParticleGenAngle(id, angle);
+}
+
+void Engine::setParticleGenPartWidth(const particleGenID& id, const float& width)
+{
+	_renderModule->setParticleGenPartWidth(id, width);
+}
+
+void Engine::setParticleGenPartHeight(const particleGenID& id, const float& height)
+{
+	_renderModule->setParticleGenPartHeight(id, height);
+}
+
+void Engine::setParticleGenPartColor(const particleGenID& id, const core::Color& color)
+{
+	_renderModule->setParticleGenPartColor(id, color);
+}
+
 void Engine::loadSound(std::string path, std::string id, bool soundStream, bool soundLooping, bool sound3D)
 {
-	_audioModule->loadSound(path, id, soundStream, soundLooping, sound3D );
+	_audioModule->loadSound(path, id, soundStream, soundLooping, sound3D);
 }
 
 void Engine::unloadSound(std::string id)
@@ -191,7 +334,7 @@ void Engine::unloadSound(std::string id)
 }
 int Engine::playSound(std::string id, float soundVolume, int looping, const core::Vector3<> vec3, const core::Vector3<> vel3)
 {
-	return _audioModule->playSound(id,soundVolume, looping, vec3, vel3);
+	return _audioModule->playSound(id, soundVolume, looping, vec3, vel3);
 }
 void Engine::setChannelVolume(int chID, float newVolume)
 {
@@ -223,7 +366,7 @@ void Engine::setSourcePosition(int chID, core::Vector3<> pos, core::Vector3<> ve
 	_audioModule->setAudioPos(chID, pos, vel);
 }
 
-void Engine::setDelay(int chID, unsigned long long start, unsigned long long end, bool stopChannel)
+void Engine::setDelay(int chID, double start, double end, bool stopChannel)
 {
 	_audioModule->setDelay(chID, start, end, stopChannel);
 }
@@ -255,7 +398,11 @@ float Engine::getVolume(int chID)
 #pragma endregion
 >>>>>>> Stashed changes
 
-#pragma region Platform
+std::string Engine::getAudioByName(const std::string& name)
+{
+	return _resourecesModule->getAudio(name);
+}
+
 
 //------Metodo de PlatformModule:
 int Engine::getWindowWidth() const
@@ -268,83 +415,11 @@ int Engine::getWindowHeight() const
 	return _platformModule->getWindowHeight();
 }
 
-bool Engine::isKeyPressed(input::InputEvent inputAction, input::DeviceID device) const
+InputFacade* Engine::input() const
 {
-	return _platformModule->isKeyPressed(inputAction, device);
+	return _input;
 }
 
-bool Engine::isKeyReleased(input::InputEvent inputAction, input::DeviceID device) const
-{
-	return _platformModule->isKeyReleased(inputAction, device);
-}
-
-float Engine::getAxis(input::InputEvent inputAction, input::DeviceID device) const
-{
-	return _platformModule->getAxis(inputAction, device);
-}
-
-bool Engine::isActionPressed(const std::string& actionName, input::DeviceID device) const
-{
-	return _platformModule->isActionPressed(actionName, device);
-}
-
-bool Engine::isActionReleased(const std::string& actionName, input::DeviceID device) const
-{
-	return _platformModule->isActionReleased(actionName, device);
-}
-
-void Engine::startTextInput() const
-{
-	_platformModule->startTextInput();
-}
-
-void Engine::stopTextInput() const
-{
-	_platformModule->stopTextInput();
-}
-
-std::string Engine::getTextInput(input::DeviceID device) const
-{
-	return _platformModule->getTextInput(device);
-}
-
-//------Metodos de InputMapper:
-void Engine::addEvent(const std::string& actionName, input::InputEvent inputEvent, input::DeviceID id)
-{
-	_platformModule->getInputMapper()->addEvent(actionName, inputEvent, id);
-}
-
-void Engine::removeEvent(const std::string& actionName, input::InputEvent inputEvent, input::DeviceID id)
-{
-	_platformModule->getInputMapper()->removeEvent(actionName, inputEvent, id);
-}
-
-void Engine::removeEvents(const std::string& actionName)
-{
-	_platformModule->getInputMapper()->removeEvents(actionName);
-}
-
-void Engine::removeEventsFromID(const std::string& actionName, input::DeviceID id)
-{
-	_platformModule->getInputMapper()->removeEventsFromID(actionName, id);
-}
-
-std::vector<input::InputEvent> Engine::getInputEvents(const std::string& actionName, input::DeviceID id)
-{
-	return _platformModule->getInputMapper()->getInputEvents(actionName, id);
-}
-
-std::vector<std::string> Engine::getActions()
-{
-	return _platformModule->getInputMapper()->getActions();
-}
-
-bool Engine::hasAction(const std::string& actionName) const
-{
-	return _platformModule->getInputMapper()->hasAction(actionName);
-}
-
-#pragma endregion
 
 bool Engine::_initPriv()
 {
@@ -352,30 +427,56 @@ bool Engine::_initPriv()
 	Debug::open();
 	//Platform
 	_platformModule = new PlatformModule();
-	if (!_platformModule->Init()) return false;
+	if (!_platformModule->Init()) {
+		delete _platformModule;
+		_platformModule = nullptr;
+		return false;
+	}
+	_input = new InputFacade(_platformModule);
 	//Render
 	_renderModule = new RenderModule();
-	if (!_renderModule->Init(_platformModule->getWindowHandle(), _platformModule->getWindowWidth(), _platformModule->getWindowHeight()))
+	if (!_renderModule->Init(_platformModule->getWindowHandle(), _platformModule->getWindowWidth(), _platformModule->getWindowHeight())) {
+		delete _renderModule;
+		_renderModule = nullptr;
 		return false;
+	}
 	//Audio
 	_audioModule = new AudioModule();
-	if (!_audioModule->Init()) return false;
+	if (!_audioModule->Init()) {
+		delete _audioModule;
+		_audioModule = nullptr;
+		return false;
+	}
 	//Fisicas
 	_physicsModule = new PhysicsModule();
-	if (!_physicsModule->Init()) return false;
+	if (!_physicsModule->Init()) {
+		delete _physicsModule;
+		_physicsModule = nullptr;
+		return false;
+	}
 
-	// Abre archivo .log
-	Debug::open();
+	//Resources
+	_resourecesModule = new ResourcesModule();
+	if (!_resourecesModule->Init()) {
+		delete _resourecesModule;
+		_resourecesModule = nullptr;
+		return false;
+	}
+	_stateMachine = new StateMachine();
 
-	_componentDLLLoader = new ComponentDLLLoader;
 #if _DEBUG
-	_componentDLLLoader->load("./ComponentsProject_d.dll");
+	ComponentDLLLoader::instance().load("./ComponentsProject_d.dll");
 #else 
-	_componentDLLLoader.load("./ComponentsProject_r.dll");
+	ComponentDLLLoader::instance().load("./ComponentsProject_r.dll");
 #endif
-	_componentDLLLoader->load("./game/DLL-Test.dll");
 
-	_stateMachine = new StateMachine;
-		
+#if _DEBUG
+	ComponentDLLLoader::instance().load("./game/DLL-Test.dll");
+#else
+	std::string path = "./game/" + core::GameConfigurator::_gameDLL + ".dll";
+	ComponentDLLLoader::instance().load(path);
+#endif
+
+
 	return true;
 }

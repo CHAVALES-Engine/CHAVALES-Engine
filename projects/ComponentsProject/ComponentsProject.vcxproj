@@ -11,24 +11,39 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\src\ComponentsProject\Animator.h" />
     <ClInclude Include="..\..\src\ComponentsProject\AudioListener.h" />
     <ClInclude Include="..\..\src\ComponentsProject\AudioSource.h" />
     <ClInclude Include="..\..\src\ComponentsProject\BoxCollider.h" />
     <ClInclude Include="..\..\src\ComponentsProject\Camera.h" />
     <ClInclude Include="..\..\src\ComponentsProject\CapsuleCollider.h" />
     <ClInclude Include="..\..\src\ComponentsProject\Collider.h" />
+    <ClInclude Include="..\..\src\ComponentsProject\Light.h" />
     <ClInclude Include="..\..\src\ComponentsProject\ModelRenderer.h" />
+    <ClInclude Include="..\..\src\ComponentsProject\ParticleGen.h" />
     <ClInclude Include="..\..\src\ComponentsProject\Transform.h" />
-    <ClInclude Include="Light.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\ComponentsProject\Animator.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\AudioListener.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\AudioSource.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\Camera.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\Collider.cpp" />
+    <ClCompile Include="..\..\src\ComponentsProject\Light.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\ModelRenderer.cpp" />
+    <ClCompile Include="..\..\src\ComponentsProject\ParticleGen.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\Transform.cpp" />
-    <ClCompile Include="Light.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Core-Defs\Core-Defs.vcxproj">
+      <Project>{0eb183ee-3578-4ada-9962-55e9b7457f17}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Core-Utils\Core-Utils.vcxproj">
+      <Project>{5b01a994-a157-4713-b7d6-62268883e636}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Engine\Engine.vcxproj">
+      <Project>{19c229d6-650d-4440-8b69-512b9458618e}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -77,7 +92,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ENGINE_EXPORTS;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
@@ -89,7 +104,7 @@
       <SubSystem>
       </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)libs\Core-Defs\;$(SolutionDir)libs\Core-Utils\;$(SolutionDir)libs\Engine</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\Core-Defs\;$(SolutionDir)libs\Core-Utils\;$(SolutionDir)libs\Engine\</AdditionalLibraryDirectories>
       <ImportLibrary>$(SolutionDir)libs\$(ProjectName)\$(TargetName).lib</ImportLibrary>
       <AdditionalDependencies>Engine_d.lib;Core-Defs_d.lib;Core-Utils_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
@@ -106,7 +121,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ENGINE_EXPORTS;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
@@ -119,7 +134,7 @@
       </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>Engine_r.lib;Core-Defs_r.lib;Core-Utils_r.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)libs\Core-Defs\;$(SolutionDir)libs\Core-Utils\;$(SolutionDir)libs\Engine</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\Core-Defs\;$(SolutionDir)libs\Core-Utils\;$(SolutionDir)libs\Engine\</AdditionalLibraryDirectories>
       <ImportLibrary>$(SolutionDir)libs\$(ProjectName)\$(TargetName).lib</ImportLibrary>
     </Link>
     <Lib>

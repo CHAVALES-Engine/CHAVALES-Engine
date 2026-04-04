@@ -7,46 +7,8 @@
 
 namespace core
 {
-	// -- Constantes
 	/**
-	 * @brief Constante que representa el color negro rgba(0,0,0,1).
-	 */
-	static const Vector4 BLACK = Vector4(0.0, 0.0, 0.0, 1.0);
-	/**
-	 * @brief Constante que representa el color blanco rgba(1,1,1,1).
-	 */
-	static const Vector4 WHITE = Vector4(1.0, 1.0, 1.0, 1.0);
-	/**
-	 * @brief Constante que representa una transparencia con alfa 0.
-	 */
-	static const Vector4 CLEAR = Vector4(0.0, 0.0, 0.0, 0.0);
-	/**
-	 * @brief Constante que representa el color rojo rgba(1,0,0,1).
-	 */
-	static const Vector4 RED = Vector4(1.0, 0.0, 0.0, 1.0);
-	/**
-	 * @brief Constante que representa el color verde rgba(0,1,0,1).
-	 */
-	static const Vector4 GREEN = Vector4(0.0, 1.0, 0.0, 1.0);
-	/**
-	 * @brief Constante que representa el color negro rgba(0,0,1,1).
-	 */
-	static const Vector4 BLUE = Vector4(0.0, 0.0, 1.0, 1.0);
-	/**
-	 * @brief Constante que representa el color cian rgba(0,1,1,1).
-	 */
-	static const Vector4 CYAN = Vector4(0.0, 1.0, 1.0, 1.0);
-	/**
-	 * @brief Constante que representa el color magenta rgba(1,0,1,1).
-	 */
-	static const Vector4 MAGENTA = Vector4(1.0, 0.0, 1.0, 1.0);
-	/**
-	 * @brief Constante que representa el color amarillo rgba(1,0.92,0.016,1).
-	 */
-	static const Vector4 YELLOW = Vector4(1.0, 0.92, 0.016, 1.0);
-
-	/**
-	 * @brief Color que representa un color en RGBA.
+	 * @brief Clase que representa un color en RGBA.
 	 *
 	 *		Clase para representar un color en formato RGBA
 	 *		rojo (r), verde (g), azul (b), and alfa (a).
@@ -105,4 +67,46 @@ namespace core
 			return getW();
 		}
 	};
+
+	// -- Constantes
+	/**
+	 * @brief Constante que representa el color negro rgba(0,0,0,1).
+	 */
+	static const Color BLACK = Color(0.0, 0.0, 0.0, 1.0);
+	/**
+	 * @brief Constante que representa el color blanco rgba(1,1,1,1).
+	 */
+	static const Color WHITE = Color(1.0, 1.0, 1.0, 1.0);
+	/**
+	 * @brief Constante que representa una transparencia con alfa 0.
+	 */
+	static const Color CLEAR = Color(0.0, 0.0, 0.0, 0.0);
+	/**
+	 * @brief Constante que representa el color rojo rgba(1,0,0,1).
+	 */
+	static const Color RED = Color(1.0, 0.0, 0.0, 1.0);
+	/**
+	 * @brief Constante que representa el color verde rgba(0,1,0,1).
+	 */
+	static const Color GREEN = Color(0.0, 1.0, 0.0, 1.0);
+	/**
+	 * @brief Constante que representa el color negro rgba(0,0,1,1).
+	 */
+	static const Color BLUE = Color(0.0, 0.0, 1.0, 1.0);
+	/**
+	 * @brief Constante que representa el color cian rgba(0,1,1,1).
+	 */
+	static const Color CYAN = Color(0.0, 1.0, 1.0, 1.0);
+	/**
+	 * @brief Constante que representa el color magenta rgba(1,0,1,1).
+	 */
+	static const Color MAGENTA = Color(1.0, 0.0, 1.0, 1.0);
+	/**
+	 * @brief Constante que representa el color amarillo rgba(1,0.92,0.016,1).
+	 */
+	static const Color YELLOW = Color(1.0, 0.92, 0.016, 1.0);
+	/**
+	 * @brief Constante que representa el clear color por defecto Chaval Vacio rgba(0.118,0.118,0.118,1.0).
+	 */
+	static const Color CHAVAL_VACIO = Color(0.118, 0.118, 0.118, 1.0);
 }

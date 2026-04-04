@@ -2,17 +2,22 @@
 #include "Component.h"
 #include "Debug.h"
 #include "ec.h"
+#include "guid.h"
 
 namespace core
 {
-	Entity::Entity() :
+	Entity::Entity() : Entity("") {}
+
+	Entity::Entity(std::string) :
 		components(),
 		alive(true),
 		visible(true),
 		enabled(true),
 		scene(nullptr),
 		groupId(),
-		name() {}
+		name()
+	{
+	}
 
 	Entity::~Entity()
 	{
@@ -29,7 +34,7 @@ namespace core
 	void Entity::setEnabled(bool e) { enabled = e; } // deberia hacer enable/disable de cada componente?
 	void Entity::setDontDestroyOnLoad(bool ddol) { dontDestroyOnLoad = ddol; }
 	void Entity::setScene(Scene* s) { scene = s; }
-	void Entity::setEntityID(core::entityID id) { entityID = id; }
+	void Entity::setEntityID(ChavalesGUID id) { entityID = id; }
 	void Entity::setGroupId(grpId_t id) { groupId = id; }
 	void Entity::setName(const std::string& n) { name = n; }
 
@@ -39,12 +44,33 @@ namespace core
 
 	bool Entity::getDontDestoroyOnLoad() const { return dontDestroyOnLoad; }
 
-	const Scene* Entity::getScene() const { return scene; }
-	entityID Entity::getEntityID() { return entityID; }
+	Scene* Entity::getScene() const { return scene; }
+	ChavalesGUID Entity::getEntityID() const { return entityID; }
 	grpId_t Entity::getGroupId() const { return groupId; }
 	//bool core::Entity::inGroup(grpId_t id) const;
 	const std::string& Entity::getName() const { return name; }
 	const std::vector<std::shared_ptr<Component>>& Entity::getComponents() const { return components; }
+
+	std::shared_ptr<Component> Entity::getComponent(const std::string& name) const {
+		for (auto& c : components) {
+			if (c->getName() == name)
+				return c;
+		}
+		return nullptr;
+	}
+
+	void Entity::removeComponent(const std::string& name)
+	{
+		for (auto it = components.begin(); it != components.end(); ++it)
+		{
+			if ((*it)->getName() == name)
+			{
+				(*it)->disable();
+				(*it)->destroy();
+				components.erase(it);
+			}
+		}
+	}
 
 	//void Entity::init(const Properties& p)
 	//{

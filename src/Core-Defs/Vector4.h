@@ -321,4 +321,11 @@ namespace core
 		 */
 		T _w;
 	};
+
+	template <typename T>
+	inline std::ostream& operator<<(std::ostream& os, const Vector4<T>& v)
+	{
+		os << "(" << v.getX() << ", " << v.getY() << ", " << v.getZ() << ", " << v.getW() << ")";
+		return os;
+	}
 }

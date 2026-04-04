@@ -15,94 +15,144 @@ namespace fs = std::filesystem;
 
 #define SOL_ALL_SAFETIES_ON 1
 
+template<typename T>
+bool GameLoader::isVectorOf(const sol::table& table)
+{
+	int expectedIndex = 1;
+
+	for (auto& kv : table)
+	{
+		if (!kv.first.is<int>() || kv.first.as<int>() != expectedIndex)
+			return false;
+
+		if (!kv.second.is<T>())
+			return false;
+
+		expectedIndex++;
+	}
+
+	return true;
+}
+
+template<typename T>
+std::vector<T> GameLoader::parseVector(const sol::table& table)
+{
+	std::vector<T> result;
+
+	for (auto& kv : table)
+	{
+		result.push_back(kv.second.as<T>());
+	}
+
+	return result;
+}
+
 void GameLoader::parseObject(const sol::object& obj, const std::string& clave, Properties& props)
 {
 	switch (obj.get_type())
 	{
 	case sol::type::number:
+	{
+		if (obj.is<int>())
 		{
-			if (obj.is<int>())
-			{
-				props[clave] = obj.as<int>();
-			}
-			else
-			{
-				props[clave] = obj.as<float>();
-			}
-			break;
+			props[clave] = obj.as<int>();
 		}
+		else
+		{
+			props[clave] = obj.as<float>();
+		}
+		break;
+	}
 	case sol::type::boolean:
-		{
-			props[clave] = obj.as<bool>();
-			break;
-		}
+	{
+		props[clave] = obj.as<bool>();
+		break;
+	}
 	case sol::type::string:
-		{
-			props[clave] = obj.as<std::string>();
-			break;
-		}
+	{
+		props[clave] = obj.as<std::string>();
+		break;
+	}
 	case sol::type::table:
+	{
+		sol::table t = obj;
+
+		if (isVectorOf<int>(t))
 		{
-			if (obj.is<std::vector<int>>())
-			{
-				props[clave] = obj.as<std::vector<int>>();
-			}
-			else if (obj.is<std::vector<float>>())
-			{
-				props[clave] = obj.as<std::vector<float>>();
-			}
-			else if (obj.is<std::vector<std::string>>())
-			{
-				props[clave] = obj.as<std::vector<std::string>>();
-			}
-			else if (obj.is<std::vector<bool>>())
-			{
-				props[clave] = obj.as<std::vector<bool>>();
-			}
-			else if (obj.is<std::vector<sol::table>>())
-			{
-				//parseObject(second, obj.first, props);
-			}
-			break;
+			props[clave] = parseVector<int>(t);
 		}
+		else if (isVectorOf<float>(t))
+		{
+			props[clave] = parseVector<float>(t);
+		}
+		else if (isVectorOf<std::string>(t))
+		{
+			props[clave] = parseVector<std::string>(t);
+		}
+		else if (isVectorOf<bool>(t))
+		{
+			props[clave] = parseVector<bool>(t);
+		}
+		else if (isVectorOf<core::Vector2<>>(t))
+		{
+			props[clave] = parseVector<core::Vector2<>>(t);
+		}
+		else if (isVectorOf<core::Vector3<>>(t))
+		{
+			props[clave] = parseVector<core::Vector3<>>(t);
+		}
+		else if (isVectorOf<core::Vector4<>>(t))
+		{
+			props[clave] = parseVector<core::Vector4<>>(t);
+		}
+		else if (isVectorOf<core::Quaternion<>>(t))
+		{
+			props[clave] = parseVector<core::Quaternion<>>(t);
+		}
+		else if (isVectorOf<core::Color>(t))
+		{
+			props[clave] = parseVector<core::Color>(t);
+		}
+		else
+		{
+			Debug::error("GAMELOADER: Parametro tabla no compatible en ", clave);
+		}
+
+		break;
+	}
 	case sol::type::userdata:
+	{
+		if (obj.is<core::Vector2<>>())
 		{
-			if (obj.is<core::Vector2<>>())
-			{
-				Debug::out("GAMELOADER: vector2");
-				props[clave] = obj.as<core::Vector2<>>();
-			}
-			else if (obj.is<core::Vector3<>>())
-			{
-				Debug::out("GAMELOADER: vector3");
-				props[clave] = obj.as<core::Vector3<>>();
-			}
-			else if (obj.is<core::Vector4<>>())
-			{
-				Debug::out("GAMELOADER: vector4");
-				props[clave] = obj.as<core::Vector4<>>();
-			}
-			else if (obj.is<core::Quaternion<>>())
-			{
-				Debug::out("GAMELOADER: quaternion");
-				props[clave] = obj.as<core::Quaternion<>>();
-			}
-			else if (obj.is<core::Color>())
-			{
-				Debug::out("GAMELOADER: color");
-				props[clave] = obj.as<core::Color>();
-			}
-			else
-			{
-				Debug::error("GAMELOADER: El tipo del parametro de ", clave, " no esta definido.");
-			}
-			break;
+			props[clave] = obj.as<core::Vector2<>>();
 		}
+		else if (obj.is<core::Vector3<>>())
+		{
+			props[clave] = obj.as<core::Vector3<>>();
+		}
+		else if (obj.is<core::Vector4<>>())
+		{
+			props[clave] = obj.as<core::Vector4<>>();
+		}
+		else if (obj.is<core::Quaternion<>>())
+		{
+			props[clave] = obj.as<core::Quaternion<>>();
+		}
+		else if (obj.is<core::Color>())
+		{
+			props[clave] = obj.as<core::Color>();
+		}
+		else
+		{
+			Debug::error("GAMELOADER: El tipo del parametro de ", clave, " no esta definido.");
+		}
+		break;
+	}
 	default:
-		{
-			Debug::error("GAMELOADER: El tipo del parametro de ", clave, " no es valido.");
-			break;
-		}
+	{
+		Debug::error("GAMELOADER: El tipo del parametro de ", clave, " no es valido.");
+		break;
+	}
 	}
 }
 
@@ -110,7 +160,7 @@ void GameLoader::parseComponent(core::Entity* e, std::pair<sol::object, sol::obj
 {
 	// encontramos su nombre e intentamos instanciar un componente con una clase con tal nombre
 	std::string componenteName = componenteObj.first.as<std::string>();
-	std::shared_ptr<core::Component> component = ComponentRegister::instance().create(componenteName);
+	std::shared_ptr<core::Component> component = e->getComponent(componenteName);
 
 	if (component != nullptr)
 	{
@@ -132,20 +182,27 @@ void GameLoader::parseComponent(core::Entity* e, std::pair<sol::object, sol::obj
 
 		// --- a este nivel va el init:
 		// inicializacion de los parametros de un componente a traves de los datos de lua
-		component->init(properties);
+		bool init = component->init(properties);
 
-		// --- mete el componente a la entidad creada
-		e->addComponent(std::move(component));
-		Debug::out("GAMELOADER: Componente ", componenteName, " cargado para la entidad ", e->getName(), ".");
+		if (init)
+		{
+			Debug::out("GAMELOADER: Componente ", componenteName, " cargado para la entidad ", e->getName(), ".");
+		}
+		else
+		{
+			// --- quita el componente a la entidad
+			e->removeComponent(componenteName);
+			Debug::warning("GAMELOADER: Error al cargar componente ", componenteName, ": no se pudo inicializar correctamente.");
+		}
 	}
 	else
 	{
 		// si no se ha conseguido crear el componente porque no estaba bien registrado
-		Debug::warning("GAMELOADER: Componente ", componenteName, " no registrado.");
+		Debug::warning("GAMELOADER: Componente ", componenteName, " no registrado en la entidad ", e->getName(), ".");
 	}
 }
 
-void GameLoader::parseEntity(core::Entity* e, std::pair<sol::object, sol::object>& entidadObj)
+void GameLoader::instanceEntity(core::Entity* e, std::pair<sol::object, sol::object>& entidadObj)
 {
 	// nombre de la entidad
 	std::string entidadName = entidadObj.first.as<std::string>();
@@ -154,6 +211,27 @@ void GameLoader::parseEntity(core::Entity* e, std::pair<sol::object, sol::object
 	// crea la entidad
 	e->setName(entidadName);
 
+	// dentro de la entidad, accedo a la tabla de componentes
+	sol::table partes = entidadObj.second;
+	sol::table componentes = partes["components"];
+
+	for (auto& componenteObj : componentes)
+	{
+		// --- instancia cada componente de la tabla de componentes de la entidad
+		std::string componenteName = componenteObj.first.as<std::string>();
+		std::shared_ptr<core::Component> component = ComponentRegister::instance().create(componenteName);
+		// anyade el componente a la entidad si existe el componente
+		if (component != nullptr){
+			component->setName(componenteName);
+			e->addComponent(std::move(component)); // anyade sin inicializar
+		}
+		else
+			Debug::warning("GAMELOADER: Componente ", componenteName, " no registrado.");
+	}
+}
+
+void GameLoader::initializeEntity(core::Entity* e, std::pair<sol::object, sol::object>& entidadObj)
+{
 	// dentro de la entidad, accedo a la tabla de componentes
 	sol::table partes = entidadObj.second;
 	sol::table componentes = partes["components"];
@@ -170,18 +248,18 @@ void GameLoader::defineUserTypes(sol::state& lua)
 	lua.new_usertype<core::Vector2<>>(
 		"Vector2",
 		sol::constructors<
-			core::Vector2<>(),
-			core::Vector2<>(float),
-			core::Vector2<>(float, float)>(),
+		core::Vector2<>(),
+		core::Vector2<>(float),
+		core::Vector2<>(float, float)>(),
 		"x", &core::Vector2<>::getX,
 		"y", &core::Vector2<>::getY);
 
 	lua.new_usertype<core::Vector3<>>(
 		"Vector3",
 		sol::constructors<
-			core::Vector3<>(),
-			core::Vector3<>(float),
-			core::Vector3<>(float, float, float)>(),
+		core::Vector3<>(),
+		core::Vector3<>(float),
+		core::Vector3<>(float, float, float)>(),
 		"x", &core::Vector3<>::getX,
 		"y", &core::Vector3<>::getY,
 		"z", &core::Vector3<>::getZ);
@@ -189,9 +267,9 @@ void GameLoader::defineUserTypes(sol::state& lua)
 	lua.new_usertype<core::Vector4<>>(
 		"Vector4",
 		sol::constructors<
-			core::Vector4<>(),
-			core::Vector4<>(float),
-			core::Vector4<>(float, float, float, float)>(),
+		core::Vector4<>(),
+		core::Vector4<>(float),
+		core::Vector4<>(float, float, float, float)>(),
 		"x", &core::Vector4<>::getX,
 		"y", &core::Vector4<>::getY,
 		"z", &core::Vector4<>::getZ,
@@ -200,8 +278,8 @@ void GameLoader::defineUserTypes(sol::state& lua)
 	lua.new_usertype<core::Quaternion<>>(
 		"Quaternion",
 		sol::constructors<
-			core::Quaternion<>(),
-			core::Quaternion<>(float, float, float, float)>(),
+		core::Quaternion<>(),
+		core::Quaternion<>(float, float, float, float)>(),
 		"x", &core::Quaternion<>::getX,
 		"y", &core::Quaternion<>::getY,
 		"z", &core::Quaternion<>::getZ,
@@ -251,7 +329,7 @@ void GameLoader::loadLua(
 		// --- para cada entidad leida
 		core::Entity* e = new core::Entity();
 
-		parseEntity(e, entidadObj);
+		instanceEntity(e, entidadObj);
 
 		// --- a este nivel se llamaria al awake:
 		// metodo de logica de un componente sin garantizar que el resto de componentes y entidades esten inicializados
@@ -264,6 +342,16 @@ void GameLoader::loadLua(
 		s->addEntity(e);
 	}
 
+	for (auto& entidadObj : scene)
+	{
+		// --- para cada entidad leida
+		std::string name = entidadObj.first.as<std::string>();
+		core::Entity* e = s->findEntityByName(name);
+		if (!e) continue;
+		// inicializamos los componentes
+		initializeEntity(e, entidadObj);
+	}
+
 	// --- a este nivel se llama al ready:
 	// garantizamos que en el ready el resto de entidades y sus componentes estan inicializados
 	s->ready();
@@ -273,11 +361,15 @@ std::shared_ptr<core::Scene> GameLoader::loadScene(const sceneName& n)
 {
 	std::shared_ptr<core::Scene> s = std::make_shared<core::Scene>(n);
 
-	loadLua(s, n);
+#if _DEBUG
+	loadLua(s, n, "./game/scenes/");
+#else
+	loadLua(s, n, core::GameConfigurator::_scenesRoot);
+#endif
+
 	_firstReload = true;
 	return s;
 }
-
 
 std::string GameLoader::findSceneFile(const std::string& sceneName, const std::string& root)
 {
@@ -297,16 +389,14 @@ std::string GameLoader::findSceneFile(const std::string& sceneName, const std::s
 	return "";
 }
 
-std::shared_ptr<core::Scene> GameLoader::loadSceneFromSearch()
+std::shared_ptr<core::Scene> GameLoader::loadSceneFromSearch(const std::string& sceneName)
 {
-	GameConfigurator gameConfig("scene_prueba", "..\..\..\..\..\2526-Grupo03-ChavalesEngine\bin\game\scenes");
-	std::string sceneName = gameConfig.getSceneName();
+	std::string root = core::GameConfigurator::_scenesRoot;
 
 	std::cout << "Buscando escena " << sceneName << ".lua" << std::endl;
 
-	std::string root = gameConfig.getRoot();
-
-	if (!fs::exists(root) || !fs::is_directory(root))
+	if (!fs::exists(root) || 
+		!fs::is_directory(root))
 	{
 		Debug::error("La ruta indicada no es un directorio valido: ", root);
 		return nullptr;
@@ -316,7 +406,7 @@ std::shared_ptr<core::Scene> GameLoader::loadSceneFromSearch()
 
 	if (path.empty())
 	{
-		Debug::error("No se encontró la escena ", sceneName);
+		Debug::error("No se encontro la escena ", sceneName);
 		return nullptr;
 	}
 

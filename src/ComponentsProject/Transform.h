@@ -11,11 +11,38 @@
 #include <Component.h>
 #include <Quaternion.h>
 #include <Vector3.h>
+#include <EngineAPI.h>
 
 using transformID = uint64_t;
 
-class Transform : public core::Component
+/*
+ * +-----------+
+ * | TRANSFORM |
+ * +-----------+
+ *
+ * --- Ejemplo de uso en lua ---
+ * Transform = {
+ *		position = Vector3.new(float...),
+ *		rotation = Quaternion.new(float...),
+ *		scale = Vector3.new(float...),
+ *		children = {
+ *			"entidad2", "entidad3"
+ *			}
+ * }
+ *
+ *
+ * --- Ejemplo de inicializacion ---
+ * En bool init(const Properties& p):
+ *		# Ej1, asignacion:
+ * component = getProperty<tipo>(properties, "atributo1");
+ *		# Ej2, setter:
+ * return setProperty(properties, "atributo1", component);
+ *
+*/
+class ENGINE_API Transform : public core::Component
 {
+	
+
 	transformID _transformID;
 
 	core::Vector3<> _localPosition;
@@ -23,12 +50,17 @@ class Transform : public core::Component
 	core::Vector3<> _localScale;
 	Transform* _parent;
 	std::vector<Transform*> _children;
-
+	/**
+	 * @brief Lista de nombres de entidades a anyadir como hijos (Solo se usa en la inicializacion de componentes).
+	 */
+	//std::vector<std::string> _pendingChildren;
 public:
 	//Transform();
 	//~Transform() ;
 
 	bool init(const Properties& p) override;
+
+	void ready() override;
 
 	void setGlobalPosition(core::Vector3<> gp);
 	void setLocalPosition(const core::Vector3<>& lp);

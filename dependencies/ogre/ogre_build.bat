@@ -15,6 +15,7 @@ set "DEBUGDIR=%LIBSDIR%\Debug"
 set "RELEASESDIR=%LIBSDIR%\Release"
 set "PLATFORM=x64"
 set "ASSIMPDIR=%BUILDDIR%\assimp-6.0.3"
+set "FREETYPEDIR=%BUILDDIR%\freetype-2.14.1\objs"
 :: Crear carpetas 
 if not exist "%BUILDDIR%" mkdir "%BUILDDIR%"
 if not exist "%LIBSDIR%" mkdir "%LIBSDIR%"
@@ -116,6 +117,23 @@ if %errorlevel% neq 0 (
 )
 
 popd
+popd
+
+pushd "%FREETYPEDIR%"
+echo Compilando FRETYPE
+echo Compilando DEBUG
+msbuild freetype.sln /p:Configuration=Debug /p:Platform=%PLATFORM%
+if %errorlevel% neq 0 (
+    echo ERROR: Fallo en build Debug
+    pause
+    exit /b %errorlevel%
+)
+msbuild freetype.sln /p:Configuration=Release /p:Platform=%PLATFORM%
+if %errorlevel% neq 0 (
+    echo ERROR: Fallo en build Release
+    pause
+    exit /b %errorlevel%
+)
 popd
 
 del /q "%DEBUGDIR%\*.lib" 2>nul

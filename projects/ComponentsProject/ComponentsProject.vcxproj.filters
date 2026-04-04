@@ -39,7 +39,13 @@
     <ClInclude Include="..\..\src\ComponentsProject\Collider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Light.h">
+    <ClInclude Include="..\..\src\ComponentsProject\ParticleGen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ComponentsProject\Animator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ComponentsProject\Light.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -62,7 +68,13 @@
     <ClCompile Include="..\..\src\ComponentsProject\ModelRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Light.cpp">
+    <ClCompile Include="..\..\src\ComponentsProject\ParticleGen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ComponentsProject\Animator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ComponentsProject\Light.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

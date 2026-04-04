@@ -3,18 +3,42 @@
 #include <Vector3.h>
 #include <vector>
 #include <unordered_set>
+#include <EngineAPI.h>
 
 
 class Transform;
 
-class AudioSource: public core::Component
+/*
+ * +--------------+
+ * | AUDIO SOURCE |
+ * +--------------+
+ *
+ * --- Ejemplo de uso en lua ---
+ * AudioSource = {
+ *		soundID = int,
+ *		mute = bool,
+ *		is3D = bool,
+ *		loop = bool,
+ *		isStream = bool,
+ *		soundVolume = float
+ * }
+ *
+ * --- Ejemplo de inicializacion ---
+ * En bool init(const Properties& p):
+ *		# Ej1, asignacion:
+ * component = getProperty<tipo>(properties, "atributo1");
+ *		# Ej2, setter:
+ * return setProperty(properties, "atributo1", component);
+ *
+*/
+
+class ENGINE_API AudioSource: public core::Component
 {
 private:
 	Transform* _tr;
 
 	core::Vector3<float> _lastPosition;
 
-	std::string _path;
 	std::string _id;
 	bool _mute;
 	bool _is3D;
@@ -40,10 +64,10 @@ public:
 	void setVolume(float&& newVolume);
 	void stopSound() const;
 	void pauseSound(bool pause) const;
-	void setDelay(unsigned long long start, unsigned long long end, bool stopChannel) const;
+	void setDelay(double start, double end, bool stopChannel) const;
 	std::string getSoundName() const;
-private:
 	void playSound();
+private:
 
 };
 

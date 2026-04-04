@@ -1,0 +1,12 @@
+[game]
+first_scene = 'scene1'
+game_dll = 'juego'
+
+[window]
+clear_color_b = 0.6000000238418579
+clear_color_g = 0.550000011920929
+clear_color_r = 0.44999998807907104
+icon_root = 'icon'
+window_height = 1080
+window_name = 'ventana'
+window_width = 1920

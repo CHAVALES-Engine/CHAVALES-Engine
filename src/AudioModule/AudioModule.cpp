@@ -36,6 +36,7 @@ bool AudioModule::Init()
 		return false;
 	}
 	_system->set3DSettings(1.0f, 1.0f, 1.0f);
+	_system->getSoftwareFormat(&nativeRate, 0, 0);
 	return true;
 }
 
@@ -65,7 +66,7 @@ void AudioModule::ShutDown()
 	delete _system;
 }
 
-bool AudioModule::loadSound(string path, string id,  bool soundStream, bool soundLooping, bool sound3D)
+bool AudioModule::loadSound(string path, string id, bool soundStream, bool soundLooping, bool sound3D)
 {
 	auto itSoundFound = _soundMap.find(id);
 	if (itSoundFound != _soundMap.end())
@@ -74,15 +75,15 @@ bool AudioModule::loadSound(string path, string id,  bool soundStream, bool soun
 		return false;
 	}
 	//Depends in the parameters of the method
-	FMOD_MODE eMode = FMOD_DEFAULT; 
-	eMode |= sound3D ? FMOD_3D : FMOD_2D; 
-	eMode |= soundLooping ? FMOD_LOOP_NORMAL : FMOD_LOOP_OFF; 
-	eMode |= soundStream ? FMOD_CREATESTREAM : FMOD_CREATECOMPRESSEDSAMPLE; 
+	FMOD_MODE eMode = FMOD_DEFAULT;
+	eMode |= sound3D ? FMOD_3D : FMOD_2D;
+	eMode |= soundLooping ? FMOD_LOOP_NORMAL : FMOD_LOOP_OFF;
+	eMode |= soundStream ? FMOD_CREATESTREAM : FMOD_CREATECOMPRESSEDSAMPLE;
 
 	//Result helps to identifie exceptions
 	FMOD_RESULT result;
 	FMOD::Sound* sound = nullptr;
-	
+
 	result = _system->createSound(path.c_str(), eMode, nullptr, &sound);
 
 	if (result == FMOD_OK)
@@ -102,7 +103,7 @@ bool AudioModule::unloadSound(std::string id)
 	auto itSoundFound = _soundMap.find(id);
 	if (itSoundFound == _soundMap.end())
 	{
-		Debug::error("Sound unloading error: Couldn't find sound, there isn't a loaded sound with this id: " + id);
+		Debug::error("[unloadSound] Sound unloading error: Couldn't find sound, there isn't a loaded sound with this id: " + id);
 		return false;
 	}
 	itSoundFound->second->release();
@@ -116,7 +117,7 @@ int AudioModule::playSound(std::string id, float soundVolume, int looping, const
 	auto itSoundFound = _soundMap.find(id);
 	if (itSoundFound == _soundMap.end())
 	{
-		Debug::error("Sound not found: Couldn't find sound, there isn't a loaded sound with this id: " + id);
+		Debug::error("[playSound] Sound not found: Couldn't find sound, there isn't a loaded sound with this id: " + id);
 		return -1;
 	}
 	FMOD::Channel* channel = nullptr;
@@ -139,7 +140,7 @@ bool AudioModule::setChannelVolume(int chID, float newVolume)
 	auto itChFound = _channelSound.find(chID);
 	if (itChFound == _channelSound.end())
 	{
-		Debug::error("Channel not found: Couldn't find channel, there isn't an existing channel with this id: " + to_string(chID));
+		Debug::error("[setChannelVolume] Channel not found: Couldn't find channel, there isn't an existing channel with this id: " + to_string(chID));
 		return false;
 	}
 	itChFound->second->setVolume(newVolume);
@@ -150,7 +151,7 @@ bool AudioModule::getLooping(int chID, int* typeOfLooping)
 	auto itChFound = _channelSound.find(chID);
 	if (itChFound == _channelSound.end())
 	{
-		Debug::error("Channel not found: Couldn't find channel, there isn't an existing channel with this id: " + to_string(chID));
+		Debug::error("[getLooping] Channel not found: Couldn't find channel, there isn't an existing channel with this id: " + to_string(chID));
 		return false;
 	}
 	itChFound->second->getLoopCount(typeOfLooping);
@@ -162,7 +163,7 @@ void AudioModule::setLooping(int chID, int typeOfLooping)
 	auto itChFound = _channelSound.find(chID);
 	if (itChFound == _channelSound.end())
 	{
-		Debug::error("Channel not found: Couldn't find channel, there isn't an existing channel with this id: " + to_string(chID));
+		Debug::error("[setLooping] Channel not found: Couldn't find channel, there isn't an existing channel with this id: " + to_string(chID));
 		return;
 	}
 	itChFound->second->setLoopCount(typeOfLooping);
@@ -173,7 +174,7 @@ bool AudioModule::stopPlaying(int chID)
 	auto itChFound = _channelSound.find(chID);
 	if (itChFound == _channelSound.end())
 	{
-		Debug::error("Channel not found: Couldn't find channel, there isn't an existing channel with this id: " + to_string(chID));
+		Debug::error("[stopPlaying] Channel not found: Couldn't find channel, there isn't an existing channel with this id: " + to_string(chID));
 		return false;
 	}
 	itChFound->second->stop();
@@ -185,7 +186,7 @@ bool AudioModule::pauseChannel(int chID, bool pause)
 	auto itChFound = _channelSound.find(chID);
 	if (itChFound == _channelSound.end())
 	{
-		Debug::error("Channel not found: Couldn't find channel, there isn't an existing channel with this id: " + to_string(chID));
+		Debug::error("[pauseChannel] Channel not found: Couldn't find channel, there isn't an existing channel with this id: " + to_string(chID));
 		return false;
 	}
 	return itChFound->second->setPaused(pause);
@@ -246,14 +247,16 @@ bool AudioModule::isChannelPlaying(int chID)
 	return isPlaying;
 }
 
-void AudioModule::setDelay(int chID, unsigned long long start, unsigned long long end, bool stopChannel)
+void AudioModule::setDelay(int chID, double start, double end, bool stopChannel)
 {
+	unsigned long long sampleStart = (start / 1000) * nativeRate;
+	unsigned long long sampleEnd = (end / 1000) * nativeRate;
 	auto itChFound = _channelSound.find(chID);
 
 	if (itChFound == _channelSound.end()) {
 		return;
 	}
-	itChFound->second->setDelay(start, end, stopChannel);
+	itChFound->second->setDelay(sampleStart, sampleEnd, stopChannel);
 }
 
 void AudioModule::getVolume(int chID, float& volume)
@@ -264,4 +267,9 @@ void AudioModule::getVolume(int chID, float& volume)
 		return;
 	}
 	itChFound->second->getVolume(&volume);
+}
+
+bool AudioModule::isValidChannel(int chID)
+{
+	return _channelSound.find(chID) != _channelSound.end();
 }

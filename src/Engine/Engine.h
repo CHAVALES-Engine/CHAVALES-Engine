@@ -8,6 +8,7 @@
 #include <Vector3.h>
 
 #include "InputDefs.h"
+#include "guid.h"
 /*
  * @file Engine.h
  * @brief Defines the functions for the EngineAPI static library.
@@ -19,16 +20,22 @@ class AudioModule;
 class PhysicsModule;
 class ComponentDLLLoader;
 class StateMachine;
+class InputFacade;
+class ResourcesModule;
+
 namespace core
 {
 	class Scene;
 	//class Vector3<>;
 }
 
-using entityID = uint64_t;
+using entityID = ChavalesGUID;
 using transformID = uint64_t;
 using cameraID = uint64_t;
+using modelID = uint64_t;
+using animationID = uint64_t;
 using lightID = uint64_t;
+using particleGenID = uint64_t;
 
 class ENGINE_API Engine
 {
@@ -53,16 +60,14 @@ public:
 	*/
 	void startLoop();
 	/*
-	* @brief Metodo que sincroniza los modulos con el juego
+	* @brief Metodo que sincroniza los eventos de input.
+	* @return bool - Booleano para saber si se ha cerrado la ventana.
 	*/
-	bool syncronize() const;
+	bool pollEvents() const;
 	/**
 	 *
 	 */
 	const void addAndSetScene(std::string n) const;
-	const void setAddAndSetScene(std::function<void(std::string)> func);
-
-
 
 	//Metodos del modulo de render
 #pragma region Render
@@ -138,27 +143,86 @@ public:
 	void setCameraFocalLength(const cameraID& id, const float& focalLength);
 #pragma endregion
 
+	//Metodos modelos
+#pragma region model
+	/*
+	* @brief anade un modelo a la escena.
+	*/
+	void addModel(const entityID& entityID, const std::string& modelFolder, const std::string& modelFile);
+	/*
+	* @brief Borra un modelo de la escena.
+	*/
+	void deleteModel(const modelID& id);
+	/*
+	* @brief Borra un modelo de la escena.
+	*/
+	void setSubmeshDiffuse(const modelID& id, const std::string& textureFolder, const std::string& textureFile, const int& submesh);
+	/*
+	* @brief Establecer tinte de material.
+	*/
+	void setSubmeshTint(const modelID& id, const core::Color& tint, const int& submesh);
+	/*
+	* @brief Establecer si el modelo es visible.
+	*/
+	void setModelVisible(const modelID& id, const bool& visible);
+#pragma endregion
+
+	//Metodos animaciones
+#pragma region animation
+	/*
+	* @brief Anadir animator.
+	*/
+	void addAnimator(const entityID& entityID, modelID& modelID);
+	/*
+	* @brief Registrar animacion de esqueleto.
+	*/
+	animationID registerSkeletonAnim(const modelID& modelID, const std::string& animationName, const bool& loop);
+	/*
+	* @brief Crear animacion de transform.
+	*/
+	animationID createTransformAnimation(const entityID& entityID, const std::string& animationName, const bool& loop, const float& totalDuration);
+	/*
+	* @brief Anadir keyframe a animacion de transform. Time pos en segundos.
+	*/
+	void addTransformKeyFrame(const animationID& animationID,
+							  const float& timePos, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float>& scale);
+	/*
+	* @brief Anadir keyframe a animacion de transform con rotacion sencilla. Time pos en segundos.
+	*/
+	void addTransformKeyFrame(const animationID& animationID,
+							  const float& timePos, const core::Vector3<float>& pos, const float& rot, const int& axis, const core::Vector3<float>& scale);
+	/*
+	* @brief Establecer animacion activa.
+	*/
+	void setAnimEnabled(const animationID& animationID, const bool& active);
+	/*
+	* @brief Reanudar animacíon a partir de cierto instante de tiempo.
+	*/
+	void setAnimTimePos(const animationID& animationID, const float& timePos);
+	/*
+	* @brief Actualizar animacion.
+	*/
+	void updateAnimation(const animationID& animationID, const uint64_t& deltaTime);
+#pragma endregion
+
+	//Metodos luces
 #pragma region light
 	/*
 	* @brief Luz nueva. Se asigna un id por orden de creacion. Main Luz id 0 y añadidas manualmente 1 en adelante.
 	*/
-	lightID addLight(const entityID& entityID, int type, const core::Color& color, float intensity);
+	lightID addLight(const entityID& entityID, const int& type, const core::Color& color, const float& intensity);
 	/*
 	* @brief Borrar luz por id. A las luces creadas posteriormente se les resta el id en 1.
 	*/
 	void deleteLight(const lightID& id);
 	/*
-	* @brief activar/descativar camara
+	* @brief Establecer actividad de luz.
 	*/
-	void setLightActive(const lightID& id, bool active);
-	/*
-	* @brief activar/descativar camara
-	*/
-	void cleanLights();
+	void setLightActive(const lightID& id, const bool& active);
 	/*
 	* @brief Establecer el tipo de luz
 	*/
-	void setLightType(const lightID& id, int type);
+	void setLightType(const lightID& id, const int& type);
 	/*
 	* @brief Establecer el color de la luz
 	*/
@@ -166,25 +230,89 @@ public:
 	/*
 	* @brief Establecer la intensidad de luz
 	*/
-	void setLightIntensity(const lightID& id, float intensity);
-	/*
-	* @brief Establecer la direccion de luz
-	*/
-	void setLightDirection(const lightID& id, const core::Vector3<float>& dir);
+	void setLightIntensity(const lightID& id, const float& intensity);
 	/*
 	* @brief Establecer el cono de luz (ángulo interno, ángulo externo y suavidad de degradado)
 	*/
-	void setLightSpotRange(const lightID& id, float inner, float outer, float falloff);
-
-
+	void setLightSpotRange(const lightID& id, const float& inner, const float& outer, const float& falloff);
 #pragma endregion
 
+	//Metodos particulas
+#pragma region particle
+	//Metodos particulas
+	/*
+	* @brief Anadir generador de particulas.
+	*/
+	particleGenID addParticleGen(const entityID& entityID, const std::string& textureFolder, const std::string& textureFile);
+	/*
+	* @brief Borrar generador de particulas.
+	*/
+	void deleteParticleGen(const particleGenID& id);
+	/*
+	* @brief Establecer actividad de generador de particulas.
+	*/
+	void setParticleGenEnabled(const particleGenID& id, const bool& enabled);
+	/*
+	* @brief Establecer emision de generador de particulas.
+	*/
+	void setParticleGenEmitting(const particleGenID& id, const bool& emitting);
+	/*
+	* @brief Establecer cantidad total de particulas del generador.
+	*/
+	void setParticleGenQuota(const particleGenID& id, const float& quota);
+	/*
+	* @brief Establecer ratio de emision de generador de particulas.
+	*/
+	void setParticleGenEmissionRate(const particleGenID& id, const float& rate);
+	/*
+	* @brief Establecer tiempo de emision del generador de particulas.
+	*/
+	void setParticleGenDuration(const particleGenID& id, const float& duration);
+	/*
+	* @brief Establecer tiempo de vida de particulas del generador.
+	*/
+	void setParticleGenTimeToLive(const particleGenID& id, const float& time);
+	/*
+	* @brief Establecer velocidad de particulas del generador.
+	*/
+	void setParticleGenVelocity(const particleGenID& id, const float& velocity);
+	/*
+	* @brief Establecer velocidad minima de particulas del generador.
+	*/
+	void setParticleGenMinVelocity(const particleGenID& id, const float& velocity);
+	/*
+	* @brief Establecer velocidad maxima de particulas del generador.
+	*/
+	void setParticleGenMaxVelocity(const particleGenID& id, const float& velocity);
+	/*
+	* @brief Establecer direccion de particulas del generador.
+	*/
+	void setParticleGenDirection(const particleGenID& id, const core::Vector3<float>& direction);
+	/*
+	* @brief Establecer angulo de dipsersion de particulas del generador.
+	*/
+	void setParticleGenAngle(const particleGenID& id, const float& angle);
+	/*
+	* @brief Establecer ancho de particulas del generador.
+	*/
+	void setParticleGenPartWidth(const particleGenID& id, const float& width);
+	/*
+	* @brief Establecer alto de particulas del generador.
+	*/
+	void setParticleGenPartHeight(const particleGenID& id, const float& height);
+	/*
+	* @brief Establecer color de particulas del generador.
+	*/
+	void setParticleGenPartColor(const particleGenID& id, const core::Color& color);
+#pragma endregion
+#pragma endregion
 
+	//Metodos audio
 #pragma region audio
 
 	//Metodos del modulo de audio
 	/*
-	* @brief Crear un sonido en el módulo de audio.
+	* @brief Crea un sonido en el módulo de audio.
 	Recibe un path y un id, además de parámetros de configuración, como si es stream (sonido corto) o no (música), si tiene loop o si es 3D.
 	*/
 	void loadSound(std::string path, std::string id, bool soundStream = true, bool soundLooping = false, bool sound3D = true);
@@ -193,16 +321,40 @@ public:
 	*/
 	void unloadSound(std::string id);
 	/*
-	* @brief reproduce un sonido del módulo de audio recibiendo su id.
+	* @brief Reproduce un sonido del módulo de audio recibiendo su id y su configuración: volumen, loop (si creado con looping: -1 = indef, 0 = one time, 1 = loop once), posición y velocidad (para audio 3D)
 	*/
-	int playSound(std::string id, float soundVolume = 0.0f, int looping = 0, const core::Vector3<> pos3 = {0.0f, 0.0f,0.0f}, const core::Vector3<> vel3 = {0.0f,0.0f,0.0f});
+	int playSound(std::string id, float soundVolume, int looping = 0, const core::Vector3<> pos3 = {0.0f, 0.0f,0.0f}, const core::Vector3<> vel3 = {0.0f,0.0f,0.0f});
+	/*
+	* @brief Configura en el módulo de audio el listener de la escena, recibiendo su posicion, forward y up, y adicionalmente la velocidad para el audio 3D (efecto Doppler)
+	*/
 	void setListener(core::Vector3<> pos, core::Vector3<> forward, core::Vector3<> up, core::Vector3<> vel = { 0.0,0.0,0.0 });
+	/*
+	* @brief Actualiza la posición y velocidad de un audio 3D
+	*/
 	void setSourcePosition(int chID, core::Vector3<> pos, core::Vector3<> vel);
+	/*
+	* @brief Actualiza el volumen de un canal
+	*/
 	void setChannelVolume(int chID, float newVolume = 0.0f);
-	void setDelay(int chID, unsigned long long start, unsigned long long end, bool stopChannel);
+	/*
+	* @brief Devuelve la configuracion de loopeo que tiene un audio
+	*/
 	int getLooping(int chID) const;
+	/*
+	* @brief Detiene y libera un canal
+	*/
 	bool stopPlaying(int chID);
+	/*
+	* @brief Pausa o reanuda un canal y el audio que reproduce
+	*/
 	bool pauseChannel(int chID, bool pause);
+	/*
+	* @brief Configura el milisegundo de inicio y de final del audio que se reproduciran
+	*/
+	void setDelay(int chID, double start, double end, bool stopChannel);
+	/*
+	* @brief Devuelve si un canal esta pausado (false) o en reproduccion (true)
+	*/
 	bool isChannelPlaying(int chID);
 	void setLooping(int chID,int typeOfLooping);
 	float getVolume(int chID);
@@ -216,7 +368,9 @@ public:
 
 #pragma region Platform
 
-	//------Metodos de PlatformModule:
+	std::string getAudioByName(const std::string& name);
+
+#pragma endregion
 
 	/**
 	* @brief Devuelve anchura de la ventana
@@ -226,112 +380,8 @@ public:
 	* @brief Devuelve altura de la ventana
 	*/
 	int getWindowHeight() const;
-	/*
-	* @brief Devuelve si una tecla esta pulsada
-	* @param inputAction - InputEvent a comprobar
-	* @param device - id del dispositivo a comprobar. -1 por defecto => el primero positivo que encuentre.
-	*/
-	bool isKeyPressed(input::InputEvent inputAction, input::DeviceID device = input::ANY_DEVICE) const;
-	/*
-	* @brief Devuelve si se ha dejado de pulsar una tecla
-	* @param inputAction - InputEvent a comprobar
-	* @param device - id del dispositivo a comprobar. -1 por defecto => el primero positivo que encuentre.
-	*/
-	bool isKeyReleased(input::InputEvent inputAction, input::DeviceID device = input::ANY_DEVICE) const;
-	/*
-	* @brief Devuelve cuanto de accionado esta la accion a comprobar
-	* @param inputAction - InputEvent a comprobar
-	* @param device - id del dispositivo a comprobar. -1 por defecto => el primero positivo que encuentre.
-	* @return float - Devuelve de -1 a 1
-	*/
-	float getAxis(input::InputEvent inputAction, input::DeviceID device = input::ANY_DEVICE) const;
-	/*
-	* @brief Devuelve si se ha pulsado una accion
-	* @param actionName - accion a comprobar
-	* @param device - id del dispositivo a comprobar. -1 por defecto => el primero positivo que encuentre.
-	*/
-	bool isActionPressed(const std::string& actionName, input::DeviceID device = input::ANY_DEVICE) const;
-	/*
-	* @brief Devuelve si se ha dejado de pulsar una accion
-	* @param actionName - accion a comprobar
-	* @param device - id del dispositivo a comprobar. -1 por defecto => el primero positivo que encuentre.
-	*/
-	bool isActionReleased(const std::string& actionName, input::DeviceID device = input::ANY_DEVICE) const;
-	/*
-	* @brief Indica a la ventana que tome input de texto.
-	*/
-	void startTextInput() const;
-	/*
-	* @brief Indica a la ventana que deje de tomar input de texto.
-	*/
-	void stopTextInput() const;
-	/*
-	* @brief Devuelve el texto introducido por el dispositivo
-	* @param device - id del dispositivo a comprobar. ANY_DEVICE por defecto => la suma del input de todos los dispositivos.
-	*/
-	std::string getTextInput(input::DeviceID device = input::ANY_DEVICE) const;
 
-	//------Metodos de InputMapper:
-
-	/**
-	* @brief Mete un evento asociada a un nombre de accion.
-	*
-	* @param actionName - Nombre de la accion.
-	* @param InputEvent - Input que lanza el evento.
-	* @param id - Id del dispositivo a comprobar. -1 por defecto => el primero positivo que encuentre.
-	*/
-	void addEvent(const std::string& actionName, input::InputEvent inputEvent, input::DeviceID id = input::ANY_DEVICE);
-
-	/**
-	* @brief Quita una evento asociado a una accion.
-	*
-	* @param actionName - Accion de la que eliminar un input.
-	* @param InputEvent - Evento que quitar del mapa.
-	* @param id - Id del dispositivo a comprobar. -1 por defecto => elimina todos los eventos del tipo dado.
-	*/
-	void removeEvent(const std::string& actionName, input::InputEvent inputEvent, input::DeviceID id = input::ANY_DEVICE);
-	/**
-	* @brief Elimina todos los eventos asociados a una accion.
-	*
-	* @param actionName - Accion cuyos eventos hay que eliminar.
-	*/
-	void removeEvents(const std::string& actionName);
-	/**
-	* @brief Elimina todos los eventos asociados a una accion y a un id.
-	*
-	* @param actionName - Accion cuyos eventos hay que eliminar.
-	* @param id - Id del dispositivo a comprobar. -1 por defecto => elimina todos los eventos de la accion (llama a removeEvents(actionName)).
-	*/
-	void removeEventsFromID(const std::string& actionName, input::DeviceID id = input::ANY_DEVICE);
-
-	/**
-	* @brief Devuelve todos los eventos correspondientes a una accion.
-	*
-	* @param actionName - Accion a consultar.
-	* @param id - Id del dispositivo a comprobar. -1 por defecto => Devuelve todos los eventos de esa accion.
-	*
-	* @return std::vector<InputAction> - Vector de InputActions correspondientes.
-	*/
-	std::vector<input::InputEvent> getInputEvents(const std::string& actionName, input::DeviceID id = input::ANY_DEVICE);
-	/**
-	* @brief Devuelve todas las acciones.
-	*
-	* @return std::vector<std::string> - Nombres de acciones registradas.
-	*/
-	std::vector<std::string> getActions();
-
-	/**
-	* @brief Devuelve si tiene un nombre de accion registrada.
-	*
-	* @param actionName - Nombre de la accion a consultar.
-	*
-	* @return bool - Devuelve true si esta mapeada.
-	*/
-	bool hasAction(const std::string& actionName) const;
-
-#pragma endregion
-
-#pragma endregion
+	InputFacade* input() const;
 
 private:
 	/*
@@ -349,6 +399,10 @@ private:
 	*	Referencia al modulo de platform
 	*/
 	PlatformModule* _platformModule = nullptr;
+	/**
+	 * @brief Referencia a la api publica del input
+	 */
+	InputFacade* _input;
 	/*
 	* @brief
 	*	Referencia al modulo de render
@@ -366,13 +420,12 @@ private:
 	PhysicsModule* _physicsModule = nullptr;
 	/*
 	* @brief
-	*	Referencia al cargador de dlls
+	*	Referencia al modulo de recursos
 	*/
-	ComponentDLLLoader* _componentDLLLoader = nullptr;
+	ResourcesModule* _resourecesModule = nullptr;
 	/*
 	* @brief
 	*	Referencia a la maquina de estados
 	*/
 	StateMachine* _stateMachine = nullptr;
-	std::function<void(std::string)> _addAndSetScene;
 };

@@ -1,10 +1,13 @@
 #include "ModelRenderer.h"
 
+#include "Engine.h"
+#include "Entity.h"
+
 ModelRenderer::ModelRenderer() {}
 
 ModelRenderer::~ModelRenderer()
 {
-
+	//Engine::deleteModel(_modelID);
 }
 
 bool ModelRenderer::init(const Properties& p)
@@ -16,9 +19,26 @@ bool ModelRenderer::init(const Properties& p)
 	{
 		std::vector<std::string> texture;
 		setProperty(p, "texture" + std::to_string(i), texture);
-		_textures.emplace(texture[0], Texture(texture[1], texture[2]));
+		_textures.emplace(texture[0], std::pair(texture[1], texture[2]));
 	}
+	
+	//_modelID = Engine::addModel(getEntity()->getEntityID(), _modelFolder, _modelFile);
 	return true;
+}
+
+void ModelRenderer::setDiffuse(std::string textureName, int submesh)
+{
+	//Engine::setDiffuse(_modelID, textureName, submesh);
+}
+
+void ModelRenderer::setTint(core::Color tint, int submesh)
+{
+	//Engine::setTint(_modelID, tint, submesh);
+}
+
+void ModelRenderer::setVisible(bool visible)
+{
+	//Engine::setVIsible(_modelID, visible);
 }
 
 
