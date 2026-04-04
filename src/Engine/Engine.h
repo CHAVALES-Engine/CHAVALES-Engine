@@ -363,7 +363,10 @@ public:
 
 
 #pragma region Physics
-	//void CreatePhysXShape();
+
+	//ComponentID createBoxCollider(const core::Vector3<>& size, const core::Vector3<>& pos, bool isDynamic);
+	//void setPhysicsPosition(ComponentID id, const core::Vector3<>& pos);
+
 #pragma endregion
 
 #pragma region Platform

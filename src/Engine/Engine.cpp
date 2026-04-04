@@ -376,7 +376,6 @@ bool Engine::isChannelPlaying(int chID)
 	return _audioModule->isChannelPlaying(chID);
 }
 
-<<<<<<< Updated upstream
 void Engine::setLooping(int chID, int typeOfLooping)
 {
 	_audioModule->setLooping(chID, typeOfLooping);
@@ -388,15 +387,21 @@ float Engine::getVolume(int chID)
 	_audioModule->getVolume(chID, volume);
 	return volume;
 }
-=======
+
 #pragma region Physics
-//void Engine::CreatePhysXShape() {
-//
-//	_physicsModule->CreateBoxShape();
+
+//ComponentID Engine::createBoxCollider(const core::Vector3<>& size, const core::Vector3<>& pos, bool isDynamic)
+//{
+//	return _physicsModule->CreateBoxShape(size, pos, isDynamic);
+//}
+
+//void Engine::setPhysicsPosition(ComponentID id, const core::Vector3<>& pos)
+//{
+//	_physicsModule->SetPhysicsPosition(id, pos);
 //}
 
 #pragma endregion
->>>>>>> Stashed changes
+
 
 std::string Engine::getAudioByName(const std::string& name)
 {
