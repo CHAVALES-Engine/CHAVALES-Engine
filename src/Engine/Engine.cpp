@@ -388,6 +388,21 @@ float Engine::getVolume(int chID)
 	return volume;
 }
 
+#pragma region Physics
+
+//ComponentID Engine::createBoxCollider(const core::Vector3<>& size, const core::Vector3<>& pos, bool isDynamic)
+//{
+//	return _physicsModule->CreateBoxShape(size, pos, isDynamic);
+//}
+
+//void Engine::setPhysicsPosition(ComponentID id, const core::Vector3<>& pos)
+//{
+//	_physicsModule->SetPhysicsPosition(id, pos);
+//}
+
+#pragma endregion
+
+
 std::string Engine::getAudioByName(const std::string& name)
 {
 	return _resourecesModule->getAudio(name);

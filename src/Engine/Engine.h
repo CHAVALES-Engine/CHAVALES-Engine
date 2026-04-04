@@ -361,7 +361,15 @@ public:
 
 #pragma endregion
 
-#pragma region resources
+
+#pragma region Physics
+
+	//ComponentID createBoxCollider(const core::Vector3<>& size, const core::Vector3<>& pos, bool isDynamic);
+	//void setPhysicsPosition(ComponentID id, const core::Vector3<>& pos);
+
+#pragma endregion
+
+#pragma region Platform
 
 	std::string getAudioByName(const std::string& name);
 

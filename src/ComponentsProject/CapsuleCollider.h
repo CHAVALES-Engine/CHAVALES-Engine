@@ -28,8 +28,6 @@ private:
 public:
 
 	CapsuleCollider() = default;
-	CapsuleCollider(Rigidbody* rb) : Collider(rb) {}
-	CapsuleCollider(Rigidbody* rb, bool trigger) : Collider(rb, trigger) {}
 
 	//setter
 	void SetRadius(float r) { radio = r; }
