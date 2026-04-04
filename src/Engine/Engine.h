@@ -209,6 +209,11 @@ public:
 
 #pragma endregion
 
+
+#pragma region Physics
+	//void CreatePhysXShape();
+#pragma endregion
+
 #pragma region Platform
 
 	//------Metodos de PlatformModule:

@@ -4,11 +4,13 @@
 #include "PhysicsModule.h"
 #include <PxPhysicsAPI.h>
 
-#include "../../src/ComponentsProject/BoxCollider.h"
-#include "../../src/ComponentsProject/CapsuleCollider.h"
 
 using namespace physx;
-
+struct PhysXComponent
+{
+	PxRigidActor* actor = nullptr;
+	PxShape* shape = nullptr;
+};
 
 void fnPhysicModule()
 {
@@ -65,56 +67,43 @@ bool PhysicsModule::Init()
 	return gPhysics != nullptr;
 }
 
-void PhysicsModule::AddCollider(Collider* col)
-{
-	if (!col) return;
-	colliders.push_back(col);
-	CreatePhysXShape(col);
+
+ComponentID PhysicsModule::CreateBoxShape(core::Vector3<> size, core::Vector3<> position, bool isDynamic)
+{//a lo mejor tengo que pasar si es rigidbody dinamico o estatico para ver cual creo de physx
+	if (!gPhysics /*|| !scene*/)
+		return 0;
+
+	PxTransform transform(PxVec3(position.getX(), position.getY(), position.getZ()));
+
+	PxRigidActor* actor = isDynamic ? static_cast<PxRigidActor*>(gPhysics->createRigidDynamic(transform)) :
+		static_cast<PxRigidActor*>(gPhysics->createRigidStatic(transform));
+
+	PxBoxGeometry geo(size.getX() * 0.5f, size.getY() * 0.5f, size.getZ() * 0.5f);
+
+	PxMaterial* material = gPhysics->createMaterial(0.5f, 0.5f, 0.6f);
+
+	PxShape* shape = gPhysics->createShape(geo, *material);
+	actor->attachShape(*shape);
+
+	if (isDynamic)
+		PxRigidBodyExt::updateMassAndInertia(*static_cast<PxRigidDynamic*>(actor), 10.0f);
+
+	/*scene->addActor(*actor);*/
+
+	// Generar ID y guardar en mapa
+	ComponentID id = nextID++;
+	physicsMap[id] = { actor, shape };
+
+	return id;
+
 }
 
-void PhysicsModule::CreatePhysXShape(Collider* col)
+
+void PhysicsModule::SetPhysicsPosition(ComponentID id, const core::Vector3<>& pos)
 {
-	if (!col || !gPhysics) return;
+	auto it = physicsMap.find(id);
+	if (it == physicsMap.end()) return;
 
-	PxRigidActor* actor = nullptr;
-
-	if (col->GetRigidbody())
-	{
-		actor = gPhysics->createRigidDynamic(PxTransform(
-			PxVec3(col->GetRigidbody()->getPosition().getX(),
-				col->GetRigidbody()->getPosition().getY(),
-				col->GetRigidbody()->getPosition().getZ())));
-	}
-	else
-	{
-		actor = gPhysics->createRigidStatic(PxTransform(
-			PxVec3(col->GetWorldPosition().getX(),
-				col->GetWorldPosition().getY(),
-				col->GetWorldPosition().getZ())));
-	}
-
-	PxShape* shape = nullptr;
-
-	//tipo collider
-	if (auto box = dynamic_cast<BoxCollider*>(col)) {
-		PxBoxGeometry geo(box->GetSize().getX() * 0.5f,
-			box->GetSize().getY() * 0.5f,
-			box->GetSize().getZ() * 0.5f);
-		shape = gPhysics->createShape(geo, *defaultMaterial);
-	}
-	else if (auto capsule = dynamic_cast<CapsuleCollider*>(col))
-	{
-		PxCapsuleGeometry geo(capsule->GetRadius(), capsule->GetHeight() * 0.5f);
-		shape = gPhysics->createShape(geo, *defaultMaterial);
-	}
-
-	if (shape){
-		actor->attachShape(*shape);
-		col->SetShape(shape);
-		col->SetActor(actor);
-
-		// activar flags de trigger/enable
-		shape->setFlag(PxShapeFlag::eSIMULATION_SHAPE, col->IsEnabled() && !col->IsTrigger());
-		shape->setFlag(PxShapeFlag::eTRIGGER_SHAPE, col->IsEnabled() && col->IsTrigger());
-	}
+	PxRigidActor* actor = it->second.actor;
+	actor->setGlobalPose(PxTransform(PxVec3(pos.getX(), pos.getY(), pos.getZ())));
 }
