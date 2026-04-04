@@ -3,6 +3,10 @@ assets = {
 		metroid = {
 			sourceFolder = "./game/assets/models/metroid-floating/source",
 			fileName = "./game/assets/models/metroid_final.fbx"
+		},
+		cube = {
+			sourceFolder = "./game/assets/models/metroid-floating/source",
+			fileName = "./game/assets/models/cube.obj"
 		}
 	},
 	Audio = { --Audios
