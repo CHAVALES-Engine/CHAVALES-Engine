@@ -24,6 +24,15 @@ void ResourcesModule::buildFileIndex(const std::string& root)
 		//_fileIndex[relative] = entry.path().string();
 
 		std::string filename = entry.path().filename().string();
+
+		auto it = _fileIndex.find(filename);
+		if (it != _fileIndex.end()) {
+			Debug::warning("ERROR: Archivo duplicado detectado: ", filename);
+			Debug::warning(" - ", it->second);
+			Debug::warning(" - ", entry.path().string());
+			Debug::warning("A la clave ", filename, " se le asignara el ultimo valor");
+		}
+
 		_fileIndex[filename] = entry.path().string();
 	}
 }
