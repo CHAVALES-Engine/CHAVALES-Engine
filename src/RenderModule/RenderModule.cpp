@@ -113,6 +113,7 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
 		Ogre::Codec::registerCodec(new Ogre::STBIImageCodec("jpeg"));
 		Ogre::Codec::registerCodec(new Ogre::STBIImageCodec("png"));
 		Ogre::Codec::registerCodec(new Ogre::STBIImageCodec("tga"));
+		Ogre::Codec::registerCodec(new Ogre::STBIImageCodec("bmp"));
 
 		Ogre::LogManager::getSingleton().getDefaultLog()->setDebugOutputEnabled(false);
 
