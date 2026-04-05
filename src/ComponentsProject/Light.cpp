@@ -26,6 +26,8 @@ bool Light::init(const Properties& p)
 	_innerAngle = getProperty<float> (p, "inner");
 	_outerAngle = getProperty<float>(p, "outer");
 	_falloff = getProperty<float>(p, "falloff");
+
+	Engine::instance()->addLight(getEntity()->getEntityID(), typeInt, _color, _intensity);
 	return true;
 }
 void Light::setType(Type type)

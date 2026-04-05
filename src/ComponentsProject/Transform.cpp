@@ -35,7 +35,7 @@ bool Transform::init(const Properties& p)
 			childTransform->setParent(this);
 	}
 	//pendingChildren.clear();
-	//_transformID = Engine::addTransform(getEntity()->getEntityID(), getGlobalPosition(), getGlobalRotation(), getGlobalScale());
+	_transformID = Engine::instance()->addTransform(getEntity()->getEntityID(), getGlobalPosition(), getGlobalRotation(), getGlobalScale());
 	return true;
 }
 
@@ -55,13 +55,13 @@ void Transform::setGlobalPosition(core::Vector3<> gp)
 	{
 		_localPosition = gp;
 	}
-	//Engine::setTransformPosition(_transformID, gp);
+	Engine::instance()->setTransformPosition(_transformID, gp);
 }
 
 void Transform::setLocalPosition(const core::Vector3<>& lp)
 {
 	_localPosition = lp;
-	//Engine::setTransformPosition(_transformID, getGlobalPosition());
+	Engine::instance()->setTransformPosition(_transformID, getGlobalPosition());
 }
 
 void Transform::setGlobalRotation(const core::Quaternion<>& gr)
@@ -75,13 +75,13 @@ void Transform::setGlobalRotation(const core::Quaternion<>& gr)
 	{
 		_localRotation = gr;
 	}
-	//Engine::setTransformRotation(_transformID, gr);
+	Engine::instance()->setTransformRotation(_transformID, gr);
 }
 
 void Transform::setLocalRotation(const core::Quaternion<>& lr)
 {
 	_localRotation = lr;
-	//Engine::setTransformRotation(_transformID, getGlobalRotation());
+	Engine::instance()->setTransformRotation(_transformID, getGlobalRotation());
 }
 
 void Transform::setGlobalScale(const core::Vector3<>& gs)
@@ -105,7 +105,7 @@ void Transform::setGlobalScale(const core::Vector3<>& gs)
 void Transform::setLocalScale(const core::Vector3<>& ls)
 {
 	_localScale = ls;
-	//Engine::setTransformScale(_transformID, getGlobalScale());
+	Engine::instance()->setTransformScale(_transformID, getGlobalScale());
 }
 
 core::Vector3<> Transform::getGlobalPosition() const
@@ -156,7 +156,6 @@ core::Vector3<> Transform::getGlobalScale() const
 core::Vector3<> Transform::getLocalScale() const { return _localScale; }
 
 Transform* Transform::getParent() const { return _parent; }
-
 
 
 void Transform::setParent(Transform* t, bool keepWorldMeasures)
@@ -237,13 +236,16 @@ void Transform::detachChildren()
 
 void Transform::translate(const core::Vector3<>& t)
 {
-	_localPosition = _localPosition + t;
+	_localPosition = _localPosition + t; 
+	Engine::instance()->setTransformPosition(_transformID, getGlobalPosition());
 }
 
 void Transform::rotate(const core::Quaternion<>& q)
 {
 	_localRotation = q * _localRotation; // en este orden
-	//_localRotation = _localRotation.normalized();
+	//_localRotation = _localRotation.normalized(); 
+	Engine::instance()->setTransformRotation(_transformID, getGlobalRotation());
+
 }
 
 void Transform::rotate(core::Vector3<> v)

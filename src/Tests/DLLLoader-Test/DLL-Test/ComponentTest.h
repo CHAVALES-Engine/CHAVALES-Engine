@@ -5,9 +5,8 @@
 #include "Engine.h"
 #include "Entity.h"
 #include "InputFacade.h"
-#include "Scene.h"
 #include "TimeManager.h"
-#include "../../../ComponentsProject/AudioSource.h"
+#include "../../../ComponentsProject/Transform.h"
 
 class AudioSource;
 
@@ -24,7 +23,7 @@ class ComponentTest : public core::Component
 	std::vector<core::Vector4<>> vec2;
 	std::vector<core::Color> vec3;
 	std::vector<core::Quaternion<>> vec4;
-
+	Transform* _transform = nullptr;
 	bool init(const Properties& p) override
 	{
 		// ejemplos de inicializacion:
@@ -58,14 +57,41 @@ class ComponentTest : public core::Component
 
 		Debug::out("Hola :-) Mi vida es ", health);
 		Debug::out("test ", test);
+		_transform = getEntity()->getComponent<Transform>();
+	}
+
+	void update(uint64_t deltaTime) override
+	{
+		
+		float speed = 5.0f * (float)deltaTime / 1000.0f;
+		float rotSpeed = 90.0f * (float)deltaTime / 1000.0f;
+
+		if (Engine::instance()->input()->isKeyPressed(input::KEY_W))
+		{
+			Debug::out("DELANTE ", speed);
+			_transform->translate(core::Vector3<>(0, 0, -speed));
+		}
+		if (Engine::instance()->input()->isKeyPressed(input::KEY_S))
+		{
+			Debug::out("DELANTE ", speed);
+			_transform->translate(core::Vector3<>(0, 0, speed));
+		}
+
+		if (Engine::instance()->input()->isKeyPressed(input::KEY_A)) 
+		{
+			Debug::out("ROTAR IZQUIERDA ", rotSpeed);
+			_transform->rotate(core::Vector3<>(0, rotSpeed, 0)); // Y positivo = izquierda
+		}
+		if (Engine::instance()->input()->isKeyPressed(input::KEY_D))
+		{
+			Debug::out("ROTAR DERECHA ", rotSpeed);
+			_transform->rotate(core::Vector3<>(0, -rotSpeed, 0)); // Y negativo = derecha
+		}
 	}
 
 	void fixedUpdate() override
 	{
-		if (Engine::instance()->input()->isKeyPressed(input::KEY_A))
-			getEntity()->getScene()->findEntityByName("entidad1")->getComponent<AudioSource>()->playSound();
-		if (Engine::instance()->input()->isKeyPressed(input::KEY_S))
-			getEntity()->getScene()->findEntityByName("entidad1")->getComponent<AudioSource>()->stopSound();
+
 		/*if (health >= 0)
 		{
 			health -= 1;

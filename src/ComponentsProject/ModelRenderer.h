@@ -48,7 +48,7 @@ public:
 
 	bool init(const Properties& p) override;
 
-	void setDiffuse(std::string textureName, int submesh = 0);
+	void setDiffuse(std::string textureFolder, std::string textureName, int submesh = 0);
 	void setTint(core::Color tint, int submesh = 0);
 	void setVisible(bool visible);
 };

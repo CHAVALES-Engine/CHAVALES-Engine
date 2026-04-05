@@ -143,9 +143,9 @@ void Engine::setCameraFocalLength(const cameraID& id, const float& focalLength)
 	_renderModule->setCameraFocalLength(id, focalLength);
 }
 
-void Engine::addModel(const entityID& entityID, const std::string& modelFolder, const std::string& modelFile)
+modelID Engine::addModel(const entityID& entityID, const std::string& modelFolder, const std::string& modelFile)
 {
-	_renderModule->addModel(entityID, modelFolder, modelFile);
+	return _renderModule->addModel(entityID, modelFolder, modelFile);
 }
 
 void Engine::deleteModel(const modelID& id)

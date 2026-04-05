@@ -148,7 +148,7 @@ public:
 	/*
 	* @brief anade un modelo a la escena.
 	*/
-	void addModel(const entityID& entityID, const std::string& modelFolder, const std::string& modelFile);
+	modelID addModel(const entityID& entityID, const std::string& modelFolder, const std::string& modelFile);
 	/*
 	* @brief Borra un modelo de la escena.
 	*/

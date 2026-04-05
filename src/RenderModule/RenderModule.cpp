@@ -132,21 +132,23 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
 		params["vsync"] = "true";
 
 		_window = _root->createRenderWindow("OgreWindow", width, height, false, &params);
+		_window->setDeactivateOnFocusChange(false);
 
 		//Crear escena con main camera
 		_sceneMgr = _root->createSceneManager();
 
-		entityID zero = ChavalesGUID::generate();
-		addNode(zero, { 0.0f, 5.0f, 15.0f }, { 0.0f, 0.0f, 0.0f, -20.0f }, { 1.0f, 1.0f, 1.0f });
-		addCamera(zero, 45.0f, 0.1f, 1000.0f, 1.0f, { 0.0f, 0.0f, 0.0f, 1.0f });
+		//entityID zero = ChavalesGUID::generate();
+		//addNode(zero, { 0.0f, 5.0f, 15.0f }, { 0.0f, 0.0f, 0.0f, -20.0f }, { 1.0f, 1.0f, 1.0f });
+		//addCamera(zero, 45.0f, 0.1f, 1000.0f, 1.0f, { 0.0f, 0.0f, 0.0f, 1.0f });
 
-		_vp->setBackgroundColour(Ogre::ColourValue(0.02f, 0.22f, 0.11f));
+		//_vp->setBackgroundColour(Ogre::ColourValue(0.02f, 0.22f, 0.11f));
 
 		//ZONA DEMO INICIO
 		_rgm = &Ogre::ResourceGroupManager::getSingleton();
 
 		_rgm->addResourceLocation("../dependencies/ogre/src/ogre/Media/Main", "FileSystem", "Scene");
 		_rgm->addResourceLocation("../dependencies/ogre/src/ogre/Media/RTShaderLib", "FileSystem", "Scene");
+		_rgm->addResourceLocation("game/assets", "FileSystem", "Scene");
 
 
 		Ogre::RTShader::ShaderGenerator::initialize();
@@ -180,7 +182,7 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
 
 		Ogre::Entity* cube = _sceneMgr->createEntity("metroid", mesh);*/
 
-		entityID one = ChavalesGUID::generate();
+		/*entityID one = ChavalesGUID::generate();
 		addNode(one, core::Vector3(-2.0f, 5.0f, 11.0f), core::Quaternion(0.0f, -0.906f, 0.0f, -0.423f), core::Vector3(0.1f, 0.1f, 0.1f));
 		addModel(one, "metroid-floating/source", "metroid_final.fbx");
 		setDiffuse(0, 0, "metroid-floating/sourceimages/membrane", "Base_Color.jpeg");
@@ -188,9 +190,9 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
 		setDiffuse(0, 1, "metroid-floating/sourceimages/body", "Base_Color.jpeg");
 		setDiffuse(0, 2, "metroid-floating/sourceimages/nuclei", "Base_Color.jpeg");
 		setDiffuse(0, 10, "metroid-floating/sourceimages/nuclei", "Base_Color.jpeg");
-		setDiffuse(0, 6, "metroid-floating/sourceimages/mandibles", "Base_Color.jpeg");
+		setDiffuse(0, 6, "metroid-floating/sourceimages/mandibles", "Base_Color.jpeg");*/
 
-		Ogre::AnimationStateSet* animSet = _models[0]->getAllAnimationStates();
+		/*Ogre::AnimationStateSet* animSet = _models[0]->getAllAnimationStates();
 
 		if (animSet)
 		{
@@ -208,10 +210,10 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
 		else
 		{
 			std::cout << "No hay animaciones" << std::endl;
-		}
+		}*/
 
-		entityID two = ChavalesGUID::generate();
-		addLight(two, 1, core::Color(1.0f, 1.0f, 1.0f, 1.0f), 1.0f);
+		//entityID two = ChavalesGUID::generate();
+		//addLight(two, 1, core::Color(1.0f, 1.0f, 1.0f, 1.0f), 1.0f);
 
 		_overlaySystem = new Ogre::OverlaySystem();
 		_sceneMgr->addRenderQueueListener(_overlaySystem);
@@ -249,7 +251,7 @@ void RenderModule::renderFrame()
 		_ui->Draw();*/
 
 	_root->renderOneFrame();
-	Ogre::AnimationStateSet* animSet = _models[0]->getAllAnimationStates();
+	/*Ogre::AnimationStateSet* animSet = _models[0]->getAllAnimationStates();
 
 	if (animSet)
 	{
@@ -265,7 +267,7 @@ void RenderModule::renderFrame()
 	else
 	{
 		std::cout << "No hay animaciones" << std::endl;
-	}
+	}*/
 	//setNodeRotation(1, core::Quaternion(0.0f, 0.00218166f, 0.0f, 0.9999976f) * getNodeRotation(1));
 }
 

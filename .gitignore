@@ -44,6 +44,7 @@ obj/x86/
 [Aa][Rr][Mm]64[Ee][Cc]/
 libs/
 tmp/
+enc_temp_folder/
 bld/
 [Oo]bj/
 [Oo]ut/
