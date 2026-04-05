@@ -6,6 +6,8 @@
 #include <Debug.h>
 #include <PluginSDK.h>
 
+#include "GameConfigurator.h"
+
 
 REGISTER_COMPONENT(Camera);
 
@@ -22,7 +24,8 @@ bool Camera::init(const Properties& p)
 	_nearClipDistance = getProperty<float>(p, "nearPlane");
 	_farClipDistance = getProperty<float>(p, "farPlane");
 	_focalLength = getProperty<float>(p, "focal length");
-	_bgColor = getProperty<core::Color>(p, "background color");
+	if (!setProperty(p, "background color", _bgColor))
+		_bgColor = core::GameConfigurator::_clearColor;
 
 
 

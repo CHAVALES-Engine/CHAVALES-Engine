@@ -17,7 +17,7 @@ scene = { -- entidades en escena
 				  nearPlane = 0.1,
 				  farPlane = 100.0,
 				  ["focal length"] = 60.0,
-				  ["background color"] = Color.new(0.5,0.5,0.5,1)
+				  --["background color"] = Color.new(0.5,0.5,0.5,1)
    			},
 			ComponentTest = {
 				health = 1000
