@@ -319,13 +319,13 @@ bool ChavalesEditor::runEditor()
             }
             else
             {
-                strcpy_s(str1, sizeof str1, "");
-                strcpy_s(str4, sizeof str4, "");
-                strcpy_s(str5, sizeof str5, "");
-                strcpy_s(str6, sizeof str6, "");
-                clear_color = ImVec4(0.118, 0.118, 0.118, 1.0);
-                width = 1920;
-                height = 1080;
+                //strcpy_s(str1, sizeof str1, "");
+                //strcpy_s(str4, sizeof str4, "");
+                //strcpy_s(str5, sizeof str5, "");
+                //strcpy_s(str6, sizeof str6, "");
+                //clear_color = ImVec4(0.118, 0.118, 0.118, 1.0);
+                //width = 1920;
+                //height = 1080;
             }
             ImGui::SameLine(); HelpMarker("Se usara la ultima configuracion guardada en el archivo de configuracion .toml");
 
@@ -380,46 +380,50 @@ int ChavalesEditor::startup()
     std::wstring toml(std::begin(core::GameConfigurator::_useTOML), std::end(core::GameConfigurator::_useTOML));
     s1.append(toml);
     s1.append(L" ");
-    // argv[3]->primera escena
-    std::wstring fs(std::begin(core::GameConfigurator::_firstScene), std::end(core::GameConfigurator::_firstScene));
-    s1.append(fs);
-    s1.append(L" ");
-    // argv[4] -> .dll
-    std::wstring dll(std::begin(core::GameConfigurator::_gameDLL), std::end(core::GameConfigurator::_gameDLL));
-    s1.append(dll);
-    s1.append(L" ");
-    // argv[5]->nombre ventana
-    std::wstring name(std::begin(core::GameConfigurator::_windowName), std::end(core::GameConfigurator::_windowName));
-    s1.append(name);
-    s1.append(L" ");
-    // argv[6]->icono
-    std::wstring icon(std::begin(core::GameConfigurator::_iconRoot), std::end(core::GameConfigurator::_iconRoot));
-    s1.append(icon);
-    s1.append(L" ");
-    // argv[7]->clear color r
-    std::string r = std::to_string(core::GameConfigurator::_clearColor.getRed());
-    std::wstring rw(std::begin(r), std::end(r));
-    s1.append(rw);
-    s1.append(L" ");
-    // argv[8]->clear color g
-    std::string g = std::to_string(core::GameConfigurator::_clearColor.getGreen());
-    std::wstring gw(std::begin(g), std::end(g));
-    s1.append(gw);
-    s1.append(L" ");
-    // argv[9]->clear color b
-    std::string b = std::to_string(core::GameConfigurator::_clearColor.getBlue());
-    std::wstring bw(std::begin(b), std::end(b));
-    s1.append(bw);
-    s1.append(L" ");
-    // argv[10]->ancho
-    std::string w = std::to_string(core::GameConfigurator::_windowWidth);
-    std::wstring ww(std::begin(w), std::end(w));
-    s1.append(ww);
-    s1.append(L" ");
-    // argv[11]->alto
-    std::string h = std::to_string(core::GameConfigurator::_windowHeight);
-    std::wstring hw(std::begin(h), std::end(h));
-    s1.append(hw);
+    
+    if (core::GameConfigurator::_useTOML == "NO") // si no hay que usar el toml se necesitan el resto de argumetos
+    {
+        // argv[3]->primera escena
+        std::wstring fs(std::begin(core::GameConfigurator::_firstScene), std::end(core::GameConfigurator::_firstScene));
+        s1.append(fs);
+        s1.append(L" ");
+        // argv[4] -> .dll
+        std::wstring dll(std::begin(core::GameConfigurator::_gameDLL), std::end(core::GameConfigurator::_gameDLL));
+        s1.append(dll);
+        s1.append(L" ");
+        // argv[5]->nombre ventana
+        std::wstring name(std::begin(core::GameConfigurator::_windowName), std::end(core::GameConfigurator::_windowName));
+        s1.append(name);
+        s1.append(L" ");
+        // argv[6]->icono
+        std::wstring icon(std::begin(core::GameConfigurator::_iconRoot), std::end(core::GameConfigurator::_iconRoot));
+        s1.append(icon);
+        s1.append(L" ");
+        // argv[7]->clear color r
+        std::string r = std::to_string(core::GameConfigurator::_clearColor.getRed());
+        std::wstring rw(std::begin(r), std::end(r));
+        s1.append(rw);
+        s1.append(L" ");
+        // argv[8]->clear color g
+        std::string g = std::to_string(core::GameConfigurator::_clearColor.getGreen());
+        std::wstring gw(std::begin(g), std::end(g));
+        s1.append(gw);
+        s1.append(L" ");
+        // argv[9]->clear color b
+        std::string b = std::to_string(core::GameConfigurator::_clearColor.getBlue());
+        std::wstring bw(std::begin(b), std::end(b));
+        s1.append(bw);
+        s1.append(L" ");
+        // argv[10]->ancho
+        std::string w = std::to_string(core::GameConfigurator::_windowWidth);
+        std::wstring ww(std::begin(w), std::end(w));
+        s1.append(ww);
+        s1.append(L" ");
+        // argv[11]->alto
+        std::string h = std::to_string(core::GameConfigurator::_windowHeight);
+        std::wstring hw(std::begin(h), std::end(h));
+        s1.append(hw);
+    }
 
     // fin
     s1.append(L"\0");

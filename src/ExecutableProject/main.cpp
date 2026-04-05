@@ -12,10 +12,7 @@
 
 static void configureGame(size_t argc, char* argv[])
 {
-	if (argc <= 2)
-		return;
-
-	if (strcmp(argv[2], "NO") == 0) // no usar configuracion guardada
+	if (argc > 2 && strcmp(argv[2], "NO") == 0) // no usar configuracion guardada, carga lo del editor
 	{
 		core::GameConfigurator::_firstScene = argv[3];
 		Debug::out("[MAIN] Escena inicial ", core::GameConfigurator::_firstScene);
@@ -45,8 +42,8 @@ static void configureGame(size_t argc, char* argv[])
 		return;
 	}
 
+	// si no estas usando los datos del editor carga el toml
 	core::GameConfigurator::LoadFromFile(CONFIGURATOR_PATH);
-
 }
 
 int main(int argc, char* argv[])
