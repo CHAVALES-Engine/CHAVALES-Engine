@@ -132,7 +132,6 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
 		params["vsync"] = "true";
 
 		_window = _root->createRenderWindow("OgreWindow", width, height, false, &params);
-		_window->setDeactivateOnFocusChange(false);
 
 		//Crear escena con main camera
 		_sceneMgr = _root->createSceneManager();
@@ -148,8 +147,7 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
 
 		_rgm->addResourceLocation("../dependencies/ogre/src/ogre/Media/Main", "FileSystem", "Scene");
 		_rgm->addResourceLocation("../dependencies/ogre/src/ogre/Media/RTShaderLib", "FileSystem", "Scene");
-		_rgm->addResourceLocation("game/assets", "FileSystem", "Scene");
-
+		_rgm->addResourceLocation("./game/assets", "FileSystem", "Game");
 
 		Ogre::RTShader::ShaderGenerator::initialize();
 
