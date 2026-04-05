@@ -5,6 +5,11 @@ InputFacade::InputFacade(PlatformModule* platform) : _platform(platform)
 {
 }
 
+void InputFacade::setRelativeMouseMode(bool enabled) const
+{
+	_platform->setRelativeMouseMode(enabled);
+}
+
 bool InputFacade::isDeviceConnected(input::DeviceID device) const
 {
 	return _platform->isDeviceConnected(device);

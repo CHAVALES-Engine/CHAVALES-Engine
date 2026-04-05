@@ -242,8 +242,8 @@ void Transform::translate(const core::Vector3<>& t)
 
 void Transform::rotate(const core::Quaternion<>& q)
 {
-	_localRotation = q * _localRotation; // en este orden
-	//_localRotation = _localRotation.normalized(); 
+	//_localRotation = q * _localRotation; // en este orden
+	_localRotation = _localRotation * q;
 	Engine::instance()->setTransformRotation(_transformID, getGlobalRotation());
 
 }

@@ -58,35 +58,37 @@ class ComponentTest : public core::Component
 		Debug::out("Hola :-) Mi vida es ", health);
 		Debug::out("test ", test);
 		_transform = getEntity()->getComponent<Transform>();
+
+		// bloquea el cursor
+		Engine::instance()->input()->setRelativeMouseMode(true);
 	}
 
 	void update(uint64_t deltaTime) override
 	{
 		
+
 		float speed = 5.0f * (float)deltaTime / 1000.0f;
-		float rotSpeed = 90.0f * (float)deltaTime / 1000.0f;
+		float mouseSensitivity = 0.1f;
 
+		// --- Movimiento WASD
 		if (Engine::instance()->input()->isKeyPressed(input::KEY_W))
-		{
-			Debug::out("DELANTE ", speed);
-			_transform->translate(core::Vector3<>(0, 0, -speed));
-		}
+			_transform->translate(_transform->forward() * -speed);
 		if (Engine::instance()->input()->isKeyPressed(input::KEY_S))
-		{
-			Debug::out("DELANTE ", speed);
-			_transform->translate(core::Vector3<>(0, 0, speed));
-		}
-
-		if (Engine::instance()->input()->isKeyPressed(input::KEY_A)) 
-		{
-			Debug::out("ROTAR IZQUIERDA ", rotSpeed);
-			_transform->rotate(core::Vector3<>(0, rotSpeed, 0)); // Y positivo = izquierda
-		}
+			_transform->translate(_transform->forward() * speed);
+		if (Engine::instance()->input()->isKeyPressed(input::KEY_A))
+			_transform->translate(_transform->right() * -speed);
 		if (Engine::instance()->input()->isKeyPressed(input::KEY_D))
-		{
-			Debug::out("ROTAR DERECHA ", rotSpeed);
-			_transform->rotate(core::Vector3<>(0, -rotSpeed, 0)); // Y negativo = derecha
-		}
+			_transform->translate(_transform->right() * speed);
+
+		// --- Rotacion con raton
+		float mouseX = Engine::instance()->input()->getAxis(input::MOUSE_AXIS_REL_X);
+		float mouseY = Engine::instance()->input()->getAxis(input::MOUSE_AXIS_REL_Y);
+
+		if (mouseX != 0)
+			_transform->rotate(core::Vector3<>(0, -mouseX * mouseSensitivity, 0));
+		if (mouseY != 0)
+			_transform->rotate(core::Vector3<>(-mouseY * mouseSensitivity, 0, 0));
+
 	}
 
 	void fixedUpdate() override

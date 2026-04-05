@@ -66,8 +66,17 @@ HWND PlatformModule::getWindowHandle() const
 
 bool PlatformModule::syncronize()
 {
-	SDL_Event event;
+	// limpia los ejes relativos
+	auto it = _virtualDevices.find(input::KEYBOARD_ID);
+	if (it != _virtualDevices.end()) {
+		it->second->_setAxis(input::MOUSE_AXIS_REL_X, 0);
+		it->second->_setAxis(input::MOUSE_AXIS_REL_Y, 0);
+		it->second->_setAxis(input::MOUSE_AXIS_SCROLL_X, 0);
+		it->second->_setAxis(input::MOUSE_AXIS_SCROLL_Y, 0);
+	}
 
+	// poll events
+	SDL_Event event;
 	while (SDL_PollEvent(&event)) {
 		if (event.type == SDL_EVENT_QUIT)
 			return true;
@@ -89,6 +98,11 @@ int PlatformModule::getWindowHeight() const
 	int h = 0;
 	SDL_GetWindowSize(_window, nullptr, &h);
 	return h;
+}
+
+void PlatformModule::setRelativeMouseMode(bool enabled) const
+{
+	SDL_SetWindowRelativeMouseMode(_window, enabled);
 }
 
 bool PlatformModule::isDeviceConnected(input::DeviceID device)
@@ -183,7 +197,7 @@ float PlatformModule::getAxis(input::InputEvent inputEvent, input::DeviceID devi
 	float maxVal = 0.0f;
 	for (const auto& [id, vd] : _virtualDevices) {
 		float value = func(vd);
-		if (abs(value) > abs(maxVal)) maxVal = abs(value);
+		if (abs(value) > abs(maxVal)) maxVal = value;
 	}
 	//Debug::out("Tecla: ", toString(inputEvent), " pressed");
 	return maxVal;

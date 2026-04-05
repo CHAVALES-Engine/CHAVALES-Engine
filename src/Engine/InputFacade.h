@@ -14,7 +14,11 @@ private:
 	InputFacade(PlatformModule* platform);
 public:
 	//------Raw input:
-
+	/**
+	 * @brief Bloquea y oculta el cursor.
+	 * @param enabled - Habilitado o no.
+	 */
+	void setRelativeMouseMode(bool enabled) const;
 	/**
 	 * @brief Comprueba si un dispositivo esta conectado.
 	 * @param device - id del dispositivo a comprobar.
