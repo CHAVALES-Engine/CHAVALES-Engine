@@ -27,10 +27,9 @@ bool Transform::init(const Properties& p)
 	std::vector<std::string> pendingChildren = getProperty<std::vector<std::string>>(p, "children");
 	for (const std::string& childName : pendingChildren) {
 		core::Entity* childEntity = getEntity()->getScene()->findEntityByName(childName);
-		if (!childEntity) {
-			Debug::warning("Transform: hijo no encontrado: ", childName);
+		if (!childEntity) 
+			//Debug::warning("Transform: hijo no encontrado: ", childName);
 			continue;
-		}
 		if (Transform* childTransform = childEntity->getComponent<Transform>()) 
 			childTransform->setParent(this);
 	}

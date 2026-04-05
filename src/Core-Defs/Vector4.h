@@ -5,6 +5,7 @@
 #pragma once
 
 #include <cmath>
+#include <ostream>
 
 namespace core
 {

@@ -83,3 +83,8 @@ extern "C" __declspec(dllexport) // Especificacion de exportacion que mantiene e
 // (__declspec(dllexport))solo para windows
 const core::ComponentDescriptor* getPluginComponents(size_t& count);
 
+/**
+ * @brief 
+ */
+extern "C" __declspec(dllexport)
+void configureGame();

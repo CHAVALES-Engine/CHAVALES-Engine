@@ -6,6 +6,7 @@
 #include "EngineAPI.h"
 
 #define TOML_HEADER_ONLY 1
+#define DLLs_PATH "./game/"
 #define CONFIGURATOR_PATH "./configurator.toml"
 #include "toml.hpp"
 
