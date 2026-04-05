@@ -430,6 +430,10 @@ bool Engine::_initPriv()
 {
 	// Abre archivo .log
 	Debug::open();
+
+	//cargamos dlls
+	ComponentDLLLoader::instance().loadAll(DLLs_PATH);
+
 	//Platform
 	_platformModule = new PlatformModule();
 	if (!_platformModule->Init()) {
@@ -474,13 +478,13 @@ bool Engine::_initPriv()
 #else 
 	ComponentDLLLoader::instance().load("./ComponentsProject_r.dll");
 #endif
-
-#if _DEBUG
-	ComponentDLLLoader::instance().load("./game/DLL-Test.dll");
-#else
-	std::string path = "./game/" + core::GameConfigurator::_gameDLL + ".dll";
-	ComponentDLLLoader::instance().load(path);
-#endif
+//
+//#if _DEBUG
+//	ComponentDLLLoader::instance().load("./game/DLL-Test.dll");
+//#else
+//	std::string path = "./game/" + core::GameConfigurator::_gameDLL + ".dll";
+//	ComponentDLLLoader::instance().load(path);
+//#endif
 
 
 	return true;

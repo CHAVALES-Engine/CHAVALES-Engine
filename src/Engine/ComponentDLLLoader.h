@@ -44,6 +44,12 @@ public:
 	*/
 	bool load(const std::string& path);
 	/**
+	 * @brief Carga todas las dll de una carpeta.
+	 * @param path - Ruta al directorio de dlls.
+	 * @return bool - Si se ha cargado de forma exitosa.
+	 */
+	bool loadAll(const std::string& path);
+	/**
 	* @brief Metodo para descarga de libreria desde un path.
 	* @param path - Path a la libreria.
 	* @return bool - Si se ha descargado correctamente.

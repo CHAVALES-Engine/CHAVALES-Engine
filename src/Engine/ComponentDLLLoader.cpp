@@ -45,12 +45,19 @@ bool ComponentDLLLoader::load(const std::string& path)
 		Debug::error("COMPONENT DLL LOADER: CopyFile failed for ", entry.path, " err=", GetLastError());
 		return false;
 	}
+
 	entry.lastWriteTime = _getFileWriteTime(entry.path); // Momento en el que ha sido modificado el fichero.
 	// Windows busca una dll en el path y la carga en la memoria del programa.
 	if ((entry.handle = LoadLibraryA(entry.tempPath.c_str())) == nullptr) {
 		Debug::error("COMPONENT DLL LOADER: LoadLibrary failed: ", entry.path, " err=", GetLastError());
 		return false;
 	}
+
+	// Busca si tiene una funcion de configuracion para configurar el juego
+	using ConfigFunc = void(*)();
+	ConfigFunc confFunc = (void (*)())GetProcAddress(entry.handle, "configureGame");
+	if (confFunc) confFunc();
+
 	// Obtenemos la direccion de memoria de la funcion exportada "getPluginComponents".
 	GetComponentsFn getComponents = (GetComponentsFn)GetProcAddress(entry.handle, "getPluginComponents");
 	// Si no se ha devuelto nada lanzamos error y salimos.
@@ -76,6 +83,36 @@ bool ComponentDLLLoader::load(const std::string& path)
 
 	return true;
 }
+
+bool ComponentDLLLoader::loadAll(const std::string& path) {
+	// Limpiar _hot residuales del arranque anterior
+	for (const auto& entry : std::filesystem::directory_iterator(path))
+	{
+		if (entry.path().extension() == ".dll" &&
+			entry.path().stem().string().find("_hot") != std::string::npos)
+		{
+			std::filesystem::remove(entry.path());
+			Debug::warning("COMPONENT DLL LOADER: Cleaned residual hot dll: ", entry.path().string());
+		}
+	}
+	std::vector<std::string> pendingLibraries;
+	for (const auto& entry : std::filesystem::directory_iterator(path))
+	{
+		if (entry.path().extension() != ".dll") continue;
+		std::string stem = entry.path().stem().string() + ".dll";
+		pendingLibraries.push_back(stem);
+	}
+	for (std::string & lib : pendingLibraries)
+	{		
+		bool ok = load(path + lib);
+		if (!ok) {
+			unLoadAll();
+			return false;
+		}
+	}
+	return true;
+}
+
 
 void ComponentDLLLoader::unLoadAll()
 {

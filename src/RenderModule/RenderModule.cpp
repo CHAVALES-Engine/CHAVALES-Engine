@@ -493,7 +493,8 @@ void RenderModule::cleanCameras()
 			_sceneMgr->destroyCamera(cam);
 		}
 	}
-	_vp->setCamera(nullptr);
+	if (_vp)
+		_vp->setCamera(nullptr);
 	_cameras.clear();
 	_nextCameraID = 0;
 	/*if (_cameraNodes.empty()) return;
