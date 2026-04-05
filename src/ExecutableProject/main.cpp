@@ -12,8 +12,10 @@
 
 static void configureGame(size_t argc, char* argv[])
 {
-	if (argc < 1 && // si viene sin argumentos carga lo que haya en el configurador
-		strcmp(argv[2], "NO") == 0) // no usar configuracion guardada
+	if (argc <= 2)
+		return;
+
+	if (strcmp(argv[2], "NO") == 0) // no usar configuracion guardada
 	{
 		core::GameConfigurator::_firstScene = argv[3];
 		Debug::out("[MAIN] Escena inicial ", core::GameConfigurator::_firstScene);
@@ -39,12 +41,12 @@ static void configureGame(size_t argc, char* argv[])
 
 		core::GameConfigurator::_windowHeight = std::stoi(argv[11]);
 		Debug::out("[MAIN] Alto ", core::GameConfigurator::_windowHeight);
+
+		return;
 	}
-	else
-	{
-		// si no puede cargarlo usa lo que hay por defecto en confgurator
-		core::GameConfigurator::LoadFromFile(CONFIGURATOR_PATH);
-	}
+
+	core::GameConfigurator::LoadFromFile(CONFIGURATOR_PATH);
+
 }
 
 int main(int argc, char* argv[])
