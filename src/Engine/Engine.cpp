@@ -323,6 +323,42 @@ void Engine::setParticleGenPartColor(const particleGenID& id, const core::Color&
 	_renderModule->setParticleGenPartColor(id, color);
 }
 
+uiPanelID Engine::addUIPanel(const entityID& entityID, const std::string& title)
+{
+	return _renderModule->addUIPanel(entityID,title);
+}
+
+void Engine::setUIPanelVisible(const uiPanelID& id, bool visible)
+{
+	_renderModule->setUIPanelVisible(id, visible);
+}
+uiLabelID  Engine::addUILabel(const std::string& panelName, const entityID& entityID, const std::string& text) {
+	return _renderModule->addUILabel(panelName, entityID, text);
+}
+void  Engine::setUILabelText(const uiLabelID& uiLabelID, const std::string& text) {
+	_renderModule->setUILabelText(uiLabelID, text);
+}
+void  Engine::setUILabelVisible(const uiLabelID& uiLabelID, bool visible) {
+	_renderModule->setUILabelVisible(uiLabelID, visible);
+}
+uiButtonID Engine::addUIButton(const std::string& panelName, const entityID& entityID, const std::string& text) {
+	return _renderModule->addUIButton(panelName, entityID, text);
+}
+void Engine::setUIButtonText(const uiButtonID& id, const std::string& text) {
+	_renderModule->setUIButtonText(id, text);
+}
+void Engine::setUIButtonVisible(const uiButtonID& id, bool visible) {
+	_renderModule->setUIButtonVisible(id, visible);
+
+}
+void Engine::setUIButtonCallback(const uiButtonID& id, std::function<void()> callback) {
+	_renderModule->setUIButtonCallback(id, callback);
+}
+uiTextureRectID Engine::addUITextureRect(const std::string& panelName, const entityID& entityID, const std::string& textureFolder, const std::string& textureFile, core::Vector2<float> size) {
+	return _renderModule->addUITextureRect(panelName, entityID, textureFolder, textureFile, size);
+}
+
+
 void Engine::loadSound(std::string path, std::string id, bool soundStream, bool soundLooping, bool sound3D)
 {
 	_audioModule->loadSound(path, id, soundStream, soundLooping, sound3D);

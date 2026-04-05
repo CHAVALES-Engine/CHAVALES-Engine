@@ -42,10 +42,7 @@ private:
 	float _innerAngle;
 	float _outerAngle;
 	float _falloff;
-	
-	//attenuation
-	//diffuseColor
-	//specularCOlor
+
 public:
 	Light();
 	~Light();

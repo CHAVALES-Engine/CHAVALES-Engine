@@ -3,6 +3,7 @@
 #include <string>
 #include "EngineAPI.h"
 #include "Vector3.h"
+#include "Vector2.h"
 #include "Quaternion.h"
 #include "Color.h"
 #include <Vector3.h>
@@ -36,6 +37,10 @@ using modelID = uint64_t;
 using animationID = uint64_t;
 using lightID = uint64_t;
 using particleGenID = uint64_t;
+using uiPanelID = uint64_t;
+using uiLabelID = uint64_t;
+using uiButtonID = uint64_t;
+using uiTextureRectID = uint64_t;
 
 class ENGINE_API Engine
 {
@@ -304,6 +309,59 @@ public:
 	* @brief Establecer color de particulas del generador.
 	*/
 	void setParticleGenPartColor(const particleGenID& id, const core::Color& color);
+#pragma endregion
+#pragma region UI
+#pragma region UI-Panels
+	/*
+	* @brief Anadir panel de UI.
+	*/
+	uiPanelID addUIPanel(const entityID& entityID, const std::string& title);
+	/*
+	* @brief Establecer visibilidad del panel de UI.
+	*/
+	void setUIPanelVisible(const uiPanelID& id, bool visible);
+#pragma endregion
+#pragma region UI-Labels
+	/*
+	* @brief Anadir letrero al panel.
+	*/
+	uiLabelID addUILabel(const std::string& panelName, const entityID& entityID, const std::string& text);
+	/*
+	* @brief Establecer el texto del letrero.
+	*/
+	void setUILabelText(const uiLabelID& uiLabelID, const std::string& text);
+	/*
+	* @brief Establecer visibilidad del letrero.
+	*/
+	void setUILabelVisible(const uiLabelID& uiLabelID, bool visible);
+
+#pragma endregion
+#pragma region UI-Buttons
+	/*
+	* @brief Anadir boton al panel.
+	*/
+	uiButtonID addUIButton(const std::string& panelName, const entityID& entityID, const std::string& text);
+	/*
+	* @brief Establecer el texto del boton.
+	*/
+	void setUIButtonText(const uiButtonID& id, const std::string& text);
+	/*
+	* @brief Establecer visibilidad del boton.
+	*/
+	void setUIButtonVisible(const uiButtonID& id, bool visible);
+	/*
+	* @brief Establecer callback del boton.
+	*/
+	void setUIButtonCallback(const uiButtonID& id, std::function<void()> callback);
+
+#pragma endregion
+#pragma region UI-TextureRect
+	/*
+	* @brief Anadir textureRect al panel.
+	*/
+	uiTextureRectID addUITextureRect(const std::string& panelName, const entityID& entityID, const std::string& textureFolder, const std::string& textureFile, core::Vector2<float> size);
+
+#pragma endregion
 #pragma endregion
 #pragma endregion
 

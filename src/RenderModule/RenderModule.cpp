@@ -34,7 +34,7 @@
 #include <OgreOverlaySystem.h>
 #include <imgui.h>
 #include <assimp/postprocess.h>
-
+#include <OgreGL3PlusTexture.h>
 
 // RenderModule.cpp : Defines the functions for the static library.
 //
@@ -47,54 +47,44 @@ static Ogre::Viewport* _vp = nullptr;
 static Ogre::RTShader::ShaderGenerator* _shaderGen;
 static Ogre::ResourceGroupManager* _rgm;
 
-
-void ImGuiManager::AddElement(UIElement element)
+/*void ImGuiManager::AddElement(UIElement element)
 {
 	_uiElements.push_back(element);
 }
+    _uiElements.push_back(element);
+}*/
 
-void ImGuiManager::Clear()
+/*void ImGuiManager::Clear()
 {
-	_uiElements.clear();
-}
+    _uiElements.clear();
+}*/
 
-void ImGuiManager::Draw()
+/*void ImGuiManager::Draw()
 {
-	_overlay->NewFrame();
-	ImGui::ShowDemoWindow();
-	ImDrawData* draw_data = ImGui::GetDrawData();
-	if (!draw_data || draw_data->CmdListsCount == 0)
-		std::cout << "No draw commands generated\n";
-	else
-		std::cout << "Draw commands generated: " << draw_data->CmdListsCount << "\n";
-}
+    _overlay->NewFrame();
+   // ImGui::ShowDemoWindow();
+    for (auto e : _uiElements) {
+        e();
+    }
+    ImDrawData* draw_data = ImGui::GetDrawData();
+    if (!draw_data || draw_data->CmdListsCount == 0)
+        std::cout << "No draw commands generated\n";
+    else
+        std::cout << "Draw commands generated: " << draw_data->CmdListsCount << "\n";
+}*/
 
 RenderModule::~RenderModule()
 {
 	shutdown();
 }
 
-void ImGuiManager::Init()
-{
-	_overlay = new Ogre::ImGuiOverlay();
-	Ogre::OverlayManager::getSingleton().addOverlay(_overlay);
-	_overlay->show();
-
-	_vp->setOverlaysEnabled(true);
-
-	/*ImGuiIO& io = ImGui::GetIO();
-	io.Fonts->AddFontDefault();
-	io.Fonts->Build();
-
-	io.DisplaySize = ImVec2(
-		(float)_vp->getActualWidth(),
-		(float)_vp->getActualHeight()
-	);
-
-	std::cout << "Context: " << ImGui::GetCurrentContext() << std::endl;
-
-	std::cout << "DisplaySize: " << io.DisplaySize.x << ", " << io.DisplaySize.y << std::endl;*/
-}
+//void ImGuiManager::Init()
+//{
+   
+   // std::cout << "Context: " << ImGui::GetCurrentContext() << std::endl;
+    
+   // std::cout << "DisplaySize: " << io.DisplaySize.x << ", " << io.DisplaySize.y << std::endl;
+//}
 
 bool RenderModule::Init(const HWND handle, const int width, const int height)
 {
@@ -213,9 +203,37 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
 		//entityID two = ChavalesGUID::generate();
 		//addLight(two, 1, core::Color(1.0f, 1.0f, 1.0f, 1.0f), 1.0f);
 
-		_overlaySystem = new Ogre::OverlaySystem();
-		_sceneMgr->addRenderQueueListener(_overlaySystem);
+        _overlaySystem = new Ogre::OverlaySystem();
+        _sceneMgr->addRenderQueueListener(_overlaySystem);
+    
+        _overlay = new Ogre::ImGuiOverlay();
+        Ogre::OverlayManager::getSingleton().addOverlay(_overlay);
+        _overlay->show();
 
+
+        Ogre::MaterialPtr materialUI = Ogre::MaterialManager::getSingleton().getByName("ImGui/material");
+        _shaderGen->createShaderBasedTechnique(*materialUI, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
+
+        _shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, materialUI->getName());
+
+        _vp->setOverlaysEnabled(true);
+
+        ImGuiIO& io = ImGui::GetIO();
+        io.Fonts->AddFontDefault();
+        io.Fonts->Build();
+
+        io.DisplaySize = ImVec2(
+            (float)_vp->getActualWidth(),
+            (float)_vp->getActualHeight()
+        );
+		
+        //_ui->Clear();
+       // _ui->AddElement([]() {
+       //     static bool open = true;
+       //     ImGui::Begin("Test", &open);
+       //     ImGui::Text("SI VES ESTO FUNCIONA");
+       //     ImGui::End();
+       //     });
 
 		/*_ui = new ImGuiManager();
 		_ui->Init();
@@ -232,7 +250,7 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
 		_nextAnimationID = 0;
 		_nextLightID = 0;
 
-		renderFrame();
+        //renderFrame();
 
 		return true;
 	}
@@ -245,11 +263,12 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
 
 void RenderModule::renderFrame()
 {
-	/*if (_ui)
-		_ui->Draw();*/
-
-	_root->renderOneFrame();
-	/*Ogre::AnimationStateSet* animSet = _models[0]->getAllAnimationStates();
+   // if (_ui)
+    //    _ui->Draw();
+	
+    renderUI();
+    _root->renderOneFrame();
+    Ogre::AnimationStateSet* animSet = _models[0]->getAllAnimationStates();
 
 	if (animSet)
 	{
@@ -265,7 +284,7 @@ void RenderModule::renderFrame()
 	else
 	{
 		std::cout << "No hay animaciones" << std::endl;
-	}*/
+	}
 	//setNodeRotation(1, core::Quaternion(0.0f, 0.00218166f, 0.0f, 0.9999976f) * getNodeRotation(1));
 }
 
@@ -1061,6 +1080,181 @@ void RenderModule::setParticleGenPartColor(const particleGenID& id, const core::
 	if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
 		_particleGens[id]->getEmitter(0)->setColour(Ogre::ColourValue(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()));
 }
+
+
+
+
+uiPanelID RenderModule::addUIPanel(const entityID& entityID, const std::string& title) {
+    
+    UIPanelData panel;
+    panel.entity = entityID;
+    panel.title = title;
+    panel.visible = true;
+
+    _uiPanels.push_back(panel);
+
+   
+
+    return _nextPanelID++;
+}
+void RenderModule::setUIPanelVisible(const uiPanelID& id, bool visible) {
+	_uiPanels[id].visible = visible;
+
+}
+uiLabelID RenderModule::addUILabel(const std::string& panelName, const entityID& entityID, const std::string& text) {
+
+	for (int i = 0; i < _uiPanels.size(); i++) {
+		if (_uiPanels[i].title == panelName) {
+			UILabelData label;
+			label.entity = entityID;
+			label.text = text;
+			label.visible = true;
+			_uiPanels[i].labels.push_back(label);
+
+			uiLabelID id = _nextLabelID++;
+			int  labelIndex = _uiPanels[i].labels.size() - 1;
+			_labelToPanel[id] = { i, labelIndex };
+			return id;
+		}
+	}
+	return -1;
+
+}
+
+
+
+void RenderModule::setUILabelVisible(const uiLabelID& labelID, bool visible) {
+	auto [panelID, labelIndex] = _labelToPanel[labelID];
+	_uiPanels[panelID].labels[labelIndex].visible = visible;
+}
+
+
+void RenderModule::setUILabelText(const uiLabelID& labelID, const std::string& text) {
+	auto [panelID, labelIndex] = _labelToPanel[labelID];
+	_uiPanels[panelID].labels[labelIndex].text = text;
+}
+uiButtonID RenderModule::addUIButton(const std::string& panelName, const entityID& entityID, const std::string& text)
+{
+	for (int i = 0; i < _uiPanels.size(); i++) {
+		if (_uiPanels[i].title == panelName) {
+			UIButtonData buttom;
+			buttom.entity = entityID;
+			buttom.text = text;
+			buttom.visible = true;
+			_uiPanels[i].buttons.push_back(buttom);
+
+			uiLabelID id = _nextButtonID++;
+			int  buttonIndex = _uiPanels[i].buttons.size() - 1;
+			_buttonToPanel[id] = { i, buttonIndex };
+			return id;
+		}
+	}
+	return -1;
+}
+
+void RenderModule::setUIButtonVisible(const uiLabelID& buttonID, bool visible)
+{
+	auto [panelID, buttonIndex] = _buttonToPanel[buttonID];
+	_uiPanels[panelID].buttons[buttonIndex].visible = visible;
+
+}
+
+void RenderModule::setUIButtonText(const uiLabelID& buttonID, const std::string& text)
+{
+	auto [panelID, buttonIndex] = _buttonToPanel[buttonID];
+	_uiPanels[panelID].buttons[buttonIndex].text = text;
+}
+
+void RenderModule::setUIButtonCallback(const uiButtonID& buttonID, std::function<void()> callback)
+{
+	auto [panelID, buttonIndex] = _buttonToPanel[buttonID];
+	_uiPanels[panelID].buttons[buttonIndex].onClick = callback;
+}
+
+
+
+uiTextureRectID RenderModule::addUITextureRect(const std::string& panelName, const entityID& entityID, const std::string& textureFolder, const std::string& textureFile, core::Vector2<float> size){
+	for (int i = 0; i < _uiPanels.size(); i++) {
+		if (_uiPanels[i].title == panelName) {
+
+			UITextureRectData tex;
+			tex.entity = entityID;
+			tex.textureFolder = textureFolder;
+			tex.textureFile = textureFile;
+			tex.visible = true;
+			tex.size = size;
+			if (!_rgm->resourceGroupExists(textureFolder)) {
+				_rgm->addResourceLocation("./game/assets" + textureFolder, "FileSystem", textureFolder);
+
+				_rgm->loadResourceGroup(textureFolder);
+			}
+			
+
+			Ogre::TexturePtr ogreTexture = Ogre::TextureManager::getSingleton().load(textureFile,textureFolder);
+			Ogre::HardwarePixelBufferSharedPtr pixelBuffer = ogreTexture->getBuffer();
+			pixelBuffer->lock(Ogre::HardwareBuffer::HBL_READ_ONLY);
+			 Ogre::GL3PlusTexture* glTexture = static_cast<Ogre::GL3PlusTexture*>(ogreTexture.get());
+			GLuint texID = glTexture->getGLID();
+			pixelBuffer->unlock();
+			tex.textureID = (ImTextureID)(uintptr_t)texID;
+
+			_uiPanels[i].textureRects.push_back(tex);
+
+			uiTextureRectID id = _nextTextureRectID++;
+			int index = _uiPanels[i].textureRects.size() - 1;
+
+			_textureToPanel[id] = { i, index };
+
+			return id;
+		}
+	}
+	return -1;
+}
+
+
+void RenderModule::renderUI() {
+	_overlay->NewFrame();
+	for (UIPanelData& panel : _uiPanels) {
+
+		if (!panel.visible) {
+			continue;
+		}
+		ImGui::Begin(panel.title.c_str());
+
+		for (UITextureRectData& tex : panel.textureRects) {
+			if (!tex.visible){
+				continue; 
+			}
+			const ImVec2 aux = { tex.size.getX(), tex.size.getY() };
+			ImGui::Image((ImTextureID)tex.textureID,  aux);
+		}
+
+		for (UILabelData& label : panel.labels) {
+			if (!label.visible) {
+				continue;
+			}
+			ImGui::Text("%s", label.text.c_str());
+
+		}
+		for (UIButtonData& button : panel.buttons) {
+			if (!button.visible) {
+				continue;
+			}
+			if (ImGui::Button(button.text.c_str())) {
+				if (button.onClick) {
+					button.onClick();
+				}
+			}
+		}
+
+		ImGui::End();
+		
+	}
+	ImGui::Render();
+}
+
+
+
 
 void RenderModule::shutdown()
 {

@@ -22,6 +22,10 @@
     <ClInclude Include="..\..\src\ComponentsProject\ModelRenderer.h" />
     <ClInclude Include="..\..\src\ComponentsProject\ParticleGen.h" />
     <ClInclude Include="..\..\src\ComponentsProject\Transform.h" />
+    <ClInclude Include="..\..\src\ComponentsProject\UIButton.h" />
+    <ClInclude Include="..\..\src\ComponentsProject\UILabel.h" />
+    <ClInclude Include="..\..\src\ComponentsProject\UIPanel.h" />
+    <ClInclude Include="..\..\src\ComponentsProject\UITextureRect.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\ComponentsProject\Animator.cpp" />
@@ -33,6 +37,10 @@
     <ClCompile Include="..\..\src\ComponentsProject\ModelRenderer.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\ParticleGen.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\Transform.cpp" />
+    <ClCompile Include="..\..\src\ComponentsProject\UIButton.cpp" />
+    <ClCompile Include="..\..\src\ComponentsProject\UILabel.cpp" />
+    <ClCompile Include="..\..\src\ComponentsProject\UIPanel.cpp" />
+    <ClCompile Include="..\..\src\ComponentsProject\UITextureRect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core-Defs\Core-Defs.vcxproj">

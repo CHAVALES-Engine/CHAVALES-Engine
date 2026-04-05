@@ -13,6 +13,7 @@
 #include <string>
 #include <functional>
 #include "Vector3.h"
+#include "Vector2.h"
 #include "Quaternion.h"
 #include "Color.h"
 
@@ -37,7 +38,11 @@ using animationID = uint64_t;
 using subMeshID = uint64_t;
 using lightID = uint64_t;
 using particleGenID = uint64_t;
-
+using uiPanelID = uint64_t;
+using uiLabelID = uint64_t;
+using uiButtonID = uint64_t;
+using uiTextureRectID = uint64_t;
+using ImTextureID = uint64_t;
 struct EngineNode
 {
     Ogre::SceneNode* sceneNode;
@@ -45,21 +50,40 @@ struct EngineNode
 
     EngineNode(Ogre::SceneNode* node, entityID id) : sceneNode(node), nodeID(id) {}
 };
-
-class ImGuiManager
-{
-public:
-    using UIElement = std::function<void()>;
-
-    void Init();
-    void AddElement(UIElement element);
-    void Clear();
-    void Draw();
-    Ogre::ImGuiOverlay* _overlay;
-private:
-   
-    std::vector<UIElement> _uiElements;
+struct UILabelData {
+    entityID entity;
+    std::string text;
+    bool visible;
 };
+
+struct UIButtonData {
+    entityID entity;
+    std::string text;
+    bool visible;
+    std::function<void()> onClick;
+};
+
+struct UITextureRectData {
+    entityID entity;
+    std::string textureFolder;
+    std::string textureFile;
+    bool visible;
+    core::Vector2<float> size;
+    ImTextureID textureID;
+};
+
+
+struct UIPanelData {
+    entityID entity;
+    std::string title;
+    bool visible;
+
+    std::vector<UILabelData> labels;
+    std::vector<UIButtonData> buttons;
+    std::vector<UITextureRectData> textureRects;
+};
+
+
 
 class RenderModule
 {
@@ -333,8 +357,50 @@ public:
     void setParticleGenPartColor(const particleGenID& id, const core::Color& color);
 
 
-    //Getter UI
-    ImGuiManager* getUI() { return _ui; }
+    //Metodos UI
+    /*
+    * @brief Añadir un panel
+    */
+    uiPanelID addUIPanel(const entityID& entityID, const std::string& title);
+    /*
+    * @brief Establecer si el panel es visible
+    */
+    void setUIPanelVisible(const uiPanelID& id, bool visible);
+    /*
+     * @brief Añadir un letrero al panel
+     */
+    uiLabelID addUILabel(const std::string& panelName, const entityID& entityID, const std::string& text);
+    /*
+    * @brief Establecer si el letrero es visible
+    */
+    void setUILabelVisible( const uiLabelID& labelID, bool visible);
+    /*
+    * @brief Establecer si el texto del letrero
+    */
+    void setUILabelText( const uiLabelID& labelID, const std::string& text);
+    /*
+     * @brief Añadir un boton al panel
+     */
+    uiButtonID addUIButton(const std::string& panelName, const entityID& entityID, const std::string& text);
+    /*
+    * @brief Establecer si el boton es visible
+    */
+    void setUIButtonVisible(const uiLabelID& buttonID, bool visible);
+    /*
+    * @brief Establecer si el texto del boton
+    */
+    void setUIButtonText(const uiLabelID& buttonID, const std::string& text);
+    /*
+    * @brief Establecer si el callback del boton
+    */
+    void setUIButtonCallback(const uiButtonID& id, std::function<void()> callback);
+    /*
+    * @brief Anadir textureRect al panel.
+     */
+    uiTextureRectID addUITextureRect(const std::string& panelName,const entityID& entityID, const std::string& textureFolder, const std::string& textureFile,core::Vector2<float> size);
+
+
+    void renderUI();
 
     void shutdown();
 private:
@@ -344,7 +410,10 @@ private:
     std::vector<Ogre::AnimationState*> _animations;
     std::vector<Ogre::Light*> _lights;
     std::vector<Ogre::ParticleSystem*> _particleGens;
-    ImGuiManager* _ui;
+    std::vector<UIPanelData> _uiPanels;
+    std::unordered_map<uiLabelID,std::pair< uiPanelID,int>> _labelToPanel;
+    std::unordered_map<uiButtonID, std::pair<uiPanelID, int>> _buttonToPanel;
+    std::unordered_map<uiTextureRectID, std::pair<uiPanelID, int>> _textureToPanel;
 
     transformID _nextTransformID;
     cameraID _nextCameraID;
@@ -352,4 +421,10 @@ private:
     animationID _nextAnimationID;
     lightID _nextLightID;
     particleGenID _nextParticleGenID;
+    uiPanelID _nextPanelID;
+    uiLabelID _nextLabelID;
+    uiButtonID _nextButtonID;
+    uiTextureRectID _nextTextureRectID;
+    Ogre::ImGuiOverlay* _overlay;
+
 };
