@@ -5,6 +5,7 @@
 
 #include <Debug.h>
 #include <PluginSDK.h>
+#include "UIButton.h"
 
 REGISTER_COMPONENT(UITextureRect);
 
@@ -22,14 +23,29 @@ bool UITextureRect::init(const Properties& p)
 	_textureFile = getProperty<std::string>(p, "texturePath");
 	_panelName = getProperty<std::string>(p, "panelName");
 	_dimension = getProperty<core::Vector2<float>>(p, "dimension");
+	_opacity = getProperty<float>(p, "opacity");
 
 	_textureRectID = Engine::instance()->addUITextureRect(_panelName, getEntity()->getEntityID(), _textureFolder,_textureFile, _dimension);
 	return true;
 }
 
-void UITextureRect::setTexture(const std::string& textture)
+void UITextureRect::setTexture(const std::string& texture)
 {
+	_textureFile = texture;
+	Engine::instance()->setUITextureRectTexture(_textureRectID, _textureFile);
+}
+void UITextureRect::setDimension(core::Vector2<float> dimension)
+{
+	_dimension = dimension;
+	Engine::instance()->setUITextureRectDimension(_textureRectID, _dimension);
 }
 void UITextureRect::setVisible(bool visible) {
+	Engine::instance()->setUITextureRectVisible(_textureRectID, visible);
+
+}
+void UITextureRect::setOpacity(float opacity)
+{
+	_opacity = opacity;
+	Engine::instance()->setUITextureRectOpacity(_textureRectID, opacity);
 
 }

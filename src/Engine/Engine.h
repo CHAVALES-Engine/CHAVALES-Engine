@@ -334,13 +334,20 @@ public:
 	* @brief Establecer visibilidad del letrero.
 	*/
 	void setUILabelVisible(const uiLabelID& uiLabelID, bool visible);
-
+	/*
+  * @brief Establecer la opacidad  del letrero
+  */
+	void setUILabelOpacity(const uiLabelID& labelID, float opacity);
+	/*
+  * @brief Establecer las dimensiones  del letrero
+  */
+	void setUILabelDimension(const uiLabelID& labelID, core::Vector2<float> dimension);
 #pragma endregion
 #pragma region UI-Buttons
 	/*
 	* @brief Anadir boton al panel.
 	*/
-	uiButtonID addUIButton(const std::string& panelName, const entityID& entityID, const std::string& text);
+	uiButtonID addUIButton(const std::string& panelName, const entityID& entityID, const std::string& text, const std::string& textureFolder, const std::string& textureFile, core::Vector2<float> size);
 	/*
 	* @brief Establecer el texto del boton.
 	*/
@@ -349,6 +356,18 @@ public:
 	* @brief Establecer visibilidad del boton.
 	*/
 	void setUIButtonVisible(const uiButtonID& id, bool visible);
+	/*
+	* @brief Establecer textura del boton.
+	*/
+	void setUIButtonTexture(const uiButtonID& id,const std::string& texture);
+	/*
+	* @brief Establecer dimensiones del boton.
+	*/
+	void setUIButtonDimension(const uiButtonID& id,core::Vector2<float> dimension);
+	/*
+   * @brief Establecer la opacidad  del boton
+   */
+	void  setUIButtonOpacity(const uiButtonID& buttonID, float opacity);
 	/*
 	* @brief Establecer callback del boton.
 	*/
@@ -360,6 +379,22 @@ public:
 	* @brief Anadir textureRect al panel.
 	*/
 	uiTextureRectID addUITextureRect(const std::string& panelName, const entityID& entityID, const std::string& textureFolder, const std::string& textureFile, core::Vector2<float> size);
+	/*
+	* @brief Establecer textura del textureRect.
+	*/
+	void setUITextureRectTexture(const uiTextureRectID& id, const std::string& texture);
+	/*
+	* @brief Establecer dimensiones del textureRect.
+	*/
+	void setUITextureRectDimension(const uiTextureRectID& id, core::Vector2<float> dimension);
+	/*
+	* @brief Establecer visibilidad del textureRect.
+	*/
+	void setUITextureRectVisible(const uiTextureRectID& id, bool visible);
+	/*
+	* @brief Establecer la opacidad  del textureRect
+	*/
+	void  setUITextureRectOpacity(const uiTextureRectID& textureRectID, float opacity);
 
 #pragma endregion
 #pragma endregion

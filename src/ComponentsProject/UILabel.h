@@ -31,6 +31,8 @@ private:
 	labelID _labelID;
 	std::string _text;
 	std::string _panelName;
+	core::Vector2<float> _dimension;
+	float _opacity;
 public:
 	UILabel();
 	~UILabel();
@@ -38,6 +40,7 @@ public:
 	bool init(const Properties& p) override;
 	void setText(const std::string& text);
 	void setVisible(bool visible);
-
+	void setOpacity(float opacity);
+	void setDimension(core::Vector2<float> dimension);
 };
 

@@ -20,7 +20,7 @@ bool UILabel::init(const Properties& p)
 {
 	_text = getProperty<std::string>(p, "text");
 	_panelName = getProperty<std::string>(p, "panelName");
-
+	_opacity = getProperty<float>(p, "opacity");
 	_labelID = Engine::instance()->addUILabel(_panelName, getEntity()->getEntityID(), _text);
 
 	return true;
@@ -36,4 +36,18 @@ void UILabel::setText(const std::string& text)
 void UILabel::setVisible(bool visible)
 {
 	Engine::instance()->setUILabelVisible(_labelID, visible);
+}
+
+void UILabel::setOpacity(float opacity)
+{
+	_opacity = opacity;
+	Engine::instance()->setUILabelOpacity(_labelID, opacity);
+
+}
+
+void UILabel::setDimension(core::Vector2<float> dimension)
+{
+	_dimension = dimension;
+	Engine::instance()->setUILabelDimension(_labelID, dimension);
+
 }

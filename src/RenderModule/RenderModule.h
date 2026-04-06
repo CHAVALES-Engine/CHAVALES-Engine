@@ -50,16 +50,34 @@ struct EngineNode
 
     EngineNode(Ogre::SceneNode* node, entityID id) : sceneNode(node), nodeID(id) {}
 };
+enum class TextAlign {
+    LEFT,
+    CENTER,
+    RIGHT
+};
 struct UILabelData {
     entityID entity;
     std::string text;
     bool visible;
+    float opacity = 1.0f;
+    core::Vector2<float> size;
+    core::Color textColor = core::Color(1, 1, 1, 1);
+    core::Color bgColor = core::Color(0, 0, 0, 0);
+    float fontSize = 16.0f;
+    TextAlign align = TextAlign::LEFT;
+   // ImFont* font= nullptr;
 };
 
 struct UIButtonData {
     entityID entity;
     std::string text;
     bool visible;
+    std::string textureFolder;
+    std::string textureFile;
+    ImTextureID textureID;
+    bool buttonImage;
+    core::Vector2<float> size;
+    float opacity = 1.0f;
     std::function<void()> onClick;
 };
 
@@ -69,6 +87,8 @@ struct UITextureRectData {
     std::string textureFile;
     bool visible;
     core::Vector2<float> size;
+    float opacity = 1.0f;
+
     ImTextureID textureID;
 };
 
@@ -98,7 +118,7 @@ public:
     //void resize(int width, int height);
 
     /*
-    * @brief Borrar todos los elementos de la escena. Parametro para indicar si habra proxima escena o se cierra definitivamente.
+    * @brief Borrar todos los elementos de la escena.
     */
     void cleanScene(const bool& end);
 
@@ -379,27 +399,81 @@ public:
     */
     void setUILabelText( const uiLabelID& labelID, const std::string& text);
     /*
+   * @brief Establecer la opacidad  del letrero
+   */
+    void  setUILabelOpacity(const uiLabelID& labelID, float opacity);
+    /*
+    * @brief Establecer las dimensiones  del letrero
+    */
+    void setUILabelDimension(const uiLabelID& labelID, core::Vector2<float> dimension);
+    /*
+    * @brief Establecer el color del texto  del letrero
+    */
+    void setUILabelTextColor(const uiLabelID id, core::Color color);
+    /*
+     * @brief Establecer el color del fondo  del letrero
+    */
+    void setUILabelBackGroundColor(const uiLabelID id, core::Color color);
+    /*
+    * @brief Establecer el alineado  del letrero
+    */
+    void setUILabelAlign(const uiLabelID id, TextAlign align);
+    /*
+    * @brief Establecer la tipografia  del letrero
+    */
+    //void setUILabelFont(const uiLabelID id, ImFont* font);
+    
+    
+    /*
      * @brief Añadir un boton al panel
      */
-    uiButtonID addUIButton(const std::string& panelName, const entityID& entityID, const std::string& text);
+    uiButtonID addUIButton(const std::string& panelName, const entityID& entityID, const std::string& text, const std::string& textureFolder, const std::string& textureFile, core::Vector2<float> size);
     /*
     * @brief Establecer si el boton es visible
     */
     void setUIButtonVisible(const uiLabelID& buttonID, bool visible);
     /*
-    * @brief Establecer si el texto del boton
+    * @brief Establecer el texto del boton
     */
     void setUIButtonText(const uiLabelID& buttonID, const std::string& text);
     /*
-    * @brief Establecer si el callback del boton
+    * @brief Establecer la textura del boton
     */
-    void setUIButtonCallback(const uiButtonID& id, std::function<void()> callback);
+    void  setUIButtonTexture(const uiButtonID& buttonID, const std::string& texture);
+    /*
+   * @brief Establecer las dimensiones del boton
+   */
+    void  setUIButtonDimension(const uiButtonID& buttonID, core::Vector2<float> dimension);
+    /*
+    * @brief Establecer la opacidad  del boton
+    */
+    void  setUIButtonOpacity(const uiButtonID& buttonID, float opacity);
+    /*
+    * @brief Establecer el callback del boton
+    */
+    void setUIButtonCallback(const uiButtonID& buttonID, std::function<void()> callback);
     /*
     * @brief Anadir textureRect al panel.
      */
     uiTextureRectID addUITextureRect(const std::string& panelName,const entityID& entityID, const std::string& textureFolder, const std::string& textureFile,core::Vector2<float> size);
+    /*
+    * @brief Establecer la textura del textureRect
+    */
+    void  setUITextureRectTexture(const uiTextureRectID& textureRectID, const std::string& texture);
+    /*
+   * @brief Establecer las dimensiones  del textureRect
+   */
+    void  setUITextureRectDimension(const uiTextureRectID& textureRectID, core::Vector2<float> dimension);
+    /*
+    * @brief Establecer si el textureRect es visible
+    */
+    void  setUITextureRectVisible(const uiTextureRectID& textureRectID,bool visible);
+    /*
+    * @brief Establecer la opacidad  del textureRect
+    */
+    void  setUITextureRectOpacity(const uiTextureRectID& textureRectID,float opacity);
 
-
+    
     void renderUI();
 
     void shutdown();

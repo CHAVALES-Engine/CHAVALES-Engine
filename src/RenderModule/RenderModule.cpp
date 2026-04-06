@@ -1147,7 +1147,33 @@ void RenderModule::setUILabelText(const uiLabelID& labelID, const std::string& t
 	auto [panelID, labelIndex] = _labelToPanel[labelID];
 	_uiPanels[panelID].labels[labelIndex].text = text;
 }
-uiButtonID RenderModule::addUIButton(const std::string& panelName, const entityID& entityID, const std::string& text)
+void  RenderModule::setUILabelOpacity(const uiLabelID& labelID, float opacity) {
+	auto [panelID, labelIndex] = _labelToPanel[labelID];
+	_uiPanels[panelID].labels[labelIndex].opacity = opacity;
+}
+
+void RenderModule::setUILabelDimension(const uiLabelID& labelID, core::Vector2<float> dimension) {
+	auto [panelID, labelIndex] = _labelToPanel[labelID];
+	_uiPanels[panelID].labels[labelIndex].size = dimension;
+}
+
+
+void RenderModule::setUILabelTextColor(const uiLabelID id, core::Color color) {
+
+}
+void RenderModule::setUILabelBackGroundColor(const uiLabelID id, core::Color color) {
+
+}
+void RenderModule::setUILabelAlign(const uiLabelID id, TextAlign align) {
+
+}
+//void RenderModule::setUILabelFont(const uiLabelID id, ImFont* font) {
+//
+//}
+
+
+
+uiButtonID RenderModule::addUIButton(const std::string& panelName, const entityID& entityID, const std::string& text, const std::string& textureFolder, const std::string& textureFile, core::Vector2<float> size)
 {
 	for (int i = 0; i < _uiPanels.size(); i++) {
 		if (_uiPanels[i].title == panelName) {
@@ -1155,6 +1181,27 @@ uiButtonID RenderModule::addUIButton(const std::string& panelName, const entityI
 			buttom.entity = entityID;
 			buttom.text = text;
 			buttom.visible = true;
+
+			if (!textureFile.empty()) {
+				buttom.buttonImage = true;
+				if (!_rgm->resourceGroupExists(textureFolder)) {
+					_rgm->addResourceLocation("./game/assets" + textureFolder, "FileSystem", textureFolder);
+
+					_rgm->loadResourceGroup(textureFolder);
+				}
+				Ogre::TexturePtr ogreTexture = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder);
+				Ogre::HardwarePixelBufferSharedPtr pixelBuffer = ogreTexture->getBuffer();
+				pixelBuffer->lock(Ogre::HardwareBuffer::HBL_READ_ONLY);
+				Ogre::GL3PlusTexture* glTexture = static_cast<Ogre::GL3PlusTexture*>(ogreTexture.get());
+				GLuint texID = glTexture->getGLID();
+				pixelBuffer->unlock();
+				buttom.textureID = (ImTextureID)(uintptr_t)texID;
+			}
+			else {
+				buttom.buttonImage = false;
+
+			}
+
 			_uiPanels[i].buttons.push_back(buttom);
 
 			uiLabelID id = _nextButtonID++;
@@ -1177,6 +1224,19 @@ void RenderModule::setUIButtonText(const uiLabelID& buttonID, const std::string&
 {
 	auto [panelID, buttonIndex] = _buttonToPanel[buttonID];
 	_uiPanels[panelID].buttons[buttonIndex].text = text;
+}
+void  RenderModule::setUIButtonTexture(const uiButtonID& buttonID, const std::string& texture) {
+	auto [panelID, buttonIndex] = _buttonToPanel[buttonID];
+	_uiPanels[panelID].buttons[buttonIndex].textureFile = texture;
+}
+
+void  RenderModule::setUIButtonDimension(const uiButtonID& buttonID, core::Vector2<float> dimension) {
+	auto [panelID, buttonIndex] = _buttonToPanel[buttonID];
+	_uiPanels[panelID].buttons[buttonIndex].size = dimension;
+}
+void  RenderModule::setUIButtonOpacity(const uiButtonID& buttonID, float opacity) {
+	auto [panelID, buttonIndex] = _buttonToPanel[buttonID];
+	_uiPanels[panelID].buttons[buttonIndex].opacity = opacity;
 }
 
 void RenderModule::setUIButtonCallback(const uiButtonID& buttonID, std::function<void()> callback)
@@ -1204,13 +1264,7 @@ uiTextureRectID RenderModule::addUITextureRect(const std::string& panelName, con
 			}
 			
 
-			Ogre::TexturePtr ogreTexture = Ogre::TextureManager::getSingleton().load(textureFile,textureFolder);
-			Ogre::HardwarePixelBufferSharedPtr pixelBuffer = ogreTexture->getBuffer();
-			pixelBuffer->lock(Ogre::HardwareBuffer::HBL_READ_ONLY);
-			 Ogre::GL3PlusTexture* glTexture = static_cast<Ogre::GL3PlusTexture*>(ogreTexture.get());
-			GLuint texID = glTexture->getGLID();
-			pixelBuffer->unlock();
-			tex.textureID = (ImTextureID)(uintptr_t)texID;
+			
 
 			_uiPanels[i].textureRects.push_back(tex);
 
@@ -1224,6 +1278,22 @@ uiTextureRectID RenderModule::addUITextureRect(const std::string& panelName, con
 	}
 	return -1;
 }
+void  RenderModule::setUITextureRectTexture(const uiTextureRectID& textureRectID, const std::string& texture) {
+	auto [panelID, textureRectIndex] = _textureToPanel[textureRectID];
+	_uiPanels[panelID].textureRects[textureRectIndex].textureFile = texture;
+}
+void  RenderModule::setUITextureRectDimension(const uiTextureRectID& textureRectID, core::Vector2<float> dimension) {
+	auto [panelID, textureRectIndex] = _textureToPanel[textureRectID];
+	_uiPanels[panelID].textureRects[textureRectIndex].size = dimension;
+}
+void  RenderModule::setUITextureRectVisible(const uiTextureRectID& textureRectID, bool visible) {
+	auto[panelID, textureRectIndex] = _textureToPanel[textureRectID];
+	_uiPanels[panelID].textureRects[textureRectIndex].visible = visible;
+}
+void  RenderModule::setUITextureRectOpacity(const uiTextureRectID& textureRectID, float opacity) {
+	auto [panelID, textureRectIndex] = _textureToPanel[textureRectID];
+	_uiPanels[panelID].textureRects[textureRectIndex].opacity = opacity;
+}
 
 
 void RenderModule::renderUI() {
@@ -1233,34 +1303,79 @@ void RenderModule::renderUI() {
 		if (!panel.visible) {
 			continue;
 		}
-		ImGui::Begin(panel.title.c_str());
+		ImGui::SetNextWindowPos(ImVec2(0, 0));
+		ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
+		ImGui::Begin(panel.title.c_str(), nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize| ImGuiWindowFlags_NoMove| ImGuiWindowFlags_NoBackground| ImGuiWindowFlags_NoMove);
 
 		for (UITextureRectData& tex : panel.textureRects) {
 			if (!tex.visible){
 				continue; 
 			}
+			ImGui::PushStyleVar(ImGuiStyleVar_Alpha, tex.opacity);
+
 			const ImVec2 aux = { tex.size.getX(), tex.size.getY() };
 			ImGui::Image((ImTextureID)tex.textureID,  aux);
+			ImGui::PopStyleVar();
+
 		}
 
 		for (UILabelData& label : panel.labels) {
 			if (!label.visible) {
 				continue;
 			}
-			ImGui::Text("%s", label.text.c_str());
+			ImGui::PushStyleVar(ImGuiStyleVar_Alpha, label.opacity);
+			const ImVec2 aux = { label.size.getX(), label.size.getY() };
+			ImVec2 pos = ImGui::GetCursorScreenPos();
+			ImGui::InvisibleButton(("label_" + label.entity.toString()).c_str(), aux);
+			ImDrawList* drawList = ImGui::GetWindowDrawList();
+			drawList->AddRectFilled(pos, ImVec2(pos.x + aux.x, pos.y + aux.y), IM_COL32(label.bgColor.getRed() * 255, label.bgColor.getGreen() * 255, label.bgColor.getBlue() * 255, label.bgColor.getAlpha() * 255));
+			//ImGui::PushFont(label.font);
+			ImVec2 textSize = ImGui::CalcTextSize(label.text.c_str());
 
+			float posTextX;
+			float posTextY = pos.y + (aux.y - textSize.y)* 0.5f;
+
+			switch (label.align) {
+			case TextAlign::LEFT:
+				posTextX = pos.x + 5.0f;
+				break;
+			case TextAlign::CENTER:
+				posTextX = pos.x + (aux.x - textSize.x) * 0.5f;
+				break;
+			case TextAlign::RIGHT:
+				posTextY = pos.x + aux.x - textSize.x - 5.0f;
+			
+				drawList->AddText(ImVec2(posTextX, posTextY), IM_COL32(label.bgColor.getRed() * 255, label.bgColor.getGreen() * 255, label.bgColor.getBlue() * 255, label.bgColor.getAlpha() * 255), label.text.c_str());
+			}
+			//ImGui::PopFont();
+			ImGui::PopStyleVar();
+			
 		}
 		for (UIButtonData& button : panel.buttons) {
 			if (!button.visible) {
 				continue;
 			}
-			if (ImGui::Button(button.text.c_str())) {
-				if (button.onClick) {
-					button.onClick();
+			ImGui::PushStyleVar(ImGuiStyleVar_Alpha, button.opacity);
+
+			if (button.buttonImage) {
+				const ImVec2 aux = { button.size.getX(), button.size.getY() };
+				std::string idButton = button.textureFile + "_" + button.entity.toString();
+
+				if (ImGui::ImageButton(idButton.c_str(), button.textureID, aux)) {
+					if (button.onClick) {
+						button.onClick();
+					}
 				}
 			}
+			else {
+				if (ImGui::Button(button.text.c_str())) {
+					if (button.onClick) {
+						button.onClick();
+					}
+				}
+			}
+			ImGui::PopStyleVar();
 		}
-
 		ImGui::End();
 		
 	}

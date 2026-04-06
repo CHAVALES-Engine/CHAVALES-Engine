@@ -36,13 +36,17 @@ private :
 	std::string _textureFolder;
 	std::string _textureFile;
 	core::Vector2<float> _dimension;
+	float _opacity;
 
 public:
 	UITextureRect();
 	~UITextureRect();
 
 	bool init(const Properties& p) override;
-	void setTexture(const std::string& text);
+	void setTexture(const std::string& texture);
+	void setDimension(core::Vector2<float> dimension);
 	void setVisible(bool visible);
+	void setOpacity(float opacity);
+
 };
 
