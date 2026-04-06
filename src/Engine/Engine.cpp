@@ -80,7 +80,7 @@ void Engine::renderFrame()
 
 void Engine::cleanScene()
 {
-	_renderModule->cleanScene();
+	_renderModule->cleanScene(false);
 }
 
 void Engine::setViewportBGColor(core::Color color)

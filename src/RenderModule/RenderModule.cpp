@@ -35,6 +35,7 @@
 #include <imgui.h>
 #include <assimp/postprocess.h>
 #include <OgreGL3PlusTexture.h>
+#include <guid.h>
 
 // RenderModule.cpp : Defines the functions for the static library.
 //
@@ -46,6 +47,7 @@ static Ogre::SceneManager* _sceneMgr = nullptr;
 static Ogre::Viewport* _vp = nullptr;
 static Ogre::RTShader::ShaderGenerator* _shaderGen;
 static Ogre::ResourceGroupManager* _rgm;
+static entityID _mainCameraID;
 
 /*void ImGuiManager::AddElement(UIElement element)
 {
@@ -131,6 +133,10 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
 		//addCamera(zero, 45.0f, 0.1f, 1000.0f, 1.0f, { 0.0f, 0.0f, 0.0f, 1.0f });
 
 		//_vp->setBackgroundColour(Ogre::ColourValue(0.02f, 0.22f, 0.11f));
+
+		//Se crea una camara auxiliar para crear el viewport. En el momento que se cree una camara manualmente esta pasara automaticamente a ser la activa.
+		_mainCameraID = ChavalesGUID::generate();
+		addCamera(_mainCameraID, 45.0f, 0.1f, 1000.0f, 1.0f, { 0.0f, 0.0f, 0.0f, 1.0f });
 
 		//ZONA DEMO INICIO
 		_rgm = &Ogre::ResourceGroupManager::getSingleton();
@@ -288,7 +294,7 @@ void RenderModule::renderFrame()
 	//setNodeRotation(1, core::Quaternion(0.0f, 0.00218166f, 0.0f, 0.9999976f) * getNodeRotation(1));
 }
 
-void RenderModule::cleanScene()
+void RenderModule::cleanScene(const bool& end)
 {
 	if (!_sceneMgr)
 		return;
@@ -346,6 +352,13 @@ void RenderModule::cleanScene()
 			// Borrar grupo
 			_rgm->destroyResourceGroup(groupName);
 		}
+	}
+
+	//Si se va a crear una escena nueva dejamos una camara de seguridad.
+	if (!end)
+	{
+		addCamera(_mainCameraID, 45.0f, 0.1f, 1000.0f, 1.0f, { 0.0f, 0.0f, 0.0f, 1.0f });
+		_nextCameraID = 0;
 	}
 }
 
@@ -1258,7 +1271,7 @@ void RenderModule::renderUI() {
 
 void RenderModule::shutdown()
 {
-	cleanScene();
+	cleanScene(true);
 	if (_overlaySystem) {
 		delete _overlaySystem;
 		_overlaySystem = nullptr;

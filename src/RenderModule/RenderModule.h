@@ -98,9 +98,9 @@ public:
     //void resize(int width, int height);
 
     /*
-    * @brief Borrar todos los elementos de la escena.
+    * @brief Borrar todos los elementos de la escena. Parametro para indicar si habra proxima escena o se cierra definitivamente.
     */
-    void cleanScene();
+    void cleanScene(const bool& end);
 
 
 
