@@ -25,7 +25,7 @@ bool Camera::init(const Properties& p)
 	_farClipDistance = getProperty<float>(p, "farPlane");
 	_focalLength = getProperty<float>(p, "focal length");
 	if (!setProperty(p, "background color", _bgColor))
-		_bgColor = core::GameConfigurator::_clearColor;
+		_bgColor = core::GameConfigurator::instance()._clearColor;
 
 
 
@@ -57,7 +57,7 @@ void Camera::setFarClipDistance(const float& farClipDistance)
 	//Engine::setCameraFarClipDistance(_cameraID, _farClipDistance);
 }
 
-void Camera::setFocalLength(const const float& focalLength)
+void Camera::setFocalLength(const float& focalLength)
 {
 	_focalLength = focalLength;
 	//Engine::setCameraFocalLength(_cameraID, _focalLength);

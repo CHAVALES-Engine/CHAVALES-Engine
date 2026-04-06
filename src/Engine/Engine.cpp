@@ -55,11 +55,11 @@ void Engine::release()
 	Debug::close();
 }
 
-void Engine::startLoop()
+void Engine::startLoop() const
 {
 	if (!_stateMachine) return;
 	// Bucle de juego
-	_stateMachine->addAndSetScene(core::GameConfigurator::_firstScene); // carga la primera escena
+	_stateMachine->addAndSetScene(core::GameConfigurator::instance()._firstScene); // carga la primera escena
 	_stateMachine->gameLoop();
 }
 
@@ -483,7 +483,8 @@ bool Engine::_initPriv()
 	Debug::open();
 
 	//cargamos dlls
-	ComponentDLLLoader::instance().loadAll(DLLs_PATH);
+	if (!ComponentDLLLoader::instance().loadAll(DLLs_PATH)) 
+		return false;
 
 	//Platform
 	_platformModule = new PlatformModule();
@@ -533,7 +534,7 @@ bool Engine::_initPriv()
 //#if _DEBUG
 //	ComponentDLLLoader::instance().load("./game/DLL-Test.dll");
 //#else
-//	std::string path = "./game/" + core::GameConfigurator::_gameDLL + ".dll";
+//	std::string path = "./game/" + core::GameConfigurator::instance()._gameDLL + ".dll";
 //	ComponentDLLLoader::instance().load(path);
 //#endif
 

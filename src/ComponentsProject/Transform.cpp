@@ -40,7 +40,7 @@ bool Transform::init(const Properties& p)
 
 void Transform::ready()
 {
-	Debug::out("[TRANSFORM] ", getEntity()->getName(), " tiene ", _children.size(), " hijo", (_children.size() != 1 ? "s" : ""));
+	//Debug::out("[TRANSFORM] ", getEntity()->getName(), " tiene ", _children.size(), " hijo", (_children.size() != 1 ? "s" : ""));
 }
 
 void Transform::setGlobalPosition(core::Vector3<> gp)

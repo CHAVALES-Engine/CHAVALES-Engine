@@ -78,7 +78,7 @@ bool ResourcesModule::Init()
 {
 	sol::state lua;
 	lua.open_libraries(sol::lib::base); 
-	std::string path = core::GameConfigurator::_assetsRoot + core::GameConfigurator::_assetsList + ".lua";
+	std::string path = core::GameConfigurator::instance()._assetsRoot + core::GameConfigurator::instance()._assetsList + ".lua";
 	_assetsRoute = path; 
 	
 	try

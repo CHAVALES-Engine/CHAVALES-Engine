@@ -37,6 +37,8 @@
 #include <OgreGL3PlusTexture.h>
 #include <guid.h>
 
+#include "GameConfigurator.h"
+
 // RenderModule.cpp : Defines the functions for the static library.
 //
 
@@ -143,8 +145,7 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
 
 		_rgm->addResourceLocation("../dependencies/ogre/src/ogre/Media/Main", "FileSystem", "Scene");
 		_rgm->addResourceLocation("../dependencies/ogre/src/ogre/Media/RTShaderLib", "FileSystem", "Scene");
-		_rgm->addResourceLocation("./game/assets", "FileSystem", "Game");
-
+		
 		Ogre::RTShader::ShaderGenerator::initialize();
 
 		_shaderGen = Ogre::RTShader::ShaderGenerator::getSingletonPtr();
@@ -289,7 +290,7 @@ void RenderModule::renderFrame()
 	}
 	else
 	{
-		std::cout << "No hay animaciones" << std::endl;
+		//std::cout << "No hay animaciones" << std::endl;
 	}
 	//setNodeRotation(1, core::Quaternion(0.0f, 0.00218166f, 0.0f, 0.9999976f) * getNodeRotation(1));
 }
@@ -451,8 +452,8 @@ cameraID RenderModule::addCamera(const entityID& entityID, const float& FOVy, co
 {
 	//Si no existe un nodo con este entityID lo creamos
 	addNode(entityID);
-
-	Ogre::Camera* camera = _cameras.emplace_back(_sceneMgr->createCamera("camera" + std::to_string(_nextCameraID)));
+	ChavalesGUID guid = ChavalesGUID::generate();
+	Ogre::Camera* camera = _cameras.emplace_back(_sceneMgr->createCamera("camera" + guid.toString()));
 	camera->setAutoAspectRatio(true);
 	_engineNodes.back().sceneNode->attachObject(camera);
 

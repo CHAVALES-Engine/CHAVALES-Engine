@@ -82,9 +82,3 @@ namespace PluginSDK {
 extern "C" __declspec(dllexport) // Especificacion de exportacion que mantiene el nombre sin alterar por parametros en compilacion
 // (__declspec(dllexport))solo para windows
 const core::ComponentDescriptor* getPluginComponents(size_t& count);
-
-/**
- * @brief 
- */
-extern "C" __declspec(dllexport)
-void configureGame();

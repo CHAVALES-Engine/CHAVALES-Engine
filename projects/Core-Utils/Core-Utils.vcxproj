@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Core-Utils\Clock.cpp" />
+    <ClCompile Include="..\..\src\Core-Utils\GameConfigurator.cpp" />
     <ClCompile Include="..\..\src\Core-Utils\MessagesManager.cpp" />
     <ClCompile Include="..\..\src\Core-Utils\TimeManager.cpp" />
     <ClCompile Include="..\..\src\Core-Utils\Timer.cpp" />

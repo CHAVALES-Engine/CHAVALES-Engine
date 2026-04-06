@@ -1,15 +1,16 @@
 
 #include "GameConfigurator.h"
-#include <PluginSDK.h>
 
 
-extern "C" __declspec(dllexport) 
+extern "C" __declspec(dllexport)
 void configureGame()
 {
-    core::GameConfigurator::_scenesRoot = "game/scenes/";
-    core::GameConfigurator::_firstScene = "scene_base";
-    core::GameConfigurator::_assetsRoot = "game/assets/";
-    core::GameConfigurator::_assetsList = "assetList";
-    core::GameConfigurator::_gameDLL = "DLL-Test";
-    core::GameConfigurator::_clearColor = core::Color(0.5, 0.5, 0.5, 1);
+    if (!core::GameConfigurator::instance()._useTOML.empty()) return;
+    // configuracion desde dll
+    core::GameConfigurator::instance()._scenesRoot = "game/scenes/";
+    core::GameConfigurator::instance()._firstScene = "scene_base";
+    core::GameConfigurator::instance()._assetsRoot = "game/assets/";
+    core::GameConfigurator::instance()._assetsList = "assetList";
+    core::GameConfigurator::instance()._gameDLL = "DLL-Test";
+    core::GameConfigurator::instance()._clearColor = core::Color(1.0, 0.0, 0.0, 1.0);
 }

@@ -364,7 +364,7 @@ std::shared_ptr<core::Scene> GameLoader::loadScene(const sceneName& n)
 #if _DEBUG
 	loadLua(s, n, "./game/scenes/");
 #else
-	loadLua(s, n, core::GameConfigurator::_scenesRoot);
+	loadLua(s, n, core::GameConfigurator::instance()._scenesRoot);
 #endif
 
 	_firstReload = true;
@@ -391,7 +391,7 @@ std::string GameLoader::findSceneFile(const std::string& sceneName, const std::s
 
 std::shared_ptr<core::Scene> GameLoader::loadSceneFromSearch(const std::string& sceneName)
 {
-	std::string root = core::GameConfigurator::_scenesRoot;
+	std::string root = core::GameConfigurator::instance()._scenesRoot;
 
 	std::cout << "Buscando escena " << sceneName << ".lua" << std::endl;
 

@@ -63,7 +63,7 @@ public:
 	/*
 	* @brief Lanza el bucle de juego
 	*/
-	void startLoop();
+	void startLoop() const;
 	/*
 	* @brief Metodo que sincroniza los eventos de input.
 	* @return bool - Booleano para saber si se ha cerrado la ventana.

@@ -10,40 +10,40 @@
 
 #include "GameConfigurator.h"
 
-static void configureGame(size_t argc, char* argv[])
+static void configGame(size_t argc, char* argv[])
 {
 	if (argc > 2 && strcmp(argv[2], "NO") == 0) // no usar configuracion guardada, carga lo del editor
 	{
-		core::GameConfigurator::_firstScene = argv[3];
-		Debug::out("[MAIN] Escena inicial ", core::GameConfigurator::_firstScene);
+		core::GameConfigurator::instance()._firstScene = argv[3];
+		Debug::out("[MAIN] Escena inicial ", core::GameConfigurator::instance()._firstScene);
 
-		core::GameConfigurator::_gameDLL = argv[4];
-		Debug::out("[MAIN] Nombre de la DLL ", core::GameConfigurator::_gameDLL);
+		core::GameConfigurator::instance()._gameDLL = argv[4];
+		Debug::out("[MAIN] Nombre de la DLL ", core::GameConfigurator::instance()._gameDLL);
 
-		core::GameConfigurator::_windowName = argv[5];
-		std::replace(core::GameConfigurator::_windowName.begin(), core::GameConfigurator::_windowName.end(), '_', ' ');
-		Debug::out("[MAIN] Nombre de la ventana ", core::GameConfigurator::_windowName);
+		core::GameConfigurator::instance()._windowName = argv[5];
+		std::replace(core::GameConfigurator::instance()._windowName.begin(), core::GameConfigurator::instance()._windowName.end(), '_', ' ');
+		Debug::out("[MAIN] Nombre de la ventana ", core::GameConfigurator::instance()._windowName);
 
-		core::GameConfigurator::_iconRoot = argv[6];
-		Debug::out("[MAIN] Ruta del icono ", core::GameConfigurator::_iconRoot);
+		core::GameConfigurator::instance()._iconRoot = argv[6];
+		Debug::out("[MAIN] Ruta del icono ", core::GameConfigurator::instance()._iconRoot);
 
-		core::GameConfigurator::_clearColor = { std::stof(argv[7]) , std::stof(argv[8]) , std::stof(argv[9]) , 1.0f };
+		core::GameConfigurator::instance()._clearColor = { std::stof(argv[7]) , std::stof(argv[8]) , std::stof(argv[9]) , 1.0f };
 		Debug::out("[MAIN] Clear color ",
-			core::GameConfigurator::_clearColor.getRed(), " ",
-			core::GameConfigurator::_clearColor.getGreen(), " ",
-			core::GameConfigurator::_clearColor.getBlue());
+			core::GameConfigurator::instance()._clearColor.getRed(), " ",
+			core::GameConfigurator::instance()._clearColor.getGreen(), " ",
+			core::GameConfigurator::instance()._clearColor.getBlue());
 
-		core::GameConfigurator::_windowWidth = std::stoi(argv[10]);
-		Debug::out("[MAIN] Ancho ", core::GameConfigurator::_windowWidth);
+		core::GameConfigurator::instance()._windowWidth = std::stoi(argv[10]);
+		Debug::out("[MAIN] Ancho ", core::GameConfigurator::instance()._windowWidth);
 
-		core::GameConfigurator::_windowHeight = std::stoi(argv[11]);
-		Debug::out("[MAIN] Alto ", core::GameConfigurator::_windowHeight);
+		core::GameConfigurator::instance()._windowHeight = std::stoi(argv[11]);
+		Debug::out("[MAIN] Alto ", core::GameConfigurator::instance()._windowHeight);
 
 		return;
 	}
 
 	// si no estas usando los datos del editor carga el toml
-	core::GameConfigurator::LoadFromFile(CONFIGURATOR_PATH);
+	core::GameConfigurator::instance().LoadFromFile(CONFIGURATOR_PATH);
 }
 
 int main(int argc, char* argv[])
@@ -51,7 +51,7 @@ int main(int argc, char* argv[])
 	Debug::out("[MAIN] Inicializando ChavalesEngine");
 
 	// Inicializa configuracion
-	configureGame(argc, argv);
+	configGame(argc, argv);
 
 	// Inicializa el Engine
 	if (!Engine::init())
@@ -60,10 +60,10 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 
+		Engine::instance()->startLoop();
 	try
 	{
 		// Lanza el bucle de juego
-		Engine::instance()->startLoop();
 	}
 	catch (std::exception e)
 	{
