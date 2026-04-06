@@ -429,7 +429,16 @@ public:
 
 #pragma region Platform
 
+	//By using the mothed: an string is retrun with the path of the audio
 	std::string getAudioByName(const std::string& name);
+	
+	// Whenever Engine::instance is called, using this:
+	//  methdo()->first: the path of the exact location of the desire asset
+	//	method()->second: the path of the folder of the desre asset
+
+	std::pair<std::string, std::string> getModelByName(const std::string& name);
+	std::pair<std::string, std::string> getTextureByName(const std::string& name);
+	std::pair<std::string, std::string> getParticleByName(const std::string& name);
 
 #pragma endregion
 

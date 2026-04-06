@@ -438,13 +438,28 @@ float Engine::getVolume(int chID)
 
 #pragma endregion
 
-
+#pragma region Resources
 std::string Engine::getAudioByName(const std::string& name)
 {
 	return _resourecesModule->getAudio(name);
 }
 
+std::pair<std::string, std::string> Engine::getModelByName(const std::string& name)
+{
+	return _resourecesModule->getMesh(name);
+}
 
+std::pair<std::string, std::string> Engine::getTextureByName(const std::string& name)
+{
+	return _resourecesModule->getTexture(name);
+}
+
+std::pair<std::string, std::string> Engine::getParticleByName(const std::string& name)
+{
+	return _resourecesModule->getParticle(name);
+}
+
+#pragma endregion
 //------Metodo de PlatformModule:
 int Engine::getWindowWidth() const
 {

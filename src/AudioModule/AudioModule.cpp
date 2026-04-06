@@ -6,12 +6,16 @@
 
 using namespace std;
 
-AudioModule::AudioModule() : _nextChannelID(0)
+AudioModule::AudioModule() : _nextChannelID(0),nativeRate()
 {
 
 }
 AudioModule::~AudioModule()
 {
+	for (auto& s : _soundMap) 
+	{
+		s.second->release();
+	}
 	if (_system != nullptr)
 	{
 		_system->release();

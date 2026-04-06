@@ -15,7 +15,6 @@ std::pair<FolderName, FileName> ResourcesModule::loadOgreAsset(const std::string
 	std::string meshAsset = assetType.first.as<std::string>();
 	sol::table assetsType = assetType.second;
 	std::vector<std::string> auxVector;
-	int i = 0;
 	for (auto& mallas : assetsType) {
 		std::string sourceName = mallas.second.as<std::string>();
 		auxVector.push_back(sourceName);
