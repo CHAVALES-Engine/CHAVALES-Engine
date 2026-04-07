@@ -1,8 +1,8 @@
 #include "Collider.h"
 #include "PluginSDK.h"
 #include "Engine.h"
-#include "../../src/Core-Defs/Entity.h"
-#include "../../src/ComponentsProject/Transform.h"
+#include "Entity.h"
+#include "Transform.h"
 
 REGISTER_COMPONENT(Collider);
 
@@ -49,7 +49,7 @@ void Collider::ready()
 
     core::Vector3<> pos = transform->getGlobalPosition();
 
-   // physicsID = _eng->createBoxCollider(center, pos, isDynamic);
+    physicsID = _eng->createBoxCollider(center, pos, isDynamic);
 }
 
 void Collider::update(uint64_t deltaTime)
@@ -61,5 +61,5 @@ void Collider::update(uint64_t deltaTime)
 
     core::Vector3<> pos = transform->getGlobalPosition();
 
-   // _eng->setPhysicsPosition(physicsID, pos);
+   _eng->setPhysicsPosition(physicsID, pos);
 }

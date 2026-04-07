@@ -5,7 +5,7 @@
 #include "../../src/Core-Defs/Vector3.h"
 #include <unordered_map>
 
-using ComponentID = uint32_t; // ID único de tu componente de motor
+using ComponentID = uint32_t;//ID unico de tu componente de motor
 struct PhysXComponent;
 
 class PhysicsModule

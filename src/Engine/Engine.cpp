@@ -457,15 +457,15 @@ float Engine::getVolume(int chID)
 
 #pragma region Physics
 
-//ComponentID Engine::createBoxCollider(const core::Vector3<>& size, const core::Vector3<>& pos, bool isDynamic)
-//{
-//	return _physicsModule->CreateBoxShape(size, pos, isDynamic);
-//}
+ uint32_t Engine::createBoxCollider(const core::Vector3<>& size, const core::Vector3<>& pos, bool isDynamic)
+{
+	return _physicsModule->CreateBoxShape(size, pos, isDynamic);
+}
 
-//void Engine::setPhysicsPosition(ComponentID id, const core::Vector3<>& pos)
-//{
-//	_physicsModule->SetPhysicsPosition(id, pos);
-//}
+void Engine::setPhysicsPosition( uint32_t id, const core::Vector3<>& pos)
+{
+	_physicsModule->SetPhysicsPosition(id, pos);
+}
 
 #pragma endregion
 

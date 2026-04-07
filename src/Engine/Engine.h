@@ -456,9 +456,9 @@ public:
 
 
 #pragma region Physics
-
-	//ComponentID createBoxCollider(const core::Vector3<>& size, const core::Vector3<>& pos, bool isDynamic);
-	//void setPhysicsPosition(ComponentID id, const core::Vector3<>& pos);
+ 
+	uint32_t createBoxCollider(const core::Vector3<>& size, const core::Vector3<>& pos, bool isDynamic);
+	void setPhysicsPosition( uint32_t id, const core::Vector3<>& pos);
 
 #pragma endregion
 
