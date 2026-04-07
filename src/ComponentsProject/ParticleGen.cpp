@@ -12,8 +12,7 @@ ParticleGen::~ParticleGen()
 
 bool ParticleGen::init(const Properties& p)
 {
-	_textureFolder = getProperty<std::string>(p, "texture folder");
-	_textureFile = getProperty<std::string>(p, "texture file");
+	_textureName = getProperty<std::string>(p, "texture name");
 
 	return true;
 }
@@ -30,7 +29,7 @@ void ParticleGen::disable()
 
 void ParticleGen::ready()
 {
-	_particleGenID = Engine::instance()->addParticleGen(getEntity()->getEntityID(), _textureFolder, _textureFile);
+	_particleGenID = Engine::instance()->addParticleGen(getEntity()->getEntityID(), _textureName);
 }
 
 void ParticleGen::setEmitting(const bool& emitting)

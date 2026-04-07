@@ -37,7 +37,6 @@
 #include <OgreGL3PlusTexture.h>
 #include <guid.h>
 
-#include "ResourcesModule.h"
 #include "GameConfigurator.h"
 
 // RenderModule.cpp : Defines the functions for the static library.
@@ -595,7 +594,7 @@ modelID RenderModule::addModel(const entityID& entityID, const std::string& mode
 	addNode(entityID);
 	if (!_rgm->resourceGroupExists(modelFolder))
 	{
-		_rgm->addResourceLocation("../dependencies/ogre/src/ogre/Samples/Media/packs/" + modelFolder, "FileSystem", modelFolder);
+		_rgm->addResourceLocation(modelFolder, "FileSystem", modelFolder);
 		_rgm->loadResourceGroup(modelFolder);
 	}
 	Ogre::Entity* model = _models.emplace_back(_sceneMgr->createEntity(modelFile + std::to_string(_nextModelID), modelFile));
@@ -666,7 +665,7 @@ void RenderModule::setDiffuse(const modelID& id, const subMeshID& subID, const s
 
 		if (!_rgm->resourceGroupExists(textureFolder))
 		{
-			_rgm->addResourceLocation("../dependencies/ogre/src/ogre/Samples/Media/packs/" + textureFolder, "FileSystem", textureFolder);
+			_rgm->addResourceLocation(textureFolder, "FileSystem", textureFolder);
 			_rgm->loadResourceGroup(textureFolder);
 		}
 		Ogre::TexturePtr text = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
@@ -937,12 +936,6 @@ particleGenID RenderModule::addParticleGen(const entityID& entityID, const std::
 {
 	addNode(entityID);
 
-	if (!_rgm->resourceGroupExists(textureFolder))
-	{
-		_rgm->addResourceLocation("../dependencies/ogre/src/ogre/Samples/Media/packs/" + textureFolder, "FileSystem", textureFolder);
-		_rgm->loadResourceGroup(textureFolder);
-	}
-
 	std::string matName = "ParticleMat_" + std::to_string(_nextParticleGenID);
 
 	Ogre::MaterialPtr mat = Ogre::MaterialManager::getSingleton().create(matName, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
@@ -956,11 +949,7 @@ particleGenID RenderModule::addParticleGen(const entityID& entityID, const std::
 
 	if (!_rgm->resourceGroupExists(textureFolder))
 	{
-		_rgm->addResourceLocation(
-			"../dependencies/ogre/src/ogre/Samples/Media/packs/" + textureFolder,
-			"FileSystem",
-			textureFolder
-		);
+		_rgm->addResourceLocation(textureFolder, "FileSystem", textureFolder);
 		_rgm->loadResourceGroup(textureFolder);
 	}
 

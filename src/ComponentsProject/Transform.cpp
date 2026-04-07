@@ -98,7 +98,7 @@ void Transform::setGlobalScale(const core::Vector3<>& gs)
 	{
 		_localScale = gs;
 	}
-	//Engine::setTransformScale(_transformID, gs);
+	Engine::instance()->setTransformScale(_transformID, gs);
 }
 
 void Transform::setLocalScale(const core::Vector3<>& ls)

@@ -35,8 +35,7 @@ class ParticleGen : public core::Component
 {
 	particleGenID _particleGenID;
 
-	std::string _textureFolder;
-	std::string _textureFile;
+	std::string _textureName;
 
 public:
 	ParticleGen();

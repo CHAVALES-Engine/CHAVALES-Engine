@@ -153,7 +153,7 @@ public:
 	/*
 	* @brief anade un modelo a la escena.
 	*/
-	modelID addModel(const entityID& entityID, const std::string& modelFolder, const std::string& modelFile);
+	modelID addModel(const entityID& entityID, const std::string& modelName);
 	/*
 	* @brief Borra un modelo de la escena.
 	*/
@@ -161,7 +161,7 @@ public:
 	/*
 	* @brief Borra un modelo de la escena.
 	*/
-	void setSubmeshDiffuse(const modelID& id, const std::string& textureFolder, const std::string& textureFile, const int& submesh);
+	void setSubmeshDiffuse(const modelID& id, const std::string& textureName, const int& submesh);
 	/*
 	* @brief Establecer tinte de material.
 	*/
@@ -248,7 +248,7 @@ public:
 	/*
 	* @brief Anadir generador de particulas.
 	*/
-	particleGenID addParticleGen(const entityID& entityID, const std::string& textureFolder, const std::string& textureFile);
+	particleGenID addParticleGen(const entityID& entityID, const std::string& textureName);
 	/*
 	* @brief Borrar generador de particulas.
 	*/
@@ -555,7 +555,7 @@ private:
 	* @brief
 	*	Referencia al modulo de recursos
 	*/
-	ResourcesModule* _resourecesModule = nullptr;
+	ResourcesModule* _resourcesModule = nullptr;
 	/*
 	* @brief
 	*	Referencia a la maquina de estados

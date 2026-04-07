@@ -32,15 +32,7 @@ class ModelRenderer : public core::Component
 {
 	modelID _modelID;
 
-	std::string _modelFolder;
-	std::string _modelFile;
-
-	int _nTextures;
-
-	/*
-	* @brief Clave: Nombre textura		Valor: par(carpeta archivo, nombre archivo)
-	* */
-	std::unordered_map<std::string, std::pair<std::string, std::string>> _textures;
+	std::string _modelName;
 
 public:
 	ModelRenderer();
@@ -48,7 +40,7 @@ public:
 
 	bool init(const Properties& p) override;
 
-	void setDiffuse(std::string textureFolder, std::string textureName, int submesh = 0);
+	void setDiffuse(std::string textureName, int submesh = 0);
 	void setTint(core::Color tint, int submesh = 0);
 	void setVisible(bool visible);
 };

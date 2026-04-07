@@ -33,32 +33,26 @@ scene = { -- entidades en escena
 				scale = Vector3.new(0.5),
 				},
 			ModelRenderer = {
-				folder = "metroid-floating/source",
-				file = "metroid_final.fbx",
+				file = "metroid",
 				["number of textures"] = 5,
 				texture0 = {
-					"diffuse0",
-					"metroid-floating/sourceimages/membrane",
-					"Base_Color.jpeg"
+					"membrane", 
+					"0"
 				},
 				texture1 = {
-					"diffuse1",
-					"metroid-floating/sourceimages/body",
-					"Base_Color.jpeg"
+					"body", 
+					"1"
 				},
 				texture2 = {
-					"diffuse2",
-					"metroid-floating/sourceimages/nuclei",
-					"Base_Color.jpeg"
+					"nuclei", 
+					"2"
 				},
 				texture3 = {
-					"diffuse3",
-					"metroid-floating/sourceimages/nuclei",
-					"Base_Color.jpeg"
+					"nuclei", 
+					"10"
 				},texture4 = {
-					"diffuse4",
-					"metroid-floating/sourceimages/mandibles",
-					"Base_Color.jpeg"
+					"mandibles", 
+					"6"
 				}
 			}
 		},

@@ -45,7 +45,7 @@ void Engine::release()
 		{
 			Debug::error(e.what());
 		}
-		delete _instance->_resourecesModule;
+		delete _instance->_resourcesModule;
 
 		delete _instance->_stateMachine;
 		delete _instance;
@@ -143,9 +143,10 @@ void Engine::setCameraFocalLength(const cameraID& id, const float& focalLength)
 	_renderModule->setCameraFocalLength(id, focalLength);
 }
 
-modelID Engine::addModel(const entityID& entityID, const std::string& modelFolder, const std::string& modelFile)
+modelID Engine::addModel(const entityID& entityID, const std::string& modelName)
 {
-	return _renderModule->addModel(entityID, modelFolder, modelFile);
+	auto model = _resourcesModule->getMesh(modelName);
+	return _renderModule->addModel(entityID, model.first, model.second);
 }
 
 void Engine::deleteModel(const modelID& id)
@@ -153,9 +154,10 @@ void Engine::deleteModel(const modelID& id)
 	_renderModule->deleteModel(id);
 }
 
-void Engine::setSubmeshDiffuse(const modelID& id, const std::string& textureFolder, const std::string& textureFile, const int& submesh)
+void Engine::setSubmeshDiffuse(const modelID& id, const std::string& textureName, const int& submesh)
 {
-	_renderModule->setDiffuse(id, submesh, textureFolder, textureFile);
+	auto texture = _resourcesModule->getTexture(textureName);
+	_renderModule->setDiffuse(id, submesh, texture.first, texture.second);
 }
 
 void Engine::setSubmeshTint(const modelID& id, const core::Color& tint, const int& submesh)
@@ -243,9 +245,10 @@ void Engine::setLightSpotRange(const lightID& id, const float& inner, const floa
 	_renderModule->setLightSpotRange(id, inner, outer, falloff);
 }
 
-particleGenID Engine::addParticleGen(const entityID& entityID, const std::string& textureFolder, const std::string& textureFile)
+particleGenID Engine::addParticleGen(const entityID& entityID, const std::string& textureName)
 {
-	return _renderModule->addParticleGen(entityID, textureFolder, textureFile);
+	auto particle = _resourcesModule->getParticle(textureName);
+	return _renderModule->addParticleGen(entityID, particle.first, particle.second);
 }
 
 void Engine::deleteParticleGen(const particleGenID& id)
@@ -482,22 +485,22 @@ void Engine::setPhysicsPosition( uint32_t id, const core::Vector3<>& pos)
 #pragma region Resources
 std::string Engine::getAudioByName(const std::string& name)
 {
-	return _resourecesModule->getAudio(name);
+	return _resourcesModule->getAudio(name);
 }
 
 std::pair<std::string, std::string> Engine::getModelByName(const std::string& name)
 {
-	return _resourecesModule->getMesh(name);
+	return _resourcesModule->getMesh(name);
 }
 
 std::pair<std::string, std::string> Engine::getTextureByName(const std::string& name)
 {
-	return _resourecesModule->getTexture(name);
+	return _resourcesModule->getTexture(name);
 }
 
 std::pair<std::string, std::string> Engine::getParticleByName(const std::string& name)
 {
-	return _resourecesModule->getParticle(name);
+	return _resourcesModule->getParticle(name);
 }
 
 #pragma endregion
@@ -558,10 +561,10 @@ bool Engine::_initPriv()
 	}
 
 	//Resources
-	_resourecesModule = new ResourcesModule();
-	if (!_resourecesModule->Init()) {
-		delete _resourecesModule;
-		_resourecesModule = nullptr;
+	_resourcesModule = new ResourcesModule();
+	if (!_resourcesModule->Init()) {
+		delete _resourcesModule;
+		_resourcesModule = nullptr;
 		return false;
 	}
 	_stateMachine = new StateMachine();
