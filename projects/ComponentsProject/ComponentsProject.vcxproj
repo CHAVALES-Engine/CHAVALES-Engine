@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\2526-Grupo03-ChavalesEngine\src\ComponentsProject\RigidBody.h" />
     <ClInclude Include="..\..\src\ComponentsProject\Animator.h" />
     <ClInclude Include="..\..\src\ComponentsProject\AudioListener.h" />
     <ClInclude Include="..\..\src\ComponentsProject\AudioSource.h" />
@@ -28,6 +29,7 @@
     <ClInclude Include="..\..\src\ComponentsProject\UITextureRect.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\2526-Grupo03-ChavalesEngine\src\ComponentsProject\RigidBody.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\Animator.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\AudioListener.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\AudioSource.cpp" />
