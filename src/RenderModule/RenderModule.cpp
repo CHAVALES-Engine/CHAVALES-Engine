@@ -365,17 +365,27 @@ void RenderModule::cleanScene(const bool& end)
 
 
 
-transformID RenderModule::addNode(const entityID& entityID, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float> scale)
+transformID RenderModule::addNode(const entityID& entityID, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float> scale, const bool& fromTransform)
 {
+	bool newNode = false;
+	EngineNode* aux = nullptr;
+
 	if (_engineNodes.empty() || _engineNodes.back().nodeID != entityID)
 	{
-		EngineNode& aux = _engineNodes.emplace_back(_sceneMgr->getRootSceneNode()->createChildSceneNode(), entityID);
-		aux.sceneNode->setPosition(Ogre::Vector3(pos.getX(), pos.getY(), pos.getZ()));
-		aux.sceneNode->setOrientation(Ogre::Quaternion(rot.getW(), rot.getX(), rot.getY(), rot.getZ()));
-		aux.sceneNode->setScale(Ogre::Vector3(scale.getX(), scale.getY(), scale.getZ()));
-		return _nextTransformID++;
+		aux = &_engineNodes.emplace_back(_sceneMgr->getRootSceneNode()->createChildSceneNode(), entityID);
+		newNode = true;
 	}
-	return _nextTransformID;
+	else if (fromTransform)
+	{
+		aux = &_engineNodes.back();
+	}
+	if (aux != nullptr)
+	{
+		aux->sceneNode->setPosition(Ogre::Vector3(pos.getX(), pos.getY(), pos.getZ()));
+		aux->sceneNode->setOrientation(Ogre::Quaternion(rot.getW(), rot.getX(), rot.getY(), rot.getZ()));
+		aux->sceneNode->setScale(Ogre::Vector3(scale.getX(), scale.getY(), scale.getZ()));
+	}
+	return newNode ? _nextTransformID++ : _nextTransformID;
 }
 
 transformID RenderModule::getNode(const entityID& entityID)
