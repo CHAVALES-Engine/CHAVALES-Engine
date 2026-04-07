@@ -2,6 +2,7 @@
 
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_gamepad.h>
+#include "SDL3/SDL_surface.h"
 
 #include <Debug.h>
 #include <optional>
@@ -9,10 +10,7 @@
 #include "VirtualDevice.h"
 #include "InputMapper.h"
 
-
-#define SCREEN_WIDTH 1280
-#define SCREEN_HEIGHT 720
-#define WINDOW_NAME "ChavalesWindow"
+#include "GameConfigurator.h"
 
 
 PlatformModule::PlatformModule() :
@@ -28,6 +26,8 @@ PlatformModule::~PlatformModule()
 		delete device;
 	_virtualDevices.clear();
 
+	SDL_DestroySurface(_icon); // Elimina el surface para no dejar leaks.
+
 	SDL_DestroyWindow(_window);
 	SDL_Quit();
 }
@@ -40,10 +40,16 @@ bool PlatformModule::Init()
 		return false;
 	}
 	// Creacion de ventana
-	if ((_window = SDL_CreateWindow(WINDOW_NAME, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_RESIZABLE)) == nullptr) {
+	if ((_window = SDL_CreateWindow(core::GameConfigurator::instance()._windowName.c_str(), 
+		core::GameConfigurator::instance()._windowWidth,
+		core::GameConfigurator::instance()._windowWidth,
+		SDL_WINDOW_RESIZABLE)) == nullptr)
+	{
 		Debug::error("SDL Couldn't be Created.");
 		return false;
 	}
+
+	setWindowIcon(core::GameConfigurator::instance()._scenesRoot);
 
 	SDL_PropertiesID _props = SDL_GetWindowProperties(_window);
 
@@ -254,6 +260,29 @@ void PlatformModule::clearTextInput(input::DeviceID device)
 input::InputMapper* PlatformModule::getInputMapper() const
 {
 	return _inputMapper;
+}
+
+void PlatformModule::setWindowSize(int w, int h)
+{
+	SDL_SetWindowSize(_window, w, h);
+}
+
+bool PlatformModule::setWindowIcon(std::string path)
+{
+	if (_icon != nullptr) SDL_DestroySurface(_icon);
+	SDL_LoadSurface(path.c_str());
+	if (_icon == NULL)
+	{
+		Debug::error("[Platform] Icon in path \"", path, "\" does not exist.");
+		return false;
+	}
+	SDL_SetWindowIcon(_window, _icon);
+	return true;
+}
+
+void PlatformModule::setWindowName(std::string name)
+{
+	SDL_SetWindowTitle(_window, name.c_str());
 }
 
 input::InputButtons PlatformModule::_castButton(const SDL_Event& event) const
