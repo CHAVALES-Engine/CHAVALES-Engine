@@ -459,6 +459,18 @@ public:
  
 	uint32_t createBoxCollider(const core::Vector3<>& size, const core::Vector3<>& pos, bool isDynamic);
 	void setPhysicsPosition( uint32_t id, const core::Vector3<>& pos);
+	// creación
+	ComponentID createRigidBody(core::Vector3<> pos, float mass, bool useGravity);
+
+	// getters
+	core::Vector3<> getPhysicsPosition(ComponentID id);
+	core::Vector3<> getLinearVelocity(ComponentID id);
+
+	void setLinearVelocity(ComponentID id, core::Vector3<> vel);
+
+	// fuerzas
+	void addForce(ComponentID id, core::Vector3<> force);
+	void addImpulse(ComponentID id, core::Vector3<> impulse);
 
 #pragma endregion
 
