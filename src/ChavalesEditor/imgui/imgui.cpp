@@ -2,7 +2,8 @@
 // (main code and documentation)
 
 // Help:
-// - Call and read ImGui::ShowDemoWindow() in imgui_demo.cpp. All applications in examples/ are doing that.
+// - Call and read ImGui::Show
+// Window() in imgui_demo.cpp. All applications in examples/ are doing that.
 // - Read top of imgui.cpp for more details, links and comments.
 // - Add '#define IMGUI_DEFINE_MATH_OPERATORS' before including imgui.h (or in imconfig.h) to access courtesy maths operators for ImVec2 and ImVec4.
 
