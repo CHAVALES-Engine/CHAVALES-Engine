@@ -21,13 +21,7 @@
     <ClInclude Include="..\..\src\PhysicsModule\PhysicsModule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PhysicsMaterial.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SphereCollider.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\PhysicsModule\RigidBody.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
