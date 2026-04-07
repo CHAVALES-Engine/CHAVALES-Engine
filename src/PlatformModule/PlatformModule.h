@@ -11,6 +11,7 @@
 struct SDL_Window;
 union SDL_Event;
 struct SDL_Gamepad;
+struct SDL_Surface;
 namespace input
 {
 	class VirtualDevice;
@@ -124,8 +125,26 @@ public:
 	 * @return input::InputMapper& - referencia al InputMapper
 	 */
 	input::InputMapper* getInputMapper() const;
+	/**
+	* @brief Cambia el tamanyo de la ventana.
+	* @param w - Width.
+	* @param w - Height.
+	*/
+	void setWindowSize(int w, int h);
+	/**
+	* @brief Cambia el tamanyo de la ventana.
+	* @param path - Ruta del icono.
+	* @return bool - si se ha podido cambiar.
+	*/
+	bool setWindowIcon(std::string path);
+	/**
+	* @brief Cambia el tamanyo de la ventana.
+	* @param name - Nombre de la ventana.
+	*/
+	void setWindowName(std::string name);
 
 private:
+
 	/**
 	* @brief procesa un evento de sdl
 	*/
@@ -175,4 +194,8 @@ private:
 	* @brief Manejador de la ventanda de Windows
 	*/
 	HWND _windowHandle = nullptr;
+	/**
+	* @brief Surface para el icono.
+	*/
+	SDL_Surface* _icon = nullptr;
 };
