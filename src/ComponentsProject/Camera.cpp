@@ -15,7 +15,7 @@ Camera::Camera() : _FOVy(45.0f), _nearClipDistance(0.1f), _farClipDistance(1000.
 
 Camera::~Camera()
 {
-	//Engine::deleteCamera(_cameraID);
+	Engine::instance()->deleteCamera(_cameraID);
 }
 
 bool Camera::init(const Properties& p)
@@ -35,38 +35,38 @@ bool Camera::init(const Properties& p)
 
 void Camera::setAsActiveCamera()
 {
-	//Engine::setAsActiveCamera(_cameraID);
-	//Engine::setCameraBgColor(_cameraID, _bgColor);
+	Engine::instance()->setAsActiveCamera(_cameraID);
+	Engine::instance()->setViewportBGColor(_bgColor);
 }
 
 void Camera::setFOVy(const float& FOVy)
 {
 	_FOVy = FOVy;
-	//Engine::setCameraFOVy(_cameraID, _FOVy);
+	Engine::instance()->setCameraFOVy(_cameraID, _FOVy);
 }
 
 void Camera::setNearClipDistance(const float& nearClipDistance)
 {
 	_nearClipDistance = nearClipDistance;
-	//Engine::setCameraNearClipDistance(_cameraID, _nearClipDistance);
+	Engine::instance()->setCameraNearClipDistance(_cameraID, _nearClipDistance);
 }
 
 void Camera::setFarClipDistance(const float& farClipDistance)
 {
 	_farClipDistance = farClipDistance;
-	//Engine::setCameraFarClipDistance(_cameraID, _farClipDistance);
+	Engine::instance()->setCameraFarClipDistance(_cameraID, _farClipDistance);
 }
 
 void Camera::setFocalLength(const float& focalLength)
 {
 	_focalLength = focalLength;
-	//Engine::setCameraFocalLength(_cameraID, _focalLength);
+	Engine::instance()->setCameraFocalLength(_cameraID, _focalLength);
 }
 
 void Camera::setBgColor(const core::Color& bgColor)
 {
 	_bgColor = bgColor;
-	//Engine::setCameraBgColor(_cameraID, _bgColor);
+	Engine::instance()->setViewportBGColor(_bgColor);
 }
 
 float Camera::getFOVy() const { return _FOVy; }

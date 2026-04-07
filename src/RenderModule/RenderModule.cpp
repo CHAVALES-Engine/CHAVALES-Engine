@@ -37,6 +37,7 @@
 #include <OgreGL3PlusTexture.h>
 #include <guid.h>
 
+#include "ResourcesModule.h"
 #include "GameConfigurator.h"
 
 // RenderModule.cpp : Defines the functions for the static library.
@@ -96,7 +97,6 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
 	{
 		_root = new Ogre::Root("", "", "ogre.log");
 
-
 		Ogre::GL3PlusPlugin* gl3Plugin = new Ogre::GL3PlusPlugin();
 		_root->installPlugin(gl3Plugin);
 
@@ -135,6 +135,12 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
 		//addCamera(zero, 45.0f, 0.1f, 1000.0f, 1.0f, { 0.0f, 0.0f, 0.0f, 1.0f });
 
 		//_vp->setBackgroundColour(Ogre::ColourValue(0.02f, 0.22f, 0.11f));
+
+		_nextTransformID = 0;
+		_nextCameraID = 0;
+		_nextModelID = 0;
+		_nextAnimationID = 0;
+		_nextLightID = 0;
 
 		//Se crea una camara auxiliar para crear el viewport. En el momento que se cree una camara manualmente esta pasara automaticamente a ser la activa.
 		_mainCameraID = ChavalesGUID::generate();
@@ -251,11 +257,6 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
 			ImGui::Text("SI VES ESTO FUNCIONA");
 			ImGui::End();
 			});*/
-		_nextTransformID = 0;
-		_nextCameraID = 0;
-		_nextModelID = 0;
-		_nextAnimationID = 0;
-		_nextLightID = 0;
 
         //renderFrame();
 
@@ -359,7 +360,6 @@ void RenderModule::cleanScene(const bool& end)
 	if (!end)
 	{
 		addCamera(_mainCameraID, 45.0f, 0.1f, 1000.0f, 1.0f, { 0.0f, 0.0f, 0.0f, 1.0f });
-		_nextCameraID = 0;
 	}
 }
 
@@ -462,8 +462,7 @@ cameraID RenderModule::addCamera(const entityID& entityID, const float& FOVy, co
 {
 	//Si no existe un nodo con este entityID lo creamos
 	addNode(entityID);
-	ChavalesGUID guid = ChavalesGUID::generate();
-	Ogre::Camera* camera = _cameras.emplace_back(_sceneMgr->createCamera("camera" + guid.toString()));
+	Ogre::Camera* camera = _cameras.emplace_back(_sceneMgr->createCamera("camera" + entityID.toString()));
 	camera->setAutoAspectRatio(true);
 	_engineNodes.back().sceneNode->attachObject(camera);
 
@@ -472,8 +471,8 @@ cameraID RenderModule::addCamera(const entityID& entityID, const float& FOVy, co
 	camera->setFarClipDistance(farClipDistance);
 	camera->setFocalLength(focalLength);
 
-	//Si es la primera se convierte automaticamente en la activa
-	if (_nextCameraID == 0)
+	//Si es la main camera auxiliar o es la primera camara manual se convierte automaticamente en la activa
+	if (_nextCameraID <= 1)
 	{
 		setAsActiveCamera(_nextCameraID);
 		_vp->setBackgroundColour(Ogre::ColourValue(bgColor.getRed(), bgColor.getGreen(), bgColor.getBlue()));
