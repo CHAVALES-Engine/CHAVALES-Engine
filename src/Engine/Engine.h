@@ -335,13 +335,29 @@ public:
 	*/
 	void setUILabelVisible(const uiLabelID& uiLabelID, bool visible);
 	/*
-  * @brief Establecer la opacidad  del letrero
-  */
+	* @brief Establecer la opacidad  del letrero
+	*/
 	void setUILabelOpacity(const uiLabelID& labelID, float opacity);
 	/*
   * @brief Establecer las dimensiones  del letrero
   */
 	void setUILabelDimension(const uiLabelID& labelID, core::Vector2<float> dimension);
+	/*
+	* @brief Establecer el color del texto  del letrero
+   */
+	void setUILabelTextColor(const uiLabelID labelID, core::Color color);
+	/*
+	* @brief Establecer el color del fondo  del letrero
+	*/
+	void setUILabelBackGroundColor(const uiLabelID labelID, core::Color color);
+	/*
+	* @brief Establecer el alineado  del letrero
+	*/
+	//void setUILabelAlign(const uiLabelID labelID, TextAlign align);
+	/*
+	* @brief Establecer la tipografia  del letrero
+	*/
+	//void setUILabelFont(const uiLabelID id, ImFont* font);
 #pragma endregion
 #pragma region UI-Buttons
 	/*
@@ -460,17 +476,17 @@ public:
 	uint32_t createBoxCollider(const core::Vector3<>& size, const core::Vector3<>& pos, bool isDynamic);
 	void setPhysicsPosition( uint32_t id, const core::Vector3<>& pos);
 	// creación
-	ComponentID createRigidBody(core::Vector3<> pos, float mass, bool useGravity);
+//	ComponentID createRigidBody(core::Vector3<> pos, float mass, bool useGravity);
 
 	// getters
-	core::Vector3<> getPhysicsPosition(ComponentID id);
-	core::Vector3<> getLinearVelocity(ComponentID id);
+	//core::Vector3<> getPhysicsPosition(ComponentID id);
+//	core::Vector3<> getLinearVelocity(ComponentID id);
 
-	void setLinearVelocity(ComponentID id, core::Vector3<> vel);
+	//void setLinearVelocity(ComponentID id, core::Vector3<> vel);
 
 	// fuerzas
-	void addForce(ComponentID id, core::Vector3<> force);
-	void addImpulse(ComponentID id, core::Vector3<> impulse);
+	//void addForce(ComponentID id, core::Vector3<> force);
+	//void addImpulse(ComponentID id, core::Vector3<> impulse);
 
 #pragma endregion
 

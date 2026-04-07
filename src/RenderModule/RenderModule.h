@@ -28,6 +28,7 @@ namespace Ogre
     class Light;
     class AnimationState;
     class ParticleSystem;
+    class ImGui;
 }
 
 using entityID = ChavalesGUID;
@@ -65,7 +66,7 @@ struct UILabelData {
     core::Color bgColor = core::Color(0, 0, 0, 0);
     float fontSize = 16.0f;
     TextAlign align = TextAlign::LEFT;
-   // ImFont* font= nullptr;
+   // ImFont* font;
 };
 
 struct UIButtonData {

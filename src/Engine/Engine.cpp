@@ -350,6 +350,16 @@ void Engine::setUILabelDimension(const uiLabelID& labelID, core::Vector2<float> 
 	_renderModule->setUILabelDimension(labelID, dimension);
 
 }
+void  Engine::setUILabelTextColor(const uiLabelID labelID, core::Color color) {
+	_renderModule->setUILabelTextColor(labelID, color);
+}
+void  Engine::setUILabelBackGroundColor(const uiLabelID labelID, core::Color color) {
+	_renderModule->setUILabelBackGroundColor(labelID, color);
+}
+//void  Engine::setUILabelAlign(const uiLabelID labelID, TextAlign align) {
+//	_renderModule->setUILabelAlign(labelID, align);
+//}
+//void Engine::setUILabelFont(const uiLabelID id, ImFont* font){}
 uiButtonID Engine::addUIButton(const std::string& panelName, const entityID& entityID, const std::string& text, const std::string& textureFolder, const std::string& textureFile, core::Vector2<float> size) {
 	return _renderModule->addUIButton(panelName, entityID, text, textureFolder, textureFile, size);
 }

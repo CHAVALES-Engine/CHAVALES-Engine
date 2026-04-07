@@ -12,7 +12,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\2526-Grupo03-ChavalesEngine\src\ComponentsProject\PhysicsMaterial.h" />
-    <ClInclude Include="..\..\..\..\2526-Grupo03-ChavalesEngine\src\ComponentsProject\RigidBody.h" />
     <ClInclude Include="..\..\src\ComponentsProject\Animator.h" />
     <ClInclude Include="..\..\src\ComponentsProject\AudioListener.h" />
     <ClInclude Include="..\..\src\ComponentsProject\AudioSource.h" />
@@ -23,6 +22,8 @@
     <ClInclude Include="..\..\src\ComponentsProject\Light.h" />
     <ClInclude Include="..\..\src\ComponentsProject\ModelRenderer.h" />
     <ClInclude Include="..\..\src\ComponentsProject\ParticleGen.h" />
+    <ClInclude Include="..\..\src\ComponentsProject\PhysicsMaterial.h" />
+    <ClInclude Include="..\..\src\ComponentsProject\RigidBody.h" />
     <ClInclude Include="..\..\src\ComponentsProject\Transform.h" />
     <ClInclude Include="..\..\src\ComponentsProject\UIButton.h" />
     <ClInclude Include="..\..\src\ComponentsProject\UILabel.h" />
@@ -30,8 +31,6 @@
     <ClInclude Include="..\..\src\ComponentsProject\UITextureRect.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\2526-Grupo03-ChavalesEngine\src\ComponentsProject\PhysicsMaterial.cpp" />
-    <ClCompile Include="..\..\..\..\2526-Grupo03-ChavalesEngine\src\ComponentsProject\RigidBody.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\Animator.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\AudioListener.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\AudioSource.cpp" />
@@ -40,6 +39,8 @@
     <ClCompile Include="..\..\src\ComponentsProject\Light.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\ModelRenderer.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\ParticleGen.cpp" />
+    <ClCompile Include="..\..\src\ComponentsProject\PhysicsMaterial.cpp" />
+    <ClCompile Include="..\..\src\ComponentsProject\RigidBody.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\Transform.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\UIButton.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\UILabel.cpp" />

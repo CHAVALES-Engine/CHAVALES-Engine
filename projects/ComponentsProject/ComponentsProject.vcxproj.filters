@@ -60,10 +60,13 @@
     <ClInclude Include="..\..\src\ComponentsProject\UITextureRect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\2526-Grupo03-ChavalesEngine\src\ComponentsProject\RigidBody.h">
+    <ClInclude Include="..\..\..\..\2526-Grupo03-ChavalesEngine\src\ComponentsProject\PhysicsMaterial.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\2526-Grupo03-ChavalesEngine\src\ComponentsProject\PhysicsMaterial.h">
+    <ClInclude Include="..\..\src\ComponentsProject\PhysicsMaterial.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ComponentsProject\RigidBody.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -107,10 +110,10 @@
     <ClCompile Include="..\..\src\ComponentsProject\UITextureRect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\2526-Grupo03-ChavalesEngine\src\ComponentsProject\RigidBody.cpp">
+    <ClCompile Include="..\..\src\ComponentsProject\PhysicsMaterial.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\2526-Grupo03-ChavalesEngine\src\ComponentsProject\PhysicsMaterial.cpp">
+    <ClCompile Include="..\..\src\ComponentsProject\RigidBody.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
