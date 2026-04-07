@@ -88,6 +88,10 @@ bool PlatformModule::syncronize()
 			return true;
 		else
 			_processEvent(event);
+		if (_eventObserver)
+		{
+			_eventObserver(event);
+		}
 	}
 	return false;
 }
@@ -283,6 +287,11 @@ bool PlatformModule::setWindowIcon(std::string path)
 void PlatformModule::setWindowName(std::string name)
 {
 	SDL_SetWindowTitle(_window, name.c_str());
+}
+
+void PlatformModule::registerEventObserver(EventCallback callback)
+{
+	_eventObserver = callback;
 }
 
 input::InputButtons PlatformModule::_castButton(const SDL_Event& event) const

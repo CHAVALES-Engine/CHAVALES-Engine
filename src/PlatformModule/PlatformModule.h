@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <Windows.h>
 #include <InputDefs.h>
+#include <functional>
 #include "InputMapper.h"
 
 // Fordard declarations
@@ -26,6 +27,7 @@ class PlatformModule
 {
 public:
 
+	using EventCallback = std::function<void(const SDL_Event&)>;
 	/**
 	* @brief Constructora vacia de PlatformModule.
 	*/
@@ -142,7 +144,11 @@ public:
 	* @param name - Nombre de la ventana.
 	*/
 	void setWindowName(std::string name);
-
+	/**
+	* @brief Registra una funcion para llamarla en el syncronice().
+	* @param callback - Funcion a registrar.
+	*/
+	void registerEventObserver(EventCallback callback);
 private:
 
 	/**
@@ -198,4 +204,9 @@ private:
 	* @brief Surface para el icono.
 	*/
 	SDL_Surface* _icon = nullptr;
+	/**
+	* @brief Funcion para registrar y llamar.
+	*/
+	EventCallback _eventObserver;
+	
 };
