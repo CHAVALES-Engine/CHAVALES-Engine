@@ -13,6 +13,8 @@ class AudioSource;
 class ComponentTest : public core::Component
 {
 	int velocity = 0;
+	bool MoveCamera = false;
+
 	int health = 0;
 	int test = 0;
 	std::vector<int> vecInts;
@@ -60,13 +62,11 @@ class ComponentTest : public core::Component
 		Debug::out("test ", test);*/
 		_transform = getEntity()->getComponent<Transform>();
 
-		// bloquea el cursor
-		Engine::instance()->input()->setRelativeMouseMode(true);
 	}
 
 	void update(uint64_t deltaTime) override
 	{
-		
+
 
 		float speed = velocity * (float)deltaTime / 1000.0f;
 		float mouseSensitivity = 0.5f;
@@ -82,13 +82,25 @@ class ComponentTest : public core::Component
 			_transform->translate(_transform->right() * speed);
 
 		// --- Rotacion con raton
-		float mouseX = Engine::instance()->input()->getAxis(input::MOUSE_AXIS_REL_X);
-		float mouseY = Engine::instance()->input()->getAxis(input::MOUSE_AXIS_REL_Y);
+		if (Engine::instance()->input()->isJustPressed(input::KEY_CTRL))
+			MoveCamera = !MoveCamera;
+		if (MoveCamera)
+		{
+			// bloquea el cursor
+			Engine::instance()->input()->setRelativeMouseMode(true);
+			float mouseX = Engine::instance()->input()->getAxis(input::MOUSE_AXIS_REL_X);
+			float mouseY = Engine::instance()->input()->getAxis(input::MOUSE_AXIS_REL_Y);
 
-		if (mouseX != 0)
-			_transform->rotate(core::Vector3<>(0, -mouseX * mouseSensitivity, 0));
-		if (mouseY != 0)
-			_transform->rotate(core::Vector3<>(-mouseY * mouseSensitivity, 0, 0));
+			if (mouseX != 0)
+				_transform->rotate(core::Vector3<>(0, -mouseX * mouseSensitivity, 0));
+			if (mouseY != 0)
+				_transform->rotate(core::Vector3<>(-mouseY * mouseSensitivity, 0, 0));
+		}
+		else
+		{
+			// bloquea el cursor
+			Engine::instance()->input()->setRelativeMouseMode(false);
+		}
 
 	}
 
