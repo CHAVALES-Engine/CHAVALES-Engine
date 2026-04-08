@@ -30,7 +30,7 @@ bool ModelRenderer::init(const Properties& p)
     {
         std::vector<std::string> texture;
         setProperty(p, "texture" + std::to_string(i), texture);
-        Engine::instance()->setSubmeshDiffuse(_modelID, texture[1], std::stoi(texture[2]));
+        Engine::instance()->setSubmeshDiffuse(_modelID, texture[0], std::stoi(texture[1]));
     }
 	return true;
 }
