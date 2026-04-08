@@ -339,7 +339,7 @@ public:
 	*/
 	void setUILabelOpacity(const uiLabelID& labelID, float opacity);
 	/*
-  * @brief Establecer las dimensiones  del letrero
+  * @brief Establecer las dimensiones  del letrero 
   */
 	void setUILabelDimension(const uiLabelID& labelID, core::Vector2<float> dimension);
 	/*
@@ -353,7 +353,7 @@ public:
 	/*
 	* @brief Establecer el alineado  del letrero
 	*/
-	//void setUILabelAlign(const uiLabelID labelID, TextAlign align);
+	void setUILabelAlign(const uiLabelID labelID, const std::string& align);
 	/*
 	* @brief Establecer la tipografia  del letrero
 	*/

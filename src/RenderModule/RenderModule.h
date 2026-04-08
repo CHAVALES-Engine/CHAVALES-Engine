@@ -66,6 +66,8 @@ struct UILabelData {
     core::Color bgColor = core::Color(0, 0, 0, 0);
     float fontSize = 16.0f;
     TextAlign align = TextAlign::LEFT;
+    std::string fontFolder;
+    std::string fontFile;
    // ImFont* font;
 };
 
@@ -418,7 +420,7 @@ public:
     /*
     * @brief Establecer el alineado  del letrero
     */
-    void setUILabelAlign(const uiLabelID id, TextAlign align);
+    void setUILabelAlign(const uiLabelID id, const std::string& align);
     /*
     * @brief Establecer la tipografia  del letrero
     */
@@ -489,6 +491,7 @@ private:
     std::unordered_map<uiLabelID,std::pair< uiPanelID,int>> _labelToPanel;
     std::unordered_map<uiButtonID, std::pair<uiPanelID, int>> _buttonToPanel;
     std::unordered_map<uiTextureRectID, std::pair<uiPanelID, int>> _textureToPanel;
+    TextAlign stringToAlign(const std::string& align);
 
     transformID _nextTransformID;
     cameraID _nextCameraID;

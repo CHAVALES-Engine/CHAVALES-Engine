@@ -1156,14 +1156,17 @@ void RenderModule::setUILabelDimension(const uiLabelID& labelID, core::Vector2<f
 }
 
 
-void RenderModule::setUILabelTextColor(const uiLabelID id, core::Color color) {
-
+void RenderModule::setUILabelTextColor(const uiLabelID labelID, core::Color color) {
+	auto [panelID, labelIndex] = _labelToPanel[labelID];
+	_uiPanels[panelID].labels[labelIndex].textColor = color;
 }
-void RenderModule::setUILabelBackGroundColor(const uiLabelID id, core::Color color) {
-
+void RenderModule::setUILabelBackGroundColor(const uiLabelID labelID, core::Color color) {
+	auto [panelID, labelIndex] = _labelToPanel[labelID];
+	_uiPanels[panelID].labels[labelIndex].bgColor = color;
 }
-void RenderModule::setUILabelAlign(const uiLabelID id, TextAlign align) {
-
+void RenderModule::setUILabelAlign(const uiLabelID labelID, const std::string& align) {
+	auto [panelID, labelIndex] = _labelToPanel[labelID];
+	_uiPanels[panelID].labels[labelIndex].align = stringToAlign(align);
 }
 //void RenderModule::setUILabelFont(const uiLabelID id, ImFont* font) {
 //
@@ -1292,6 +1295,18 @@ void  RenderModule::setUITextureRectOpacity(const uiTextureRectID& textureRectID
 	auto [panelID, textureRectIndex] = _textureToPanel[textureRectID];
 	_uiPanels[panelID].textureRects[textureRectIndex].opacity = opacity;
 }
+TextAlign RenderModule::stringToAlign(const std::string& align)
+{
+	if (align == "right") {
+		return TextAlign::RIGHT;
+	}
+	else if (align == "center") {
+		return TextAlign::CENTER;
+	}
+	else {
+		return TextAlign::LEFT;
+	}
+}
 
 
 void RenderModule::renderUI() {
@@ -1341,10 +1356,10 @@ void RenderModule::renderUI() {
 				posTextX = pos.x + (aux.x - textSize.x) * 0.5f;
 				break;
 			case TextAlign::RIGHT:
-				posTextY = pos.x + aux.x - textSize.x - 5.0f;
-			
-				drawList->AddText(ImVec2(posTextX, posTextY), IM_COL32(label.bgColor.getRed() * 255, label.bgColor.getGreen() * 255, label.bgColor.getBlue() * 255, label.bgColor.getAlpha() * 255), label.text.c_str());
+				posTextX = pos.x + aux.x - textSize.x - 5.0f;
 			}
+			drawList->AddText(ImVec2(posTextX, posTextY), IM_COL32(label.bgColor.getRed() * 255, label.bgColor.getGreen() * 255, label.bgColor.getBlue() * 255, label.bgColor.getAlpha() * 255), label.text.c_str());
+
 			//ImGui::PopFont();
 			ImGui::PopStyleVar();
 			
@@ -1395,3 +1410,4 @@ void RenderModule::shutdown()
 	_window = nullptr;
 	_sceneMgr = nullptr;
 }
+
