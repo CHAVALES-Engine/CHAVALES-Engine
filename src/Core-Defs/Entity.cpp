@@ -21,12 +21,7 @@ namespace core
 
 	Entity::~Entity()
 	{
-		// we delete all available components
-		for (std::shared_ptr<Component>& c : components)
-		{
-			c->destroy();
-			//delete c;
-		}
+		destroy();
 	}
 
 	void Entity::setAlive(bool a) { alive = a; }
@@ -124,6 +119,7 @@ namespace core
 	void Entity::destroy()
 	{
 		alive = false;
+		removeComponents();
 	}
 
 	void Entity::enable()

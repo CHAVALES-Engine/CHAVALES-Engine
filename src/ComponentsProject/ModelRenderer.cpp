@@ -51,4 +51,9 @@ void ModelRenderer::setVisible(bool visible)
 	Engine::instance()->setModelVisible(_modelID, visible);
 }
 
+void ModelRenderer::destroy()
+{
+    Engine::instance()->deleteModel(_modelID);
+}
+
 
