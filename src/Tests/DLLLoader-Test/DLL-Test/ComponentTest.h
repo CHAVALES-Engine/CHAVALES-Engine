@@ -61,6 +61,8 @@ class ComponentTest : public core::Component
 		/*Debug::out("Hola :-) Mi vida es ", health);
 		Debug::out("test ", test);*/
 		_transform = getEntity()->getComponent<Transform>();
+		// bloquea el cursor
+		Engine::instance()->input()->setRelativeMouseMode(false);
 
 	}
 

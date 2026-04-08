@@ -7,7 +7,7 @@ scene = { -- entidades en escena
    				-- posicion local
    				position = Vector3.new(200.0,200.0,200.0),
    				-- rotacion local
-   				rotation = Quaternion.new(0.0,0.0,0.0,0.0),
+   				rotation = Quaternion.new(0.0,0.0,1.0,45.0),
    				-- escala local
    				scale = Vector3.new(1)
    			},
