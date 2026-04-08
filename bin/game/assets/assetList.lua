@@ -5,8 +5,12 @@ assets = {
 			fileName = "metroid.fbx"
 		},
 		cube = {
-			sourceFolder = "./game/assets/models/metroid-floating/source",
-			fileName = "./game/assets/models/cube.obj"
+			sourceFolder = "./game/assets/models/",
+			fileName = "cube.fbx"
+		},
+		gizmo = {
+			sourceFolder = "./game/assets/models/",
+			fileName = "gizmo.fbx"
 		}
 	},
 	Audio = { --Audios

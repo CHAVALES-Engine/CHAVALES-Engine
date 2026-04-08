@@ -12,6 +12,7 @@ class AudioSource;
 
 class ComponentTest : public core::Component
 {
+	int velocity = 0;
 	int health = 0;
 	int test = 0;
 	std::vector<int> vecInts;
@@ -36,7 +37,7 @@ class ComponentTest : public core::Component
 		//setProperty(p, "vec2", vec2);
 		//setProperty(p, "vec3", vec3);
 		//setProperty(p, "vec4", vec4);
-		return setProperty(p, "health", health);
+		return setProperty(p, "velocity", velocity);
 	}
 
 	void ready() override
@@ -55,8 +56,8 @@ class ComponentTest : public core::Component
 		//for (const auto& s : vec4)
 		//	Debug::out(s);
 
-		Debug::out("Hola :-) Mi vida es ", health);
-		Debug::out("test ", test);
+		/*Debug::out("Hola :-) Mi vida es ", health);
+		Debug::out("test ", test);*/
 		_transform = getEntity()->getComponent<Transform>();
 
 		// bloquea el cursor
@@ -67,8 +68,8 @@ class ComponentTest : public core::Component
 	{
 		
 
-		float speed = 5.0f * (float)deltaTime / 1000.0f;
-		float mouseSensitivity = 0.1f;
+		float speed = velocity * (float)deltaTime / 1000.0f;
+		float mouseSensitivity = 0.5f;
 
 		// --- Movimiento WASD
 		if (Engine::instance()->input()->isKeyPressed(input::KEY_W))
