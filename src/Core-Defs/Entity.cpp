@@ -56,13 +56,17 @@ namespace core
 
 	void Entity::removeComponent(const std::string& name)
 	{
-		for (auto it = components.begin(); it != components.end(); ++it)
+		for (auto it = components.begin(); it != components.end(); )
 		{
 			if ((*it)->getName() == name)
 			{
 				(*it)->disable();
 				(*it)->destroy();
-				components.erase(it);
+				it = components.erase(it); 
+			}
+			else
+			{
+				++it;
 			}
 		}
 	}
