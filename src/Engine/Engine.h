@@ -475,7 +475,7 @@ public:
 	/*
 	* @brief Devuelve el id de la entidad que tiene el boxcollider y lo crea
 	*/
-	uint32_t createBoxCollider(const core::Vector3<>& size, const core::Vector3<>& pos, bool isDynamic);
+	uint32_t createBoxCollider(const core::Vector3<>& size, const core::Vector3<>& pos, bool isDynamic, bool isKinematic);
 	/*
 	* @brief Setea la posicion fisica de la entidad
 	*/
@@ -487,7 +487,7 @@ public:
 	/*
 	* @brief Devuelve el id de la entidad que tiene el capsulecollider y lo crea
 	*/
-	uint32_t createCapsuleCollider(float radius, float height, const core::Vector3<>& center, const core::Vector3<>& worldPos, bool isDynamic);
+	uint32_t createCapsuleCollider(float radius, float height, const core::Vector3<>& center, const core::Vector3<>& worldPos, bool isDynamic, bool isKinematic);
 
 	// creación
 	//ComponentID createRigidBody(core::Vector3<> pos, float mass, bool useGravity);

@@ -84,21 +84,21 @@ bool PhysicsModule::Init()
 }
 
 
-ComponentID PhysicsModule::CreateBoxShape(core::Vector3<> size, core::Vector3<> position, bool isDynamic)
+ComponentID PhysicsModule::CreateBoxShape(core::Vector3<> size, core::Vector3<> position, bool isDynamic, bool isKinematic)
 {//a lo mejor tengo que pasar si es rigidbody dinamico o estatico para ver cual creo de physx
-	if (!gPhysics || !gScene)
-		return 0;
+	if (!gPhysics || !gScene) return 0;
 
 	PxTransform transform(PxVec3(position.getX(), position.getY(), position.getZ()));
 
 	PxRigidActor* actor = isDynamic ? static_cast<PxRigidActor*>(gPhysics->createRigidDynamic(transform)) :
 		static_cast<PxRigidActor*>(gPhysics->createRigidStatic(transform));
 
+	if (isDynamic && isKinematic)//lo hago kinematico
+		static_cast<PxRigidDynamic*>(actor)->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, true);
+
 	PxBoxGeometry geo(size.getX() * 0.5f, size.getY() * 0.5f, size.getZ() * 0.5f);
 
-	PxMaterial* material = gPhysics->createMaterial(0.5f, 0.5f, 0.6f);
-
-	PxShape* shape = gPhysics->createShape(geo, *material);
+	PxShape* shape = gPhysics->createShape(geo, *defaultMaterial);
 	actor->attachShape(*shape);
 
 	if (isDynamic)
@@ -106,7 +106,7 @@ ComponentID PhysicsModule::CreateBoxShape(core::Vector3<> size, core::Vector3<> 
 
 	gScene->addActor(*actor);
 
-	// Generar ID y guardar en mapa
+	//id y guarda en mapa
 	ComponentID id = nextID++;
 	physicsMap[id] = { actor, shape };
 
@@ -136,7 +136,7 @@ core::Vector3<> PhysicsModule::GetPhysicsPosition(ComponentID id)
 }
 
 
-ComponentID PhysicsModule::CreateCapsuleShape(float radius,float height, const core::Vector3<>& center, const core::Vector3<>& worldPos,bool isDynamic){
+ComponentID PhysicsModule::CreateCapsuleShape(float radius,float height, const core::Vector3<>& center, const core::Vector3<>& worldPos,bool isDynamic, bool isKinematic){
 	if (!gPhysics || !gScene)
 		return 0;
 
@@ -147,15 +147,17 @@ ComponentID PhysicsModule::CreateCapsuleShape(float radius,float height, const c
 	PxRigidActor* actor = isDynamic ? static_cast<PxRigidActor*>(gPhysics->createRigidDynamic(transform)) :
 		static_cast<PxRigidActor*>(gPhysics->createRigidStatic(transform));
 
+	if (isDynamic && isKinematic)
+		static_cast<PxRigidDynamic*>(actor)->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, true);
+
 	//capsula si tienen mismo radio y altura es esfera
 	PxCapsuleGeometry geo(radius, height * 0.5f);
-	PxMaterial* material = gPhysics->createMaterial(0.5f, 0.5f, 0.6f);
-	PxShape* shape = gPhysics->createShape(geo, *material);
+	PxShape* shape = gPhysics->createShape(geo, *defaultMaterial);
 
 	actor->attachShape(*shape);
 
 	//masa si es dinamico
-	if (isDynamic) PxRigidBodyExt::updateMassAndInertia(*static_cast<PxRigidDynamic*>(actor), 10.0f);
+	if (isDynamic && !isKinematic) PxRigidBodyExt::updateMassAndInertia(*static_cast<PxRigidDynamic*>(actor), 10.f);
 
 	//anadido a escena
 	gScene->addActor(*actor);

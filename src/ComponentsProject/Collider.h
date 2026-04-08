@@ -15,10 +15,11 @@ namespace core {
  *
  * --- Ejemplo de uso en lua ---
  * Collider = {
- *		Vector3 size
- *		bool dynamic
- *		bool trigger
- *		Vector center
+ *		box = {1,2,1}, o capsule = { radius = 0.5, height = 2 }, --size
+ *		dynamic = true,
+ *		kinematic = false,
+ *		trigger = false,
+ *      center = {0,0,0}
  * }
  *
  * --- Ejemplo de inicializacion ---
@@ -37,7 +38,8 @@ class Collider : public core::Component
 protected:
 
 	bool isTrigger = false;
-	bool isDynamic = false;
+	bool isDynamic = false;//o pared o con gravedad
+	bool isKinematic = false;// como dinamiico pero movido a mano
 
 	core::Vector3<> size = { 1,1,1 };
 	core::Vector3<> center = { 0,0,0 };//offset respecto a la entidad, donde esta el collider
