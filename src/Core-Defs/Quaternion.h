@@ -25,11 +25,6 @@ namespace core
 
 		Quaternion(const Quaternion& q) : _x(q._x), _y(q._y), _z(q._z), _w(q._w) {}
 
-		Quaternion(const Vector3<>& euler)
-		{
-			*this = fromEuler(euler);
-		}
-
 		//getters
 		inline T getX() const { return _x; }
 		inline T getY() const { return _y; }
