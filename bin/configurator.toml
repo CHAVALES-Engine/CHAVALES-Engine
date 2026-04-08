@@ -1,5 +1,5 @@
 [game]
-first_scene = 'scene1'
+first_scene = 'scene_prueba'
 game_dll = 'juego'
 
 [window]
