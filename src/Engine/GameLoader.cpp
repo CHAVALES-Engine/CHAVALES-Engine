@@ -444,7 +444,7 @@ bool GameLoader::reloadLua()
 		if (!_firstReload)
 		{
 			if (ftime > _lastTime && // para saber la ultima modificacion en tiempo
-				_lastSize < fsize) // si se ha modificado el archivo de verdad
+				_lastSize != fsize) // si se ha modificado el archivo de verdad
 			{
 				Debug::out("GAMELOADER: Recargando escena");
 
