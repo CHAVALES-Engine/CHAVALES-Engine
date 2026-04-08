@@ -215,37 +215,37 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
 		//entityID two = ChavalesGUID::generate();
 		//addLight(two, 1, core::Color(1.0f, 1.0f, 1.0f, 1.0f), 1.0f);
 
-        _overlaySystem = new Ogre::OverlaySystem();
-        _sceneMgr->addRenderQueueListener(_overlaySystem);
-    
-        _overlay = new Ogre::ImGuiOverlay();
-        Ogre::OverlayManager::getSingleton().addOverlay(_overlay);
-        _overlay->show();
+		_overlaySystem = new Ogre::OverlaySystem();
+		_sceneMgr->addRenderQueueListener(_overlaySystem);
+
+		_overlay = new Ogre::ImGuiOverlay();
+		Ogre::OverlayManager::getSingleton().addOverlay(_overlay);
+		_overlay->show();
 
 
-        Ogre::MaterialPtr materialUI = Ogre::MaterialManager::getSingleton().getByName("ImGui/material");
-        _shaderGen->createShaderBasedTechnique(*materialUI, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
+		Ogre::MaterialPtr materialUI = Ogre::MaterialManager::getSingleton().getByName("ImGui/material");
+		_shaderGen->createShaderBasedTechnique(*materialUI, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
 
-        _shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, materialUI->getName());
+		_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, materialUI->getName());
 
-        _vp->setOverlaysEnabled(true);
+		_vp->setOverlaysEnabled(true);
 
-        ImGuiIO& io = ImGui::GetIO();
-        io.Fonts->AddFontDefault();
-        io.Fonts->Build();
+		ImGuiIO& io = ImGui::GetIO();
+		io.Fonts->AddFontDefault();
+		io.Fonts->Build();
 
-        io.DisplaySize = ImVec2(
-            (float)_vp->getActualWidth(),
-            (float)_vp->getActualHeight()
-        );
-		
-        //_ui->Clear();
-       // _ui->AddElement([]() {
-       //     static bool open = true;
-       //     ImGui::Begin("Test", &open);
-       //     ImGui::Text("SI VES ESTO FUNCIONA");
-       //     ImGui::End();
-       //     });
+		io.DisplaySize = ImVec2(
+			(float)_vp->getActualWidth(),
+			(float)_vp->getActualHeight()
+		);
+
+		//_ui->Clear();
+	   // _ui->AddElement([]() {
+	   //     static bool open = true;
+	   //     ImGui::Begin("Test", &open);
+	   //     ImGui::Text("SI VES ESTO FUNCIONA");
+	   //     ImGui::End();
+	   //     });
 
 		/*_ui = new ImGuiManager();
 		_ui->Init();
@@ -270,12 +270,12 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
 
 void RenderModule::renderFrame()
 {
-   // if (_ui)
-    //    _ui->Draw();
-	
-    renderUI();
-    _root->renderOneFrame();
-    Ogre::AnimationStateSet* animSet = _models[0]->getAllAnimationStates();
+	// if (_ui)
+	 //    _ui->Draw();
+
+	renderUI();
+	_root->renderOneFrame();
+	Ogre::AnimationStateSet* animSet = _models[0]->getAllAnimationStates();
 
 	if (animSet)
 	{
@@ -366,25 +366,24 @@ void RenderModule::cleanScene(const bool& end)
 
 transformID RenderModule::addNode(const entityID& entityID, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float> scale, const bool& fromTransform)
 {
-	bool newNode = false;
-	EngineNode* aux = nullptr;
+	for (int i = 0; i < (int)_engineNodes.size(); i++)
+		if (_engineNodes[i].nodeID == entityID)
+		{
+			_engineNodes[i].sceneNode->setPosition(Ogre::Vector3(pos.getX(), pos.getY(), pos.getZ()));
+			_engineNodes[i].sceneNode->setOrientation(Ogre::Quaternion(rot.getW(), rot.getX(), rot.getY(), rot.getZ()));
+			_engineNodes[i].sceneNode->setScale(Ogre::Vector3(scale.getX(), scale.getY(), scale.getZ()));
+			return i; // ya existe
+		}
 
-	if (_engineNodes.empty() || _engineNodes.back().nodeID != entityID)
-	{
-		aux = &_engineNodes.emplace_back(_sceneMgr->getRootSceneNode()->createChildSceneNode(), entityID);
-		newNode = true;
-	}
-	else if (fromTransform)
-	{
-		aux = &_engineNodes.back();
-	}
-	if (aux != nullptr)
-	{
-		aux->sceneNode->setPosition(Ogre::Vector3(pos.getX(), pos.getY(), pos.getZ()));
-		aux->sceneNode->setOrientation(Ogre::Quaternion(rot.getW(), rot.getX(), rot.getY(), rot.getZ()));
-		aux->sceneNode->setScale(Ogre::Vector3(scale.getX(), scale.getY(), scale.getZ()));
-	}
-	return newNode ? _nextTransformID++ : _nextTransformID;
+	//bool newNode = false;
+	//EngineNode* aux = nullptr;
+	// Crear nuevo nodo
+	EngineNode& aux = _engineNodes.emplace_back(
+		_sceneMgr->getRootSceneNode()->createChildSceneNode(), entityID);
+	aux.sceneNode->setPosition(Ogre::Vector3(pos.getX(), pos.getY(), pos.getZ()));
+	aux.sceneNode->setOrientation(Ogre::Quaternion(rot.getW(), rot.getX(), rot.getY(), rot.getZ()));
+	aux.sceneNode->setScale(Ogre::Vector3(scale.getX(), scale.getY(), scale.getZ()));
+	return _nextTransformID++;
 }
 
 transformID RenderModule::getNode(const entityID& entityID)
@@ -460,10 +459,10 @@ void RenderModule::setViewportBGColor(core::Color color)
 cameraID RenderModule::addCamera(const entityID& entityID, const float& FOVy, const float& nearClipDistance, const float& farClipDistance, const float& focalLength, const core::Color& bgColor)
 {
 	//Si no existe un nodo con este entityID lo creamos
-	addNode(entityID);
+	transformID nodeID = addNode(entityID);
 	Ogre::Camera* camera = _cameras.emplace_back(_sceneMgr->createCamera("camera" + entityID.toString()));
 	camera->setAutoAspectRatio(true);
-	_engineNodes.back().sceneNode->attachObject(camera);
+	_engineNodes[nodeID].sceneNode->attachObject(camera);
 
 	camera->setFOVy(Ogre::Radian(FOVy));
 	camera->setNearClipDistance(nearClipDistance);
@@ -591,7 +590,8 @@ void RenderModule::setCameraFocalLength(const cameraID& id, const float& focalLe
 
 modelID RenderModule::addModel(const entityID& entityID, const std::string& modelFolder, const std::string& modelFile)
 {
-	addNode(entityID);
+	transformID nodeID = addNode(entityID);
+
 	if (!_rgm->resourceGroupExists(modelFolder))
 	{
 		_rgm->addResourceLocation(modelFolder, "FileSystem", modelFolder);
@@ -1097,17 +1097,17 @@ void RenderModule::setParticleGenPartColor(const particleGenID& id, const core::
 
 
 uiPanelID RenderModule::addUIPanel(const entityID& entityID, const std::string& title) {
-    
-    UIPanelData panel;
-    panel.entity = entityID;
-    panel.title = title;
-    panel.visible = true;
 
-    _uiPanels.push_back(panel);
+	UIPanelData panel;
+	panel.entity = entityID;
+	panel.title = title;
+	panel.visible = true;
 
-   
+	_uiPanels.push_back(panel);
 
-    return _nextPanelID++;
+
+
+	return _nextPanelID++;
 }
 void RenderModule::setUIPanelVisible(const uiPanelID& id, bool visible) {
 	_uiPanels[id].visible = visible;
@@ -1248,7 +1248,7 @@ void RenderModule::setUIButtonCallback(const uiButtonID& buttonID, std::function
 
 
 
-uiTextureRectID RenderModule::addUITextureRect(const std::string& panelName, const entityID& entityID, const std::string& textureFolder, const std::string& textureFile, core::Vector2<float> size){
+uiTextureRectID RenderModule::addUITextureRect(const std::string& panelName, const entityID& entityID, const std::string& textureFolder, const std::string& textureFile, core::Vector2<float> size) {
 	for (int i = 0; i < _uiPanels.size(); i++) {
 		if (_uiPanels[i].title == panelName) {
 
@@ -1263,9 +1263,9 @@ uiTextureRectID RenderModule::addUITextureRect(const std::string& panelName, con
 
 				_rgm->loadResourceGroup(textureFolder);
 			}
-			
 
-			
+
+
 
 			_uiPanels[i].textureRects.push_back(tex);
 
@@ -1288,7 +1288,7 @@ void  RenderModule::setUITextureRectDimension(const uiTextureRectID& textureRect
 	_uiPanels[panelID].textureRects[textureRectIndex].size = dimension;
 }
 void  RenderModule::setUITextureRectVisible(const uiTextureRectID& textureRectID, bool visible) {
-	auto[panelID, textureRectIndex] = _textureToPanel[textureRectID];
+	auto [panelID, textureRectIndex] = _textureToPanel[textureRectID];
 	_uiPanels[panelID].textureRects[textureRectIndex].visible = visible;
 }
 void  RenderModule::setUITextureRectOpacity(const uiTextureRectID& textureRectID, float opacity) {
@@ -1318,16 +1318,16 @@ void RenderModule::renderUI() {
 		}
 		ImGui::SetNextWindowPos(ImVec2(0, 0));
 		ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
-		ImGui::Begin(panel.title.c_str(), nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize| ImGuiWindowFlags_NoMove| ImGuiWindowFlags_NoBackground| ImGuiWindowFlags_NoMove);
+		ImGui::Begin(panel.title.c_str(), nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoMove);
 
 		for (UITextureRectData& tex : panel.textureRects) {
-			if (!tex.visible){
-				continue; 
+			if (!tex.visible) {
+				continue;
 			}
 			ImGui::PushStyleVar(ImGuiStyleVar_Alpha, tex.opacity);
 
 			const ImVec2 aux = { tex.size.getX(), tex.size.getY() };
-			ImGui::Image((ImTextureID)tex.textureID,  aux);
+			ImGui::Image((ImTextureID)tex.textureID, aux);
 			ImGui::PopStyleVar();
 
 		}
@@ -1346,7 +1346,7 @@ void RenderModule::renderUI() {
 			ImVec2 textSize = ImGui::CalcTextSize(label.text.c_str());
 
 			float posTextX;
-			float posTextY = pos.y + (aux.y - textSize.y)* 0.5f;
+			float posTextY = pos.y + (aux.y - textSize.y) * 0.5f;
 
 			switch (label.align) {
 			case TextAlign::LEFT:
@@ -1362,7 +1362,7 @@ void RenderModule::renderUI() {
 
 			//ImGui::PopFont();
 			ImGui::PopStyleVar();
-			
+
 		}
 		for (UIButtonData& button : panel.buttons) {
 			if (!button.visible) {
@@ -1390,7 +1390,7 @@ void RenderModule::renderUI() {
 			ImGui::PopStyleVar();
 		}
 		ImGui::End();
-		
+
 	}
 	ImGui::Render();
 }
