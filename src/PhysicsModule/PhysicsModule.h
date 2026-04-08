@@ -16,9 +16,12 @@ public:
 	virtual ~PhysicsModule() = default;
 
 	bool Init();
-	void Update(float dt) {};
+	core::Vector3<> GetPhysicsPosition(ComponentID id);
+	void Update(float dt) ;
+
 
 	ComponentID  CreateBoxShape(core::Vector3<> dimension, core::Vector3<> pos, bool isDynamic);
+	ComponentID CreateCapsuleShape(float radius, float height, const core::Vector3<>& center, const core::Vector3<>& worldPos, bool isDynamic);
 	void SetPhysicsPosition(ComponentID id, const core::Vector3<>& pos);
 
 private:

@@ -4,6 +4,7 @@
 //#include "../../src/Core-Defs/Defs.h"
 using ComponentID = unsigned int;
 class Engine;
+class Transform;
 namespace core {
 	class Entity;
 }
@@ -14,7 +15,10 @@ namespace core {
  *
  * --- Ejemplo de uso en lua ---
  * Collider = {
- *		...
+ *		Vector3 size
+ *		bool dynamic
+ *		bool trigger
+ *		Vector center
  * }
  *
  * --- Ejemplo de inicializacion ---
@@ -25,20 +29,24 @@ namespace core {
  * ...
  *
 */
+enum class ShapeType { Box, Capsule };
+ShapeType shapeType = ShapeType::Box;//default
+
 class Collider : public core::Component
 {
 protected:
 
-	bool enabled = true;
 	bool isTrigger = false;
+	bool isDynamic = false;
 
 	core::Vector3<> size = { 1,1,1 };
-	bool isDynamic = false;
+	core::Vector3<> center = { 0,0,0 };//offset respecto a la entidad, donde esta el collider
+	int radius, height;
 	//Rigidbody* attachedRigidbody = nullptr;//si tiene rigidbody atacheado
 
-	core::Vector3<> center = { 0,0,0 };//offset al rigidbody
 	Engine* _eng;
 	ComponentID physicsID = 0;
+	Transform* transform;//entidad .pos es la posicion de la entidad
 
 public:
 	Collider() {};
@@ -48,3 +56,7 @@ public:
 	virtual void ready() override;
 	virtual void update(uint64_t deltaTime) override;
 };
+
+//unorder map que relacione id con entidad, la entidad va a compartir id con el sgruct q guarda su actor y forma. Luego a traves de engine usando physx
+// le pasare el unordermap que necesite rollo un metoodo que me permita coger la info del actr y shape segun su id y 
+//con esa info en collider update actualizare el movimiento del transfor... mas adelante la shape

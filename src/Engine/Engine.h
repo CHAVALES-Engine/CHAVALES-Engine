@@ -472,15 +472,29 @@ public:
 
 
 #pragma region Physics
- 
+	/*
+	* @brief Devuelve el id de la entidad que tiene el boxcollider y lo crea
+	*/
 	uint32_t createBoxCollider(const core::Vector3<>& size, const core::Vector3<>& pos, bool isDynamic);
+	/*
+	* @brief Setea la posicion fisica de la entidad
+	*/
 	void setPhysicsPosition( uint32_t id, const core::Vector3<>& pos);
+	/*
+	* @brief Coge la posicion del transform de la entidad en cuando a physx para poder mover el transform de la entidad y que se vea en nuestra escena
+	*/
+	core::Vector3<> getPhysicsPosition(uint32_t id);
+	/*
+	* @brief Devuelve el id de la entidad que tiene el capsulecollider y lo crea
+	*/
+	uint32_t createCapsuleCollider(float radius, float height, const core::Vector3<>& center, const core::Vector3<>& worldPos, bool isDynamic);
+
 	// creación
-//	ComponentID createRigidBody(core::Vector3<> pos, float mass, bool useGravity);
+	//ComponentID createRigidBody(core::Vector3<> pos, float mass, bool useGravity);
 
 	// getters
 	//core::Vector3<> getPhysicsPosition(ComponentID id);
-//	core::Vector3<> getLinearVelocity(ComponentID id);
+	//core::Vector3<> getLinearVelocity(ComponentID id);
 
 	//void setLinearVelocity(ComponentID id, core::Vector3<> vel);
 
