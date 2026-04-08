@@ -12,14 +12,20 @@ ResourcesModule::~ResourcesModule()
 
 std::pair<FolderName, FileName> ResourcesModule::loadOgreAsset(const std::string& assetName,std::pair<sol::object, sol::object>& assetType)
 { 
-	std::string meshAsset = assetType.first.as<std::string>();
+	/*std::string meshAsset = assetType.first.as<std::string>();
 	sol::table assetsType = assetType.second;
 	std::vector<std::string> auxVector;
 	for (auto& mallas : assetsType) {
 		std::string sourceName = mallas.second.as<std::string>();
 		auxVector.push_back(sourceName);
 	}
-	return { auxVector[1],auxVector[0] };
+	return { auxVector[1],auxVector[0] };*/
+	sol::table assetsType = assetType.second;
+
+	std::string sourceFolder = assetsType["sourceFolder"].get<std::string>();
+	std::string fileName = assetsType["fileName"].get<std::string>();
+
+	return { sourceFolder, fileName };
 }
 
 bool ResourcesModule::loadInternalAsset(const sol::table& assetsType, const std::string& typeOfAsset)
