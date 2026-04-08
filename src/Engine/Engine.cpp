@@ -470,9 +470,9 @@ float Engine::getVolume(int chID)
 
 #pragma region Physics
 
- uint32_t Engine::createBoxCollider(const core::Vector3<>& size, const core::Vector3<>& pos, bool isDynamic)
+ uint32_t Engine::createBoxCollider(const core::Vector3<>& size, const core::Vector3<>& pos, bool isDynamic, bool isKinematic)
 {
-	return _physicsModule->CreateBoxShape(size, pos, isDynamic);
+	return _physicsModule->CreateBoxShape(size, pos, isDynamic, isKinematic);
 }
 
 void Engine::setPhysicsPosition( uint32_t id, const core::Vector3<>& pos)
@@ -485,10 +485,10 @@ core::Vector3<> Engine::getPhysicsPosition(uint32_t id)
 	return _physicsModule->GetPhysicsPosition(id);
 }
 
-uint32_t Engine::createCapsuleCollider(float radius,float height,const core::Vector3<>& center,const core::Vector3<>& worldPos,bool isDynamic)
+uint32_t Engine::createCapsuleCollider(float radius,float height,const core::Vector3<>& center,const core::Vector3<>& worldPos,bool isDynamic, bool isKinematic)
 {
 	if (!_physicsModule) return 0;
-	return _physicsModule->CreateCapsuleShape(radius, height, center, worldPos, isDynamic);
+	return _physicsModule->CreateCapsuleShape(radius, height, center, worldPos, isDynamic, isKinematic);
 }
 
 #pragma endregion

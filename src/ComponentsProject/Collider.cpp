@@ -11,30 +11,6 @@ bool Collider::init(const Properties& p)
 	//cosas de lua
 	_eng = Engine::instance();
 
-	//DYNAMIC
-	auto itDyn = p.find("dynamic");
-	if (itDyn != p.end())
-	{
-		if (auto val = std::get_if<bool>(&itDyn->second))
-			isDynamic = *val;
-	}
-
-	//TRIGGER
-	auto itTrig = p.find("trigger");
-	if (itTrig != p.end())
-	{
-		if (auto val = std::get_if<bool>(&itTrig->second))
-			isTrigger = *val;
-	}
-
-	//CENTER
-	auto itCen = p.find("center");
-	if (itCen != p.end())
-	{
-		if (auto val = std::get_if<bool>(&itCen->second))
-			center = *val;
-	}
-
 	//SHAPE
 	// BOX
 	if (auto it = p.find("box"); it != p.end()) {
@@ -51,6 +27,31 @@ bool Collider::init(const Properties& p)
 				radius = std::get<float>(arg.at("radius"));
 				height = std::get<float>(arg.at("height"));
 			}}, it->second);
+	}
+
+	//DYNAMIC
+	auto itDyn = p.find("dynamic");
+	if (itDyn != p.end()) {
+		if (auto val = std::get_if<bool>(&itDyn->second))
+			isDynamic = *val;
+	}
+	//KINEMATIC
+	if (auto it = p.find("kinematic"); it != p.end()) {
+		if (auto val = std::get_if<bool>(&it->second))
+			isKinematic = *val;
+	}
+	//TRIGGER
+	auto itTrig = p.find("trigger");
+	if (itTrig != p.end()) {
+		if (auto val = std::get_if<bool>(&itTrig->second))
+			isTrigger = *val;
+	}
+
+	//CENTER
+	auto itCen = p.find("center");
+	if (itCen != p.end()) {
+		if (auto val = std::get_if<bool>(&itCen->second))
+			center = *val;
 	}
 
 	return true;
@@ -71,26 +72,26 @@ void Collider::ready()
 	//SHAPE
 	switch (shapeType) {
 	case ShapeType::Box:
-		physicsID = _eng->createBoxCollider(center, pos + center, isDynamic);
+		physicsID = _eng->createBoxCollider(center, pos + center, isDynamic, isKinematic);
 		break;
 	case ShapeType::Capsule:
-		physicsID = _eng->createCapsuleCollider(radius, height, center, pos + center, isDynamic);
+		physicsID = _eng->createCapsuleCollider(radius, height, center, pos + center, isDynamic, isKinematic);
 		break;
 	}
 }
 
-	void Collider::update(uint64_t deltaTime)
-	{
-		if (!entity || physicsID == 0 || !transform) return;
+void Collider::update(uint64_t deltaTime)
+{
+	if (!entity || physicsID == 0 || !transform) return;
 
-		if (isDynamic) {
-			core::Vector3<> physPos = _eng->getPhysicsPosition(physicsID);
-			//como physx devuelcve la pos del collider debo restar el centro para saber donde esta realmente la entidad
-			transform->setGlobalPosition(physPos - center);
-		}
-		else {
-			//estaticos
-			core::Vector3<> pos = transform->getGlobalPosition();
-			_eng->setPhysicsPosition(physicsID, pos + center);
-		}
+	if (isDynamic) {
+		core::Vector3<> physPos = _eng->getPhysicsPosition(physicsID);
+		//como physx devuelcve la pos del collider debo restar el centro para saber donde esta realmente la entidad
+		transform->setGlobalPosition(physPos - center);
 	}
+	else {
+		//estaticos
+		core::Vector3<> pos = transform->getGlobalPosition();
+		_eng->setPhysicsPosition(physicsID, pos + center);
+	}
+}
