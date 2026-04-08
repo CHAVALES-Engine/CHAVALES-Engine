@@ -4,7 +4,6 @@
  * TODO:
  *		- eventos? (e.g. onPositionChanged, onRotationChanged...?)s
  *		- lookAt()
- *		- getChild() con algo mas que el transform, e.g. por nombre o posicion del hijo en el vector
  */
 #pragma once
 #include <vector>
@@ -41,15 +40,16 @@ using transformID = uint64_t;
 */
 class ENGINE_API Transform : public core::Component
 {
-	
-
 	transformID _transformID;
-
 	core::Vector3<> _localPosition;
 	core::Quaternion<> _localRotation;
 	core::Vector3<> _localScale;
 	Transform* _parent;
 	std::vector<Transform*> _children;
+	bool _lockRotX = false;
+	bool _lockRotY = false;
+	bool _lockRotZ = false;
+
 	/**
 	 * @brief Lista de nombres de entidades a anyadir como hijos (Solo se usa en la inicializacion de componentes).
 	 */
@@ -70,6 +70,10 @@ public:
 
 	void setGlobalScale(const core::Vector3<>& gs);
 	void setLocalScale(const core::Vector3<>& ls);
+
+	void lockRotationX(bool v);
+	void lockRotationY(bool v);
+	void lockRotationZ(bool v);
 
 	core::Vector3<> getGlobalPosition() const;
 	core::Vector3<> getLocalPosition() const;
@@ -112,7 +116,7 @@ public:
 	/**
 	 * @brief Aplica una rotacion v en formato vector a la rotacion local
 	 */
-	void rotate(core::Vector3<> const& v);
+	void rotate(core::Vector3<>& v);
 
 	/**
 	 * @returns Devuelve un vector normalizado representando el eje X en coordenadas globales
