@@ -104,9 +104,9 @@ namespace core
 	/**
 	 * @brief Constante que representa el color amarillo rgba(1,0.92,0.016,1).
 	 */
-	static const Color YELLOW = Color(1.0, 0.92, 0.016, 1.0);
+	static const Color YELLOW = Color(1.0, 0.92f, 0.016f, 1.0);
 	/**
 	 * @brief Constante que representa el clear color por defecto Chaval Vacio rgba(0.118,0.118,0.118,1.0).
 	 */
-	static const Color CHAVAL_VACIO = Color(0.118, 0.118, 0.118, 1.0);
+	static const Color CHAVAL_VACIO = Color(0.118f, 0.118f, 0.118f, 1.0);
 }

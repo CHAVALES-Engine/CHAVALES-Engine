@@ -13,10 +13,7 @@ class AudioSource;
 class ComponentTest : public core::Component
 {
 	int velocity = 0;
-	bool MoveCamera = false;
-
-	int health = 0;
-	int test = 0;
+	bool moveCamera = true;
 	std::vector<int> vecInts;
 	std::vector<float> vecFloats;
 	std::vector<std::string> vecString;
@@ -63,7 +60,7 @@ class ComponentTest : public core::Component
 		_transform = getEntity()->getComponent<Transform>();
 		// bloquea el cursor
 		Engine::instance()->input()->setRelativeMouseMode(false);
-
+		_transform->lockRotationZ(true);
 	}
 
 	void update(uint64_t deltaTime) override
@@ -85,8 +82,8 @@ class ComponentTest : public core::Component
 
 		// --- Rotacion con raton
 		if (Engine::instance()->input()->isJustPressed(input::KEY_CTRL))
-			MoveCamera = !MoveCamera;
-		if (MoveCamera)
+			moveCamera = !moveCamera;
+		if (moveCamera)
 		{
 			// bloquea el cursor
 			Engine::instance()->input()->setRelativeMouseMode(true);

@@ -25,6 +25,11 @@ namespace core
 
 		Quaternion(const Quaternion& q) : _x(q._x), _y(q._y), _z(q._z), _w(q._w) {}
 
+		Quaternion(const Vector3<>& euler)
+		{
+			*this = fromEuler(euler);
+		}
+
 		//getters
 		inline T getX() const { return _x; }
 		inline T getY() const { return _y; }
@@ -68,7 +73,7 @@ namespace core
 		/**
 		* @brief Longitud del quaternion
 		*/
-		inline float length() {
+		inline float length() const {
 			return sqrt((pow(_w, 2) + pow(_x, 2) + pow(_y, 2) + pow(_z, 2)));
 		}
 
@@ -199,7 +204,7 @@ namespace core
 		* @brief Convierte el quaternion a ángulos Euler en grados.
 		* @return Vector3 con los ángulos Euler (x=roll, y=pitch, z=yaw)
 		*/
-		inline Vector3<> Euler() {
+		inline Vector3<> toEuler() {
 			Vector3<> euler;
 			//componentes
 			float sinr_cosp = 2.0f * (_w * _x + _y * _z);
@@ -306,6 +311,19 @@ namespace core
 			return Quaternion(_x - q._x, _y - q._y, _z - q._z, _w - q._w);
 		}
 
+		/**
+		 * @brief transforma un vector representante de una rotación Euler a quaternion
+		 * @param v - vector que representa ángulos de rotación tal que: (roll, pitch, yaw)
+		 * @return Quaternion representante de la rotación del vector
+		 */
+		inline Quaternion fromEuler(const Vector3<>& v)
+		{
+			Quaternion qx = angleAxis(v.getX(), Vector3<>(1, 0, 0));
+			Quaternion qy = angleAxis(v.getY(), Vector3<>(0, 1, 0));
+			Quaternion qz = angleAxis(v.getZ(), Vector3<>(0, 0, 1));
+
+			return (qz * qy * qx).normalized();
+		}
 	};
 
 	template <typename T>
