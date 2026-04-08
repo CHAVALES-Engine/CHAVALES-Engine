@@ -60,16 +60,21 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 
-		Engine::instance()->startLoop();
 	try
 	{
 		// Lanza el bucle de juego
+		Engine::instance()->startLoop();
 	}
-	catch (std::exception e)
+	catch (const std::exception& e)
 	{
-		Debug::error(e.what());
-		return 1;
+		Debug::error("Exception: ", e.what());
 	}
+	catch (...)
+	{
+		Debug::error("Unknown exception");
+	}
+
+	Engine::release();
 
 	return 0;
 }
