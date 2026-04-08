@@ -328,7 +328,7 @@ void Engine::setParticleGenPartColor(const particleGenID& id, const core::Color&
 
 uiPanelID Engine::addUIPanel(const entityID& entityID, const std::string& title)
 {
-	return _renderModule->addUIPanel(entityID,title);
+	return _renderModule->addUIPanel(entityID, title);
 }
 
 void Engine::setUIPanelVisible(const uiPanelID& id, bool visible)
@@ -359,7 +359,7 @@ void  Engine::setUILabelTextColor(const uiLabelID labelID, core::Color color) {
 void  Engine::setUILabelBackGroundColor(const uiLabelID labelID, core::Color color) {
 	_renderModule->setUILabelBackGroundColor(labelID, color);
 }
-void  Engine::setUILabelAlign(const uiLabelID labelID, const std::string&  align) {
+void  Engine::setUILabelAlign(const uiLabelID labelID, const std::string& align) {
 	_renderModule->setUILabelAlign(labelID, align);
 }
 //void Engine::setUILabelFont(const uiLabelID id, ImFont* font){}
@@ -475,7 +475,7 @@ float Engine::getVolume(int chID)
 	return _physicsModule->CreateBoxShape(size, pos, isDynamic, isKinematic);
 }
 
-void Engine::setPhysicsPosition( uint32_t id, const core::Vector3<>& pos)
+void Engine::setPhysicsPosition(uint32_t id, const core::Vector3<>& pos)
 {
 	_physicsModule->SetPhysicsPosition(id, pos);
 }
@@ -538,7 +538,7 @@ bool Engine::_initPriv()
 	Debug::open();
 
 	//cargamos dlls
-	if (!ComponentDLLLoader::instance().loadAll(DLLs_PATH)) 
+	if (!ComponentDLLLoader::instance().loadAll(DLLs_PATH))
 		return false;
 
 	//Platform
@@ -585,13 +585,13 @@ bool Engine::_initPriv()
 #else 
 	ComponentDLLLoader::instance().load("./ComponentsProject_r.dll");
 #endif
-//
-//#if _DEBUG
-//	ComponentDLLLoader::instance().load("./game/DLL-Test.dll");
-//#else
-//	std::string path = "./game/" + core::GameConfigurator::instance()._gameDLL + ".dll";
-//	ComponentDLLLoader::instance().load(path);
-//#endif
+	//
+	//#if _DEBUG
+	//	ComponentDLLLoader::instance().load("./game/DLL-Test.dll");
+	//#else
+	//	std::string path = "./game/" + core::GameConfigurator::instance()._gameDLL + ".dll";
+	//	ComponentDLLLoader::instance().load(path);
+	//#endif
 
 
 	return true;
