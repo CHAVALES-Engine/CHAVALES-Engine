@@ -42,14 +42,17 @@ bool PlatformModule::Init()
 	// Creacion de ventana
 	if ((_window = SDL_CreateWindow(core::GameConfigurator::instance()._windowName.c_str(), 
 		core::GameConfigurator::instance()._windowWidth,
-		core::GameConfigurator::instance()._windowWidth,
+		core::GameConfigurator::instance()._windowHeight,
 		SDL_WINDOW_RESIZABLE)) == nullptr)
 	{
 		Debug::error("SDL Couldn't be Created.");
 		return false;
 	}
 
-	setWindowIcon(core::GameConfigurator::instance()._scenesRoot);
+	if(!setWindowIcon(core::GameConfigurator::instance()._iconRoot))
+	{
+		Debug::error("Icon annot be asigned.");
+	}
 
 	SDL_PropertiesID _props = SDL_GetWindowProperties(_window);
 
@@ -275,7 +278,7 @@ bool PlatformModule::setWindowIcon(std::string path)
 {
 	if (_icon != nullptr) SDL_DestroySurface(_icon);
 	SDL_LoadSurface(path.c_str());
-	if (_icon == NULL)
+	if (!_icon)
 	{
 		Debug::error("[Platform] Icon in path \"", path, "\" does not exist.");
 		return false;
