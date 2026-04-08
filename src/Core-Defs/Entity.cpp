@@ -124,6 +124,7 @@ namespace core
 	void Entity::destroy()
 	{
 		alive = false;
+		//removeComponents();
 	}
 
 	void Entity::enable()

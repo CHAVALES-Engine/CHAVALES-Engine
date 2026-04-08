@@ -67,7 +67,6 @@ void StateMachine::gameLoop()
 	if (_currentScene.ptr != nullptr)
 	{
 		_currentScene.ptr->onDestroy();
-		//_currentScene.ptr->~Scene();
 	}
 	_currentScene.ptr = nullptr;
 }

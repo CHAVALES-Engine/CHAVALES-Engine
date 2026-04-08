@@ -155,21 +155,20 @@ namespace core
 
 
 		/**
-		* @brief Elimina todos los componentes del mismo tipo indicado
+		* @brief Elimina todos los componentes
 		* O(n)
 		*/
-		template <typename T>
 		void removeComponents()
 		{
-			for (auto it = components.begin(); it != components.end(); ++it)
+			for (auto c : components)
 			{
-				if (it->get() != nullptr)
+				if (c != nullptr)
 				{
-					(*it)->disable();
-					(*it)->destroy();
-					components.erase(it);
+					c->destroy();
 				}
 			}
+
+			components.clear();
 		}
 		/**
 		* @brief Elimina todos los componentes del nombre
