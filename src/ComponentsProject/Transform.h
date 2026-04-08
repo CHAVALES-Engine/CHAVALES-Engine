@@ -112,7 +112,7 @@ public:
 	/**
 	 * @brief Aplica una rotacion v en formato vector a la rotacion local
 	 */
-	void rotate(core::Vector3<> v);
+	void rotate(core::Vector3<> const& v);
 
 	/**
 	 * @returns Devuelve un vector normalizado representando el eje X en coordenadas globales

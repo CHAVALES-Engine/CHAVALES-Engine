@@ -275,24 +275,6 @@ void RenderModule::renderFrame()
 
 	renderUI();
 	_root->renderOneFrame();
-	Ogre::AnimationStateSet* animSet = _models[0]->getAllAnimationStates();
-
-	if (animSet)
-	{
-		Ogre::AnimationStateIterator it = animSet->getAnimationStateIterator();
-		int i = 0;
-
-		while (it.hasMoreElements())
-		{
-			Ogre::AnimationState* anim = it.getNext();
-			_models[0]->getAnimationState(anim->getAnimationName())->addTime(0.01f);
-		}
-	}
-	else
-	{
-		//std::cout << "No hay animaciones" << std::endl;
-	}
-	//setNodeRotation(1, core::Quaternion(0.0f, 0.00218166f, 0.0f, 0.9999976f) * getNodeRotation(1));
 }
 
 void RenderModule::cleanScene(const bool& end)

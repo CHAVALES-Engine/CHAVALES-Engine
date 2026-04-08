@@ -21,6 +21,11 @@ bool InputFacade::isKeyPressed(input::InputEvent inputAction, input::DeviceID de
 	return _platform->isKeyPressed(inputAction, device);
 }
 
+bool InputFacade::isJustPressed(input::InputEvent inputEvent, input::DeviceID device) const
+{
+	return _platform->isJustPressed(inputEvent, device);
+}
+
 bool InputFacade::isKeyReleased(input::InputEvent inputAction, input::DeviceID device) const
 {
 	return _platform->isKeyReleased(inputAction, device);

@@ -31,6 +31,12 @@ public:
 	* @param device - id del dispositivo a comprobar. -1 por defecto => el primero positivo que encuentre.
 	*/
 	bool isKeyPressed(input::InputEvent inputAction, input::DeviceID device = input::ANY_DEVICE) const;
+	/**
+	* @brief Devuelve si una tecla se acaba de pulsar.
+	* @param key - Tecla a comprobar.
+	* @returns bool - Estado de la tecla.
+	*/
+	bool isJustPressed(input::InputEvent inputEvent, input::DeviceID device = input::ANY_DEVICE) const;
 	/*
 	* @brief Devuelve si se ha dejado de pulsar una tecla
 	* @param inputAction - InputEvent a comprobar

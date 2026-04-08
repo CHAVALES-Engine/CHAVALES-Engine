@@ -158,6 +158,38 @@ bool PlatformModule::isKeyPressed(input::InputEvent inputEvent, input::DeviceID 
 	return false;
 }
 
+bool PlatformModule::isJustPressed(input::InputEvent inputEvent, input::DeviceID device) const
+{
+	if (_textInputActive && !_isTextInputAllowed(inputEvent))
+		return false;
+	// Usa std::visit para seleccionar y ejecutar una funcion de tipo de dato del inputEvent.
+	// "func" es la funcion escogida segun el tipo de dato de inputEvent.
+	auto func = [&](const input::VirtualDevice* vd) -> bool {
+		return std::visit(input::overloaded{
+			[&](input::Key k) { return vd->isJustPressed(k); },
+			[&](input::GamepadButton b) { return vd->isJustPressed(b); },
+			[&](input::MouseButton b) { return vd->isJustPressed(b); },
+			[](auto&&) { Debug::error("[Input] inputEvent not allowed"); return false; }
+			}, inputEvent); // Le pasamos ya el InputEvent para no tener que gestionarlo luego.
+		};
+	// Si el device es uno concreto llama a su funcion.
+	if (device != input::ANY_DEVICE) {
+		auto it = _virtualDevices.find(device);
+		if (it != _virtualDevices.end()) return func(it->second);
+		Debug::error("[Input] device: ", device, " not found");
+		return false;
+	}
+
+	// ANY_DEVICE - early exit en cuanto algun device tenga la tecla pulsada.
+	for (const auto& [id, vd] : _virtualDevices)
+		if (func(vd))
+		{
+			//Debug::out("Tecla: ", toString(inputEvent), " pressed");
+			return true;
+		}
+	return false;
+}
+
 bool PlatformModule::isKeyReleased(input::InputEvent inputEvent, input::DeviceID device) const
 {
 	if (_textInputActive && !_isTextInputAllowed(inputEvent)) return false;
