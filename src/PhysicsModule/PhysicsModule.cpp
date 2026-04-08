@@ -23,6 +23,8 @@ PxFoundation* gFoundation = NULL;
 PxPhysics* gPhysics = NULL;
 PxPvd* gPvd = NULL;
 
+PxScene* gScene = NULL;
+
 PxMaterial* defaultMaterial = nullptr;
 
 PhysicsModule::PhysicsModule()
@@ -64,13 +66,27 @@ bool PhysicsModule::Init()
 	PxInitExtensions(*gPhysics, gPvd);
 	defaultMaterial = gPhysics->createMaterial(0.5f, 0.5f, 0.6f);
 
+	PxSceneDesc sceneDesc(gPhysics->getTolerancesScale());
+	sceneDesc.gravity = PxVec3(0.0f, -9.81f, 0.0f);
+
+	PxDefaultCpuDispatcher* dispatcher = PxDefaultCpuDispatcherCreate(2);
+	sceneDesc.cpuDispatcher = dispatcher;
+
+	//colisiones
+	sceneDesc.filterShader = PxDefaultSimulationFilterShader;
+	//crear escena
+	gScene = gPhysics->createScene(sceneDesc);
+
+	if (!gScene)
+		return false;
+
 	return gPhysics != nullptr;
 }
 
 
 ComponentID PhysicsModule::CreateBoxShape(core::Vector3<> size, core::Vector3<> position, bool isDynamic)
 {//a lo mejor tengo que pasar si es rigidbody dinamico o estatico para ver cual creo de physx
-	if (!gPhysics /*|| !scene*/)
+	if (!gPhysics || !gScene)
 		return 0;
 
 	PxTransform transform(PxVec3(position.getX(), position.getY(), position.getZ()));
@@ -88,7 +104,7 @@ ComponentID PhysicsModule::CreateBoxShape(core::Vector3<> size, core::Vector3<> 
 	if (isDynamic)
 		PxRigidBodyExt::updateMassAndInertia(*static_cast<PxRigidDynamic*>(actor), 10.0f);
 
-	/*scene->addActor(*actor);*/
+	gScene->addActor(*actor);
 
 	// Generar ID y guardar en mapa
 	ComponentID id = nextID++;
@@ -106,4 +122,62 @@ void PhysicsModule::SetPhysicsPosition(ComponentID id, const core::Vector3<>& po
 
 	PxRigidActor* actor = it->second.actor;
 	actor->setGlobalPose(PxTransform(PxVec3(pos.getX(), pos.getY(), pos.getZ())));
+}
+
+
+core::Vector3<> PhysicsModule::GetPhysicsPosition(ComponentID id)
+{
+	auto it = physicsMap.find(id);
+	if (it == physicsMap.end()) return { 0,0,0 };
+
+	PxTransform t = it->second.actor->getGlobalPose();
+
+	return core::Vector3<>(t.p.x,t.p.y,t.p.z);
+}
+
+
+ComponentID PhysicsModule::CreateCapsuleShape(float radius,float height, const core::Vector3<>& center, const core::Vector3<>& worldPos,bool isDynamic){
+	if (!gPhysics || !gScene)
+		return 0;
+
+	//transform ini
+	PxTransform transform(PxVec3(worldPos.getX(), worldPos.getY(), worldPos.getZ()));
+
+	//estatico o dinamico
+	PxRigidActor* actor = isDynamic ? static_cast<PxRigidActor*>(gPhysics->createRigidDynamic(transform)) :
+		static_cast<PxRigidActor*>(gPhysics->createRigidStatic(transform));
+
+	//capsula si tienen mismo radio y altura es esfera
+	PxCapsuleGeometry geo(radius, height * 0.5f);
+	PxMaterial* material = gPhysics->createMaterial(0.5f, 0.5f, 0.6f);
+	PxShape* shape = gPhysics->createShape(geo, *material);
+
+	actor->attachShape(*shape);
+
+	//masa si es dinamico
+	if (isDynamic) PxRigidBodyExt::updateMassAndInertia(*static_cast<PxRigidDynamic*>(actor), 10.0f);
+
+	//anadido a escena
+	gScene->addActor(*actor);
+
+	//id
+	ComponentID id = nextID++;
+	physicsMap[id] = { actor, shape };
+
+	return id;
+}
+void PhysicsModule::Update(float dt)
+{
+	if (!gScene) return;
+
+	gScene->simulate(dt);
+	gScene->fetchResults(true);
+
+	// sincronizar con Ogre
+	for (auto& [id, comp] : physicsMap)
+	{
+		PxTransform t = comp.actor->getGlobalPose();
+
+		//deberia actualizar y luego llamara a esto con engine paa mover los transforms o cambiarlos fuera con ogre
+	}
 }
