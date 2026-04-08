@@ -20,10 +20,11 @@ bool ModelRenderer::init(const Properties& p)
     // Lee la clave del archivo almacenado en resources
     _modelName = getProperty<std::string>(p, "file");
 
+    //Carga el modelo en ogre y se guarda una referencia a el
+	_modelID = Engine::instance()->addModel(getEntity()->getEntityID(), _modelName);
+
     // Lee cuantas texturas tiene
     int nTextures = getProperty<int>(p, "number of textures");
-
-	_modelID = Engine::instance()->addModel(getEntity()->getEntityID(), _modelName);
 
     // Lee cada textura: { nombre, nombre archivo, submesh }
     for (int i = 0; i < nTextures; i++)
