@@ -282,17 +282,6 @@ namespace core
 			return *this / magnitude();
 		}
 
-		/*static inline const Vector3<int> up = Vector3<int>( 0, 1, 0 );
-		static inline const Vector3<int> down = Vector3<int>(0, -1, 0);
-		static inline const Vector3<int> left = Vector3<int>(-1, 0, 0);
-		static inline const Vector3<int> right = Vector3<int>(1, 0, 0);
-
-		static inline const Vector3<int> back = Vector3<int>(0, 0, -1);
-		static inline const Vector3<int> forward = Vector3<int>(0, 0, 1);
-
-		static inline const Vector3<int> one = Vector3<int>(1, 1, 1);
-		static inline const Vector3<int> zero = Vector3<int>(0, 0, 0);*/
-
 		/**
 		 * @brief Componente X del vector.
 		 */
@@ -317,4 +306,15 @@ namespace core
 		os << "(" << v.getX() << ", " << v.getY() << ", " << v.getZ() << ")";
 		return os;
 	}
+
+	inline static const Vector3<> UP = Vector3<>(0, 1, 0);
+	inline static const Vector3<> DOWN = Vector3<>(0, -1, 0);
+	inline static const Vector3<> LEFT = Vector3<>(-1, 0, 0);
+	inline static const Vector3<> RIGHT = Vector3<>(1, 0, 0);
+
+	inline static const Vector3<> BACK = Vector3<>(0, 0, -1);
+	inline static const Vector3<> FORWARD = Vector3<>(0, 0, 1);
+
+	inline static const Vector3<> ONE = Vector3<>(1, 1, 1);
+	inline static const Vector3<> ZERO = Vector3<>(0, 0, 0);
 }
