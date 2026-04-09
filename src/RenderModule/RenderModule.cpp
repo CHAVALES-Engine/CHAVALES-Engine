@@ -367,19 +367,23 @@ transformID RenderModule::addNode(const entityID& entityID, const core::Vector3<
 {
 	if (type == TransformType::WORLD) {
 		for (int i = 0; i < (int)_engineNodes.size(); i++)
+		{
 			if (_engineNodes[i].nodeID == entityID)
 			{
-				_engineNodes[i].sceneNode->setPosition(Ogre::Vector3(pos.getX(), pos.getY(), pos.getZ()));
-				_engineNodes[i].sceneNode->setOrientation(Ogre::Quaternion(rot.getW(), rot.getX(), rot.getY(), rot.getZ()));
-				_engineNodes[i].sceneNode->setScale(Ogre::Vector3(scale.getX(), scale.getY(), scale.getZ()));
-				return i; // ya existe
+				if (fromTransform)
+				{
+					_engineNodes[i].sceneNode->setPosition(Ogre::Vector3(pos.getX(), pos.getY(), pos.getZ()));
+					_engineNodes[i].sceneNode->setOrientation(Ogre::Quaternion(rot.getW(), rot.getX(), rot.getY(), rot.getZ()));
+					_engineNodes[i].sceneNode->setScale(Ogre::Vector3(scale.getX(), scale.getY(), scale.getZ()));
+				}
+				return i; //Ya existe.
 			}
+		}
 
 		//bool newNode = false;
 		//EngineNode* aux = nullptr;
 		// Crear nuevo nodo
-		EngineNode& aux = _engineNodes.emplace_back(
-			_sceneMgr->getRootSceneNode()->createChildSceneNode(), entityID);
+		EngineNode& aux = _engineNodes.emplace_back(_sceneMgr->getRootSceneNode()->createChildSceneNode(), entityID);
 		aux.sceneNode->setPosition(Ogre::Vector3(pos.getX(), pos.getY(), pos.getZ()));
 		aux.sceneNode->setOrientation(Ogre::Quaternion(rot.getW(), rot.getX(), rot.getY(), rot.getZ()));
 		aux.sceneNode->setScale(Ogre::Vector3(scale.getX(), scale.getY(), scale.getZ()));
@@ -401,6 +405,11 @@ transformID RenderModule::addNode(const entityID& entityID, const core::Vector3<
 
 	}
 	
+}
+
+transformID RenderModule::addNode(const entityID& entityID, const TransformType type)
+{
+	return addNode(entityID, core::Vector3<float>(0.0f, 0.0f, 0.0f), core::Quaternion<float>(0.0f, 0.0f, 0.0f, 1.0f), core::Vector3<float>(1.0f, 1.0f, 1.0f), false, type);
 }
 
 transformID RenderModule::getNode(const entityID& entityID)
@@ -500,7 +509,7 @@ void RenderModule::setViewportBGColor(core::Color color)
 cameraID RenderModule::addCamera(const entityID& entityID, const float& FOVy, const float& nearClipDistance, const float& farClipDistance, const float& focalLength, const core::Color& bgColor)
 {
 	//Si no existe un nodo con este entityID lo creamos
-	transformID nodeID = addNode(entityID);
+	transformID nodeID = addNode(entityID, TransformType::WORLD);
 	Ogre::Camera* camera = _cameras.emplace_back(_sceneMgr->createCamera("camera" + entityID.toString()));
 	camera->setAutoAspectRatio(true);
 	_engineNodes[nodeID].sceneNode->attachObject(camera);
@@ -631,7 +640,7 @@ void RenderModule::setCameraFocalLength(const cameraID& id, const float& focalLe
 
 modelID RenderModule::addModel(const entityID& entityID, const std::string& modelFolder, const std::string& modelFile)
 {
-	transformID nodeID = addNode(entityID);
+	transformID nodeID = addNode(entityID, TransformType::WORLD);
 
 	if (!_rgm->resourceGroupExists(modelFolder))
 	{
@@ -763,7 +772,7 @@ void RenderModule::setModelVisible(const modelID& id, const bool& visible)
 
 void RenderModule::addAnimator(const entityID& entityID, modelID& modelID)
 {
-	transformID nodeID = addNode(entityID);
+	transformID nodeID = addNode(entityID, TransformType::WORLD);
 	modelID = -1;
 	auto& node = _engineNodes[nodeID].sceneNode;
 	for (unsigned int i = 0; i < node->numAttachedObjects(); ++i)
@@ -899,7 +908,7 @@ void RenderModule::updateAnimation(const animationID& animationID, const uint64_
 
 lightID RenderModule::addLight(const entityID& entityID, const int& type, const core::Color& color, const float& intensity) {
 	//Si no existe un nodo con este entityID lo creamos
-	transformID nodeID = addNode(entityID);
+	transformID nodeID = addNode(entityID, TransformType::WORLD);
 
 	Ogre::Light* light = _sceneMgr->createLight("light" + std::to_string(_nextLightID));
 
@@ -981,7 +990,7 @@ void RenderModule::setLightSpotRange(const lightID& id, const float& inner, cons
 
 particleGenID RenderModule::addParticleGen(const entityID& entityID, const std::string& textureFolder, const std::string& textureFile)
 {
-	addNode(entityID);
+	addNode(entityID, TransformType::WORLD);
 
 	std::string matName = "ParticleMat_" + std::to_string(_nextParticleGenID);
 
@@ -1159,7 +1168,7 @@ void RenderModule::setUIPanelVisible(const uiPanelID& id, bool visible) {
 
 }
 uiLabelID RenderModule::addUILabel(const std::string& panelName, const entityID& entityID, const std::string& text,const  float opacity,const  core::Vector2<float> size, const core::Color textColor,const core::Color bgColor,const float fontSize,const TextAlign textAlign) {
-	addNode(entityID);
+	addNode(entityID, TransformType::UI);
 
 	uiPanelID panelID = getOrSetPanel(panelName);
 
@@ -1228,7 +1237,7 @@ void RenderModule::setUILabelAlign(const uiLabelID labelID, const std::string& a
 
 uiButtonID RenderModule::addUIButton(const std::string& panelName, const entityID& entityID, const std::string& text, const std::string& textureFolder, const std::string& textureFile, core::Vector2<float> size)
 {
-	addNode(entityID);
+	addNode(entityID, TransformType::UI);
 
 	uiPanelID panelID = getOrSetPanel(panelName);
 	UIButtonData button;
@@ -1300,7 +1309,7 @@ void RenderModule::setUIButtonCallback(const uiButtonID& buttonID, std::function
 
 
 uiTextureRectID RenderModule::addUITextureRect(const std::string& panelName, const entityID& entityID, const std::string& textureFolder, const std::string& textureFile, core::Vector2<float> size) {
-	addNode(entityID);
+	addNode(entityID, TransformType::UI);
 	uiPanelID panelID = getOrSetPanel(panelName);
 	UITextureRectData tex;
 	tex.entity = entityID;

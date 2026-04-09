@@ -131,7 +131,8 @@ public:
     /*
     * @brief Anadir nodo.
     */
-    transformID addNode(const entityID& entityID, const core::Vector3<float>& pos = core::Vector3<float>(0.0f, 0.0f, 0.0f), const core::Quaternion<float>& rot = core::Quaternion<float>(0.0f, 0.0f, 0.0f, 1.0f), const core::Vector3<float> scale = core::Vector3<float>(1.0f, 1.0f, 1.0f), const bool& fromTransform = false,const TransformType type = TransformType::WORLD);
+    transformID addNode(const entityID& entityID, const core::Vector3<float>& pos = core::Vector3<float>(0.0f, 0.0f, 0.0f), const core::Quaternion<float>& rot = core::Quaternion<float>(0.0f, 0.0f, 0.0f, 1.0f), const core::Vector3<float> scale = core::Vector3<float>(1.0f, 1.0f, 1.0f), const bool& fromTransform = false, const TransformType type = TransformType::WORLD);
+    transformID addNode(const entityID& entityID, const TransformType type = TransformType::WORLD);
     /*
     * @brief Getter de nodo. Devuelve -1 si no existe.
     */
