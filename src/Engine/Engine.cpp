@@ -514,6 +514,16 @@ std::pair<std::string, std::string> Engine::getParticleByName(const std::string&
 	return _resourcesModule->getParticle(name);
 }
 
+std::pair<std::string, std::string> Engine::getImageByName(const std::string& name)
+{
+	return _resourcesModule->getImages(name);
+}
+
+std::pair<std::string, std::string> Engine::getFontByName(const std::string& name)
+{
+	return _resourcesModule->getFonts(name);
+}
+
 #pragma endregion
 //------Metodo de PlatformModule:
 int Engine::getWindowWidth() const

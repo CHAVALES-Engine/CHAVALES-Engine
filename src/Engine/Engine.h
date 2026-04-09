@@ -516,6 +516,8 @@ public:
 	std::pair<std::string, std::string> getModelByName(const std::string& name);
 	std::pair<std::string, std::string> getTextureByName(const std::string& name);
 	std::pair<std::string, std::string> getParticleByName(const std::string& name);
+	std::pair<std::string, std::string> getImageByName(const std::string& name);
+	std::pair<std::string, std::string> getFontByName(const std::string& name);
 
 #pragma endregion
 

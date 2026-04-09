@@ -14,6 +14,8 @@ typedef std::unordered_map<AssetName, std::string> Audios;
 typedef std::unordered_map<AssetName, std::pair<FolderName, FileName>> Models;
 typedef std::unordered_map<AssetName, std::pair<FolderName, FileName>> Particles;
 typedef std::unordered_map<AssetName, std::pair<FolderName, FileName>> Textures;
+typedef std::unordered_map<AssetName, std::pair<FolderName, FileName>> Images;
+typedef std::unordered_map<AssetName, std::pair<FolderName, FileName>> Fonts;
 
 
 /*
@@ -61,16 +63,30 @@ public:
 	/// <summary>
 	/// Getter to recive the desire particle
 	/// </summary>
-	/// <param name="name">Nombre del particle</param>
+	/// <param name="name">Name of particle</param>
 	/// <returns></returns>
 	std::pair<FolderName, FileName> getParticle(AssetName name);
 
 	/// <summary>
 	/// Getter to recive the desire texture
 	/// </summary>
-	/// <param name="name">Nombre del texture</param>
+	/// <param name="name">Name of texture</param>
 	/// <returns></returns>
 	std::pair<FolderName, FileName> getTexture(AssetName name);
+
+	//// <summary>
+	/// Getter to recive the desire image
+	/// </summary>
+	/// <param name="name">Name of image</param>
+	/// <returns></returns>
+	std::pair<FolderName, FileName> getImages(AssetName name);
+
+	/// <summary>
+	/// Getter to recive the desire font
+	/// </summary>
+	/// <param name="name">Name of font</param>
+	/// <returns></returns>
+	std::pair<FolderName, FileName> getFonts(AssetName name);
 
 	/// <summary>
 	/// Method to set the Path of the found audio
@@ -100,6 +116,19 @@ public:
 	/// <param name="newRoute">Name of the new path</param>
 	void setTextureSource(AssetName name, FolderName newRoute);
 
+	/// <summary>
+	/// Method to set the Path of the found image
+	/// </summary>
+	/// <param name="name">Name of the desire asset</param>
+	/// <param name="newRoute">Name of the new path</param>
+	void setImageSource(AssetName name, FolderName newRoute);
+
+	/// <summary>
+	/// Method to set the Path of the found font
+	/// </summary>
+	/// <param name="name">Name of the desire asset</param>
+	/// <param name="newRoute">Name of the new path</param>
+	void setFontSource(AssetName name, FolderName newRoute);
 
 private:
 	/// <summary>
@@ -113,11 +142,14 @@ private:
 	
 	std::pair<FolderName, FileName> loadOgreAsset(const std::string& assetName,std::pair<sol::object, sol::object>& assetType);
 	
-	std::string _assetsRoute; // Route of the assets.lua
+	std::string _luaRoute; // Route of the assets.lua
+	std::string _assetsRoute;
 
 	Audios _audioMap; // Map to reserve all audios used in the game
 	Models _modelsMap;  // Map to reserve all models used in the game
 	Particles _particlesMap;  // Map to reserve all particles used in the game
 	Textures _texturesMap;  // Map to reserve all textures used in the game
+	Fonts _fontsMap;
+	Images _imagesMap;
 };
 

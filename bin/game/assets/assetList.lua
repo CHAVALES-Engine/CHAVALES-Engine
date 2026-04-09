@@ -1,5 +1,5 @@
 assets = {
-	Mesh = {
+	mesh = { --Mallas
 		metroid = {
 			sourceFolder = "./game/assets/models/",
 			fileName = "metroid.fbx"
@@ -13,14 +13,14 @@ assets = {
 			fileName = "gizmo.fbx"
 		}
 	},
-	Audio = { --Audios
+	audio = { --Audios
 		lifeUp = "./game/assets/sound/sfx/smb_1-up.wav",
 		lifeDown = "./game/assets/sound/sfx/smb_1-up.wav",
 	},
-	Particles = { --Particulas
+	particles = { --Particulas
 
 	},
-	Texture = {
+	texture = {
 		membrane = {
 			sourceFolder = "./game/assets/textures/metroid/membrane/",
 			fileName = "Base_Color.jpeg"
@@ -37,5 +37,11 @@ assets = {
 			sourceFolder = "./game/assets/textures/metroid/mandibles/",
 			fileName = "Base_Color.jpeg"
 		}
+	}
+	images = { --Imagenes
+
+	},
+	fonts = { --Fuentes
+
 	}
 }
