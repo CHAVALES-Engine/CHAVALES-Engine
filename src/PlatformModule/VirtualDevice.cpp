@@ -11,6 +11,13 @@ void input::VirtualDevice::_setConnected(bool con)
 	_connected = con;
 }
 
+void input::VirtualDevice::_update()
+{
+	std::memcpy(_mouseButtonLastState, _mouseButtonState, sizeof(_mouseButtonState));
+	std::memcpy(_keyLastState, _keyState, sizeof(_keyState));
+	std::memcpy(_gamepadButtonLastState, _gamepadButtonState, sizeof(_gamepadButtonState));
+}
+
 void input::VirtualDevice::_setAxis(input::InputAxis axis, float value)
 {
 	std::visit([&](auto a) {
@@ -21,6 +28,7 @@ void input::VirtualDevice::_setAxis(input::InputAxis axis, float value)
 		}
 		else if constexpr (std::is_same_v<T, GamepadAxis>)
 		{
+			// PAIGRO AQUI normalizar
 			_gamepadAxisState[a] = value;
 		}
 		}, axis);
@@ -28,22 +36,19 @@ void input::VirtualDevice::_setAxis(input::InputAxis axis, float value)
 
 void input::VirtualDevice::_setButton(input::InputButtons button, bool value)
 {
+	Debug::out("hola");
 	std::visit([&](auto b) {
 		using T = decltype(b);
 		if constexpr (std::is_same_v<T, Key>)
 		{
-			//Debug::out(_keyState[b]);
-			_keyLastState[b] = _keyState[b];
 			_keyState[b] = value;
 		}
 		else if constexpr (std::is_same_v<T, MouseButton>)
 		{
-			_mouseButtonLastState[b] = _mouseButtonState[b];
 			_mouseButtonState[b] = value;
 		}
 		else if constexpr (std::is_same_v<T, GamepadButton>)
 		{
-			_gamepadButtonLastState[b] = _gamepadButtonState[b];
 			_gamepadButtonState[b] = value;
 		}
 		}, button);
