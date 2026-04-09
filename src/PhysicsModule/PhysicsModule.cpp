@@ -1,11 +1,8 @@
-// PhysicModule.cpp : Defines the functions for the static library.
-//
-//#include "../../dependencies/PhysX/physx/include/PxPhysicsAPI.h"
 #include "PhysicsModule.h"
 #include <PxPhysicsAPI.h>
 
-
 using namespace physx;
+
 struct PhysXComponent
 {
 	PxRigidActor* actor = nullptr;
@@ -72,9 +69,8 @@ bool PhysicsModule::Init()
 	PxDefaultCpuDispatcher* dispatcher = PxDefaultCpuDispatcherCreate(2);
 	sceneDesc.cpuDispatcher = dispatcher;
 
-	//colisiones
 	sceneDesc.filterShader = PxDefaultSimulationFilterShader;
-	//crear escena
+
 	gScene = gPhysics->createScene(sceneDesc);
 
 	if (!gScene)
@@ -83,17 +79,45 @@ bool PhysicsModule::Init()
 	return gPhysics != nullptr;
 }
 
+ComponentID PhysicsModule::CreateRigidBody(core::Vector3<> pos, float mass, bool useGravity)
+{
+	if (!gPhysics || !gScene) return 0;
+
+	PxTransform transform(PxVec3(pos.getX(), pos.getY(), pos.getZ()));
+
+	PxRigidDynamic* body = gPhysics->createRigidDynamic(transform);
+	if (!body) return 0;
+
+	PxShape* shape = gPhysics->createShape(
+		PxBoxGeometry(0.5f, 0.5f, 0.5f),
+		*defaultMaterial
+	);
+
+	body->attachShape(*shape);
+
+	PxRigidBodyExt::setMassAndUpdateInertia(*body, mass > 0.0f ? mass : 1.0f);
+
+	body->setActorFlag(PxActorFlag::eDISABLE_GRAVITY, !useGravity);
+
+	gScene->addActor(*body);
+
+	ComponentID id = nextID++;
+	physicsMap[id] = { body, shape };
+
+	return id;
+}
 
 ComponentID PhysicsModule::CreateBoxShape(core::Vector3<> size, core::Vector3<> position, bool isDynamic, bool isKinematic)
-{//a lo mejor tengo que pasar si es rigidbody dinamico o estatico para ver cual creo de physx
+{
 	if (!gPhysics || !gScene) return 0;
 
 	PxTransform transform(PxVec3(position.getX(), position.getY(), position.getZ()));
 
-	PxRigidActor* actor = isDynamic ? static_cast<PxRigidActor*>(gPhysics->createRigidDynamic(transform)) :
+	PxRigidActor* actor = isDynamic ?
+		static_cast<PxRigidActor*>(gPhysics->createRigidDynamic(transform)) :
 		static_cast<PxRigidActor*>(gPhysics->createRigidStatic(transform));
 
-	if (isDynamic && isKinematic)//lo hago kinematico
+	if (isDynamic && isKinematic)
 		static_cast<PxRigidDynamic*>(actor)->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, true);
 
 	PxBoxGeometry geo(size.getX() * 0.5f, size.getY() * 0.5f, size.getZ() * 0.5f);
@@ -106,24 +130,51 @@ ComponentID PhysicsModule::CreateBoxShape(core::Vector3<> size, core::Vector3<> 
 
 	gScene->addActor(*actor);
 
-	//id y guarda en mapa
 	ComponentID id = nextID++;
 	physicsMap[id] = { actor, shape };
 
 	return id;
-
 }
 
+ComponentID PhysicsModule::CreateCapsuleShape(float radius, float height, const core::Vector3<>& center, const core::Vector3<>& worldPos, bool isDynamic, bool isKinematic)
+{
+	if (!gPhysics || !gScene)
+		return 0;
+
+	PxTransform transform(PxVec3(worldPos.getX(), worldPos.getY(), worldPos.getZ()));
+
+	PxRigidActor* actor = isDynamic ?
+		static_cast<PxRigidActor*>(gPhysics->createRigidDynamic(transform)) :
+		static_cast<PxRigidActor*>(gPhysics->createRigidStatic(transform));
+
+	if (isDynamic && isKinematic)
+		static_cast<PxRigidDynamic*>(actor)->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, true);
+
+	PxCapsuleGeometry geo(radius, height * 0.5f);
+	PxShape* shape = gPhysics->createShape(geo, *defaultMaterial);
+
+	actor->attachShape(*shape);
+
+	if (isDynamic && !isKinematic)
+		PxRigidBodyExt::updateMassAndInertia(*static_cast<PxRigidDynamic*>(actor), 10.f);
+
+	gScene->addActor(*actor);
+
+	ComponentID id = nextID++;
+	physicsMap[id] = { actor, shape };
+
+	return id;
+}
 
 void PhysicsModule::SetPhysicsPosition(ComponentID id, const core::Vector3<>& pos)
 {
 	auto it = physicsMap.find(id);
 	if (it == physicsMap.end()) return;
 
-	PxRigidActor* actor = it->second.actor;
-	actor->setGlobalPose(PxTransform(PxVec3(pos.getX(), pos.getY(), pos.getZ())));
+	it->second.actor->setGlobalPose(
+		PxTransform(PxVec3(pos.getX(), pos.getY(), pos.getZ()))
+	);
 }
-
 
 core::Vector3<> PhysicsModule::GetPhysicsPosition(ComponentID id)
 {
@@ -131,43 +182,60 @@ core::Vector3<> PhysicsModule::GetPhysicsPosition(ComponentID id)
 	if (it == physicsMap.end()) return { 0,0,0 };
 
 	PxTransform t = it->second.actor->getGlobalPose();
-
-	return core::Vector3<>(t.p.x,t.p.y,t.p.z);
+	return core::Vector3<>(t.p.x, t.p.y, t.p.z);
 }
 
+core::Vector3<> PhysicsModule::GetLinearVelocity(ComponentID id)
+{
+	auto it = physicsMap.find(id);
+	if (it == physicsMap.end()) return { 0,0,0 };
 
-ComponentID PhysicsModule::CreateCapsuleShape(float radius,float height, const core::Vector3<>& center, const core::Vector3<>& worldPos,bool isDynamic, bool isKinematic){
-	if (!gPhysics || !gScene)
-		return 0;
+	PxRigidDynamic* body = it->second.actor->is<PxRigidDynamic>();
+	if (!body) return { 0,0,0 };
 
-	//transform ini
-	PxTransform transform(PxVec3(worldPos.getX(), worldPos.getY(), worldPos.getZ()));
-
-	//estatico o dinamico
-	PxRigidActor* actor = isDynamic ? static_cast<PxRigidActor*>(gPhysics->createRigidDynamic(transform)) :
-		static_cast<PxRigidActor*>(gPhysics->createRigidStatic(transform));
-
-	if (isDynamic && isKinematic)
-		static_cast<PxRigidDynamic*>(actor)->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, true);
-
-	//capsula si tienen mismo radio y altura es esfera
-	PxCapsuleGeometry geo(radius, height * 0.5f);
-	PxShape* shape = gPhysics->createShape(geo, *defaultMaterial);
-
-	actor->attachShape(*shape);
-
-	//masa si es dinamico
-	if (isDynamic && !isKinematic) PxRigidBodyExt::updateMassAndInertia(*static_cast<PxRigidDynamic*>(actor), 10.f);
-
-	//anadido a escena
-	gScene->addActor(*actor);
-
-	//id
-	ComponentID id = nextID++;
-	physicsMap[id] = { actor, shape };
-
-	return id;
+	PxVec3 vel = body->getLinearVelocity();
+	return core::Vector3<>(vel.x, vel.y, vel.z);
 }
+
+void PhysicsModule::SetLinearVelocity(ComponentID id, core::Vector3<> vel)
+{
+	auto it = physicsMap.find(id);
+	if (it == physicsMap.end()) return;
+
+	PxRigidDynamic* body = it->second.actor->is<PxRigidDynamic>();
+	if (!body) return;
+
+	body->setLinearVelocity(PxVec3(vel.getX(), vel.getY(), vel.getZ()));
+}
+
+void PhysicsModule::AddForce(ComponentID id, core::Vector3<> force)
+{
+	auto it = physicsMap.find(id);
+	if (it == physicsMap.end()) return;
+
+	PxRigidDynamic* body = it->second.actor->is<PxRigidDynamic>();
+	if (!body) return;
+
+	body->addForce(
+		PxVec3(force.getX(), force.getY(), force.getZ()),
+		PxForceMode::eFORCE
+	);
+}
+
+void PhysicsModule::AddImpulse(ComponentID id, core::Vector3<> impulse)
+{
+	auto it = physicsMap.find(id);
+	if (it == physicsMap.end()) return;
+
+	PxRigidDynamic* body = it->second.actor->is<PxRigidDynamic>();
+	if (!body) return;
+
+	body->addForce(
+		PxVec3(impulse.getX(), impulse.getY(), impulse.getZ()),
+		PxForceMode::eIMPULSE
+	);
+}
+
 void PhysicsModule::Update(float dt)
 {
 	if (!gScene) return;
@@ -175,11 +243,8 @@ void PhysicsModule::Update(float dt)
 	gScene->simulate(dt);
 	gScene->fetchResults(true);
 
-	// sincronizar con Ogre
 	for (auto& [id, comp] : physicsMap)
 	{
 		PxTransform t = comp.actor->getGlobalPose();
-
-		//deberia actualizar y luego llamara a esto con engine paa mover los transforms o cambiarlos fuera con ogre
 	}
 }

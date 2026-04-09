@@ -24,6 +24,15 @@ public:
 	ComponentID CreateCapsuleShape(float radius, float height, const core::Vector3<>& center, const core::Vector3<>& worldPos, bool isDynamic, bool isKinematic);
 	void SetPhysicsPosition(ComponentID id, const core::Vector3<>& pos);
 
+	ComponentID CreateRigidBody(core::Vector3<> pos, float mass, bool useGravity);
+
+	core::Vector3<> GetLinearVelocity(ComponentID id);
+
+	void SetLinearVelocity(ComponentID id, core::Vector3<> vel);
+
+	void AddForce(ComponentID id, core::Vector3<> force);
+	void AddImpulse(ComponentID id, core::Vector3<> impulse);
+
 private:
 	ComponentID nextID = 1;
 	std::unordered_map<ComponentID, PhysXComponent> physicsMap;

@@ -473,7 +473,7 @@ float Engine::getVolume(int chID)
 
 #pragma region Physics
 
- uint32_t Engine::createBoxCollider(const core::Vector3<>& size, const core::Vector3<>& pos, bool isDynamic, bool isKinematic)
+uint32_t Engine::createBoxCollider(const core::Vector3<>& size, const core::Vector3<>& pos, bool isDynamic, bool isKinematic)
 {
 	return _physicsModule->CreateBoxShape(size, pos, isDynamic, isKinematic);
 }
@@ -488,10 +488,36 @@ core::Vector3<> Engine::getPhysicsPosition(uint32_t id)
 	return _physicsModule->GetPhysicsPosition(id);
 }
 
-uint32_t Engine::createCapsuleCollider(float radius,float height,const core::Vector3<>& center,const core::Vector3<>& worldPos,bool isDynamic, bool isKinematic)
+uint32_t Engine::createCapsuleCollider(float radius, float height, const core::Vector3<>& center, const core::Vector3<>& worldPos, bool isDynamic, bool isKinematic)
 {
 	if (!_physicsModule) return 0;
 	return _physicsModule->CreateCapsuleShape(radius, height, center, worldPos, isDynamic, isKinematic);
+}
+
+uint32_t Engine::createRigidBody(core::Vector3<> pos, float mass, bool useGravity)
+{
+	return _physicsModule->CreateRigidBody(pos, mass, useGravity);
+}
+
+
+core::Vector3<> Engine::getLinearVelocity(uint32_t id)
+{
+	return _physicsModule->GetLinearVelocity(id);
+}
+
+void Engine::setLinearVelocity(uint32_t id, core::Vector3<> vel)
+{
+	_physicsModule->SetLinearVelocity(id, vel);
+}
+
+void Engine::addForce(uint32_t id, core::Vector3<> force)
+{
+	_physicsModule->AddForce(id, force);
+}
+
+void Engine::addImpulse(uint32_t id, core::Vector3<> impulse)
+{
+	_physicsModule->AddForce(id, impulse);
 }
 
 #pragma endregion

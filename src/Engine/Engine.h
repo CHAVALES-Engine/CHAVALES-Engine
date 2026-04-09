@@ -30,7 +30,7 @@ namespace core
 	class Scene;
 	//class Vector3<>;
 }
-
+ 
 using entityID = ChavalesGUID;
 using transformID = uint64_t;
 using cameraID = uint64_t;
@@ -490,18 +490,14 @@ public:
 	*/
 	uint32_t createCapsuleCollider(float radius, float height, const core::Vector3<>& center, const core::Vector3<>& worldPos, bool isDynamic, bool isKinematic);
 
-	// creación
-	//ComponentID createRigidBody(core::Vector3<> pos, float mass, bool useGravity);
+	uint32_t createRigidBody(core::Vector3<> pos, float mass, bool useGravity);
 
-	// getters
-	//core::Vector3<> getPhysicsPosition(ComponentID id);
-	//core::Vector3<> getLinearVelocity(ComponentID id);
+	core::Vector3<> getLinearVelocity(uint32_t id);
 
-	//void setLinearVelocity(ComponentID id, core::Vector3<> vel);
+	void setLinearVelocity(uint32_t id, core::Vector3<> vel);
 
-	// fuerzas
-	//void addForce(ComponentID id, core::Vector3<> force);
-	//void addImpulse(ComponentID id, core::Vector3<> impulse);
+	void addForce(uint32_t id, core::Vector3<> force);
+	void addImpulse(uint32_t id, core::Vector3<> impulse);
 
 #pragma endregion
 
