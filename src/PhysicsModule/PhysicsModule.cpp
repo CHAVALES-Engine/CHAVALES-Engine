@@ -150,7 +150,7 @@ void PhysicsModule::SetPhysicsPosition(ComponentID id, const core::Vector3<>& po
 	it->second.actor->setGlobalPose(PxTransform(PxVec3(pos.getX(), pos.getY(), pos.getZ())));
 }
 
-core::Vector3<> PhysicsModule::GetPhysicsPosition(ComponentID id)
+core::Vector3<> PhysicsModule::GetPhysicsPosition(uint32_t id)
 {
 	auto it = physicsMap.find(id);
 	if (it == physicsMap.end()) return { 0,0,0 };
@@ -158,7 +158,7 @@ core::Vector3<> PhysicsModule::GetPhysicsPosition(ComponentID id)
 	return core::Vector3<>(t.p.x, t.p.y, t.p.z);
 }
 
-core::Vector3<> PhysicsModule::GetLinearVelocity(ComponentID id)
+core::Vector3<> PhysicsModule::GetLinearVelocity(uint32_t id)
 {
 	auto it = physicsMap.find(id);
 	if (it == physicsMap.end()) return { 0,0,0 };
@@ -168,7 +168,7 @@ core::Vector3<> PhysicsModule::GetLinearVelocity(ComponentID id)
 	return core::Vector3<>(vel.x, vel.y, vel.z);
 }
 
-void PhysicsModule::SetLinearVelocity(ComponentID id, core::Vector3<> vel)
+void PhysicsModule::SetLinearVelocity(uint32_t id, core::Vector3<> vel)
 {
 	auto it = physicsMap.find(id);
 	if (it == physicsMap.end()) return;
@@ -177,7 +177,7 @@ void PhysicsModule::SetLinearVelocity(ComponentID id, core::Vector3<> vel)
 	body->setLinearVelocity(PxVec3(vel.getX(), vel.getY(), vel.getZ()));
 }
 
-void PhysicsModule::AddForce(ComponentID id, core::Vector3<> force)
+void PhysicsModule::AddForce(uint32_t id, core::Vector3<> force)
 {
 	auto it = physicsMap.find(id);
 	if (it == physicsMap.end()) return;
@@ -186,7 +186,7 @@ void PhysicsModule::AddForce(ComponentID id, core::Vector3<> force)
 	body->addForce(PxVec3(force.getX(), force.getY(), force.getZ()), PxForceMode::eFORCE);
 }
 
-void PhysicsModule::AddImpulse(ComponentID id, core::Vector3<> impulse)
+void PhysicsModule::AddImpulse(uint32_t id, core::Vector3<> impulse)
 {
 	auto it = physicsMap.find(id);
 	if (it == physicsMap.end()) return;

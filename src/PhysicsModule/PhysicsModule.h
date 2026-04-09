@@ -28,11 +28,11 @@ public:
 	void SetPhysicsPosition(ComponentID id, const core::Vector3<>& pos);
 
 	//rigidbody
-	ComponentID CreateRigidBody(core::Vector3<> pos, float mass, bool useGravity);
-	core::Vector3<> GetLinearVelocity(ComponentID id);
-	void SetLinearVelocity(ComponentID id, core::Vector3<> vel);
-	void AddForce(ComponentID id, core::Vector3<> force);
-	void AddImpulse(ComponentID id, core::Vector3<> impulse);
+	uint32_t CreateRigidBody(core::Vector3<> pos, float mass, bool useGravity);
+	core::Vector3<> GetLinearVelocity(uint32_t id);
+	void SetLinearVelocity(uint32_t id, core::Vector3<> vel);
+	void AddForce(uint32_t id, core::Vector3<> force);
+	void AddImpulse(uint32_t id, core::Vector3<> impulse);
 
 
 	//callbacks

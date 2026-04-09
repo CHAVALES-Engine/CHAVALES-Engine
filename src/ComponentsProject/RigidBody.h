@@ -9,7 +9,6 @@ public:
 	// VARIABLES
 	Engine* _eng = nullptr;
 
-	std::string _id;
 	unsigned int physicsID = 0;
 
 	float mass = 1.0f;
