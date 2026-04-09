@@ -37,7 +37,7 @@ assets = {
 			sourceFolder = "./game/assets/textures/metroid/mandibles/",
 			fileName = "Base_Color.jpeg"
 		}
-	}
+	},
 	images = { --Imagenes
 
 	},

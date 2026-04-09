@@ -620,6 +620,7 @@ void RenderModule::deleteModel(const modelID& id)
 		Ogre::SceneNode* parent = model->getParentSceneNode();
 		parent->detachObject(model);
 		_sceneMgr->destroyEntity(model);
+		//_sceneMgr->destroySceneNode(parent);
 		_models.erase(_models.begin() + id);
 	}
 }
