@@ -49,6 +49,19 @@ scene = { -- entidades en escena
 			}
 		}
    },
+   cube3 = {
+		components = {
+			Transform = {
+				position = Vector3.new(200,100,100),
+				rotation = Quaternion.new(),
+				scale = Vector3.new(1.0),
+				},
+			ModelRenderer = {
+				file = "gizmo",
+				["number of textures"] = 0
+			}
+		}
+   },
    light = {
 		components = {
 			Transform = {

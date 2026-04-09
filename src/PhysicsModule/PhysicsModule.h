@@ -1,14 +1,12 @@
 #pragma once
 // TODO: This is an example of a library function
 #include "../../dependencies/PhysX/physx/include/PxPhysicsAPI.h"
-
 #include "../../src/Core-Defs/Vector3.h"
+#include "../../src/Core-Defs/PhysicsTypes.h"
 #include <unordered_map>
 #include "../../dependencies/PhysX/physx/include/PxSimulationEventCallback.h"
 
-using ComponentID = uint32_t;//ID unico de tu componente de motor
 struct PhysXComponent;
-struct PhysicsEvent;
 
 
 class PhysicsModule : public physx::PxSimulationEventCallback

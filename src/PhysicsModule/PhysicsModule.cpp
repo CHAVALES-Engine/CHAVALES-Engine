@@ -9,22 +9,6 @@ struct PhysXComponent
 	PxShape* shape = nullptr;
 };
 
-enum class CollisionType {
-	Enter,
-	Stay,
-	Exit,
-	TriggerEnter,
-	TriggerStay,
-	TriggerExit
-};
-
-struct PhysicsEvent {
-	ComponentID a;
-	ComponentID b;
-	CollisionType type;
-};
-
-
 void fnPhysicModule() {}
 
 PxDefaultAllocator gAllocator;
