@@ -376,7 +376,7 @@ transformID RenderModule::addNode(const entityID& entityID, const core::Vector3<
 					_engineNodes[i].sceneNode->setOrientation(Ogre::Quaternion(rot.getW(), rot.getX(), rot.getY(), rot.getZ()));
 					_engineNodes[i].sceneNode->setScale(Ogre::Vector3(scale.getX(), scale.getY(), scale.getZ()));
 				}
-				return i; //Ya existe.
+				return i; //Ya existe
 			}
 		}
 
@@ -391,9 +391,13 @@ transformID RenderModule::addNode(const entityID& entityID, const core::Vector3<
 	}
 	else {
 		for (int i = 0; i < (int)_uiTransforms.size(); i++) {
-			if (_uiTransforms[i].entity == entityID) {
-				_uiTransforms[i].position = { pos.getX(), pos.getY() };
-				return i;
+			if (_uiTransforms[i].entity == entityID)
+			{
+				if (fromTransform)
+				{
+					_uiTransforms[i].position = { pos.getX(), pos.getY() };
+				}
+				return i; //Ya existe
 			}
 		}
 		UITransform uiT;
@@ -401,10 +405,7 @@ transformID RenderModule::addNode(const entityID& entityID, const core::Vector3<
 		uiT.position = { pos.getX(), pos.getY() };
 		_uiTransforms.push_back(uiT);
 		return _nextUITransformID++;
-		
-
 	}
-	
 }
 
 transformID RenderModule::addNode(const entityID& entityID, const TransformType type)
