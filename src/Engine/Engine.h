@@ -10,6 +10,7 @@
 
 #include "InputDefs.h"
 #include "guid.h"
+#include <CommonEnums.h>
 /*
  * @file Engine.h
  * @brief Defines the functions for the EngineAPI static library.
@@ -101,7 +102,7 @@ public:
 	/*
 	* @brief Anadir nodo.
 	*/
-	transformID addTransform(const entityID& entityID, const core::Vector3<float>& pos = core::Vector3<float>(0.0f, 0.0f, 0.0f), const core::Quaternion<float>& rot = core::Quaternion<float>(0.0f, 0.0f, 0.0f, 1.0f), const core::Vector3<float>& scale = core::Vector3<float>(1.0f, 1.0f, 1.0f));
+	transformID addTransform(const entityID& entityID, const core::Vector3<float>& pos = core::Vector3<float>(0.0f, 0.0f, 0.0f), const core::Quaternion<float>& rot = core::Quaternion<float>(0.0f, 0.0f, 0.0f, 1.0f), const core::Vector3<float>& scale = core::Vector3<float>(1.0f, 1.0f, 1.0f), const TransformType type = TransformType::WORLD);
 	/*
 	* @brief Establecer posicion del nodo.
 	*/
@@ -325,7 +326,7 @@ public:
 	/*
 	* @brief Anadir letrero al panel.
 	*/
-	uiLabelID addUILabel(const std::string& panelName, const entityID& entityID, const std::string& text);
+	uiLabelID addUILabel(const std::string& panelName, const entityID& entityID, const std::string& text, const  float opacity, const  core::Vector2<float> size, const core::Color textColor, const core::Color bgColor, const float fontSize, const TextAlign textAlign);
 	/*
 	* @brief Establecer el texto del letrero.
 	*/
@@ -363,7 +364,7 @@ public:
 	/*
 	* @brief Anadir boton al panel.
 	*/
-	uiButtonID addUIButton(const std::string& panelName, const entityID& entityID, const std::string& text, const std::string& textureFolder, const std::string& textureFile, core::Vector2<float> size);
+	uiButtonID addUIButton(const std::string& panelName, const entityID& entityID, const std::string& text, const std::string& textureName, core::Vector2<float> size);
 	/*
 	* @brief Establecer el texto del boton.
 	*/
@@ -394,7 +395,7 @@ public:
 	/*
 	* @brief Anadir textureRect al panel.
 	*/
-	uiTextureRectID addUITextureRect(const std::string& panelName, const entityID& entityID, const std::string& textureFolder, const std::string& textureFile, core::Vector2<float> size);
+	uiTextureRectID addUITextureRect(const std::string& panelName, const entityID& entityID,  const std::string& textureName, core::Vector2<float> size);
 	/*
 	* @brief Establecer textura del textureRect.
 	*/

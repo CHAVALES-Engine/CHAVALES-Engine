@@ -16,14 +16,13 @@ UIButton::~UIButton()
 }
 bool UIButton::init(const Properties& p)
 {
-	_textureFolder = getProperty<std::string>(p, "textureFolder");
-	_textureFile = getProperty<std::string>(p, "texturePath");
+	_textureName = getProperty<std::string>(p, "textureName");
 	_dimension = getProperty<core::Vector2<float>>(p, "dimension");
 	_text = getProperty<std::string>(p, "text");
 	_panelName = getProperty<std::string>(p, "panelName");
 	_opacity = getProperty<float>(p, "opacity");
 
-	_buttonID = Engine::instance()->addUIButton(_panelName, getEntity()->getEntityID(), _text, _textureFolder, _textureFile, _dimension);
+	_buttonID = Engine::instance()->addUIButton(_panelName, getEntity()->getEntityID(), _text, _textureName, _dimension);
 
 	return true;
 }
@@ -40,8 +39,8 @@ void UIButton::setVisible(bool visible) {
 }
 void UIButton::setTexture(const std::string& texture)
 {
-	_textureFile = texture;
-	Engine::instance()->setUIButtonTexture(_buttonID, _textureFile);
+	_textureName = texture;
+	Engine::instance()->setUIButtonTexture(_buttonID, _textureName);
 }
 void UIButton::setDimension(core::Vector2<float> dimension)
 {

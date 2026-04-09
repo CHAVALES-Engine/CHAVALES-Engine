@@ -11,7 +11,7 @@
 #include <Quaternion.h>
 #include <Vector3.h>
 #include <EngineAPI.h>
-
+#include <CommonEnums.h>
 using transformID = uint64_t;
 
 /*
@@ -38,6 +38,7 @@ using transformID = uint64_t;
  * return setProperty(properties, "atributo1", component);
  *
 */
+;
 class ENGINE_API Transform : public core::Component
 {
 	transformID _transformID;
@@ -50,6 +51,7 @@ class ENGINE_API Transform : public core::Component
 	bool _lockRotY = false;
 	bool _lockRotZ = false;
 
+	TransformType _type = TransformType::WORLD;
 	/**
 	 * @brief Lista de nombres de entidades a anyadir como hijos (Solo se usa en la inicializacion de componentes).
 	 */

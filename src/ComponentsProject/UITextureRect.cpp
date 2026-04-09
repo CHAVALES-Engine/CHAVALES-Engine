@@ -19,20 +19,19 @@ UITextureRect::~UITextureRect()
 
 bool UITextureRect::init(const Properties& p)
 {
-	_textureFolder = getProperty<std::string>(p, "textureFolder");
-	_textureFile = getProperty<std::string>(p, "texturePath");
+	_textureName = getProperty<std::string>(p, "textureName");
 	_panelName = getProperty<std::string>(p, "panelName");
 	_dimension = getProperty<core::Vector2<float>>(p, "dimension");
 	_opacity = getProperty<float>(p, "opacity");
 
-	_textureRectID = Engine::instance()->addUITextureRect(_panelName, getEntity()->getEntityID(), _textureFolder,_textureFile, _dimension);
+	_textureRectID = Engine::instance()->addUITextureRect(_panelName, getEntity()->getEntityID(), _textureName, _dimension);
 	return true;
 }
 
 void UITextureRect::setTexture(const std::string& texture)
 {
-	_textureFile = texture;
-	Engine::instance()->setUITextureRectTexture(_textureRectID, _textureFile);
+	_textureName = texture;
+	Engine::instance()->setUITextureRectTexture(_textureRectID, _textureName);
 }
 void UITextureRect::setDimension(core::Vector2<float> dimension)
 {

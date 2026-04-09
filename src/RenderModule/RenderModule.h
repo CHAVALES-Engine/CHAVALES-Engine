@@ -16,8 +16,9 @@
 #include "Vector2.h"
 #include "Quaternion.h"
 #include "Color.h"
-
+#include "CommonEnums.h"
 #include "guid.h"
+#include <CommonEnums.h>
 
 namespace Ogre
 {
@@ -33,6 +34,7 @@ namespace Ogre
 
 using entityID = ChavalesGUID;
 using transformID = uint64_t;
+using UITransformID = uint64_t;
 using cameraID = uint64_t;
 using modelID = uint64_t;
 using animationID = uint64_t;
@@ -51,11 +53,8 @@ struct EngineNode
 
     EngineNode(Ogre::SceneNode* node, entityID id) : sceneNode(node), nodeID(id) {}
 };
-enum class TextAlign {
-    LEFT,
-    CENTER,
-    RIGHT
-};
+
+
 struct UILabelData {
     entityID entity;
     std::string text;
@@ -66,8 +65,6 @@ struct UILabelData {
     core::Color bgColor = core::Color(0, 0, 0, 0);
     float fontSize = 16.0f;
     TextAlign align = TextAlign::LEFT;
-    std::string fontFolder;
-    std::string fontFile;
    // ImFont* font;
 };
 
@@ -106,7 +103,10 @@ struct UIPanelData {
     std::vector<UITextureRectData> textureRects;
 };
 
-
+struct UITransform {
+    entityID entity;
+    core::Vector2<float> position;
+};
 
 class RenderModule
 {
@@ -131,7 +131,7 @@ public:
     /*
     * @brief Anadir nodo.
     */
-    transformID addNode(const entityID& entityID, const core::Vector3<float>& pos = core::Vector3<float>(0.0f, 0.0f, 0.0f), const core::Quaternion<float>& rot = core::Quaternion<float>(0.0f, 0.0f, 0.0f, 1.0f), const core::Vector3<float> scale = core::Vector3<float>(1.0f, 1.0f, 1.0f), const bool& fromTransform = false);
+    transformID addNode(const entityID& entityID, const core::Vector3<float>& pos = core::Vector3<float>(0.0f, 0.0f, 0.0f), const core::Quaternion<float>& rot = core::Quaternion<float>(0.0f, 0.0f, 0.0f, 1.0f), const core::Vector3<float> scale = core::Vector3<float>(1.0f, 1.0f, 1.0f), const bool& fromTransform = false,const TransformType type = TransformType::WORLD);
     /*
     * @brief Getter de nodo. Devuelve -1 si no existe.
     */
@@ -160,6 +160,20 @@ public:
     * @brief Establecer escala del nodo. Relativo a world space.
     */
     void setNodeScale(const transformID& id, const core::Vector3<float>& scale);
+
+    //Metodos transform UI
+     /*
+    * @brief Getter de nodoUI. Devuelve -1 si no existe.
+    */
+    UITransformID getTransformUI(const entityID& entityID);
+     /*
+    * @brief Leer posicion del componente de la UI.
+    */
+    core::Vector2<float> getUIPosition(const transformID& id);
+    /*
+    * @brief Establecer posicion  del componente de la UI.
+    */
+    void setUIPosition(const transformID& id, const core::Vector2<float>& pos);
 
 
 
@@ -392,7 +406,7 @@ public:
     /*
      * @brief Añadir un letrero al panel
      */
-    uiLabelID addUILabel(const std::string& panelName, const entityID& entityID, const std::string& text);
+    uiLabelID addUILabel(const std::string& panelName, const entityID& entityID, const std::string& text, const  float opacity, const  core::Vector2<float> size, const core::Color textColor, const core::Color bgColor, const float fontSize, const TextAlign textAlign);
     /*
     * @brief Establecer si el letrero es visible
     */
@@ -434,11 +448,11 @@ public:
     /*
     * @brief Establecer si el boton es visible
     */
-    void setUIButtonVisible(const uiLabelID& buttonID, bool visible);
+    void setUIButtonVisible(const uiButtonID& buttonID, bool visible);
     /*
     * @brief Establecer el texto del boton
     */
-    void setUIButtonText(const uiLabelID& buttonID, const std::string& text);
+    void setUIButtonText(const uiButtonID& buttonID, const std::string& text);
     /*
     * @brief Establecer la textura del boton
     */
@@ -491,9 +505,12 @@ private:
     std::unordered_map<uiLabelID,std::pair< uiPanelID,int>> _labelToPanel;
     std::unordered_map<uiButtonID, std::pair<uiPanelID, int>> _buttonToPanel;
     std::unordered_map<uiTextureRectID, std::pair<uiPanelID, int>> _textureToPanel;
+    std::vector<UITransform> _uiTransforms;
     TextAlign stringToAlign(const std::string& align);
+    uiPanelID getOrSetPanel(const std::string& panelName);
 
     transformID _nextTransformID;
+    UITransformID _nextUITransformID;
     cameraID _nextCameraID;
     modelID _nextModelID;
     animationID _nextAnimationID;

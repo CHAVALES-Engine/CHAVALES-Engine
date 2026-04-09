@@ -33,8 +33,7 @@ class UITextureRect : public core::Component
 private :
 	textureRectID _textureRectID;
 	std::string  _panelName;
-	std::string _textureFolder;
-	std::string _textureFile;
+	std::string _textureName;
 	core::Vector2<float> _dimension;
 	float _opacity;
 

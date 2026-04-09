@@ -21,12 +21,24 @@ bool UILabel::init(const Properties& p)
 	_text = getProperty<std::string>(p, "text");
 	_panelName = getProperty<std::string>(p, "panelName");
 	_opacity = getProperty<float>(p, "opacity");
+	_dimension = getProperty<core::Vector2<float>>(p, "dimension");
 	_bgColor = getProperty<core::Color>(p, "bgColor");
 	_textColor = getProperty<core::Color>(p, "textColor");
-	_align = getProperty<std::string>(p, "align");
+	std::string auxAlign = getProperty<std::string>(p, "align");
+	if (auxAlign == "center") {
+		_align = TextAlign::CENTER;
+	}
+	else if(auxAlign == "right"){
+		_align = TextAlign::RIGHT;
+	}
+	else {
+		_align = TextAlign::LEFT;
+
+	}
+	_fontSize = getProperty<float>(p, "fontSize");
 	_fotntFolderPath = getProperty<std::string>(p, "fontFolder");
 	_fontFilePath = getProperty<std::string>(p, "fontPath");
-	_labelID = Engine::instance()->addUILabel(_panelName, getEntity()->getEntityID(), _text);
+	_labelID = Engine::instance()->addUILabel(_panelName, getEntity()->getEntityID(), _text,_opacity,_dimension,_textColor,_bgColor,_fontSize, _align);
 	return true;
 }
 
@@ -68,7 +80,7 @@ void UILabel::setTextColor(core::Color color){
 
 }
 
-void UILabel::setAlign(std::string align)
+void UILabel::setAlign(TextAlign align)
 {
 	_align = align;
 }

@@ -4,6 +4,8 @@
  */
 #pragma once
 #include <Component.h>
+#include <CommonEnums.h>
+
 using labelID = uint64_t;
 /*
  * +---------+
@@ -35,7 +37,8 @@ private:
 	core::Color _bgColor;
 	core::Color _textColor;
 	float _opacity;
-	std::string _align;
+	float _fontSize;
+	TextAlign _align = TextAlign::LEFT;
 	std::string _fontFilePath;
 	std::string _fotntFolderPath;
 public:
@@ -49,7 +52,7 @@ public:
 	void setDimension(core::Vector2<float> dimension);
 	void setBackgroudColor(core::Color color);
 	void setTextColor(core::Color color);
-	void setAlign(std::string align);
+	void setAlign(TextAlign align);
 	void setFont(std::string font);
 };
 

@@ -88,9 +88,9 @@ void Engine::setViewportBGColor(core::Color color)
 	_renderModule->setViewportBGColor(color);
 }
 
-transformID Engine::addTransform(const entityID& entityID, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float>& scale)
+transformID Engine::addTransform(const entityID& entityID, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float>& scale,const TransformType type)
 {
-	return _renderModule->addNode(entityID, pos, rot, scale, true);
+	return _renderModule->addNode(entityID, pos, rot, scale, true, type);
 }
 
 void Engine::setTransformPosition(const transformID& id, const core::Vector3<float>& pos)
@@ -335,8 +335,8 @@ void Engine::setUIPanelVisible(const uiPanelID& id, bool visible)
 {
 	_renderModule->setUIPanelVisible(id, visible);
 }
-uiLabelID  Engine::addUILabel(const std::string& panelName, const entityID& entityID, const std::string& text) {
-	return _renderModule->addUILabel(panelName, entityID, text);
+uiLabelID  Engine::addUILabel(const std::string& panelName, const entityID& entityID, const std::string& text, const  float opacity, const  core::Vector2<float> size, const core::Color textColor, const core::Color bgColor, const float fontSize, const TextAlign textAlign) {
+	return _renderModule->addUILabel(panelName, entityID, text,opacity,size,textColor,bgColor,fontSize,textAlign);
 }
 void  Engine::setUILabelText(const uiLabelID& uiLabelID, const std::string& text) {
 	_renderModule->setUILabelText(uiLabelID, text);
@@ -363,8 +363,10 @@ void  Engine::setUILabelAlign(const uiLabelID labelID, const std::string& align)
 	_renderModule->setUILabelAlign(labelID, align);
 }
 //void Engine::setUILabelFont(const uiLabelID id, ImFont* font){}
-uiButtonID Engine::addUIButton(const std::string& panelName, const entityID& entityID, const std::string& text, const std::string& textureFolder, const std::string& textureFile, core::Vector2<float> size) {
-	return _renderModule->addUIButton(panelName, entityID, text, textureFolder, textureFile, size);
+uiButtonID Engine::addUIButton(const std::string& panelName, const entityID& entityID, const std::string& text,  const std::string& textureName, core::Vector2<float> size) {
+	auto texture = _resourcesModule->getImages(textureName);
+
+	return _renderModule->addUIButton(panelName, entityID, text, texture.first, texture.second, size);
 }
 void Engine::setUIButtonText(const uiButtonID& buttonID, const std::string& text) {
 	_renderModule->setUIButtonText(buttonID, text);
@@ -385,8 +387,9 @@ void  Engine::setUIButtonOpacity(const uiButtonID& buttonID, float opacity) {
 void Engine::setUIButtonCallback(const uiButtonID& id, std::function<void()> callback) {
 	_renderModule->setUIButtonCallback(id, callback);
 }
-uiTextureRectID Engine::addUITextureRect(const std::string& panelName, const entityID& entityID, const std::string& textureFolder, const std::string& textureFile, core::Vector2<float> size) {
-	return _renderModule->addUITextureRect(panelName, entityID, textureFolder, textureFile, size);
+uiTextureRectID Engine::addUITextureRect(const std::string& panelName, const entityID& entityID,  const std::string& textureName, core::Vector2<float> size) {
+	auto texture = _resourcesModule->getTexture(textureName);
+	return _renderModule->addUITextureRect(panelName, entityID, texture.first, texture.second, size);
 }
 void Engine::setUITextureRectTexture(const uiTextureRectID& textureRectID, const std::string& texture) {
 	_renderModule->setUITextureRectTexture(textureRectID, texture);

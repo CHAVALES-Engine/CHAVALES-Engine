@@ -39,7 +39,10 @@ assets = {
 		}
 	},
 	images = { --Imagenes
-
+		botonPrueba = {
+			sourceFolder ="./game/assets/images/",
+			fileName = "prueba.jpg"
+		}
 	},
 	fonts = { --Fuentes
 

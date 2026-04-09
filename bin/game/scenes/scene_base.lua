@@ -65,5 +65,50 @@ scene = { -- entidades en escena
 				falloff = 1.0
 			}
 		}
+   },
+   CanvasUI ={
+	components = {
+		UIPanel = {
+			name = "CanvasUI"
+		}
+	}
+   },
+   BottonUI = {
+	components = {
+		Transform = {
+				position = Vector3.new(100,60,0),
+				rotation = Quaternion.new(),
+				scale = Vector3.new(0.5),
+				type = "ui"
+				},
+		UIButton = {
+			textureName = "botonPrueba",
+			dimension = Vector2.new(200,200),
+			text = "Boton Botonez",
+			panelName = "CanvasUI",
+			opacity = 1.0
+		}
+	}
+   },
+   LabelUI= {
+	components = {
+		Transform = {
+				position = Vector3.new(900,10,0),
+				rotation = Quaternion.new(),
+				scale = Vector3.new(0.5),
+				type = "ui"
+				},
+		UILabel = {
+			
+			dimension = Vector2.new(300,300),
+			text = "Boton Botonez ( En realidad es un UILabel)",
+			panelName = "CanvasUI",
+			opacity = 1.0,
+			bgColor = Color.new(1.0, 0.0, 0.0,1),
+			align = "center",
+			fontSize = 65.0,
+			textColor = Color.new(1.0,1.0, 0.0,1)
+		}
+	}
    }
 }
