@@ -40,7 +40,7 @@ bool PlatformModule::Init()
 		return false;
 	}
 	// Creacion de ventana
-	if ((_window = SDL_CreateWindow(core::GameConfigurator::instance()._windowName.c_str(), 
+	if ((_window = SDL_CreateWindow(core::GameConfigurator::instance()._windowName.c_str(),
 		core::GameConfigurator::instance()._windowWidth,
 		core::GameConfigurator::instance()._windowHeight,
 		SDL_WINDOW_RESIZABLE)) == nullptr)
@@ -49,7 +49,7 @@ bool PlatformModule::Init()
 		return false;
 	}
 
-	if(!setWindowIcon(core::GameConfigurator::instance()._iconRoot))
+	if (!setWindowIcon(core::GameConfigurator::instance()._iconRoot))
 	{
 		Debug::error("Icon annot be asigned.");
 	}
@@ -83,6 +83,10 @@ bool PlatformModule::syncronize()
 		it->second->_setAxis(input::MOUSE_AXIS_SCROLL_X, 0);
 		it->second->_setAxis(input::MOUSE_AXIS_SCROLL_Y, 0);
 	}
+
+	// Update de los virtual devices
+	for (auto& vd : _virtualDevices)
+		vd.second->_update();
 
 	// poll events
 	SDL_Event event;
@@ -308,8 +312,12 @@ void PlatformModule::setWindowSize(int w, int h)
 
 bool PlatformModule::setWindowIcon(std::string path)
 {
-	if (_icon != nullptr) SDL_DestroySurface(_icon);
-	SDL_LoadSurface(path.c_str());
+	if (_icon != nullptr)
+	{
+		SDL_DestroySurface(_icon);
+		_icon = nullptr;
+	}
+	_icon = SDL_LoadSurface(path.c_str());
 	if (!_icon)
 	{
 		Debug::error("[Platform] Icon in path \"", path, "\" does not exist.");
@@ -550,7 +558,7 @@ void PlatformModule::_processEvent(const SDL_Event& event)
 	case SDL_EVENT_GAMEPAD_BUTTON_DOWN: {
 		uint32_t id = event.gbutton.which;
 		auto it = _virtualDevices.find(id);
-		if (it != _virtualDevices.end() && event.key.repeat >= 1) {
+		if (it != _virtualDevices.end()) {
 			it->second->_setButton(_castButton(event), true);
 		}
 		break;
@@ -558,7 +566,7 @@ void PlatformModule::_processEvent(const SDL_Event& event)
 	case SDL_EVENT_GAMEPAD_BUTTON_UP: {
 		uint32_t id = event.gbutton.which;
 		auto it = _virtualDevices.find(id);
-		if (it != _virtualDevices.end() && event.key.repeat >= 1) {
+		if (it != _virtualDevices.end()) {
 			it->second->_setButton(_castButton(event), false);
 		}
 		break;
@@ -589,8 +597,7 @@ void PlatformModule::_processEvent(const SDL_Event& event)
 	case SDL_EVENT_KEY_DOWN: {
 		auto it = _virtualDevices.find(input::KEYBOARD_ID);
 		if (it != _virtualDevices.end() &&
-			(!it->second->isPressed(_castButton(event)) ||
-				(!it->second->isJustPressed(_castButton(event)) && event.key.repeat)))
+			(!it->second->isPressed(_castButton(event))))
 		{
 			it->second->_setButton(_castButton(event), true);
 		}
@@ -600,8 +607,7 @@ void PlatformModule::_processEvent(const SDL_Event& event)
 	case SDL_EVENT_KEY_UP: {
 		auto it = _virtualDevices.find(input::KEYBOARD_ID);
 		if (it != _virtualDevices.end() &&
-			(it->second->isPressed(_castButton(event)) ||
-				(!it->second->isReleased(_castButton(event)) && event.key.repeat)))
+			(it->second->isPressed(_castButton(event))))
 		{
 			it->second->_setButton(_castButton(event), false);
 		}

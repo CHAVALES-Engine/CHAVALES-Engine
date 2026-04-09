@@ -159,11 +159,15 @@ namespace input
          */
         void clearTextInput();
     private:
-
+;
         /**
         * @brief Construcora de VirtualDevice.
         */
         VirtualDevice();
+        /**
+        * @brief Update de VirtualDevice.
+        */
+        void _update();
         /**
         * @brief Para establecer si el dispositivo esta conectado o no.
         * 
@@ -249,3 +253,7 @@ namespace input
         friend class PlatformModule;
     };
 }
+
+// PAIGRO AQUI
+//devolver zona muerta de un axis (mando)
+//normalizar valores de los axis del mando
