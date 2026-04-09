@@ -497,7 +497,11 @@ public:
 	std::vector<PhysicsEvent> getPhysicsEvents(ComponentID id);
 	void clearPhysicsEvents();
 
+	ComponentID attachShapeToRigidBody(ComponentID shapeID, ComponentID bodyID);
 
+	ComponentID attachBoxShapeToRigidBody(ComponentID rigidBodyID, const core::Vector3<>& center, const core::Vector3<>& size, bool isKinematic);
+
+	ComponentID attachCapsuleShapeToRigidBody(ComponentID rigidBodyID, const core::Vector3<>& center, float radius, float height, bool isKinematic);
 
 	uint32_t createRigidBody(core::Vector3<> pos, float mass, bool useGravity);
 

@@ -52,14 +52,23 @@ scene = { -- entidades en escena
    cube3 = {
 		components = {
 			Transform = {
-				position = Vector3.new(200,100,100),
+				position = Vector3.new(50,50,0),
 				rotation = Quaternion.new(),
-				scale = Vector3.new(1.0),
+				scale = Vector3.new(5.0),
 				},
 			ModelRenderer = {
 				file = "gizmo",
 				["number of textures"] = 0
 			}
+			--,
+			
+			-- Collider = {
+    		-- 	box = Vector3.new(1, 1, 1),      
+    		-- 	dynamic = true,
+   			-- 	kinematic = false,
+			-- 	trigger = false,
+    		-- 	center = Vector3.new(0,0,0)    
+			-- }   
 		}
    },
    light = {
@@ -123,5 +132,5 @@ scene = { -- entidades en escena
 			textColor = Color.new(1.0,1.0, 0.0,1)
 		}
 	}
-   }
+  }
 }

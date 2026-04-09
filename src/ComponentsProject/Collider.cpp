@@ -6,6 +6,8 @@
 
 REGISTER_COMPONENT(Collider);
 
+//NO FUNCIONAN LOS COLLIDERS SI NO SON DYNAMIC QUIERO TESTEAR PERO AUN NO VA COMO PARA QUE PUEDA
+
 bool Collider::init(const Properties& p)
 {
 	//cosas de lua
@@ -69,15 +71,46 @@ void Collider::ready()
 
 	core::Vector3<> pos = transform->getGlobalPosition();
 
-	//SHAPE
-	switch (shapeType) {
-	case ShapeType::Box:
-		physicsID = _eng->createBoxCollider(center, pos + center, isDynamic, isKinematic);
-		break;
-	case ShapeType::Capsule:
-		physicsID = _eng->createCapsuleCollider(radius, height, center, pos + center, isDynamic, isKinematic);
-		break;
+	if (isKinematic && !isDynamic) {
+		printf("Warning: Collider no puede ser kinematic sin ser dinámico. Corrigiendo a dynamic=true\n");
+		isDynamic = true;
 	}
+
+	if (isDynamic)
+	{
+		bool useGravity = !isKinematic;
+		physicsID = _eng->createRigidBody(pos, 10.0f, useGravity);//masa por defecto 10
+
+		switch (shapeType)
+		{
+		case ShapeType::Box:
+			_eng->attachBoxShapeToRigidBody(physicsID, center, size, isKinematic);
+			break;
+		case ShapeType::Capsule:
+			_eng->attachCapsuleShapeToRigidBody(physicsID, center, radius, height, isKinematic);
+			break;
+		}
+	}
+	else
+	{
+		//esatico o trigger sin rigidbody
+		switch (shapeType)
+		{
+		case ShapeType::Box:
+			physicsID = _eng->createBoxCollider(center, pos + center, isDynamic, isKinematic);
+			break;
+		case ShapeType::Capsule:
+			physicsID = _eng->createCapsuleCollider(radius, height, center, pos + center, isDynamic, isKinematic);
+			break;
+		}
+	}
+
+	////UNION CON RIGIDBODY
+	//if (isDynamic && physicsID != 0) {
+	//	//Crea un RigidBody en PhysX
+	//	ComponentID rbID = _eng->createRigidBody(pos, 1.0f, true); // masa = 1, gravedad ON
+	//	_eng->attachShapeToRigidBody(physicsID, rbID);
+	//}
 }
 
 void Collider::update(uint64_t deltaTime)
@@ -107,18 +140,17 @@ void Collider::update(uint64_t deltaTime)
 
 
 void Collider::onTriggerEnter(ComponentID other) {
-	// Aquí haces lo que quieras al entrar un trigger
-	// Ejemplo: enviar un evento de gameplay, reproducir sonido, etc.
+	
 }
 
 void Collider::onTriggerExit(ComponentID other) {
-	// Aquí haces lo que quieras al salir un trigger
+	
 }
 
 void Collider::onCollisionEnter(ComponentID other) {
-	// Similar al trigger, pero para colisiones físicas
+	
 }
 
 void Collider::onCollisionExit(ComponentID other) {
-	// Salida de colisión
+	
 }

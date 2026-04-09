@@ -78,8 +78,9 @@ ComponentID PhysicsModule::CreateRigidBody(core::Vector3<> pos, float mass, bool
 	PxRigidBodyExt::setMassAndUpdateInertia(*body, mass > 0.0f ? mass : 1.0f);
 	body->setActorFlag(PxActorFlag::eDISABLE_GRAVITY, !useGravity);
 	gScene->addActor(*body);
+	//usa tus ids
 	ComponentID id = nextID++;
-	physicsMap[id] = { body, shape };
+	
 	return id;
 }
 
@@ -202,6 +203,7 @@ uint32_t PhysicsModule::CreateMaterial(float staticF, float dynamicF, float rest
 	if (!mat) return 0;
 	mat->setFrictionCombineMode(ToPxCombine(frictionCombine));
 	mat->setRestitutionCombineMode(ToPxCombine(bounceCombine));
+	//usa tus propios ids
 	ComponentID id = nextID++;
 	materialMap[id] = mat;
 	return id;
@@ -250,4 +252,25 @@ void PhysicsModule::onTrigger(PxTriggerPair* pairs, PxU32 count) {
 		if (pairs[i].status & physx::PxPairFlag::eNOTIFY_TOUCH_LOST)
 			eventQueue.push_back({ a, b, CollisionType::TriggerExit });
 	}
+}
+
+void PhysicsModule::attachShapeToRigidBody(ComponentID shapeID, ComponentID bodyID)
+{
+	auto& shapeComp = physicsMap[shapeID];
+	auto& bodyComp = physicsMap[bodyID];
+
+	PxRigidDynamic* body = bodyComp.actor->is<PxRigidDynamic>();
+	if (!body) return;
+
+	// detach de static si fuera necesario
+	if (PxRigidStatic* staticActor = shapeComp.actor->is<PxRigidStatic>()) {
+		gScene->removeActor(*staticActor);
+	}
+
+	body->attachShape(*shapeComp.shape);
+	actorToID[body] = bodyID;
+	physicsMap[bodyID].shape = shapeComp.shape;
+
+	// eliminar el antiguo actor estático
+	physicsMap.erase(shapeID);
 }

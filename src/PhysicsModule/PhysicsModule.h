@@ -34,6 +34,7 @@ public:
 	void AddForce(uint32_t id, core::Vector3<> force);
 	void AddImpulse(uint32_t id, core::Vector3<> impulse);
 
+	void attachShapeToRigidBody(ComponentID shapeID, ComponentID bodyID);
 
 	//callbacks
 	void onContact(const physx::PxContactPairHeader& pairHeader,
@@ -41,6 +42,7 @@ public:
 	};
 
 	void onTrigger(physx::PxTriggerPair* pairs, physx::PxU32 count) override;
+
 
 	void onConstraintBreak(physx::PxConstraintInfo* constraints, physx::PxU32 count) override {}
 	void onWake(physx::PxActor** actors, physx::PxU32 count) override {}
