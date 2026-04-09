@@ -349,10 +349,14 @@ void RenderModule::cleanScene(const bool& end)
 	_shaderGen->removeAllShaderBasedTechniques();
 	_shaderGen->flushShaderCache();
 
-	//Si se va a crear una escena nueva dejamos una camara de seguridad.
+	//Si se va a crear una escena nueva dejamos una camara de seguridad. Volvemos a anadir rtss a imgui.
 	if (!end)
 	{
 		addCamera(_mainCameraID, 45.0f, 0.1f, 1000.0f, 1.0f, { 0.0f, 0.0f, 0.0f, 1.0f });
+		Ogre::MaterialPtr materialUI = Ogre::MaterialManager::getSingleton().getByName("ImGui/material");
+		_shaderGen->createShaderBasedTechnique(*materialUI, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
+
+		_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, materialUI->getName());
 	}
 }
 
