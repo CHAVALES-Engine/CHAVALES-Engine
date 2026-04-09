@@ -36,7 +36,6 @@ void input::VirtualDevice::_setAxis(input::InputAxis axis, float value)
 
 void input::VirtualDevice::_setButton(input::InputButtons button, bool value)
 {
-	Debug::out("hola");
 	std::visit([&](auto b) {
 		using T = decltype(b);
 		if constexpr (std::is_same_v<T, Key>)
@@ -128,7 +127,7 @@ bool input::VirtualDevice::isReleased(InputButtons button) const
 			result = isReleased(b);
 		}
 		}, button);
-	return false;
+	return result;
 }
 
 bool input::VirtualDevice::isJustPressed(Key key) const
