@@ -73,3 +73,8 @@ float Light::getOuterAngle() const {
 float Light::getFallOff() const {
 	return _falloff;
 }
+
+void Light::destroy()
+{
+	Engine::instance()->deleteLight(_lightID);
+}

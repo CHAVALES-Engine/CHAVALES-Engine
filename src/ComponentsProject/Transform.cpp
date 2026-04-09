@@ -250,7 +250,7 @@ void Transform::rotate(const core::Quaternion<>& q)
 	Engine::instance()->setTransformRotation(_transformID, getGlobalRotation());
 }
 
-void Transform::rotate(core::Vector3<>& v)
+void Transform::rotate(core::Vector3<> v)
 {
 	if (_lockRotX) v.setX(0);
 	if (_lockRotY) v.setY(0);

@@ -78,3 +78,8 @@ float Camera::getFarClipDistance() const { return _farClipDistance; }
 float Camera::getFocalLength() const { return _focalLength; }
 
 core::Color Camera::getBgColor() const { return _bgColor; }
+
+void Camera::destroy()
+{
+	Engine::instance()->deleteCamera(_cameraID);
+}
