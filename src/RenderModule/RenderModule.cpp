@@ -390,10 +390,15 @@ transformID RenderModule::addNode(const entityID& entityID, const core::Vector3<
 		return _nextTransformID++;
 	}
 	else {
-		for (int i = 0; i < (int)_uiTransforms.size(); i++) {
-			if (_uiTransforms[i].entity == entityID) {
-				_uiTransforms[i].position = { pos.getX(), pos.getY() };
-				return i;
+		for (int i = 0; i < (int)_uiTransforms.size(); i++)
+		{
+			if (_uiTransforms[i].entity == entityID)
+			{
+				if (fromTransform)
+				{
+					_uiTransforms[i].position = { pos.getX(), pos.getY() };
+				}
+				return i; //Ya existe.
 			}
 		}
 		UITransform uiT;
@@ -401,10 +406,7 @@ transformID RenderModule::addNode(const entityID& entityID, const core::Vector3<
 		uiT.position = { pos.getX(), pos.getY() };
 		_uiTransforms.push_back(uiT);
 		return _nextUITransformID++;
-		
-
 	}
-	
 }
 
 transformID RenderModule::addNode(const entityID& entityID, const TransformType type)
