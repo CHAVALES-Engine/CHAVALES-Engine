@@ -66,7 +66,7 @@ bool ResourcesModule::loadInternalAsset(const sol::table& assetsType, const std:
 				}
 				_particlesMap[nameOfAsset] = loadOgreAsset(nameOfAsset, assets);
 			}
-			if (typeOfAsset == "images")
+			else if (typeOfAsset == "images")
 			{
 				auto it = _imagesMap.find(nameOfAsset);
 				if (it != _imagesMap.end()) {
@@ -75,7 +75,7 @@ bool ResourcesModule::loadInternalAsset(const sol::table& assetsType, const std:
 				}
 				_imagesMap[nameOfAsset] = loadOgreAsset(nameOfAsset, assets);
 			}
-			if (typeOfAsset == "fonts")
+			else if (typeOfAsset == "fonts")
 			{
 				auto it = _fontsMap.find(nameOfAsset);
 				if (it != _fontsMap.end()) {

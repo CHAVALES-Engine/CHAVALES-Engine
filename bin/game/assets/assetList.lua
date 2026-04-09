@@ -1,15 +1,15 @@
 assets = {
 	mesh = { --Mallas
 		metroid = {
-			sourceFolder = "./game/assets/models/",
+			sourceFolder = "./game/assets/mesh/",
 			fileName = "metroid.fbx"
 		},
 		cube = {
-			sourceFolder = "./game/assets/models/",
+			sourceFolder = "./game/assets/mesh/",
 			fileName = "cube.fbx"
 		},
 		gizmo = {
-			sourceFolder = "./game/assets/models/",
+			sourceFolder = "./game/assets/mesh/",
 			fileName = "gizmo.fbx"
 		}
 	},
