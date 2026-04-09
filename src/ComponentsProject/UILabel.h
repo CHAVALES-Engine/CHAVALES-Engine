@@ -39,8 +39,7 @@ private:
 	float _opacity;
 	float _fontSize;
 	TextAlign _align = TextAlign::LEFT;
-	std::string _fontFilePath;
-	std::string _fotntFolderPath;
+	std::string _fontName;
 public:
 	UILabel();
 	~UILabel();

@@ -335,8 +335,9 @@ void Engine::setUIPanelVisible(const uiPanelID& id, bool visible)
 {
 	_renderModule->setUIPanelVisible(id, visible);
 }
-uiLabelID  Engine::addUILabel(const std::string& panelName, const entityID& entityID, const std::string& text, const  float opacity, const  core::Vector2<float> size, const core::Color textColor, const core::Color bgColor, const float fontSize, const TextAlign textAlign) {
-	return _renderModule->addUILabel(panelName, entityID, text,opacity,size,textColor,bgColor,fontSize,textAlign);
+uiLabelID  Engine::addUILabel(const std::string& panelName, const entityID& entityID, const std::string& text, const  float opacity, const  core::Vector2<float> size, const core::Color textColor, const core::Color bgColor, const float fontSize, const TextAlign textAlign, const std::string fontName) {
+	auto font = _resourcesModule->getFonts(fontName);
+	return _renderModule->addUILabel(panelName, entityID, text,opacity,size,textColor,bgColor,fontSize,textAlign,font.first,font.second);
 }
 void  Engine::setUILabelText(const uiLabelID& uiLabelID, const std::string& text) {
 	_renderModule->setUILabelText(uiLabelID, text);

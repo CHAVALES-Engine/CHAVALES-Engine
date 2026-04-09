@@ -390,15 +390,10 @@ transformID RenderModule::addNode(const entityID& entityID, const core::Vector3<
 		return _nextTransformID++;
 	}
 	else {
-		for (int i = 0; i < (int)_uiTransforms.size(); i++)
-		{
-			if (_uiTransforms[i].entity == entityID)
-			{
-				if (fromTransform)
-				{
-					_uiTransforms[i].position = { pos.getX(), pos.getY() };
-				}
-				return i; //Ya existe.
+		for (int i = 0; i < (int)_uiTransforms.size(); i++) {
+			if (_uiTransforms[i].entity == entityID) {
+				_uiTransforms[i].position = { pos.getX(), pos.getY() };
+				return i;
 			}
 		}
 		UITransform uiT;
@@ -406,7 +401,10 @@ transformID RenderModule::addNode(const entityID& entityID, const core::Vector3<
 		uiT.position = { pos.getX(), pos.getY() };
 		_uiTransforms.push_back(uiT);
 		return _nextUITransformID++;
+		
+
 	}
+	
 }
 
 transformID RenderModule::addNode(const entityID& entityID, const TransformType type)
@@ -1169,11 +1167,10 @@ void RenderModule::setUIPanelVisible(const uiPanelID& id, bool visible) {
 	_uiPanels[id].visible = visible;
 
 }
-uiLabelID RenderModule::addUILabel(const std::string& panelName, const entityID& entityID, const std::string& text,const  float opacity,const  core::Vector2<float> size, const core::Color textColor,const core::Color bgColor,const float fontSize,const TextAlign textAlign) {
+uiLabelID RenderModule::addUILabel(const std::string& panelName, const entityID& entityID, const std::string& text,const  float opacity,const  core::Vector2<float> size, const core::Color textColor,const core::Color bgColor,const float fontSize,const TextAlign textAlign, const std::string fontFolder, const std::string fontFile) {
 	addNode(entityID, TransformType::UI);
 
 	uiPanelID panelID = getOrSetPanel(panelName);
-
 	UILabelData label;
 	label.entity = entityID;
 	label.text = text;
@@ -1184,7 +1181,11 @@ uiLabelID RenderModule::addUILabel(const std::string& panelName, const entityID&
 	label.bgColor = bgColor;
 	label.fontSize = fontSize;
 	label.align = textAlign;
-	
+	auto& io{ ImGui::GetIO() };
+
+	ImFont* fontAux = io.Fonts->AddFontFromFileTTF((fontFolder + fontFile).c_str(), fontSize);
+	io.Fonts->Build();
+	label.font = fontAux;
 	
 	_uiPanels[panelID].labels.push_back(label);
 
@@ -1418,7 +1419,7 @@ void RenderModule::renderUI() {
 			ImDrawList* drawList = ImGui::GetWindowDrawList();
 			float auxOpacity = label.bgColor.getAlpha() * label.opacity;
 			drawList->AddRectFilled(auxPos, ImVec2(auxPos.x + aux.x, auxPos.y + aux.y), IM_COL32(label.bgColor.getRed() * 255, label.bgColor.getGreen() * 255, label.bgColor.getBlue() * 255, auxOpacity * 255));
-			//ImGui::PushFont(label.font);
+			ImGui::PushFont(label.font);
 			ImVec2 textSize = ImGui::CalcTextSize(label.text.c_str());
 
 			float posTextX;
@@ -1436,7 +1437,7 @@ void RenderModule::renderUI() {
 			}
 			drawList->AddText(ImVec2(posTextX, posTextY), IM_COL32(label.textColor.getRed() * 255, label.textColor.getGreen() * 255, label.textColor.getBlue() * 255, auxOpacity * 255), label.text.c_str());
 
-			//ImGui::PopFont();
+			ImGui::PopFont();
 
 		}
 		for (UIButtonData& button : panel.buttons) {

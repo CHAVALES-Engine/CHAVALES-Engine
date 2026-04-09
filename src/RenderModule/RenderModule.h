@@ -18,7 +18,6 @@
 #include "Color.h"
 #include "CommonEnums.h"
 #include "guid.h"
-#include <CommonEnums.h>
 
 namespace Ogre
 {
@@ -31,7 +30,7 @@ namespace Ogre
     class ParticleSystem;
     class ImGui;
 }
-
+struct ImFont;
 using entityID = ChavalesGUID;
 using transformID = uint64_t;
 using UITransformID = uint64_t;
@@ -65,7 +64,7 @@ struct UILabelData {
     core::Color bgColor = core::Color(0, 0, 0, 0);
     float fontSize = 16.0f;
     TextAlign align = TextAlign::LEFT;
-   // ImFont* font;
+    ImFont* font;
 };
 
 struct UIButtonData {
@@ -407,7 +406,7 @@ public:
     /*
      * @brief Añadir un letrero al panel
      */
-    uiLabelID addUILabel(const std::string& panelName, const entityID& entityID, const std::string& text, const  float opacity, const  core::Vector2<float> size, const core::Color textColor, const core::Color bgColor, const float fontSize, const TextAlign textAlign);
+    uiLabelID addUILabel(const std::string& panelName, const entityID& entityID, const std::string& text, const  float opacity, const  core::Vector2<float> size, const core::Color textColor, const core::Color bgColor, const float fontSize, const TextAlign textAlign, const std::string fontFolder, const std::string fontFile);
     /*
     * @brief Establecer si el letrero es visible
     */

@@ -36,9 +36,8 @@ bool UILabel::init(const Properties& p)
 
 	}
 	_fontSize = getProperty<float>(p, "fontSize");
-	_fotntFolderPath = getProperty<std::string>(p, "fontFolder");
-	_fontFilePath = getProperty<std::string>(p, "fontPath");
-	_labelID = Engine::instance()->addUILabel(_panelName, getEntity()->getEntityID(), _text,_opacity,_dimension,_textColor,_bgColor,_fontSize, _align);
+	_fontName = getProperty<std::string>(p, "fontName");
+	_labelID = Engine::instance()->addUILabel(_panelName, getEntity()->getEntityID(), _text,_opacity,_dimension,_textColor,_bgColor,_fontSize, _align,_fontName);
 	return true;
 }
 
@@ -87,5 +86,5 @@ void UILabel::setAlign(TextAlign align)
 
 void UILabel::setFont(std::string font)
 {
-	_fontFilePath = font;
+	_fontName = font;
 }

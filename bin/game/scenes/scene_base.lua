@@ -129,6 +129,7 @@ scene = { -- entidades en escena
 			bgColor = Color.new(1.0, 0.0, 0.0,1),
 			align = "center",
 			fontSize = 65.0,
+			fontName = "fontPrueba",
 			textColor = Color.new(1.0,1.0, 0.0,1)
 		}
 	}
