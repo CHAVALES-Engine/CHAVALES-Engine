@@ -5,6 +5,7 @@
 #include "Engine.h"
 #include "Entity.h"
 #include "InputFacade.h"
+#include "Scene.h"
 #include "TimeManager.h"
 #include "../../../ComponentsProject/Transform.h"
 
@@ -69,6 +70,9 @@ class ComponentTest : public core::Component
 
 		float speed = velocity * (float)deltaTime / 1000.0f;
 		float mouseSensitivity = 0.5f;
+
+		if (Engine::instance()->input()->isKeyReleased(input::KEY_K))
+			entity->getScene()->findEntityByName("cube2")->destroy();
 
 		// --- Movimiento WASD
 		if (Engine::instance()->input()->isKeyPressed(input::KEY_W))
