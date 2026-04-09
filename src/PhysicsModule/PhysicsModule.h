@@ -50,6 +50,9 @@ public:
 	void onAdvance(const physx::PxRigidBody* const* bodyBuffer,const physx::PxTransform* poseBuffer,const physx::PxU32 count) override {}
 
 
+	uint32_t CreateMaterial(float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine);
+
+	void UpdateMaterial(uint32_t id, float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine);
 private:
 	ComponentID nextID = 1;
 	std::unordered_map<ComponentID, PhysXComponent> physicsMap;

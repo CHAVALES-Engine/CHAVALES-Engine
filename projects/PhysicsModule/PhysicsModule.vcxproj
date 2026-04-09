@@ -104,10 +104,12 @@
   <ItemGroup>
     <ClInclude Include="..\..\src\PhysicsModule\framework.h" />
     <ClInclude Include="..\..\src\PhysicsModule\PhysicsModule.h" />
+    <ClInclude Include="..\..\src\PhysicsModule\Raycast.h" />
     <ClInclude Include="SphereCollider.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\PhysicsModule\PhysicsModule.cpp" />
+    <ClCompile Include="..\..\src\PhysicsModule\Raycast.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

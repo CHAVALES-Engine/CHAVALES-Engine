@@ -11,7 +11,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\2526-Grupo03-ChavalesEngine\src\ComponentsProject\PhysicsMaterial.h" />
     <ClInclude Include="..\..\src\ComponentsProject\Animator.h" />
     <ClInclude Include="..\..\src\ComponentsProject\AudioListener.h" />
     <ClInclude Include="..\..\src\ComponentsProject\AudioSource.h" />
