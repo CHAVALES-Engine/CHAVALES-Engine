@@ -6,7 +6,8 @@
 #include "Vector2.h"
 #include "Quaternion.h"
 #include "Color.h"
-#include <Vector3.h>
+#include "PhysicsTypes.h"
+
 
 #include "InputDefs.h"
 #include "guid.h"
@@ -24,6 +25,7 @@ class ComponentDLLLoader;
 class StateMachine;
 class InputFacade;
 class ResourcesModule;
+
 
 namespace core
 {
@@ -473,6 +475,8 @@ public:
 
 
 #pragma region Physics
+
+	
 	/*
 	* @brief Devuelve el id de la entidad que tiene el boxcollider y lo crea
 	*/
@@ -489,6 +493,11 @@ public:
 	* @brief Devuelve el id de la entidad que tiene el capsulecollider y lo crea
 	*/
 	uint32_t createCapsuleCollider(float radius, float height, const core::Vector3<>& center, const core::Vector3<>& worldPos, bool isDynamic, bool isKinematic);
+
+	std::vector<PhysicsEvent> getPhysicsEvents(ComponentID id);
+	void clearPhysicsEvents();
+
+
 
 	uint32_t createRigidBody(core::Vector3<> pos, float mass, bool useGravity);
 

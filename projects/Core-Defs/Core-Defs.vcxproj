@@ -115,6 +115,7 @@
     <ClInclude Include="..\..\src\Core-Defs\InputDefs.h" />
     <ClInclude Include="..\..\src\Core-Defs\Manager.h" />
     <ClInclude Include="..\..\src\Core-Defs\Maths.h" />
+    <ClInclude Include="..\..\src\Core-Defs\PhysicsTypes.h" />
     <ClInclude Include="..\..\src\Core-Defs\PluginSDK.h" />
     <ClInclude Include="..\..\src\Core-Defs\Quaternion.h" />
     <ClInclude Include="..\..\src\Core-Defs\Scene.h" />

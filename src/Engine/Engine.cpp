@@ -494,6 +494,16 @@ uint32_t Engine::createCapsuleCollider(float radius, float height, const core::V
 	return _physicsModule->CreateCapsuleShape(radius, height, center, worldPos, isDynamic, isKinematic);
 }
 
+std::vector<PhysicsEvent> Engine::getPhysicsEvents(ComponentID id)
+{
+	return _physicsModule->getEventsFor(id);
+}
+
+void Engine::clearPhysicsEvents()
+{
+	_physicsModule->clearEvents();
+}
+
 uint32_t Engine::createRigidBody(core::Vector3<> pos, float mass, bool useGravity)
 {
 	return _physicsModule->CreateRigidBody(pos, mass, useGravity);

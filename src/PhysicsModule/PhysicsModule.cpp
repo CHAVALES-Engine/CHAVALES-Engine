@@ -1,5 +1,5 @@
 #include "PhysicsModule.h"
-#include <PxPhysicsAPI.h>
+//#include <PxPhysicsAPI.h>
 
 using namespace physx;
 
@@ -7,6 +7,21 @@ struct PhysXComponent
 {
 	PxRigidActor* actor = nullptr;
 	PxShape* shape = nullptr;
+};
+
+enum class CollisionType {
+	Enter,
+	Stay,
+	Exit,
+	TriggerEnter,
+	TriggerStay,
+	TriggerExit
+};
+
+struct PhysicsEvent {
+	ComponentID a;
+	ComponentID b;
+	CollisionType type;
 };
 
 void fnPhysicModule()
@@ -76,6 +91,8 @@ bool PhysicsModule::Init()
 	if (!gScene)
 		return false;
 
+	gScene->setSimulationEventCallback(this);//mi modulo asignado como callback de la escena
+
 	return gPhysics != nullptr;
 }
 
@@ -132,6 +149,7 @@ ComponentID PhysicsModule::CreateBoxShape(core::Vector3<> size, core::Vector3<> 
 
 	ComponentID id = nextID++;
 	physicsMap[id] = { actor, shape };
+	actorToID[actor] = id;
 
 	return id;
 }
@@ -162,8 +180,27 @@ ComponentID PhysicsModule::CreateCapsuleShape(float radius, float height, const 
 
 	ComponentID id = nextID++;
 	physicsMap[id] = { actor, shape };
+	actorToID[actor] = id;
 
 	return id;
+}
+
+std::vector<PhysicsEvent> PhysicsModule::getEventsFor(ComponentID id)
+{
+	std::vector<PhysicsEvent> result;
+
+	for (auto& e : eventQueue)
+	{
+		if (e.a == id || e.b == id)
+			result.push_back(e);
+	}
+
+	return result;
+}
+
+void PhysicsModule::clearEvents()
+{
+	eventQueue.clear();
 }
 
 void PhysicsModule::SetPhysicsPosition(ComponentID id, const core::Vector3<>& pos)
@@ -240,11 +277,31 @@ void PhysicsModule::Update(float dt)
 {
 	if (!gScene) return;
 
+	//gScene->flushSimulation();
 	gScene->simulate(dt);
 	gScene->fetchResults(true);
 
 	for (auto& [id, comp] : physicsMap)
 	{
 		PxTransform t = comp.actor->getGlobalPose();
+	}
+}
+
+void PhysicsModule::onTrigger(PxTriggerPair* pairs, PxU32 count) {
+	for (physx::PxU32 i = 0; i < count; i++)
+	{
+		auto* triggerActor = (physx::PxRigidActor*)pairs[i].triggerActor;
+		auto* otherActor = (physx::PxRigidActor*)pairs[i].otherActor;
+
+		if (!triggerActor || !otherActor) continue;
+
+		ComponentID a = actorToID[triggerActor];
+		ComponentID b = actorToID[otherActor];
+
+		if (pairs[i].status & physx::PxPairFlag::eNOTIFY_TOUCH_FOUND)
+			eventQueue.push_back({ a, b, CollisionType::TriggerEnter });
+
+		if (pairs[i].status & physx::PxPairFlag::eNOTIFY_TOUCH_LOST)
+			eventQueue.push_back({ a, b, CollisionType::TriggerExit });
 	}
 }

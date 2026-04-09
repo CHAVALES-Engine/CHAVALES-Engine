@@ -94,4 +94,31 @@ void Collider::update(uint64_t deltaTime)
 		core::Vector3<> pos = transform->getGlobalPosition();
 		_eng->setPhysicsPosition(physicsID, pos + center);
 	}
+
+	for (auto& event : _eng->getPhysicsEvents(physicsID)) {
+		switch (event.type) {
+		case CollisionType::TriggerEnter: onTriggerEnter(event.b); break;
+		case CollisionType::TriggerExit: onTriggerExit(event.b); break;
+		case CollisionType::CollisionEnter: onCollisionEnter(event.b); break;
+		case CollisionType::CollisionExit: onCollisionExit(event.b); break;
+		}
+	}
+}
+
+
+void Collider::onTriggerEnter(ComponentID other) {
+	// Aquí haces lo que quieras al entrar un trigger
+	// Ejemplo: enviar un evento de gameplay, reproducir sonido, etc.
+}
+
+void Collider::onTriggerExit(ComponentID other) {
+	// Aquí haces lo que quieras al salir un trigger
+}
+
+void Collider::onCollisionEnter(ComponentID other) {
+	// Similar al trigger, pero para colisiones físicas
+}
+
+void Collider::onCollisionExit(ComponentID other) {
+	// Salida de colisión
 }

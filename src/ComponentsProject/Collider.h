@@ -15,7 +15,7 @@ namespace core {
  *
  * --- Ejemplo de uso en lua ---
  * Collider = {
- *		box = {1,2,1}, o capsule = { radius = 0.5, height = 2 }, --size
+ *		box = {1,2,1}, o capsule = { radius = 0.5, height = 2 }, --size // si pones la altura a 0 en capsule haces una esfera
  *		dynamic = true,
  *		kinematic = false,
  *		trigger = false,
@@ -44,7 +44,6 @@ protected:
 	core::Vector3<> size = { 1,1,1 };
 	core::Vector3<> center = { 0,0,0 };//offset respecto a la entidad, donde esta el collider
 	int radius, height;
-	//Rigidbody* attachedRigidbody = nullptr;//si tiene rigidbody atacheado
 
 	Engine* _eng;
 	ComponentID physicsID = 0;
@@ -57,6 +56,16 @@ public:
 	bool init(const Properties& p) override;
 	virtual void ready() override;
 	virtual void update(uint64_t deltaTime) override;
+
+	void onTriggerEnter(ComponentID other);
+	void onTriggerExit(ComponentID other);
+	void onCollisionEnter(ComponentID other);
+	void onCollisionExit(ComponentID other);
+
+
+	//getter
+	ComponentID getId() { return physicsID; };
+	const core::Vector3<>& getCenter() const { return center; }
 };
 
 //unorder map que relacione id con entidad, la entidad va a compartir id con el sgruct q guarda su actor y forma. Luego a traves de engine usando physx

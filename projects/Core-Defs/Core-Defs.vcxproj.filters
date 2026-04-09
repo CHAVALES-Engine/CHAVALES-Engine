@@ -73,6 +73,9 @@
     <ClInclude Include="..\..\src\Core-Defs\CommonEnums.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\Core-Defs\PhysicsTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
