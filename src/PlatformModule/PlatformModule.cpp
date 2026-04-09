@@ -84,6 +84,10 @@ bool PlatformModule::syncronize()
 		it->second->_setAxis(input::MOUSE_AXIS_SCROLL_Y, 0);
 	}
 
+	// Update de los virtual devices
+	for (auto& vd : _virtualDevices)
+		vd.second->_update();
+
 	// poll events
 	SDL_Event event;
 	while (SDL_PollEvent(&event)) {
@@ -554,7 +558,7 @@ void PlatformModule::_processEvent(const SDL_Event& event)
 	case SDL_EVENT_GAMEPAD_BUTTON_DOWN: {
 		uint32_t id = event.gbutton.which;
 		auto it = _virtualDevices.find(id);
-		if (it != _virtualDevices.end() && event.key.repeat >= 1) {
+		if (it != _virtualDevices.end()) {
 			it->second->_setButton(_castButton(event), true);
 		}
 		break;
@@ -562,7 +566,7 @@ void PlatformModule::_processEvent(const SDL_Event& event)
 	case SDL_EVENT_GAMEPAD_BUTTON_UP: {
 		uint32_t id = event.gbutton.which;
 		auto it = _virtualDevices.find(id);
-		if (it != _virtualDevices.end() && event.key.repeat >= 1) {
+		if (it != _virtualDevices.end()) {
 			it->second->_setButton(_castButton(event), false);
 		}
 		break;
@@ -593,8 +597,7 @@ void PlatformModule::_processEvent(const SDL_Event& event)
 	case SDL_EVENT_KEY_DOWN: {
 		auto it = _virtualDevices.find(input::KEYBOARD_ID);
 		if (it != _virtualDevices.end() &&
-			(!it->second->isPressed(_castButton(event)) ||
-				(!it->second->isJustPressed(_castButton(event)) && event.key.repeat)))
+			(!it->second->isPressed(_castButton(event))))
 		{
 			it->second->_setButton(_castButton(event), true);
 		}
@@ -604,8 +607,7 @@ void PlatformModule::_processEvent(const SDL_Event& event)
 	case SDL_EVENT_KEY_UP: {
 		auto it = _virtualDevices.find(input::KEYBOARD_ID);
 		if (it != _virtualDevices.end() &&
-			(it->second->isPressed(_castButton(event)) ||
-				(!it->second->isReleased(_castButton(event)) && event.key.repeat)))
+			(it->second->isPressed(_castButton(event))))
 		{
 			it->second->_setButton(_castButton(event), false);
 		}
