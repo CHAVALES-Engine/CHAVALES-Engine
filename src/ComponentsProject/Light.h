@@ -62,5 +62,6 @@ public:
 	float getOuterAngle() const;
 	float getFallOff() const;
 	
+	void destroy() override;
 };
 

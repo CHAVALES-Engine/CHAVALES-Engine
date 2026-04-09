@@ -294,15 +294,23 @@ void RenderModule::cleanScene(const bool& end)
 	//Limpiar modelos
 	cleanModels();
 
+	//Limpiar luces
+	cleanLights();
+
+	//Limpiar camaras
+	cleanCameras();
+
 	//Limpiar nodos
-	for (const EngineNode& engineNode : _engineNodes)
+	/*for (const EngineNode& engineNode : _engineNodes)
 	{
 		Ogre::SceneNode* sceneNode = engineNode.sceneNode;
 		if (sceneNode != nullptr)
 		{
 			_sceneMgr->destroySceneNode(sceneNode);
 		}
-	}
+	}*/
+	// limpia toda la escena de Ogre de golpe
+	_sceneMgr->clearScene();
 	_engineNodes.clear();
 	_nextTransformID = 0;
 
@@ -312,7 +320,8 @@ void RenderModule::cleanScene(const bool& end)
 	static const std::vector<std::string> internalGroups = {
 		"Scene",
 	   Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-	   Ogre::ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME
+	   Ogre::ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME,
+		Ogre::ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME
 	};
 
 
@@ -338,10 +347,10 @@ void RenderModule::cleanScene(const bool& end)
 	}
 
 	//Si se va a crear una escena nueva dejamos una camara de seguridad.
-	if (!end)
+	/*if (!end)
 	{
 		addCamera(_mainCameraID, 45.0f, 0.1f, 1000.0f, 1.0f, { 0.0f, 0.0f, 0.0f, 1.0f });
-	}
+	}*/
 }
 
 
@@ -515,10 +524,10 @@ void RenderModule::cleanCameras()
 			_sceneMgr->destroyCamera(cam);
 		}
 	}
-	if (_vp)
-		_vp->setCamera(nullptr);
 	_cameras.clear();
 	_nextCameraID = 0;
+	if (_vp)
+		_vp->setCamera(nullptr);
 	/*if (_cameraNodes.empty()) return;
 
 	Ogre::SceneNode* mainNode = _cameraNodes[0];
@@ -580,7 +589,7 @@ modelID RenderModule::addModel(const entityID& entityID, const std::string& mode
 		_rgm->loadResourceGroup(modelFolder);
 	}
 	Ogre::Entity* model = _models.emplace_back(_sceneMgr->createEntity(modelFile + std::to_string(_nextModelID), modelFile));
-	_engineNodes.back().sceneNode->attachObject(model);
+	_engineNodes[nodeID].sceneNode->attachObject(model);
 
 	for (unsigned int i = 0; i < model->getNumSubEntities(); ++i)
 	{
@@ -592,7 +601,12 @@ modelID RenderModule::addModel(const entityID& entityID, const std::string& mode
 		// Generar tecnica RTSS sobre el material ya cargado
 		_shaderGen->createShaderBasedTechnique(*mat, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
 
-		_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, mat->getName());
+		_shaderGen->invalidateMaterial(
+			Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME,
+			mat->getName(), mat->getGroup());
+
+		if (!_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, mat->getName()))
+			Debug::error("[RenderModule] validateMaterial");
 	}
 
 	return _nextModelID++;
@@ -834,7 +848,7 @@ void RenderModule::updateAnimation(const animationID& animationID, const uint64_
 
 lightID RenderModule::addLight(const entityID& entityID, const int& type, const core::Color& color, const float& intensity) {
 	//Si no existe un nodo con este entityID lo creamos
-	addNode(entityID);
+	transformID nodeID = addNode(entityID);
 
 	Ogre::Light* light = _sceneMgr->createLight("light" + std::to_string(_nextLightID));
 
@@ -850,7 +864,7 @@ lightID RenderModule::addLight(const entityID& entityID, const int& type, const 
 
 	light->setPowerScale(intensity);
 
-	_engineNodes.back().sceneNode->attachObject(light);
+	_engineNodes[nodeID].sceneNode->attachObject(light);
 
 	_lights.push_back(light);
 

@@ -43,7 +43,11 @@ void StateMachine::gameLoop()
 			if (GameLoader::reloadLua() || ComponentDLLLoader::instance().checkReload()) // si es necesario recargar...
 			{
 				Debug::warning("Reloading scene [", _currentScene.name, "]");
+				//limpia logica
 				_currentScene.ptr->clearScene(); // elimina escena anterior
+				_currentScene.ptr->onDestroy();
+				//limpia render
+				Engine::instance()->cleanScene();  // limpia la escena
 				scenePtr s = std::move(GameLoader::loadScene(_currentScene.name)); // vuelve a cargar
 				_currentScene.ptr = s;
 			}
@@ -67,6 +71,9 @@ void StateMachine::gameLoop()
 	if (_currentScene.ptr != nullptr)
 	{
 		_currentScene.ptr->onDestroy();
+
+		Engine::instance()->cleanScene();  // limpia la escena
+		Engine::instance()->renderFrame(); // renderiza frame vacío
 	}
 	_currentScene.ptr = nullptr;
 }
