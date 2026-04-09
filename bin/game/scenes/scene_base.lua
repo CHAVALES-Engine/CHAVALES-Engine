@@ -19,7 +19,7 @@ scene = { -- entidades en escena
 				  --["background color"] = Color.new(0.5,0.5,0.5,1)
    			},
 			ComponentTest = {
-				velocity = 1000
+				velocity = 100
 			}
 		}
    },
@@ -27,6 +27,19 @@ scene = { -- entidades en escena
 		components = {
 			Transform = {
 				position = Vector3.new(0,0,0),
+				rotation = Quaternion.new(),
+				scale = Vector3.new(1.0),
+				},
+			ModelRenderer = {
+				file = "gizmo",
+				["number of textures"] = 0
+			}
+		}
+   },
+   cube2 = {
+		components = {
+			Transform = {
+				position = Vector3.new(100,100,100),
 				rotation = Quaternion.new(),
 				scale = Vector3.new(1.0),
 				},
