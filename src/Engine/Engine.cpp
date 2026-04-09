@@ -520,6 +520,16 @@ void Engine::addImpulse(uint32_t id, core::Vector3<> impulse)
 	_physicsModule->AddForce(id, impulse);
 }
 
+uint32_t Engine::createMaterial(float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine)
+{
+	return _physicsModule->CreateMaterial(staticF, dynamicF,restitution,frictionCombine, bounceCombine);
+}
+
+void Engine::updateMaterial(uint32_t id, float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine)
+{
+	_physicsModule->UpdateMaterial(id, staticF, dynamicF, restitution, frictionCombine, bounceCombine);
+}
+
 #pragma endregion
 
 #pragma region Resources

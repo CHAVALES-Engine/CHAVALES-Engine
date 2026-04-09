@@ -499,6 +499,10 @@ public:
 	void addForce(uint32_t id, core::Vector3<> force);
 	void addImpulse(uint32_t id, core::Vector3<> impulse);
 
+	uint32_t createMaterial(float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine);
+
+	void updateMaterial(uint32_t id, float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine);
+
 #pragma endregion
 
 #pragma region Platform

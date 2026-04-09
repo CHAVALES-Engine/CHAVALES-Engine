@@ -60,13 +60,10 @@
     <ClInclude Include="..\..\src\ComponentsProject\UITextureRect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\2526-Grupo03-ChavalesEngine\src\ComponentsProject\PhysicsMaterial.h">
+    <ClInclude Include="..\..\src\ComponentsProject\RigidBody.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\ComponentsProject\PhysicsMaterial.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\ComponentsProject\RigidBody.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

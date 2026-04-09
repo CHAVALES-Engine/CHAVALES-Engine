@@ -33,6 +33,9 @@ public:
 	void AddForce(ComponentID id, core::Vector3<> force);
 	void AddImpulse(ComponentID id, core::Vector3<> impulse);
 
+	uint32_t CreateMaterial(float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine);
+
+	void UpdateMaterial(uint32_t id, float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine);
 private:
 	ComponentID nextID = 1;
 	std::unordered_map<ComponentID, PhysXComponent> physicsMap;
