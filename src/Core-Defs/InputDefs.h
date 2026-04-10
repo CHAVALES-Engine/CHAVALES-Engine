@@ -301,9 +301,9 @@ namespace input
      */
     const int MAX_DEADZONE = 1.0f;
     /**
-     * @brief Deadzone para los joystics.
+     * @brief Deadzone para los joystics por defecto.
      */
-    const float DEAFAULT_DEADZONE = 0.5f;
+    const float DEFAULT_DEADZONE = 0.5f;
 
 	/**
 	 * @brief Permite pasar multiples lambdas a std::visit combinandolas en un unico callable.

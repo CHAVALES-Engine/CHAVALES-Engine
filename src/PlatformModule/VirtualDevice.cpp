@@ -5,7 +5,6 @@
 input::VirtualDevice::VirtualDevice()
 {
 	_connected = true;
-	_deadzone = DEAFAULT_DEADZONE;
 }
 
 void input::VirtualDevice::_setConnected(bool con)
@@ -84,7 +83,7 @@ float input::VirtualDevice::_getDeadzone()
 	return _deadzone;
 }
 
-void input::VirtualDevice::_setDeadzone(int dz)
+void input::VirtualDevice::_setDeadzone(float dz)
 {
 	if (dz > MAX_DEADZONE || dz < 0) return;
 
