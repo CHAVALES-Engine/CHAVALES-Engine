@@ -13,8 +13,6 @@
 
 namespace fs = std::filesystem;
 
-#define SOL_ALL_SAFETIES_ON 1
-
 template<typename T>
 bool GameLoader::isVectorOf(const sol::table& table)
 {
