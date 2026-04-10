@@ -11,8 +11,9 @@ class Transform;
  *
  * --- Ejemplo de uso en lua ---
  * AudioListener = {
- *		...
+ *		
  * }
+ * (Este componente no requiere de ningún parámetro)
  *
  * --- Ejemplo de inicializacion ---
  * En bool init(const Properties& p):

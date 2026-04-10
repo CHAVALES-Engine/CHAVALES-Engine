@@ -10,6 +10,7 @@
 #endif // _WIN64
 
 #include <vector>
+#include <unordered_set>
 #include <string>
 #include <functional>
 #include "Vector3.h"
@@ -521,5 +522,5 @@ private:
     uiButtonID _nextButtonID;
     uiTextureRectID _nextTextureRectID;
     Ogre::ImGuiOverlay* _overlay;
-
+    std::unordered_set<std::string> _resourceGroups;
 };

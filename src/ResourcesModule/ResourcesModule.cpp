@@ -38,7 +38,7 @@ bool ResourcesModule::loadInternalAsset(const sol::table& assetsType, const std:
 					Debug::error("ERROR: Audio ya existente con ese nombre");
 					return false;
 				}
-				Debug::out("RESOURCES: Assetpath ", "./assets/" + assetPath);
+				Debug::out("RESOURCES: Assetpath ", assetPath);
 				if (std::filesystem::is_regular_file(assetPath)) {
 					_audioMap[nameOfAsset] = assetPath;
 				}
