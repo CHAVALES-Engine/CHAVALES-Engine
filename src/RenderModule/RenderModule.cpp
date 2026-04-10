@@ -220,12 +220,10 @@ bool RenderModule::Init(const HWND handle, const int width, const int height,con
 		ImGuiIO& io = ImGui::GetIO();
 		io.Fonts->AddFontDefault();
 		for (auto font : fonts) {
-			prueba = io.Fonts->AddFontFromFileTTF("./game/assets/fonts/horrendo.ttf", 16);
+			prueba = io.Fonts->AddFontFromFileTTF((font.second).c_str(), 16);
 			//	ImFont* fontAux = io.Fonts->AddFontFromFileTTF((font.second).c_str(), 16);
 			//	ImFont* fontAux2 = io.Fonts->AddFontFromFileTTF((font.second).c_str(), 32);
 			//	ImFont* fontAux3= io.Fonts->AddFontFromFileTTF((font.second).c_str(), 64);
-
-
 		}
 		io.Fonts->Build();
 
