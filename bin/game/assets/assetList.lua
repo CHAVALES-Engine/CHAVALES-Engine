@@ -45,6 +45,9 @@ assets = {
 		}
 	},
 	fonts = { --Fuentes
-		fontPrueba = "./game/assets/fonts/horrendo.ttf"
+		fontPrueba = {
+			sourceFolder ="./game/assets/fonts/",
+			fileName = "horrendo.ttf"
+		}
 	}
 }
