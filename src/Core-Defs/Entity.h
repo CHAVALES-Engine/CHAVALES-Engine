@@ -164,7 +164,9 @@ namespace core
 			{
 				if (c != nullptr)
 				{
-					c->destroy();
+					//c->destroy();
+					c.reset();
+					//delete c;
 				}
 			}
 
