@@ -9,6 +9,7 @@ echo ------------------
 :: ------------------------
 set "ROOTDIR=%~dp0"
 set "SRCDIR=%ROOTDIR%src\ogre"
+set "DEPSDIR=%ROOTDIR%deps"
 set "BUILDDIR=%ROOTDIR%build"
 set "LIBSDIR=%ROOTDIR%libs"
 set "DEBUGDIR=%LIBSDIR%\Debug"
@@ -21,6 +22,23 @@ if not exist "%BUILDDIR%" mkdir "%BUILDDIR%"
 if not exist "%LIBSDIR%" mkdir "%LIBSDIR%"
 if not exist "%DEBUGDIR%" mkdir "%DEBUGDIR%"
 if not exist "%RELEASESDIR%" mkdir "%RELEASESDIR%"
+
+:: ------------------------
+:: COPIAR DEPENDENCIAS
+:: Copia las fuentes de deps/ a build/ solo si no existen ya,
+:: para que OGRE las encuentre y no intente descargarlas.
+:: ------------------------
+echo Copiando dependencias a build
+ 
+for /d %%D in ("%DEPSDIR%\*") do (
+    set "DESTNAME=%%~nxD"
+    if not exist "%BUILDDIR%\!DESTNAME!" (
+        echo   Copiando %%~nxD ...
+        xcopy "%%D" "%BUILDDIR%\!DESTNAME!\" /E /I /Q
+    ) else (
+        echo   %%~nxD ya existe en build, omitiendo.
+    )
+)
 
 pushd "%BUILDDIR%"
 
