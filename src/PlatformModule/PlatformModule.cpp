@@ -51,7 +51,7 @@ bool PlatformModule::Init()
 
 	if (!setWindowIcon(core::GameConfigurator::instance()._iconRoot))
 	{
-		Debug::error("Icon cannot be asigned.");
+		Debug::error("[Platform] Window icon can not be asigned.");
 	}
 
 	SDL_PropertiesID _props = SDL_GetWindowProperties(_window);
@@ -320,10 +320,11 @@ bool PlatformModule::setWindowIcon(std::string path)
 	_icon = SDL_LoadSurface(path.c_str());
 	if (!_icon)
 	{
-		Debug::error("[Platform] Icon in path \"", path, "\" does not exist.");
+		Debug::error("[Platform] Window icon in path \"", path, "\" does not exist.");
 		return false;
 	}
 	SDL_SetWindowIcon(_window, _icon);
+	Debug::out("[Platform] Window icon changed.");
 	return true;
 }
 
