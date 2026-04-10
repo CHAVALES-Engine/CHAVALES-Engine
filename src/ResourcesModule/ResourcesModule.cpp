@@ -260,7 +260,7 @@ std::vector<std::pair<AssetName, FileName>> ResourcesModule::getAllFonts()
 	std::vector<std::pair<AssetName, FileName>> aux;
 	for (auto& i : _fontsMap) {
 		std::string assetName = i.first;
-		std::string assetFolder = i.second.first + i.second.first;
+		std::string assetFolder = i.second.first + i.second.second;
 		aux.push_back({assetName,assetFolder});
 	}
 	return aux;

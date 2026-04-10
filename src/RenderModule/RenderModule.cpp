@@ -215,7 +215,22 @@ bool RenderModule::Init(const HWND handle, const int width, const int height,con
 
 		//entityID two = ChavalesGUID::generate();
 		//addLight(two, 1, core::Color(1.0f, 1.0f, 1.0f, 1.0f), 1.0f);
+		ImGui::CreateContext();
+		ImGui::SetCurrentContext(ImGui::GetCurrentContext());
+		ImGuiIO& io = ImGui::GetIO();
+		io.Fonts->AddFontDefault();
+		for (auto font : fonts) {
+			prueba = io.Fonts->AddFontFromFileTTF((font.second).c_str(), 16);
+			//	ImFont* fontAux = io.Fonts->AddFontFromFileTTF((font.second).c_str(), 16);
+			//	ImFont* fontAux2 = io.Fonts->AddFontFromFileTTF((font.second).c_str(), 32);
+			//	ImFont* fontAux3= io.Fonts->AddFontFromFileTTF((font.second).c_str(), 64);
+		}
+		io.Fonts->Build();
 
+		io.DisplaySize = ImVec2(
+			(float)_vp->getActualWidth(),
+			(float)_vp->getActualHeight()
+		);
 		_overlaySystem = new Ogre::OverlaySystem();
 		_sceneMgr->addRenderQueueListener(_overlaySystem);
 
@@ -231,22 +246,6 @@ bool RenderModule::Init(const HWND handle, const int width, const int height,con
 
 		_vp->setOverlaysEnabled(true);
 
-		ImGuiIO& io = ImGui::GetIO();
-		io.Fonts->AddFontDefault();
-		for (auto font : fonts) {
-			prueba = io.Fonts->AddFontFromFileTTF("./game/assets/fonts/horrendo.ttf", 16);
-		//	ImFont* fontAux = io.Fonts->AddFontFromFileTTF((font.second).c_str(), 16);
-		//	ImFont* fontAux2 = io.Fonts->AddFontFromFileTTF((font.second).c_str(), 32);
-		//	ImFont* fontAux3= io.Fonts->AddFontFromFileTTF((font.second).c_str(), 64);
-
-
-		}
-		io.Fonts->Build();
-
-		io.DisplaySize = ImVec2(
-			(float)_vp->getActualWidth(),
-			(float)_vp->getActualHeight()
-		);
 
 		//_ui->Clear();
 	   // _ui->AddElement([]() {
@@ -324,7 +323,7 @@ void RenderModule::cleanScene(const bool& end)
 	_engineNodes.clear();
 	_nextTransformID = 0;
 	_nextUITransformID = 0;
-	//_ui->Clear();
+	_uiPanels.clear();
 
 	// Esto filtra los grupos que se borran para que no se borren los grupos basicos de ogre y que no pete
 	/*static const std::vector<std::string> internalGroups = {"Scene", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, Ogre::ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME, Ogre::ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME};
@@ -363,9 +362,6 @@ void RenderModule::cleanScene(const bool& end)
 
 			// Limpiar lista
 			_rgm->clearResourceGroup(resourceGroup);
-
-			// Borrar grupo
-			_rgm->destroyResourceGroup(resourceGroup);
 		}
 		_resourceGroups.clear();
 	}
@@ -1323,11 +1319,9 @@ uiButtonID RenderModule::addUIButton(const std::string& panelName, const entityI
 			_resourceGroups.insert(textureFolder);
 		}
 		Ogre::TexturePtr ogreTexture = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder);
-		Ogre::HardwarePixelBufferSharedPtr pixelBuffer = ogreTexture->getBuffer();
-		pixelBuffer->lock(Ogre::HardwareBuffer::HBL_READ_ONLY);
 		Ogre::GL3PlusTexture* glTexture = static_cast<Ogre::GL3PlusTexture*>(ogreTexture.get());
 		GLuint texID = glTexture->getGLID();
-		pixelBuffer->unlock();
+		std::cout << "Loaded: " << ogreTexture->isLoaded() << std::endl;
 		button.textureID = (ImTextureID)(uintptr_t)texID;
 	}
 	else {

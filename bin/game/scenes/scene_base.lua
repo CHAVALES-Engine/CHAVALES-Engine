@@ -20,18 +20,6 @@ scene = { -- entidades en escena
    			},
 			ComponentTest = {
 				velocity = 100
-			},
-			AudioSource = {
-				soundID = "lifeUp",
- 				mute = false,
- 				is3D = false,
- 				loop = true,
- 				isStream = false,
-				playOnReady = true,
- 				soundVolume = 100.0
-			},
-			AudioListener = {
-
 			}
 		}
    },
@@ -48,23 +36,10 @@ scene = { -- entidades en escena
 			}
 		}
    },
---    cube2 = {
--- 		components = {
--- 			Transform = {
--- 				position = Vector3.new(100,100,100),
--- 				rotation = Quaternion.new(),
--- 				scale = Vector3.new(1.0),
--- 				},
--- 			ModelRenderer = {
--- 				file = "gizmo",
--- 				["number of textures"] = 0
--- 			}
--- 		}
---    },
-   cube3 = {
+   cube2 = {
 		components = {
 			Transform = {
-				position = Vector3.new(0,3000,0),
+				position = Vector3.new(100,100,100),
 				rotation = Quaternion.new(),
 				scale = Vector3.new(1.0),
 				},
@@ -72,24 +47,28 @@ scene = { -- entidades en escena
 				file = "gizmo",
 				["number of textures"] = 0
 			}
-			,
-			RigidBody = {
-    			RBid = 1,
-   				mass = 10.0,
-
-    			position = Vector3.new(0, 3000, 0),
-    			velocity = Vector3.new(0, 0, 0),
-
-    			useGravity = true,
-    				gravity = Vector3.new(0, -0.0981, 0)
-			},
-			 Collider = {
-    			box = Vector3.new(1, 1, 1),      
-    		 	dynamic = true,
-   			 	kinematic = false,
-				trigger = false,
-    			center = Vector3.new(0,0,0)    
-			}   
+		}
+   },
+   cube3 = {
+		components = {
+			Transform = {
+				position = Vector3.new(50,50,0),
+				rotation = Quaternion.new(),
+				scale = Vector3.new(5.0),
+				},
+			ModelRenderer = {
+				file = "gizmo",
+				["number of textures"] = 0
+			}
+			--,
+			
+			-- Collider = {
+    		-- 	box = Vector3.new(1, 1, 1),      
+    		-- 	dynamic = true,
+   			-- 	kinematic = false,
+			-- 	trigger = false,
+    		-- 	center = Vector3.new(0,0,0)    
+			-- }   
 		}
    },
    light = {
