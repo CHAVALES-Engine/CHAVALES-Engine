@@ -47,7 +47,7 @@ std::vector<T> GameLoader::parseVector(const sol::table& table)
 	return result;
 }
 
-void GameLoader::parseObject(const sol::object& obj, const std::string& clave, Properties& props)
+void GameLoader::parseObject(const sol::object& obj, const std::string& clave, Properties& props, const std::string& componentName)
 {
 	switch (obj.get_type())
 	{
@@ -115,7 +115,7 @@ void GameLoader::parseObject(const sol::object& obj, const std::string& clave, P
 		}
 		else
 		{
-			Debug::error("GAMELOADER: Parametro tabla no compatible en ", clave);
+			Debug::error("GAMELOADER: Parametro tabla no compatible en ", clave, " para el componente ", componentName, ".");
 		}
 
 		break;
@@ -144,13 +144,13 @@ void GameLoader::parseObject(const sol::object& obj, const std::string& clave, P
 		}
 		else
 		{
-			Debug::error("GAMELOADER: El tipo del parametro de ", clave, " no esta definido.");
+			Debug::error("GAMELOADER: El tipo del parametro de ", clave, " no esta definido para el componente ", componentName,".");
 		}
 		break;
 	}
 	default:
 	{
-		Debug::error("GAMELOADER: El tipo del parametro de ", clave, " no es valido.");
+		Debug::error("GAMELOADER: El tipo del parametro de ", clave, " para el componente ", componentName, " no es valido.");
 		break;
 	}
 	}
@@ -177,7 +177,7 @@ void GameLoader::parseComponent(core::Entity* e, std::pair<sol::object, sol::obj
 			auto objetoParametro = p.second;
 
 			// traducir objeto a propiedad
-			parseObject(objetoParametro, nombreParametro, properties);
+			parseObject(objetoParametro, nombreParametro, properties, componenteName);
 		}
 
 		// --- a este nivel va el init:
@@ -206,7 +206,7 @@ void GameLoader::instanceEntity(core::Entity* e, std::pair<sol::object, sol::obj
 {
 	// nombre de la entidad
 	std::string entidadName = entidadObj.first.as<std::string>();
-	Debug::out("GAMELOADER: Entidad ", entidadName, " cargada.");
+	Debug::out("GAMELOADER: Cargando entidad ", entidadName, ".");
 
 	// crea la entidad
 	e->setName(entidadName);
@@ -241,6 +241,7 @@ void GameLoader::initializeEntity(core::Entity* e, std::pair<sol::object, sol::o
 		// --- para cada componente de la tabla de componentes de la entidad
 		parseComponent(e, componenteObj);
 	}
+	Debug::out("GAMELOADER: Entidad ", e->getName(), " cargada.");
 }
 
 void GameLoader::defineUserTypes(sol::state& lua)
@@ -322,7 +323,7 @@ void GameLoader::loadLua(
 
 	// --- lectura lua
 	sol::table scene = lua["scene"];
-	Debug::out("GAMELOADER: Escena ", n, " cargada.");
+	Debug::out("GAMELOADER: Cargando escena ", n, ".");
 
 	for (auto& entidadObj : scene)
 	{
@@ -355,6 +356,8 @@ void GameLoader::loadLua(
 	// --- a este nivel se llama al ready:
 	// garantizamos que en el ready el resto de entidades y sus componentes estan inicializados
 	s->ready();
+
+	Debug::out("GAMELOADER: Escena ", n, " cargada.");
 }
 
 std::shared_ptr<core::Scene> GameLoader::loadScene(const sceneName& n)
@@ -392,8 +395,6 @@ std::string GameLoader::findSceneFile(const std::string& sceneName, const std::s
 std::shared_ptr<core::Scene> GameLoader::loadSceneFromSearch(const std::string& sceneName)
 {
 	std::string root = core::GameConfigurator::instance()._scenesRoot;
-
-	std::cout << "Buscando escena " << sceneName << ".lua" << std::endl;
 
 	if (!fs::exists(root) || 
 		!fs::is_directory(root))
