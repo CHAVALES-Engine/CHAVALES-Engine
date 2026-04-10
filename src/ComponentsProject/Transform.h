@@ -114,11 +114,19 @@ public:
 	/**
 	 * @brief Aplica una rotacion q en formato quaternion a la rotacion local
 	 */
-	void rotate(const core::Quaternion<>& q);
+	void rotateLocal(const core::Quaternion<>& q);
 	/**
 	 * @brief Aplica una rotacion v en formato vector a la rotacion local
 	 */
-	void rotate(core::Vector3<> v);
+	void rotateLocal(const core::Vector3<>& v);
+	/**
+	 * @brief Aplica una rotacion q en formato quaternion a la rotacion global
+	 */
+	void rotateGlobal(const core::Quaternion<>& q);
+	/**
+	 * @brief Aplica una rotacion v en formato vector a la rotacion global
+	 */
+	void rotateGlobal(const core::Vector3<>& v);
 
 	/**
 	 * @returns Devuelve un vector normalizado representando el eje X en coordenadas globales
