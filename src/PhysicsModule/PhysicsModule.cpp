@@ -290,19 +290,22 @@ void PhysicsModule::AttachCapsuleShape(ComponentID bodyID, float radius, float h
 	PxRigidActor* actor = it->second.actor;
 	if (!actor) return;
 
-	// Crear geometría cápsula
 	PxCapsuleGeometry geo(radius, height * 0.5f);
-
-	// Crear shape
 	PxShape* shape = gPhysics->createShape(geo, *defaultMaterial);
 
-	// Offset 
 	PxTransform localPose(PxVec3(center.getX(), center.getY(), center.getZ()));
 	shape->setLocalPose(localPose);
 
-	// Attach real
 	actor->attachShape(*shape);
 
-	// (opcional) guardar referencia
 	it->second.shape = shape;
+}
+
+void PhysicsModule::setPhysicsTransform(ComponentID id,const core::Vector3<>& pos, const core::Quaternion<>& rot)
+{
+	auto& comp = physicsMap[id];
+	PxRigidActor* actor = comp.actor;
+	if (!actor) return;
+	PxTransform t( PxVec3(pos.getX(), pos.getY(), pos.getZ()), PxQuat(rot.getX(), rot.getY(), rot.getZ(), rot.getW()));
+	actor->setGlobalPose(t);
 }

@@ -114,7 +114,8 @@ void Collider::update(uint64_t deltaTime)
 	if (!isDynamic /*&& transform->*/) {
 		//estaticos
 		core::Vector3<> pos = transform->getGlobalPosition();
-		_eng->setPhysicsPosition(physicsID, pos + center);
+		core::Quaternion rot = transform->getGlobalRotation();
+		_eng->setPhysicsTransform(physicsID, pos + center, rot);//rotaciones y posicion
 	}
 
 	for (auto& event : _eng->getPhysicsEvents(physicsID)) {
