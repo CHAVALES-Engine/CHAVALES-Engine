@@ -130,6 +130,8 @@ public:
 	/// <param name="newRoute">Name of the new path</param>
 	void setFontSource(AssetName name, FolderName newRoute);
 
+	std::vector<std::pair<AssetName, FileName>> getAllFonts();
+
 private:
 	/// <summary>
 	/// Private method to load all the assets
