@@ -502,7 +502,7 @@ public:
 
 	ComponentID attachCapsuleShapeToRigidBody(ComponentID bodyID, float radius, float height, const core::Vector3<>& center);
 
-	
+	void setPhysicsTransform(ComponentID id, const core::Vector3<>& pos, const core::Quaternion<>& rot);
 
 	uint32_t createRigidBody(core::Vector3<> pos, float mass, bool useGravity);
 

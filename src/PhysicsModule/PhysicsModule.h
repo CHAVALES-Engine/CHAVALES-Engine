@@ -2,6 +2,7 @@
 // TODO: This is an example of a library function
 #include "../../dependencies/PhysX/physx/include/PxPhysicsAPI.h"
 #include "../../src/Core-Defs/Vector3.h"
+#include "../../src/Core-Defs/Quaternion.h"
 #include "../../src/Core-Defs/PhysicsTypes.h"
 #include <unordered_map>
 #include "../../dependencies/PhysX/physx/include/PxSimulationEventCallback.h"
@@ -37,6 +38,8 @@ public:
 	void AttachBoxShape(ComponentID bodyID, const core::Vector3<> size, const core::Vector3<>& center);
 
 	void AttachCapsuleShape(ComponentID bodyID, float radius, float height, const core::Vector3<>& center);
+
+	void setPhysicsTransform(ComponentID id, const core::Vector3<>& pos, const core::Quaternion<>& rot);
 
 	//callbacks
 	void onContact(const physx::PxContactPairHeader& pairHeader,

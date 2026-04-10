@@ -522,6 +522,13 @@ ComponentID Engine::attachCapsuleShapeToRigidBody(ComponentID bodyID, float radi
 	return bodyID; 
 }
 
+void Engine::setPhysicsTransform(ComponentID id, const core::Vector3<>& pos, const core::Quaternion<>& rot)
+{
+	if (!_physicsModule) return;
+
+	_physicsModule->setPhysicsTransform(id, pos, rot);
+}
+
 ///
 uint32_t Engine::createRigidBody(core::Vector3<> pos, float mass, bool useGravity)
 {
