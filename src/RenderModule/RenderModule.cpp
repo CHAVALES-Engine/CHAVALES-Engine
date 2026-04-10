@@ -280,6 +280,7 @@ void RenderModule::renderFrame()
 
 void RenderModule::cleanScene(const bool& end)
 {
+	std::cout << "NEGRAZONEGRAZONEGRAZONEGRAZONEGRAZONEGRAZONEGRAZONEGRAZONEGRAZO\n";
 	if (!_sceneMgr)
 		return;
 
@@ -318,12 +319,7 @@ void RenderModule::cleanScene(const bool& end)
 	//_ui->Clear();
 
 	// Esto filtra los grupos que se borran para que no se borren los grupos basicos de ogre y que no pete
-	static const std::vector<std::string> internalGroups = {
-		"Scene",
-	   Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-	   Ogre::ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME,
-		Ogre::ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME
-	};
+	/*static const std::vector<std::string> internalGroups = {"Scene", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, Ogre::ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME, Ogre::ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME};
 
 
 	Ogre::StringVector groups = _rgm->getResourceGroups();
@@ -345,19 +341,40 @@ void RenderModule::cleanScene(const bool& end)
 			// Borrar grupo
 			_rgm->destroyResourceGroup(groupName);
 		}
-	}
-
-	_shaderGen->removeAllShaderBasedTechniques();
-	_shaderGen->flushShaderCache();
+	}*/
 
 	//Si se va a crear una escena nueva dejamos una camara de seguridad. Volvemos a anadir rtss a imgui.
 	if (!end)
 	{
 		addCamera(_mainCameraID, 45.0f, 0.1f, 1000.0f, 1.0f, { 0.0f, 0.0f, 0.0f, 1.0f });
-		Ogre::MaterialPtr materialUI = Ogre::MaterialManager::getSingleton().getByName("ImGui/material");
-		_shaderGen->createShaderBasedTechnique(*materialUI, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
+		//Limpiamos solo recursos del juego
+		for (auto resourceGroup : _resourceGroups)
+		{
+			// Liberar modelos y textruas
+			_rgm->unloadResourceGroup(resourceGroup);
 
-		_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, materialUI->getName());
+			// Limpiar lista
+			_rgm->clearResourceGroup(resourceGroup);
+
+			// Borrar grupo
+			_rgm->destroyResourceGroup(resourceGroup);
+		}
+		_resourceGroups.clear();
+	}
+	else
+	{
+		Ogre::StringVector groups = _rgm->getResourceGroups();
+		for (const std::string& groupName : groups)
+		{
+			// Liberar modelos y textruas
+			_rgm->unloadResourceGroup(groupName);
+
+			// Limpiar lista
+			_rgm->clearResourceGroup(groupName);
+
+			// Borrar grupo
+			_rgm->destroyResourceGroup(groupName);
+		}
 	}
 }
 
@@ -647,6 +664,7 @@ modelID RenderModule::addModel(const entityID& entityID, const std::string& mode
 	{
 		_rgm->addResourceLocation(modelFolder, "FileSystem", modelFolder);
 		_rgm->loadResourceGroup(modelFolder);
+		_resourceGroups.insert(modelFolder);
 	}
 	Ogre::Entity* model = _models.emplace_back(_sceneMgr->createEntity(modelFile + std::to_string(_nextModelID), modelFile));
 	_engineNodes[nodeID].sceneNode->attachObject(model);
@@ -677,6 +695,25 @@ void RenderModule::deleteModel(const modelID& id)
 	if (id >= 0 && id < _models.size() && _models[id] != nullptr)
 	{
 		Ogre::Entity* model = _models[id];
+		for (unsigned int i = 0; i < model->getNumSubEntities(); ++i)
+		{
+			Ogre::SubEntity* sub = model->getSubEntity(i);
+			Ogre::MaterialPtr mat = sub->getMaterial();
+
+			if (mat != nullptr)
+			{
+				for (unsigned short t = 0; t < mat->getNumTechniques(); ++t)
+				{
+					Ogre::Technique* tech = mat->getTechnique(t);
+
+					if (tech)
+					{
+						_shaderGen->removeShaderBasedTechnique(tech, Ogre::MaterialManager::DEFAULT_SCHEME_NAME);
+					}
+				}
+			}
+		}
+
 		Ogre::SceneNode* parent = model->getParentSceneNode();
 		parent->detachObject(model);
 		_sceneMgr->destroyEntity(model);
@@ -691,6 +728,24 @@ void RenderModule::cleanModels()
 	{
 		if (model != nullptr)
 		{
+			for (unsigned int i = 0; i < model->getNumSubEntities(); ++i)
+			{
+				Ogre::SubEntity* sub = model->getSubEntity(i);
+				Ogre::MaterialPtr mat = sub->getMaterial();
+
+				if (mat != nullptr)
+				{
+					for (unsigned short t = 0; t < mat->getNumTechniques(); ++t)
+					{
+						Ogre::Technique* tech = mat->getTechnique(t);
+
+						if (tech)
+						{
+							_shaderGen->removeShaderBasedTechnique(tech, Ogre::MaterialManager::DEFAULT_SCHEME_NAME);
+						}
+					}
+				}
+			}
 			Ogre::SceneNode* parent = model->getParentSceneNode();
 			if (parent)
 				parent->detachObject(model);
@@ -724,6 +779,7 @@ void RenderModule::setDiffuse(const modelID& id, const subMeshID& subID, const s
 		{
 			_rgm->addResourceLocation(textureFolder, "FileSystem", textureFolder);
 			_rgm->loadResourceGroup(textureFolder);
+			_resourceGroups.insert(textureFolder);
 		}
 		Ogre::TexturePtr text = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
 
@@ -1008,6 +1064,7 @@ particleGenID RenderModule::addParticleGen(const entityID& entityID, const std::
 	{
 		_rgm->addResourceLocation(textureFolder, "FileSystem", textureFolder);
 		_rgm->loadResourceGroup(textureFolder);
+		_resourceGroups.insert(textureFolder);
 	}
 
 	Ogre::TexturePtr text = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
@@ -1255,6 +1312,7 @@ uiButtonID RenderModule::addUIButton(const std::string& panelName, const entityI
 		{
 			_rgm->addResourceLocation(textureFolder, "FileSystem", textureFolder);
 			_rgm->loadResourceGroup(textureFolder);
+			_resourceGroups.insert(textureFolder);
 		}
 		Ogre::TexturePtr ogreTexture = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder);
 		Ogre::HardwarePixelBufferSharedPtr pixelBuffer = ogreTexture->getBuffer();
@@ -1325,6 +1383,7 @@ uiTextureRectID RenderModule::addUITextureRect(const std::string& panelName, con
 	{
 		_rgm->addResourceLocation(textureFolder, "FileSystem", textureFolder);
 		_rgm->loadResourceGroup(textureFolder);
+		_resourceGroups.insert(textureFolder);
 	}
 
 	_uiPanels[panelID].textureRects.push_back(tex);

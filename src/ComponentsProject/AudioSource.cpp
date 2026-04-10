@@ -2,6 +2,7 @@
 #include "Engine.h"
 #include "Transform.h"
 #include "Entity.h"
+#include "ResourcesFacade.h" 
 #include <Debug.h>
 #include <PluginSDK.h>
 
@@ -34,7 +35,7 @@ void AudioSource::ready()
 	assert(entity->hasComponent<Transform>());
 	_tr = entity->getComponent<Transform>();
 	_lastPosition = _tr->getGlobalPosition();
-	Engine::instance()->loadSound(Engine::instance()->getAudioByName(_id), _id, _is3D, _loop, _isStream);
+	Engine::instance()->loadSound(Engine::instance()->resources()->getAudioByName(_id), _id, _is3D, _loop, _isStream);
 	if (_playOnReady)
 		playSound();
 }
@@ -46,11 +47,6 @@ void AudioSource::update(uint64_t deltaTime)
 		_lastPosition = _tr->getGlobalPosition();
 		Engine::instance()->setSourcePosition(_channelID, _tr->getGlobalPosition(), velocity);
 	}
-
-	//if (!Engine::instance()->isChannelPlaying(_channelID))
-	//{
-	//	stopSound();
-	//}
 }
 
 void AudioSource::playSound()

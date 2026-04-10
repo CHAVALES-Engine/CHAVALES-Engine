@@ -1,5 +1,6 @@
 #include "VirtualDevice.h"
 #include <Debug.h>
+#include <algorithm>
 
 input::VirtualDevice::VirtualDevice()
 {
@@ -28,8 +29,27 @@ void input::VirtualDevice::_setAxis(input::InputAxis axis, float value)
 		}
 		else if constexpr (std::is_same_v<T, GamepadAxis>)
 		{
-			// PAIGRO AQUI normalizar
-			_gamepadAxisState[a] = value;
+			// Si esta dentro de la deadzone 0.
+			if (std::abs(value) < _deadzone)
+			{
+				_gamepadAxisState[a] = 0.0f;
+			}
+
+			// SDL usa int16 para los rangos de los joysticks.
+			constexpr float MAX_VALUE = std::numeric_limits<int16_t>::max();
+			// Escalamos para que el rango util sea -1.0 a 1.0 compensando deadzone.
+			const float deadzoneFactor = _deadzone / MAX_VALUE;
+
+			// Normalizar el valor a rango -1.0 a 1.0
+			float normalized = value / MAX_VALUE; // usamos int16, 
+
+			// Aplicamos la zona muerta.
+			normalized = normalized > 0 ?
+				(normalized - deadzoneFactor) / (1.0f - deadzoneFactor) :
+				(normalized + deadzoneFactor) / (1.0f - deadzoneFactor);
+
+			// Clampeamos a -1.0 a 1.0 por si acaso
+			_gamepadAxisState[a] = (normalized < -1.0f) ? -1.0f : (normalized > 1.0f) ? 1.0f : normalized;
 		}
 		}, axis);
 }
@@ -56,6 +76,18 @@ void input::VirtualDevice::_setButton(input::InputButtons button, bool value)
 void input::VirtualDevice::_appendText(const std::string& text)
 {
 	_textBuffer += text;
+}
+
+float input::VirtualDevice::_getDeadzone()
+{
+	return _deadzone;
+}
+
+void input::VirtualDevice::_setDeadzone(float dz)
+{
+	if (dz > MAX_DEADZONE || dz < 0) return;
+
+	_deadzone = dz;
 }
 
 bool input::VirtualDevice::isPressed(Key key) const

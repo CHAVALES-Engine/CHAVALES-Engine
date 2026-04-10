@@ -14,6 +14,9 @@
 #include "GameConfigurator.h"
 #include "StateMachine.h"
 #include "InputFacade.h"
+#include "ResourcesFacade.h"
+
+#include <iostream>
 
 using namespace std;
 Engine* Engine::_instance = nullptr;
@@ -554,46 +557,17 @@ void Engine::updateMaterial(uint32_t id, float staticF, float dynamicF, float re
 {
 	_physicsModule->UpdateMaterial(id, staticF, dynamicF, restitution, frictionCombine, bounceCombine);
 }
-
 #pragma endregion
 
 #pragma region Resources
-std::string Engine::getAudioByName(const std::string& name)
-{
-	return _resourcesModule->getAudio(name);
-}
 
-std::pair<std::string, std::string> Engine::getModelByName(const std::string& name)
+ResourcesFacade* Engine::resources() const
 {
-	return _resourcesModule->getMesh(name);
-}
-
-std::pair<std::string, std::string> Engine::getTextureByName(const std::string& name)
-{
-	return _resourcesModule->getTexture(name);
-}
-
-std::pair<std::string, std::string> Engine::getParticleByName(const std::string& name)
-{
-	return _resourcesModule->getParticle(name);
-}
-
-std::pair<std::string, std::string> Engine::getImageByName(const std::string& name)
-{
-	return _resourcesModule->getImages(name);
-}
-
-std::pair<std::string, std::string> Engine::getFontByName(const std::string& name)
-{
-	return _resourcesModule->getFonts(name);
-}
-
-std::vector<std::pair<std::string, std::string>> Engine::getAllFonts()
-{
-	return _resourcesModule->getAllFonts();
+	return _resources;
 }
 
 #pragma endregion
+
 //------Metodo de PlatformModule:
 int Engine::getWindowWidth() const
 {
@@ -657,6 +631,8 @@ bool Engine::_initPriv()
 		_resourcesModule = nullptr;
 		return false;
 	}
+	_resources = new ResourcesFacade(_resourcesModule); 
+
 	_stateMachine = new StateMachine();
 
 #if _DEBUG

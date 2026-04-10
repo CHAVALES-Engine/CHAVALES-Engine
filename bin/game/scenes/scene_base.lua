@@ -20,6 +20,18 @@ scene = { -- entidades en escena
    			},
 			ComponentTest = {
 				velocity = 100
+			},
+			AudioSource = {
+				soundID = "lifeUp",
+ 				mute = false,
+ 				is3D = false,
+ 				loop = true,
+ 				isStream = false,
+				playOnReady = true,
+ 				soundVolume = 100.0
+			},
+			AudioListener = {
+
 			}
 		}
    },

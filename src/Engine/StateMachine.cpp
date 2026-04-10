@@ -47,7 +47,7 @@ void StateMachine::gameLoop()
 				_currentScene.ptr->clearScene(); // elimina escena anterior
 				_currentScene.ptr->onDestroy();
 				//limpia render
-				//Engine::instance()->cleanScene();  // limpia la escena
+				Engine::instance()->cleanScene();  // limpia la escena
 				scenePtr s = std::move(GameLoader::loadScene(_currentScene.name)); // vuelve a cargar
 				_currentScene.ptr = s;
 			}
