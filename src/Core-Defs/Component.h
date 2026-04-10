@@ -136,7 +136,7 @@ namespace core
 			// --- comprobamos si la clave existe
 			if (it == props.end())
 			{
-				Debug::error("COMPONENT: No se encontró el parámetro ", key, " en las propiedades del componente.");
+				Debug::error("COMPONENT: No se encontró el parámetro ", key, " en las propiedades del componente ", getName(),".");
 				return T(); // devolvemos valor por defecto
 			}
 
@@ -144,7 +144,7 @@ namespace core
 			if (const T* pval = std::get_if<T>(&it->second))
 				return *pval;
 
-			Debug::error("COMPONENT: No se pudo tipar el parámetro ", key, " en las propiedades del componente.");
+			Debug::error("COMPONENT: No se pudo tipar el parámetro ", key, " en las propiedades del componente ", getName(), ".");
 			return T(); // devolvemos valor por defecto
 		}
 
@@ -167,7 +167,7 @@ namespace core
 			// --- comprobamos si la clave existe
 			if (it == props.end())
 			{
-				Debug::error("COMPONENT: No se encontró el parámetro ", key, " en las propiedades del componente.");
+				Debug::error("COMPONENT: No se encontró el parámetro ", key, " en las propiedades del componente ", getName(), ".");
 				// devolvemos valor por defecto
 				return false;
 			}
@@ -178,10 +178,7 @@ namespace core
 				param = *pval;
 				return true;
 			}
-			else
-			{
-				Debug::error("COMPONENT: No se pudo tipar el parámetro ", key, " en las propiedades del componente.");
-			}
+			Debug::error("COMPONENT: No se pudo tipar el parámetro ", key, " en las propiedades del componente ", getName(), ".");
 			return false;
 		}
 

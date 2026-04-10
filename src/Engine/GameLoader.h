@@ -31,7 +31,7 @@ public:
 	 * @param clave - Nombre con el que se guardara la propiedad en el mapa de propiedades.
 	 * @param props - Mapa de propiedades del componente.
 	 */
-	static void parseObject(const sol::object& obj, const std::string& clave, Properties& props);
+	static void parseObject(const sol::object& obj, const std::string& clave, Properties& props, const std::string& componentName);
 
 	/**
 	 * @brief Traduce un objeto de sol a variant para guardarlo en el mapa de propiedades de un componente.
