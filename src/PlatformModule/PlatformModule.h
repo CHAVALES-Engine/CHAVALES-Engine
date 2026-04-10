@@ -145,7 +145,7 @@ public:
 	* @param path - Ruta del icono.
 	* @return bool - si se ha podido cambiar.
 	*/
-	bool setWindowIcon(std::string path);
+	bool setIcon(std::string path);
 	/**
 	* @brief Cambia el tamanyo de la ventana.
 	* @param name - Nombre de la ventana.

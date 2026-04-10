@@ -2,7 +2,7 @@
 
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_gamepad.h>
-#include "SDL3/SDL_surface.h"
+#include <SDL3/SDL_surface.h>
 
 #include <Debug.h>
 #include <optional>
@@ -49,10 +49,8 @@ bool PlatformModule::Init()
 		return false;
 	}
 
-	if (!setWindowIcon(core::GameConfigurator::instance()._iconRoot))
-	{
-		Debug::error("[Platform] Window icon can not be asigned.");
-	}
+	// Icono
+	setIcon(core::GameConfigurator::instance()._iconRoot);
 
 	SDL_PropertiesID _props = SDL_GetWindowProperties(_window);
 
@@ -310,7 +308,7 @@ void PlatformModule::setWindowSize(int w, int h)
 	SDL_SetWindowSize(_window, w, h);
 }
 
-bool PlatformModule::setWindowIcon(std::string path)
+bool PlatformModule::setIcon(std::string path)
 {
 	if (_icon != nullptr)
 	{
@@ -323,8 +321,15 @@ bool PlatformModule::setWindowIcon(std::string path)
 		Debug::error("[Platform] Window icon in path \"", path, "\" does not exist.");
 		return false;
 	}
-	SDL_SetWindowIcon(_window, _icon);
-	Debug::out("[Platform] Window icon changed.");
+	// Icono de la ventana
+	if (!SDL_SetWindowIcon(_window, _icon))
+	{
+		Debug::error("[Platform] Cound't asign icon: \"", path, "\" to window.");
+		return false;
+	}
+	// Icono de la taskbar
+
+	Debug::out("[Platform] Window icon changed: \"", path, "\".");
 	return true;
 }
 
