@@ -215,7 +215,24 @@ bool RenderModule::Init(const HWND handle, const int width, const int height,con
 
 		//entityID two = ChavalesGUID::generate();
 		//addLight(two, 1, core::Color(1.0f, 1.0f, 1.0f, 1.0f), 1.0f);
+		ImGui::CreateContext();
+		ImGui::SetCurrentContext(ImGui::GetCurrentContext());
+		ImGuiIO& io = ImGui::GetIO();
+		io.Fonts->AddFontDefault();
+		for (auto font : fonts) {
+			prueba = io.Fonts->AddFontFromFileTTF("./game/assets/fonts/horrendo.ttf", 16);
+			//	ImFont* fontAux = io.Fonts->AddFontFromFileTTF((font.second).c_str(), 16);
+			//	ImFont* fontAux2 = io.Fonts->AddFontFromFileTTF((font.second).c_str(), 32);
+			//	ImFont* fontAux3= io.Fonts->AddFontFromFileTTF((font.second).c_str(), 64);
 
+
+		}
+		io.Fonts->Build();
+
+		io.DisplaySize = ImVec2(
+			(float)_vp->getActualWidth(),
+			(float)_vp->getActualHeight()
+		);
 		_overlaySystem = new Ogre::OverlaySystem();
 		_sceneMgr->addRenderQueueListener(_overlaySystem);
 
@@ -231,22 +248,6 @@ bool RenderModule::Init(const HWND handle, const int width, const int height,con
 
 		_vp->setOverlaysEnabled(true);
 
-		ImGuiIO& io = ImGui::GetIO();
-		io.Fonts->AddFontDefault();
-		for (auto font : fonts) {
-			prueba = io.Fonts->AddFontFromFileTTF("./game/assets/fonts/horrendo.ttf", 16);
-		//	ImFont* fontAux = io.Fonts->AddFontFromFileTTF((font.second).c_str(), 16);
-		//	ImFont* fontAux2 = io.Fonts->AddFontFromFileTTF((font.second).c_str(), 32);
-		//	ImFont* fontAux3= io.Fonts->AddFontFromFileTTF((font.second).c_str(), 64);
-
-
-		}
-		io.Fonts->Build();
-
-		io.DisplaySize = ImVec2(
-			(float)_vp->getActualWidth(),
-			(float)_vp->getActualHeight()
-		);
 
 		//_ui->Clear();
 	   // _ui->AddElement([]() {
