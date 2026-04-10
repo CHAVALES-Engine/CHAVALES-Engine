@@ -533,6 +533,9 @@ public:
 	std::pair<std::string, std::string> getImageByName(const std::string& name);
 	std::pair<std::string, std::string> getFontByName(const std::string& name);
 
+	//Render module method to retrive all fonts from the assets folder
+	std::vector<std::pair<std::string, std::string>> getAllFonts();
+
 #pragma endregion
 
 	/**
