@@ -608,10 +608,19 @@ bool Engine::_initPriv()
 		_platformModule = nullptr;
 		return false;
 	}
+	//Resources
+	_resourcesModule = new ResourcesModule();
+	if (!_resourcesModule->Init()) {
+		delete _resourcesModule;
+		_resourcesModule = nullptr;
+		return false;
+	}
+	_resources = new ResourcesFacade(_resourcesModule);
+
 	_input = new InputFacade(_platformModule);
 	//Render
 	_renderModule = new RenderModule();
-	if (!_renderModule->Init(_platformModule->getWindowHandle(), _platformModule->getWindowWidth(), _platformModule->getWindowHeight())) {
+	if (!_renderModule->Init(_platformModule->getWindowHandle(), _platformModule->getWindowWidth(), _platformModule->getWindowHeight(),_resourcesModule->getAllFonts())) {
 		delete _renderModule;
 		_renderModule = nullptr;
 		return false;
@@ -630,15 +639,6 @@ bool Engine::_initPriv()
 		_physicsModule = nullptr;
 		return false;
 	}
-
-	//Resources
-	_resourcesModule = new ResourcesModule();
-	if (!_resourcesModule->Init()) {
-		delete _resourcesModule;
-		_resourcesModule = nullptr;
-		return false;
-	}
-	_resources = new ResourcesFacade(_resourcesModule); 
 
 	_stateMachine = new StateMachine();
 

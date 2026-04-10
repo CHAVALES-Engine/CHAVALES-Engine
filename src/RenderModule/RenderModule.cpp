@@ -90,7 +90,7 @@ RenderModule::~RenderModule()
    // std::cout << "DisplaySize: " << io.DisplaySize.x << ", " << io.DisplaySize.y << std::endl;
 //}
 
-bool RenderModule::Init(const HWND handle, const int width, const int height)
+bool RenderModule::Init(const HWND handle, const int width, const int height,const std::vector<std::pair<FontName, FontPath>> fonts)
 {
 	try
 	{
@@ -233,6 +233,14 @@ bool RenderModule::Init(const HWND handle, const int width, const int height)
 
 		ImGuiIO& io = ImGui::GetIO();
 		io.Fonts->AddFontDefault();
+		for (auto font : fonts) {
+			prueba = io.Fonts->AddFontFromFileTTF("./game/assets/fonts/horrendo.ttf", 16);
+		//	ImFont* fontAux = io.Fonts->AddFontFromFileTTF((font.second).c_str(), 16);
+		//	ImFont* fontAux2 = io.Fonts->AddFontFromFileTTF((font.second).c_str(), 32);
+		//	ImFont* fontAux3= io.Fonts->AddFontFromFileTTF((font.second).c_str(), 64);
+
+
+		}
 		io.Fonts->Build();
 
 		io.DisplaySize = ImVec2(
@@ -1241,10 +1249,10 @@ uiLabelID RenderModule::addUILabel(const std::string& panelName, const entityID&
 	label.align = textAlign;
 	auto& io{ ImGui::GetIO() };
 
-	ImFont* fontAux = io.Fonts->AddFontFromFileTTF((fontFolder + fontFile).c_str(), fontSize);
-	io.Fonts->Build();
-	label.font = fontAux;
-	
+	//ImFont* fontAux = io.Fonts->AddFontFromFileTTF((fontFolder + fontFile).c_str(), fontSize);
+	//io.Fonts->Build();
+	//label.font = fontAux;
+	label.font = prueba;
 	_uiPanels[panelID].labels.push_back(label);
 
 	uiLabelID id = _nextLabelID++;

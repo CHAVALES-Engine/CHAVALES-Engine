@@ -46,6 +46,8 @@ using uiLabelID = uint64_t;
 using uiButtonID = uint64_t;
 using uiTextureRectID = uint64_t;
 using ImTextureID = uint64_t;
+using FontName = std::string;
+using FontPath = std::string;
 struct EngineNode
 {
     Ogre::SceneNode* sceneNode;
@@ -112,7 +114,7 @@ class RenderModule
 {
 public:
     ~RenderModule();
-    bool Init(const HWND handle, const int width, const int height);
+    bool Init(const HWND handle, const int width, const int height, const std::vector<std::pair<FontName, FontPath>> fonts);
     //void update();
     /*
     * @brief Renderizar frame.
@@ -523,4 +525,6 @@ private:
     uiTextureRectID _nextTextureRectID;
     Ogre::ImGuiOverlay* _overlay;
     std::unordered_set<std::string> _resourceGroups;
+    ImFont* prueba;
+
 };
