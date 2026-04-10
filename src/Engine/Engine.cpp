@@ -16,6 +16,8 @@
 #include "InputFacade.h"
 #include "ResourcesFacade.h"
 
+#include <iostream>
+
 using namespace std;
 Engine* Engine::_instance = nullptr;
 
