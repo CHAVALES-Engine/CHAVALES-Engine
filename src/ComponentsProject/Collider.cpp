@@ -84,10 +84,10 @@ void Collider::ready()
 		switch (shapeType)
 		{
 		case ShapeType::Box:
-			_eng->attachBoxShapeToRigidBody(physicsID, center, size, isKinematic);
+			_eng->attachBoxShapeToRigidBody(physicsID, size, center);
 			break;
 		case ShapeType::Capsule:
-			_eng->attachCapsuleShapeToRigidBody(physicsID, center, radius, height, isKinematic);
+			//_eng->attachCapsuleShapeToRigidBody(physicsID, center, radius, height, isKinematic);
 			break;
 		}
 	}
@@ -117,12 +117,7 @@ void Collider::update(uint64_t deltaTime)
 {
 	if (!entity || physicsID == 0 || !transform) return;
 
-	if (isDynamic) {
-		core::Vector3<> physPos = _eng->getPhysicsPosition(physicsID);
-		//como physx devuelcve la pos del collider debo restar el centro para saber donde esta realmente la entidad
-		transform->setGlobalPosition(physPos - center);
-	}
-	else {
+	if (!isDynamic /*&& transform->*/) {
 		//estaticos
 		core::Vector3<> pos = transform->getGlobalPosition();
 		_eng->setPhysicsPosition(physicsID, pos + center);

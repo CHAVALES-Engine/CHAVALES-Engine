@@ -78,9 +78,12 @@ ComponentID PhysicsModule::CreateRigidBody(core::Vector3<> pos, float mass, bool
 	PxRigidBodyExt::setMassAndUpdateInertia(*body, mass > 0.0f ? mass : 1.0f);
 	body->setActorFlag(PxActorFlag::eDISABLE_GRAVITY, !useGravity);
 	gScene->addActor(*body);
-	//usa tus ids
+
+	//id del actor del rigidbody
 	ComponentID id = nextID++;
-	
+	physicsMap[id] = { body, nullptr };
+	actorToID[body] = id;
+
 	return id;
 }
 
@@ -98,9 +101,13 @@ ComponentID PhysicsModule::CreateBoxShape(core::Vector3<> size, core::Vector3<> 
 	if (isDynamic)
 		PxRigidBodyExt::updateMassAndInertia(*static_cast<PxRigidDynamic*>(actor), 10.0f);
 	gScene->addActor(*actor);
-	ComponentID id = nextID++;
-	physicsMap[id] = { actor, shape };
-	actorToID[actor] = id;
+
+	ComponentID id;
+	if (!isDynamic) {
+		id = nextID++;
+		physicsMap[id] = { actor, shape };
+		actorToID[actor] = id;
+	}
 
 	return id;
 }
@@ -119,6 +126,7 @@ ComponentID PhysicsModule::CreateCapsuleShape(float radius, float height, const 
 	if (isDynamic && !isKinematic)
 		PxRigidBodyExt::updateMassAndInertia(*static_cast<PxRigidDynamic*>(actor), 10.f);
 	gScene->addActor(*actor);
+
 	ComponentID id = nextID++;
 	physicsMap[id] = { actor, shape };
 	actorToID[actor] = id;
@@ -204,7 +212,7 @@ uint32_t PhysicsModule::CreateMaterial(float staticF, float dynamicF, float rest
 	mat->setFrictionCombineMode(ToPxCombine(frictionCombine));
 	mat->setRestitutionCombineMode(ToPxCombine(bounceCombine));
 	//usa tus propios ids
-	ComponentID id = nextID++;
+	ComponentID id = nextIDMaterial++;
 	materialMap[id] = mat;
 	return id;
 }
@@ -254,23 +262,47 @@ void PhysicsModule::onTrigger(PxTriggerPair* pairs, PxU32 count) {
 	}
 }
 
-void PhysicsModule::attachShapeToRigidBody(ComponentID shapeID, ComponentID bodyID)
+void PhysicsModule::AttachBoxShape(ComponentID bodyID, const core::Vector3<> size, const core::Vector3<>& center)
 {
-	auto& shapeComp = physicsMap[shapeID];
-	auto& bodyComp = physicsMap[bodyID];
+	auto it = physicsMap.find(bodyID);
+	if (it == physicsMap.end()) return;
 
-	PxRigidDynamic* body = bodyComp.actor->is<PxRigidDynamic>();
-	if (!body) return;
+	PxRigidActor* actor = it->second.actor;
 
-	// detach de static si fuera necesario
-	if (PxRigidStatic* staticActor = shapeComp.actor->is<PxRigidStatic>()) {
-		gScene->removeActor(*staticActor);
-	}
+	PxShape* shape = gPhysics->createShape(
+		PxBoxGeometry(size.getX() * 0.5f, size.getY() * 0.5f, size.getZ() * 0.5f),
+		*defaultMaterial
+	);
 
-	body->attachShape(*shapeComp.shape);
-	actorToID[body] = bodyID;
-	physicsMap[bodyID].shape = shapeComp.shape;
+	PxTransform localPose(PxVec3(center.getX(), center.getY(), center.getZ()));
+	shape->setLocalPose(localPose);
 
-	// eliminar el antiguo actor estático
-	physicsMap.erase(shapeID);
+	actor->attachShape(*shape);
+
+	it->second.shape = shape;
+}
+
+void PhysicsModule::AttachCapsuleShape(ComponentID bodyID, float radius, float height, const core::Vector3<>& center)
+{
+	auto it = physicsMap.find(bodyID);
+	if (it == physicsMap.end()) return;
+
+	PxRigidActor* actor = it->second.actor;
+	if (!actor) return;
+
+	// Crear geometría cápsula
+	PxCapsuleGeometry geo(radius, height * 0.5f);
+
+	// Crear shape
+	PxShape* shape = gPhysics->createShape(geo, *defaultMaterial);
+
+	// Offset 
+	PxTransform localPose(PxVec3(center.getX(), center.getY(), center.getZ()));
+	shape->setLocalPose(localPose);
+
+	// Attach real
+	actor->attachShape(*shape);
+
+	// (opcional) guardar referencia
+	it->second.shape = shape;
 }

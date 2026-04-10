@@ -34,7 +34,9 @@ public:
 	void AddForce(uint32_t id, core::Vector3<> force);
 	void AddImpulse(uint32_t id, core::Vector3<> impulse);
 
-	void attachShapeToRigidBody(ComponentID shapeID, ComponentID bodyID);
+	void AttachBoxShape(ComponentID bodyID, const core::Vector3<> size, const core::Vector3<>& center);
+
+	void AttachCapsuleShape(ComponentID bodyID, float radius, float height, const core::Vector3<>& center);
 
 	//callbacks
 	void onContact(const physx::PxContactPairHeader& pairHeader,
@@ -49,12 +51,12 @@ public:
 	void onSleep(physx::PxActor** actors, physx::PxU32 count) override {}
 	void onAdvance(const physx::PxRigidBody* const* bodyBuffer,const physx::PxTransform* poseBuffer,const physx::PxU32 count) override {}
 
-
+	//materiales
 	uint32_t CreateMaterial(float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine);
-
 	void UpdateMaterial(uint32_t id, float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine);
 private:
 	ComponentID nextID = 1;
+	ComponentID nextIDMaterial = 1;
 	std::unordered_map<ComponentID, PhysXComponent> physicsMap;
 	std::unordered_map<physx::PxRigidActor*, ComponentID> actorToID;
 	std::vector<PhysicsEvent> eventQueue;

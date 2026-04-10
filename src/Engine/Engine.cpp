@@ -505,24 +505,13 @@ void Engine::clearPhysicsEvents()
 	_physicsModule->clearEvents();
 }
 ///
-ComponentID Engine::attachShapeToRigidBody(ComponentID shapeID, ComponentID bodyID)
-{
+ComponentID Engine::attachBoxShapeToRigidBody(ComponentID bodyID, const core::Vector3<> size, const core::Vector3<>& center)
+{ 
 	if (!_physicsModule) return 0;
-	_physicsModule->attachShapeToRigidBody(shapeID, bodyID);
+	_physicsModule->AttachBoxShape(bodyID, size, center);
 	return bodyID; //devuelve el ID del RigidBody al que se unio
 }
 
-ComponentID Engine::attachBoxShapeToRigidBody(ComponentID rigidBodyID, const core::Vector3<>& center, const core::Vector3<>& size, bool isKinematic)
-{
-	auto pos = _physicsModule->GetPhysicsPosition(rigidBodyID);
-	return _physicsModule->CreateBoxShape(size, pos + center, true, isKinematic);
-}
-
-ComponentID Engine::attachCapsuleShapeToRigidBody(ComponentID rigidBodyID, const core::Vector3<>& center, float radius, float height, bool isKinematic)
-{
-	auto pos = _physicsModule->GetPhysicsPosition(rigidBodyID);
-	return _physicsModule->CreateCapsuleShape(radius, height, center, pos + center, true, isKinematic);
-}
 ///
 uint32_t Engine::createRigidBody(core::Vector3<> pos, float mass, bool useGravity)
 {
