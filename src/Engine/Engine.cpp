@@ -512,6 +512,13 @@ ComponentID Engine::attachBoxShapeToRigidBody(ComponentID bodyID, const core::Ve
 	return bodyID; //devuelve el ID del RigidBody al que se unio
 }
 
+ComponentID Engine::attachCapsuleShapeToRigidBody(ComponentID bodyID, float radius, float height, const core::Vector3<>& center)
+{
+	if (!_physicsModule) return 0;
+	_physicsModule->AttachCapsuleShape(bodyID, radius, height, center);
+	return bodyID; 
+}
+
 ///
 uint32_t Engine::createRigidBody(core::Vector3<> pos, float mass, bool useGravity)
 {

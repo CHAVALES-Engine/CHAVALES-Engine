@@ -87,7 +87,7 @@ void Collider::ready()
 			_eng->attachBoxShapeToRigidBody(physicsID, size, center);
 			break;
 		case ShapeType::Capsule:
-			//_eng->attachCapsuleShapeToRigidBody(physicsID, center, radius, height, isKinematic);
+			_eng->attachCapsuleShapeToRigidBody(physicsID, radius, height, center);
 			break;
 		}
 	}
@@ -105,12 +105,6 @@ void Collider::ready()
 		}
 	}
 
-	////UNION CON RIGIDBODY
-	//if (isDynamic && physicsID != 0) {
-	//	//Crea un RigidBody en PhysX
-	//	ComponentID rbID = _eng->createRigidBody(pos, 1.0f, true); // masa = 1, gravedad ON
-	//	_eng->attachShapeToRigidBody(physicsID, rbID);
-	//}
 }
 
 void Collider::update(uint64_t deltaTime)

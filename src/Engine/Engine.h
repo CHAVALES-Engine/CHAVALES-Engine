@@ -499,6 +499,8 @@ public:
 
 	ComponentID attachBoxShapeToRigidBody(ComponentID bodyID, const core::Vector3<> size, const core::Vector3<>& center);
 
+	ComponentID attachCapsuleShapeToRigidBody(ComponentID bodyID, float radius, float height, const core::Vector3<>& center);
+
 	
 
 	uint32_t createRigidBody(core::Vector3<> pos, float mass, bool useGravity);
