@@ -46,11 +46,6 @@ void AudioSource::update(uint64_t deltaTime)
 		_lastPosition = _tr->getGlobalPosition();
 		Engine::instance()->setSourcePosition(_channelID, _tr->getGlobalPosition(), velocity);
 	}
-
-	//if (!Engine::instance()->isChannelPlaying(_channelID))
-	//{
-	//	stopSound();
-	//}
 }
 
 void AudioSource::playSound()
