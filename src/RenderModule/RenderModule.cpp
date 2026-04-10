@@ -324,7 +324,7 @@ void RenderModule::cleanScene(const bool& end)
 	_engineNodes.clear();
 	_nextTransformID = 0;
 	_nextUITransformID = 0;
-	//_ui->Clear();
+	_uiPanels.clear();
 
 	// Esto filtra los grupos que se borran para que no se borren los grupos basicos de ogre y que no pete
 	/*static const std::vector<std::string> internalGroups = {"Scene", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, Ogre::ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME, Ogre::ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME};
@@ -363,9 +363,6 @@ void RenderModule::cleanScene(const bool& end)
 
 			// Limpiar lista
 			_rgm->clearResourceGroup(resourceGroup);
-
-			// Borrar grupo
-			_rgm->destroyResourceGroup(resourceGroup);
 		}
 		_resourceGroups.clear();
 	}
@@ -1323,11 +1320,9 @@ uiButtonID RenderModule::addUIButton(const std::string& panelName, const entityI
 			_resourceGroups.insert(textureFolder);
 		}
 		Ogre::TexturePtr ogreTexture = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder);
-		Ogre::HardwarePixelBufferSharedPtr pixelBuffer = ogreTexture->getBuffer();
-		pixelBuffer->lock(Ogre::HardwareBuffer::HBL_READ_ONLY);
 		Ogre::GL3PlusTexture* glTexture = static_cast<Ogre::GL3PlusTexture*>(ogreTexture.get());
 		GLuint texID = glTexture->getGLID();
-		pixelBuffer->unlock();
+		std::cout << "Loaded: " << ogreTexture->isLoaded() << std::endl;
 		button.textureID = (ImTextureID)(uintptr_t)texID;
 	}
 	else {
