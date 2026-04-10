@@ -9,6 +9,7 @@
 #include <filesystem>
 
 #include "GameConfigurator.h"
+#include "checkML.h" // es importante que vaya despues de todo porque redefine new y no queremos que lo haga tmb en las dependencias
 
 static void configGame(size_t argc, char* argv[])
 {
