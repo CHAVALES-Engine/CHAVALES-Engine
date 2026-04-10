@@ -195,9 +195,15 @@ namespace input
         void _appendText(const std::string& text);
         /**
          * @brief DOING
-         * @returns float - 
+         * @returns int - 
          */
-        float getDeadzone();
+        float _getDeadzone();
+        /**
+         * @brief DOING
+         */
+        void _setDeadzone(int dz);
+
+
 
         //------Arrays de teclas:
         /**
@@ -250,7 +256,11 @@ namespace input
         * @brief Estado del dispositivo.
         */
         bool _connected = false;
-
+        /**
+         * @brief DOING
+         * @returns float -
+         */
+        float _deadzone;
         /**
         * @brief Clase PlatformModule amiga para poder acceder a metodos privados.
         */
@@ -261,3 +271,4 @@ namespace input
 // PAIGRO AQUI
 //devolver zona muerta de un axis (mando)
 //normalizar valores de los axis del mando
+//vibracion
