@@ -13,7 +13,7 @@ assets = {
 			fileName = "gizmo.fbx"
 		}
 	},
-	audio = { --Audios
+	sound = { --Audios
 		lifeUp = "./game/assets/sound/sfx/smb_1-up.wav",
 		lifeDown = "./game/assets/sound/sfx/smb_1-up.wav",
 	},

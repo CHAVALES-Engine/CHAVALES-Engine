@@ -25,9 +25,10 @@ class ComponentDLLLoader;
 class StateMachine;
 class InputFacade;
 class ResourcesModule;
+class ResourcesFacade;
 
 
-namespace core
+namespace core 
 {
 	class Scene;
 	//class Vector3<>;
@@ -518,23 +519,9 @@ public:
 
 #pragma endregion
 
-#pragma region Platform
+#pragma region Resources
 
-	//By using the mothed: an string is retrun with the path of the audio
-	std::string getAudioByName(const std::string& name);
-	
-	// Whenever Engine::instance is called, using this:
-	//  methdo()->first: the path of the exact location of the desire asset
-	//	method()->second: the path of the folder of the desre asset
-
-	std::pair<std::string, std::string> getModelByName(const std::string& name);
-	std::pair<std::string, std::string> getTextureByName(const std::string& name);
-	std::pair<std::string, std::string> getParticleByName(const std::string& name);
-	std::pair<std::string, std::string> getImageByName(const std::string& name);
-	std::pair<std::string, std::string> getFontByName(const std::string& name);
-
-	//Render module method to retrive all fonts from the assets folder
-	std::vector<std::pair<std::string, std::string>> getAllFonts();
+	ResourcesFacade* resources() const;
 
 #pragma endregion
 
@@ -589,6 +576,7 @@ private:
 	*	Referencia al modulo de recursos
 	*/
 	ResourcesModule* _resourcesModule = nullptr;
+	ResourcesFacade* _resources;
 	/*
 	* @brief
 	*	Referencia a la maquina de estados
