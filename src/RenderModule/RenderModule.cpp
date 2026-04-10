@@ -218,12 +218,16 @@ bool RenderModule::Init(const HWND handle, const int width, const int height,con
 		ImGui::CreateContext();
 		ImGui::SetCurrentContext(ImGui::GetCurrentContext());
 		ImGuiIO& io = ImGui::GetIO();
-		io.Fonts->AddFontDefault();
+		_fonts["default"] = io.Fonts->AddFontDefault();
 		for (auto font : fonts) {
-			prueba = io.Fonts->AddFontFromFileTTF((font.second).c_str(), 16);
-			//	ImFont* fontAux = io.Fonts->AddFontFromFileTTF((font.second).c_str(), 16);
-			//	ImFont* fontAux2 = io.Fonts->AddFontFromFileTTF((font.second).c_str(), 32);
-			//	ImFont* fontAux3= io.Fonts->AddFontFromFileTTF((font.second).c_str(), 64);
+			std::vector<float> sizes = { 16.0f, 32.0f, 64.0f };
+			for (float size : sizes) {
+				ImFont* f = io.Fonts->AddFontFromFileTTF(font.second.c_str(), size);
+				if (f) {
+					std::string name = font.first + "_" + std::to_string((int)size);
+					_fonts[name] = f;
+				}
+			}
 		}
 		io.Fonts->Build();
 
@@ -287,7 +291,6 @@ void RenderModule::renderFrame()
 
 void RenderModule::cleanScene(const bool& end)
 {
-	std::cout << "NEGRAZONEGRAZONEGRAZONEGRAZONEGRAZONEGRAZONEGRAZONEGRAZONEGRAZO\n";
 	if (!_sceneMgr)
 		return;
 
@@ -324,7 +327,9 @@ void RenderModule::cleanScene(const bool& end)
 	_nextTransformID = 0;
 	_nextUITransformID = 0;
 	_uiPanels.clear();
-
+	_labelToPanel.clear();
+	_buttonToPanel.clear();
+	_textureToPanel.clear();
 	// Esto filtra los grupos que se borran para que no se borren los grupos basicos de ogre y que no pete
 	/*static const std::vector<std::string> internalGroups = {"Scene", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, Ogre::ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME, Ogre::ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME};
 
@@ -1229,7 +1234,7 @@ void RenderModule::setUIPanelVisible(const uiPanelID& id, bool visible) {
 	_uiPanels[id].visible = visible;
 
 }
-uiLabelID RenderModule::addUILabel(const std::string& panelName, const entityID& entityID, const std::string& text,const  float opacity,const  core::Vector2<float> size, const core::Color textColor,const core::Color bgColor,const float fontSize,const TextAlign textAlign, const std::string fontFolder, const std::string fontFile) {
+uiLabelID RenderModule::addUILabel(const std::string& panelName, const entityID& entityID, const std::string& text,const  float opacity,const  core::Vector2<float> size, const core::Color textColor,const core::Color bgColor,const float fontSize,const TextAlign textAlign, const std::string fontName) {
 	addNode(entityID, TransformType::UI);
 
 	uiPanelID panelID = getOrSetPanel(panelName);
@@ -1243,12 +1248,18 @@ uiLabelID RenderModule::addUILabel(const std::string& panelName, const entityID&
 	label.bgColor = bgColor;
 	label.fontSize = fontSize;
 	label.align = textAlign;
-	auto& io{ ImGui::GetIO() };
 
+	std::string auxFontName = fontName + "_" + std::to_string((int)fontSize);
+	auto it = _fonts.find(auxFontName);
+	if (it != _fonts.end()) {
+		label.font = it->second;
+	}
+	else {
+		label.font = _fonts["default"];
+	}
 	//ImFont* fontAux = io.Fonts->AddFontFromFileTTF((fontFolder + fontFile).c_str(), fontSize);
 	//io.Fonts->Build();
 	//label.font = fontAux;
-	label.font = prueba;
 	_uiPanels[panelID].labels.push_back(label);
 
 	uiLabelID id = _nextLabelID++;
@@ -1321,7 +1332,6 @@ uiButtonID RenderModule::addUIButton(const std::string& panelName, const entityI
 		Ogre::TexturePtr ogreTexture = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder);
 		Ogre::GL3PlusTexture* glTexture = static_cast<Ogre::GL3PlusTexture*>(ogreTexture.get());
 		GLuint texID = glTexture->getGLID();
-		std::cout << "Loaded: " << ogreTexture->isLoaded() << std::endl;
 		button.textureID = (ImTextureID)(uintptr_t)texID;
 	}
 	else {
@@ -1546,6 +1556,7 @@ void RenderModule::shutdown()
 		delete _overlaySystem;
 		_overlaySystem = nullptr;
 	}
+	ImGui::DestroyContext();
 	delete _root;
 	_root = nullptr;
 	_window = nullptr;

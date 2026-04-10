@@ -88,6 +88,39 @@ scene = { -- entidades en escena
 			}
 		}
    },
+   cube4 = {
+		components = {
+			Transform = {
+				position = Vector3.new(0,0,0),
+				rotation = Quaternion.new(),
+				scale = Vector3.new(0.5),
+				scale = Vector3.new(1.0),
+				},
+			ModelRenderer = {
+				file = "metroid",
+				["number of textures"] = 5,
+				texture0 = {
+					"membrane", 
+					"0"
+				},
+				texture1 = {
+					"body", 
+					"1"
+				},
+				texture2 = {
+					"nuclei", 
+					"2"
+				},
+				texture3 = {
+					"nuclei", 
+					"10"
+				},texture4 = {
+					"mandibles", 
+					"6"
+				}
+				}
+		}
+	},
    CanvasUI ={
 	components = {
 		UIPanel = {
@@ -128,7 +161,7 @@ scene = { -- entidades en escena
 			opacity = 1.0,
 			bgColor = Color.new(1.0, 0.0, 0.0,1),
 			align = "center",
-			fontSize = 65.0,
+			fontSize = 16.0,
 			fontName = "fontPrueba",
 			textColor = Color.new(1.0,1.0, 0.0,1)
 		}
