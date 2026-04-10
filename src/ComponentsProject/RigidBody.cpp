@@ -46,34 +46,40 @@ void RigidBody::update(uint64_t dt)
 
 	position = _eng->getPhysicsPosition(physicsID);
 	velocity = _eng->getLinearVelocity(physicsID);
-
-	transform->setGlobalPosition(position);
+	if (useGravity) {
+		if (gravVal < gravity.getY())
+			gravVal += 0.000981;
+		velocity += gravity;
+	}
+	transform->setGlobalPosition(position + velocity);
+	_eng->setPhysicsPosition(physicsID, transform->getGlobalPosition());
+	_eng->setLinearVelocity(physicsID, velocity);
 }
 
 core::Vector3<> RigidBody::getVelocity() {
-		return _eng->getLinearVelocity(physicsID);
+	return _eng->getLinearVelocity(physicsID);
 	return velocity;
 }
 
 core::Vector3<> RigidBody::getPosition() {
-		return _eng->getPhysicsPosition(physicsID);
+	return _eng->getPhysicsPosition(physicsID);
 	return position;
 }
 
 void RigidBody::setVelocity(core::Vector3<> vel) {
 	velocity = vel;
-		_eng->setLinearVelocity(physicsID, vel);
+	_eng->setLinearVelocity(physicsID, vel);
 }
 
 void RigidBody::setPosition(core::Vector3<> pos) {
 	position = pos;
-		_eng->setPhysicsPosition(physicsID, pos);
+	_eng->setPhysicsPosition(physicsID, pos);
 }
 
 void RigidBody::AddForce(core::Vector3<> force) {
-		_eng->addForce(physicsID, force);
+	_eng->addForce(physicsID, force);
 }
 
 void RigidBody::AddImpulse(core::Vector3<> impulse) {
-		_eng->addImpulse(physicsID, impulse);
+	_eng->addImpulse(physicsID, impulse);
 }

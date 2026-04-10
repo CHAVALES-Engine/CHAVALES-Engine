@@ -9,6 +9,8 @@ public:
 	// VARIABLES
 	Engine* _eng = nullptr;
 
+	float gravVal = 0;
+
 	unsigned int physicsID = 0;
 
 	float mass = 1.0f;

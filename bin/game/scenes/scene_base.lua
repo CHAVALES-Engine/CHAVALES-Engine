@@ -52,7 +52,7 @@ scene = { -- entidades en escena
    cube3 = {
 		components = {
 			Transform = {
-				position = Vector3.new(100,100,0),
+				position = Vector3.new(0,3000,0),
 				rotation = Quaternion.new(),
 				scale = Vector3.new(1.0),
 				},
@@ -61,11 +61,20 @@ scene = { -- entidades en escena
 				["number of textures"] = 0
 			}
 			,
-			
-			Collider = {
+			RigidBody = {
+    			RBid = 1,
+   				mass = 10.0,
+
+    			position = Vector3.new(0, 3000, 0),
+    			velocity = Vector3.new(0, 0, 0),
+
+    			useGravity = true,
+    				gravity = Vector3.new(0, -0.0981, 0)
+			},
+			 Collider = {
     			box = Vector3.new(1, 1, 1),      
-    			dynamic = true,
-   				kinematic = false,
+    		 	dynamic = true,
+   			 	kinematic = false,
 				trigger = false,
     			center = Vector3.new(0,0,0)    
 			}   
