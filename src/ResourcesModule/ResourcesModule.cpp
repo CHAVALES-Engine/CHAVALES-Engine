@@ -17,8 +17,10 @@ std::pair<FolderName, FileName> ResourcesModule::loadOgreAsset(const std::string
 
 	std::string sourceFolder = assetsType["sourceFolder"].get<std::string>();
 	std::string fileName = assetsType["fileName"].get<std::string>();
-
-	return { sourceFolder, fileName };
+	if (std::filesystem::is_regular_file(sourceFolder + fileName) && std::filesystem::is_directory(sourceFolder)) {
+		return { sourceFolder, fileName };
+	}
+	return {};
 }
 
 bool ResourcesModule::loadInternalAsset(const sol::table& assetsType, const std::string& typeOfAsset)
@@ -37,7 +39,9 @@ bool ResourcesModule::loadInternalAsset(const sol::table& assetsType, const std:
 					return false;
 				}
 				Debug::out("RESOURCES: Assetpath ", "./assets/" + assetPath);
-				_audioMap[nameOfAsset] = assetPath;
+				if (std::filesystem::is_regular_file(assetPath)) {
+					_audioMap[nameOfAsset] = assetPath;
+				}
 			}
 			else if (typeOfAsset == "mesh")
 			{
@@ -249,4 +253,15 @@ void ResourcesModule::setFontSource(AssetName name, FolderName newRoute)
 		Debug::error("ERROR: Textura no encontrado");
 	}
 	_fontsMap[name].first = newRoute;
+}
+
+std::vector<std::pair<AssetName, FileName>> ResourcesModule::getAllFonts()
+{
+	std::vector<std::pair<AssetName, FileName>> aux;
+	for (auto& i : _fontsMap) {
+		std::string assetName = i.first;
+		std::string assetFolder = i.second.first + i.second.first;
+		aux.push_back({assetName,assetFolder});
+	}
+	return aux;
 }

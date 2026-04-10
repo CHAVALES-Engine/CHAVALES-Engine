@@ -95,9 +95,9 @@ class ComponentTest : public core::Component
 			float mouseY = Engine::instance()->input()->getAxis(input::MOUSE_AXIS_REL_Y);
 
 			if (mouseX != 0)
-				_transform->rotate(core::Vector3<>(0, -mouseX * mouseSensitivity, 0));
+				_transform->rotateGlobal(core::Vector3<>(0, -mouseX * mouseSensitivity, 0));
 			if (mouseY != 0)
-				_transform->rotate(core::Vector3<>(-mouseY * mouseSensitivity, 0, 0));
+				_transform->rotateLocal(core::Vector3<>(-mouseY * mouseSensitivity, 0, 0));
 		}
 		else
 		{

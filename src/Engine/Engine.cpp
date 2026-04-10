@@ -581,6 +581,11 @@ std::pair<std::string, std::string> Engine::getFontByName(const std::string& nam
 	return _resourcesModule->getFonts(name);
 }
 
+std::vector<std::pair<std::string, std::string>> Engine::getAllFonts()
+{
+	return _resourcesModule->getAllFonts();
+}
+
 #pragma endregion
 //------Metodo de PlatformModule:
 int Engine::getWindowWidth() const

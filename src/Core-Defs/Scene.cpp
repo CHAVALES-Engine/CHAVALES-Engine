@@ -120,8 +120,8 @@ namespace core {
 		{
 			for (auto& [guid, e] : _entities)
 			{
-				e->destroy();
-				//delete e;
+				//e->destroy();
+				delete e;
 			}
 
 			_entities.clear();

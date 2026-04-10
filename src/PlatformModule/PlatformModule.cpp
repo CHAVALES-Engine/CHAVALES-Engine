@@ -51,7 +51,7 @@ bool PlatformModule::Init()
 
 	if (!setWindowIcon(core::GameConfigurator::instance()._iconRoot))
 	{
-		Debug::error("Icon annot be asigned.");
+		Debug::error("Icon cannot be asigned.");
 	}
 
 	SDL_PropertiesID _props = SDL_GetWindowProperties(_window);

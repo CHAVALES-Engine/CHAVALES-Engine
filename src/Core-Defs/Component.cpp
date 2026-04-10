@@ -8,6 +8,7 @@ core::Component::Component()
 
 core::Component::~Component()
 {
+	destroy();
 }
 
 void core::Component::setEntity(Entity* e)

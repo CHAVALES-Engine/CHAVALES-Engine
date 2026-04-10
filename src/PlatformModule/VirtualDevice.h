@@ -193,7 +193,11 @@ namespace input
          * @param text - Texto que se anyade al buffer.
          */
         void _appendText(const std::string& text);
-
+        /**
+         * @brief DOING
+         * @returns float - 
+         */
+        float getDeadzone();
 
         //------Arrays de teclas:
         /**

@@ -72,21 +72,22 @@ void Transform::setLocalPosition(const core::Vector3<>& lp)
 
 void Transform::setGlobalRotation(const core::Quaternion<>& gr)
 {
+	core::Quaternion<> normalized = gr.normalized();
 	if (_parent != nullptr)
 	{
 		core::Quaternion<> gpri = _parent->getGlobalRotation().inversed(); 
-		_localRotation = gpri * gr;
+		_localRotation = (gpri * normalized).normalized();
 	}
 	else
 	{
-		_localRotation = gr;
+		_localRotation = normalized;
 	}
-	Engine::instance()->setTransformRotation(_transformID, gr);
+	Engine::instance()->setTransformRotation(_transformID, normalized);
 }
 
 void Transform::setLocalRotation(const core::Quaternion<>& lr)
 {
-	_localRotation = lr;
+	_localRotation = lr.normalized();
 	Engine::instance()->setTransformRotation(_transformID, getGlobalRotation());
 }
 
@@ -250,29 +251,48 @@ void Transform::translate(const core::Vector3<>& t)
 	Engine::instance()->setTransformPosition(_transformID, getGlobalPosition());
 }
 
-void Transform::rotate(const core::Quaternion<>& q)
+void Transform::rotateLocal(const core::Quaternion<>& q)
 {
-	//_localRotation = q * _localRotation; // en este orden es local
-	_localRotation = _localRotation * q; // en este orden es global?
+	//_localRotation = q * _localRotation; 
+	_localRotation = (_localRotation * q).normalized(); 
 	Engine::instance()->setTransformRotation(_transformID, getGlobalRotation());
 }
 
-void Transform::rotate(core::Vector3<> v)
+void Transform::rotateLocal(const core::Vector3<>& v)
 {
-	if (_lockRotX) v.setX(0);
-	if (_lockRotY) v.setY(0);
-	if (_lockRotZ) v.setZ(0);
+	//if (_lockRotX) v.setX(0);
+	//if (_lockRotY) v.setY(0);
+	//if (_lockRotZ) v.setZ(0);
 
-	//rotate(core::Quaternion(v));
+	//rotateLocal(core::Quaternion(v));
+
 	// esto hay que cambiarlo para que angleAxis sea estatico
+	core::Quaternion<> qx = core::Quaternion<>().angleAxis(v.getX(), core::Vector3<>(1.0f, 0.0f, 0.0f));
+	core::Quaternion<> qy = core::Quaternion<>().angleAxis(v.getY(), core::Vector3<>(0.0f, 1.0f, 0.0f));
+	core::Quaternion<> qz = core::Quaternion<>().angleAxis(v.getZ(), core::Vector3<>(0.0f, 0.0f, 1.0f));
+	core::Quaternion<> q = qz * qy * qx;
+
+	rotateLocal(q);
+	//_localRotation.rotateLocal(v);
+}
+
+void Transform::rotateGlobal(const core::Quaternion<>& q)
+{
+	setGlobalRotation((q * getGlobalRotation()).normalized());
+}
+
+void Transform::rotateGlobal(const core::Vector3<>& v)
+{
+	//if (_lockRotX) v.setX(0);
+	//if (_lockRotY) v.setY(0);
+	//if (_lockRotZ) v.setZ(0);
 
 	core::Quaternion<> qx = core::Quaternion<>().angleAxis(v.getX(), core::Vector3<>(1.0f, 0.0f, 0.0f));
 	core::Quaternion<> qy = core::Quaternion<>().angleAxis(v.getY(), core::Vector3<>(0.0f, 1.0f, 0.0f));
 	core::Quaternion<> qz = core::Quaternion<>().angleAxis(v.getZ(), core::Vector3<>(0.0f, 0.0f, 1.0f));
 	core::Quaternion<> q = qz * qy * qx;
 
-	rotate(q);
-	//_localRotation.rotate(v);
+	rotateGlobal(q);
 }
 
 core::Vector3<> Transform::right() const
