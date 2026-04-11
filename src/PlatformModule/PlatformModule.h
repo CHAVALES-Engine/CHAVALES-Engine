@@ -7,6 +7,7 @@
 #include <InputDefs.h>
 #include <functional>
 #include "InputMapper.h"
+#include "Color.h"
 
 // Fordard declarations
 struct SDL_Window;
