@@ -16,8 +16,6 @@
 
 class GameLoader;
 
-uint64_t StateMachine::_nextId = -1;
-
 StateMachine::StateMachine() :
 	_endGame(false)
 {
@@ -26,7 +24,7 @@ StateMachine::StateMachine() :
 
 StateMachine::~StateMachine()
 {
-	
+	_currentScene.ptr = nullptr;
 }
 
 void StateMachine::gameLoop()
@@ -44,8 +42,7 @@ void StateMachine::gameLoop()
 			{
 				Debug::warning("Reloading scene [", _currentScene.name, "]");
 				//limpia logica
-				_currentScene.ptr->clearScene(); // elimina escena anterior
-				_currentScene.ptr->onDestroy();
+				_currentScene.ptr->onDestroy(); // elimina escena
 				//limpia render
 				Engine::instance()->cleanScene();  // limpia la escena
 				scenePtr s = std::move(GameLoader::loadScene(_currentScene.name)); // vuelve a cargar
@@ -94,7 +91,7 @@ void StateMachine::addAndSetScene(const sceneName& n)
 
 		// destruye la escena actual
 		if (_currentScene.ptr != nullptr)
-			_currentScene.ptr->onDestroy();
+			_currentScene.ptr->clearScene();
 
 		// setea nueva escena actual
 		_currentScene.ptr = s;

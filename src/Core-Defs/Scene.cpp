@@ -4,7 +4,7 @@
 #include "Entity.h"
 namespace core {
 	core::Scene::Scene(sceneName name) :
-		_name(name)//, _nextEntityID(ChavalesGUID::invalid())
+		_name(name)
 	{
 		_active = false;
 	}
@@ -97,7 +97,19 @@ namespace core {
 		}
 	}
 
-	void core::Scene::onDestroy()
+	void core::Scene::onDestroy() // elimina al completo
+	{
+		if (!_entities.empty())
+		{
+			for (auto& [guid, e] : _entities)
+			{
+				delete e;
+			}
+			_entities.clear();
+		}
+	}
+
+	void core::Scene::clearScene() // comprueba dont destroy on load
 	{
 		if (!_entities.empty())
 		{
@@ -106,22 +118,8 @@ namespace core {
 				// solo se destruye si debe
 				if (!e->getDontDestoroyOnLoad())
 				{
-					e->destroy();
+					delete e;
 				}
-			}
-		}
-
-		_entities.clear();
-	}
-
-	void core::Scene::clearScene()
-	{
-		if (!_entities.empty())
-		{
-			for (auto& [guid, e] : _entities)
-			{
-				//e->destroy();
-				delete e;
 			}
 
 			_entities.clear();
