@@ -16,10 +16,9 @@ AudioModule::~AudioModule()
 	{
 		s.second->release();
 	}
-	if (_system != nullptr)
-	{
-		_system->release();
-	}
+	_soundMap.clear();
+	_system->release();
+	delete _system;
 }
 
 bool AudioModule::Init()
@@ -58,6 +57,7 @@ void AudioModule::Update()
 	}
 	for (auto& it : vecStoppedChannel)
 	{
+		it->second->stop(); 
 		_channelSound.erase(it);
 	}
 	_system->update();
@@ -211,7 +211,7 @@ void AudioModule::muteEverything()
 		bool isPlaying = false;
 		it->second->isPlaying(&isPlaying);
 		if (isPlaying) {
-			it->second->setPaused(false);
+			it->second->setPaused(true);
 		}
 	}
 }
