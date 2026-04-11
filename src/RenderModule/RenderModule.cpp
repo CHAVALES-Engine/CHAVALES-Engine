@@ -498,7 +498,7 @@ void RenderModule::setNodeScale(const transformID& id, const core::Vector3<float
 {
 	if (id >= 0 && id < _engineNodes.size() && _engineNodes[id].sceneNode != nullptr)
 	{
-		_engineNodes[id].sceneNode->setPosition(scale.getX(), scale.getY(), scale.getZ());
+		_engineNodes[id].sceneNode->setScale(scale.getX(), scale.getY(), scale.getZ());
 	}
 }
 
