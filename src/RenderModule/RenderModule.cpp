@@ -43,6 +43,8 @@
 //
 
 static Ogre::Root* _root = nullptr;
+static Ogre::GL3PlusPlugin* _gl3Plugin = nullptr;
+static Ogre::AssimpPlugin* _assimpPlugin = nullptr;
 static Ogre::OverlaySystem* _overlaySystem = nullptr;
 static Ogre::RenderWindow* _window = nullptr;
 static Ogre::SceneManager* _sceneMgr = nullptr;
@@ -50,6 +52,11 @@ static Ogre::Viewport* _vp = nullptr;
 static Ogre::RTShader::ShaderGenerator* _shaderGen;
 static Ogre::ResourceGroupManager* _rgm;
 static entityID _mainCameraID;
+
+static Ogre::STBIImageCodec* _jpgCodec;
+static Ogre::STBIImageCodec* _pngCodec;
+static Ogre::STBIImageCodec* _tgaCodec;
+static Ogre::STBIImageCodec* _bmpCodec;
 
 /*void ImGuiManager::AddElement(UIElement element)
 {
@@ -96,17 +103,21 @@ bool RenderModule::Init(const HWND handle, const int width, const int height,con
 	{
 		_root = new Ogre::Root("", "", "ogre.log");
 
-		Ogre::GL3PlusPlugin* gl3Plugin = new Ogre::GL3PlusPlugin();
-		_root->installPlugin(gl3Plugin);
+		_gl3Plugin = new Ogre::GL3PlusPlugin();
+		_root->installPlugin(_gl3Plugin);
 
-		Ogre::AssimpPlugin* assimpPlugin = new Ogre::AssimpPlugin();
-		_root->installPlugin(assimpPlugin);
+		_assimpPlugin = new Ogre::AssimpPlugin();
+		_root->installPlugin(_assimpPlugin);
 
-		Ogre::Codec::registerCodec(new Ogre::STBIImageCodec("jpg"));
-		Ogre::Codec::registerCodec(new Ogre::STBIImageCodec("jpeg"));
-		Ogre::Codec::registerCodec(new Ogre::STBIImageCodec("png"));
-		Ogre::Codec::registerCodec(new Ogre::STBIImageCodec("tga"));
-		Ogre::Codec::registerCodec(new Ogre::STBIImageCodec("bmp"));
+		_jpgCodec = new Ogre::STBIImageCodec("jpg");
+		_pngCodec = new Ogre::STBIImageCodec("png");
+		_tgaCodec = new Ogre::STBIImageCodec("tga");
+		_bmpCodec = new Ogre::STBIImageCodec("bmp");
+
+		Ogre::Codec::registerCodec(_jpgCodec);
+		Ogre::Codec::registerCodec(_pngCodec);
+		Ogre::Codec::registerCodec(_tgaCodec);
+		Ogre::Codec::registerCodec(_bmpCodec);
 
 		Ogre::LogManager::getSingleton().getDefaultLog()->setDebugOutputEnabled(false);
 
@@ -1569,6 +1580,21 @@ void RenderModule::shutdown()
 
 	delete _overlaySystem;
 	_overlaySystem = nullptr;
+
+	Ogre::Codec::unregisterCodec(_jpgCodec);
+	Ogre::Codec::unregisterCodec(_pngCodec);
+	Ogre::Codec::unregisterCodec(_tgaCodec);
+	Ogre::Codec::unregisterCodec(_bmpCodec);
+	delete _jpgCodec;
+	delete _pngCodec;
+	delete _tgaCodec;
+	delete _bmpCodec;
+
+	//_root->uninstallPlugin(_gl3Plugin);
+	//delete _gl3Plugin;
+
+	_root->uninstallPlugin(_assimpPlugin);
+	delete _assimpPlugin;
 
 	delete _root;
 	_root = nullptr;
