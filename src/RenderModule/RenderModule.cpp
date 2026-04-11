@@ -38,6 +38,7 @@
 #include <guid.h>
 
 #include "GameConfigurator.h"
+#include <checkMLNew.h>
 
 // RenderModule.cpp : Defines the functions for the static library.
 //

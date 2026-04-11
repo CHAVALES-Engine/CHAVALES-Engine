@@ -12,6 +12,7 @@
 #include "InputMapper.h"
 
 #include "GameConfigurator.h"
+#include <checkMLNew.h>
 
 
 PlatformModule::PlatformModule() :

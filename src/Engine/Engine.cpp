@@ -17,6 +17,7 @@
 #include "ResourcesFacade.h"
 
 #include <iostream>
+#include <checkMLNew.h>
 
 using namespace std;
 Engine* Engine::_instance = nullptr;

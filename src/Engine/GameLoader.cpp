@@ -10,6 +10,7 @@
 #include "Component.h"
 #include "ComponentRegister.h"
 #include "GameConfigurator.h"
+#include <checkMLNew.h>
 
 namespace fs = std::filesystem;
 

@@ -15,7 +15,6 @@
 #include <crtdbg.h>
 #if defined(_MSC_VER) && !defined(DBG_NEW)
 #define DBG_NEW new (_NORMAL_BLOCK, __FILE__, __LINE__)
-#define new DBG_NEW
 #endif
 
 // El siguiente código activa el análisis de las fugas de memoria al finalizar
