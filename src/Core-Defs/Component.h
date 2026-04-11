@@ -136,7 +136,7 @@ namespace core
 			// --- comprobamos si la clave existe
 			if (it == props.end())
 			{
-				Debug::error("COMPONENT: No se encontró el parámetro ", key, " en las propiedades del componente ", getName(),".");
+				Debug::warning("COMPONENT: No se encontró el parámetro ", key, " en las propiedades del componente ", getName(),".");
 				return T(); // devolvemos valor por defecto
 			}
 

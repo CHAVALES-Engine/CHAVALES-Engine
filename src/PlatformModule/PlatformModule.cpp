@@ -26,6 +26,7 @@ PlatformModule::~PlatformModule()
 	for (auto& [id, device] : _virtualDevices)
 		delete device;
 	_virtualDevices.clear();
+	delete _inputMapper;
 
 	SDL_DestroySurface(_icon); // Elimina el surface para no dejar leaks.
 

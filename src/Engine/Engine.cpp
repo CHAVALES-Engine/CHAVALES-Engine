@@ -49,7 +49,7 @@ void Engine::release()
 			Debug::error(e.what());
 		}
 		delete _instance->_resourcesModule;
-
+		delete _instance->_resources;
 		delete _instance->_stateMachine;
 		delete _instance;
 		_instance = nullptr;
