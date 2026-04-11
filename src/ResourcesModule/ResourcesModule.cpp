@@ -9,6 +9,12 @@ ResourcesModule::ResourcesModule(): _luaRoute(), _audioMap(), _modelsMap(), _tex
 
 ResourcesModule::~ResourcesModule()
 {
+	_audioMap.clear();
+	_modelsMap.clear();
+	_particlesMap.clear();
+	_texturesMap.clear();
+	_fontsMap.clear();
+	_imagesMap.clear();
 }
 
 std::pair<FolderName, FileName> ResourcesModule::loadOgreAsset(const std::string& assetName,std::pair<sol::object, sol::object>& assetType)
@@ -17,7 +23,7 @@ std::pair<FolderName, FileName> ResourcesModule::loadOgreAsset(const std::string
 
 	std::string sourceFolder = assetsType["sourceFolder"].get<std::string>();
 	std::string fileName = assetsType["fileName"].get<std::string>();
-	if (std::filesystem::is_regular_file(sourceFolder + fileName) && std::filesystem::is_directory(sourceFolder)) {
+	if (std::filesystem::is_directory(sourceFolder) && std::filesystem::is_regular_file(std::filesystem::path(sourceFolder) / fileName)) {
 		return { sourceFolder, fileName };
 	}
 	return {};
@@ -28,70 +34,92 @@ bool ResourcesModule::loadInternalAsset(const sol::table& assetsType, const std:
 	Debug::out("RESOURCES: Cargando recursos de tipo ", typeOfAsset);
 	for (auto& assets : assetsType) {
 		std::string nameOfAsset = assets.first.as<std::string>(); 
-		if (std::filesystem::is_directory(core::GameConfigurator::instance()._assetsRoot + typeOfAsset)) 
+		if (typeOfAsset == "audio")
 		{
-			if (typeOfAsset == "audio")
-			{
-				std::string assetPath = assets.second.as<std::string>();
-				auto it = _audioMap.find(nameOfAsset);
-				if (it != _audioMap.end()) {
-					Debug::error("ERROR: Audio ya existente con ese nombre");
-					return false;
-				}
-				Debug::out("RESOURCES: Assetpath ", assetPath);
-				if (std::filesystem::is_regular_file(assetPath)) {
-					_audioMap[nameOfAsset] = assetPath;
-				}
-			}
-			else if (typeOfAsset == "mesh")
-			{
-				auto it = _modelsMap.find(nameOfAsset);
-				if (it != _modelsMap.end()) {
-					Debug::error("ERROR: Malla ya existente con ese nombre");
-					return false;
-				}
-				_modelsMap[nameOfAsset] = loadOgreAsset(nameOfAsset, assets);
-			}
-			else if (typeOfAsset == "texture")
-			{
-				auto it = _texturesMap.find(nameOfAsset);
-				if (it != _texturesMap.end()) {
-					Debug::error("ERROR: Textura ya existente con ese nombre");
-					return false;
-				}
-				_texturesMap[nameOfAsset] = loadOgreAsset(nameOfAsset, assets);
-			}
-			else if (typeOfAsset == "particles")
-			{
-				auto it = _particlesMap.find(nameOfAsset);
-				if (it != _particlesMap.end()) {
-					Debug::error("ERROR: Particula ya existente con ese nombre");
-					return false;
-				}
-				_particlesMap[nameOfAsset] = loadOgreAsset(nameOfAsset, assets);
-			}
-			else if (typeOfAsset == "images")
-			{
-				auto it = _imagesMap.find(nameOfAsset);
-				if (it != _imagesMap.end()) {
-					Debug::error("ERROR: Imagen ya existente con ese nombre");
-					return false;
-				}
-				_imagesMap[nameOfAsset] = loadOgreAsset(nameOfAsset, assets);
-			}
-			else if (typeOfAsset == "fonts")
-			{
-				auto it = _fontsMap.find(nameOfAsset);
-				if (it != _fontsMap.end()) {
-					Debug::error("ERROR: Fuente ya existente con ese nombre");
-					return false;
-				}
-				_fontsMap[nameOfAsset] = loadOgreAsset(nameOfAsset, assets);
-			}
-			else {
-				Debug::error("ERROR: Tipo de recurso no valido");
+			std::string assetPath = assets.second.as<std::string>();
+			auto it = _audioMap.find(nameOfAsset);
+			if (it != _audioMap.end()) {
+				Debug::error("ERROR: Audio ya existente con ese nombre");
 				return false;
 			}
+			Debug::out("RESOURCES: Assetpath ", assetPath);
+			if (std::filesystem::is_regular_file(assetPath)) {
+				_audioMap[nameOfAsset] = assetPath;
+			}
+		}
+		else if (typeOfAsset == "mesh")
+		{
+			auto it = _modelsMap.find(nameOfAsset);
+			if (it != _modelsMap.end()) {
+				Debug::error("ERROR: Malla ya existente con ese nombre");
+				return false;
+			}
+			auto res = loadOgreAsset(nameOfAsset, assets);
+			if (res.first.empty()) {
+				Debug::error("ERROR: Textura invalida");
+				return false;
+			}
+			_modelsMap[nameOfAsset] = res;
+		}
+		else if (typeOfAsset == "texture")
+		{
+			auto it = _texturesMap.find(nameOfAsset);
+			if (it != _texturesMap.end()) {
+				Debug::error("ERROR: Textura ya existente con ese nombre");
+				return false;
+			}
+			auto res = loadOgreAsset(nameOfAsset, assets);
+			if (res.first.empty()) {
+				Debug::error("ERROR: Textura invalida");
+				return false;
+			}
+			_texturesMap[nameOfAsset] = res;
+		}
+		else if (typeOfAsset == "particles")
+		{
+			auto it = _particlesMap.find(nameOfAsset);
+			if (it != _particlesMap.end()) {
+				Debug::error("ERROR: Particula ya existente con ese nombre");
+				return false;
+			}
+			auto res = loadOgreAsset(nameOfAsset, assets);
+			if (res.first.empty()) {
+				Debug::error("ERROR: Particula invalida");
+				return false;
+			}
+			_particlesMap[nameOfAsset] = res;
+		}
+		else if (typeOfAsset == "images")
+		{
+			auto it = _imagesMap.find(nameOfAsset);
+			if (it != _imagesMap.end()) {
+				Debug::error("ERROR: Imagen ya existente con ese nombre");
+				return false;
+			}
+			auto res = loadOgreAsset(nameOfAsset, assets);
+			if (res.first.empty()) {
+				Debug::error("ERROR: Imagen invalida");
+				return false;
+			}
+			_imagesMap[nameOfAsset] = res;
+		}
+		else if (typeOfAsset == "fonts")
+		{
+			auto it = _fontsMap.find(nameOfAsset);
+			if (it != _fontsMap.end()) {
+				Debug::error("ERROR: Fuente ya existente con ese nombre");
+				return false;
+			}
+			auto res = loadOgreAsset(nameOfAsset, assets);
+			if (res.first.empty()) {
+				Debug::error("ERROR: Fuente invalida");
+				return false;
+			}
+			_fontsMap[nameOfAsset] = res;
+		}
+		else {
+			Debug::error("ERROR: Tipo de recurso no valido");
+			return false;
 		}
 		Debug::out("RESOURCES: ", nameOfAsset, " cargado");
 	}
@@ -136,6 +164,8 @@ bool ResourcesModule::Init()
 
 	for (auto& assets : assetsFile.value()) 
 	{
+		if (!assets.first.is<std::string>()) continue;
+
 		std::string typeOfAsset = assets.first.as<std::string>();
 		sol::table assetsType = assets.second;
 		

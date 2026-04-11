@@ -1591,13 +1591,11 @@ void RenderModule::shutdown()
 	delete _tgaCodec;
 	delete _bmpCodec;
 
-	//_root->uninstallPlugin(_gl3Plugin);
-	//delete _gl3Plugin;
+	delete _root;
 
-	_root->uninstallPlugin(_assimpPlugin);
+	delete _gl3Plugin;
 	delete _assimpPlugin;
 
-	delete _root;
 	_root = nullptr;
 	_window = nullptr;
 	_sceneMgr = nullptr;
