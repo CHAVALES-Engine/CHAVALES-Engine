@@ -5,6 +5,7 @@
 #include <filesystem>
 
 #include "GameConfigurator.h"
+#include "checkMLNew.h"
 
 ComponentDLLLoader::~ComponentDLLLoader()
 {

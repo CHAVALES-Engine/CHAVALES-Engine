@@ -2,6 +2,7 @@
 #include "Debug.h"
 #include "GameConfigurator.h"
 #include <filesystem>
+#include "checkMLNew.h"
 
 ResourcesModule::ResourcesModule(): _luaRoute(), _audioMap(), _modelsMap(), _texturesMap(), _particlesMap()
 {

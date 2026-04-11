@@ -1,6 +1,7 @@
 #include "ComponentRegister.h"
 #include <Component.h>
 #include <Debug.h>
+#include "checkMLNew.h"
 
 ComponentRegister& ComponentRegister::instance() {
 	// Usamos la inicializacion de mayers porque es mas limpia y garantiza Thread-Safe
