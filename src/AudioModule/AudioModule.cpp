@@ -18,7 +18,7 @@ AudioModule::~AudioModule()
 	}
 	_soundMap.clear();
 	_system->release();
-	delete _system;
+	_system = nullptr;
 }
 
 bool AudioModule::Init()
