@@ -22,8 +22,8 @@ public:
 	void Update(float dt) ;
 
 	//colliders
-	ComponentID  CreateBoxShape(core::Vector3<> dimension, core::Vector3<> pos, bool isDynamic, bool isKinematic);
-	ComponentID CreateCapsuleShape(float radius, float height, const core::Vector3<>& center, const core::Vector3<>& worldPos, bool isDynamic, bool isKinematic);
+	ComponentID  CreateBoxShape(core::Vector3<> dimension, core::Vector3<> pos, bool isDynamic, bool isKinematic, bool isTrigger);
+	ComponentID CreateCapsuleShape(float radius, float height, const core::Vector3<>& center, const core::Vector3<>& worldPos, bool isDynamic, bool isKinematic, bool isTrigger);
 	std::vector<PhysicsEvent> getEventsFor(ComponentID id);
 	void clearEvents();
 	void SetPhysicsPosition(ComponentID id, const core::Vector3<>& pos);

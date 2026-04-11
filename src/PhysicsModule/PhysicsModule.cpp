@@ -35,6 +35,24 @@ static PxCombineMode::Enum ToPxCombine(int mode)
 	return PxCombineMode::eAVERAGE;
 }
 
+static PxFilterFlags CustomFilterShader(
+	PxFilterObjectAttributes attributes0, PxFilterData filterData0,
+	PxFilterObjectAttributes attributes1, PxFilterData filterData1,
+	PxPairFlags& pairFlags, const void* constantBlock, PxU32 constantBlockSize)
+{
+	//si alguno es trigger
+	if (PxFilterObjectIsTrigger(attributes0) || PxFilterObjectIsTrigger(attributes1))
+	{
+		pairFlags = PxPairFlag::eTRIGGER_DEFAULT;
+		return PxFilterFlag::eDEFAULT;
+	}
+
+	//colision normal
+	pairFlags = PxPairFlag::eCONTACT_DEFAULT | PxPairFlag::eDETECT_DISCRETE_CONTACT | PxPairFlag::eNOTIFY_TOUCH_FOUND | PxPairFlag::eNOTIFY_TOUCH_LOST;
+	
+	return PxFilterFlag::eDEFAULT;
+}
+
 PhysicsModule::PhysicsModule() {}
 
 bool PhysicsModule::Init()
@@ -55,14 +73,21 @@ bool PhysicsModule::Init()
 	PxSceneDesc sceneDesc(gPhysics->getTolerancesScale());
 	sceneDesc.gravity = PxVec3(0.0f, -9.81f, 0.0f);
 	PxDefaultCpuDispatcher* dispatcher = PxDefaultCpuDispatcherCreate(2);
+
+	sceneDesc.flags |= PxSceneFlag::eENABLE_ACTIVE_ACTORS;
+	sceneDesc.flags |= PxSceneFlag::eENABLE_PCM;
+	sceneDesc.flags |= PxSceneFlag::eENABLE_STABILIZATION;
+	sceneDesc.flags |= PxSceneFlag::eENABLE_CCD;
+	//sceneDesc.flags |= PxSceneFlag::eREQUIRE_RW_LOCK;
+	
 	sceneDesc.cpuDispatcher = dispatcher;
-	sceneDesc.filterShader = PxDefaultSimulationFilterShader;
+	sceneDesc.filterShader = CustomFilterShader;
+	sceneDesc.simulationEventCallback = this;
+
 	gScene = gPhysics->createScene(sceneDesc);
 
 	if (!gScene)
 		return false;
-
-	gScene->setSimulationEventCallback(this);//mi modulo asignado como callback de la escena
 
 	return gPhysics != nullptr;
 }
@@ -87,50 +112,92 @@ ComponentID PhysicsModule::CreateRigidBody(core::Vector3<> pos, float mass, bool
 	return id;
 }
 
-ComponentID PhysicsModule::CreateBoxShape(core::Vector3<> size, core::Vector3<> position, bool isDynamic, bool isKinematic)
+ComponentID PhysicsModule::CreateBoxShape(core::Vector3<> size, core::Vector3<> position, bool isDynamic, bool isKinematic, bool isTrigger)
 {
 	if (!gPhysics || !gScene) return 0;
+
 	PxTransform transform(PxVec3(position.getX(), position.getY(), position.getZ()));
-	PxRigidActor* actor = isDynamic ? static_cast<PxRigidActor*>(gPhysics->createRigidDynamic(transform)) :
-		static_cast<PxRigidActor*>(gPhysics->createRigidStatic(transform));
+	PxRigidActor* actor = isDynamic ? static_cast<PxRigidActor*>(gPhysics->createRigidDynamic(transform)) : static_cast<PxRigidActor*>(gPhysics->createRigidStatic(transform));
+	if (!actor) return 0;
+
+	//kinematic
 	if (isDynamic && isKinematic)
 		static_cast<PxRigidDynamic*>(actor)->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, true);
-	PxBoxGeometry geo(size.getX() * 0.5f, size.getY() * 0.5f, size.getZ() * 0.5f);
-	PxShape* shape = gPhysics->createShape(geo, *defaultMaterial);
-	actor->attachShape(*shape);
-	if (isDynamic)
-		PxRigidBodyExt::updateMassAndInertia(*static_cast<PxRigidDynamic*>(actor), 10.0f);
-	gScene->addActor(*actor);
 
-	ComponentID id;
-	if (!isDynamic) {
-		id = nextID++;
-		physicsMap[id] = { actor, shape };
-		actorToID[actor] = id;
+	PxBoxGeometry geo(size.getX() * 0.5f, size.getY() * 0.5f, size.getZ() * 0.5f);
+
+	PxShape* shape = gPhysics->createShape(geo, *defaultMaterial);
+	if (!shape) return 0;
+
+	PxFilterData filterData;
+	filterData.word0 = 1;//layer
+	filterData.word1 = 1;//layer
+
+	shape->setSimulationFilterData(filterData);
+	if (isTrigger)
+	{
+		shape->setFlag(PxShapeFlag::eSIMULATION_SHAPE, false);
+		shape->setFlag(PxShapeFlag::eTRIGGER_SHAPE, true);
+	}
+	else
+	{
+		shape->setFlag(PxShapeFlag::eSCENE_QUERY_SHAPE, true);
+		shape->setFlag(PxShapeFlag::eSIMULATION_SHAPE, true);
+		shape->setFlag(PxShapeFlag::eTRIGGER_SHAPE, false);
 	}
 
-	return id;
-}
-
-ComponentID PhysicsModule::CreateCapsuleShape(float radius, float height, const core::Vector3<>& center, const core::Vector3<>& worldPos, bool isDynamic, bool isKinematic)
-{
-	if (!gPhysics || !gScene) return 0;
-	PxTransform transform(PxVec3(worldPos.getX(), worldPos.getY(), worldPos.getZ()));
-	PxRigidActor* actor = isDynamic ? static_cast<PxRigidActor*>(gPhysics->createRigidDynamic(transform)) :
-		static_cast<PxRigidActor*>(gPhysics->createRigidStatic(transform));
-	if (isDynamic && isKinematic)
-		static_cast<PxRigidDynamic*>(actor)->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, true);
-	PxCapsuleGeometry geo(radius, height * 0.5f);
-	PxShape* shape = gPhysics->createShape(geo, *defaultMaterial);
 	actor->attachShape(*shape);
-	if (isDynamic && !isKinematic)
-		PxRigidBodyExt::updateMassAndInertia(*static_cast<PxRigidDynamic*>(actor), 10.f);
-	gScene->addActor(*actor);
+	
+	//masa si es dinamic
+	if (isDynamic && !isKinematic) PxRigidBodyExt::updateMassAndInertia(*static_cast<PxRigidDynamic*>(actor), 10.0f);
 
+	gScene->addActor(*actor);
 	ComponentID id = nextID++;
 	physicsMap[id] = { actor, shape };
 	actorToID[actor] = id;
+	
+	return id;
+}
 
+ComponentID PhysicsModule::CreateCapsuleShape(float radius, float height, const core::Vector3<>& center, const core::Vector3<>& worldPos, bool isDynamic, bool isKinematic, bool isTrigger)
+{
+	if (!gPhysics || !gScene) return 0;
+
+	PxTransform transform(PxVec3(worldPos.getX(), worldPos.getY(), worldPos.getZ()));
+	PxRigidActor* actor = isDynamic ? static_cast<PxRigidActor*>(gPhysics->createRigidDynamic(transform)) : static_cast<PxRigidActor*>(gPhysics->createRigidStatic(transform));
+	if (!actor) return 0;
+	if (isDynamic && isKinematic) static_cast<PxRigidDynamic*>(actor)->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, true);
+
+	PxCapsuleGeometry geo(radius, height * 0.5f);
+	PxShape* shape = gPhysics->createShape(geo, *defaultMaterial);
+	if (!shape) return 0;
+	PxFilterData filterData;
+	filterData.word0 = 1;//layer
+	filterData.word1 = 1;//layer
+
+	shape->setSimulationFilterData(filterData);
+	if (isTrigger)
+	{
+		shape->setFlag(PxShapeFlag::eSIMULATION_SHAPE, false);
+		shape->setFlag(PxShapeFlag::eTRIGGER_SHAPE, true);
+	}
+	else
+	{
+		shape->setFlag(PxShapeFlag::eSCENE_QUERY_SHAPE, true);
+		shape->setFlag(PxShapeFlag::eSIMULATION_SHAPE, true);
+		shape->setFlag(PxShapeFlag::eTRIGGER_SHAPE, false);
+	}
+
+	PxTransform localPose(PxVec3(center.getX(), center.getY(), center.getZ()));
+	shape->setLocalPose(localPose);
+	actor->attachShape(*shape);
+
+	if (isDynamic && !isKinematic)
+		PxRigidBodyExt::updateMassAndInertia(*static_cast<PxRigidDynamic*>(actor), 10.f);
+	gScene->addActor(*actor);
+	ComponentID id = nextID++;
+	physicsMap[id] = { actor, shape };
+	actorToID[actor] = id;
 	return id;
 }
 
@@ -237,10 +304,10 @@ void PhysicsModule::Update(float dt)
 	//gScene->flushSimulation();
 	gScene->simulate(dt);
 	gScene->fetchResults(true);
-	for (auto& [id, comp] : physicsMap)
+	/*for (auto& [id, comp] : physicsMap)
 	{
 		PxTransform t = comp.actor->getGlobalPose();
-	}
+	}*/
 }
 
 void PhysicsModule::onTrigger(PxTriggerPair* pairs, PxU32 count) {
@@ -248,15 +315,18 @@ void PhysicsModule::onTrigger(PxTriggerPair* pairs, PxU32 count) {
 	{
 		auto* triggerActor = (physx::PxRigidActor*)pairs[i].triggerActor;
 		auto* otherActor = (physx::PxRigidActor*)pairs[i].otherActor;
+		if (!triggerActor || !otherActor) continue;//compruebo
 
-		if (!triggerActor || !otherActor) continue;
+		auto itA = actorToID.find(triggerActor);
+		auto itB = actorToID.find(otherActor);
+		if (itA == actorToID.end() || itB == actorToID.end())//comprubeo
+			continue;
 
-		ComponentID a = actorToID[triggerActor];
-		ComponentID b = actorToID[otherActor];
+		ComponentID a = itA->second;
+		ComponentID b = itB->second;
 
 		if (pairs[i].status & physx::PxPairFlag::eNOTIFY_TOUCH_FOUND)
 			eventQueue.push_back({ a, b, CollisionType::TriggerEnter });
-
 		if (pairs[i].status & physx::PxPairFlag::eNOTIFY_TOUCH_LOST)
 			eventQueue.push_back({ a, b, CollisionType::TriggerExit });
 	}
@@ -268,17 +338,14 @@ void PhysicsModule::AttachBoxShape(ComponentID bodyID, const core::Vector3<> siz
 	if (it == physicsMap.end()) return;
 
 	PxRigidActor* actor = it->second.actor;
+	if (!actor) return;
 
-	PxShape* shape = gPhysics->createShape(
-		PxBoxGeometry(size.getX() * 0.5f, size.getY() * 0.5f, size.getZ() * 0.5f),
-		*defaultMaterial
-	);
-
+	PxShape* shape = gPhysics->createShape(PxBoxGeometry(size.getX() * 0.5f, size.getY() * 0.5f, size.getZ() * 0.5f),*defaultMaterial);
+	if (!shape) return;
 	PxTransform localPose(PxVec3(center.getX(), center.getY(), center.getZ()));
 	shape->setLocalPose(localPose);
 
 	actor->attachShape(*shape);
-
 	it->second.shape = shape;
 }
 
@@ -292,7 +359,7 @@ void PhysicsModule::AttachCapsuleShape(ComponentID bodyID, float radius, float h
 
 	PxCapsuleGeometry geo(radius, height * 0.5f);
 	PxShape* shape = gPhysics->createShape(geo, *defaultMaterial);
-
+	if (!shape) return;
 	PxTransform localPose(PxVec3(center.getX(), center.getY(), center.getZ()));
 	shape->setLocalPose(localPose);
 
@@ -301,11 +368,12 @@ void PhysicsModule::AttachCapsuleShape(ComponentID bodyID, float radius, float h
 	it->second.shape = shape;
 }
 
-void PhysicsModule::setPhysicsTransform(ComponentID id,const core::Vector3<>& pos, const core::Quaternion<>& rot)
+void PhysicsModule::setPhysicsTransform(ComponentID id, const core::Vector3<>& pos, const core::Quaternion<>& rot)
 {
-	auto& comp = physicsMap[id];
-	PxRigidActor* actor = comp.actor;
+	auto it = physicsMap.find(id);
+	if (it == physicsMap.end()) return;
+	PxRigidActor* actor = it->second.actor;
 	if (!actor) return;
-	PxTransform t( PxVec3(pos.getX(), pos.getY(), pos.getZ()), PxQuat(rot.getX(), rot.getY(), rot.getZ(), rot.getW()));
+	PxTransform t(PxVec3(pos.getX(), pos.getY(), pos.getZ()),PxQuat(rot.getX(), rot.getY(), rot.getZ(), rot.getW()));
 	actor->setGlobalPose(t);
 }

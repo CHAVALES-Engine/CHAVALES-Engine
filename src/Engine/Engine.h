@@ -481,7 +481,7 @@ public:
 	/*
 	* @brief Devuelve el id de la entidad que tiene el boxcollider y lo crea
 	*/
-	uint32_t createBoxCollider(const core::Vector3<>& size, const core::Vector3<>& pos, bool isDynamic, bool isKinematic);
+	uint32_t createBoxCollider(const core::Vector3<>& size, const core::Vector3<>& pos, bool isDynamic, bool isKinematic, bool isTrigger);
 	/*
 	* @brief Setea la posicion fisica de la entidad
 	*/
@@ -493,7 +493,7 @@ public:
 	/*
 	* @brief Devuelve el id de la entidad que tiene el capsulecollider y lo crea
 	*/
-	uint32_t createCapsuleCollider(float radius, float height, const core::Vector3<>& center, const core::Vector3<>& worldPos, bool isDynamic, bool isKinematic);
+	uint32_t createCapsuleCollider(float radius, float height, const core::Vector3<>& center, const core::Vector3<>& worldPos, bool isDynamic, bool isKinematic, bool isTrigger);
 
 	std::vector<PhysicsEvent> getPhysicsEvents(ComponentID id);
 	void clearPhysicsEvents();

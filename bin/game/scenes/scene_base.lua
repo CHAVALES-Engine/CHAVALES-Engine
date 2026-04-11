@@ -39,7 +39,36 @@ scene = { -- entidades en escena
    cube2 = {
 		components = {
 			Transform = {
-				position = Vector3.new(100,100,100),
+				position = Vector3.new(150,100,0),
+				rotation = Quaternion.new(),
+				scale = Vector3.new(1.0),
+				},
+			ModelRenderer = {
+				file = "gizmo",
+				["number of textures"] = 0
+			},
+			RigidBody = {
+					RBid = 1,
+					mass = 10.0,
+					position = Vector3.new(150, 100, 0),     
+					velocity = Vector3.new(-1, 0, 0),   
+					useGravity = false,
+					gravity = Vector3.new(0, -0.009981, 0)   
+			 }
+			 ,
+			Collider = {
+    			box = Vector3.new(1, 1, 1),      
+    			dynamic = true,
+   				kinematic = false,
+				trigger = false,
+    			center = Vector3.new(0,0,0)    
+			}   
+		}
+   },
+   cube3 = {
+		components = {
+			Transform = {
+				position = Vector3.new(50,100,0),
 				rotation = Quaternion.new(),
 				scale = Vector3.new(1.0),
 				},
@@ -47,28 +76,23 @@ scene = { -- entidades en escena
 				file = "gizmo",
 				["number of textures"] = 0
 			}
-		}
-   },
-   cube3 = {
-		components = {
-			Transform = {
-				position = Vector3.new(50,50,0),
-				rotation = Quaternion.new(),
-				scale = Vector3.new(5.0),
-				},
-			ModelRenderer = {
-				file = "gizmo",
-				["number of textures"] = 0
-			}
-			--,
-			
-			-- Collider = {
-    		-- 	box = Vector3.new(1, 1, 1),      
-    		-- 	dynamic = true,
-   			-- 	kinematic = false,
-			-- 	trigger = false,
-    		-- 	center = Vector3.new(0,0,0)    
-			-- }   
+			,
+			RigidBody = {
+					RBid = 1,
+					mass = 10.0,
+					position = Vector3.new(50, 100, 0),     
+					velocity = Vector3.new(1, 0, 0),   
+					useGravity = false,
+					gravity = Vector3.new(0, -0.009981, 0)   
+			 }
+			 ,
+			Collider = {
+    			box = Vector3.new(1, 1, 1),      
+    			dynamic = true,
+   				kinematic = false,
+				trigger = false,
+    			center = Vector3.new(0,0,0)    
+			}   
 		}
    },
    light = {
@@ -88,39 +112,39 @@ scene = { -- entidades en escena
 			}
 		}
    },
-   cube4 = {
-		components = {
-			Transform = {
-				position = Vector3.new(0,0,0),
-				rotation = Quaternion.new(),
-				scale = Vector3.new(0.5),
-				scale = Vector3.new(1.0),
-				},
-			ModelRenderer = {
-				file = "metroid",
-				["number of textures"] = 5,
-				texture0 = {
-					"membrane", 
-					"0"
-				},
-				texture1 = {
-					"body", 
-					"1"
-				},
-				texture2 = {
-					"nuclei", 
-					"2"
-				},
-				texture3 = {
-					"nuclei", 
-					"10"
-				},texture4 = {
-					"mandibles", 
-					"6"
-				}
-				}
-		}
-	},
+--    cube4 = {
+-- 		components = {
+-- 			Transform = {
+-- 				position = Vector3.new(0,0,0),
+-- 				rotation = Quaternion.new(),
+-- 				scale = Vector3.new(0.5),
+-- 				scale = Vector3.new(1.0),
+-- 				},
+-- 			ModelRenderer = {
+-- 				file = "metroid",
+-- 				["number of textures"] = 5,
+-- 				texture0 = {
+-- 					"membrane", 
+-- 					"0"
+-- 				},
+-- 				texture1 = {
+-- 					"body", 
+-- 					"1"
+-- 				},
+-- 				texture2 = {
+-- 					"nuclei", 
+-- 					"2"
+-- 				},
+-- 				texture3 = {
+-- 					"nuclei", 
+-- 					"10"
+-- 				},texture4 = {
+-- 					"mandibles", 
+-- 					"6"
+-- 				}
+-- 				}
+-- 		}
+-- 	},
    CanvasUI ={
 	components = {
 		UIPanel = {

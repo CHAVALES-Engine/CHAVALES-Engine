@@ -3,10 +3,10 @@
 #include "Engine.h"
 #include "Entity.h"
 #include "Transform.h"
+#include "RigidBody.h"
 
 REGISTER_COMPONENT(Collider);
 
-//NO FUNCIONAN LOS COLLIDERS SI NO SON DYNAMIC QUIERO TESTEAR PERO AUN NO VA COMO PARA QUE PUEDA
 
 bool Collider::init(const Properties& p)
 {
@@ -51,35 +51,40 @@ bool Collider::init(const Properties& p)
 
 	//CENTER
 	auto itCen = p.find("center");
-	if (itCen != p.end()) {
-		if (auto val = std::get_if<bool>(&itCen->second))
-			center = *val;
-	}
+	if (auto val = std::get_if<core::Vector3<>>(&itCen->second))
+		center = *val;
 
 	return true;
 }
 
 void Collider::ready()
 {
-	//en el ready miro si tiene un rigidbody real y si lo tiene le paso al metodo los datos del rigidbody
 	if (!entity) return;
 
 	transform = entity->getComponent<Transform>();
 	if (!transform) return;
 
-	//si es dinamico le uno un rigidbody
-
 	core::Vector3<> pos = transform->getGlobalPosition();
 
+	//!!!IMPORTANTE QUE LA KINEMATIC LA MANEJO YO TENGO QUE MIRAR ESTO
 	if (isKinematic && !isDynamic) {
 		printf("Warning: Collider no puede ser kinematic sin ser dinámico. Corrigiendo a dynamic=true\n");
 		isDynamic = true;
 	}
 
-	if (isDynamic)
+
+	//CUANDO SEA KINEMATIC TENGO QUE USAR UN RIGIDBODY KINEMATIC PERO AUN NO EXISTE
+	rigidBody = entity->getComponent<RigidBody>();
+	if (isDynamic )
 	{
-		bool useGravity = !isKinematic;
-		physicsID = _eng->createRigidBody(pos, 10.0f, useGravity);//masa por defecto 10
+		if (rigidBody == NULL)
+		{
+			printf("Warning: Collider no puede ser dinamico sin rigidbody ");
+			return;
+		}
+
+		//coger el id
+		physicsID = rigidBody->getId();
 
 		switch (shapeType)
 		{
@@ -91,27 +96,26 @@ void Collider::ready()
 			break;
 		}
 	}
-	else
+	else//ETO EXPLOTA
 	{
 		//esatico o trigger sin rigidbody
 		switch (shapeType)
 		{
 		case ShapeType::Box:
-			physicsID = _eng->createBoxCollider(center, pos + center, isDynamic, isKinematic);
+			physicsID = _eng->createBoxCollider(size, pos + center, isDynamic, isKinematic, isTrigger);
 			break;
 		case ShapeType::Capsule:
-			physicsID = _eng->createCapsuleCollider(radius, height, center, pos + center, isDynamic, isKinematic);
+			physicsID = _eng->createCapsuleCollider(radius, height, center, pos + center, isDynamic, isKinematic, isTrigger);
 			break;
 		}
 	}
-
 }
 
 void Collider::update(uint64_t deltaTime)
 {
 	if (!entity || physicsID == 0 || !transform) return;
 
-	if (!isDynamic /*&& transform->*/) {
+	if (isKinematic/*&& transform->*/) {
 		//estaticos
 		core::Vector3<> pos = transform->getGlobalPosition();
 		core::Quaternion rot = transform->getGlobalRotation();
@@ -130,17 +134,17 @@ void Collider::update(uint64_t deltaTime)
 
 
 void Collider::onTriggerEnter(ComponentID other) {
-	
+
 }
 
 void Collider::onTriggerExit(ComponentID other) {
-	
+
 }
 
 void Collider::onCollisionEnter(ComponentID other) {
-	
+
 }
 
 void Collider::onCollisionExit(ComponentID other) {
-	
+
 }

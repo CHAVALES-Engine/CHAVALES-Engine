@@ -5,6 +5,7 @@
 using ComponentID = unsigned int;
 class Engine;
 class Transform;
+class RigidBody;
 namespace core {
 	class Entity;
 }
@@ -48,6 +49,7 @@ protected:
 	Engine* _eng;
 	ComponentID physicsID = 0;
 	Transform* transform;//entidad .pos es la posicion de la entidad
+	RigidBody* rigidBody = nullptr;
 
 public:
 	Collider() {};

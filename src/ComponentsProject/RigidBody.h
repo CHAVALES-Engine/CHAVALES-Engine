@@ -34,4 +34,6 @@ public:
 
 	void AddForce(core::Vector3<> force);
 	void AddImpulse(core::Vector3<> impulse);
+	uint32_t getId() { return physicsID; };
+
 };
