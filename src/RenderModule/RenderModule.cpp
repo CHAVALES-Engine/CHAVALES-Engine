@@ -1551,12 +1551,22 @@ void RenderModule::renderUI() {
 
 void RenderModule::shutdown()
 {
-	cleanScene(true);
-	if (_overlaySystem) {
-		delete _overlaySystem;
-		_overlaySystem = nullptr;
+	if (_sceneMgr && _overlaySystem)
+	{
+		_sceneMgr->removeRenderQueueListener(_overlaySystem);
 	}
-	ImGui::DestroyContext();
+
+	if (_overlay)
+	{
+		Ogre::OverlayManager::getSingleton().destroy(_overlay);
+		_overlay = nullptr;
+	}
+
+	cleanScene(true);
+
+	delete _overlaySystem;
+	_overlaySystem = nullptr;
+
 	delete _root;
 	_root = nullptr;
 	_window = nullptr;
