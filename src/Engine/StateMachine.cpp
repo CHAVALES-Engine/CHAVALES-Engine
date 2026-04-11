@@ -13,6 +13,7 @@
 #include "Debug.h"
 #include "GameLoader.h"
 #include "TimeManager.h"
+#include "checkMLNew.h"
 
 class GameLoader;
 
