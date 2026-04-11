@@ -642,11 +642,11 @@ bool Engine::_initPriv()
 
 	_stateMachine = new StateMachine();
 
-#if _DEBUG
-	ComponentDLLLoader::instance().load("./ComponentsProject_d.dll");
-#else 
-	ComponentDLLLoader::instance().load("./ComponentsProject_r.dll");
-#endif
+//#if _DEBUG
+//	ComponentDLLLoader::instance().load("./ComponentsProject_d.dll");
+//#else 
+//	ComponentDLLLoader::instance().load("./ComponentsProject_r.dll");
+//#endif
 	//
 	//#if _DEBUG
 	//	ComponentDLLLoader::instance().load("./game/DLL-Test.dll");
