@@ -157,13 +157,28 @@ public:
 	*/
 	void registerEventObserver(EventCallback callback);
 	/**
-	* @brief Cambia la deadzone para los joysticks por el valor dado
+	* @brief Vibra el mando con los parametros dados.
+	* Si ANY_DEVICE hace vibrar a todos.
 	* @param id - Id del mando que tiene que vibrar.
 	* @param lowFreq - Intensidad de la frecuencia menor.
 	* @param highFreq - Intensidad de la frecuencia mayor.
 	* @param dur - Duracion en ms de la vibracion.
 	*/
 	void setGamepadVibration(input::DeviceID id, float lowFreq, float highFreq, uint32_t dur);
+	/**
+	* @brief Cambia el color del mando.
+	* Si ANY_DEVICE cambia el de todos.
+	* @param color - Color para poner.
+	*/
+	void setGamepadColor(input::DeviceID id, core::Color color);
+	/**
+	* @brief Cambia el color del mando.
+	* Si ANY_DEVICE cambia el de todos.
+	* @param r - Valor de rojo.
+	* @param g - Valor de verde.
+	* @param b - Valor de azul.
+	*/
+	void setGamepadColor(input::DeviceID id, uint8_t r, uint8_t g, uint8_t b);
 
 private:
 
