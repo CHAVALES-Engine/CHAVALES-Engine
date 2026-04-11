@@ -156,6 +156,15 @@ public:
 	* @param callback - Funcion a registrar.
 	*/
 	void registerEventObserver(EventCallback callback);
+	/**
+	* @brief Cambia la deadzone para los joysticks por el valor dado
+	* @param id - Id del mando que tiene que vibrar.
+	* @param lowFreq - Intensidad de la frecuencia menor.
+	* @param highFreq - Intensidad de la frecuencia mayor.
+	* @param dur - Duracion en ms de la vibracion.
+	*/
+	void setGamepadVibration(input::DeviceID id, float lowFreq, float highFreq, uint32_t dur);
+
 private:
 
 	/**
@@ -215,5 +224,5 @@ private:
 	* @brief Funcion para registrar y llamar.
 	*/
 	EventCallback _eventObserver;
-	
+
 };
