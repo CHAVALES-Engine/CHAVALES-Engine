@@ -92,6 +92,12 @@ bool ComponentDLLLoader::load(const std::string& path)
 }
 
 bool ComponentDLLLoader::loadAll(const std::string& path) {
+	Debug::out("[Component DLLLoader] Loading all dlls from: ", path);
+	if (!std::filesystem::exists(path))
+	{
+		Debug::error("COMPONENT DLL LOADER: Carpeta no encontrada: ", path);
+		return false;
+	}
 	// Limpiar _hot residuales del arranque anterior
 	for (const auto& entry : std::filesystem::directory_iterator(path))
 	{
@@ -106,8 +112,19 @@ bool ComponentDLLLoader::loadAll(const std::string& path) {
 	for (const auto& entry : std::filesystem::directory_iterator(path))
 	{
 		if (entry.path().extension() != ".dll") continue;
-		std::string stem = entry.path().stem().string() + ".dll";
-		pendingLibraries.push_back(stem);
+		std::string stem = entry.path().stem().string();
+
+#if _DEBUG
+		// Comprobar si el stem termina en _d
+		if (stem.size() < 2 || stem.substr(stem.size() - 2) != "_d")
+			continue;
+#else
+		// En release ignorar los que terminen en _d
+		if (stem.size() >= 2 && stem.substr(stem.size() - 2) == "_d")
+			continue;
+#endif
+
+		pendingLibraries.push_back(stem + ".dll");
 	}
 	for (std::string& lib : pendingLibraries)
 	{
