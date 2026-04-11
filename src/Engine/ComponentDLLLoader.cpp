@@ -4,6 +4,8 @@
 #include <ComponentRegister.h>
 #include <filesystem>
 
+#include "GameConfigurator.h"
+
 ComponentDLLLoader::~ComponentDLLLoader()
 {
 	unLoadAll();
@@ -53,10 +55,14 @@ bool ComponentDLLLoader::load(const std::string& path)
 		return false;
 	}
 
+	// Si no se especifica si cargar de argumentos o de toml, se busca la funcion configuradora en la dll
+	if (core::GameConfigurator::instance()._configType.empty())
+	{
 	// Busca si tiene una funcion de configuracion para configurar el juego
-	using ConfigFunc = void(*)();
-	ConfigFunc confFunc = (void (*)())GetProcAddress(entry.handle, "configureGame");
-	if (confFunc) confFunc();
+		using ConfigFunc = void(*)();
+		ConfigFunc confFunc = (void (*)())GetProcAddress(entry.handle, "configureGame");
+		if (confFunc) confFunc();
+	}
 
 	// Obtenemos la direccion de memoria de la funcion exportada "getPluginComponents".
 	GetComponentsFn getComponents = (GetComponentsFn)GetProcAddress(entry.handle, "getPluginComponents");
@@ -102,8 +108,8 @@ bool ComponentDLLLoader::loadAll(const std::string& path) {
 		std::string stem = entry.path().stem().string() + ".dll";
 		pendingLibraries.push_back(stem);
 	}
-	for (std::string & lib : pendingLibraries)
-	{		
+	for (std::string& lib : pendingLibraries)
+	{
 		bool ok = load(path + lib);
 		if (!ok) {
 			unLoadAll();

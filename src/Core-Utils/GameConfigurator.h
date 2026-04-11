@@ -41,7 +41,7 @@ namespace core
 		* @brief
 		*	Si se usara o no el .toml para la carga
 		*/
-		std::string _useTOML = "";
+		std::string _configType = "";
 
 		// --- SDL
 		/*

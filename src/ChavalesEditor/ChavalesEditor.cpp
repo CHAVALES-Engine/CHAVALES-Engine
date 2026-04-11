@@ -58,7 +58,7 @@ static void saveConfigInput(bool disabled,
     int width,
     int height)
 {
-    core::GameConfigurator::instance()._useTOML = disabled ? "SI" : "NO";
+    core::GameConfigurator::instance()._configType = disabled ? "TOML" : "ARGS";
 
     core::GameConfigurator::instance()._firstScene = str1;
     core::GameConfigurator::instance()._gameDLL = str4;
@@ -322,11 +322,11 @@ int ChavalesEditor::startup()
 
     std::wstring s1(L" ExecutableProject_d.exe ");
 
-    std::wstring toml(std::begin(core::GameConfigurator::instance()._useTOML), std::end(core::GameConfigurator::instance()._useTOML));
+    std::wstring toml(std::begin(core::GameConfigurator::instance()._configType), std::end(core::GameConfigurator::instance()._configType));
     s1.append(toml);
     s1.append(L" ");
     
-    if (core::GameConfigurator::instance()._useTOML == "NO") // si no hay que usar el toml se necesitan el resto de argumetos
+    if (core::GameConfigurator::instance()._configType == "ARGS") // si no hay que usar el toml se necesitan el resto de argumetos
     {
         // argv[3]->primera escena
         std::wstring fs(std::begin(core::GameConfigurator::instance()._firstScene), std::end(core::GameConfigurator::instance()._firstScene));

@@ -29,12 +29,6 @@ void input::VirtualDevice::_setAxis(input::InputAxis axis, float value)
 		}
 		else if constexpr (std::is_same_v<T, GamepadAxis>)
 		{
-			// Si esta dentro de la deadzone 0.
-			if (std::abs(value) < _deadzone)
-			{
-				_gamepadAxisState[a] = 0.0f;
-			}
-
 			// SDL usa int16 para los rangos de los joysticks.
 			constexpr float MAX_VALUE = std::numeric_limits<int16_t>::max();
 			// Escalamos para que el rango util sea -1.0 a 1.0 compensando deadzone.
@@ -42,6 +36,12 @@ void input::VirtualDevice::_setAxis(input::InputAxis axis, float value)
 
 			// Normalizar el valor a rango -1.0 a 1.0
 			float normalized = value / MAX_VALUE; // usamos int16, 
+			// Si esta dentro de la deadzone 0.
+			if (normalized < _deadzone)
+			{
+				_gamepadAxisState[a] = 0.0f;
+				return;
+			}
 
 			// Aplicamos la zona muerta.
 			normalized = normalized > 0 ?
@@ -49,7 +49,9 @@ void input::VirtualDevice::_setAxis(input::InputAxis axis, float value)
 				(normalized + deadzoneFactor) / (1.0f - deadzoneFactor);
 
 			// Clampeamos a -1.0 a 1.0 por si acaso
-			_gamepadAxisState[a] = (normalized < -1.0f) ? -1.0f : (normalized > 1.0f) ? 1.0f : normalized;
+			float clampValue = (normalized < -1.0f) ? -1.0f : (normalized > 1.0f) ? 1.0f : normalized;
+
+			_gamepadAxisState[a] = clampValue;
 		}
 		}, axis);
 }
