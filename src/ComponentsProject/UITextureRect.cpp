@@ -6,6 +6,7 @@
 #include <Debug.h>
 #include <PluginSDK.h>
 #include "UIButton.h"
+#include "checkMLNew.h"
 
 REGISTER_COMPONENT(UITextureRect);
 

@@ -1,4 +1,5 @@
-#include "LuaComponent.h"
+﻿#include "LuaComponent.h"
+#include "checkMLNew.h"
 
 LuaComponent::~LuaComponent()
 {

@@ -1,4 +1,5 @@
-#include "GameConfigurator.h"
+﻿#include "GameConfigurator.h"
+#include "checkMLNew.h"
 
 core::GameConfigurator& core::GameConfigurator::instance()
 {

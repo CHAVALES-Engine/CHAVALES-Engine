@@ -1,9 +1,10 @@
-#include "InputMapper.h"
+﻿#include "InputMapper.h"
 
 #include <algorithm>
 #include <vector>
 
 #include <Debug.h>
+#include "checkMLNew.h"
 
 void input::InputMapper::addEventToAction(const std::string& actionName, InputEvent inputEvent, DeviceID id)
 {

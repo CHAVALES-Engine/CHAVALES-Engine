@@ -1,4 +1,5 @@
-#include "TimeManager.h"
+ï»¿#include "TimeManager.h"
+#include "checkMLNew.h"
 
 void core::TimerManager::update()
 {
@@ -22,12 +23,12 @@ core::Timer core::TimerManager::createTimer(double_t duration, std::function<voi
 {
 	if (duration <= 0.0)
 	{
-		Debug::error("TimerManager::createTimer — invalid duration: ", duration);
+		Debug::error("TimerManager::createTimer â€” invalid duration: ", duration);
 		return {};
 	}
 	if (func == nullptr)
 	{
-		Debug::error("TimerManager::createTimer — func is nullptr");
+		Debug::error("TimerManager::createTimer â€” func is nullptr");
 		return {};
 	}
 	const uint64_t now = Clock::getRunningTime();

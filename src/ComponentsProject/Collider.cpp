@@ -1,9 +1,10 @@
-#include "Collider.h"
+﻿#include "Collider.h"
 #include "PluginSDK.h"
 #include "Engine.h"
 #include "Entity.h"
 #include "Transform.h"
 #include "RigidBody.h"
+#include "checkMLNew.h"
 
 REGISTER_COMPONENT(Collider);
 
@@ -68,7 +69,7 @@ void Collider::ready()
 
 	//!!!IMPORTANTE QUE LA KINEMATIC LA MANEJO YO TENGO QUE MIRAR ESTO
 	if (isKinematic && !isDynamic) {
-		printf("Warning: Collider no puede ser kinematic sin ser din�mico. Corrigiendo a dynamic=true\n");
+		printf("Warning: Collider no puede ser kinematic sin ser dinámico. Corrigiendo a dynamic=true\n");
 		isDynamic = true;
 	}
 

@@ -1,7 +1,8 @@
-#include "Scene.h"
+﻿#include "Scene.h"
 
 #include <cstdint>
 #include "Entity.h"
+#include "checkMLNew.h"
 namespace core {
 	core::Scene::Scene(sceneName name) :
 		_name(name)

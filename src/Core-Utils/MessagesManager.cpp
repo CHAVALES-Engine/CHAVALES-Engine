@@ -1,4 +1,5 @@
-#include "MessagesManager.h"
+﻿#include "MessagesManager.h"
+#include "checkMLNew.h"
 
 template<typename... Args>
 bool core::MessagesManager::createMessage(const std::string& name)
