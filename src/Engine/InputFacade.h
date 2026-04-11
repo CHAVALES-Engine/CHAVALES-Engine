@@ -4,6 +4,7 @@
 
 #include "InputDefs.h"
 #include "EngineAPI.h"
+#include "Color.h"
 
 class Engine;
 class PlatformModule;
@@ -80,6 +81,54 @@ public:
 	 * @param device - id del dispositivo a comprobar. ANY_DEVICE por defecto => la suma del input de todos los dispositivos.
 	 */
 	void clearTextInput(input::DeviceID device = input::ANY_DEVICE) const;
+	/**
+	* @brief Devuelve anchura de la ventana.
+	*/
+	int getWindowWidth() const;
+	/**
+	* @brief Devuelve altura de la ventana.
+	*/
+	int getWindowHeight() const;
+	/**
+	* @brief Cambia el tamanyo de la ventana.
+	* @param w - Width.
+	* @param w - Height.
+	*/
+	void setWindowSize(int w, int h);
+	/**
+	* @brief Cambia el tamanyo de la ventana.
+	* @param path - Ruta del icono.
+	* @return bool - si se ha podido cambiar.
+	*/
+	bool setIcon(std::string path);
+	/**
+	* @brief Cambia el tamanyo de la ventana.
+	* @param name - Nombre de la ventana.
+	*/
+	void setWindowName(std::string name);
+	/**
+	* @brief Vibra el mando con los parametros dados.
+	* Si ANY_DEVICE hace vibrar a todos.
+	* @param id - Id del mando que tiene que vibrar.
+	* @param lowFreq - Intensidad de la frecuencia menor.
+	* @param highFreq - Intensidad de la frecuencia mayor.
+	* @param dur - Duracion en ms de la vibracion.
+	*/
+	void setGamepadVibration(input::DeviceID id, float lowFreq, float highFreq, uint32_t dur);
+	/**
+	* @brief Cambia el color del mando.
+	* Si ANY_DEVICE cambia el de todos.
+	* @param color - Color para poner.
+	*/
+	void setGamepadColor(input::DeviceID id, core::Color color);
+	/**
+	* @brief Cambia el color del mando.
+	* Si ANY_DEVICE cambia el de todos.
+	* @param r - Valor de rojo.
+	* @param g - Valor de verde.
+	* @param b - Valor de azul.
+	*/
+	void setGamepadColor(input::DeviceID id, uint8_t r, uint8_t g, uint8_t b);
 
 	//------Metodos de InputMapper:
 

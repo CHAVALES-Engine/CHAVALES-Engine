@@ -66,6 +66,46 @@ void InputFacade::clearTextInput(input::DeviceID device) const
 	_platform->clearTextInput(device);
 }
 
+int  InputFacade::getWindowWidth() const
+{
+	return _platform->getWindowWidth();
+}
+
+int InputFacade::getWindowHeight() const
+{
+	return _platform->getWindowHeight();
+}
+
+void InputFacade::setWindowSize(int w, int h)
+{
+	_platform->setWindowSize(w, h);
+}
+
+bool InputFacade::setIcon(std::string path)
+{
+	return _platform->setIcon(path);
+}
+
+void InputFacade::setWindowName(std::string name)
+{
+	_platform->setWindowName(name);
+}
+
+void InputFacade::setGamepadVibration(input::DeviceID id, float lowFreq, float highFreq, uint32_t dur)
+{
+	_platform->setGamepadVibration(id, lowFreq, highFreq, dur);
+}
+
+void InputFacade::setGamepadColor(input::DeviceID id, core::Color color)
+{
+	_platform->setGamepadColor(id, color);
+}
+
+void InputFacade::setGamepadColor(input::DeviceID id, uint8_t r, uint8_t g, uint8_t b)
+{
+	_platform->setGamepadColor(id, r, g, b);
+}
+
 //------Metodos de InputMapper:
 void InputFacade::addEventToAction(const std::string& actionName, input::InputEvent inputEvent, input::DeviceID id) const
 {
