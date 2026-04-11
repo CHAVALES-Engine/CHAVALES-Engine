@@ -9,7 +9,7 @@
 #ifndef CHECKML_H
 #define CHECKML_H
 
-#if defined(_WIN32) && defined(_DEBUG)
+#if defined(_WIN64) && defined(_DEBUG)
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
 #include <crtdbg.h>
