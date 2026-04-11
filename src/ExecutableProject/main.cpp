@@ -50,7 +50,7 @@ static void configGame(size_t argc, char* argv[])
 int main(int argc, char* argv[])
 {
 #ifdef _DEBUG
-	_CrtSetBreakAlloc(21944);
+	//_CrtSetBreakAlloc();
 #endif
 	Debug::out("[MAIN] Inicializando ChavalesEngine");
 
