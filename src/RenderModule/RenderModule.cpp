@@ -1321,6 +1321,8 @@ uiButtonID RenderModule::addUIButton(const std::string& panelName, const entityI
 	button.text = text;
 	button.visible = true;
 	button.size = size;
+	button.textureFolder= textureFolder;
+	button.textureFile = textureFile;
 	if (!textureFile.empty()) {
 		button.buttonImage = true;
 		if (!_rgm->resourceGroupExists(textureFolder))
@@ -1329,10 +1331,10 @@ uiButtonID RenderModule::addUIButton(const std::string& panelName, const entityI
 			_rgm->loadResourceGroup(textureFolder);
 			_resourceGroups.insert(textureFolder);
 		}
-		Ogre::TexturePtr ogreTexture = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder);
-		Ogre::GL3PlusTexture* glTexture = static_cast<Ogre::GL3PlusTexture*>(ogreTexture.get());
-		GLuint texID = glTexture->getGLID();
-		button.textureID = (ImTextureID)(uintptr_t)texID;
+
+		Ogre::TexturePtr tex = Ogre::TextureManager::getSingleton().load(textureFile,textureFolder,Ogre::TEX_TYPE_2D,0);
+		button.textureID = (ImTextureID)tex->getHandle();
+		
 	}
 	else {
 		button.buttonImage = false;
@@ -1512,6 +1514,7 @@ void RenderModule::renderUI() {
 			ImGui::PopFont();
 
 		}
+
 		for (UIButtonData& button : panel.buttons) {
 			if (!button.visible) {
 				continue;
@@ -1524,8 +1527,8 @@ void RenderModule::renderUI() {
 
 			if (button.buttonImage) {
 				std::string idButton = button.textureFile + "_" + button.entity.toString();
-
-				if (ImGui::ImageButton(idButton.c_str(), button.textureID, aux)) {
+				
+				if (ImGui::ImageButton(idButton.c_str(), (ImTextureID)(uintptr_t)button.textureID, aux)) {
 					if (button.onClick) {
 						button.onClick();
 					}
