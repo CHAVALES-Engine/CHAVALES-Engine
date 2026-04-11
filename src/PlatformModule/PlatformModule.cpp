@@ -354,7 +354,10 @@ void PlatformModule::setGamepadVibration(input::DeviceID id, float lowFreq, floa
 	{
 		for (auto it : _devicesID)
 		{
-			SDL_RumbleGamepad(it.second, clampLow, clampHigh, dur);
+			if (!SDL_RumbleGamepad(it.second, clampLow, clampHigh, dur))
+			{
+				Debug::error("[Platform] Could not rumble for gamepad with id\"", it.first, "\".");
+			}
 		}
 	}
 	else
@@ -362,7 +365,45 @@ void PlatformModule::setGamepadVibration(input::DeviceID id, float lowFreq, floa
 		auto it = _devicesID.find(id);
 		if (it != _devicesID.end())
 		{
-			SDL_RumbleGamepad(it->second, clampLow, clampHigh, dur);
+			if (!SDL_RumbleGamepad(it->second, clampLow, clampHigh, dur))
+			{
+				Debug::error("[Platform] Could not rumble for gamepad with id\"", it->first, "\".");
+			}
+		}
+	}
+}
+
+void PlatformModule::setGamepadColor(input::DeviceID id, core::Color color)
+{
+	// Clampeamos los valores dados a entre 0.0 y 1.0 y los convertimos a la unidad que pide SDL.
+	uint8_t clampR = static_cast<uint8_t>(std::clamp(color.getRed(), 0.0f, 1.0f) * (std::numeric_limits<uint8_t>::max)());
+	uint8_t clampG = static_cast<uint8_t>(std::clamp(color.getGreen(), 0.0f, 1.0f) * (std::numeric_limits<uint8_t>::max)());
+	uint8_t clampB = static_cast<uint8_t>(std::clamp(color.getBlue(), 0.0f, 1.0f) * (std::numeric_limits<uint8_t>::max)());
+
+	setGamepadColor(id, clampR, clampG, clampB);
+}
+
+void PlatformModule::setGamepadColor(input::DeviceID id, uint8_t r, uint8_t g, uint8_t b)
+{
+	if (id == input::ANY_DEVICE) // Si todos los mandos pues todos los mandos cambian de color.
+	{
+		for (auto it : _devicesID)
+		{
+			if (!SDL_SetGamepadLED(it.second, r, g, b))
+			{
+				Debug::error("[Platform] Could not change led color for gamepad with id\"", it.first, "\".");
+			}
+		}
+	}
+	else
+	{
+		auto it = _devicesID.find(id);
+		if (it != _devicesID.end())
+		{
+			if (!SDL_SetGamepadLED(it->second, r, g, b))
+			{
+				Debug::error("[Platform] Could not change led color for gamepad with id\"", it->first, "\".");
+			}
 		}
 	}
 }
