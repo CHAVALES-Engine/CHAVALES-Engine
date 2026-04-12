@@ -618,7 +618,11 @@ void PlatformModule::_processEvent(const SDL_Event& event)
 			SDL_CloseGamepad(it->second);
 			_devicesID.erase(it);
 		}
-		_virtualDevices.erase(id);
+		auto vit = _virtualDevices.find(id);
+		if (vit != _virtualDevices.end()) {
+			delete vit->second;          // ← liberar antes de borrar
+			_virtualDevices.erase(vit);
+		}
 		break;
 	}
 	case SDL_EVENT_GAMEPAD_AXIS_MOTION: {
