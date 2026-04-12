@@ -20,6 +20,8 @@ scene = { -- entidades en escena
    			},
 			ComponentTest = {
 				velocity = 100
+			},
+			AudioListener = {
 			}
 		}
    },
@@ -33,7 +35,15 @@ scene = { -- entidades en escena
 			ModelRenderer = {
 				file = "gizmo",
 				["number of textures"] = 0
-			}
+			},
+			AudioSource = {
+				soundID = "MySound",
+				is3D = true,
+				loop = true,
+				isStream = false,
+				playOnReady = true,
+				soundVolume = 0.2
+ 			}
 		}
    },
    cube2 = {
