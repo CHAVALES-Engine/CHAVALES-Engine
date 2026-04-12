@@ -44,6 +44,8 @@ static PxFilterFlags CustomFilterShader(
 	if (PxFilterObjectIsTrigger(attributes0) || PxFilterObjectIsTrigger(attributes1))
 	{
 		pairFlags = PxPairFlag::eTRIGGER_DEFAULT;
+		pairFlags |= PxPairFlag::eNOTIFY_TOUCH_FOUND;
+		pairFlags |= PxPairFlag::eNOTIFY_TOUCH_LOST;
 		return PxFilterFlag::eDEFAULT;
 	}
 
@@ -57,12 +59,16 @@ PhysicsModule::PhysicsModule() {}
 
 PhysicsModule::~PhysicsModule()
 {
+	
 	ClearScene();
 	if (gScene) { gScene->release(); gScene = nullptr; }
 	if (dispatcher) { dispatcher->release(); dispatcher = nullptr; }
 	if (gPhysics) { gPhysics->release(); gPhysics = nullptr; }
-	if (gPvd) { gPvd->release(); gPvd = nullptr; }
+	if (pvdTransport){pvdTransport->release();pvdTransport = nullptr;}
+	if (gPvd) {gPvd->release(); gPvd = nullptr;}
+	PxCloseExtensions();
 	if (gFoundation) { gFoundation->release(); gFoundation = nullptr; }
+	
 	materialMap.clear();
 }
 
@@ -80,7 +86,12 @@ bool PhysicsModule::Init()
 	PxTolerancesScale scale;
 	gPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *gFoundation, scale, true, gPvd);
 	PxInitExtensions(*gPhysics, gPvd);
+
 	defaultMaterial = gPhysics->createMaterial(0.5f, 0.5f, 0.6f);
+	if (!defaultMaterial) return false;
+	ComponentID defaultMatID = nextIDMaterial++;
+	materialMap[defaultMatID] = defaultMaterial;
+
 	PxSceneDesc sceneDesc(gPhysics->getTolerancesScale());
 	sceneDesc.gravity = PxVec3(0.0f, -9.81f, 0.0f);
 	dispatcher = PxDefaultCpuDispatcherCreate(2);
@@ -89,7 +100,6 @@ bool PhysicsModule::Init()
 	sceneDesc.flags |= PxSceneFlag::eENABLE_PCM;
 	sceneDesc.flags |= PxSceneFlag::eENABLE_STABILIZATION;
 	sceneDesc.flags |= PxSceneFlag::eENABLE_CCD;
-	//sceneDesc.flags |= PxSceneFlag::eREQUIRE_RW_LOCK;
 
 	sceneDesc.cpuDispatcher = dispatcher;
 	sceneDesc.filterShader = CustomFilterShader;
@@ -369,10 +379,11 @@ void PhysicsModule::onTrigger(PxTriggerPair* pairs, PxU32 count) {
 		ComponentID a = itA->second;
 		ComponentID b = itB->second;
 
-		if (pairs[i].status & physx::PxPairFlag::eNOTIFY_TOUCH_FOUND)
+		if (pairs[i].status & PxPairFlag::eNOTIFY_TOUCH_FOUND)
 			eventQueue.push_back({ a, b, CollisionType::TriggerEnter });
-		if (pairs[i].status & physx::PxPairFlag::eNOTIFY_TOUCH_LOST)
+		if (pairs[i].status & PxPairFlag::eNOTIFY_TOUCH_LOST)
 			eventQueue.push_back({ a, b, CollisionType::TriggerExit });
+		printf("TRIGGER CALLBACK\n");
 	}
 }
 
@@ -493,7 +504,7 @@ void PhysicsModule::DestroyBody(ComponentID id)
 
 	//lo quito de la scene
 	if (gScene)
-		gScene->removeActor(*actor);
+		gScene->removeActor(*actor, true);
 
 	//libero shapes del actor
 	for (PxShape* shape : comp.shapes)
@@ -505,12 +516,13 @@ void PhysicsModule::DestroyBody(ComponentID id)
 		}
 	}
 	comp.shapes.clear();
+
+	actorToID.erase(actor);
 	actor->release();//libero al actor
 
 	if (actorToID.find(actor) == actorToID.end())
 		return;
 	//borro mapas
-	actorToID.erase(actor);
 	physicsMap.erase(it);
 	//printf("DestroyBody: %p\n", actor);
 
@@ -528,17 +540,7 @@ void PhysicsModule::DestroyMaterial(uint32_t id)
 
 void PhysicsModule::ClearScene()
 {
-	//if (!gScene) return;
 
-	//std::vector<ComponentID> ids;
-	//ids.reserve(physicsMap.size());
-
-	//for (auto& [id, _] : physicsMap)
-	//	ids.push_back(id);
-	//for (auto id : ids)
-	//	DestroyBody(id);
-
-	//eventQueue.clear();
 	if (!gScene) return;
 
 	std::vector<ComponentID> ids;

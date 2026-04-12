@@ -59,7 +59,6 @@ scene = { -- entidades en escena
 			Collider = {
     			box = Vector3.new(120, 120, 120),      
     			dynamic = true,
-   				kinematic = false,
 				trigger = true,
     			center = Vector3.new(0,0,0)    
 			}   
@@ -78,18 +77,18 @@ scene = { -- entidades en escena
 			}
 			-- ,
 			-- RigidBody = {
-				-- 		
-				-- 		useGravity = false,
+						
+			-- 		useGravity = false,
+			-- 		isKinematic = false;
 			-- 		mass = 10.0,
 			-- 		position = Vector3.new(50, 0, 0),     
 			-- 		velocity = Vector3.new(0.3, 0, 0),   
-			-- 		 
+					 
 			--  }
 			 ,
 			Collider = {
     			box = Vector3.new(60, 60, 60),      
     			dynamic = false,
-   				kinematic = false,
 				trigger = false,
     			center = Vector3.new(0,0,0)    
 			}   
