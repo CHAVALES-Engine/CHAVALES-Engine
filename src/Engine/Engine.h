@@ -482,7 +482,7 @@ public:
 	/*
 	* @brief Devuelve el id de la entidad que tiene el boxcollider y lo crea
 	*/
-	uint32_t createBoxCollider(const core::Vector3<>& size, const core::Vector3<>& pos, bool isDynamic, bool isKinematic, bool isTrigger);
+	uint32_t createBoxCollider(const core::Vector3<>& size, const core::Vector3<>& pos, bool isDynamic,  bool isTrigger);
 	/*
 	* @brief Setea la posicion fisica de la entidad
 	*/
@@ -494,18 +494,18 @@ public:
 	/*
 	* @brief Devuelve el id de la entidad que tiene el capsulecollider y lo crea
 	*/
-	uint32_t createCapsuleCollider(float radius, float height, const core::Vector3<>& center, const core::Vector3<>& worldPos, bool isDynamic, bool isKinematic, bool isTrigger);
+	uint32_t createCapsuleCollider(float radius, float height, const core::Vector3<>& center, const core::Vector3<>& worldPos, bool isDynamic, bool isTrigger);
 
 	std::vector<PhysicsEvent> getPhysicsEvents(ComponentID id);
 	void clearPhysicsEvents();
 
-	ComponentID attachBoxShapeToRigidBody(ComponentID bodyID, const core::Vector3<> size, const core::Vector3<>& center);
+	ComponentID attachBoxShapeToRigidBody(ComponentID bodyID, const core::Vector3<> size, const core::Vector3<>& center, bool isTrigger);
 
-	ComponentID attachCapsuleShapeToRigidBody(ComponentID bodyID, float radius, float height, const core::Vector3<>& center);
+	ComponentID attachCapsuleShapeToRigidBody(ComponentID bodyID, float radius, float height, const core::Vector3<>& center, bool isTrigger);
 
 	void setPhysicsTransform(ComponentID id, const core::Vector3<>& pos, const core::Quaternion<>& rot);
 
-	uint32_t createRigidBody(core::Vector3<> pos, float mass, bool useGravity);
+	uint32_t createRigidBody(core::Vector3<> pos, float mass, bool useGravity, bool isKinematic);
 
 	core::Vector3<> getLinearVelocity(uint32_t id);
 

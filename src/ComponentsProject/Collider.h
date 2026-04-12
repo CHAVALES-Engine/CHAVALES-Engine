@@ -40,7 +40,7 @@ protected:
 
 	bool isTrigger = false;
 	bool isDynamic = false;//o pared o con gravedad
-	bool isKinematic = false;// como dinamiico pero movido a mano
+
 
 	core::Vector3<> size = { 1,1,1 };
 	core::Vector3<> center = { 0,0,0 };//offset respecto a la entidad, donde esta el collider

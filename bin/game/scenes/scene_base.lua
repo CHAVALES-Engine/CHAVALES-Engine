@@ -39,7 +39,7 @@ scene = { -- entidades en escena
    cube2 = {
 		components = {
 			Transform = {
-				position = Vector3.new(350,100,0),
+				position = Vector3.new(300,0,0),
 				rotation = Quaternion.new(),
 				scale = Vector3.new(2.0),
 				},
@@ -48,51 +48,53 @@ scene = { -- entidades en escena
 				["number of textures"] = 0
 			},
 			RigidBody = {
-					RBid = 1,
+					
+				useGravity = false, 
+				isKinematic = false,
 					mass = 10.0,
-					position = Vector3.new(350, 100, 0),     
-					velocity = Vector3.new(-0.5, 9.81, 0),   
-					useGravity = false, 
-			},
+					position = Vector3.new(300, 0, 0),     
+					velocity = Vector3.new(-0.1, 0, 0),   
+			 }
+			,
 			Collider = {
-    			box = Vector3.new(330, 330, 330),      
+    			box = Vector3.new(120, 120, 120),      
     			dynamic = true,
+   				kinematic = false,
+				trigger = true,
+    			center = Vector3.new(0,0,0)    
+			}   
+		}
+   },
+   cube3 = {
+		components = {
+			Transform = {
+				position = Vector3.new(50,0,0),
+				rotation = Quaternion.new(),
+				scale = Vector3.new(1.0),
+				},
+			ModelRenderer = {
+				file = "gizmo",
+				["number of textures"] = 0
+			}
+			-- ,
+			-- RigidBody = {
+				-- 		
+				-- 		useGravity = false,
+			-- 		mass = 10.0,
+			-- 		position = Vector3.new(50, 0, 0),     
+			-- 		velocity = Vector3.new(0.3, 0, 0),   
+			-- 		 
+			--  }
+			 ,
+			Collider = {
+    			box = Vector3.new(60, 60, 60),      
+    			dynamic = false,
    				kinematic = false,
 				trigger = false,
     			center = Vector3.new(0,0,0)    
 			}   
 		}
    },
---    cube3 = {
--- 		components = {
--- 			Transform = {
--- 				position = Vector3.new(50,100,0),
--- 				rotation = Quaternion.new(),
--- 				scale = Vector3.new(1.0),
--- 				},
--- 			ModelRenderer = {
--- 				file = "gizmo",
--- 				["number of textures"] = 0
--- 			}
--- 			-- ,
--- 			-- RigidBody = {
--- 			-- 		RBid = 1,
--- 			-- 		mass = 10.0,
--- 			-- 		position = Vector3.new(50, 100, 0),     
--- 			-- 		velocity = Vector3.new(0.3, 0, 0),   
--- 			-- 		useGravity = false,
--- 			-- 		gravity = Vector3.new(0, -0.009981, 0)   
--- 			--  }
--- 			 ,
--- 			Collider = {
---     			box = Vector3.new(165, 165, 165),      
---     			dynamic = false,
---    				kinematic = false,
--- 				trigger = false,
---     			center = Vector3.new(0,0,0)    
--- 			}   
--- 		}
---    },
    light = {
 		components = {
 			Transform = {

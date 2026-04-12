@@ -479,9 +479,9 @@ float Engine::getVolume(int chID)
 
 #pragma region Physics
 
-uint32_t Engine::createBoxCollider(const core::Vector3<>& size, const core::Vector3<>& pos, bool isDynamic, bool isKinematic, bool isTrigger)
+uint32_t Engine::createBoxCollider(const core::Vector3<>& size, const core::Vector3<>& pos, bool isDynamic, bool isTrigger)
 {
-	return _physicsModule->CreateBoxShape(size, pos, isDynamic, isKinematic, isTrigger);
+	return _physicsModule->CreateBoxShape(size, pos, isDynamic, isTrigger);
 }
 
 void Engine::setPhysicsPosition(uint32_t id, const core::Vector3<>& pos)
@@ -494,10 +494,10 @@ core::Vector3<> Engine::getPhysicsPosition(uint32_t id)
 	return _physicsModule->GetPhysicsPosition(id);
 }
 
-uint32_t Engine::createCapsuleCollider(float radius, float height, const core::Vector3<>& center, const core::Vector3<>& worldPos, bool isDynamic, bool isKinematic, bool isTrigger)
+uint32_t Engine::createCapsuleCollider(float radius, float height, const core::Vector3<>& center, const core::Vector3<>& worldPos, bool isDynamic, bool isTrigger)
 {
 	if (!_physicsModule) return 0;
-	return _physicsModule->CreateCapsuleShape(radius, height, center, worldPos, isDynamic, isKinematic, isTrigger);
+	return _physicsModule->CreateCapsuleShape(radius, height, center, worldPos, isDynamic, isTrigger);
 }
 
 std::vector<PhysicsEvent> Engine::getPhysicsEvents(ComponentID id)
@@ -510,17 +510,17 @@ void Engine::clearPhysicsEvents()
 	_physicsModule->clearEvents();
 }
 ///
-ComponentID Engine::attachBoxShapeToRigidBody(ComponentID bodyID, const core::Vector3<> size, const core::Vector3<>& center)
+ComponentID Engine::attachBoxShapeToRigidBody(ComponentID bodyID, const core::Vector3<> size, const core::Vector3<>& center, bool isTrigger)
 { 
 	if (!_physicsModule) return 0;
-	_physicsModule->AttachBoxShape(bodyID, size, center);
+	_physicsModule->AttachBoxShape(bodyID, size, center, isTrigger);
 	return bodyID; //devuelve el ID del RigidBody al que se unio
 }
 
-ComponentID Engine::attachCapsuleShapeToRigidBody(ComponentID bodyID, float radius, float height, const core::Vector3<>& center)
+ComponentID Engine::attachCapsuleShapeToRigidBody(ComponentID bodyID, float radius, float height, const core::Vector3<>& center, bool isTrigger)
 {
 	if (!_physicsModule) return 0;
-	_physicsModule->AttachCapsuleShape(bodyID, radius, height, center);
+	_physicsModule->AttachCapsuleShape(bodyID, radius, height, center, isTrigger);
 	return bodyID; 
 }
 
@@ -532,9 +532,9 @@ void Engine::setPhysicsTransform(ComponentID id, const core::Vector3<>& pos, con
 }
 
 ///
-uint32_t Engine::createRigidBody(core::Vector3<> pos, float mass, bool useGravity)
+uint32_t Engine::createRigidBody(core::Vector3<> pos, float mass, bool useGravity, bool isKinematic)
 {
-	return _physicsModule->CreateRigidBody(pos, mass, useGravity);
+	return _physicsModule->CreateRigidBody(pos, mass, useGravity, isKinematic);
 }
 
 core::Vector3<> Engine::getLinearVelocity(uint32_t id)
@@ -677,6 +677,9 @@ bool Engine::_initPriv()
 void Engine::update(float dt)
 {
 	if (_physicsModule)
+	{
 		_physicsModule->Update(dt);
+		
+	}
 }
 

@@ -38,11 +38,7 @@ bool Collider::init(const Properties& p)
 		if (auto val = std::get_if<bool>(&itDyn->second))
 			isDynamic = *val;
 	}
-	//KINEMATIC
-	if (auto it = p.find("kinematic"); it != p.end()) {
-		if (auto val = std::get_if<bool>(&it->second))
-			isKinematic = *val;
-	}
+	
 	//TRIGGER
 	auto itTrig = p.find("trigger");
 	if (itTrig != p.end()) {
@@ -67,16 +63,16 @@ void Collider::ready()
 
 	core::Vector3<> pos = transform->getGlobalPosition();
 
+	rigidBody = entity->getComponent<RigidBody>();
+
 	//!!!IMPORTANTE QUE LA KINEMATIC LA MANEJO YO TENGO QUE MIRAR ESTO
-	if (isKinematic && !isDynamic) {
+	if (rigidBody != NULL && rigidBody->getIsKinematic() && !isDynamic) {
 		printf("Warning: Collider no puede ser kinematic sin ser dinámico. Corrigiendo a dynamic=true\n");
 		isDynamic = true;
 	}
 
-
 	//CUANDO SEA KINEMATIC TENGO QUE USAR UN RIGIDBODY KINEMATIC PERO AUN NO EXISTE
-	rigidBody = entity->getComponent<RigidBody>();
-	if (isDynamic )
+	if (isDynamic)
 	{
 		if (rigidBody == NULL)
 		{
@@ -90,23 +86,23 @@ void Collider::ready()
 		switch (shapeType)
 		{
 		case ShapeType::Box:
-			_eng->attachBoxShapeToRigidBody(physicsID, size, center);
+			_eng->attachBoxShapeToRigidBody(physicsID, size, center, isTrigger);
 			break;
 		case ShapeType::Capsule:
-			_eng->attachCapsuleShapeToRigidBody(physicsID, radius, height, center);
+			_eng->attachCapsuleShapeToRigidBody(physicsID, radius, height, center, isTrigger);
 			break;
 		}
 	}
-	else//ETO EXPLOTA
+	else
 	{
 		//esatico o trigger sin rigidbody
 		switch (shapeType)
 		{
 		case ShapeType::Box:
-			physicsID = _eng->createBoxCollider(size, pos + center, isDynamic, isKinematic, isTrigger);
+			physicsID = _eng->createBoxCollider(size, pos + center, isDynamic, isTrigger);
 			break;
 		case ShapeType::Capsule:
-			physicsID = _eng->createCapsuleCollider(radius, height, center, pos + center, isDynamic, isKinematic, isTrigger);
+			physicsID = _eng->createCapsuleCollider(radius, height, center, pos + center, isDynamic, isTrigger);
 			break;
 		}
 	}
@@ -116,13 +112,6 @@ void Collider::update(uint64_t deltaTime)
 {
 	if (!entity || physicsID == 0 || !transform) return;
 
-	if (isKinematic/*&& transform->*/) {
-		//estaticos
-		core::Vector3<> pos = transform->getGlobalPosition();
-		core::Quaternion rot = transform->getGlobalRotation();
-		_eng->setPhysicsTransform(physicsID, pos + center, rot);//rotaciones y posicion
-	}
-
 	for (auto& event : _eng->getPhysicsEvents(physicsID)) {
 		switch (event.type) {
 		case CollisionType::TriggerEnter: onTriggerEnter(event.b); break;
@@ -131,15 +120,16 @@ void Collider::update(uint64_t deltaTime)
 		case CollisionType::CollisionExit: onCollisionExit(event.b); break;
 		}
 	}
+	_eng->clearPhysicsEvents();
 }
 
 
 void Collider::onTriggerEnter(ComponentID other) {
-
+	printf("TRIGGER_ENTER\n");
 }
 
 void Collider::onTriggerExit(ComponentID other) {
-
+	printf("TRIGGEN´T\n");
 }
 
 void Collider::onCollisionEnter(ComponentID other) {

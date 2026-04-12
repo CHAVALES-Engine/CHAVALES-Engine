@@ -11,11 +11,12 @@ bool RigidBody::init(const Properties& p)
 {
 	_eng = Engine::instance();
 
-	physicsID = getProperty<int>(p, "RBid");
+	useGravity = getProperty<bool>(p, "useGravity");
+	isKinematic = getProperty<bool>(p, "isKinematic");
+	physicsID = _eng->createRigidBody(getPosition(), getMass(), useGravity, isKinematic);
 	setMass(getProperty<float>(p, "mass"));
 	setPosition(getProperty<core::Vector3<>>(p, "position"));
 	setVelocity(getProperty<core::Vector3<>>(p, "velocity"));
-	useGravity = getProperty<bool>(p, "useGravity");
 
 	return true;
 }
@@ -32,7 +33,6 @@ void RigidBody::ready()
 	if (getMass() <= 0.0f)
 		setMass(1.0f);
 
-	physicsID = _eng->createRigidBody(getPosition(), getMass(), useGravity);
 	_eng->setLinearVelocity(physicsID, getVelocity());
 
 }

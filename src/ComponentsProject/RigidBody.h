@@ -14,6 +14,7 @@ public:
 	unsigned int physicsID = 0;
 
 	bool useGravity = true;
+	bool isKinematic;
 
 	// MÉTODOS
 	bool init(const Properties& p) override;
@@ -32,5 +33,6 @@ public:
 	void ClearForce(char mode);
 
 	uint32_t getId() { return physicsID; };
+	bool getIsKinematic() { return isKinematic; };
 
 };

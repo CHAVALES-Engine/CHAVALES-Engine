@@ -22,14 +22,14 @@ public:
 	void Update(float dt);
 
 	//colliders
-	ComponentID  CreateBoxShape(core::Vector3<> dimension, core::Vector3<> pos, bool isDynamic, bool isKinematic, bool isTrigger);
-	ComponentID CreateCapsuleShape(float radius, float height, const core::Vector3<>& center, const core::Vector3<>& worldPos, bool isDynamic, bool isKinematic, bool isTrigger);
+	ComponentID  CreateBoxShape(core::Vector3<> dimension, core::Vector3<> pos, bool isDynamic, bool isTrigger);
+	ComponentID CreateCapsuleShape(float radius, float height, const core::Vector3<>& center, const core::Vector3<>& worldPos, bool isDynamic, bool isTrigger);
 	std::vector<PhysicsEvent> getEventsFor(ComponentID id);
 	void clearEvents();
 	void SetPhysicsPosition(ComponentID id, const core::Vector3<>& pos);
 
 	//rigidbody
-	uint32_t CreateRigidBody(core::Vector3<> pos, float mass, bool useGravity);
+	uint32_t CreateRigidBody(core::Vector3<> pos, float mass, bool useGravity, bool isKinematic);
 	core::Vector3<> GetLinearVelocity(uint32_t id);
 	void SetLinearVelocity(uint32_t id, core::Vector3<> vel);
 	void AddForce(uint32_t id, core::Vector3<> force, char mode);
@@ -39,8 +39,8 @@ public:
 	void SetMass(uint32_t id, float mass);
 
 	//collider + rigidbody
-	void AttachBoxShape(ComponentID bodyID, const core::Vector3<> size, const core::Vector3<>& center);
-	void AttachCapsuleShape(ComponentID bodyID, float radius, float height, const core::Vector3<>& center);
+	void AttachBoxShape(ComponentID bodyID, const core::Vector3<> size, const core::Vector3<>& center, bool isTrigger);
+	void AttachCapsuleShape(ComponentID bodyID, float radius, float height, const core::Vector3<>& center, bool isTrigger);
 	void setPhysicsTransform(ComponentID id, const core::Vector3<>& pos, const core::Quaternion<>& rot);
 
 	//callbacks
