@@ -59,7 +59,7 @@ bool ComponentDLLLoader::load(const std::string& path)
 	// Si no se especifica si cargar de argumentos o de toml, se busca la funcion configuradora en la dll
 	if (core::GameConfigurator::instance()._configType.empty())
 	{
-	// Busca si tiene una funcion de configuracion para configurar el juego
+		// Busca si tiene una funcion de configuracion para configurar el juego
 		using ConfigFunc = void(*)();
 		ConfigFunc confFunc = (void (*)())GetProcAddress(entry.handle, "configureGame");
 		if (confFunc) confFunc();
@@ -194,13 +194,6 @@ void ComponentDLLLoader::setReloadCallback(ReloadCallback const& cb)
 bool ComponentDLLLoader::_unload(LoadedLibrary& library)
 {
 	Debug::warning("Unloading[", library.path, "]");
-	if (!FreeLibrary(library.handle))return false;
-	library.handle = nullptr;
-	return DeleteFileA(library.tempPath.c_str());
-}
-
-void ComponentDLLLoader::_reload(LoadedLibrary& library)
-{
 	// Guardar componentes a desregistrar
 	std::vector<std::string> toUnregister;
 	GetComponentsFn getComponents =
@@ -213,7 +206,14 @@ void ComponentDLLLoader::_reload(LoadedLibrary& library)
 	}
 	for (const auto& name : toUnregister)
 		ComponentRegister::instance().unregisterComponent(name);
+	if (!FreeLibrary(library.handle))return false;
+	library.handle = nullptr;
+	return DeleteFileA(library.tempPath.c_str());
+}
 
+void ComponentDLLLoader::_reload(LoadedLibrary& library)
+{
+	
 	// Descarga y recarga de libreria.
 	std::string	path = library.path;
 	if (!unload(path)) {

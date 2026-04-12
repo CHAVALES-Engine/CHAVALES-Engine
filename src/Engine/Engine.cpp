@@ -52,6 +52,8 @@ void Engine::release()
 		delete _instance->_resourcesModule;
 		delete _instance->_resources;
 		delete _instance->_stateMachine;
+		// desca
+		ComponentDLLLoader::instance().unLoadAll();
 		delete _instance;
 		_instance = nullptr;
 	}
