@@ -51,11 +51,9 @@ scene = { -- entidades en escena
 					RBid = 1,
 					mass = 10.0,
 					position = Vector3.new(350, 100, 0),     
-					velocity = Vector3.new(-0.5, 0, 0),   
-					useGravity = false,
-					gravity = Vector3.new(0, -0.009981, 0)   
-			 }
-			 ,
+					velocity = Vector3.new(-0.5, 9.81, 0),   
+					useGravity = false, 
+			},
 			Collider = {
     			box = Vector3.new(330, 330, 330),      
     			dynamic = true,
@@ -65,36 +63,36 @@ scene = { -- entidades en escena
 			}   
 		}
    },
-   cube3 = {
-		components = {
-			Transform = {
-				position = Vector3.new(50,100,0),
-				rotation = Quaternion.new(),
-				scale = Vector3.new(1.0),
-				},
-			ModelRenderer = {
-				file = "gizmo",
-				["number of textures"] = 0
-			}
-			-- ,
-			-- RigidBody = {
-			-- 		RBid = 1,
-			-- 		mass = 10.0,
-			-- 		position = Vector3.new(50, 100, 0),     
-			-- 		velocity = Vector3.new(0.3, 0, 0),   
-			-- 		useGravity = false,
-			-- 		gravity = Vector3.new(0, -0.009981, 0)   
-			--  }
-			 ,
-			Collider = {
-    			box = Vector3.new(165, 165, 165),      
-    			dynamic = false,
-   				kinematic = false,
-				trigger = false,
-    			center = Vector3.new(0,0,0)    
-			}   
-		}
-   },
+--    cube3 = {
+-- 		components = {
+-- 			Transform = {
+-- 				position = Vector3.new(50,100,0),
+-- 				rotation = Quaternion.new(),
+-- 				scale = Vector3.new(1.0),
+-- 				},
+-- 			ModelRenderer = {
+-- 				file = "gizmo",
+-- 				["number of textures"] = 0
+-- 			}
+-- 			-- ,
+-- 			-- RigidBody = {
+-- 			-- 		RBid = 1,
+-- 			-- 		mass = 10.0,
+-- 			-- 		position = Vector3.new(50, 100, 0),     
+-- 			-- 		velocity = Vector3.new(0.3, 0, 0),   
+-- 			-- 		useGravity = false,
+-- 			-- 		gravity = Vector3.new(0, -0.009981, 0)   
+-- 			--  }
+-- 			 ,
+-- 			Collider = {
+--     			box = Vector3.new(165, 165, 165),      
+--     			dynamic = false,
+--    				kinematic = false,
+-- 				trigger = false,
+--     			center = Vector3.new(0,0,0)    
+-- 			}   
+-- 		}
+--    },
    light = {
 		components = {
 			Transform = {
