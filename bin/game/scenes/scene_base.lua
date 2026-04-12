@@ -2,7 +2,7 @@
 scene = { -- entidades en escena
    -- ENTIDAD 1
    camera = { -- nombre de la entidad
-		ddol = false,
+		ddol = false, -- dont destroy on loads
    		components = { -- componentes de esa entidad
    			Transform = { -- componente transform
    				-- posicion local
