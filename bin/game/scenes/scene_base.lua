@@ -2,6 +2,7 @@
 scene = { -- entidades en escena
    -- ENTIDAD 1
    camera = { -- nombre de la entidad
+		ddol = false,
    		components = { -- componentes de esa entidad
    			Transform = { -- componente transform
    				-- posicion local
@@ -24,6 +25,7 @@ scene = { -- entidades en escena
 		}
    },
 --    cube = {
+--		ddol = false,
 -- 		components = {
 -- 			Transform = {
 -- 				position = Vector3.new(0,0,0),
@@ -37,6 +39,7 @@ scene = { -- entidades en escena
 -- 		}
 --    },
    cube2 = {
+		ddol = false,
 		components = {
 			Transform = {
 				position = Vector3.new(300,0,0),
@@ -65,6 +68,7 @@ scene = { -- entidades en escena
 		}
    },
    cube3 = {
+		ddol = false,
 		components = {
 			Transform = {
 				position = Vector3.new(50,0,0),
@@ -95,6 +99,7 @@ scene = { -- entidades en escena
 		}
    },
    light = {
+		ddol = false,
 		components = {
 			Transform = {
 				position = Vector3.new(0,0,0),
@@ -112,6 +117,7 @@ scene = { -- entidades en escena
 		}
    },
 --    cube4 = {
+--		ddol = false,
 -- 		components = {
 -- 			Transform = {
 -- 				position = Vector3.new(0,0,0),
@@ -145,6 +151,7 @@ scene = { -- entidades en escena
 -- 		}
 -- 	},
    CanvasUI ={
+	ddol = false,
 	components = {
 		UIPanel = {
 			name = "CanvasUI"
@@ -152,6 +159,7 @@ scene = { -- entidades en escena
 	}
    },
    BottonUI = {
+	ddol = false,
 	components = {
 		Transform = {
 				position = Vector3.new(100,60,0),
@@ -169,6 +177,7 @@ scene = { -- entidades en escena
 	}
    },
    LabelUI= {
+	ddol = false,
 	components = {
 		Transform = {
 				position = Vector3.new(900,10,0),

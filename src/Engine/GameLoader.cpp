@@ -210,8 +210,26 @@ void GameLoader::instanceEntity(core::Entity* e, std::pair<sol::object, sol::obj
 	// crea la entidad
 	e->setName(entidadName);
 
-	// dentro de la entidad, accedo a la tabla de componentes
 	sol::table partes = entidadObj.second;
+
+	// dentro de la entidad, accedo al dontdestroyonload
+	sol::object ddol = partes["ddol"];
+
+	if (ddol.is<bool>())
+	{
+		bool _ddol_B = ddol.as<bool>();
+		e->setDontDestroyOnLoad(_ddol_B);
+
+		std::string _ddol_S;
+		_ddol_B ? _ddol_S = "true" : _ddol_S = "false";
+		Debug::out("GAMELOADER: DontDestroyOnLoad de la entidad ", e->getName(), " cargado a ", _ddol_S, ".");
+	}
+	else
+	{
+		Debug::warning("GAMELOADER: No se ha leido el atributo DontDestroyOnLoad de la entidad ", e->getName(), ", cargado a false por defecto.");
+	}
+
+	// dentro de la entidad, accedo a la tabla de componentes
 	sol::table componentes = partes["components"];
 
 	for (auto& componenteObj : componentes)
