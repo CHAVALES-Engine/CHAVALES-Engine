@@ -605,7 +605,7 @@ bool Engine::_initPriv()
 #if _DEBUG
 	std::string basecompPath = "./ComponentsProject_d.dll";
 #else 
-	std::string basecompPath = "./ComponentsProject_d.dll";
+	std::string basecompPath = "./ComponentsProject_r.dll";
 #endif
 	if (!ComponentDLLLoader::instance().load(basecompPath))
 		return false;
