@@ -602,6 +602,13 @@ bool Engine::_initPriv()
 	//cargamos dlls
 	if (!ComponentDLLLoader::instance().loadAll(DLLs_PATH))
 		return false;
+#if _DEBUG
+	std::string basecompPath = "./ComponentsProject_d.dll";
+#else 
+	std::string basecompPath = "./ComponentsProject_r.dll";
+#endif
+	if (!ComponentDLLLoader::instance().load(basecompPath))
+		return false;
 
 	//Platform
 	_platformModule = new PlatformModule();
@@ -644,11 +651,6 @@ bool Engine::_initPriv()
 
 	_stateMachine = new StateMachine();
 
-//#if _DEBUG
-//	ComponentDLLLoader::instance().load("./ComponentsProject_d.dll");
-//#else 
-//	ComponentDLLLoader::instance().load("./ComponentsProject_r.dll");
-//#endif
 	//
 	//#if _DEBUG
 	//	ComponentDLLLoader::instance().load("./game/DLL-Test.dll");
