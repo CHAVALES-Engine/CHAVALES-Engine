@@ -67,7 +67,7 @@ void Collider::ready()
 
 	//!!!IMPORTANTE QUE LA KINEMATIC LA MANEJO YO TENGO QUE MIRAR ESTO
 	if (rigidBody != NULL && rigidBody->getIsKinematic() && !isDynamic) {
-		printf("Warning: Collider no puede ser kinematic sin ser dinámico. Corrigiendo a dynamic=true\n");
+		Debug::warning("[COLLIDER] Collider no puede ser kinematic sin ser dinámico. Corrigiendo a dynamic=true.");
 		isDynamic = true;
 	}
 
@@ -76,7 +76,7 @@ void Collider::ready()
 	{
 		if (rigidBody == NULL)
 		{
-			printf("Warning: Collider no puede ser dinamico sin rigidbody ");
+			Debug::warning("[COLLIDER] Collider no puede ser dinamico sin rigidbody.");
 			return;
 		}
 
@@ -124,12 +124,14 @@ void Collider::update(uint64_t deltaTime)
 }
 
 
-void Collider::onTriggerEnter(ComponentID other) {
-	printf("TRIGGER_ENTER\n");
+void Collider::onTriggerEnter(ComponentID other) 
+{
+	Debug::out("[TRIGGER] Trigger enter");
 }
 
-void Collider::onTriggerExit(ComponentID other) {
-	printf("TRIGGEN´T\n");
+void Collider::onTriggerExit(ComponentID other) 
+{
+	Debug::out("[TRIGGER] Trigger exit");
 }
 
 void Collider::onCollisionEnter(ComponentID other) {

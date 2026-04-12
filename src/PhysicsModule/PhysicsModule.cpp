@@ -1,6 +1,7 @@
 #include "PhysicsModule.h"
 //#include <PxPhysicsAPI.h>
 #include "checkMLNew.h"
+#include "Debug.h"
 using namespace physx;
 
 struct PhysXComponent
@@ -104,7 +105,7 @@ bool PhysicsModule::Init()
 	sceneDesc.cpuDispatcher = dispatcher;
 	sceneDesc.filterShader = CustomFilterShader;
 	sceneDesc.simulationEventCallback = this;
-	printf("Callback asignado\n");
+	Debug::out("PHYSICSMODULE: Callback asignado");
 	gScene = gPhysics->createScene(sceneDesc);
 
 	if (!gScene)
@@ -383,7 +384,8 @@ void PhysicsModule::onTrigger(PxTriggerPair* pairs, PxU32 count) {
 			eventQueue.push_back({ a, b, CollisionType::TriggerEnter });
 		if (pairs[i].status & PxPairFlag::eNOTIFY_TOUCH_LOST)
 			eventQueue.push_back({ a, b, CollisionType::TriggerExit });
-		printf("TRIGGER CALLBACK\n");
+		
+		Debug::out("PHYSICSMODULE: Trigger callback");
 	}
 }
 
@@ -489,7 +491,7 @@ void PhysicsModule::onContact(const PxContactPairHeader& pairHeader,
 		if (pairs[i].events & PxPairFlag::eNOTIFY_TOUCH_LOST)
 			eventQueue.push_back({ a, b, CollisionType::CollisionExit });
 	}
-	printf("COLLISION DETECTED\n");
+	Debug::out("PHYSICSMODULE: Collision detected");
 }
 
 void PhysicsModule::DestroyBody(ComponentID id)
@@ -524,8 +526,6 @@ void PhysicsModule::DestroyBody(ComponentID id)
 		return;
 	//borro mapas
 	physicsMap.erase(it);
-	//printf("DestroyBody: %p\n", actor);
-
 }
 void PhysicsModule::DestroyMaterial(uint32_t id)
 {
