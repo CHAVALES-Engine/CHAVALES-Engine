@@ -38,6 +38,20 @@ scene = { -- entidades en escena
 -- 			}
 -- 		}
 --    },
+   shark = {
+		ddol = false,
+		components = {
+			Transform = {
+				position = Vector3.new(0,0,-10),
+				rotation = Quaternion.new(),
+				scale = Vector3.new(1.0),
+				},
+			ModelRenderer = {
+				file = "shark",
+				["number of textures"] = 0
+			}
+		}
+   },
    cube2 = {
 		ddol = false,
 		components = {

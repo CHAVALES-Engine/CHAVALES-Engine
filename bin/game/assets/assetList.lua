@@ -8,6 +8,14 @@ assets = {
 			sourceFolder = "./game/assets/mesh/",
 			fileName = "cube.fbx"
 		},
+		girl = {
+			sourceFolder = "./game/assets/mesh/",
+			fileName = "girl.fbx"
+		},
+		shark = {
+			sourceFolder = "./game/assets/mesh/",
+			fileName = "Sport_Shark.fbx"
+		},
 		gizmo = {
 			sourceFolder = "./game/assets/mesh/",
 			fileName = "gizmo.fbx"
@@ -37,6 +45,27 @@ assets = {
 		mandibles = {
 			sourceFolder = "./game/assets/texture/metroid/mandibles/",
 			fileName = "Base_Color.jpeg"
+		},
+
+		shark_diffuse = {
+			sourceFolder = "./game/assets/texture/shark/",
+			fileName = "Sport_Shark_Diffuse.png"
+		},
+		shark_emissive = {
+			sourceFolder = "./game/assets/texture/shark/",
+			fileName = "Sport_Shark_Emissive.png"
+		},
+		shark_gloss = {
+			sourceFolder = "./game/assets/texture/shark/",
+			fileName = "Sport_Shark_Gloss.png"
+		},
+		shark_normals = {
+			sourceFolder = "./game/assets/texture/shark/",
+			fileName = "Sport_Shark_Normals.png"
+		},
+		shark_specular = {
+			sourceFolder = "./game/assets/texture/shark/",
+			fileName = "Sport_Shark_Specular.png"
 		}
 	},
 	images = { --Imagenes
