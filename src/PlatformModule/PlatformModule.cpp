@@ -620,7 +620,7 @@ void PlatformModule::_processEvent(const SDL_Event& event)
 		}
 		auto vit = _virtualDevices.find(id);
 		if (vit != _virtualDevices.end()) {
-			delete vit->second;          // ← liberar antes de borrar
+			delete vit->second;
 			_virtualDevices.erase(vit);
 		}
 		break;
