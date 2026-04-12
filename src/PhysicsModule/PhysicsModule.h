@@ -15,7 +15,7 @@ class PhysicsModule : public physx::PxSimulationEventCallback
 public:
 
 	PhysicsModule();
-	virtual ~PhysicsModule() = default;
+	virtual ~PhysicsModule();
 
 	bool Init();
 	core::Vector3<> GetPhysicsPosition(ComponentID id);
@@ -35,21 +35,14 @@ public:
 	void AddForce(uint32_t id, core::Vector3<> force);
 	void AddImpulse(uint32_t id, core::Vector3<> impulse);
 
+	//collider + rigidbody
 	void AttachBoxShape(ComponentID bodyID, const core::Vector3<> size, const core::Vector3<>& center);
-
 	void AttachCapsuleShape(ComponentID bodyID, float radius, float height, const core::Vector3<>& center);
-
 	void setPhysicsTransform(ComponentID id, const core::Vector3<>& pos, const core::Quaternion<>& rot);
 
 	//callbacks
-	/*void onContact(const physx::PxContactPairHeader& pairHeader,
-		const physx::PxContactPair* pairs, physx::PxU32 nbPairs) override {
-	};*/
-
 	void onTrigger(physx::PxTriggerPair* pairs, physx::PxU32 count) override;
 	void onContact(const physx::PxContactPairHeader& pairHeader, const physx::PxContactPair* pairs, physx::PxU32 nbPairs) override;
-
-
 	void onConstraintBreak(physx::PxConstraintInfo* constraints, physx::PxU32 count) override {}
 	void onWake(physx::PxActor** actors, physx::PxU32 count) override {}
 	void onSleep(physx::PxActor** actors, physx::PxU32 count) override {}
@@ -58,6 +51,11 @@ public:
 	//materiales
 	uint32_t CreateMaterial(float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine);
 	void UpdateMaterial(uint32_t id, float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine);
+
+	//limpieza
+	void DestroyBody(ComponentID id);
+	void DestroyMaterial(uint32_t id);
+	void ClearScene();
 private:
 	ComponentID nextID = 1;
 	ComponentID nextIDMaterial = 1;

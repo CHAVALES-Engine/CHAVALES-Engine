@@ -6,10 +6,8 @@ using namespace physx;
 struct PhysXComponent
 {
 	PxRigidActor* actor = nullptr;
-	PxShape* shape = nullptr;
+	std::vector<PxShape*> shapes;
 };
-
-void fnPhysicModule() {}
 
 PxDefaultAllocator gAllocator;
 PxDefaultErrorCallback gErrorCallback;
@@ -20,6 +18,8 @@ PxPvd* gPvd = nullptr;
 
 PxScene* gScene = nullptr;
 PxMaterial* defaultMaterial = nullptr;
+PxDefaultCpuDispatcher* dispatcher = nullptr;
+PxPvdTransport* pvdTransport = nullptr;
 
 std::unordered_map<ComponentID, PxMaterial*> materialMap;
 
@@ -48,12 +48,23 @@ static PxFilterFlags CustomFilterShader(
 	}
 
 	//colision normal
-	pairFlags = PxPairFlag::eCONTACT_DEFAULT | PxPairFlag::eDETECT_DISCRETE_CONTACT | PxPairFlag::eNOTIFY_TOUCH_FOUND | PxPairFlag::eNOTIFY_TOUCH_LOST |  PxPairFlag::eSOLVE_CONTACT;;
-	
+	pairFlags = PxPairFlag::eCONTACT_DEFAULT | PxPairFlag::eDETECT_DISCRETE_CONTACT | PxPairFlag::eNOTIFY_TOUCH_FOUND | PxPairFlag::eNOTIFY_TOUCH_LOST | PxPairFlag::eSOLVE_CONTACT;;
+
 	return PxFilterFlag::eDEFAULT;
 }
 
 PhysicsModule::PhysicsModule() {}
+
+PhysicsModule::~PhysicsModule()
+{
+	ClearScene(); 
+	if (gScene) { gScene->release(); gScene = nullptr; } 
+	if (dispatcher) { dispatcher->release(); dispatcher = nullptr; } 
+	if (gPhysics) { gPhysics->release(); gPhysics = nullptr; } 
+	if (gPvd) { gPvd->release(); gPvd = nullptr; } 
+	if (gFoundation) { gFoundation->release(); gFoundation = nullptr; } 
+	materialMap.clear();
+}
 
 bool PhysicsModule::Init()
 {
@@ -62,9 +73,9 @@ bool PhysicsModule::Init()
 	gPvd = PxCreatePvd(*gFoundation);
 	if (gPvd)
 	{
-		PxPvdTransport* transport = PxDefaultPvdSocketTransportCreate("127.0.0.1", 5425, 10);
-		if (transport)
-			gPvd->connect(*transport, PxPvdInstrumentationFlag::eALL);
+		pvdTransport = PxDefaultPvdSocketTransportCreate("127.0.0.1", 5425, 10);
+		if (pvdTransport)
+			gPvd->connect(*pvdTransport, PxPvdInstrumentationFlag::eALL);
 	}
 	PxTolerancesScale scale;
 	gPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *gFoundation, scale, true, gPvd);
@@ -72,14 +83,14 @@ bool PhysicsModule::Init()
 	defaultMaterial = gPhysics->createMaterial(0.5f, 0.5f, 0.6f);
 	PxSceneDesc sceneDesc(gPhysics->getTolerancesScale());
 	sceneDesc.gravity = PxVec3(0.0f, -9.81f, 0.0f);
-	PxDefaultCpuDispatcher* dispatcher = PxDefaultCpuDispatcherCreate(2);
+	dispatcher = PxDefaultCpuDispatcherCreate(2);
 
 	sceneDesc.flags |= PxSceneFlag::eENABLE_ACTIVE_ACTORS;
 	sceneDesc.flags |= PxSceneFlag::eENABLE_PCM;
 	sceneDesc.flags |= PxSceneFlag::eENABLE_STABILIZATION;
 	sceneDesc.flags |= PxSceneFlag::eENABLE_CCD;
 	//sceneDesc.flags |= PxSceneFlag::eREQUIRE_RW_LOCK;
-	
+
 	sceneDesc.cpuDispatcher = dispatcher;
 	sceneDesc.filterShader = CustomFilterShader;
 	sceneDesc.simulationEventCallback = this;
@@ -109,7 +120,7 @@ ComponentID PhysicsModule::CreateRigidBody(core::Vector3<> pos, float mass, bool
 
 	//id del actor del rigidbody
 	ComponentID id = nextID++;
-	physicsMap[id] = { body, nullptr };
+	physicsMap[id] = { body, {shape} };
 	actorToID[body] = id;
 
 	return id;
@@ -150,15 +161,15 @@ ComponentID PhysicsModule::CreateBoxShape(core::Vector3<> size, core::Vector3<> 
 	}
 
 	actor->attachShape(*shape);
-	
+
 	//masa si es dinamic
 	if (isDynamic && !isKinematic) PxRigidBodyExt::updateMassAndInertia(*static_cast<PxRigidDynamic*>(actor), 10.0f);
 
 	gScene->addActor(*actor);
 	ComponentID id = nextID++;
-	physicsMap[id] = { actor, shape };
+	physicsMap[id] = { actor, {shape} };
 	actorToID[actor] = id;
-	
+
 	return id;
 }
 
@@ -199,7 +210,7 @@ ComponentID PhysicsModule::CreateCapsuleShape(float radius, float height, const 
 		PxRigidBodyExt::updateMassAndInertia(*static_cast<PxRigidDynamic*>(actor), 10.f);
 	gScene->addActor(*actor);
 	ComponentID id = nextID++;
-	physicsMap[id] = { actor, shape };
+	physicsMap[id] = { actor, {shape} };
 	actorToID[actor] = id;
 	return id;
 }
@@ -303,14 +314,8 @@ void PhysicsModule::UpdateMaterial(uint32_t id, float staticF, float dynamicF, f
 void PhysicsModule::Update(float dt)
 {
 	if (!gScene) return;
-
-	//gScene->flushSimulation();
 	gScene->simulate(dt);
 	gScene->fetchResults(true);
-	/*for (auto& [id, comp] : physicsMap)
-	{
-		PxTransform t = comp.actor->getGlobalPose();
-	}*/
 }
 
 void PhysicsModule::onTrigger(PxTriggerPair* pairs, PxU32 count) {
@@ -343,13 +348,13 @@ void PhysicsModule::AttachBoxShape(ComponentID bodyID, const core::Vector3<> siz
 	PxRigidActor* actor = it->second.actor;
 	if (!actor) return;
 
-	PxShape* shape = gPhysics->createShape(PxBoxGeometry(size.getX() * 0.5f, size.getY() * 0.5f, size.getZ() * 0.5f),*defaultMaterial);
+	PxShape* shape = gPhysics->createShape(PxBoxGeometry(size.getX() * 0.5f, size.getY() * 0.5f, size.getZ() * 0.5f), *defaultMaterial);
 	if (!shape) return;
 	PxTransform localPose(PxVec3(center.getX(), center.getY(), center.getZ()));
 	shape->setLocalPose(localPose);
 
 	actor->attachShape(*shape);
-	it->second.shape = shape;
+	it->second.shapes.push_back(shape);
 }
 
 void PhysicsModule::AttachCapsuleShape(ComponentID bodyID, float radius, float height, const core::Vector3<>& center)
@@ -367,8 +372,7 @@ void PhysicsModule::AttachCapsuleShape(ComponentID bodyID, float radius, float h
 	shape->setLocalPose(localPose);
 
 	actor->attachShape(*shape);
-
-	it->second.shape = shape;
+	it->second.shapes.push_back(shape);
 }
 
 void PhysicsModule::setPhysicsTransform(ComponentID id, const core::Vector3<>& pos, const core::Quaternion<>& rot)
@@ -377,7 +381,7 @@ void PhysicsModule::setPhysicsTransform(ComponentID id, const core::Vector3<>& p
 	if (it == physicsMap.end()) return;
 	PxRigidActor* actor = it->second.actor;
 	if (!actor) return;
-	PxTransform t(PxVec3(pos.getX(), pos.getY(), pos.getZ()),PxQuat(rot.getX(), rot.getY(), rot.getZ(), rot.getW()));
+	PxTransform t(PxVec3(pos.getX(), pos.getY(), pos.getZ()), PxQuat(rot.getX(), rot.getY(), rot.getZ(), rot.getW()));
 	actor->setGlobalPose(t);
 }
 
@@ -408,4 +412,76 @@ void PhysicsModule::onContact(const PxContactPairHeader& pairHeader,
 			eventQueue.push_back({ a, b, CollisionType::CollisionExit });
 	}
 	printf("COLLISION DETECTED\n");
+}
+
+void PhysicsModule::DestroyBody(ComponentID id)
+{
+
+	auto it = physicsMap.find(id);
+	if (it == physicsMap.end()) return;
+
+	PhysXComponent& comp = it->second;
+	PxRigidActor* actor = comp.actor;
+	if (!gScene || !actor) return;
+
+	//lo quito de la scene
+	if (gScene)
+		gScene->removeActor(*actor);
+
+	//libero shapes del actor
+	for (PxShape* shape : comp.shapes)
+	{
+		if (shape)
+		{
+			actor->detachShape(*shape);
+			shape->release();
+		}
+	}
+	comp.shapes.clear();
+	actor->release();//libero al actor
+
+	if (actorToID.find(actor) == actorToID.end())
+		return;
+	//borro mapas
+	actorToID.erase(actor);
+	physicsMap.erase(it);
+	//printf("DestroyBody: %p\n", actor);
+
+}
+void PhysicsModule::DestroyMaterial(uint32_t id)
+{
+	auto it = materialMap.find(id);
+	if (it == materialMap.end()) return;
+
+	if (it->second)
+		it->second->release();
+
+	materialMap.erase(it);
+}
+
+void PhysicsModule::ClearScene()
+{
+	//if (!gScene) return;
+
+	//std::vector<ComponentID> ids;
+	//ids.reserve(physicsMap.size());
+
+	//for (auto& [id, _] : physicsMap)
+	//	ids.push_back(id);
+	//for (auto id : ids)
+	//	DestroyBody(id);
+
+	//eventQueue.clear();
+	if (!gScene) return;
+
+	std::vector<ComponentID> ids;
+	for (auto& [id, _] : physicsMap)
+		ids.push_back(id);
+
+	for (auto id : ids)
+		DestroyBody(id);
+
+	physicsMap.clear();
+	actorToID.clear();
+	eventQueue.clear();
 }
