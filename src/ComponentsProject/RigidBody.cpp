@@ -53,8 +53,8 @@ void RigidBody::update(uint64_t dt)
 		velocity += gravity;
 	}
 	transform->setGlobalPosition(position + velocity);
-	_eng->setPhysicsPosition(physicsID, transform->getGlobalPosition());
-	_eng->setLinearVelocity(physicsID, velocity);
+	/*_eng->setPhysicsPosition(physicsID, transform->getGlobalPosition());
+	_eng->setLinearVelocity(physicsID, velocity);*/
 }
 
 core::Vector3<> RigidBody::getVelocity() {

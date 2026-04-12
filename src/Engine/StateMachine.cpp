@@ -61,6 +61,7 @@ void StateMachine::gameLoop()
 			}
 
 			_currentScene.ptr->update(_deltaTime);
+			Engine::instance()->update(_deltaTime);
 			Engine::instance()->renderFrame();
 		}
 	}

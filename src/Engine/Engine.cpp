@@ -660,3 +660,9 @@ bool Engine::_initPriv()
 
 	return true;
 }
+
+void Engine::update(float dt)
+{
+	if (_physicsModule)
+		_physicsModule->Update(dt);
+}

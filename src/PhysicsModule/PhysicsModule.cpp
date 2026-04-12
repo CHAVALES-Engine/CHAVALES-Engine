@@ -48,7 +48,7 @@ static PxFilterFlags CustomFilterShader(
 	}
 
 	//colision normal
-	pairFlags = PxPairFlag::eCONTACT_DEFAULT | PxPairFlag::eDETECT_DISCRETE_CONTACT | PxPairFlag::eNOTIFY_TOUCH_FOUND | PxPairFlag::eNOTIFY_TOUCH_LOST;
+	pairFlags = PxPairFlag::eCONTACT_DEFAULT | PxPairFlag::eDETECT_DISCRETE_CONTACT | PxPairFlag::eNOTIFY_TOUCH_FOUND | PxPairFlag::eNOTIFY_TOUCH_LOST |  PxPairFlag::eSOLVE_CONTACT;;
 	
 	return PxFilterFlag::eDEFAULT;
 }
@@ -83,11 +83,14 @@ bool PhysicsModule::Init()
 	sceneDesc.cpuDispatcher = dispatcher;
 	sceneDesc.filterShader = CustomFilterShader;
 	sceneDesc.simulationEventCallback = this;
-
+	printf("Callback asignado\n");
 	gScene = gPhysics->createScene(sceneDesc);
 
 	if (!gScene)
 		return false;
+
+	gScene->setVisualizationParameter(PxVisualizationParameter::eCOLLISION_SHAPES, 1.0f);
+	gScene->setVisualizationParameter(PxVisualizationParameter::eACTOR_AXES, 1.0f);
 
 	return gPhysics != nullptr;
 }
@@ -376,4 +379,33 @@ void PhysicsModule::setPhysicsTransform(ComponentID id, const core::Vector3<>& p
 	if (!actor) return;
 	PxTransform t(PxVec3(pos.getX(), pos.getY(), pos.getZ()),PxQuat(rot.getX(), rot.getY(), rot.getZ(), rot.getW()));
 	actor->setGlobalPose(t);
+}
+
+void PhysicsModule::onContact(const PxContactPairHeader& pairHeader,
+	const PxContactPair* pairs,
+	PxU32 nbPairs)
+{
+	PxRigidActor* actor0 = pairHeader.actors[0]->is<PxRigidActor>();
+	PxRigidActor* actor1 = pairHeader.actors[1]->is<PxRigidActor>();
+
+	if (!actor0 || !actor1) return;
+
+	auto itA = actorToID.find(actor0);
+	auto itB = actorToID.find(actor1);
+
+	if (itA == actorToID.end() || itB == actorToID.end())
+		return;
+
+	ComponentID a = itA->second;
+	ComponentID b = itB->second;
+
+	for (PxU32 i = 0; i < nbPairs; i++)
+	{
+		if (pairs[i].events & PxPairFlag::eNOTIFY_TOUCH_FOUND)
+			eventQueue.push_back({ a, b, CollisionType::CollisionEnter });
+
+		if (pairs[i].events & PxPairFlag::eNOTIFY_TOUCH_LOST)
+			eventQueue.push_back({ a, b, CollisionType::CollisionExit });
+	}
+	printf("COLLISION DETECTED\n");
 }
