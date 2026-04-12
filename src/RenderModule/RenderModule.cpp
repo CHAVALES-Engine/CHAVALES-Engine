@@ -168,7 +168,8 @@ bool RenderModule::Init(const HWND handle, const int width, const int height,con
 		_shaderGen->addSceneManager(_sceneMgr);
 		_shaderGen->setTargetLanguage("glsl");
 
-		Ogre::MaterialManager::getSingleton().setActiveScheme("ShaderGeneratorDefaultScheme");
+		Ogre::MaterialManager::getSingleton().setActiveScheme(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME);
+		_vp->setMaterialScheme(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME);
 
 		/*Ogre::MeshPtr mesh = Ogre::MeshManager::getSingleton().createManual("metroid", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
@@ -249,9 +250,9 @@ bool RenderModule::Init(const HWND handle, const int width, const int height,con
 
 
 		Ogre::MaterialPtr materialUI = Ogre::MaterialManager::getSingleton().getByName("ImGui/material");
-		_shaderGen->createShaderBasedTechnique(*materialUI, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, "ShaderGeneratorDefaultScheme", true);
+		_shaderGen->createShaderBasedTechnique(*materialUI, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
 
-		_shaderGen->validateMaterial("ShaderGeneratorDefaultScheme", materialUI->getName());
+		_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, materialUI->getName());
 
 		_vp->setOverlaysEnabled(true);
 
@@ -691,11 +692,11 @@ modelID RenderModule::addModel(const entityID& entityID, const std::string& mode
 		mat->load();
 
 		// Generar tecnica RTSS sobre el material ya cargado
-		_shaderGen->createShaderBasedTechnique(*mat, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, "ShaderGeneratorDefaultScheme", true);
+		_shaderGen->createShaderBasedTechnique(*mat, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
 
-		_shaderGen->invalidateMaterial("ShaderGeneratorDefaultScheme", mat->getName(), mat->getGroup());
+		_shaderGen->invalidateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, mat->getName(), mat->getGroup());
 
-		if (!_shaderGen->validateMaterial("ShaderGeneratorDefaultScheme", mat->getName()))
+		if (!_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, mat->getName()))
 			Debug::error("[RenderModule] validateMaterial");
 	}
 
@@ -1088,8 +1089,8 @@ particleGenID RenderModule::addParticleGen(const entityID& entityID, const std::
 	mat->load();
 
 	//Asignar RTSS
-	_shaderGen->createShaderBasedTechnique(*mat, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, "ShaderGeneratorDefaultScheme", true);
-	_shaderGen->validateMaterial("ShaderGeneratorDefaultScheme", mat->getName());
+	_shaderGen->createShaderBasedTechnique(*mat, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
+	_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, mat->getName());
 
 	Ogre::ParticleSystem* ps = _particleGens.emplace_back(_sceneMgr->createParticleSystem("ParticleGen_" + std::to_string(_nextParticleGenID)));
 
