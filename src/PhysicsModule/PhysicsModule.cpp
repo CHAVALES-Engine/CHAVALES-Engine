@@ -267,22 +267,66 @@ void PhysicsModule::SetLinearVelocity(uint32_t id, core::Vector3<> vel)
 	body->setLinearVelocity(PxVec3(vel.getX(), vel.getY(), vel.getZ()));
 }
 
-void PhysicsModule::AddForce(uint32_t id, core::Vector3<> force)
+void PhysicsModule::AddForce(uint32_t id, core::Vector3<> force, char mode)
 {
 	auto it = physicsMap.find(id);
 	if (it == physicsMap.end()) return;
 	PxRigidDynamic* body = it->second.actor->is<PxRigidDynamic>();
 	if (!body) return;
-	body->addForce(PxVec3(force.getX(), force.getY(), force.getZ()), PxForceMode::eFORCE);
+	switch (mode) {
+	case 'F':
+		body->addForce(PxVec3(force.getX(), force.getY(), force.getZ()), PxForceMode::eFORCE);
+		break;
+	case 'I':
+		body->addForce(PxVec3(force.getX(), force.getY(), force.getZ()), PxForceMode::eIMPULSE);
+		break;
+	case 'A':
+		body->addForce(PxVec3(force.getX(), force.getY(), force.getZ()), PxForceMode::eACCELERATION);
+		break;
+	case 'V':
+		body->addForce(PxVec3(force.getX(), force.getY(), force.getZ()), PxForceMode::eVELOCITY_CHANGE);
+		break;
+	}
 }
 
-void PhysicsModule::AddImpulse(uint32_t id, core::Vector3<> impulse)
+void PhysicsModule::ClearForce(uint32_t id, char mode)
 {
 	auto it = physicsMap.find(id);
 	if (it == physicsMap.end()) return;
 	PxRigidDynamic* body = it->second.actor->is<PxRigidDynamic>();
 	if (!body) return;
-	body->addForce(PxVec3(impulse.getX(), impulse.getY(), impulse.getZ()), PxForceMode::eIMPULSE);
+	switch (mode) {
+	case 'F':
+		body->clearForce(PxForceMode::eFORCE);
+		break;
+	case 'I':
+		body->clearForce(PxForceMode::eIMPULSE);
+		break;
+	case 'A':
+		body->clearForce(PxForceMode::eACCELERATION);
+		break;
+	case 'V':
+		body->clearForce(PxForceMode::eVELOCITY_CHANGE);
+		break;
+	}
+}
+
+float PhysicsModule::GetMass(uint32_t id)
+{
+	auto it = physicsMap.find(id);
+	if (it == physicsMap.end()) return 0.0f;
+	PxRigidDynamic* body = it->second.actor->is<PxRigidDynamic>();
+	if (!body) return 0.0f;
+	return body->getMass();
+}
+
+void PhysicsModule::SetMass(uint32_t id, float mass)
+{
+	auto it = physicsMap.find(id);
+	if (it == physicsMap.end()) return;
+	PxRigidDynamic* body = it->second.actor->is<PxRigidDynamic>();
+	if (!body) return;
+	body->setMass(PxReal(mass));
 }
 
 uint32_t PhysicsModule::CreateMaterial(float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine)

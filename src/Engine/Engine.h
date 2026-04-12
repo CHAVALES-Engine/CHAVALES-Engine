@@ -511,8 +511,11 @@ public:
 
 	void setLinearVelocity(uint32_t id, core::Vector3<> vel);
 
-	void addForce(uint32_t id, core::Vector3<> force);
-	void addImpulse(uint32_t id, core::Vector3<> impulse);
+	void setMass(uint32_t id, float mass);
+	float getMass(uint32_t id);
+
+	void addForce(uint32_t id, core::Vector3<> force, char mode);
+	void clearForce(uint32_t id, char mode);
 
 	uint32_t createMaterial(float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine);
 

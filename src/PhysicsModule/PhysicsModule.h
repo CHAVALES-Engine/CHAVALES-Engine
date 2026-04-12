@@ -32,8 +32,11 @@ public:
 	uint32_t CreateRigidBody(core::Vector3<> pos, float mass, bool useGravity);
 	core::Vector3<> GetLinearVelocity(uint32_t id);
 	void SetLinearVelocity(uint32_t id, core::Vector3<> vel);
-	void AddForce(uint32_t id, core::Vector3<> force);
-	void AddImpulse(uint32_t id, core::Vector3<> impulse);
+	void AddForce(uint32_t id, core::Vector3<> force, char mode);
+	void ClearForce(uint32_t id, char mode);
+
+	float GetMass(uint32_t id);
+	void SetMass(uint32_t id, float mass);
 
 	//collider + rigidbody
 	void AttachBoxShape(ComponentID bodyID, const core::Vector3<> size, const core::Vector3<>& center);

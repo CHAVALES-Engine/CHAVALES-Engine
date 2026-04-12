@@ -547,14 +547,25 @@ void Engine::setLinearVelocity(uint32_t id, core::Vector3<> vel)
 	_physicsModule->SetLinearVelocity(id, vel);
 }
 
-void Engine::addForce(uint32_t id, core::Vector3<> force)
+void Engine::setMass(uint32_t id, float mass)
 {
-	_physicsModule->AddForce(id, force);
+	_physicsModule->SetMass(id, mass);
 }
 
-void Engine::addImpulse(uint32_t id, core::Vector3<> impulse)
+float Engine::getMass(uint32_t id)
 {
-	_physicsModule->AddForce(id, impulse);
+	return _physicsModule->GetMass(id);
+}
+
+
+void Engine::addForce(uint32_t id, core::Vector3<> force, char mode)
+{
+	_physicsModule->AddForce(id, force, mode);
+}
+
+void Engine::clearForce(uint32_t id, char mode)
+{
+	_physicsModule->ClearForce(id, mode);
 }
 
 uint32_t Engine::createMaterial(float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine)
@@ -668,3 +679,4 @@ void Engine::update(float dt)
 	if (_physicsModule)
 		_physicsModule->Update(dt);
 }
+
