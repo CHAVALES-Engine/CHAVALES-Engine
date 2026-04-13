@@ -23,7 +23,14 @@ bool UIButton::init(const Properties& p)
 	_panelName = getProperty<std::string>(p, "panelName");
 	_opacity = getProperty<float>(p, "opacity");
 
-	_buttonID = Engine::instance()->addUIButton(_panelName, getEntity()->getEntityID(), _text, _textureName, _dimension);
+	if (_textureName.empty()) {
+		_buttonID = Engine::instance()->addUIButton(_panelName, getEntity()->getEntityID(), _text, _dimension);
+
+	}
+	else {
+		_buttonID = Engine::instance()->addUIImageButton(_panelName, getEntity()->getEntityID(), _text, _textureName, _dimension);
+	}
+
 
 	return true;
 }

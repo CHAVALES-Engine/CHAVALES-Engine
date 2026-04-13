@@ -40,11 +40,34 @@ scene = { -- entidades en escena
 -- 			}
 -- 		}
 --    },
+--    shark = {
+-- 		ddol = false,
+-- 		components = {
+-- 			Transform = {
+-- 				position = Vector3.new(0,0,-10),
+-- 				rotation = Quaternion.new(),
+-- 				scale = Vector3.new(1.0),
+-- 				},
+-- 			ModelRenderer = {
+-- 				file = "shark",
+-- 				["number of textures"] = 0
+-- 			},
+-- 			RigidBody = {
+					
+-- 				useGravity = true, 
+-- 				isKinematic = false,
+-- 				mass = 10.0,
+-- 				position = Vector3.new(0, 0, -10),     
+-- 				velocity = Vector3.new(0, 200, 0),   
+-- 				damping = 0.0
+-- 			}
+-- 		}
+--    },
    cube2 = {
 		ddol = false,
 		components = {
 			Transform = {
-				position = Vector3.new(300,0,0),
+				position = Vector3.new(50,0,0),
 				rotation = Quaternion.new(),
 				scale = Vector3.new(2.0),
 				},
@@ -52,19 +75,20 @@ scene = { -- entidades en escena
 				file = "gizmo",
 				["number of textures"] = 0
 			},
-			RigidBody = {
+			-- RigidBody = {
 					
-				useGravity = false, 
-				isKinematic = false,
-					mass = 10.0,
-					position = Vector3.new(300, 0, 0),     
-					velocity = Vector3.new(-0.1, 0, 0),   
-			 }
-			,
+			-- 	useGravity = false, 
+			-- 	isKinematic = false,
+			-- 		mass = 10.0,
+			-- 		position = Vector3.new(50, 0, 0),     
+			-- 		velocity = Vector3.new(0, 0, 0),   
+			-- 		damping = 0.0
+			--  }
+			-- ,
 			Collider = {
     			box = Vector3.new(120, 120, 120),      
-    			dynamic = true,
-				trigger = true,
+    			dynamic = false,
+				trigger = false,
     			center = Vector3.new(0,0,0)    
 			},
 			AudioSource = {
@@ -81,7 +105,7 @@ scene = { -- entidades en escena
 		ddol = false,
 		components = {
 			Transform = {
-				position = Vector3.new(50,0,0),
+				position = Vector3.new(50,200,0),
 				rotation = Quaternion.new(),
 				scale = Vector3.new(1.0),
 				},
@@ -89,20 +113,21 @@ scene = { -- entidades en escena
 				file = "gizmo",
 				["number of textures"] = 0
 			}
-			-- ,
-			-- RigidBody = {
+			,
+			RigidBody = {
 						
-			-- 		useGravity = false,
-			-- 		isKinematic = false;
-			-- 		mass = 10.0,
-			-- 		position = Vector3.new(50, 0, 0),     
-			-- 		velocity = Vector3.new(0.3, 0, 0),   
+					useGravity = true,
+					isKinematic = false;
+					mass = 10.0,
+					position = Vector3.new(50, 200, 0),     
+					velocity = Vector3.new(0, 0, 0),   
+			damping = 2.0
 					 
-			--  }
+			 }
 			 ,
 			Collider = {
     			box = Vector3.new(60, 60, 60),      
-    			dynamic = false,
+    			dynamic = true,
 				trigger = false,
     			center = Vector3.new(0,0,0)    
 			}   

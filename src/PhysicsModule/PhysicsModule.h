@@ -6,6 +6,7 @@
 #include "../../src/Core-Defs/PhysicsTypes.h"
 #include <unordered_map>
 #include "../../dependencies/PhysX/physx/include/PxSimulationEventCallback.h"
+#include "Raycast.h"
 
 struct PhysXComponent;
 
@@ -20,6 +21,10 @@ public:
 	bool Init();
 	core::Vector3<> GetPhysicsPosition(ComponentID id);
 	void Update(float dt);
+
+	bool rayCast(const PxVec3& origin,
+		const PxVec3& direction,
+		float maxDistance);
 
 	//colliders
 	ComponentID  CreateBoxShape(core::Vector3<> dimension, core::Vector3<> pos, bool isDynamic, bool isTrigger);
@@ -37,6 +42,9 @@ public:
 
 	float GetMass(uint32_t id);
 	void SetMass(uint32_t id, float mass);
+
+	float GetLinearDamping(uint32_t id);
+	void SetLinearDamping(uint32_t id, float damping);
 
 	//collider + rigidbody
 	void AttachBoxShape(ComponentID bodyID, const core::Vector3<> size, const core::Vector3<>& center, bool isTrigger);
@@ -60,6 +68,7 @@ public:
 	void DestroyMaterial(uint32_t id);
 	void ClearScene();
 private:
+	Raycast raycast;
 	ComponentID nextID = 1;
 	ComponentID nextIDMaterial = 1;
 	std::unordered_map<ComponentID, PhysXComponent> physicsMap;

@@ -47,6 +47,7 @@ static PxFilterFlags CustomFilterShader(
 		pairFlags = PxPairFlag::eTRIGGER_DEFAULT;
 		pairFlags |= PxPairFlag::eNOTIFY_TOUCH_FOUND;
 		pairFlags |= PxPairFlag::eNOTIFY_TOUCH_LOST;
+		pairFlags |= PxPairFlag::eDETECT_DISCRETE_CONTACT;
 		return PxFilterFlag::eDEFAULT;
 	}
 
@@ -60,16 +61,16 @@ PhysicsModule::PhysicsModule() {}
 
 PhysicsModule::~PhysicsModule()
 {
-	
+
 	ClearScene();
 	if (gScene) { gScene->release(); gScene = nullptr; }
 	if (dispatcher) { dispatcher->release(); dispatcher = nullptr; }
 	if (gPhysics) { gPhysics->release(); gPhysics = nullptr; }
-	if (pvdTransport){pvdTransport->release();pvdTransport = nullptr;}
-	if (gPvd) {gPvd->release(); gPvd = nullptr;}
+	if (pvdTransport) { pvdTransport->release();pvdTransport = nullptr; }
+	if (gPvd) { gPvd->release(); gPvd = nullptr; }
 	PxCloseExtensions();
 	if (gFoundation) { gFoundation->release(); gFoundation = nullptr; }
-	
+
 	materialMap.clear();
 }
 
@@ -88,7 +89,7 @@ bool PhysicsModule::Init()
 	gPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *gFoundation, scale, true, gPvd);
 	PxInitExtensions(*gPhysics, gPvd);
 
-	defaultMaterial = gPhysics->createMaterial(0.5f, 0.5f, 0.6f);
+	defaultMaterial = gPhysics->createMaterial(0.0f, 0.0f, 0.0f);
 	if (!defaultMaterial) return false;
 	ComponentID defaultMatID = nextIDMaterial++;
 	materialMap[defaultMatID] = defaultMaterial;
@@ -114,7 +115,16 @@ bool PhysicsModule::Init()
 	gScene->setVisualizationParameter(PxVisualizationParameter::eCOLLISION_SHAPES, 1.0f);
 	gScene->setVisualizationParameter(PxVisualizationParameter::eACTOR_AXES, 1.0f);
 
+	raycast = Raycast(gScene);
 	return gPhysics != nullptr;
+}
+
+bool PhysicsModule::rayCast(const PxVec3& origin,
+	const PxVec3& direction,
+	float maxDistance)
+{
+	PxRaycastBuffer hitInfo;
+	return raycast.Cast(origin, direction, maxDistance, hitInfo);
 }
 
 ComponentID PhysicsModule::CreateRigidBody(core::Vector3<> pos, float mass, bool useGravity, bool isKinematic)
@@ -128,6 +138,7 @@ ComponentID PhysicsModule::CreateRigidBody(core::Vector3<> pos, float mass, bool
 	else PxRigidBodyExt::setMassAndUpdateInertia(*body, mass > 0.0f ? mass : 1.0f);
 
 	body->setActorFlag(PxActorFlag::eDISABLE_GRAVITY, !useGravity);
+	
 	gScene->addActor(*body);
 
 	//id del actor del rigidbody
@@ -332,6 +343,24 @@ void PhysicsModule::SetMass(uint32_t id, float mass)
 	body->setMass(PxReal(mass));
 }
 
+float PhysicsModule::GetLinearDamping(uint32_t id)
+{
+	auto it = physicsMap.find(id);
+	if (it == physicsMap.end()) return 0.0f;
+	PxRigidDynamic* body = it->second.actor->is<PxRigidDynamic>();
+	if (!body) return 0.0f;
+	return body->getLinearDamping();
+}
+
+void PhysicsModule::SetLinearDamping(uint32_t id, float damping)
+{
+	auto it = physicsMap.find(id);
+	if (it == physicsMap.end()) return;
+	PxRigidDynamic* body = it->second.actor->is<PxRigidDynamic>();
+	if (!body) return;
+	body->setLinearDamping(PxReal(damping));
+}
+
 uint32_t PhysicsModule::CreateMaterial(float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine)
 {
 	if (!gPhysics) return 0;
@@ -361,7 +390,7 @@ void PhysicsModule::UpdateMaterial(uint32_t id, float staticF, float dynamicF, f
 void PhysicsModule::Update(float dt)
 {
 	if (!gScene) return;
-	gScene->simulate(dt);
+	gScene->simulate(dt / 1000.0f);
 	gScene->fetchResults(true);
 }
 
@@ -384,8 +413,8 @@ void PhysicsModule::onTrigger(PxTriggerPair* pairs, PxU32 count) {
 			eventQueue.push_back({ a, b, CollisionType::TriggerEnter });
 		if (pairs[i].status & PxPairFlag::eNOTIFY_TOUCH_LOST)
 			eventQueue.push_back({ a, b, CollisionType::TriggerExit });
-		
-		Debug::out("PHYSICSMODULE: Trigger callback");
+
+		//Debug::out("PHYSICSMODULE: Trigger callback");
 	}
 }
 
@@ -491,7 +520,7 @@ void PhysicsModule::onContact(const PxContactPairHeader& pairHeader,
 		if (pairs[i].events & PxPairFlag::eNOTIFY_TOUCH_LOST)
 			eventQueue.push_back({ a, b, CollisionType::CollisionExit });
 	}
-	Debug::out("PHYSICSMODULE: Collision detected");
+	//Debug::out("PHYSICSMODULE: Collision detected");
 }
 
 void PhysicsModule::DestroyBody(ComponentID id)
