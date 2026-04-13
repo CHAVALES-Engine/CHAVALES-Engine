@@ -23,15 +23,18 @@ bool Collider::init(const Properties& p)
 	}
 	// CAPSULE
 	auto it = p.find("capsule");
-	if (it != p.end()) {
-		std::visit([&](auto&& arg) {
-			using T = std::decay_t<decltype(arg)>;
-			if constexpr (std::is_same_v<T, Properties>) {
-				radius = std::get<float>(arg.at("radius"));
-				height = std::get<float>(arg.at("height"));
-			}}, it->second);
+	if (it != p.end())
+	{
+		if (auto val = std::get_if<core::Vector2<>>(&it->second))
+		{
+			shapeType = ShapeType::Capsule;
+			radius = val->getX();
+			height = val->getY();
+			//por si acaso
+			if (radius <= 0.0f) radius = 0.5f;
+			if (height < 0.0f) height = 0.0f;
+		}
 	}
-
 	//DYNAMIC
 	isDynamic = getProperty<bool>(p, "dynamic");
 	
@@ -57,7 +60,6 @@ void Collider::ready()
 
 	rigidBody = entity->getComponent<RigidBody>();
 
-	//!!!IMPORTANTE QUE LA KINEMATIC LA MANEJO YO TENGO QUE MIRAR ESTO
 	if (rigidBody != NULL && rigidBody->getIsKinematic() && !isDynamic) {
 		Debug::warning("[COLLIDER] Collider no puede ser kinematic sin ser dinámico. Corrigiendo a dynamic=true.");
 		isDynamic = true;

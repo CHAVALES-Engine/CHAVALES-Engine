@@ -198,9 +198,20 @@ ComponentID PhysicsModule::CreateCapsuleShape(float radius, float height, const 
 	PxRigidActor* actor = isDynamic ? static_cast<PxRigidActor*>(gPhysics->createRigidDynamic(transform)) : static_cast<PxRigidActor*>(gPhysics->createRigidStatic(transform));
 	if (!actor) return 0;
 
-	PxCapsuleGeometry geo(radius, height * 0.5f);
-	PxShape* shape = gPhysics->createShape(geo, *defaultMaterial);
+	PxShape* shape = nullptr;
+
+	if (height <= 0.0f)//Esfera
+	{
+		PxSphereGeometry geo(radius);
+		shape = gPhysics->createShape(geo, *defaultMaterial);
+	}
+	else//capsula
+	{
+		PxCapsuleGeometry geo(radius, height * 0.5f);
+		shape = gPhysics->createShape(geo, *defaultMaterial);
+	}
 	if (!shape) return 0;
+
 	PxFilterData filterData;
 	filterData.word0 = 1;//layer
 	filterData.word1 = 1;//layer
@@ -457,12 +468,20 @@ void PhysicsModule::AttachCapsuleShape(ComponentID bodyID, float radius, float h
 
 	PxRigidActor* actor = it->second.actor;
 	if (!actor) return;
+	PxShape* shape;
+	if (height <= 0.0f)//Esfera
+	{
+		 shape = gPhysics->createShape(PxSphereGeometry(radius), *defaultMaterial);
+	}
+	else//capsula
+	{
+		shape = gPhysics->createShape(PxCapsuleGeometry(radius, height * 0.5f), *defaultMaterial);
+	}
+	if (shape == NULL) return;
 
-	PxCapsuleGeometry geo(radius, height * 0.5f);
-	PxShape* shape = gPhysics->createShape(geo, *defaultMaterial);
-	if (!shape) return;
-	PxTransform localPose(PxVec3(center.getX(), center.getY(), center.getZ()));
+	PxTransform localPose(PxVec3(center.getX(), center.getY(), center.getZ()),PxQuat(PxIdentity));
 	shape->setLocalPose(localPose);
+
 	PxFilterData filterData;
 	filterData.word0 = 1;
 	filterData.word1 = 1;
@@ -478,7 +497,6 @@ void PhysicsModule::AttachCapsuleShape(ComponentID bodyID, float radius, float h
 		shape->setFlag(PxShapeFlag::eSIMULATION_SHAPE, true);
 		shape->setFlag(PxShapeFlag::eTRIGGER_SHAPE, false);
 	}
-
 
 	actor->attachShape(*shape);
 	it->second.shapes.push_back(shape);
