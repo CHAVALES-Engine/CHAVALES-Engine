@@ -23,8 +23,7 @@ assets = {
 	},
 	audio = { --Audios
 		lifeUp = "./game/assets/audio/sfx/smb_1-up.wav",
-		lifeDown = "./game/assets/audio/sfx/smb_1-up.wav",
-		MySound = "./game/assets/audio/sfx/kids-laughing.mp3"
+		lifeDown = "./game/assets/audio/sfx/smb_1-up.wav"
 	},
 	particles = { --Particulas
 
