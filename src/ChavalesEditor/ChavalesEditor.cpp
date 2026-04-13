@@ -45,9 +45,11 @@ static bool checkConfigInput(const std::string& firstScene,
     std::filesystem::path fileScn =  dirScn / (firstScene + ".lua");
 
     std::filesystem::path dirIcon(core::GameConfigurator::instance()._assetsRoot);
-    std::filesystem::path fileIcon = dirIcon / (iconRoot + ".png");
 
-    return (fs::exists(fileScn) && fs::exists(fileIcon));
+    std::filesystem::path fileIconPNG = dirIcon / (iconRoot + ".png");
+    std::filesystem::path fileIconICO = dirIcon / (iconRoot + ".ico");
+
+    return (fs::exists(fileScn) && (fs::exists(fileIconPNG) || fs::exists(fileIconICO)));
 }
 
 static void saveConfigInput(bool disabled, 
