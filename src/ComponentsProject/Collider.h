@@ -1,12 +1,12 @@
 #pragma once
 #include  "../../src/Core-Defs/Component.h"
 #include "CommonEnums.h"
-//#include "../../src/PhysicsModule/RigidBody.h"
-//#include "../../src/Core-Defs/Defs.h"
+
 using ComponentID = unsigned int;
 class Engine;
 class Transform;
 class RigidBody;
+
 namespace core {
 	class Entity;
 }
@@ -17,7 +17,8 @@ namespace core {
  *
  * --- Ejemplo de uso en lua ---
  * Collider = {
- *		box = Vector3.new(120, 120, 120), o capsule = { radius = 0.5, height = 2 }, --size // si pones la altura a 0 en capsule haces una esfera
+ *		type = BOX / CAPSULE
+ *		shape = Vector3.new(400, 100, 400), / Vector3.new(50, 0, 0), --  Z no se usa, para esfera Y = 0   
  *		dynamic = true,
  *		trigger = false,
  *      center = Vector3.new(0,0,0)
@@ -31,46 +32,100 @@ namespace core {
  * ...
  *
 */
-
-
 class Collider : public core::Component
 {
 protected:
-
+	/**
+	 * @brief Si es un trigger o no
+	 */
 	bool isTrigger = false;
-	bool isDynamic = false;//o pared o con gravedad
-	bool initialized = false;
+	/**
+	 * @brief Si es dinámico o estático
+	 */
+	bool isDynamic = false;
 
+	/**
+	 * @brief Tamaño del collider si es box
+	 */
 	core::Vector3<> size = { 1,1,1 };
-	core::Vector3<> center = { 0,0,0 };//offset respecto a la entidad, donde esta el collider
+	/**
+	 * @brief Tamaño del collider si es capsule
+	 */
 	int radius, height;
+	/**
+	 * @brief Offset respecto a la entidad, donde esta el collider
+	 */
+	core::Vector3<> center = { 0,0,0 };
 
+	/**
+	 * @brief Referencia a engine
+	 */
 	Engine* _eng;
+	/**
+	 * @brief Id del collider o en caso de estar unido a rigidbody, id de ambos
+	 */
 	ComponentID physicsID = 0;
-	Transform* transform;//entidad .pos es la posicion de la entidad
+	/**
+	 * @brief Transform de la entidad
+	 */
+	Transform* transform;
+	/**
+	 * @brief RigidBody al que está unido en caso de no ser null
+	 */
 	RigidBody* rigidBody = nullptr;
-	ShapeType shapeType;//default
-
+	/**
+	 * @brief Shape del collider
+	 */
+	ShapeType shapeType;
 
 public:
+	/**
+	 * @brief Constructora vacía
+	 */
 	Collider() {};
+	/**
+	 * @brief Destructora
+	 */
 	~Collider() {};
 
+	/**
+	 * @brief Inicialización del componente con propiedades
+	 * @param Properties
+	 */
 	bool init(const Properties& p) override;
+	/**
+	 * @brief Llamado cuando el objeto está listo
+	 */
 	virtual void ready() override;
+	/**
+	 * @brief Actualización por frame
+	 * @param deltaTime Tiempo entre frames (normalmente en ms)
+	 */
 	virtual void update(uint64_t deltaTime) override;
 
+	/**
+	 * @brief Detección de solapamiento entre colliders donde al menos uno es trigger
+	 * @param ComponentId other, otro collider contra el que choca
+	 */
 	void onTriggerEnter(ComponentID other);
+	/**
+	 * @brief Detección de salida de solapamiento entre colliders donde al menos uno es trigger
+	 * @param ComponentId other, otro collider contra el que había chocado
+	 */
 	void onTriggerExit(ComponentID other);
+	/**
+	 * @brief Detección de choque entre colliders donde ninguno es trigger
+	 * @param ComponentId other, otro collider contra el que choca
+	 */
 	void onCollisionEnter(ComponentID other);
+	/**
+	 * @brief Detección de salida de choque entre colliders donde ninguno es trigger
+	 * @param ComponentId other, otro collider contra el que había chocado
+	 */
 	void onCollisionExit(ComponentID other);
 
-
-	//getter
-	ComponentID getId() { return physicsID; };
+	/**
+	 * @brief Getter de la posición del collider respecto al transform de la entidad (posicion local)
+	 */
 	const core::Vector3<>& getCenter() const { return center; }
 };
-
-//unorder map que relacione id con entidad, la entidad va a compartir id con el sgruct q guarda su actor y forma. Luego a traves de engine usando physx
-// le pasare el unordermap que necesite rollo un metoodo que me permita coger la info del actr y shape segun su id y 
-//con esa info en collider update actualizare el movimiento del transfor... mas adelante la shape
