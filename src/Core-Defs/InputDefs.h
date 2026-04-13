@@ -338,7 +338,7 @@ namespace input
 		MouseButton,
 		GamepadButton>;
 
-	using DeviceID = uint32_t;
+	using DeviceID = int;
 	static constexpr DeviceID KEYBOARD_ID = 0;
 	static constexpr DeviceID ANY_DEVICE = static_cast<DeviceID>(-1);
 
