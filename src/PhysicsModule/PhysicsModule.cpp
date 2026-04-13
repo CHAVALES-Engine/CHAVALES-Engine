@@ -60,16 +60,16 @@ PhysicsModule::PhysicsModule() {}
 
 PhysicsModule::~PhysicsModule()
 {
-	
+
 	ClearScene();
 	if (gScene) { gScene->release(); gScene = nullptr; }
 	if (dispatcher) { dispatcher->release(); dispatcher = nullptr; }
 	if (gPhysics) { gPhysics->release(); gPhysics = nullptr; }
-	if (pvdTransport){pvdTransport->release();pvdTransport = nullptr;}
-	if (gPvd) {gPvd->release(); gPvd = nullptr;}
+	if (pvdTransport) { pvdTransport->release();pvdTransport = nullptr; }
+	if (gPvd) { gPvd->release(); gPvd = nullptr; }
 	PxCloseExtensions();
 	if (gFoundation) { gFoundation->release(); gFoundation = nullptr; }
-	
+
 	materialMap.clear();
 }
 
@@ -332,6 +332,24 @@ void PhysicsModule::SetMass(uint32_t id, float mass)
 	body->setMass(PxReal(mass));
 }
 
+float PhysicsModule::GetLinearDamping(uint32_t id)
+{
+	auto it = physicsMap.find(id);
+	if (it == physicsMap.end()) return 0.0f;
+	PxRigidDynamic* body = it->second.actor->is<PxRigidDynamic>();
+	if (!body) return 0.0f;
+	return body->getLinearDamping();
+}
+
+void PhysicsModule::SetLinearDamping(uint32_t id, float damping)
+{
+	auto it = physicsMap.find(id);
+	if (it == physicsMap.end()) return;
+	PxRigidDynamic* body = it->second.actor->is<PxRigidDynamic>();
+	if (!body) return;
+	body->setLinearDamping(PxReal(damping));
+}
+
 uint32_t PhysicsModule::CreateMaterial(float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine)
 {
 	if (!gPhysics) return 0;
@@ -361,7 +379,7 @@ void PhysicsModule::UpdateMaterial(uint32_t id, float staticF, float dynamicF, f
 void PhysicsModule::Update(float dt)
 {
 	if (!gScene) return;
-	gScene->simulate(dt);
+	gScene->simulate(dt / 1000.0f);
 	gScene->fetchResults(true);
 }
 
@@ -384,7 +402,7 @@ void PhysicsModule::onTrigger(PxTriggerPair* pairs, PxU32 count) {
 			eventQueue.push_back({ a, b, CollisionType::TriggerEnter });
 		if (pairs[i].status & PxPairFlag::eNOTIFY_TOUCH_LOST)
 			eventQueue.push_back({ a, b, CollisionType::TriggerExit });
-		
+
 		Debug::out("PHYSICSMODULE: Trigger callback");
 	}
 }

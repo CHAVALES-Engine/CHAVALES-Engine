@@ -29,6 +29,9 @@ public:
 	void setPosition(core::Vector3<> pos);
 	void setMass(float mass);
 
+	void setLinearDamping(float damping);
+	float getLinearDamping();
+
 	void AddForce(core::Vector3<> force, char mode);
 	void ClearForce(char mode);
 

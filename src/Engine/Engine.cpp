@@ -557,6 +557,16 @@ float Engine::getMass(uint32_t id)
 	return _physicsModule->GetMass(id);
 }
 
+void Engine::setLinearDamping(uint32_t id, float damping)
+{
+	_physicsModule->SetLinearDamping(id, damping);
+}
+
+float Engine::getLinearDamping(uint32_t id)
+{
+	return _physicsModule->GetLinearDamping(id);
+}
+
 
 void Engine::addForce(uint32_t id, core::Vector3<> force, char mode)
 {

@@ -38,6 +38,9 @@ public:
 	float GetMass(uint32_t id);
 	void SetMass(uint32_t id, float mass);
 
+	float GetLinearDamping(uint32_t id);
+	void SetLinearDamping(uint32_t id, float damping);
+
 	//collider + rigidbody
 	void AttachBoxShape(ComponentID bodyID, const core::Vector3<> size, const core::Vector3<>& center, bool isTrigger);
 	void AttachCapsuleShape(ComponentID bodyID, float radius, float height, const core::Vector3<>& center, bool isTrigger);

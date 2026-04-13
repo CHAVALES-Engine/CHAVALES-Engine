@@ -514,6 +514,9 @@ public:
 	void setMass(uint32_t id, float mass);
 	float getMass(uint32_t id);
 
+	void setLinearDamping(uint32_t id, float damping);
+	float getLinearDamping(uint32_t id);
+
 	void addForce(uint32_t id, core::Vector3<> force, char mode);
 	void clearForce(uint32_t id, char mode);
 

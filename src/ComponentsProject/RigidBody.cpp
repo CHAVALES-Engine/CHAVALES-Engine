@@ -17,6 +17,7 @@ bool RigidBody::init(const Properties& p)
 	setMass(getProperty<float>(p, "mass"));
 	setPosition(getProperty<core::Vector3<>>(p, "position"));
 	setVelocity(getProperty<core::Vector3<>>(p, "velocity"));
+	setLinearDamping(getProperty<float>(p, "damping"));
 
 	return true;
 }
@@ -71,6 +72,16 @@ void RigidBody::setPosition(core::Vector3<> pos) {
 void RigidBody::setMass(float mass)
 {
 	_eng->setMass(physicsID, mass);
+}
+
+void RigidBody::setLinearDamping(float damping)
+{
+	_eng->setLinearDamping(physicsID, damping);
+}
+
+float RigidBody::getLinearDamping()
+{
+	return _eng->getLinearDamping(physicsID);
 }
 
 void RigidBody::AddForce(core::Vector3<> force, char mode) {
