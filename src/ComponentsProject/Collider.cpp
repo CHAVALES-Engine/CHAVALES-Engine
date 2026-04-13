@@ -5,7 +5,6 @@
 #include "Transform.h"
 #include "RigidBody.h"
 #include "checkMLNew.h"
-
 REGISTER_COMPONENT(Collider);
 
 
@@ -20,7 +19,7 @@ bool Collider::init(const Properties& p)
 	//SHAPE
 	// BOX
 	//if (auto it = p.find("box"); it != p.end()) {
-	//	shapeType = ShapeType::Box;
+	//	shapeType = ShapeType::BOX;
 	//	if (auto val = std::get_if<core::Vector3<>>(&it->second))
 	//		size = *val;
 	//}
@@ -30,7 +29,7 @@ bool Collider::init(const Properties& p)
 	//{
 	//	if (auto val = std::get_if<core::Vector2<>>(&it->second))
 	//	{
-	//		shapeType = ShapeType::Capsule;
+	//		shapeType = ShapeType::CAPSULE;
 	//		radius = val->getX();
 	//		height = val->getY();
 	//	}
@@ -40,12 +39,12 @@ bool Collider::init(const Properties& p)
 	setProperty(p, "shape", val);
 	if (type == "BOX")
 	{
-		shapeType = ShapeType::Box;
+		shapeType = ShapeType::BOX;
 		size = val;
 	}
 	else if (type == "CAPSULE")
 	{
-		shapeType = ShapeType::Capsule;
+		shapeType = ShapeType::CAPSULE;
 		radius = val.getX();
 		height = val.getY();
 	}
@@ -65,7 +64,7 @@ bool Collider::init(const Properties& p)
 	setProperty(p, "center", center);
 
 	Debug::warning(std::string("[COLLIDER] INIT ") +
-		(shapeType == ShapeType::Box ? "caja" : "capsulaaa"));
+		(shapeType == ShapeType::BOX ? "caja" : "capsulaaa"));
 
 	//Debug::warning("[COLLIDER] INIT this ptr = " + std::to_string((uintptr_t)this));
 	return true;
@@ -109,14 +108,14 @@ void Collider::ready()
 			return;
 		}
 		Debug::warning(std::string("[COLLIDER] READY ") +
-			(shapeType == ShapeType::Box ? "caja" : "capsulaaa"));
+			(shapeType == ShapeType::BOX ? "caja" : "capsulaaa"));
 
 		switch (shapeType)
 		{
-		case ShapeType::Box:
+		case ShapeType::BOX:
 			_eng->attachBoxShapeToRigidBody(physicsID, size, center, isTrigger);
 			break;
-		case ShapeType::Capsule:
+		case ShapeType::CAPSULE:
 			_eng->attachCapsuleShapeToRigidBody(physicsID, radius, height, center, isTrigger);
 			break;
 		}
@@ -126,10 +125,10 @@ void Collider::ready()
 		//esatico o trigger sin rigidbody
 		switch (shapeType)
 		{
-		case ShapeType::Box:
+		case ShapeType::BOX:
 			physicsID = _eng->createBoxCollider(size, pos + center, isDynamic, isTrigger);
 			break;
-		case ShapeType::Capsule:
+		case ShapeType::CAPSULE:
 			physicsID = _eng->createCapsuleCollider(radius, height, center, pos + center, isDynamic, isTrigger);
 			break;
 		}

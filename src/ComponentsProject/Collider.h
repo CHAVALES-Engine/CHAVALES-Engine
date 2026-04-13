@@ -1,5 +1,6 @@
 #pragma once
 #include  "../../src/Core-Defs/Component.h"
+#include "CommonEnums.h"
 //#include "../../src/PhysicsModule/RigidBody.h"
 //#include "../../src/Core-Defs/Defs.h"
 using ComponentID = unsigned int;
@@ -30,7 +31,7 @@ namespace core {
  * ...
  *
 */
-enum class ShapeType { Box, Capsule };
+
 
 class Collider : public core::Component
 {
