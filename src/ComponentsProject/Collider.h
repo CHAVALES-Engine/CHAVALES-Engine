@@ -31,7 +31,6 @@ namespace core {
  *
 */
 enum class ShapeType { Box, Capsule };
-ShapeType shapeType;//default
 
 class Collider : public core::Component
 {
@@ -49,6 +48,8 @@ protected:
 	ComponentID physicsID = 0;
 	Transform* transform;//entidad .pos es la posicion de la entidad
 	RigidBody* rigidBody = nullptr;
+	ShapeType shapeType;//default
+
 
 public:
 	Collider() {};
