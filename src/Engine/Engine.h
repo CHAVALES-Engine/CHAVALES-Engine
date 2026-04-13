@@ -529,6 +529,10 @@ public:
 
 	void updateMaterial(uint32_t id, float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine);
 
+	bool rayCast(const core::Vector3<>& origin,
+		const core::Vector3<>& direction,
+		float maxDistance);
+
 #pragma endregion
 
 #pragma region Resources

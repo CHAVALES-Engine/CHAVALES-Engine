@@ -114,7 +114,16 @@ bool PhysicsModule::Init()
 	gScene->setVisualizationParameter(PxVisualizationParameter::eCOLLISION_SHAPES, 1.0f);
 	gScene->setVisualizationParameter(PxVisualizationParameter::eACTOR_AXES, 1.0f);
 
+	raycast = Raycast(gScene);
 	return gPhysics != nullptr;
+}
+
+bool PhysicsModule::rayCast(const PxVec3& origin,
+	const PxVec3& direction,
+	float maxDistance)
+{
+	PxRaycastBuffer hitInfo;
+	return raycast.Cast(origin, direction, maxDistance, hitInfo);
 }
 
 ComponentID PhysicsModule::CreateRigidBody(core::Vector3<> pos, float mass, bool useGravity, bool isKinematic)

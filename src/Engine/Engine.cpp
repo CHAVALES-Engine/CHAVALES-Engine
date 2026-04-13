@@ -94,7 +94,7 @@ void Engine::setViewportBGColor(core::Color color)
 	_renderModule->setViewportBGColor(color);
 }
 
-transformID Engine::addTransform(const entityID& entityID, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float>& scale,const TransformType type)
+transformID Engine::addTransform(const entityID& entityID, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float>& scale, const TransformType type)
 {
 	return _renderModule->addNode(entityID, pos, rot, scale, true, type);
 }
@@ -342,7 +342,7 @@ void Engine::setUIPanelVisible(const uiPanelID& id, bool visible)
 	_renderModule->setUIPanelVisible(id, visible);
 }
 uiLabelID  Engine::addUILabel(const std::string& panelName, const entityID& entityID, const std::string& text, const  float opacity, const  core::Vector2<float> size, const core::Color textColor, const core::Color bgColor, const float fontSize, const TextAlign textAlign, const std::string fontName) {
-	return _renderModule->addUILabel(panelName, entityID, text,opacity,size,textColor,bgColor,fontSize,textAlign, fontName);
+	return _renderModule->addUILabel(panelName, entityID, text, opacity, size, textColor, bgColor, fontSize, textAlign, fontName);
 }
 void  Engine::setUILabelText(const uiLabelID& uiLabelID, const std::string& text) {
 	_renderModule->setUILabelText(uiLabelID, text);
@@ -375,8 +375,8 @@ uiButtonID  Engine::addUIButton(const std::string& panelName, const entityID& en
 
 }
 
-uiButtonID Engine::addUIImageButton(const std::string& panelName, const entityID& entityID, const std::string& text,  const std::string& textureName, core::Vector2<float> size) {
-	
+uiButtonID Engine::addUIImageButton(const std::string& panelName, const entityID& entityID, const std::string& text, const std::string& textureName, core::Vector2<float> size) {
+
 	auto texture = _resourcesModule->getImages(textureName);
 
 	return _renderModule->addUIImageButton(panelName, entityID, text, texture.first, texture.second, size);
@@ -400,7 +400,7 @@ void  Engine::setUIButtonOpacity(const uiButtonID& buttonID, float opacity) {
 void Engine::setUIButtonCallback(const uiButtonID& id, std::function<void()> callback) {
 	_renderModule->setUIButtonCallback(id, callback);
 }
-uiTextureRectID Engine::addUITextureRect(const std::string& panelName, const entityID& entityID,  const std::string& textureName, core::Vector2<float> size) {
+uiTextureRectID Engine::addUITextureRect(const std::string& panelName, const entityID& entityID, const std::string& textureName, core::Vector2<float> size) {
 	auto texture = _resourcesModule->getImages(textureName);
 	return _renderModule->addUITextureRect(panelName, entityID, texture.first, texture.second, size);
 }
@@ -518,7 +518,7 @@ void Engine::clearPhysicsEvents()
 }
 ///
 ComponentID Engine::attachBoxShapeToRigidBody(ComponentID bodyID, const core::Vector3<> size, const core::Vector3<>& center, bool isTrigger)
-{ 
+{
 	if (!_physicsModule) return 0;
 	_physicsModule->AttachBoxShape(bodyID, size, center, isTrigger);
 	return bodyID; //devuelve el ID del RigidBody al que se unio
@@ -528,7 +528,7 @@ ComponentID Engine::attachCapsuleShapeToRigidBody(ComponentID bodyID, float radi
 {
 	if (!_physicsModule) return 0;
 	_physicsModule->AttachCapsuleShape(bodyID, radius, height, center, isTrigger);
-	return bodyID; 
+	return bodyID;
 }
 
 void Engine::setPhysicsTransform(ComponentID id, const core::Vector3<>& pos, const core::Quaternion<>& rot)
@@ -587,12 +587,21 @@ void Engine::clearForce(uint32_t id, char mode)
 
 uint32_t Engine::createMaterial(float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine)
 {
-	return _physicsModule->CreateMaterial(staticF, dynamicF,restitution,frictionCombine, bounceCombine);
+	return _physicsModule->CreateMaterial(staticF, dynamicF, restitution, frictionCombine, bounceCombine);
 }
 
 void Engine::updateMaterial(uint32_t id, float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine)
 {
 	_physicsModule->UpdateMaterial(id, staticF, dynamicF, restitution, frictionCombine, bounceCombine);
+}
+
+bool Engine::rayCast(const core::Vector3<>& origin,
+	const core::Vector3<>& direction,
+	float maxDistance)
+{
+	return _physicsModule->rayCast({ origin.getX(), origin.getY(), origin.getZ() },
+		{ direction.getX(), direction.getY(), direction.getZ() },
+		maxDistance);
 }
 #pragma endregion
 
@@ -657,7 +666,7 @@ bool Engine::_initPriv()
 	_input = new InputFacade(_platformModule);
 	//Render
 	_renderModule = new RenderModule();
-	if (!_renderModule->Init(_platformModule->getWindowHandle(), _platformModule->getWindowWidth(), _platformModule->getWindowHeight(),_resourcesModule->getAllFonts())) {
+	if (!_renderModule->Init(_platformModule->getWindowHandle(), _platformModule->getWindowWidth(), _platformModule->getWindowHeight(), _resourcesModule->getAllFonts())) {
 		delete _renderModule;
 		_renderModule = nullptr;
 		return false;
@@ -696,7 +705,7 @@ void Engine::update(float dt)
 	if (_physicsModule)
 	{
 		_physicsModule->Update(dt);
-		
+
 	}
 }
 

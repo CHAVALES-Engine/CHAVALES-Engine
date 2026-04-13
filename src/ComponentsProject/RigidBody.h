@@ -12,7 +12,7 @@ class Engine;
  * Sirve como puente entre el motor y el sistema de físicas.
  */
 class RigidBody : public core::Component {
-	/*
+/*
  * +----------+
  * | RIGIDBODY |
  * +----------+
