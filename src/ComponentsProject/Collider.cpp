@@ -33,18 +33,10 @@ bool Collider::init(const Properties& p)
 	}
 
 	//DYNAMIC
-	auto itDyn = p.find("dynamic");
-	if (itDyn != p.end()) {
-		if (auto val = std::get_if<bool>(&itDyn->second))
-			isDynamic = *val;
-	}
+	isDynamic = getProperty<bool>(p, "dynamic");
 	
 	//TRIGGER
-	auto itTrig = p.find("trigger");
-	if (itTrig != p.end()) {
-		if (auto val = std::get_if<bool>(&itTrig->second))
-			isTrigger = *val;
-	}
+	isTrigger = getProperty<bool>(p, "trigger");
 
 	//CENTER
 	auto itCen = p.find("center");
@@ -71,7 +63,6 @@ void Collider::ready()
 		isDynamic = true;
 	}
 
-	//CUANDO SEA KINEMATIC TENGO QUE USAR UN RIGIDBODY KINEMATIC PERO AUN NO EXISTE
 	if (isDynamic)
 	{
 		if (rigidBody == NULL)
@@ -135,9 +126,9 @@ void Collider::onTriggerExit(ComponentID other)
 }
 
 void Collider::onCollisionEnter(ComponentID other) {
-
+	Debug::out("[COLLIDER] Collision enter");
 }
 
 void Collider::onCollisionExit(ComponentID other) {
-
+	Debug::out("[COLLIDER] Collision exit");
 }
