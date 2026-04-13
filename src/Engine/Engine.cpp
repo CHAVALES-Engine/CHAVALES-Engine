@@ -709,6 +709,10 @@ void Engine::update(float dt)
 	if (_physicsModule)
 	{
 		_physicsModule->Update(dt);
+	}
+	if (_audioModule)
+	{
+		_audioModule->Update();
 
 	}
 }

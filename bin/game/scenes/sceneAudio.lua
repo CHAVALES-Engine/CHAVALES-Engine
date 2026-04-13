@@ -30,7 +30,7 @@ scene = { -- entidades en escena
 		ddol = false,
 		components = {
 			Transform = {
-				position = Vector3.new(100,0,0),
+				position = Vector3.new(0,0,0),
 				rotation = Quaternion.new(),
 				scale = Vector3.new(1.0),
 				},
@@ -44,9 +44,9 @@ scene = { -- entidades en escena
 				loop = true,
 				isStream = false,
 				playOnReady = true,
-				soundVolume = 0.2,
-				minRadius = 1.0,
-				maxRadius = 100.0
+				soundVolume = 10.0,
+				minRadius = 3.0,
+				maxRadius = 200.0
  			}
 		}
    },
