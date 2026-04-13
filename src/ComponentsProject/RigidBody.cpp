@@ -45,7 +45,10 @@ void RigidBody::update(uint64_t dt)
 	auto transform = entity->getComponent<Transform>();
 	if (!transform) return;
 
+	if(!isKinematic)
 	transform->setGlobalPosition(getPosition());
+	else
+	setPosition(transform->getGlobalPosition());
 }
 
 core::Vector3<> RigidBody::getVelocity() {
