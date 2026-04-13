@@ -10,30 +10,13 @@ REGISTER_COMPONENT(Collider);
 
 bool Collider::init(const Properties& p)
 {
-	
-	//cosas de lua
 	_eng = Engine::instance();
-	
+
+	//Default
 	radius = 0.5f;
 	height = 0.0f;
+
 	//SHAPE
-	// BOX
-	//if (auto it = p.find("box"); it != p.end()) {
-	//	shapeType = ShapeType::BOX;
-	//	if (auto val = std::get_if<core::Vector3<>>(&it->second))
-	//		size = *val;
-	//}
-	// CAPSULE
-	//auto it = p.find("capsule");
-	//if (it != p.end())
-	//{
-	//	if (auto val = std::get_if<core::Vector2<>>(&it->second))
-	//	{
-	//		shapeType = ShapeType::CAPSULE;
-	//		radius = val->getX();
-	//		height = val->getY();
-	//	}
-	//}
 	std::string type = getProperty<std::string>(p, "type");
 	core::Vector3<> val;
 	setProperty(p, "shape", val);
@@ -53,7 +36,6 @@ bool Collider::init(const Properties& p)
 		Debug::error("[COLLIDER] TIPO INCOMPATIBLE!!");
 	}
 
-
 	//DYNAMIC
 	isDynamic = getProperty<bool>(p, "dynamic");
 	
@@ -63,16 +45,7 @@ bool Collider::init(const Properties& p)
 	//CENTER
 	setProperty(p, "center", center);
 
-	Debug::warning(std::string("[COLLIDER] INIT ") +
-		(shapeType == ShapeType::BOX ? "caja" : "capsulaaa"));
-
-	//Debug::warning("[COLLIDER] INIT this ptr = " + std::to_string((uintptr_t)this));
 	return true;
-
-	Debug::warning(
-		"[PTR] " + std::to_string((uintptr_t)this) +
-		" shape=" + std::to_string((int)shapeType)
-	);
 }
 
 void Collider::ready()
@@ -107,8 +80,7 @@ void Collider::ready()
 			Debug::warning("[COLLIDER] RigidBody ID no válido aún. Esperando...");
 			return;
 		}
-		Debug::warning(std::string("[COLLIDER] READY ") +
-			(shapeType == ShapeType::BOX ? "caja" : "capsulaaa"));
+		
 
 		switch (shapeType)
 		{
@@ -133,12 +105,6 @@ void Collider::ready()
 			break;
 		}
 	}
-	//Debug::warning(
-	//	"[PTR] " + std::to_string((uintptr_t)this) +
-	//	" shape=" + std::to_string((int)shapeType)
-	//);
-
-	//Debug::warning("[COLLIDER] READY this ptr  = " + std::to_string((uintptr_t)this));
 }
 
 void Collider::update(uint64_t deltaTime)
