@@ -81,7 +81,12 @@ bool AudioModule::loadSound(string path, string id, bool soundStream, bool sound
 	}
 	//Depends in the parameters of the method
 	FMOD_MODE eMode = FMOD_DEFAULT;
-	eMode |= sound3D ? FMOD_3D : FMOD_2D;
+	if (sound3D) {
+		eMode |= FMOD_3D | FMOD_3D_LINEARROLLOFF;
+	}
+	else {
+		eMode |= FMOD_2D;
+	}
 	eMode |= soundLooping ? FMOD_LOOP_NORMAL : FMOD_LOOP_OFF;
 	eMode |= soundStream ? FMOD_CREATESTREAM : FMOD_CREATECOMPRESSEDSAMPLE;
 

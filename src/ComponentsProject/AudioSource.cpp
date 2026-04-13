@@ -38,10 +38,10 @@ void AudioSource::ready()
 	_tr = entity->getComponent<Transform>();
 	_lastPosition = _tr->getGlobalPosition();
 	Engine::instance()->loadSound(Engine::instance()->resources()->getAudioByName(_id), _id, _isStream, _loop, _is3D);
-	if (_is3D)
-		Engine::instance()->setMinMaxRadius(_channelID, _minRadius, _maxRadius);
 	if (_playOnReady)
 		playSound();
+	if (_is3D)
+		Engine::instance()->setMinMaxRadius(_channelID, _minRadius, _maxRadius);
 }
 
 void AudioSource::update(uint64_t deltaTime)
@@ -51,6 +51,19 @@ void AudioSource::update(uint64_t deltaTime)
 		_lastPosition = _tr->getGlobalPosition();
 		Engine::instance()->setSourcePosition(_channelID, _tr->getGlobalPosition(), velocity);
 	}
+}
+
+void AudioSource::disable()
+{
+	pauseSound(true);
+}
+void AudioSource::destroy()
+{
+	stopSound();
+}
+void AudioSource::enable()
+{
+	pauseSound(false);
 }
 
 void AudioSource::playSound()

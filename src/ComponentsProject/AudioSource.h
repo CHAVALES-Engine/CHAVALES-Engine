@@ -58,6 +58,9 @@ public:
 	bool init(const Properties& p) override;
 	virtual void ready() override;
 	virtual void update(uint64_t deltaTime) override;
+	virtual void disable() override;
+	virtual void destroy() override;
+	virtual void enable() override;
 
 	int getLooping() const;
 	void setLooping(int& loop) const;

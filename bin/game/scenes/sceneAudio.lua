@@ -6,9 +6,9 @@ scene = { -- entidades en escena
    		components = { -- componentes de esa entidad
    			Transform = { -- componente transform
    				-- posicion local
-   				position = Vector3.new(200.0,200.0,200.0),
+   				position = Vector3.new(100.0,0.0,0.0),
    				-- rotacion local
-   				rotation = Quaternion.new(0.0,0.0,1.0,45.0),
+   				rotation = Quaternion.new(0.0,0.0,0.0,1.0),
    				-- escala local
    				scale = Vector3.new(1)
    			},
@@ -44,8 +44,8 @@ scene = { -- entidades en escena
 				loop = true,
 				isStream = false,
 				playOnReady = true,
-				soundVolume = 10.0,
-				minRadius = 3.0,
+				soundVolume = 1.0,
+				minRadius = 150.0,
 				maxRadius = 200.0
  			}
 		}
