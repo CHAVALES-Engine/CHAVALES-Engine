@@ -8,3 +8,8 @@ enum class TextAlign {
     CENTER,
     RIGHT
 };
+enum class ShapeType
+{
+	BOX, 
+	CAPSULE
+};
