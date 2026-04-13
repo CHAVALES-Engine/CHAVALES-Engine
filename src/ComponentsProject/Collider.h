@@ -16,17 +16,16 @@ namespace core {
  *
  * --- Ejemplo de uso en lua ---
  * Collider = {
- *		box = {1,2,1}, o capsule = { radius = 0.5, height = 2 }, --size // si pones la altura a 0 en capsule haces una esfera
+ *		box = Vector3.new(120, 120, 120), o capsule = { radius = 0.5, height = 2 }, --size // si pones la altura a 0 en capsule haces una esfera
  *		dynamic = true,
- *		kinematic = false,
  *		trigger = false,
- *      center = {0,0,0}
+ *      center = Vector3.new(0,0,0)
  * }
  *
  * --- Ejemplo de inicializacion ---
  * En bool init(const Properties& p):
  *		# Ej1, asignacion:
- * ...
+ *			isDynamic = getProperty<bool>(p, "dynamic");
  *		# Ej2, setter:
  * ...
  *

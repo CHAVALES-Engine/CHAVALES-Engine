@@ -47,6 +47,7 @@ static PxFilterFlags CustomFilterShader(
 		pairFlags = PxPairFlag::eTRIGGER_DEFAULT;
 		pairFlags |= PxPairFlag::eNOTIFY_TOUCH_FOUND;
 		pairFlags |= PxPairFlag::eNOTIFY_TOUCH_LOST;
+		pairFlags |= PxPairFlag::eDETECT_DISCRETE_CONTACT;
 		return PxFilterFlag::eDEFAULT;
 	}
 
@@ -88,7 +89,7 @@ bool PhysicsModule::Init()
 	gPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *gFoundation, scale, true, gPvd);
 	PxInitExtensions(*gPhysics, gPvd);
 
-	defaultMaterial = gPhysics->createMaterial(0.5f, 0.5f, 0.6f);
+	defaultMaterial = gPhysics->createMaterial(0.0f, 0.0f, 0.0f);
 	if (!defaultMaterial) return false;
 	ComponentID defaultMatID = nextIDMaterial++;
 	materialMap[defaultMatID] = defaultMaterial;
@@ -128,6 +129,7 @@ ComponentID PhysicsModule::CreateRigidBody(core::Vector3<> pos, float mass, bool
 	else PxRigidBodyExt::setMassAndUpdateInertia(*body, mass > 0.0f ? mass : 1.0f);
 
 	body->setActorFlag(PxActorFlag::eDISABLE_GRAVITY, !useGravity);
+	
 	gScene->addActor(*body);
 
 	//id del actor del rigidbody
@@ -403,7 +405,7 @@ void PhysicsModule::onTrigger(PxTriggerPair* pairs, PxU32 count) {
 		if (pairs[i].status & PxPairFlag::eNOTIFY_TOUCH_LOST)
 			eventQueue.push_back({ a, b, CollisionType::TriggerExit });
 
-		Debug::out("PHYSICSMODULE: Trigger callback");
+		//Debug::out("PHYSICSMODULE: Trigger callback");
 	}
 }
 
@@ -509,7 +511,7 @@ void PhysicsModule::onContact(const PxContactPairHeader& pairHeader,
 		if (pairs[i].events & PxPairFlag::eNOTIFY_TOUCH_LOST)
 			eventQueue.push_back({ a, b, CollisionType::CollisionExit });
 	}
-	Debug::out("PHYSICSMODULE: Collision detected");
+	//Debug::out("PHYSICSMODULE: Collision detected");
 }
 
 void PhysicsModule::DestroyBody(ComponentID id)

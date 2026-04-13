@@ -483,7 +483,6 @@ public:
 
 #pragma region Physics
 
-	
 	/*
 	* @brief Devuelve el id de la entidad que tiene el boxcollider y lo crea
 	*/
@@ -500,14 +499,25 @@ public:
 	* @brief Devuelve el id de la entidad que tiene el capsulecollider y lo crea
 	*/
 	uint32_t createCapsuleCollider(float radius, float height, const core::Vector3<>& center, const core::Vector3<>& worldPos, bool isDynamic, bool isTrigger);
-
+	/*
+	* @brief Coge todos los eventos de fisica para poder acceder a ellos y saber cuando ocurren las colisiones
+	*/
 	std::vector<PhysicsEvent> getPhysicsEvents(ComponentID id);
+	/*
+	* @brief Limpia el vector de eventos para no leerlos más de una vez
+	*/
 	void clearPhysicsEvents();
-
+	/*
+	* @brief Une box shape al rigidbody creado desde lua
+	*/
 	ComponentID attachBoxShapeToRigidBody(ComponentID bodyID, const core::Vector3<> size, const core::Vector3<>& center, bool isTrigger);
-
+	/*
+	* @brief  Une capsule shape al rigidbody creado desde lua
+	*/
 	ComponentID attachCapsuleShapeToRigidBody(ComponentID bodyID, float radius, float height, const core::Vector3<>& center, bool isTrigger);
-
+	/*
+	* @brief Setea el transform de Physx para el movimiento kinemático
+	*/
 	void setPhysicsTransform(ComponentID id, const core::Vector3<>& pos, const core::Quaternion<>& rot);
 
 	uint32_t createRigidBody(core::Vector3<> pos, float mass, bool useGravity, bool isKinematic);
