@@ -629,9 +629,9 @@ int Engine::getWindowHeight() const
 	return _platformModule->getWindowHeight();
 }
 
-InputFacade* Engine::input() const
+InputFacade* Engine::input()
 {
-	return _input;
+	return instance()->_input;
 }
 
 

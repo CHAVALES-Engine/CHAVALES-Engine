@@ -64,6 +64,12 @@ public:
 	*/
 	bool isActionReleased(const std::string& actionName, input::DeviceID device = input::ANY_DEVICE) const;
 	/*
+	 * @brief Devuelve la media de los ejes registrados a esa accion(input::ANY_DEVICE) o la media de los ejes del device pedido.
+	 * @param actionName - accion a comprobar
+	 * @param device - id del dispositivo a comprobar. ANY_DEVICE por defecto => si se ha dejado de pulsar en cualquier dispositivo.
+	 */
+	float getActionAxis(const std::string& actionName, input::DeviceID device = input::ANY_DEVICE) const;
+	/*
 	* @brief Indica a la ventana que tome input de texto.
 	*/
 	void startTextInput(bool blockKeyboard = true) const;
@@ -187,7 +193,9 @@ public:
 	* @return bool - Devuelve true si esta mapeada.
 	*/
 	bool hasAction(const std::string& actionName) const;
+
 private:
+	
 	/**
 	 * @brief Engine es clase amiga.
 	 */
@@ -197,4 +205,3 @@ private:
 	 */
 	PlatformModule* _platform = nullptr;
 };
-

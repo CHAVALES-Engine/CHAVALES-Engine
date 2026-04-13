@@ -19,6 +19,7 @@ PlatformModule::PlatformModule() :
 	_window(nullptr), _windowHandle(nullptr)
 {
 	_inputMapper = new input::InputMapper();
+	
 }
 
 PlatformModule::~PlatformModule()
@@ -123,6 +124,11 @@ void PlatformModule::setRelativeMouseMode(bool enabled) const
 	SDL_SetWindowRelativeMouseMode(_window, enabled);
 }
 
+void PlatformModule::setMouseSensitivity(float sensitivity = 10.0)
+{
+	_mouseSensitivity = sensitivity;
+}
+
 bool PlatformModule::isDeviceConnected(input::DeviceID device)
 {
 	bool connected = false;
@@ -174,7 +180,7 @@ bool PlatformModule::isJustPressed(input::InputEvent inputEvent, input::DeviceID
 			[&](input::Key k) { return vd->isJustPressed(k); },
 			[&](input::GamepadButton b) { return vd->isJustPressed(b); },
 			[&](input::MouseButton b) { return vd->isJustPressed(b); },
-			[](auto&&) { Debug::error("[Input] inputEvent not allowed"); return false; }
+			[](auto&& inputEvent) { Debug::error("[Input] inputEvent not allowed ", toString(inputEvent)); return false; }
 			}, inputEvent); // Le pasamos ya el InputEvent para no tener que gestionarlo luego.
 		};
 	// Si el device es uno concreto llama a su funcion.
@@ -205,7 +211,7 @@ bool PlatformModule::isKeyReleased(input::InputEvent inputEvent, input::DeviceID
 			[&](input::Key k) {return vd->isPressed(k); },
 			[&](input::GamepadButton b) {return vd->isPressed(b); },
 			[&](input::MouseButton b) {return vd->isPressed(b); },
-			[](auto&&) { Debug::error("[Input] inputEvent not allowed"); return false; }
+			[](auto&& inputEvent) { Debug::error("[Input] inputEvent not allowed ", toString(inputEvent)); return false; }
 			}, inputEvent);
 		};
 	// Si el device es uno concreto llama a su funcion.
@@ -232,7 +238,7 @@ float PlatformModule::getAxis(input::InputEvent inputEvent, input::DeviceID devi
 		return std::visit(input::overloaded{
 			[&](input::MouseAxis a) {return vd->getAxis(a); },
 			[&](input::GamepadAxis a) {return vd->getAxis(a); },
-			[](auto&&) { Debug::error("[Input] inputEvent not allowed"); return 0.0f; }
+			[](auto&& inputEvent) { Debug::error("[Input] inputEvent not allowed ", toString(inputEvent)); return 0.0f; }
 			}, inputEvent);
 		};
 	// Si el device es uno concreto llama a su funcion.
@@ -269,6 +275,17 @@ bool PlatformModule::isActionReleased(const std::string& actionName, input::Devi
 			return true;
 	}
 	return false;
+}
+
+float PlatformModule::getActionAxis(const std::string& actionName, input::DeviceID device) const
+{
+	float maxVal = 0.0f;
+	int n = 0;
+	for (input::InputEvent event : _inputMapper->getInputEvents(actionName, device)) {
+		float value = getAxis(event, device);
+		if (abs(value) > abs(maxVal)) maxVal = value;
+	}
+	return maxVal;
 }
 
 void PlatformModule::startTextInput(bool blockKeyboard)
@@ -655,8 +672,12 @@ void PlatformModule::_processEvent(const SDL_Event& event)
 		if (it != _virtualDevices.end()) {
 			it->second->_setAxis(input::MOUSE_AXIS_X, event.motion.x);
 			it->second->_setAxis(input::MOUSE_AXIS_Y, event.motion.y);
-			it->second->_setAxis(input::MOUSE_AXIS_REL_X, event.motion.xrel);
-			it->second->_setAxis(input::MOUSE_AXIS_REL_Y, event.motion.yrel);
+
+			float relX = std::clamp(event.motion.xrel / _mouseSensitivity, -1.0f, 1.0f);
+			float relY = std::clamp(event.motion.yrel / _mouseSensitivity, -1.0f, 1.0f);
+
+			it->second->_setAxis(input::MOUSE_AXIS_REL_X, relX);
+			it->second->_setAxis(input::MOUSE_AXIS_REL_Y, relY);
 		}
 		break;
 	}

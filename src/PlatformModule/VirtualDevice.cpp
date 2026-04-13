@@ -38,7 +38,7 @@ void input::VirtualDevice::_setAxis(input::InputAxis axis, float value)
 			// Normalizar el valor a rango -1.0 a 1.0
 			float normalized = value / MAX_VALUE; // usamos int16, 
 			// Si esta dentro de la deadzone 0.
-			if (normalized < _deadzone)
+			if (std::abs(normalized) < _deadzone)
 			{
 				_gamepadAxisState[a] = 0.0f;
 				return;
