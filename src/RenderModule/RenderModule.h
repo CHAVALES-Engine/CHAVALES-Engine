@@ -447,7 +447,12 @@ public:
     /*
      * @brief Añadir un boton al panel
      */
-    uiButtonID addUIButton(const std::string& panelName, const entityID& entityID, const std::string& text, const std::string& textureFolder, const std::string& textureFile, core::Vector2<float> size);
+    uiButtonID addUIButton(const std::string& panelName, const entityID& entityID, const std::string& text,  core::Vector2<float> size);
+    /*
+     * @brief Añadir un ImageBoton al panel
+     */
+    uiButtonID addUIImageButton(const std::string& panelName, const entityID& entityID, const std::string& text, const std::string& textureFolder, const std::string& textureFile, core::Vector2<float> size);
+
     /*
     * @brief Establecer si el boton es visible
     */
