@@ -187,7 +187,9 @@ public:
 	* @return bool - Devuelve true si esta mapeada.
 	*/
 	bool hasAction(const std::string& actionName) const;
+
 private:
+	
 	/**
 	 * @brief Engine es clase amiga.
 	 */
@@ -197,4 +199,3 @@ private:
 	 */
 	PlatformModule* _platform = nullptr;
 };
-
