@@ -5,36 +5,37 @@
 #include "Transform.h"
 #include "RigidBody.h"
 #include "checkMLNew.h"
-
 REGISTER_COMPONENT(Collider);
 
 
 bool Collider::init(const Properties& p)
 {
-	//cosas de lua
 	_eng = Engine::instance();
 
+	//Default
+	radius = 0.5f;
+	height = 0.0f;
+
 	//SHAPE
-	// BOX
-	if (auto it = p.find("box"); it != p.end()) {
-		shapeType = ShapeType::Box;
-		if (auto val = std::get_if<core::Vector3<>>(&it->second))
-			size = *val;
-	}
-	// CAPSULE
-	auto it = p.find("capsule");
-	if (it != p.end())
+	std::string type = getProperty<std::string>(p, "type");
+	core::Vector3<> val;
+	setProperty(p, "shape", val);
+	if (type == "BOX")
 	{
-		if (auto val = std::get_if<core::Vector2<>>(&it->second))
-		{
-			shapeType = ShapeType::Capsule;
-			radius = val->getX();
-			height = val->getY();
-			//por si acaso
-			if (radius <= 0.0f) radius = 0.5f;
-			if (height < 0.0f) height = 0.0f;
-		}
+		shapeType = ShapeType::BOX;
+		size = val;
 	}
+	else if (type == "CAPSULE")
+	{
+		shapeType = ShapeType::CAPSULE;
+		radius = val.getX();
+		height = val.getY();
+	}
+	else
+	{
+		Debug::error("[COLLIDER] TIPO INCOMPATIBLE!!");
+	}
+
 	//DYNAMIC
 	isDynamic = getProperty<bool>(p, "dynamic");
 	
@@ -42,15 +43,14 @@ bool Collider::init(const Properties& p)
 	isTrigger = getProperty<bool>(p, "trigger");
 
 	//CENTER
-	auto itCen = p.find("center");
-	if (auto val = std::get_if<core::Vector3<>>(&itCen->second))
-		center = *val;
+	setProperty(p, "center", center);
 
 	return true;
 }
 
 void Collider::ready()
 {
+
 	if (!entity) return;
 
 	transform = entity->getComponent<Transform>();
@@ -75,13 +75,19 @@ void Collider::ready()
 
 		//coger el id
 		physicsID = rigidBody->getId();
+		if (physicsID == 0)
+		{
+			Debug::warning("[COLLIDER] RigidBody ID no válido aún. Esperando...");
+			return;
+		}
+		
 
 		switch (shapeType)
 		{
-		case ShapeType::Box:
+		case ShapeType::BOX:
 			_eng->attachBoxShapeToRigidBody(physicsID, size, center, isTrigger);
 			break;
-		case ShapeType::Capsule:
+		case ShapeType::CAPSULE:
 			_eng->attachCapsuleShapeToRigidBody(physicsID, radius, height, center, isTrigger);
 			break;
 		}
@@ -91,10 +97,10 @@ void Collider::ready()
 		//esatico o trigger sin rigidbody
 		switch (shapeType)
 		{
-		case ShapeType::Box:
+		case ShapeType::BOX:
 			physicsID = _eng->createBoxCollider(size, pos + center, isDynamic, isTrigger);
 			break;
-		case ShapeType::Capsule:
+		case ShapeType::CAPSULE:
 			physicsID = _eng->createCapsuleCollider(radius, height, center, pos + center, isDynamic, isTrigger);
 			break;
 		}

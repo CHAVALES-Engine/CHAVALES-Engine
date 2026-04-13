@@ -14,6 +14,7 @@ class AudioSource;
 class ComponentTest : public core::Component
 {
 	int velocity = 0;
+	int device;
 	bool moveCamera = true;
 	std::vector<int> vecInts;
 	std::vector<float> vecFloats;
@@ -37,6 +38,7 @@ class ComponentTest : public core::Component
 		//setProperty(p, "vec2", vec2);
 		//setProperty(p, "vec3", vec3);
 		//setProperty(p, "vec4", vec4);
+		setProperty(p, "device", device);
 		return setProperty(p, "velocity", velocity);
 	}
 
@@ -55,46 +57,46 @@ class ComponentTest : public core::Component
 		//Debug::out(">>Quaternion<<");
 		//for (const auto& s : vec4)
 		//	Debug::out(s);
-
 		/*Debug::out("Hola :-) Mi vida es ", health);
 		Debug::out("test ", test);*/
 		_transform = getEntity()->getComponent<Transform>();
 		// bloquea el cursor
 		Engine::instance()->input()->setRelativeMouseMode(false);
 		_transform->lockRotationZ(true);
-		Engine::input()->addEventToAction("left", input::KEY_A);
-		Engine::input()->addEventToAction("left", input::BUTTON_GP_LEFT);
-		Engine::input()->addEventToAction("right", input::KEY_D);
-		Engine::input()->addEventToAction("right", input::BUTTON_GP_RIGHT);
-		Engine::input()->addEventToAction("front", input::KEY_W);
-		Engine::input()->addEventToAction("front", input::BUTTON_GP_UP);
-		Engine::input()->addEventToAction("back", input::KEY_S);
-		Engine::input()->addEventToAction("back", input::BUTTON_GP_DOWN);
+		Engine::input()->addEventToAction("left", input::KEY_A, device);
+		Engine::input()->addEventToAction("left", input::BUTTON_GP_LEFT, device);
+		Engine::input()->addEventToAction("right", input::KEY_D, device);
+		Engine::input()->addEventToAction("right", input::BUTTON_GP_RIGHT, device);
+		Engine::input()->addEventToAction("front", input::KEY_W, device);
+		Engine::input()->addEventToAction("front", input::BUTTON_GP_UP, device);
+		Engine::input()->addEventToAction("back", input::KEY_S, device);
+		Engine::input()->addEventToAction("back", input::BUTTON_GP_DOWN, device);
 
-		Engine::input()->addEventToAction("lock_h", input::GAMEPAD_AXIS_RIGHT_X);
-		Engine::input()->addEventToAction("lock_h", input::MOUSE_AXIS_REL_X);
-		Engine::input()->addEventToAction("lock_v", input::GAMEPAD_AXIS_RIGHT_Y);
-		Engine::input()->addEventToAction("lock_v", input::MOUSE_AXIS_REL_Y);
+		Engine::input()->addEventToAction("lock_h", input::GAMEPAD_AXIS_RIGHT_X, device);
+		Engine::input()->addEventToAction("lock_h", input::MOUSE_AXIS_REL_X, device);
+		Engine::input()->addEventToAction("lock_v", input::GAMEPAD_AXIS_RIGHT_Y, device);
+		Engine::input()->addEventToAction("lock_v", input::MOUSE_AXIS_REL_Y, device);
 	}
 
 	void update(uint64_t deltaTime) override
 	{
 
+		if (!Engine::input()->isDeviceConnected(device)) return;
 
 		float speed = velocity * (float)deltaTime / 1000.0f;
-		float mouseSensitivity = velocity/100.0f;
+		float mouseSensitivity = velocity / 100.0f;
 
 		if (Engine::input()->isKeyReleased(input::KEY_K))
 			entity->getScene()->findEntityByName("cube2")->destroy();
 
 		// --- Movimiento WASD
-		if (Engine::input()->isActionPressed("front"))
+		if (Engine::input()->isActionPressed("front", device))
 			_transform->translate(_transform->forward() * -speed);
-		if (Engine::input()->isActionPressed("back"))
+		if (Engine::input()->isActionPressed("back", device))
 			_transform->translate(_transform->forward() * speed);
-		if (Engine::input()->isActionPressed("left"))
+		if (Engine::input()->isActionPressed("left", device))
 			_transform->translate(_transform->right() * -speed);
-		if (Engine::input()->isActionPressed("right"))
+		if (Engine::input()->isActionPressed("right", device))
 			_transform->translate(_transform->right() * speed);
 
 		// --- Rotacion con raton
@@ -105,8 +107,8 @@ class ComponentTest : public core::Component
 		{
 			// bloquea el cursor
 			Engine::input()->setRelativeMouseMode(true);
-			float mouseX = Engine::input()->getActionAxis("lock_h");
-			float mouseY = Engine::input()->getActionAxis("lock_v");
+			float mouseX = Engine::input()->getActionAxis("lock_h", device);
+			float mouseY = Engine::input()->getActionAxis("lock_v", device);
 
 			if (mouseX != 0)
 				_transform->rotateGlobal(core::Vector3<>(0, -mouseX * mouseSensitivity, 0));

@@ -33,9 +33,12 @@
 #include <OgreOverlayManager.h>
 #include <OgreOverlaySystem.h>
 #include <imgui.h>
+#include <imgui_impl_sdl3.h>
+#include <imgui_impl_sdl3.cpp>
 #include <assimp/postprocess.h>
 #include <OgreGL3PlusTexture.h>
 #include <guid.h>
+#include <imgui_impl_sdl3.h>
 
 #include "GameConfigurator.h"
 #include <checkMLNew.h>
@@ -177,6 +180,8 @@ bool RenderModule::Init(const HWND handle, const int width, const int height,con
 		_overlaySystem = new Ogre::OverlaySystem();
 		_sceneMgr->addRenderQueueListener(_overlaySystem);
 
+		ImGui_ImplSDL3_InitForOther(nullptr);
+
 		_overlay = new Ogre::ImGuiOverlay();
 		Ogre::OverlayManager::getSingleton().addOverlay(_overlay);
 		_overlay->show();
@@ -302,6 +307,11 @@ void RenderModule::cleanScene(const bool& end)
 			_rgm->destroyResourceGroup(groupName);
 		}
 	}
+}
+
+RenderModule::EventCallback RenderModule::getImguiInputCallback()
+{
+	return ImGui_ImplSDL3_ProcessEvent;
 }
 
 transformID RenderModule::addNode(const entityID& entityID, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float> scale, const bool& fromTransform,const TransformType type)
@@ -1331,22 +1341,6 @@ void RenderModule::renderUI() {
 		ImGui::SetNextWindowPos(ImVec2(0, 0));
 		ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
 		ImGui::Begin(panel.title.c_str(), nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoMove);
-
-		for (UITextureRectData& tex : panel.textureRects) {
-			if (!tex.visible) {
-				continue;
-			}
-			int tID = getTransformUI(tex.entity);
-			auto pos = _uiTransforms[tID].position;
-			ImGui::SetCursorPos(ImVec2(pos.getX(), pos.getY()));
-			ImGui::PushStyleVar(ImGuiStyleVar_Alpha, tex.opacity);
-
-			const ImVec2 aux = { tex.size.getX(), tex.size.getY() };
-			ImGui::Image((ImTextureID)tex.textureID, aux);
-			ImGui::PopStyleVar();
-
-		}
-
 		for (UILabelData& label : panel.labels) {
 			if (!label.visible) {
 				continue;
@@ -1381,6 +1375,22 @@ void RenderModule::renderUI() {
 
 			ImGui::PopFont();
 		}
+		for (UITextureRectData& tex : panel.textureRects) {
+			if (!tex.visible) {
+				continue;
+			}
+			int tID = getTransformUI(tex.entity);
+			auto pos = _uiTransforms[tID].position;
+			ImGui::SetCursorPos(ImVec2(pos.getX(), pos.getY()));
+			ImGui::PushStyleVar(ImGuiStyleVar_Alpha, tex.opacity);
+
+			const ImVec2 aux = { tex.size.getX(), tex.size.getY() };
+			ImGui::Image((ImTextureID)tex.textureID, aux);
+			ImGui::PopStyleVar();
+
+		}
+
+		
 
 		for (UIButtonData& button : panel.buttons) {
 			if (!button.visible) {
@@ -1411,7 +1421,6 @@ void RenderModule::renderUI() {
 			ImGui::PopStyleVar();
 		}
 		ImGui::End();
-
 	}
 	ImGui::Render();
 }
