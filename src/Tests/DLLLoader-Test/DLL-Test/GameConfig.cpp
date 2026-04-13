@@ -1,12 +1,13 @@
-
+﻿
 #include "GameConfigurator.h"
+#include "checkMLNew.h"
 
 
 extern "C" __declspec(dllexport)
 void configureGame()
 {
-	if (!core::GameConfigurator::instance()._useTOML.empty()) return;
 	// configuracion desde dll
+	core::GameConfigurator::instance()._configType = "DLL";
 	core::GameConfigurator::instance()._scenesRoot = "game/scenes/";
 	core::GameConfigurator::instance()._firstScene = "scene_base";
 	core::GameConfigurator::instance()._assetsRoot = "game/assets/";

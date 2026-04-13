@@ -1,4 +1,5 @@
-#include "Component.h"
+﻿#include "Component.h"
+#include "checkMLNew.h"
 
 
 core::Component::Component()

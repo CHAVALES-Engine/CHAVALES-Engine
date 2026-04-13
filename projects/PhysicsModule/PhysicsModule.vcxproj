@@ -63,7 +63,7 @@
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\PhysX\physx\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\PhysX\physx\include;$(SolutionDir)src\Core-Defs\;$(SolutionDir)src\Core-Utils\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -86,7 +86,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\PhysX\physx\include;$(SolutionDir)dependencies\PhysX\physx\source\common\include;$(SolutionDir)dependencies\PhysX\physx\source\geomutils\include;$(SolutionDir)dependencies\PhysX\physx\source\lowlevel\api\include;$(SolutionDir)dependencies\PhysX\physx\source\physxgpu\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\PhysX\physx\include;$(SolutionDir)dependencies\PhysX\physx\source\common\include;$(SolutionDir)dependencies\PhysX\physx\source\geomutils\include;$(SolutionDir)dependencies\PhysX\physx\source\lowlevel\api\include;$(SolutionDir)dependencies\PhysX\physx\source\physxgpu\include;$(SolutionDir)src\Core-Utils\;$(SolutionDir)src\Core-Defs\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>

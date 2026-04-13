@@ -1,10 +1,11 @@
-#include "ModelRenderer.h"
+﻿#include "ModelRenderer.h"
 
 #include "Engine.h"
 #include "Entity.h"
 #include "PluginSDK.h"
 
 #include <string>
+#include "checkMLNew.h"
 
 REGISTER_COMPONENT(ModelRenderer);
 

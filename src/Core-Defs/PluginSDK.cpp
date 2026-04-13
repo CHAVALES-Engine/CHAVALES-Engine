@@ -1,4 +1,5 @@
-#include "PluginSDK.h"
+﻿#include "PluginSDK.h"
+#include "checkMLNew.h"
 
 extern "C" __declspec(dllexport)
 const core::ComponentDescriptor* getPluginComponents(size_t& count)

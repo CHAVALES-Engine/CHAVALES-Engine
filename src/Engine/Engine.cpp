@@ -17,6 +17,7 @@
 #include "ResourcesFacade.h"
 
 #include <iostream>
+#include <checkMLNew.h>
 
 using namespace std;
 Engine* Engine::_instance = nullptr;
@@ -49,8 +50,10 @@ void Engine::release()
 			Debug::error(e.what());
 		}
 		delete _instance->_resourcesModule;
-
+		delete _instance->_resources;
 		delete _instance->_stateMachine;
+		// desca
+		ComponentDLLLoader::instance().unLoadAll();
 		delete _instance;
 		_instance = nullptr;
 	}
@@ -339,8 +342,7 @@ void Engine::setUIPanelVisible(const uiPanelID& id, bool visible)
 	_renderModule->setUIPanelVisible(id, visible);
 }
 uiLabelID  Engine::addUILabel(const std::string& panelName, const entityID& entityID, const std::string& text, const  float opacity, const  core::Vector2<float> size, const core::Color textColor, const core::Color bgColor, const float fontSize, const TextAlign textAlign, const std::string fontName) {
-	auto font = _resourcesModule->getFonts(fontName);
-	return _renderModule->addUILabel(panelName, entityID, text,opacity,size,textColor,bgColor,fontSize,textAlign,font.first,font.second);
+	return _renderModule->addUILabel(panelName, entityID, text,opacity,size,textColor,bgColor,fontSize,textAlign, fontName);
 }
 void  Engine::setUILabelText(const uiLabelID& uiLabelID, const std::string& text) {
 	_renderModule->setUILabelText(uiLabelID, text);
@@ -477,9 +479,9 @@ float Engine::getVolume(int chID)
 
 #pragma region Physics
 
-uint32_t Engine::createBoxCollider(const core::Vector3<>& size, const core::Vector3<>& pos, bool isDynamic, bool isKinematic)
+uint32_t Engine::createBoxCollider(const core::Vector3<>& size, const core::Vector3<>& pos, bool isDynamic, bool isTrigger)
 {
-	return _physicsModule->CreateBoxShape(size, pos, isDynamic, isKinematic);
+	return _physicsModule->CreateBoxShape(size, pos, isDynamic, isTrigger);
 }
 
 void Engine::setPhysicsPosition(uint32_t id, const core::Vector3<>& pos)
@@ -492,10 +494,10 @@ core::Vector3<> Engine::getPhysicsPosition(uint32_t id)
 	return _physicsModule->GetPhysicsPosition(id);
 }
 
-uint32_t Engine::createCapsuleCollider(float radius, float height, const core::Vector3<>& center, const core::Vector3<>& worldPos, bool isDynamic, bool isKinematic)
+uint32_t Engine::createCapsuleCollider(float radius, float height, const core::Vector3<>& center, const core::Vector3<>& worldPos, bool isDynamic, bool isTrigger)
 {
 	if (!_physicsModule) return 0;
-	return _physicsModule->CreateCapsuleShape(radius, height, center, worldPos, isDynamic, isKinematic);
+	return _physicsModule->CreateCapsuleShape(radius, height, center, worldPos, isDynamic, isTrigger);
 }
 
 std::vector<PhysicsEvent> Engine::getPhysicsEvents(ComponentID id)
@@ -508,17 +510,17 @@ void Engine::clearPhysicsEvents()
 	_physicsModule->clearEvents();
 }
 ///
-ComponentID Engine::attachBoxShapeToRigidBody(ComponentID bodyID, const core::Vector3<> size, const core::Vector3<>& center)
+ComponentID Engine::attachBoxShapeToRigidBody(ComponentID bodyID, const core::Vector3<> size, const core::Vector3<>& center, bool isTrigger)
 { 
 	if (!_physicsModule) return 0;
-	_physicsModule->AttachBoxShape(bodyID, size, center);
+	_physicsModule->AttachBoxShape(bodyID, size, center, isTrigger);
 	return bodyID; //devuelve el ID del RigidBody al que se unio
 }
 
-ComponentID Engine::attachCapsuleShapeToRigidBody(ComponentID bodyID, float radius, float height, const core::Vector3<>& center)
+ComponentID Engine::attachCapsuleShapeToRigidBody(ComponentID bodyID, float radius, float height, const core::Vector3<>& center, bool isTrigger)
 {
 	if (!_physicsModule) return 0;
-	_physicsModule->AttachCapsuleShape(bodyID, radius, height, center);
+	_physicsModule->AttachCapsuleShape(bodyID, radius, height, center, isTrigger);
 	return bodyID; 
 }
 
@@ -530,9 +532,9 @@ void Engine::setPhysicsTransform(ComponentID id, const core::Vector3<>& pos, con
 }
 
 ///
-uint32_t Engine::createRigidBody(core::Vector3<> pos, float mass, bool useGravity)
+uint32_t Engine::createRigidBody(core::Vector3<> pos, float mass, bool useGravity, bool isKinematic)
 {
-	return _physicsModule->CreateRigidBody(pos, mass, useGravity);
+	return _physicsModule->CreateRigidBody(pos, mass, useGravity, isKinematic);
 }
 
 core::Vector3<> Engine::getLinearVelocity(uint32_t id)
@@ -545,14 +547,25 @@ void Engine::setLinearVelocity(uint32_t id, core::Vector3<> vel)
 	_physicsModule->SetLinearVelocity(id, vel);
 }
 
-void Engine::addForce(uint32_t id, core::Vector3<> force)
+void Engine::setMass(uint32_t id, float mass)
 {
-	_physicsModule->AddForce(id, force);
+	_physicsModule->SetMass(id, mass);
 }
 
-void Engine::addImpulse(uint32_t id, core::Vector3<> impulse)
+float Engine::getMass(uint32_t id)
 {
-	_physicsModule->AddForce(id, impulse);
+	return _physicsModule->GetMass(id);
+}
+
+
+void Engine::addForce(uint32_t id, core::Vector3<> force, char mode)
+{
+	_physicsModule->AddForce(id, force, mode);
+}
+
+void Engine::clearForce(uint32_t id, char mode)
+{
+	_physicsModule->ClearForce(id, mode);
 }
 
 uint32_t Engine::createMaterial(float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine)
@@ -600,6 +613,13 @@ bool Engine::_initPriv()
 	//cargamos dlls
 	if (!ComponentDLLLoader::instance().loadAll(DLLs_PATH))
 		return false;
+#if _DEBUG
+	std::string basecompPath = "./ComponentsProject_d.dll";
+#else 
+	std::string basecompPath = "./ComponentsProject_r.dll";
+#endif
+	if (!ComponentDLLLoader::instance().load(basecompPath))
+		return false;
 
 	//Platform
 	_platformModule = new PlatformModule();
@@ -642,11 +662,6 @@ bool Engine::_initPriv()
 
 	_stateMachine = new StateMachine();
 
-#if _DEBUG
-	ComponentDLLLoader::instance().load("./ComponentsProject_d.dll");
-#else 
-	ComponentDLLLoader::instance().load("./ComponentsProject_r.dll");
-#endif
 	//
 	//#if _DEBUG
 	//	ComponentDLLLoader::instance().load("./game/DLL-Test.dll");
@@ -658,3 +673,13 @@ bool Engine::_initPriv()
 
 	return true;
 }
+
+void Engine::update(float dt)
+{
+	if (_physicsModule)
+	{
+		_physicsModule->Update(dt);
+		
+	}
+}
+

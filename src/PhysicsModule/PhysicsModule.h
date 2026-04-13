@@ -15,48 +15,50 @@ class PhysicsModule : public physx::PxSimulationEventCallback
 public:
 
 	PhysicsModule();
-	virtual ~PhysicsModule() = default;
+	virtual ~PhysicsModule();
 
 	bool Init();
 	core::Vector3<> GetPhysicsPosition(ComponentID id);
-	void Update(float dt) ;
+	void Update(float dt);
 
 	//colliders
-	ComponentID  CreateBoxShape(core::Vector3<> dimension, core::Vector3<> pos, bool isDynamic, bool isKinematic);
-	ComponentID CreateCapsuleShape(float radius, float height, const core::Vector3<>& center, const core::Vector3<>& worldPos, bool isDynamic, bool isKinematic);
+	ComponentID  CreateBoxShape(core::Vector3<> dimension, core::Vector3<> pos, bool isDynamic, bool isTrigger);
+	ComponentID CreateCapsuleShape(float radius, float height, const core::Vector3<>& center, const core::Vector3<>& worldPos, bool isDynamic, bool isTrigger);
 	std::vector<PhysicsEvent> getEventsFor(ComponentID id);
 	void clearEvents();
 	void SetPhysicsPosition(ComponentID id, const core::Vector3<>& pos);
 
 	//rigidbody
-	uint32_t CreateRigidBody(core::Vector3<> pos, float mass, bool useGravity);
+	uint32_t CreateRigidBody(core::Vector3<> pos, float mass, bool useGravity, bool isKinematic);
 	core::Vector3<> GetLinearVelocity(uint32_t id);
 	void SetLinearVelocity(uint32_t id, core::Vector3<> vel);
-	void AddForce(uint32_t id, core::Vector3<> force);
-	void AddImpulse(uint32_t id, core::Vector3<> impulse);
+	void AddForce(uint32_t id, core::Vector3<> force, char mode);
+	void ClearForce(uint32_t id, char mode);
 
-	void AttachBoxShape(ComponentID bodyID, const core::Vector3<> size, const core::Vector3<>& center);
+	float GetMass(uint32_t id);
+	void SetMass(uint32_t id, float mass);
 
-	void AttachCapsuleShape(ComponentID bodyID, float radius, float height, const core::Vector3<>& center);
-
+	//collider + rigidbody
+	void AttachBoxShape(ComponentID bodyID, const core::Vector3<> size, const core::Vector3<>& center, bool isTrigger);
+	void AttachCapsuleShape(ComponentID bodyID, float radius, float height, const core::Vector3<>& center, bool isTrigger);
 	void setPhysicsTransform(ComponentID id, const core::Vector3<>& pos, const core::Quaternion<>& rot);
 
 	//callbacks
-	void onContact(const physx::PxContactPairHeader& pairHeader,
-		const physx::PxContactPair* pairs, physx::PxU32 nbPairs) override {
-	};
-
 	void onTrigger(physx::PxTriggerPair* pairs, physx::PxU32 count) override;
-
-
+	void onContact(const physx::PxContactPairHeader& pairHeader, const physx::PxContactPair* pairs, physx::PxU32 nbPairs) override;
 	void onConstraintBreak(physx::PxConstraintInfo* constraints, physx::PxU32 count) override {}
 	void onWake(physx::PxActor** actors, physx::PxU32 count) override {}
 	void onSleep(physx::PxActor** actors, physx::PxU32 count) override {}
-	void onAdvance(const physx::PxRigidBody* const* bodyBuffer,const physx::PxTransform* poseBuffer,const physx::PxU32 count) override {}
+	void onAdvance(const physx::PxRigidBody* const* bodyBuffer, const physx::PxTransform* poseBuffer, const physx::PxU32 count) override {}
 
 	//materiales
 	uint32_t CreateMaterial(float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine);
 	void UpdateMaterial(uint32_t id, float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine);
+
+	//limpieza
+	void DestroyBody(ComponentID id);
+	void DestroyMaterial(uint32_t id);
+	void ClearScene();
 private:
 	ComponentID nextID = 1;
 	ComponentID nextIDMaterial = 1;

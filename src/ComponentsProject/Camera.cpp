@@ -7,6 +7,7 @@
 #include <PluginSDK.h>
 
 #include "GameConfigurator.h"
+#include "checkMLNew.h"
 
 
 REGISTER_COMPONENT(Camera);

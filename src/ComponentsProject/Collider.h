@@ -5,6 +5,7 @@
 using ComponentID = unsigned int;
 class Engine;
 class Transform;
+class RigidBody;
 namespace core {
 	class Entity;
 }
@@ -39,7 +40,7 @@ protected:
 
 	bool isTrigger = false;
 	bool isDynamic = false;//o pared o con gravedad
-	bool isKinematic = false;// como dinamiico pero movido a mano
+
 
 	core::Vector3<> size = { 1,1,1 };
 	core::Vector3<> center = { 0,0,0 };//offset respecto a la entidad, donde esta el collider
@@ -48,6 +49,7 @@ protected:
 	Engine* _eng;
 	ComponentID physicsID = 0;
 	Transform* transform;//entidad .pos es la posicion de la entidad
+	RigidBody* rigidBody = nullptr;
 
 public:
 	Collider() {};

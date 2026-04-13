@@ -1,8 +1,9 @@
-#include "Entity.h"
+﻿#include "Entity.h"
 #include "Component.h"
 #include "Debug.h"
 #include "ec.h"
 #include "guid.h"
+#include "checkMLNew.h"
 
 namespace core
 {

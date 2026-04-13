@@ -97,7 +97,6 @@
   <ItemGroup>
     <ClCompile Include="..\..\src\Core-Defs\Component.cpp" />
     <ClCompile Include="..\..\src\Core-Defs\Entity.cpp" />
-    <ClCompile Include="..\..\src\Core-Defs\Manager.cpp" />
     <ClCompile Include="..\..\src\Core-Defs\PluginSDK.cpp" />
     <ClCompile Include="..\..\src\Core-Defs\Scene.cpp" />
   </ItemGroup>
@@ -113,7 +112,6 @@
     <ClInclude Include="..\..\src\Core-Defs\guid.h" />
     <ClInclude Include="..\..\src\Core-Defs\IndexPQ.h" />
     <ClInclude Include="..\..\src\Core-Defs\InputDefs.h" />
-    <ClInclude Include="..\..\src\Core-Defs\Manager.h" />
     <ClInclude Include="..\..\src\Core-Defs\Maths.h" />
     <ClInclude Include="..\..\src\Core-Defs\PhysicsTypes.h" />
     <ClInclude Include="..\..\src\Core-Defs\PluginSDK.h" />

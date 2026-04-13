@@ -2,6 +2,7 @@
 scene = { -- entidades en escena
    -- ENTIDAD 1
    camera = { -- nombre de la entidad
+		ddol = false, -- dont destroy on loads
    		components = { -- componentes de esa entidad
    			Transform = { -- componente transform
    				-- posicion local
@@ -25,16 +26,46 @@ scene = { -- entidades en escena
 			}
 		}
    },
-   cube = {
+--    cube = {
+--		ddol = false,
+-- 		components = {
+-- 			Transform = {
+-- 				position = Vector3.new(0,0,0),
+-- 				rotation = Quaternion.new(),
+-- 				scale = Vector3.new(1.0),
+-- 				},
+-- 			ModelRenderer = {
+-- 				file = "gizmo",
+-- 				["number of textures"] = 0
+-- 			}
+-- 		}
+--    },
+   cube2 = {
+		ddol = false,
 		components = {
 			Transform = {
-				position = Vector3.new(0,0,0),
+				position = Vector3.new(300,0,0),
 				rotation = Quaternion.new(),
-				scale = Vector3.new(1.0),
+				scale = Vector3.new(2.0),
 				},
 			ModelRenderer = {
 				file = "gizmo",
 				["number of textures"] = 0
+			},
+			RigidBody = {
+					
+				useGravity = false, 
+				isKinematic = false,
+					mass = 10.0,
+					position = Vector3.new(300, 0, 0),     
+					velocity = Vector3.new(-0.1, 0, 0),   
+			 }
+			,
+			Collider = {
+    			box = Vector3.new(120, 120, 120),      
+    			dynamic = true,
+				trigger = true,
+    			center = Vector3.new(0,0,0)    
 			},
 			AudioSource = {
 				soundID = "MySound",
@@ -46,10 +77,11 @@ scene = { -- entidades en escena
  			}
 		}
    },
-   cube2 = {
+   cube3 = {
+		ddol = false,
 		components = {
 			Transform = {
-				position = Vector3.new(100,100,100),
+				position = Vector3.new(50,0,0),
 				rotation = Quaternion.new(),
 				scale = Vector3.new(1.0),
 				},
@@ -57,31 +89,27 @@ scene = { -- entidades en escena
 				file = "gizmo",
 				["number of textures"] = 0
 			}
-		}
-   },
-   cube3 = {
-		components = {
-			Transform = {
-				position = Vector3.new(50,50,0),
-				rotation = Quaternion.new(),
-				scale = Vector3.new(5.0),
-				},
-			ModelRenderer = {
-				file = "gizmo",
-				["number of textures"] = 0
-			}
-			--,
-			
-			-- Collider = {
-    		-- 	box = Vector3.new(1, 1, 1),      
-    		-- 	dynamic = true,
-   			-- 	kinematic = false,
-			-- 	trigger = false,
-    		-- 	center = Vector3.new(0,0,0)    
-			-- }   
+			-- ,
+			-- RigidBody = {
+						
+			-- 		useGravity = false,
+			-- 		isKinematic = false;
+			-- 		mass = 10.0,
+			-- 		position = Vector3.new(50, 0, 0),     
+			-- 		velocity = Vector3.new(0.3, 0, 0),   
+					 
+			--  }
+			 ,
+			Collider = {
+    			box = Vector3.new(60, 60, 60),      
+    			dynamic = false,
+				trigger = false,
+    			center = Vector3.new(0,0,0)    
+			}   
 		}
    },
    light = {
+		ddol = false,
 		components = {
 			Transform = {
 				position = Vector3.new(0,0,0),
@@ -98,7 +126,42 @@ scene = { -- entidades en escena
 			}
 		}
    },
+--    cube4 = {
+--		ddol = false,
+-- 		components = {
+-- 			Transform = {
+-- 				position = Vector3.new(0,0,0),
+-- 				rotation = Quaternion.new(),
+-- 				scale = Vector3.new(0.5),
+-- 				scale = Vector3.new(1.0),
+-- 				},
+-- 			ModelRenderer = {
+-- 				file = "metroid",
+-- 				["number of textures"] = 5,
+-- 				texture0 = {
+-- 					"membrane", 
+-- 					"0"
+-- 				},
+-- 				texture1 = {
+-- 					"body", 
+-- 					"1"
+-- 				},
+-- 				texture2 = {
+-- 					"nuclei", 
+-- 					"2"
+-- 				},
+-- 				texture3 = {
+-- 					"nuclei", 
+-- 					"10"
+-- 				},texture4 = {
+-- 					"mandibles", 
+-- 					"6"
+-- 				}
+-- 				}
+-- 		}
+-- 	},
    CanvasUI ={
+	ddol = false,
 	components = {
 		UIPanel = {
 			name = "CanvasUI"
@@ -106,6 +169,7 @@ scene = { -- entidades en escena
 	}
    },
    BottonUI = {
+	ddol = false,
 	components = {
 		Transform = {
 				position = Vector3.new(100,60,0),
@@ -123,6 +187,7 @@ scene = { -- entidades en escena
 	}
    },
    LabelUI= {
+	ddol = false,
 	components = {
 		Transform = {
 				position = Vector3.new(900,10,0),
@@ -138,7 +203,7 @@ scene = { -- entidades en escena
 			opacity = 1.0,
 			bgColor = Color.new(1.0, 0.0, 0.0,1),
 			align = "center",
-			fontSize = 65.0,
+			fontSize = 16.0,
 			fontName = "fontPrueba",
 			textColor = Color.new(1.0,1.0, 0.0,1)
 		}

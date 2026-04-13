@@ -9,13 +9,12 @@
 #ifndef CHECKML_H
 #define CHECKML_H
 
-#if defined(_WIN32) && defined(_DEBUG)
+#if defined(_WIN64) && defined(_DEBUG)
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
 #include <crtdbg.h>
 #if defined(_MSC_VER) && !defined(DBG_NEW)
 #define DBG_NEW new (_NORMAL_BLOCK, __FILE__, __LINE__)
-#define new DBG_NEW
 #endif
 
 // El siguiente código activa el análisis de las fugas de memoria al finalizar
@@ -26,8 +25,19 @@
 
 class crt_leak_setflag_dummy {
 	struct constructor {
-		constructor() {
+		constructor()
+		{
 			_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+
+			// stderr - salida por consola
+			_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG | _CRTDBG_MODE_FILE);
+			_CrtSetReportFile(_CRT_WARN, _CRTDBG_FILE_STDERR);
+
+			_CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_DEBUG | _CRTDBG_MODE_FILE);
+			_CrtSetReportFile(_CRT_ERROR, _CRTDBG_FILE_STDERR);
+
+			_CrtSetReportMode(_CRT_ASSERT, _CRTDBG_MODE_DEBUG | _CRTDBG_MODE_FILE);
+			_CrtSetReportFile(_CRT_ASSERT, _CRTDBG_FILE_STDERR);
 		}
 	};
 	static constructor ctor;

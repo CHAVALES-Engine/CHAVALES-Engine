@@ -409,7 +409,7 @@ public:
     /*
      * @brief Añadir un letrero al panel
      */
-    uiLabelID addUILabel(const std::string& panelName, const entityID& entityID, const std::string& text, const  float opacity, const  core::Vector2<float> size, const core::Color textColor, const core::Color bgColor, const float fontSize, const TextAlign textAlign, const std::string fontFolder, const std::string fontFile);
+    uiLabelID addUILabel(const std::string& panelName, const entityID& entityID, const std::string& text, const  float opacity, const  core::Vector2<float> size, const core::Color textColor, const core::Color bgColor, const float fontSize, const TextAlign textAlign, const std::string fontName);
     /*
     * @brief Establecer si el letrero es visible
     */
@@ -508,6 +508,7 @@ private:
     std::unordered_map<uiLabelID,std::pair< uiPanelID,int>> _labelToPanel;
     std::unordered_map<uiButtonID, std::pair<uiPanelID, int>> _buttonToPanel;
     std::unordered_map<uiTextureRectID, std::pair<uiPanelID, int>> _textureToPanel;
+    std::unordered_map<std::string, ImFont*> _fonts;
     std::vector<UITransform> _uiTransforms;
     TextAlign stringToAlign(const std::string& align);
     uiPanelID getOrSetPanel(const std::string& panelName);

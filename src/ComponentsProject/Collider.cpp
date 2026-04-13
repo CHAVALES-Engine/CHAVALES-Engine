@@ -1,12 +1,13 @@
-#include "Collider.h"
+﻿#include "Collider.h"
 #include "PluginSDK.h"
 #include "Engine.h"
 #include "Entity.h"
 #include "Transform.h"
+#include "RigidBody.h"
+#include "checkMLNew.h"
 
 REGISTER_COMPONENT(Collider);
 
-//NO FUNCIONAN LOS COLLIDERS SI NO SON DYNAMIC QUIERO TESTEAR PERO AUN NO VA COMO PARA QUE PUEDA
 
 bool Collider::init(const Properties& p)
 {
@@ -37,11 +38,7 @@ bool Collider::init(const Properties& p)
 		if (auto val = std::get_if<bool>(&itDyn->second))
 			isDynamic = *val;
 	}
-	//KINEMATIC
-	if (auto it = p.find("kinematic"); it != p.end()) {
-		if (auto val = std::get_if<bool>(&it->second))
-			isKinematic = *val;
-	}
+	
 	//TRIGGER
 	auto itTrig = p.find("trigger");
 	if (itTrig != p.end()) {
@@ -51,43 +48,48 @@ bool Collider::init(const Properties& p)
 
 	//CENTER
 	auto itCen = p.find("center");
-	if (itCen != p.end()) {
-		if (auto val = std::get_if<bool>(&itCen->second))
-			center = *val;
-	}
+	if (auto val = std::get_if<core::Vector3<>>(&itCen->second))
+		center = *val;
 
 	return true;
 }
 
 void Collider::ready()
 {
-	//en el ready miro si tiene un rigidbody real y si lo tiene le paso al metodo los datos del rigidbody
 	if (!entity) return;
 
 	transform = entity->getComponent<Transform>();
 	if (!transform) return;
 
-	//si es dinamico le uno un rigidbody
-
 	core::Vector3<> pos = transform->getGlobalPosition();
 
-	if (isKinematic && !isDynamic) {
-		printf("Warning: Collider no puede ser kinematic sin ser din�mico. Corrigiendo a dynamic=true\n");
+	rigidBody = entity->getComponent<RigidBody>();
+
+	//!!!IMPORTANTE QUE LA KINEMATIC LA MANEJO YO TENGO QUE MIRAR ESTO
+	if (rigidBody != NULL && rigidBody->getIsKinematic() && !isDynamic) {
+		Debug::warning("[COLLIDER] Collider no puede ser kinematic sin ser dinámico. Corrigiendo a dynamic=true.");
 		isDynamic = true;
 	}
 
+	//CUANDO SEA KINEMATIC TENGO QUE USAR UN RIGIDBODY KINEMATIC PERO AUN NO EXISTE
 	if (isDynamic)
 	{
-		bool useGravity = !isKinematic;
-		physicsID = _eng->createRigidBody(pos, 10.0f, useGravity);//masa por defecto 10
+		if (rigidBody == NULL)
+		{
+			Debug::warning("[COLLIDER] Collider no puede ser dinamico sin rigidbody.");
+			return;
+		}
+
+		//coger el id
+		physicsID = rigidBody->getId();
 
 		switch (shapeType)
 		{
 		case ShapeType::Box:
-			_eng->attachBoxShapeToRigidBody(physicsID, size, center);
+			_eng->attachBoxShapeToRigidBody(physicsID, size, center, isTrigger);
 			break;
 		case ShapeType::Capsule:
-			_eng->attachCapsuleShapeToRigidBody(physicsID, radius, height, center);
+			_eng->attachCapsuleShapeToRigidBody(physicsID, radius, height, center, isTrigger);
 			break;
 		}
 	}
@@ -97,26 +99,18 @@ void Collider::ready()
 		switch (shapeType)
 		{
 		case ShapeType::Box:
-			physicsID = _eng->createBoxCollider(center, pos + center, isDynamic, isKinematic);
+			physicsID = _eng->createBoxCollider(size, pos + center, isDynamic, isTrigger);
 			break;
 		case ShapeType::Capsule:
-			physicsID = _eng->createCapsuleCollider(radius, height, center, pos + center, isDynamic, isKinematic);
+			physicsID = _eng->createCapsuleCollider(radius, height, center, pos + center, isDynamic, isTrigger);
 			break;
 		}
 	}
-
 }
 
 void Collider::update(uint64_t deltaTime)
 {
 	if (!entity || physicsID == 0 || !transform) return;
-
-	if (!isDynamic /*&& transform->*/) {
-		//estaticos
-		core::Vector3<> pos = transform->getGlobalPosition();
-		core::Quaternion rot = transform->getGlobalRotation();
-		_eng->setPhysicsTransform(physicsID, pos + center, rot);//rotaciones y posicion
-	}
 
 	for (auto& event : _eng->getPhysicsEvents(physicsID)) {
 		switch (event.type) {
@@ -126,21 +120,24 @@ void Collider::update(uint64_t deltaTime)
 		case CollisionType::CollisionExit: onCollisionExit(event.b); break;
 		}
 	}
+	_eng->clearPhysicsEvents();
 }
 
 
-void Collider::onTriggerEnter(ComponentID other) {
-	
+void Collider::onTriggerEnter(ComponentID other) 
+{
+	Debug::out("[TRIGGER] Trigger enter");
 }
 
-void Collider::onTriggerExit(ComponentID other) {
-	
+void Collider::onTriggerExit(ComponentID other) 
+{
+	Debug::out("[TRIGGER] Trigger exit");
 }
 
 void Collider::onCollisionEnter(ComponentID other) {
-	
+
 }
 
 void Collider::onCollisionExit(ComponentID other) {
-	
+
 }

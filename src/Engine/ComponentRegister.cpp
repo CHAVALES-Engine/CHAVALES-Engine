@@ -1,6 +1,7 @@
 #include "ComponentRegister.h"
 #include <Component.h>
 #include <Debug.h>
+#include "checkMLNew.h"
 
 ComponentRegister& ComponentRegister::instance() {
 	// Usamos la inicializacion de mayers porque es mas limpia y garantiza Thread-Safe
@@ -14,9 +15,9 @@ bool ComponentRegister::registComponent(const std::string& name, core::Component
 	auto [it, inserted] = _components.try_emplace(name, ComponentConstructor);
 	// Si no se ha registrado lanza un warning
 	if (!inserted)
-		Debug::warning("COMPONENT REGISTER: [", name, "] Already registered.");
+		Debug::warning("[COMPONENT REGISTER] [", name, "] Already registered.");
 	else
-		Debug::out("COMPONENT REGISTER: [", name, "] Registered");
+		Debug::out("[COMPONENT REGISTER] [", name, "] Registered");
 	return inserted;
 }
 
@@ -24,10 +25,10 @@ std::shared_ptr<core::Component> ComponentRegister::create(const std::string& na
 {
 	auto it = _components.find(name);
 	if (it == _components.end()) {
-		Debug::error("COMPONENT REGISTER: [", name, "] not registered.");
+		Debug::error("[COMPONENT REGISTER] [", name, "] not registered.");
 		return nullptr;
 	}
-	Debug::out("COMPONENT REGISTER: [", name, "] created.");
+	Debug::out("[COMPONENT REGISTER] [", name, "] created.");
 
 	return it->second();
 }
@@ -35,7 +36,8 @@ std::shared_ptr<core::Component> ComponentRegister::create(const std::string& na
 bool ComponentRegister::unregisterComponent(const std::string& name)
 {
 	bool removed = (_components.erase(name) > 0);
+	Debug::warning("[COMPONENT REGISTER] Desregistering [", name, "].");
 	if (!removed)
-		Debug::warning("COMPONENT REGISTER: [", name, "] not registered.");
+		Debug::warning("[COMPONENT REGISTER] [", name, "] not registered.");
 	return removed;
 }

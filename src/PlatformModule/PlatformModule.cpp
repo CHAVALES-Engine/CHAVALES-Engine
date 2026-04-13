@@ -2,15 +2,17 @@
 
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_gamepad.h>
-#include "SDL3/SDL_surface.h"
+#include <SDL3/SDL_surface.h>
 
 #include <Debug.h>
 #include <optional>
+#include <algorithm>
 
 #include "VirtualDevice.h"
 #include "InputMapper.h"
 
 #include "GameConfigurator.h"
+#include <checkMLNew.h>
 
 
 PlatformModule::PlatformModule() :
@@ -25,6 +27,7 @@ PlatformModule::~PlatformModule()
 	for (auto& [id, device] : _virtualDevices)
 		delete device;
 	_virtualDevices.clear();
+	delete _inputMapper;
 
 	SDL_DestroySurface(_icon); // Elimina el surface para no dejar leaks.
 
@@ -49,10 +52,8 @@ bool PlatformModule::Init()
 		return false;
 	}
 
-	if (!setWindowIcon(core::GameConfigurator::instance()._iconRoot))
-	{
-		Debug::error("[Platform] Window icon can not be asigned.");
-	}
+	// Icono
+	setIcon(core::GameConfigurator::instance()._iconRoot);
 
 	SDL_PropertiesID _props = SDL_GetWindowProperties(_window);
 
@@ -310,7 +311,7 @@ void PlatformModule::setWindowSize(int w, int h)
 	SDL_SetWindowSize(_window, w, h);
 }
 
-bool PlatformModule::setWindowIcon(std::string path)
+bool PlatformModule::setIcon(std::string path)
 {
 	if (_icon != nullptr)
 	{
@@ -323,8 +324,15 @@ bool PlatformModule::setWindowIcon(std::string path)
 		Debug::error("[Platform] Window icon in path \"", path, "\" does not exist.");
 		return false;
 	}
-	SDL_SetWindowIcon(_window, _icon);
-	Debug::out("[Platform] Window icon changed.");
+	// Icono de la ventana
+	if (!SDL_SetWindowIcon(_window, _icon))
+	{
+		Debug::error("[Platform] Cound't asign icon: \"", path, "\" to window.");
+		return false;
+	}
+	// Icono de la taskbar
+
+	Debug::out("[Platform] Window icon changed: \"", path, "\".");
 	return true;
 }
 
@@ -336,6 +344,70 @@ void PlatformModule::setWindowName(std::string name)
 void PlatformModule::registerEventObserver(EventCallback callback)
 {
 	_eventObserver = callback;
+}
+
+void PlatformModule::setGamepadVibration(input::DeviceID id, float lowFreq, float highFreq, uint32_t dur)
+{
+	// Clampeamos los valores dados a entre 0.0 y 1.0 y los convertimos a la unidad que pide SDL.
+	uint16_t clampLow = static_cast<uint16_t>(std::clamp(lowFreq, 0.0f, 1.0f) * (std::numeric_limits<uint16_t>::max)());
+	uint16_t clampHigh = static_cast<uint16_t>(std::clamp(highFreq, 0.0f, 1.0f) * (std::numeric_limits<uint16_t>::max)());
+
+	if (id == input::ANY_DEVICE) // Si todos los mandos pues todos los mandos vibran.
+	{
+		for (auto it : _devicesID)
+		{
+			if (!SDL_RumbleGamepad(it.second, clampLow, clampHigh, dur))
+			{
+				Debug::error("[Platform] Could not rumble for gamepad with id\"", it.first, "\".");
+			}
+		}
+	}
+	else
+	{
+		auto it = _devicesID.find(id);
+		if (it != _devicesID.end())
+		{
+			if (!SDL_RumbleGamepad(it->second, clampLow, clampHigh, dur))
+			{
+				Debug::error("[Platform] Could not rumble for gamepad with id\"", it->first, "\".");
+			}
+		}
+	}
+}
+
+void PlatformModule::setGamepadColor(input::DeviceID id, core::Color color)
+{
+	// Clampeamos los valores dados a entre 0.0 y 1.0 y los convertimos a la unidad que pide SDL.
+	uint8_t clampR = static_cast<uint8_t>(std::clamp(color.getRed(), 0.0f, 1.0f) * (std::numeric_limits<uint8_t>::max)());
+	uint8_t clampG = static_cast<uint8_t>(std::clamp(color.getGreen(), 0.0f, 1.0f) * (std::numeric_limits<uint8_t>::max)());
+	uint8_t clampB = static_cast<uint8_t>(std::clamp(color.getBlue(), 0.0f, 1.0f) * (std::numeric_limits<uint8_t>::max)());
+
+	setGamepadColor(id, clampR, clampG, clampB);
+}
+
+void PlatformModule::setGamepadColor(input::DeviceID id, uint8_t r, uint8_t g, uint8_t b)
+{
+	if (id == input::ANY_DEVICE) // Si todos los mandos pues todos los mandos cambian de color.
+	{
+		for (auto it : _devicesID)
+		{
+			if (!SDL_SetGamepadLED(it.second, r, g, b))
+			{
+				Debug::error("[Platform] Could not change led color for gamepad with id\"", it.first, "\".");
+			}
+		}
+	}
+	else
+	{
+		auto it = _devicesID.find(id);
+		if (it != _devicesID.end())
+		{
+			if (!SDL_SetGamepadLED(it->second, r, g, b))
+			{
+				Debug::error("[Platform] Could not change led color for gamepad with id\"", it->first, "\".");
+			}
+		}
+	}
 }
 
 input::InputButtons PlatformModule::_castButton(const SDL_Event& event) const
@@ -542,10 +614,15 @@ void PlatformModule::_processEvent(const SDL_Event& event)
 		uint32_t id = event.gdevice.which;
 		auto it = _devicesID.find(id);
 		if (it != _devicesID.end()) {
+			SDL_RumbleGamepad(it->second, 0, 0, 0); // Quitar cualquier posible vibracion por si acaso.
 			SDL_CloseGamepad(it->second);
 			_devicesID.erase(it);
 		}
-		_virtualDevices.erase(id);
+		auto vit = _virtualDevices.find(id);
+		if (vit != _virtualDevices.end()) {
+			delete vit->second;
+			_virtualDevices.erase(vit);
+		}
 		break;
 	}
 	case SDL_EVENT_GAMEPAD_AXIS_MOTION: {

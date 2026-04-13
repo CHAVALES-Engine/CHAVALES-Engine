@@ -103,7 +103,6 @@ namespace core
 			//	return getComponent<T>();
 
 			std::shared_ptr<Component> c = std::make_shared<T>(std::forward<Ts>(args)...);
-			//T* c = new T(std::forward<Ts>(args)...);
 
 			c->setEntity(this);
 			c->enable();
@@ -160,17 +159,18 @@ namespace core
 		*/
 		void removeComponents()
 		{
-			for (auto c : components)
+			if (!components.empty())
 			{
-				if (c != nullptr)
+				for (auto c : components)
 				{
-					//c->destroy();
-					c.reset();
-					//delete c;
+					if (c != nullptr)
+					{
+						c.reset();
+					}
 				}
-			}
 
-			components.clear();
+				components.clear();
+			}
 		}
 		/**
 		* @brief Elimina todos los componentes del nombre

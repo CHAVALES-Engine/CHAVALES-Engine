@@ -23,19 +23,19 @@ assets = {
 	},
 	texture = {
 		membrane = {
-			sourceFolder = "./game/assets/textures/metroid/membrane/",
+			sourceFolder = "./game/assets/texture/metroid/membrane/",
 			fileName = "Base_Color.jpeg"
 		},
 		body = {
-			sourceFolder = "./game/assets/textures/metroid/body/",
+			sourceFolder = "./game/assets/texture/metroid/body/",
 			fileName = "Base_Color.jpeg"
 		},
 		nuclei = {
-			sourceFolder = "./game/assets/textures/metroid/nuclei/",
+			sourceFolder = "./game/assets/texture/metroid/nuclei/",
 			fileName = "Base_Color.jpeg"
 		},
 		mandibles = {
-			sourceFolder = "./game/assets/textures/metroid/mandibles/",
+			sourceFolder = "./game/assets/texture/metroid/mandibles/",
 			fileName = "Base_Color.jpeg"
 		}
 	},

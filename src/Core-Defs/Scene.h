@@ -6,7 +6,6 @@
 #pragma once
 #include <cstdint>
 #include <string>
-#include <vector>
 #include <unordered_map>
 
 #include "guid.h"
@@ -15,13 +14,13 @@ namespace core
 {
 	class Entity;
 	using sceneName = std::string;
-	using sceneID = uint64_t;
+	//using sceneID = uint64_t;
 	using entityID = ChavalesGUID;
 
 	/**
 	 * @brief Escena.
 	 *
-	 *		Clase que implementa una escena, almacena sus entidades en un vector y 
+	 *		Clase que implementa una escena, almacena sus entidades en un mapa y 
 	 *		llama a los metodos de estas cuando corresponda segun la maquina de estados.
 	 */
 	class Scene
@@ -76,7 +75,7 @@ namespace core
 		virtual void onDestroy();
 
 		/**
-		 * @brief Parte del ciclo de escena. Se llama cuando esta se acaba el juego.
+		 * @brief Parte del ciclo de escena. Se llama cuando se carga una escena nueva.
 		 *
 		 */
 		void clearScene();
@@ -89,16 +88,14 @@ namespace core
 		void addEntity(core::Entity* e);
 
 		/**
-		 * @brief Devuelve el vector de entidades de la escena.
+		 * @brief Devuelve el mapa de entidades de la escena.
 		 *
 		 */
-		//std::vector<Entity*> getEntities() const;
 		std::unordered_map<entityID, core::Entity*> getEntities() const;
 
 		/**
 		 * @brief Busca una entidad a partir de su nombre.
-		 * @param name - string del nombre.
-		 * @return Entity& - referencia a la entidad.
+		 * @param name - nombre de la entidad a buscar.
 		 */
 		Entity* findEntityByName(std::string const& name)const;
 
@@ -110,33 +107,18 @@ namespace core
 		{
 			return _name;
 		}
-		/**
-		 * @brief Devuelve el id de la escena.
-		 *
-		 */
-		inline void setID(sceneID id)
-		{
-			_id = id;
-		}
 
 	private:
 		sceneName _name;
-		sceneID _id;
-		//entityID _nextEntityID;
 		bool _active = false;
 
 		/**
-		 * @brief Vector de entidades en la escena actualmente.
-		 *
-		 */
-		//std::vector<core::Entity*> _entities;
-		/**
-		 * @brief Unorderer map de entidades en la escena actualmente.
+		 * @brief Unordered map de entidades en la escena actualmente.
 		 *
 		 */
 		std::unordered_map<entityID, core::Entity*> _entities;
 		/**
-		 * @brief Unorderer map de nombres de entidades y su guid para buscar rapidamente.
+		 * @brief Unordered map de nombres de entidades y su guid para buscar rapidamente.
 		 *
 		 */
 		std::unordered_map<std::string, entityID> _entitiesNames;
