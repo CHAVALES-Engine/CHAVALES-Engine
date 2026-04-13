@@ -11,9 +11,12 @@ REGISTER_COMPONENT(Collider);
 
 bool Collider::init(const Properties& p)
 {
+	
 	//cosas de lua
 	_eng = Engine::instance();
-
+	
+	radius = 0.5f;
+	height = 0.0f;
 	//SHAPE
 	// BOX
 	if (auto it = p.find("box"); it != p.end()) {
@@ -30,11 +33,9 @@ bool Collider::init(const Properties& p)
 			shapeType = ShapeType::Capsule;
 			radius = val->getX();
 			height = val->getY();
-			//por si acaso
-			if (radius <= 0.0f) radius = 0.5f;
-			if (height < 0.0f) height = 0.0f;
 		}
 	}
+
 	//DYNAMIC
 	isDynamic = getProperty<bool>(p, "dynamic");
 	
@@ -46,11 +47,21 @@ bool Collider::init(const Properties& p)
 	if (auto val = std::get_if<core::Vector3<>>(&itCen->second))
 		center = *val;
 
+	Debug::warning(std::string("[COLLIDER] INIT ") +
+		(shapeType == ShapeType::Box ? "caja" : "capsulaaa"));
+
+	Debug::warning("[COLLIDER] INIT this ptr = " + std::to_string((uintptr_t)this));
 	return true;
+
+	Debug::warning(
+		"[PTR] " + std::to_string((uintptr_t)this) +
+		" shape=" + std::to_string((int)shapeType)
+	);
 }
 
 void Collider::ready()
 {
+
 	if (!entity) return;
 
 	transform = entity->getComponent<Transform>();
@@ -75,6 +86,13 @@ void Collider::ready()
 
 		//coger el id
 		physicsID = rigidBody->getId();
+		if (physicsID == 0)
+		{
+			Debug::warning("[COLLIDER] RigidBody ID no válido aún. Esperando...");
+			return;
+		}
+		Debug::warning(std::string("[COLLIDER] READY ") +
+			(shapeType == ShapeType::Box ? "caja" : "capsulaaa"));
 
 		switch (shapeType)
 		{
@@ -99,6 +117,12 @@ void Collider::ready()
 			break;
 		}
 	}
+	Debug::warning(
+		"[PTR] " + std::to_string((uintptr_t)this) +
+		" shape=" + std::to_string((int)shapeType)
+	);
+
+	Debug::warning("[COLLIDER] READY this ptr  = " + std::to_string((uintptr_t)this));
 }
 
 void Collider::update(uint64_t deltaTime)

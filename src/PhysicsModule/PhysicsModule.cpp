@@ -401,6 +401,7 @@ void PhysicsModule::UpdateMaterial(uint32_t id, float staticF, float dynamicF, f
 void PhysicsModule::Update(float dt)
 {
 	if (!gScene) return;
+	if (dt <= 0) return;
 	gScene->simulate(dt / 1000.0f);
 	gScene->fetchResults(true);
 }
@@ -458,7 +459,13 @@ void PhysicsModule::AttachBoxShape(ComponentID bodyID, const core::Vector3<> siz
 	}
 
 	actor->attachShape(*shape);
+	PxRigidDynamic* dyn = actor->is<PxRigidDynamic>();
+	if (dyn)
+	{
+		PxRigidBodyExt::setMassAndUpdateInertia(*dyn, dyn->getMass());
+	}
 	it->second.shapes.push_back(shape);
+	Debug::warning("[COLLIDER] attach box.");
 }
 
 void PhysicsModule::AttachCapsuleShape(ComponentID bodyID, float radius, float height, const core::Vector3<>& center, bool isTrigger)
@@ -471,11 +478,11 @@ void PhysicsModule::AttachCapsuleShape(ComponentID bodyID, float radius, float h
 	PxShape* shape;
 	if (height <= 0.0f)//Esfera
 	{
-		 shape = gPhysics->createShape(PxSphereGeometry(radius), *defaultMaterial);
+		 shape = gPhysics->createShape(PxSphereGeometry(50), *defaultMaterial);
 	}
 	else//capsula
 	{
-		shape = gPhysics->createShape(PxCapsuleGeometry(radius, height * 0.5f), *defaultMaterial);
+		shape = gPhysics->createShape(PxCapsuleGeometry(50, height * 0.5f), *defaultMaterial);
 	}
 	if (shape == NULL) return;
 
@@ -499,7 +506,13 @@ void PhysicsModule::AttachCapsuleShape(ComponentID bodyID, float radius, float h
 	}
 
 	actor->attachShape(*shape);
+	PxRigidDynamic* dyn = actor->is<PxRigidDynamic>();
+	if (dyn)
+	{
+		PxRigidBodyExt::setMassAndUpdateInertia(*dyn, dyn->getMass());
+	}
 	it->second.shapes.push_back(shape);
+	Debug::warning("[COLLIDER] attach ESFERA.");
 }
 
 void PhysicsModule::setPhysicsTransform(ComponentID id, const core::Vector3<>& pos, const core::Quaternion<>& rot)

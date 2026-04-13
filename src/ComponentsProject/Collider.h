@@ -31,7 +31,7 @@ namespace core {
  *
 */
 enum class ShapeType { Box, Capsule };
-ShapeType shapeType = ShapeType::Box;//default
+ShapeType shapeType;//default
 
 class Collider : public core::Component
 {
@@ -39,7 +39,7 @@ protected:
 
 	bool isTrigger = false;
 	bool isDynamic = false;//o pared o con gravedad
-
+	bool initialized = false;
 
 	core::Vector3<> size = { 1,1,1 };
 	core::Vector3<> center = { 0,0,0 };//offset respecto a la entidad, donde esta el collider

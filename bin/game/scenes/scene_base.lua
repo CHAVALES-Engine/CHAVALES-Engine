@@ -80,7 +80,7 @@ scene = { -- entidades en escena
 				useGravity = false, 
 				isKinematic = true,
 					mass = 10.0,
-					position = Vector3.new(50, 0, 0),     
+					position = Vector3.new(0, 0, 0),     
 					velocity = Vector3.new(0, 0, 0),   
 					damping = 0.0
 			 }
@@ -90,15 +90,16 @@ scene = { -- entidades en escena
     			dynamic = true,
 				trigger = false,
     			center = Vector3.new(0,0,0)    
-			},
-			AudioSource = {
-				soundID = "lifeUp",
-				is3D = true,
-				loop = true,
-				isStream = false,
-				playOnReady = true,
-				soundVolume = 0.2
- 			}
+			}
+			--,
+			-- AudioSource = {
+			-- 	soundID = "lifeUp",
+			-- 	is3D = true,
+			-- 	loop = true,
+			-- 	isStream = false,
+			-- 	playOnReady = true,
+			-- 	soundVolume = 0.2
+ 			-- }
 		}
    },
 --    cube3 = {
@@ -137,7 +138,7 @@ scene = { -- entidades en escena
 			Transform = {
 				position = Vector3.new(0,300,0),
 				rotation = Quaternion.new(),
-				scale = Vector3.new(1.0),
+				scale = Vector3.new(0.5),
 				},
 			ModelRenderer = {
 				file = "sphere",
@@ -154,7 +155,7 @@ scene = { -- entidades en escena
 			 }
 			 ,
 			Collider = {
-    			capsule = Vector2.new(100, 0),      
+    			capsule = Vector2.new(5, 0),      
     			dynamic = true,
 				trigger = false,
     			center = Vector3.new(0,0,0)    
