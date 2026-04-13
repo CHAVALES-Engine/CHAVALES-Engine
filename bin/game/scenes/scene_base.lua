@@ -92,7 +92,7 @@ scene = { -- entidades en escena
     			center = Vector3.new(0,0,0)    
 			},
 			AudioSource = {
-				soundID = "MySound",
+				soundID = "lifeUp",
 				is3D = true,
 				loop = true,
 				isStream = false,
