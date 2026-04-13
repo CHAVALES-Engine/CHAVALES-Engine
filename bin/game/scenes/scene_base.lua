@@ -76,17 +76,16 @@ scene = { -- entidades en escena
 				["number of textures"] = 0
 			},
 			RigidBody = {
-					
 				useGravity = false, 
 				isKinematic = true,
-					mass = 10.0,
-					position = Vector3.new(0, 0, 0),     
-					velocity = Vector3.new(0, 0, 0),   
-					damping = 0.0
-			 }
-			,
+				mass = 10.0,
+				position = Vector3.new(0, 0, 0),     
+				velocity = Vector3.new(0, 0, 0),   
+				damping = 0.0
+			 },
 			Collider = {
-    			box = Vector3.new(400, 100, 400),      
+				type = "BOX",
+    			shape = Vector3.new(400, 100, 400),      
     			dynamic = true,
 				trigger = false,
     			center = Vector3.new(0,0,0)    
@@ -155,7 +154,8 @@ scene = { -- entidades en escena
 			 }
 			 ,
 			Collider = {
-    			capsule = Vector2.new(5, 0),      
+				type = "CAPSULE",
+    			shape = Vector3.new(5, 0, 0),      
     			dynamic = true,
 				trigger = false,
     			center = Vector3.new(0,0,0)    
