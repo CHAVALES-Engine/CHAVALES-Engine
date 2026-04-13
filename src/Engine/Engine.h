@@ -564,7 +564,7 @@ public:
 	*/
 	int getWindowHeight() const;
 
-	InputFacade* input() const;
+	static InputFacade* input();
 
 private:
 	/*

@@ -47,6 +47,11 @@ bool InputFacade::isActionReleased(const std::string& actionName, input::DeviceI
 	return _platform->isActionReleased(actionName, device);
 }
 
+float InputFacade::getActionAxis(const std::string& actionName, input::DeviceID device) const
+{
+	return _platform->getActionAxis(actionName, device);
+}
+
 void InputFacade::startTextInput(bool blockKeyboard) const
 {
 	_platform->startTextInput(blockKeyboard);

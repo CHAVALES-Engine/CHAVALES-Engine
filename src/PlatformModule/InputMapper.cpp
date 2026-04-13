@@ -121,7 +121,8 @@ std::vector<input::InputEvent> input::InputMapper::getInputEvents(const std::str
 
 
 	std::vector<InputMappperEntry>& action = _mapper[actionName]; // Vector con id-IE de la accion.
-	std::vector<InputEvent> events(_mapper[actionName].size()); // Vector de eventos a devolver.
+	std::vector<InputEvent> events; // Vector de eventos a devolver.
+	events.reserve(_mapper[actionName].size());
 
 	for (size_t i = 0; i < action.size(); i++)
 	{
@@ -136,7 +137,8 @@ std::vector<input::InputEvent> input::InputMapper::getInputEvents(const std::str
 
 std::vector<std::string> input::InputMapper::getActions()
 {
-	std::vector<std::string> actions(_mapper.size()); // Vector de acciones a devolver.
+	std::vector<std::string> actions; // Vector de acciones a devolver.
+	actions.reserve(_mapper.size());
 
 	for (auto it : _mapper)
 	{

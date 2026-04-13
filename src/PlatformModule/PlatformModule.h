@@ -67,6 +67,11 @@ public:
 	 */
 	void setRelativeMouseMode(bool enabled) const;
 	/**
+	 * Settea la sensibilidad del cursor
+	 * @param sensitivity - sensibilidad a settear.
+	 */
+	void setMouseSensitivity(float sensitivity);
+	/**
 	 * @brief Comprueba si un dispositivo esta conectado.
 	 * @param device - id del dispositivo a comprobar.
 	 * @return bool - True o false si esta conectado o no.
@@ -110,6 +115,12 @@ public:
 	 * @param device - id del dispositivo a comprobar. ANY_DEVICE por defecto => si se ha dejado de pulsar en cualquier dispositivo.
 	 */
 	bool isActionReleased(const std::string& actionName, input::DeviceID device = input::ANY_DEVICE) const;
+	/*
+	 * @brief Devuelve la media de los ejes registrados a esa accion(input::ANY_DEVICE) o la media de los ejes del device pedido.
+	 * @param actionName - accion a comprobar
+	 * @param device - id del dispositivo a comprobar. ANY_DEVICE por defecto => si se ha dejado de pulsar en cualquier dispositivo.
+	 */
+	float getActionAxis(const std::string& actionName, input::DeviceID device = input::ANY_DEVICE) const;
 	/*
 	 * @brief Indica a la ventana que tome input de texto.
 	 * @param blockKeyboard - Booleano que indica si se debe bloquear el input de teclado mientras se escibe.
@@ -213,6 +224,10 @@ private:
 	 * @brief Se esta escribiendo.
 	 */
 	bool _textInputActive = false;
+	/**
+	 * @brief Sensibilidad del raton.
+	 */
+	float _mouseSensitivity = 10.0f;
 	/**
 	* @brief mapa de dispositivos virtuales
 	*/
