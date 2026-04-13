@@ -110,6 +110,9 @@ struct UITransform {
     core::Vector2<float> position;
 };
 
+
+union SDL_Event;
+
 class RenderModule
 {
 public:
@@ -128,6 +131,8 @@ public:
     void cleanScene(const bool& end);
 
 
+    using EventCallback = bool(*)(const SDL_Event* event);
+    EventCallback getImguiInputCallback();
 
     //Metodos transform
     /*

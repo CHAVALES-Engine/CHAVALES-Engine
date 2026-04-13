@@ -26,9 +26,9 @@ namespace input
  */
 class PlatformModule
 {
-public:
 
-	using EventCallback = std::function<void(const SDL_Event&)>;
+	using EventCallback = bool(*)(const SDL_Event* event);
+public:
 	/**
 	* @brief Constructora vacia de PlatformModule.
 	*/

@@ -99,7 +99,7 @@ bool PlatformModule::syncronize()
 			_processEvent(event);
 		if (_eventObserver)
 		{
-			_eventObserver(event);
+			_eventObserver(&event);
 		}
 	}
 	return false;
