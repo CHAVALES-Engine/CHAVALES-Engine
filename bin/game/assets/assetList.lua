@@ -76,12 +76,20 @@ assets = {
 		botonPrueba = {
 			sourceFolder ="./game/assets/images/",
 			fileName = "prueba.jpg"
+		},
+		chavales = {
+			sourceFolder ="./game/assets/images/",
+			fileName = "CHAVALES.png"
 		}
 	},
 	fonts = { --Fuentes
 		fontPrueba = {
 			sourceFolder ="./game/assets/fonts/",
 			fileName = "horrendo.ttf"
-		}
+		},
+		fontChavales = {
+			sourceFolder ="./game/assets/fonts/",
+			fileName = "Cousine-Bold.ttf"
+		}	
 	}
 }
