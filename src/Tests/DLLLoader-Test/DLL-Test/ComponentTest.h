@@ -65,7 +65,7 @@ class ComponentTest : public core::Component
 		Engine::input()->addEventToAction("left", input::KEY_A);
 		Engine::input()->addEventToAction("left", input::BUTTON_GP_LEFT);
 		Engine::input()->addEventToAction("right", input::KEY_D);
-		Engine::input()->addEventToAction("right", input::BUTTON_GP_LEFT);
+		Engine::input()->addEventToAction("right", input::BUTTON_GP_RIGHT);
 		Engine::input()->addEventToAction("front", input::KEY_W);
 		Engine::input()->addEventToAction("front", input::BUTTON_GP_UP);
 		Engine::input()->addEventToAction("back", input::KEY_S);
@@ -88,13 +88,13 @@ class ComponentTest : public core::Component
 			entity->getScene()->findEntityByName("cube2")->destroy();
 
 		// --- Movimiento WASD
-		if (Engine::input()->isKeyPressed(input::KEY_W))
+		if (Engine::input()->isActionPressed("front"))
 			_transform->translate(_transform->forward() * -speed);
-		if (Engine::input()->isKeyPressed(input::KEY_S))
+		if (Engine::input()->isActionPressed("back"))
 			_transform->translate(_transform->forward() * speed);
-		if (Engine::input()->isKeyPressed(input::KEY_A))
+		if (Engine::input()->isActionPressed("left"))
 			_transform->translate(_transform->right() * -speed);
-		if (Engine::input()->isKeyPressed(input::KEY_D))
+		if (Engine::input()->isActionPressed("right"))
 			_transform->translate(_transform->right() * speed);
 
 		// --- Rotacion con raton
