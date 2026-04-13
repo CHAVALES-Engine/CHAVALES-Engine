@@ -369,10 +369,17 @@ void  Engine::setUILabelAlign(const uiLabelID labelID, const std::string& align)
 	_renderModule->setUILabelAlign(labelID, align);
 }
 //void Engine::setUILabelFont(const uiLabelID id, ImFont* font){}
-uiButtonID Engine::addUIButton(const std::string& panelName, const entityID& entityID, const std::string& text,  const std::string& textureName, core::Vector2<float> size) {
+
+uiButtonID  Engine::addUIButton(const std::string& panelName, const entityID& entityID, const std::string& text, core::Vector2<float> size) {
+	return _renderModule->addUIButton(panelName, entityID, text, size);
+
+}
+
+uiButtonID Engine::addUIImageButton(const std::string& panelName, const entityID& entityID, const std::string& text,  const std::string& textureName, core::Vector2<float> size) {
+	
 	auto texture = _resourcesModule->getImages(textureName);
 
-	return _renderModule->addUIButton(panelName, entityID, text, texture.first, texture.second, size);
+	return _renderModule->addUIImageButton(panelName, entityID, text, texture.first, texture.second, size);
 }
 void Engine::setUIButtonText(const uiButtonID& buttonID, const std::string& text) {
 	_renderModule->setUIButtonText(buttonID, text);
@@ -394,7 +401,7 @@ void Engine::setUIButtonCallback(const uiButtonID& id, std::function<void()> cal
 	_renderModule->setUIButtonCallback(id, callback);
 }
 uiTextureRectID Engine::addUITextureRect(const std::string& panelName, const entityID& entityID,  const std::string& textureName, core::Vector2<float> size) {
-	auto texture = _resourcesModule->getTexture(textureName);
+	auto texture = _resourcesModule->getImages(textureName);
 	return _renderModule->addUITextureRect(panelName, entityID, texture.first, texture.second, size);
 }
 void Engine::setUITextureRectTexture(const uiTextureRectID& textureRectID, const std::string& texture) {

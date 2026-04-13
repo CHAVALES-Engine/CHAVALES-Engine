@@ -1165,7 +1165,7 @@ void RenderModule::setUILabelAlign(const uiLabelID labelID, const std::string& a
 //
 //}
 
-uiButtonID RenderModule::addUIButton(const std::string& panelName, const entityID& entityID, const std::string& text, const std::string& textureFolder, const std::string& textureFile, core::Vector2<float> size)
+uiButtonID RenderModule::addUIImageButton(const std::string& panelName, const entityID& entityID, const std::string& text, const std::string& textureFolder, const std::string& textureFile, core::Vector2<float> size)
 {
 	addNode(entityID, TransformType::UI);
 
@@ -1177,23 +1177,36 @@ uiButtonID RenderModule::addUIButton(const std::string& panelName, const entityI
 	button.size = size;
 	button.textureFolder= textureFolder;
 	button.textureFile = textureFile;
-	if (!textureFile.empty()) {
-		button.buttonImage = true;
-		if (!_rgm->resourceGroupExists(textureFolder))
-		{
-			_rgm->addResourceLocation(textureFolder, "FileSystem", textureFolder);
-			_rgm->loadResourceGroup(textureFolder);
-			_resourceGroups.insert(textureFolder);
-		}
 
-		Ogre::TexturePtr tex = Ogre::TextureManager::getSingleton().load(textureFile,textureFolder,Ogre::TEX_TYPE_2D,0);
-		button.textureID = (ImTextureID)tex->getHandle();
+	button.buttonImage = true;
+	if (!_rgm->resourceGroupExists(textureFolder))
+	{
+		_rgm->addResourceLocation(textureFolder, "FileSystem", textureFolder);
+		_rgm->loadResourceGroup(textureFolder);
+		_resourceGroups.insert(textureFolder);
+	}
+
+	Ogre::TexturePtr tex = Ogre::TextureManager::getSingleton().load(textureFile,textureFolder,Ogre::TEX_TYPE_2D,0);
+	button.textureID = (ImTextureID)tex->getHandle();
 		
-	}
-	else {
-		button.buttonImage = false;
-	}
-	
+	_uiPanels[panelID].buttons.push_back(button);
+
+	uiButtonID id = _nextButtonID++;
+	int  buttonIndex = _uiPanels[panelID].buttons.size() - 1;
+	_buttonToPanel[id] = { panelID, buttonIndex };
+	return id;
+}
+uiButtonID RenderModule::addUIButton(const std::string& panelName, const entityID& entityID, const std::string& text, core::Vector2<float> size) {
+	addNode(entityID, TransformType::UI);
+
+	uiPanelID panelID = getOrSetPanel(panelName);
+	UIButtonData button;
+	button.entity = entityID;
+	button.text = text;
+	button.visible = true;
+	button.size = size;
+	button.buttonImage = false;
+
 	_uiPanels[panelID].buttons.push_back(button);
 
 	uiButtonID id = _nextButtonID++;
@@ -1252,7 +1265,8 @@ uiTextureRectID RenderModule::addUITextureRect(const std::string& panelName, con
 		_rgm->loadResourceGroup(textureFolder);
 		_resourceGroups.insert(textureFolder);
 	}
-
+	Ogre::TexturePtr texture = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
+	tex.textureID = (ImTextureID)texture->getHandle();
 	_uiPanels[panelID].textureRects.push_back(tex);
 
 	uiTextureRectID id = _nextTextureRectID++;

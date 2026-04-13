@@ -368,7 +368,12 @@ public:
 	/*
 	* @brief Anadir boton al panel.
 	*/
-	uiButtonID addUIButton(const std::string& panelName, const entityID& entityID, const std::string& text, const std::string& textureName, core::Vector2<float> size);
+	uiButtonID addUIButton(const std::string& panelName, const entityID& entityID, const std::string& text, core::Vector2<float> size);
+
+	/*
+	* @brief Anadir ImageBoton al panel.
+	*/
+	uiButtonID addUIImageButton(const std::string& panelName, const entityID& entityID, const std::string& text, const std::string& textureName, core::Vector2<float> size);
 	/*
 	* @brief Establecer el texto del boton.
 	*/
