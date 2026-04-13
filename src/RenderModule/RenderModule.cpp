@@ -37,6 +37,7 @@
 #include <assimp/postprocess.h>
 #include <OgreGL3PlusTexture.h>
 #include <guid.h>
+#include <imgui_impl_sdl3.h>
 
 #include "GameConfigurator.h"
 #include <checkMLNew.h>
@@ -1337,22 +1338,6 @@ void RenderModule::renderUI() {
 		ImGui::SetNextWindowPos(ImVec2(0, 0));
 		ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
 		ImGui::Begin(panel.title.c_str(), nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoMove);
-
-		for (UITextureRectData& tex : panel.textureRects) {
-			if (!tex.visible) {
-				continue;
-			}
-			int tID = getTransformUI(tex.entity);
-			auto pos = _uiTransforms[tID].position;
-			ImGui::SetCursorPos(ImVec2(pos.getX(), pos.getY()));
-			ImGui::PushStyleVar(ImGuiStyleVar_Alpha, tex.opacity);
-
-			const ImVec2 aux = { tex.size.getX(), tex.size.getY() };
-			ImGui::Image((ImTextureID)tex.textureID, aux);
-			ImGui::PopStyleVar();
-
-		}
-
 		for (UILabelData& label : panel.labels) {
 			if (!label.visible) {
 				continue;
@@ -1387,6 +1372,22 @@ void RenderModule::renderUI() {
 
 			ImGui::PopFont();
 		}
+		for (UITextureRectData& tex : panel.textureRects) {
+			if (!tex.visible) {
+				continue;
+			}
+			int tID = getTransformUI(tex.entity);
+			auto pos = _uiTransforms[tID].position;
+			ImGui::SetCursorPos(ImVec2(pos.getX(), pos.getY()));
+			ImGui::PushStyleVar(ImGuiStyleVar_Alpha, tex.opacity);
+
+			const ImVec2 aux = { tex.size.getX(), tex.size.getY() };
+			ImGui::Image((ImTextureID)tex.textureID, aux);
+			ImGui::PopStyleVar();
+
+		}
+
+		
 
 		for (UIButtonData& button : panel.buttons) {
 			if (!button.visible) {
@@ -1417,7 +1418,6 @@ void RenderModule::renderUI() {
 			ImGui::PopStyleVar();
 		}
 		ImGui::End();
-
 	}
 	ImGui::Render();
 }
