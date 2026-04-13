@@ -41,7 +41,7 @@ public:
 	/**
 	 * @brief ID interno del objeto en el sistema de físicas
 	 */
-	unsigned int physicsID = 0;
+	unsigned int physicsID;
 
 	/**
 	 * @brief Indica si el objeto usa gravedad
