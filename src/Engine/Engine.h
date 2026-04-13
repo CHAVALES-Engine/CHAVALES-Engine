@@ -452,6 +452,10 @@ public:
 	*/
 	void setSourcePosition(int chID, core::Vector3<> pos, core::Vector3<> vel);
 	/*
+	* @brief Cambia el radio minimo y maximo de difusión de un audio 3D
+	*/
+	void setMinMaxRadius(int chID, float min, float max);
+	/*
 	* @brief Actualiza el volumen de un canal
 	*/
 	void setChannelVolume(int chID, float newVolume = 0.0f);

@@ -109,6 +109,14 @@ public:
 	void setAudioPos(int chID, core::Vector3<> pos, core::Vector3<> vel);
 
 	/// <summary>
+	/// Method to se the minimum and maximus radius of a 3D audio
+	/// </summary>
+	/// <param name="chID"></param>
+	/// <param name="min"></param>
+	/// <param name="max"></param>
+	void setMinMaxRadius(int chID, float min, float max);
+
+	/// <summary>
 	/// Method to observe if the channel is playing 
 	/// </summary>
 	/// <param name="chID">Id of the desire channel</param>

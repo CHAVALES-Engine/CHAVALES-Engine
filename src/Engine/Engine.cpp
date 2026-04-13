@@ -461,6 +461,10 @@ void Engine::setSourcePosition(int chID, core::Vector3<> pos, core::Vector3<> ve
 {
 	_audioModule->setAudioPos(chID, pos, vel);
 }
+void Engine::setMinMaxRadius(int chID, float min, float max)
+{
+	_audioModule->setMinMaxRadius(chID, min, max);
+}
 
 void Engine::setDelay(int chID, double start, double end, bool stopChannel)
 {

@@ -90,15 +90,7 @@ scene = { -- entidades en escena
     			dynamic = false,
 				trigger = false,
     			center = Vector3.new(0,0,0)    
-			},
-			AudioSource = {
-				soundID = "lifeUp",
-				is3D = true,
-				loop = true,
-				isStream = false,
-				playOnReady = true,
-				soundVolume = 0.2
- 			}
+			}
 		}
    },
    cube3 = {

@@ -20,7 +20,9 @@ class Transform;
  *		loop = bool,
  *		isStream = bool,
  *		playOnReady = bool,
- *		soundVolume = float
+ *		soundVolume = float,
+ *		minRadius = float,
+ *		maxRadius = float
  * }
  *
  * --- Ejemplo de inicializacion ---
@@ -45,6 +47,8 @@ private:
 	bool _isStream;
 	bool _playOnReady;
 	float _soundVolume;
+	float _minRadius;
+	float _maxRadius;
 	int _channelID;
 
 public:
@@ -66,6 +70,12 @@ public:
 	void setDelay(double start, double end, bool stopChannel) const;
 	std::string getSoundName() const;
 	void playSound();
+	void setMinRadius(float& newRadius);
+	void setMinRadius(float&& newRadius);
+	float getMinRadius() const;
+	void setMaxRadius(float& newRadius);
+	void setMaxRadius(float&& newRadius);
+	float getMaxRadius() const;
 private:
 
 };

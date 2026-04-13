@@ -11,7 +11,7 @@
 REGISTER_COMPONENT(AudioSource);
 
 AudioSource::AudioSource() : _tr(nullptr), _lastPosition(0.0f, 0.0f, 0.0f), _id(), _is3D(false), _loop(false),
-_isStream(),_playOnReady(), _soundVolume(0.0f), _channelID()
+_isStream(),_playOnReady(), _soundVolume(0.0f),_minRadius(1.0f), _maxRadius(100.0f), _channelID()
 {
 }
 
@@ -27,6 +27,8 @@ bool AudioSource::init(const Properties& p)
 	_isStream = getProperty<bool>(p, "isStream");
 	_playOnReady = getProperty<bool>(p, "playOnReady");
 	_soundVolume = getProperty<float>(p, "soundVolume");
+	_minRadius = getProperty<float>(p, "minRadius");
+	_maxRadius = getProperty<float>(p, "maxRadius");
 	return true;
 }
 
@@ -35,7 +37,9 @@ void AudioSource::ready()
 	assert(entity->hasComponent<Transform>());
 	_tr = entity->getComponent<Transform>();
 	_lastPosition = _tr->getGlobalPosition();
-	Engine::instance()->loadSound(Engine::instance()->resources()->getAudioByName(_id), _id, _is3D, _loop, _isStream);
+	Engine::instance()->loadSound(Engine::instance()->resources()->getAudioByName(_id), _id, _isStream, _loop, _is3D);
+	if (_is3D)
+		Engine::instance()->setMinMaxRadius(_channelID, _minRadius, _maxRadius);
 	if (_playOnReady)
 		playSound();
 }
@@ -85,6 +89,40 @@ void AudioSource::setVolume(float&& newVolume)
 {
 	_soundVolume = newVolume;
 	Engine::instance()->setChannelVolume(_channelID, _soundVolume);
+}
+
+void AudioSource::setMinRadius(float& newRadius)
+{
+	_minRadius = newRadius;
+	Engine::instance()->setMinMaxRadius(_channelID, _minRadius, _maxRadius);
+}
+
+void AudioSource::setMinRadius(float&& newRadius)
+{
+	_minRadius = newRadius;
+	Engine::instance()->setMinMaxRadius(_channelID, _minRadius, _maxRadius);
+}
+
+float AudioSource::getMinRadius() const
+{
+	return _minRadius;
+}
+
+void AudioSource::setMaxRadius(float& newRadius)
+{
+	_maxRadius = newRadius;
+	Engine::instance()->setMinMaxRadius(_channelID, _minRadius, _maxRadius);
+}
+
+void AudioSource::setMaxRadius(float&& newRadius)
+{
+	_maxRadius = newRadius;
+	Engine::instance()->setMinMaxRadius(_channelID, _minRadius, _maxRadius);
+}
+
+float AudioSource::getMaxRadius() const
+{
+	return _maxRadius;
 }
 
 void AudioSource::stopSound() const

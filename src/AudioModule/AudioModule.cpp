@@ -237,6 +237,13 @@ void AudioModule::setAudioPos(int chID, core::Vector3<> pos, core::Vector3<> vel
 	itCH->second->set3DAttributes(&position, &velocity);
 }
 
+void AudioModule::setMinMaxRadius(int chID, float min, float max)
+{
+	auto itCH = _channelSound.find(chID);
+	if (itCH == _channelSound.end()) return;
+	itCH->second->set3DMinMaxDistance(min, max);
+}
+
 bool AudioModule::isChannelPlaying(int chID)
 {
 	auto itChFound = _channelSound.find(chID);
