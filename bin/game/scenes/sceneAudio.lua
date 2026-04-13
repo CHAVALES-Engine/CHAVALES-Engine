@@ -45,8 +45,8 @@ scene = { -- entidades en escena
 				isStream = false,
 				playOnReady = true,
 				soundVolume = 1.0,
-				minRadius = 150.0,
-				maxRadius = 200.0
+				minRadius = 50.0,
+				maxRadius = 400.0
  			}
 		}
    },

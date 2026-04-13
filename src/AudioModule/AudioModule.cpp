@@ -247,6 +247,10 @@ void AudioModule::setMinMaxRadius(int chID, float min, float max)
 	auto itCH = _channelSound.find(chID);
 	if (itCH == _channelSound.end()) return;
 	itCH->second->set3DMinMaxDistance(min, max);
+	FMOD::Sound* sound = nullptr;
+	itCH->second->getCurrentSound(&sound);
+	if (sound != nullptr)
+		sound->set3DMinMaxDistance(min, max);
 }
 
 bool AudioModule::isChannelPlaying(int chID)
