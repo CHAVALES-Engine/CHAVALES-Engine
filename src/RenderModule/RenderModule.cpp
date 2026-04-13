@@ -34,6 +34,7 @@
 #include <OgreOverlaySystem.h>
 #include <imgui.h>
 #include <imgui_impl_sdl3.h>
+#include <imgui_impl_sdl3.cpp>
 #include <assimp/postprocess.h>
 #include <OgreGL3PlusTexture.h>
 #include <guid.h>
@@ -177,6 +178,8 @@ bool RenderModule::Init(const HWND handle, const int width, const int height,con
 		);
 		_overlaySystem = new Ogre::OverlaySystem();
 		_sceneMgr->addRenderQueueListener(_overlaySystem);
+
+		ImGui_ImplSDL3_InitForOther(nullptr);
 
 		_overlay = new Ogre::ImGuiOverlay();
 		Ogre::OverlayManager::getSingleton().addOverlay(_overlay);

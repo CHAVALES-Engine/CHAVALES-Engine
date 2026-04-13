@@ -23,7 +23,6 @@ mono_crash.*
 [Rr]elease/
 [Rr]eleases/
 [Bb]uild/
-!dependencies/ogre/[Bb]uild/imgui-1.91.9b/
 
 [Dd]ebug/x64/
 [Dd]ebugPublic/x64/
