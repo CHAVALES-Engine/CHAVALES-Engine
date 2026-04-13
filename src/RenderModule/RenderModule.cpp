@@ -149,8 +149,8 @@ bool RenderModule::Init(const HWND handle, const int width, const int height,con
 
 		_rgm = &Ogre::ResourceGroupManager::getSingleton();
 
-		_rgm->addResourceLocation("../dependencies/ogre/src/ogre/Media/Main", "FileSystem", "Scene");
-		_rgm->addResourceLocation("../dependencies/ogre/src/ogre/Media/RTShaderLib", "FileSystem", "Scene");
+		_rgm->addResourceLocation("./Media/Main", "FileSystem", "Scene");
+		_rgm->addResourceLocation("./Media/RTShaderLib", "FileSystem", "Scene");
 
 		Ogre::RTShader::ShaderGenerator::initialize();
 		_shaderGen = Ogre::RTShader::ShaderGenerator::getSingletonPtr();
