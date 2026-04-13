@@ -16,9 +16,11 @@ bool RigidBody::init(const Properties& p)
 	physicsID = _eng->createRigidBody(getPosition(), getMass(), useGravity, isKinematic);
 	setMass(getProperty<float>(p, "mass"));
 	setPosition(getProperty<core::Vector3<>>(p, "position"));
-	setVelocity(getProperty<core::Vector3<>>(p, "velocity"));
-	setLinearDamping(getProperty<float>(p, "damping"));
-
+	if (!isKinematic)
+	{
+		setVelocity(getProperty<core::Vector3<>>(p, "velocity"));
+		setLinearDamping(getProperty<float>(p, "damping"));
+	}
 	return true;
 }
 
@@ -33,7 +35,7 @@ void RigidBody::ready()
 
 	if (getMass() <= 0.0f)
 		setMass(1.0f);
-
+	if(!isKinematic)
 	_eng->setLinearVelocity(physicsID, getVelocity());
 
 }
@@ -45,10 +47,10 @@ void RigidBody::update(uint64_t dt)
 	auto transform = entity->getComponent<Transform>();
 	if (!transform) return;
 
-	if(!isKinematic)
-	transform->setGlobalPosition(getPosition());
+	if (!isKinematic)
+		transform->setGlobalPosition(getPosition());
 	else
-	setPosition(transform->getGlobalPosition());
+		setPosition(transform->getGlobalPosition());
 }
 
 core::Vector3<> RigidBody::getVelocity() {

@@ -20,6 +20,11 @@ assets = {
 			sourceFolder = "./game/assets/mesh/",
 			fileName = "gizmo.fbx"
 		}
+		,
+		sphere = {
+			sourceFolder = "./game/assets/mesh/",
+			fileName = "Sphere.fbx"
+		}
 	},
 	audio = { --Audios
 		lifeUp = "./game/assets/audio/sfx/smb_1-up.wav",
