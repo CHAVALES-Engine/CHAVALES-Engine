@@ -33,6 +33,7 @@
 #include <OgreOverlayManager.h>
 #include <OgreOverlaySystem.h>
 #include <imgui.h>
+#include <imgui_impl_sdl3.h>
 #include <assimp/postprocess.h>
 #include <OgreGL3PlusTexture.h>
 #include <guid.h>
@@ -302,6 +303,11 @@ void RenderModule::cleanScene(const bool& end)
 			_rgm->destroyResourceGroup(groupName);
 		}
 	}
+}
+
+RenderModule::EventCallback RenderModule::getImguiInputCallback()
+{
+	return ImGui_ImplSDL3_ProcessEvent;
 }
 
 transformID RenderModule::addNode(const entityID& entityID, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float> scale, const bool& fromTransform,const TransformType type)

@@ -675,6 +675,7 @@ bool Engine::_initPriv()
 		_renderModule = nullptr;
 		return false;
 	}
+	_platformModule->registerEventObserver(_renderModule->getImguiInputCallback());
 	//Audio
 	_audioModule = new AudioModule();
 	if (!_audioModule->Init()) {
