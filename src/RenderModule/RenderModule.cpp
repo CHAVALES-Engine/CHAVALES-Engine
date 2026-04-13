@@ -55,6 +55,7 @@ static Ogre::ResourceGroupManager* _rgm;
 static entityID _mainCameraID;
 
 static Ogre::STBIImageCodec* _jpgCodec;
+static Ogre::STBIImageCodec* _jpegCodec;
 static Ogre::STBIImageCodec* _pngCodec;
 static Ogre::STBIImageCodec* _tgaCodec;
 static Ogre::STBIImageCodec* _bmpCodec;
@@ -103,11 +104,13 @@ bool RenderModule::Init(const HWND handle, const int width, const int height,con
 		_root->installPlugin(_assimpPlugin);
 
 		_jpgCodec = new Ogre::STBIImageCodec("jpg");
+		_jpegCodec = new Ogre::STBIImageCodec("jpeg");
 		_pngCodec = new Ogre::STBIImageCodec("png");
 		_tgaCodec = new Ogre::STBIImageCodec("tga");
 		_bmpCodec = new Ogre::STBIImageCodec("bmp");
 
 		Ogre::Codec::registerCodec(_jpgCodec);
+		Ogre::Codec::registerCodec(_jpegCodec);
 		Ogre::Codec::registerCodec(_pngCodec);
 		Ogre::Codec::registerCodec(_tgaCodec);
 		Ogre::Codec::registerCodec(_bmpCodec);
@@ -1444,10 +1447,12 @@ void RenderModule::shutdown()
 	_overlaySystem = nullptr;
 
 	Ogre::Codec::unregisterCodec(_jpgCodec);
+	Ogre::Codec::unregisterCodec(_jpegCodec);
 	Ogre::Codec::unregisterCodec(_pngCodec);
 	Ogre::Codec::unregisterCodec(_tgaCodec);
 	Ogre::Codec::unregisterCodec(_bmpCodec);
 	delete _jpgCodec;
+	delete _jpegCodec;
 	delete _pngCodec;
 	delete _tgaCodec;
 	delete _bmpCodec;
