@@ -25,6 +25,7 @@
 #include <OgreGpuProgramManager.h>
 #include <OgreRTShaderSystem.h>
 #include <OgreShaderGenerator.h>
+#include <OgreParticleFXPlugin.h>
 #include <OgreParticleSystem.h>
 #include <OgreParticleEmitter.h>
 #include <OgreLogManager.h>
@@ -45,6 +46,7 @@
 static Ogre::Root* _root = nullptr;
 static Ogre::GL3PlusPlugin* _gl3Plugin = nullptr;
 static Ogre::AssimpPlugin* _assimpPlugin = nullptr;
+static Ogre::ParticleFXPlugin* _particlePlugin = nullptr;
 static Ogre::OverlaySystem* _overlaySystem = nullptr;
 static Ogre::RenderWindow* _window = nullptr;
 static Ogre::SceneManager* _sceneMgr = nullptr;
@@ -104,6 +106,9 @@ bool RenderModule::Init(const HWND handle, const int width, const int height, co
 
 		_assimpPlugin = new Ogre::AssimpPlugin();
 		_root->installPlugin(_assimpPlugin);
+
+		_particlePlugin = new Ogre::ParticleFXPlugin();
+		_root->installPlugin(_particlePlugin);
 
 		_jpgCodec = new Ogre::STBIImageCodec("jpg");
 		_jpegCodec = new Ogre::STBIImageCodec("jpeg");
@@ -1500,6 +1505,7 @@ void RenderModule::shutdown()
 
 	delete _gl3Plugin;
 	delete _assimpPlugin;
+	delete _particlePlugin;
 
 	_root = nullptr;
 	_window = nullptr;

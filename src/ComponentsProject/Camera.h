@@ -19,7 +19,7 @@ using cameraID = uint64_t;
  *		near clip distance = float,
  *		far clip distance = float,
  *		focal length = float,
- *		background color = Color
+ *		background color = Color.new(float...)
  * }
  *
  * --- Ejemplo de inicializacion ---
@@ -45,6 +45,7 @@ public:
 	~Camera();
 
 	bool init(const Properties& p) override;
+	void ready() override;
 
 	void setAsActiveCamera();
 

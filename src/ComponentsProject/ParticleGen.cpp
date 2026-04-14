@@ -14,7 +14,13 @@ ParticleGen::~ParticleGen()
 bool ParticleGen::init(const Properties& p)
 {
 	_textureName = getProperty<std::string>(p, "texture name");
-
+	setProperty(p, "particle width", _partWidth);
+	setProperty(p, "particle height", _partHeight);
+	setProperty(p, "emission rate", _emissionRate);
+	setProperty(p, "min velocity", _minVelocity);
+	setProperty(p, "max velocity", _maxVelocity);
+	setProperty(p, "direction", _direction);
+	setProperty(p, "angle", _angle);
 	return true;
 }
 
@@ -31,6 +37,13 @@ void ParticleGen::disable()
 void ParticleGen::ready()
 {
 	_particleGenID = Engine::instance()->addParticleGen(getEntity()->getEntityID(), _textureName);
+	Engine::instance()->setParticleGenPartWidth(_particleGenID, _partWidth);
+	Engine::instance()->setParticleGenPartWidth(_particleGenID, _partHeight);
+	Engine::instance()->setParticleGenEmissionRate(_particleGenID, _emissionRate);
+	Engine::instance()->setParticleGenMinVelocity(_particleGenID, _minVelocity);
+	Engine::instance()->setParticleGenMaxVelocity(_particleGenID, _maxVelocity);
+	Engine::instance()->setParticleGenDirection(_particleGenID, _direction);
+	Engine::instance()->setParticleGenAngle(_particleGenID, _angle);
 }
 
 void ParticleGen::setEmitting(const bool& emitting)
