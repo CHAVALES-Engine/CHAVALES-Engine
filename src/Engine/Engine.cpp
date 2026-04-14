@@ -490,9 +490,9 @@ float Engine::getVolume(int chID)
 
 #pragma region Physics
 
-uint32_t Engine::createBoxCollider(const core::Vector3<>& size, const core::Vector3<>& pos, bool isDynamic, bool isTrigger)
+uint32_t Engine::createBoxCollider(const core::Vector3<>& size, const core::Vector3<>& center, const core::Vector3<>& pos, bool isDynamic, bool isTrigger)
 {
-	return _physicsModule->CreateBoxShape(size, pos, isDynamic, isTrigger);
+	return _physicsModule->CreateBoxShape(size, center, pos, isDynamic, isTrigger);
 }
 
 void Engine::setPhysicsPosition(uint32_t id, const core::Vector3<>& pos)
@@ -607,6 +607,11 @@ bool Engine::rayCast(const core::Vector3<>& origin,
 		{ direction.getX(), direction.getY(), direction.getZ() },
 		maxDistance);
 }
+std::vector<ShapeRenderData> Engine::GetPhysicsRenderData()
+{
+	if (!_physicsModule) return {};
+	return _physicsModule->GetRenderData();
+}
 #pragma endregion
 
 #pragma region Resources
@@ -710,11 +715,13 @@ void Engine::update(float dt)
 	if (_physicsModule)
 	{
 		_physicsModule->Update(dt);
+		auto physicsShapes = _physicsModule->GetRenderData();
+		if (_renderModule)
+			_renderModule->RenderPhysics(physicsShapes);//debbug colliders
 	}
 	if (_audioModule)
 	{
 		_audioModule->Update();
-
 	}
 }
 

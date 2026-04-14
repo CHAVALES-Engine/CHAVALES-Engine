@@ -27,7 +27,7 @@ public:
 		float maxDistance);
 
 	//colliders
-	ComponentID  CreateBoxShape(core::Vector3<> dimension, core::Vector3<> pos, bool isDynamic, bool isTrigger);
+	ComponentID  CreateBoxShape(core::Vector3<> dimension, const core::Vector3<>& center, core::Vector3<> pos, bool isDynamic, bool isTrigger);
 	ComponentID CreateCapsuleShape(float radius, float height, const core::Vector3<>& center, const core::Vector3<>& worldPos, bool isDynamic, bool isTrigger);
 	std::vector<PhysicsEvent> getEventsFor(ComponentID id);
 	void clearEvents();
@@ -67,6 +67,9 @@ public:
 	void DestroyBody(ComponentID id);
 	void DestroyMaterial(uint32_t id);
 	void ClearScene();
+
+	//debbug
+	std::vector<ShapeRenderData> GetRenderData();
 private:
 	Raycast raycast;
 	ComponentID nextID = 1;

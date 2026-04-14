@@ -98,10 +98,10 @@ void Collider::ready()
 		switch (shapeType)
 		{
 		case ShapeType::BOX:
-			physicsID = _eng->createBoxCollider(size, pos + center, isDynamic, isTrigger);
+			physicsID = _eng->createBoxCollider(size, center, pos, isDynamic, isTrigger);
 			break;
 		case ShapeType::CAPSULE:
-			physicsID = _eng->createCapsuleCollider(radius, height, center, pos + center, isDynamic, isTrigger);
+			physicsID = _eng->createCapsuleCollider(radius, height, center, pos, isDynamic, isTrigger);
 			break;
 		}
 	}

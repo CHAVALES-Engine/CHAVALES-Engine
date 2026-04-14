@@ -39,7 +39,6 @@
 #include <OgreGL3PlusTexture.h>
 #include <guid.h>
 #include <imgui_impl_sdl3.h>
-
 #include "GameConfigurator.h"
 #include <checkMLNew.h>
 
@@ -60,30 +59,33 @@ static Ogre::STBIImageCodec* _pngCodec;
 static Ogre::STBIImageCodec* _tgaCodec;
 static Ogre::STBIImageCodec* _bmpCodec;
 
+static Ogre::ManualObject* _debugDraw = nullptr;
+static Ogre::SceneNode* _debugNode = nullptr;
+
 /*void ImGuiManager::AddElement(UIElement element)
 {
 	_uiElements.push_back(element);
 }
-    _uiElements.push_back(element);
+	_uiElements.push_back(element);
 }*/
 
 /*void ImGuiManager::Clear()
 {
-    _uiElements.clear();
+	_uiElements.clear();
 }*/
 
 /*void ImGuiManager::Draw()
 {
-    _overlay->NewFrame();
+	_overlay->NewFrame();
    // ImGui::ShowDemoWindow();
-    for (auto e : _uiElements) {
-        e();
-    }
-    ImDrawData* draw_data = ImGui::GetDrawData();
-    if (!draw_data || draw_data->CmdListsCount == 0)
-        std::cout << "No draw commands generated\n";
-    else
-        std::cout << "Draw commands generated: " << draw_data->CmdListsCount << "\n";
+	for (auto e : _uiElements) {
+		e();
+	}
+	ImDrawData* draw_data = ImGui::GetDrawData();
+	if (!draw_data || draw_data->CmdListsCount == 0)
+		std::cout << "No draw commands generated\n";
+	else
+		std::cout << "Draw commands generated: " << draw_data->CmdListsCount << "\n";
 }*/
 
 RenderModule::~RenderModule()
@@ -91,7 +93,7 @@ RenderModule::~RenderModule()
 	shutdown();
 }
 
-bool RenderModule::Init(const HWND handle, const int width, const int height,const std::vector<std::pair<FontName, FontPath>> fonts)
+bool RenderModule::Init(const HWND handle, const int width, const int height, const std::vector<std::pair<FontName, FontPath>> fonts)
 {
 	try
 	{
@@ -195,6 +197,42 @@ bool RenderModule::Init(const HWND handle, const int width, const int height,con
 		_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, materialUI->getName());
 
 		_vp->setOverlaysEnabled(true);
+
+		//---------------debug colliders--------------
+		std::string debugMatName = "Debug/PhysicsLines";
+		//compruebo si existe por si acaso
+		Ogre::MaterialManager& matMgr = Ogre::MaterialManager::getSingleton();
+		Ogre::MaterialPtr mat = matMgr.getByName(debugMatName);
+		if (!mat)
+		{
+			mat = matMgr.create(debugMatName, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+
+			mat->setReceiveShadows(false);
+			mat->setDepthCheckEnabled(true);
+			mat->setDepthWriteEnabled(false);
+
+			Ogre::Pass* pass = mat->getTechnique(0)->getPass(0);
+			pass->setLightingEnabled(false);
+
+			//para el color
+			pass->setVertexColourTracking(Ogre::TVC_DIFFUSE);
+			pass->setDepthCheckEnabled(false);//ignora si hay objetos delante
+			pass->setDepthWriteEnabled(false);
+			pass->setLightingEnabled(false);
+			pass->setSceneBlending(Ogre::SBT_TRANSPARENT_ALPHA);
+			pass->setLineWidth(3.0f);//grosor linea
+			mat->load();
+
+			_shaderGen->createShaderBasedTechnique(*mat, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
+			_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, mat->getName(), mat->getGroup());
+		}
+		_debugDraw = _sceneMgr->createManualObject("DebugDraw");
+		_debugDraw->setDynamic(true);
+		_debugDraw->setRenderQueueGroup(Ogre::RENDER_QUEUE_OVERLAY);
+		_debugDraw->setBoundingBox(Ogre::AxisAlignedBox::BOX_INFINITE);//A LO MEJOR QUITO ESTE QUE SINO SE CARGAN TODOS Y PUEDE SER MUY PESADO, MEJOR SOLO LO QUE SE VE
+		_debugNode = _sceneMgr->getRootSceneNode()->createChildSceneNode();
+		_debugNode->attachObject(_debugDraw);
+		//---------------------------------------------------------
 
 		return true;
 	}
@@ -317,7 +355,7 @@ RenderModule::EventCallback RenderModule::getImguiInputCallback()
 	return ImGui_ImplSDL3_ProcessEvent;
 }
 
-transformID RenderModule::addNode(const entityID& entityID, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float> scale, const bool& fromTransform,const TransformType type)
+transformID RenderModule::addNode(const entityID& entityID, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float> scale, const bool& fromTransform, const TransformType type)
 {
 	if (type == TransformType::WORLD) {
 		for (int i = 0; i < (int)_engineNodes.size(); i++)
@@ -442,13 +480,13 @@ core::Vector2<float> RenderModule::getUIPosition(const transformID& id)
 	if (id >= 0 && id < _uiTransforms.size()) {
 		return _uiTransforms[id].position;
 	}
-	return core::Vector2<float>(0,0);
+	return core::Vector2<float>(0, 0);
 }
 
 void RenderModule::setUIPosition(const transformID& id, const core::Vector2<float>& pos)
 {
 	if (id >= 0 && id < _uiTransforms.size()) {
-		 _uiTransforms[id].position = pos;
+		_uiTransforms[id].position = pos;
 	}
 }
 
@@ -1106,7 +1144,7 @@ void RenderModule::setUIPanelVisible(const uiPanelID& id, bool visible) {
 
 }
 
-uiLabelID RenderModule::addUILabel(const std::string& panelName, const entityID& entityID, const std::string& text,const  float opacity,const  core::Vector2<float> size, const core::Color textColor,const core::Color bgColor,const float fontSize,const TextAlign textAlign, const std::string fontName) {
+uiLabelID RenderModule::addUILabel(const std::string& panelName, const entityID& entityID, const std::string& text, const  float opacity, const  core::Vector2<float> size, const core::Color textColor, const core::Color bgColor, const float fontSize, const TextAlign textAlign, const std::string fontName) {
 	addNode(entityID, TransformType::UI);
 
 	uiPanelID panelID = getOrSetPanel(panelName);
@@ -1188,7 +1226,7 @@ uiButtonID RenderModule::addUIImageButton(const std::string& panelName, const en
 	button.text = text;
 	button.visible = true;
 	button.size = size;
-	button.textureFolder= textureFolder;
+	button.textureFolder = textureFolder;
 	button.textureFile = textureFile;
 
 	button.buttonImage = true;
@@ -1199,9 +1237,9 @@ uiButtonID RenderModule::addUIImageButton(const std::string& panelName, const en
 		_resourceGroups.insert(textureFolder);
 	}
 
-	Ogre::TexturePtr tex = Ogre::TextureManager::getSingleton().load(textureFile,textureFolder,Ogre::TEX_TYPE_2D,0);
+	Ogre::TexturePtr tex = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
 	button.textureID = (ImTextureID)tex->getHandle();
-		
+
 	_uiPanels[panelID].buttons.push_back(button);
 
 	uiButtonID id = _nextButtonID++;
@@ -1261,7 +1299,7 @@ void RenderModule::setUIButtonCallback(const uiButtonID& buttonID, std::function
 	_uiPanels[panelID].buttons[buttonIndex].onClick = callback;
 }
 
-uiTextureRectID RenderModule::addUITextureRect(const std::string& panelName, const entityID& entityID, const std::string& textureFolder, const std::string& textureFile, core::Vector2<float> size) 
+uiTextureRectID RenderModule::addUITextureRect(const std::string& panelName, const entityID& entityID, const std::string& textureFolder, const std::string& textureFile, core::Vector2<float> size)
 {
 	addNode(entityID, TransformType::UI);
 	uiPanelID panelID = getOrSetPanel(panelName);
@@ -1287,7 +1325,7 @@ uiTextureRectID RenderModule::addUITextureRect(const std::string& panelName, con
 
 	_textureToPanel[id] = { panelID, index };
 
-	return id;	
+	return id;
 }
 
 void  RenderModule::setUITextureRectTexture(const uiTextureRectID& textureRectID, const std::string& texture) {
@@ -1306,6 +1344,7 @@ void  RenderModule::setUITextureRectOpacity(const uiTextureRectID& textureRectID
 	auto [panelID, textureRectIndex] = _textureToPanel[textureRectID];
 	_uiPanels[panelID].textureRects[textureRectIndex].opacity = opacity;
 }
+
 
 TextAlign RenderModule::stringToAlign(const std::string& align)
 {
@@ -1331,7 +1370,7 @@ uiPanelID RenderModule::getOrSetPanel(const std::string& panelName)
 	panel.title = panelName;
 	panel.visible = true;
 	_uiPanels.push_back(panel);
-	return _uiPanels.size() -1;
+	return _uiPanels.size() - 1;
 }
 
 void RenderModule::renderUI() {
@@ -1393,7 +1432,7 @@ void RenderModule::renderUI() {
 
 		}
 
-		
+
 
 		for (UIButtonData& button : panel.buttons) {
 			if (!button.visible) {
@@ -1407,7 +1446,7 @@ void RenderModule::renderUI() {
 
 			if (button.buttonImage) {
 				std::string idButton = button.textureFile + "_" + button.entity.toString();
-				
+
 				if (ImGui::ImageButton(idButton.c_str(), (ImTextureID)(uintptr_t)button.textureID, aux)) {
 					if (button.onClick) {
 						button.onClick();
@@ -1415,7 +1454,7 @@ void RenderModule::renderUI() {
 				}
 			}
 			else {
-				if (ImGui::Button(button.text.c_str(),aux)) {
+				if (ImGui::Button(button.text.c_str(), aux)) {
 					if (button.onClick) {
 						button.onClick();
 					}
@@ -1465,4 +1504,94 @@ void RenderModule::shutdown()
 	_root = nullptr;
 	_window = nullptr;
 	_sceneMgr = nullptr;
+}
+
+void RenderModule::RenderPhysics(const std::vector<ShapeRenderData>& shapes)
+{
+	_debugDraw->clear();
+	_debugDraw->begin("Debug/PhysicsLines", Ogre::RenderOperation::OT_LINE_LIST);
+	Ogre::ColourValue debugColor(1.0f, 0.0f, 0.0f, 0.5f);//rojo
+	_debugDraw->colour(debugColor);
+
+	//_debugDraw->position(0, 0, 0);
+
+	//_debugDraw->position(0, 2000, 0);
+	//_debugDraw->colour(debugColor);
+
+	for (const auto& s : shapes)
+	{
+		switch (s.type)
+		{
+		case ShapeType::BOX:
+			DrawBox(s);
+			break;
+
+		case ShapeType::CAPSULE:
+			if (s.halfHeight <= 0.0f)
+				DrawSphere(s);
+			else
+				DrawCapsule(s);
+			break;
+		}
+	}
+	_debugDraw->end();
+}
+
+void RenderModule::DrawBox(const ShapeRenderData& data)
+{
+	//tam
+	Ogre::Vector3 halfSize(data.size.getX(), data.size.getY(), data.size.getZ());
+	halfSize *= 0.5f;
+	//offset
+	Ogre::Vector3 center(data.position.getX(), data.position.getY(), data.position.getZ());
+	//rot
+	Ogre::Quaternion q(data.rotation.getW(), data.rotation.getX(), data.rotation.getY(), data.rotation.getZ());
+	Ogre::Matrix3 rot;
+	q.ToRotationMatrix(rot);
+
+	auto transformPoint = [&](const Ogre::Vector3& p) {//mas facil asi
+		return center + (rot * p);
+		};
+
+	Ogre::Vector3 v[8] = {
+		{-halfSize.x, -halfSize.y, -halfSize.z},
+		{ halfSize.x, -halfSize.y, -halfSize.z},
+		{ halfSize.x, -halfSize.y,  halfSize.z},
+		{-halfSize.x, -halfSize.y,  halfSize.z},
+
+		{-halfSize.x,  halfSize.y, -halfSize.z},
+		{ halfSize.x,  halfSize.y, -halfSize.z},
+		{ halfSize.x,  halfSize.y,  halfSize.z},
+		{-halfSize.x,  halfSize.y,  halfSize.z}
+	};
+
+	auto line = [&](int a, int b) {
+		_debugDraw->position(transformPoint(v[a]));
+		_debugDraw->position(transformPoint(v[b]));
+		};
+
+	//bottom
+	line(0, 1);
+	line(1, 2);
+	line(2, 3);
+	line(3, 0);
+	//top
+	line(4, 5);
+	line(5, 6);
+	line(6, 7);
+	line(7, 4);
+	//lados
+	line(0, 4);
+	line(1, 5);
+	line(2, 6);
+	line(3, 7);
+}
+void RenderModule::DrawCapsule(const ShapeRenderData& data)
+{
+
+}
+
+void RenderModule::DrawSphere(const ShapeRenderData& data)
+{
+
 }

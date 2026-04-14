@@ -149,7 +149,7 @@ ComponentID PhysicsModule::CreateRigidBody(core::Vector3<> pos, float mass, bool
 	return id;
 }
 
-ComponentID PhysicsModule::CreateBoxShape(core::Vector3<> size, core::Vector3<> position, bool isDynamic, bool isTrigger)
+ComponentID PhysicsModule::CreateBoxShape(core::Vector3<> size, const core::Vector3<>& center, core::Vector3<> position, bool isDynamic, bool isTrigger)
 {
 	if (!gPhysics || !gScene) return 0;
 
@@ -162,6 +162,8 @@ ComponentID PhysicsModule::CreateBoxShape(core::Vector3<> size, core::Vector3<> 
 
 	PxShape* shape = gPhysics->createShape(geo, *defaultMaterial);
 	if (!shape) return 0;
+	PxTransform localPose(PxVec3(center.getX(), center.getY(), center.getZ()));
+	shape->setLocalPose(localPose);
 
 	PxFilterData filterData;
 	filterData.word0 = 1;//layer
@@ -207,7 +209,9 @@ ComponentID PhysicsModule::CreateCapsuleShape(float radius, float height, const 
 	}
 	else//capsula
 	{
-		PxCapsuleGeometry geo(radius, height * 0.5f);
+		float halfHeight = (height * 0.5f) - radius;
+		halfHeight = std::max(0.0f, halfHeight);
+		PxCapsuleGeometry geo(radius, halfHeight * 0.5f);
 		shape = gPhysics->createShape(geo, *defaultMaterial);
 	}
 	if (!shape) return 0;
@@ -229,7 +233,9 @@ ComponentID PhysicsModule::CreateCapsuleShape(float radius, float height, const 
 		shape->setFlag(PxShapeFlag::eTRIGGER_SHAPE, false);
 	}
 
-	PxTransform localPose(PxVec3(center.getX(), center.getY(), center.getZ()));
+	//rotadas en el eje Y para que se vean verticales
+	PxQuat rot(PxHalfPi, PxVec3(0, 0, 1));
+	PxTransform localPose(PxVec3(center.getX(), center.getY(), center.getZ()), rot);
 	shape->setLocalPose(localPose);
 	actor->attachShape(*shape);
 
@@ -482,11 +488,15 @@ void PhysicsModule::AttachCapsuleShape(ComponentID bodyID, float radius, float h
 	}
 	else//capsula
 	{
-		shape = gPhysics->createShape(PxCapsuleGeometry(radius, height * 0.5f), *defaultMaterial);
+		float halfHeight = (height * 0.5f) - radius;
+		halfHeight = std::max(0.0f, halfHeight);
+		shape = gPhysics->createShape(PxCapsuleGeometry(radius, halfHeight * 0.5f), *defaultMaterial);
 	}
 	if (shape == NULL) return;
 
-	PxTransform localPose(PxVec3(center.getX(), center.getY(), center.getZ()),PxQuat(PxIdentity));
+	//rotadas en el eje Y para que se vean verticales
+	PxQuat rot(PxHalfPi, PxVec3(0, 0, 1));
+	PxTransform localPose(PxVec3(center.getX(), center.getY(), center.getZ()), rot);
 	shape->setLocalPose(localPose);
 
 	PxFilterData filterData;
@@ -613,4 +623,70 @@ void PhysicsModule::ClearScene()
 	physicsMap.clear();
 	actorToID.clear();
 	eventQueue.clear();
+}
+
+std::vector<ShapeRenderData> PhysicsModule::GetRenderData()
+{
+	std::vector<ShapeRenderData> result;
+
+	for (auto& [id, comp] : physicsMap)
+	{
+		PxRigidActor* actor = comp.actor;
+		if (!actor) continue;
+
+		for (PxShape* shape : comp.shapes)
+		{
+			if (!shape) continue;
+			ShapeRenderData data;
+
+			PxTransform pose = PxShapeExt::getGlobalPose(*shape, *actor);
+
+			data.position = { pose.p.x, pose.p.y, pose.p.z };
+			data.rotation = { pose.q.x, pose.q.y, pose.q.z, pose.q.w };
+
+			const PxGeometry& geom = shape->getGeometry();
+			switch (geom.getType())
+			{
+			case PxGeometryType::eBOX:
+			{
+				const PxBoxGeometry& box = static_cast<const PxBoxGeometry&>(geom);
+				data.type = ShapeType::BOX;
+
+				data.size = core::Vector3<>(
+					box.halfExtents.x * 2.0f,
+					box.halfExtents.y * 2.0f,
+					box.halfExtents.z * 2.0f
+				);
+				break;
+			}
+
+			case PxGeometryType::eSPHERE:
+			{
+				const PxSphereGeometry& sphere = static_cast<const PxSphereGeometry&>(geom);
+
+				data.type = ShapeType::CAPSULE; // como dijiste: unificado
+				data.radius = sphere.radius;
+				data.halfHeight = 0.0f;
+				break;
+			}
+
+			case PxGeometryType::eCAPSULE:
+			{
+				const PxCapsuleGeometry& capsule = static_cast<const PxCapsuleGeometry&>(geom);
+
+				data.type = ShapeType::CAPSULE;
+				data.radius = capsule.radius;
+				data.halfHeight = capsule.halfHeight;
+				break;
+			}
+
+			default:
+				continue;
+			}
+
+			result.push_back(data);
+		}
+	}
+
+	return result;
 }
