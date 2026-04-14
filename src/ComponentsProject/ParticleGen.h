@@ -1,6 +1,6 @@
 /*
  * @file
- * @brief Componente que gestiona una camara.
+ * @brief Componente que gestiona un generador de particulas.
  */
 #pragma once
 #include <Component.h>

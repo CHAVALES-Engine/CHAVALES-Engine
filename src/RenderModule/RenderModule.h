@@ -402,6 +402,15 @@ public:
 	*/
 	void setParticleGenPartColor(const particleGenID& id, const core::Color& color);
 
+    //Metodos skydome
+    /*
+    * @brief Establecer skydome
+    */
+    void setSkydome(const std::string& textureFolder, const std::string& textureFile, const float& curvature, const float& tiling, const float& distance, const bool& drawFirst);
+    /*
+    * @brief Quitar skydome
+    */
+    void setSkydomeNull();
 
 	//Metodos UI
 	/*
@@ -448,8 +457,6 @@ public:
 	* @brief Establecer la tipografia  del letrero
 	*/
 	//void setUILabelFont(const uiLabelID id, ImFont* font);
-
-
 	/*
 	 * @brief Añadir un boton al panel
 	 */

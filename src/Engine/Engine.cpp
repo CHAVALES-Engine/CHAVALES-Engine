@@ -332,6 +332,17 @@ void Engine::setParticleGenPartColor(const particleGenID& id, const core::Color&
 	_renderModule->setParticleGenPartColor(id, color);
 }
 
+void Engine::setSkydome(const std::string& textureName, const float& curvature, const float& tiling, const float& distance, const bool& drawFirst)
+{
+	auto skydome = _resourcesModule->getParticle(textureName);
+	_renderModule->setSkydome(skydome.first, skydome.second, curvature, tiling, distance, drawFirst);
+}
+
+void Engine::setSkydomeNull()
+{
+	_renderModule->setSkydomeNull();
+}
+
 uiPanelID Engine::addUIPanel(const entityID& entityID, const std::string& title)
 {
 	return _renderModule->addUIPanel(entityID, title);

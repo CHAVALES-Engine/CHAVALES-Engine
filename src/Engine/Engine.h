@@ -315,6 +315,16 @@ public:
 	*/
 	void setParticleGenPartColor(const particleGenID& id, const core::Color& color);
 #pragma endregion
+#pragma region skydome
+	/*
+	* @brief Establecer skydome.
+	*/
+	void setSkydome(const std::string& textureName, const float& curvature, const float& tiling, const float& distance, const bool& drawFirst);
+	/*
+	* @brief Quitar skydome
+	*/
+	void setSkydomeNull();
+#pragma endregion
 #pragma region UI
 #pragma region UI-Panels
 	/*

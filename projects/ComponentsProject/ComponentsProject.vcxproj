@@ -24,6 +24,7 @@
     <ClInclude Include="..\..\src\ComponentsProject\ParticleGen.h" />
     <ClInclude Include="..\..\src\ComponentsProject\PhysicsMaterial.h" />
     <ClInclude Include="..\..\src\ComponentsProject\RigidBody.h" />
+    <ClInclude Include="..\..\src\ComponentsProject\Skydome.h" />
     <ClInclude Include="..\..\src\ComponentsProject\Transform.h" />
     <ClInclude Include="..\..\src\ComponentsProject\UIButton.h" />
     <ClInclude Include="..\..\src\ComponentsProject\UILabel.h" />
@@ -47,6 +48,7 @@
     <ClCompile Include="..\..\src\ComponentsProject\UILabel.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\UIPanel.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\UITextureRect.cpp" />
+    <ClCompile Include="Skydome.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core-Defs\Core-Defs.vcxproj">

@@ -1104,8 +1104,7 @@ void RenderModule::setParticleGenMaxVelocity(const particleGenID& id, const floa
 void RenderModule::setParticleGenDirection(const particleGenID& id, const core::Vector3<float>& direction)
 {
 	if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
-		_particleGens[id]->getEmitter(0)->setDirection(Ogre::Vector3(direction.getX(), direction.getY(), direction.getZ())
-		);
+		_particleGens[id]->getEmitter(0)->setDirection(Ogre::Vector3(direction.getX(), direction.getY(), direction.getZ()));
 }
 
 void RenderModule::setParticleGenAngle(const particleGenID& id, const float& angle)
@@ -1130,6 +1129,50 @@ void RenderModule::setParticleGenPartColor(const particleGenID& id, const core::
 {
 	if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
 		_particleGens[id]->getEmitter(0)->setColour(Ogre::ColourValue(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()));
+}
+
+void RenderModule::setSkydome(const std::string& textureFolder, const std::string& textureFile, const float& curvature, const float& tiling, const float& distance, const bool& drawFirst)
+{
+	if (!Ogre::ResourceGroupManager::getSingleton().resourceGroupExists(textureFolder))
+	{
+		Ogre::ResourceGroupManager::getSingleton().addResourceLocation(textureFolder, "FileSystem", textureFolder);
+		Ogre::ResourceGroupManager::getSingleton().loadResourceGroup(textureFolder);
+		_resourceGroups.insert(textureFolder);
+	}
+
+	std::string matName = "ParticleMat_" + std::to_string(_nextParticleGenID);
+
+	Ogre::MaterialPtr mat = Ogre::MaterialManager::getSingleton().create(matName, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+
+	Ogre::Pass* pass = mat->getTechnique(0)->getPass(0);
+	pass->setLightingEnabled(false);
+	pass->setDepthWriteEnabled(false);
+
+	if (!_rgm->resourceGroupExists(textureFolder))
+	{
+		_rgm->addResourceLocation(textureFolder, "FileSystem", textureFolder);
+		_rgm->loadResourceGroup(textureFolder);
+		_resourceGroups.insert(textureFolder);
+	}
+
+	Ogre::TexturePtr text = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
+
+	Ogre::TextureUnitState* tus = pass->createTextureUnitState();
+	tus->setTexture(text);
+	tus->setColourOperation(Ogre::LBO_MODULATE);
+
+	mat->load();
+
+	//Asignar RTSS
+	_shaderGen->createShaderBasedTechnique(*mat, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
+	_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, mat->getName());
+
+	_sceneMgr->setSkyDome(true, matName, curvature, tiling, distance, drawFirst);
+}
+
+void RenderModule::setSkydomeNull()
+{
+	_sceneMgr->setSkyDome(false, "");
 }
 
 uiPanelID RenderModule::addUIPanel(const entityID& entityID, const std::string& title) {

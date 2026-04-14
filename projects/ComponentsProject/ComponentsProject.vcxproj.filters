@@ -69,6 +69,9 @@
     <ClInclude Include="..\..\src\ComponentsProject\LuaComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\ComponentsProject\Skydome.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\ComponentsProject\Transform.cpp">
@@ -117,6 +120,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\ComponentsProject\LuaComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Skydome.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
