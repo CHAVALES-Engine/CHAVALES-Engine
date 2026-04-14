@@ -28,8 +28,12 @@ bool Camera::init(const Properties& p)
 	if (!setProperty(p, "background color", _bgColor))
 		_bgColor = core::GameConfigurator::instance()._clearColor;
 
-	_cameraID = Engine::instance()->addCamera(getEntity()->getEntityID(), _FOVy, _nearClipDistance, _farClipDistance, _focalLength, _bgColor);
 	return true;
+}
+
+void Camera::ready()
+{
+	_cameraID = Engine::instance()->addCamera(getEntity()->getEntityID(), _FOVy, _nearClipDistance, _farClipDistance, _focalLength, _bgColor);
 }
 
 void Camera::setAsActiveCamera()

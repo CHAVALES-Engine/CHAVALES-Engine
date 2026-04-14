@@ -16,12 +16,8 @@
  * +----------+
  *
  * --- Ejemplo de uso en lua ---
- * TransformAnimation = {
- *		FOVy = float,
- *		near clip distance = float,
- *		far clip distance = float,
- *		focal length = float,
- *		background color = Color
+ * Animator = {
+ *		...
  * }
  *
  * --- Ejemplo de inicializacion ---
@@ -68,7 +64,7 @@ public:
 	Animator();
 	~Animator();
 
-	bool init(const Properties& p) override;
+	void ready() override;
 	void update(uint64_t deltaTime) override;
 
 	/*

@@ -17,7 +17,12 @@ using lightID = uint64_t;
  *
  * --- Ejemplo de uso en lua ---
  * Light = {
- *		...
+ *		type = int
+ *		color = Color.new(float...),
+ *		intensity = float,
+ *		inner = float,
+ *		outer = float,
+ *		fallof = float
  * }
  *
  * --- Ejemplo de inicializacion ---
@@ -35,6 +40,7 @@ public:
 
 private:
 	lightID _lightID;
+	int _typeInt;
 	Type _type;
 	core::Color _color;
 	float _intensity;
@@ -48,6 +54,7 @@ public:
 	~Light();
 
 	bool init(const Properties& p) override;
+	void ready() override;
 	void setType(Type type);
 	void setColor(const core::Color& color);
 	void setIntensity(float intensity);

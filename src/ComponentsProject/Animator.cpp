@@ -14,10 +14,9 @@ Animator::~Animator()
 
 }
 
-bool Animator::init(const Properties& p)
+void Animator::ready()
 {
 	Engine::instance()->addAnimator(getEntity()->getEntityID(), _modelID);
-	return true;
 }
 
 void Animator::update(uint64_t deltaTime)

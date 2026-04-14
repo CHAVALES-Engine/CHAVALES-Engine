@@ -17,7 +17,9 @@ using modelID = uint64_t;
  *
  * --- Ejemplo de uso en lua ---
  * ModelRenderer = {
- *		...
+ *		file = string,
+ *		number of textures = int,
+ *		textureN = string
  * }
  *
  * --- Ejemplo de inicializacion ---
@@ -31,14 +33,15 @@ using modelID = uint64_t;
 class ModelRenderer : public core::Component
 {
 	modelID _modelID;
-
 	std::string _modelName;
+	std::vector<std::vector<std::string>> _textures;
 
 public:
 	ModelRenderer();
 	~ModelRenderer();
 
 	bool init(const Properties& p) override;
+	void ready() override;
 
 	void setDiffuse(std::string textureName, int submesh = 0);
 	void setTint(core::Color tint, int submesh = 0);

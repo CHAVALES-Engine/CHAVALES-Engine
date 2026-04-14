@@ -19,17 +19,19 @@ Light::~Light()
 }
 bool Light::init(const Properties& p)
 {
-	int typeInt = getProperty<int>(p, "type");
-	_type = static_cast<Light::Type>(typeInt);
+	_typeInt = getProperty<int>(p, "type");
+	_type = static_cast<Light::Type>(_typeInt);
 
 	_color = getProperty<core::Color>(p, "color");
 	_intensity = getProperty<float>(p, "intensity");
 	_innerAngle = getProperty<float> (p, "inner");
 	_outerAngle = getProperty<float>(p, "outer");
 	_falloff = getProperty<float>(p, "falloff");
-
-	Engine::instance()->addLight(getEntity()->getEntityID(), typeInt, _color, _intensity);
 	return true;
+}
+void Light::ready()
+{
+	Engine::instance()->addLight(getEntity()->getEntityID(), _typeInt, _color, _intensity);
 }
 void Light::setType(Type type)
 {
