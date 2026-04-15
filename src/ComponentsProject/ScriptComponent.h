@@ -1,7 +1,11 @@
 #pragma once
 #include "Component.h"
 
-class Script;
+class Script
+{
+public:
+    ~Script() = default;
+};
 
 class ScriptComponent :
     public  core::Component
