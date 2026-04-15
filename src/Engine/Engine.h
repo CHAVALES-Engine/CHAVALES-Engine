@@ -500,7 +500,7 @@ public:
 	/*
 	* @brief Devuelve el id de la entidad que tiene el boxcollider y lo crea
 	*/
-	uint32_t createBoxCollider(const core::Vector3<>& size, const core::Vector3<>& center, const core::Vector3<>& pos, bool isDynamic,  bool isTrigger);
+	uint32_t createBoxCollider(const core::Vector3<>& size, const core::Vector3<>& center, const core::Vector3<>& pos, const core::Quaternion<> rot, bool isDynamic,  bool isTrigger);
 	/*
 	* @brief Setea la posicion fisica de la entidad
 	*/
@@ -520,7 +520,7 @@ public:
 	/*
 	* @brief Devuelve el id de la entidad que tiene el capsulecollider y lo crea
 	*/
-	ComponentID createCapsuleCollider(float radius, float height, const core::Vector3<>& center, const core::Vector3<>& worldPos, bool isDynamic, bool isTrigger);
+	ComponentID createCapsuleCollider(float radius, float height, const core::Vector3<>& center, const core::Vector3<>& worldPos, const core::Quaternion<> rot, bool isDynamic, bool isTrigger);
 	/*
 	* @brief Coge todos los eventos de fisica para poder acceder a ellos y saber cuando ocurren las colisiones
 	*/

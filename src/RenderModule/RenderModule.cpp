@@ -1562,11 +1562,6 @@ void RenderModule::RenderPhysics(const std::vector<ShapeRenderData>& shapes)
 	Ogre::ColourValue debugColor(1.0f, 0.0f, 0.0f, 0.5f);//rojo
 	_debugDraw->colour(debugColor);
 
-	//_debugDraw->position(0, 0, 0);
-
-	//_debugDraw->position(0, 2000, 0);
-	//_debugDraw->colour(debugColor);
-
 	for (const auto& s : shapes)
 	{
 		switch (s.type)
@@ -1635,12 +1630,80 @@ void RenderModule::DrawBox(const ShapeRenderData& data)
 	line(2, 6);
 	line(3, 7);
 }
+
 void RenderModule::DrawCapsule(const ShapeRenderData& data)
 {
+	const int segments = 32;
+	const int rings = 4;//uso solo 4 anillos, si quieres mas cambialo
 
+	float r = data.radius;
+	float hh = data.halfHeight;
+
+	Ogre::Vector3 center(data.position.getX(),data.position.getY(),data.position.getZ());
+	Ogre::Quaternion q(data.rotation.getW(),data.rotation.getX(),data.rotation.getY(),data.rotation.getZ());
+
+	Ogre::Vector3 U = q * Ogre::Vector3::UNIT_Y;
+	Ogre::Vector3 V = q * Ogre::Vector3::UNIT_Z;
+	Ogre::Vector3 W = q * Ogre::Vector3::UNIT_X;
+
+	auto drawCircle = [&](const Ogre::Vector3& C) {
+		for (int i = 0; i < segments; i++)
+		{
+			float a0 = Ogre::Math::TWO_PI * i / segments;
+			float a1 = Ogre::Math::TWO_PI * (i + 1) / segments;
+
+			Ogre::Vector3 p0 = C + (cos(a0) * U + sin(a0) * V) * r;
+			Ogre::Vector3 p1 = C + (cos(a1) * U + sin(a1) * V) * r;
+
+			_debugDraw->position(p0);
+			_debugDraw->position(p1);
+		}
+		};
+
+	//distribucion de aros por todo el tronco
+	float totalHeight = 2.0f * hh;
+	float step = totalHeight / rings;
+
+	for (int i = 0; i <= rings; i++)
+	{
+		float y = -hh + step * i;
+		Ogre::Vector3 C = center + W * y;
+		drawCircle(C);
+	}
+
+	//para marcar la altura
+	Ogre::Vector3 bottom(0, data.position.getY() - r - totalHeight * 0.5f, 0);
+	Ogre::Vector3 top(0, data.position.getY() + r + totalHeight * 0.5f, 0);
+	_debugDraw->position(bottom);
+	_debugDraw->position(top);
 }
 
 void RenderModule::DrawSphere(const ShapeRenderData& data)
 {
+	const int segments = 24;//si tira mucho del ordenador poner 16 
+	float radius = data.radius;
+	Ogre::Vector3 center(data.position.getX(), data.position.getY(), data.position.getZ());
+	Ogre::Quaternion q(data.rotation.getW(), data.rotation.getX(), data.rotation.getY(), data.rotation.getZ());
 
+	auto drawCircle = [&](Ogre::Vector3 axis1, Ogre::Vector3 axis2) {
+		for (int i = 0; i < segments; i++)
+		{
+			float a0 = Ogre::Math::TWO_PI * i / segments;
+			float a1 = Ogre::Math::TWO_PI * (i + 1) / segments;
+
+			Ogre::Vector3 p0 = axis1 * cos(a0) * radius + axis2 * sin(a0) * radius;
+			Ogre::Vector3 p1 = axis1 * cos(a1) * radius + axis2 * sin(a1) * radius;
+
+			p0 = center + (q * p0);
+			p1 = center + (q * p1);
+
+			_debugDraw->position(p0);
+			_debugDraw->position(p1);
+		}
+		};
+
+	//solo hago tres circulos, uno en cada eje
+	drawCircle(Ogre::Vector3::UNIT_X, Ogre::Vector3::UNIT_Y);
+	drawCircle(Ogre::Vector3::UNIT_X, Ogre::Vector3::UNIT_Z);
+	drawCircle(Ogre::Vector3::UNIT_Y, Ogre::Vector3::UNIT_Z);
 }

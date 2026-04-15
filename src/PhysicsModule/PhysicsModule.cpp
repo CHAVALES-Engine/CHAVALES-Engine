@@ -150,11 +150,11 @@ ComponentID PhysicsModule::CreateRigidBody(core::Vector3<> pos, float mass, bool
 	return id;
 }
 
-ComponentID PhysicsModule::CreateBoxShape(core::Vector3<> size, const core::Vector3<>& center, core::Vector3<> position, bool isDynamic, bool isTrigger)
+ComponentID PhysicsModule::CreateBoxShape(core::Vector3<> size, const core::Vector3<>& center, core::Vector3<> position, const core::Quaternion<> rot, bool isDynamic, bool isTrigger)
 {
 	if (!gPhysics || !gScene) return 0;
 
-	PxTransform transform(PxVec3(position.getX(), position.getY(), position.getZ()));
+	PxTransform transform(PxVec3(position.getX(), position.getY(), position.getZ()),PxQuat(rot.getX(), rot.getY(), rot.getZ(), rot.getW()));//posicion y rotacion del trasnform
 	PxRigidActor* actor = isDynamic ? static_cast<PxRigidActor*>(gPhysics->createRigidDynamic(transform)) : static_cast<PxRigidActor*>(gPhysics->createRigidStatic(transform));
 	if (!actor) return 0;
 
@@ -192,11 +192,11 @@ ComponentID PhysicsModule::CreateBoxShape(core::Vector3<> size, const core::Vect
 	return id;
 }
 
-ComponentID PhysicsModule::CreateCapsuleShape(float radius, float height, const core::Vector3<>& center, const core::Vector3<>& worldPos, bool isDynamic, bool isTrigger)
+ComponentID PhysicsModule::CreateCapsuleShape(float radius, float height, const core::Vector3<>& center, const core::Vector3<>& worldPos, const core::Quaternion<> rot, bool isDynamic, bool isTrigger)
 {
 	if (!gPhysics || !gScene) return 0;
 
-	PxTransform transform(PxVec3(worldPos.getX(), worldPos.getY(), worldPos.getZ()));
+	PxTransform transform(PxVec3(worldPos.getX(), worldPos.getY(), worldPos.getZ()),PxQuat(rot.getX(), rot.getY(), rot.getZ(), rot.getW()));//pos y rot del trasnform de entity
 	PxRigidActor* actor = isDynamic ? static_cast<PxRigidActor*>(gPhysics->createRigidDynamic(transform)) : static_cast<PxRigidActor*>(gPhysics->createRigidStatic(transform));
 	if (!actor) return 0;
 
@@ -211,7 +211,7 @@ ComponentID PhysicsModule::CreateCapsuleShape(float radius, float height, const 
 	{
 		float halfHeight = (height * 0.5f) - radius;
 		halfHeight = std::max(0.0f, halfHeight);
-		PxCapsuleGeometry geo(radius, halfHeight * 0.5f);
+		PxCapsuleGeometry geo(radius, halfHeight);
 		shape = gPhysics->createShape(geo, *defaultMaterial);
 	}
 	if (!shape) return 0;
@@ -234,8 +234,8 @@ ComponentID PhysicsModule::CreateCapsuleShape(float radius, float height, const 
 	}
 
 	//rotadas en el eje Y para que se vean verticales
-	PxQuat rot(PxHalfPi, PxVec3(0, 0, 1));
-	PxTransform localPose(PxVec3(center.getX(), center.getY(), center.getZ()), rot);
+	PxQuat rota(PxHalfPi, PxVec3(0, 0, 1));
+	PxTransform localPose(PxVec3(center.getX(), center.getY(), center.getZ()), rota);
 	shape->setLocalPose(localPose);
 	actor->attachShape(*shape);
 
@@ -511,7 +511,7 @@ void PhysicsModule::AttachCapsuleShape(ComponentID bodyID, float radius, float h
 	{
 		float halfHeight = (height * 0.5f) - radius;
 		halfHeight = std::max(0.0f, halfHeight);
-		shape = gPhysics->createShape(PxCapsuleGeometry(radius, halfHeight * 0.5f), *defaultMaterial);
+		shape = gPhysics->createShape(PxCapsuleGeometry(radius, halfHeight), *defaultMaterial);
 	}
 	if (shape == NULL) return;
 

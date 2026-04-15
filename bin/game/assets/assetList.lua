@@ -19,11 +19,14 @@ assets = {
 		gizmo = {
 			sourceFolder = "./game/assets/mesh/",
 			fileName = "gizmo.fbx"
-		}
-		,
+		},
 		sphere = {
 			sourceFolder = "./game/assets/mesh/",
 			fileName = "Sphere.fbx"
+		},
+		capsule = {
+			sourceFolder = "./game/assets/mesh/",
+			fileName = "Capsule.fbx"
 		}
 	},
 	audio = { --Audios

@@ -57,6 +57,7 @@ void Collider::ready()
 	if (!transform) return;
 
 	core::Vector3<> pos = transform->getGlobalPosition();
+	core::Quaternion<> rot = transform->getGlobalRotation();
 
 	rigidBody = entity->getComponent<RigidBody>();
 
@@ -98,10 +99,10 @@ void Collider::ready()
 		switch (shapeType)
 		{
 		case ShapeType::BOX:
-			physicsID = _eng->createBoxCollider(size, center, pos, isDynamic, isTrigger);
+			physicsID = _eng->createBoxCollider(size, center, pos, rot, isDynamic, isTrigger);
 			break;
 		case ShapeType::CAPSULE:
-			physicsID = _eng->createCapsuleCollider(radius, height, center, pos, isDynamic, isTrigger);
+			physicsID = _eng->createCapsuleCollider(radius, height, center, pos, rot, isDynamic, isTrigger);
 			break;
 		}
 	}

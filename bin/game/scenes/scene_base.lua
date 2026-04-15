@@ -75,59 +75,52 @@ scene = { -- entidades en escena
 				file = "cube",
 				["number of textures"] = 0
 			},
-			-- RigidBody = {
-			-- 	useGravity = false, 
-			-- 	isKinematic = true,
-			-- 	mass = 10.0,
-			-- 	position = Vector3.new(0, 0, 0),     
-			-- 	velocity = Vector3.new(0, 0, 0),   
-			-- 	damping = 0.0
-			--  },
+			RigidBody = {
+				useGravity = false, 
+				isKinematic = true,
+				mass = 10.0,
+				position = Vector3.new(0, 0, 0),     
+				velocity = Vector3.new(0, 0, 0),   
+				damping = 0.0
+			 },
 			Collider = {
 				type = "BOX",
     			shape = Vector3.new(400, 100, 400),      
-    			dynamic = false,
+    			dynamic = true,
 				trigger = false,
     			center = Vector3.new(0,0,0)    
 			}
 		}
 	},
-  cube4 = {
-		ddol = false,
-		components = {
-			Transform = {
-				position = Vector3.new(250,400,0),
-				rotation = Quaternion.new(),
-				scale = Vector3.new(1.0),
-				},
-			ModelRenderer = {
-				file = "cube",
-				["number of textures"] = 0
-			},
-			RigidBody = {
-				useGravity = true, 
-				isKinematic = false,
-				mass = 10.0,
-				position = Vector3.new(250, 400, 0),     
-				velocity = Vector3.new(0, 100, 0),   
-				damping = 0.0
-			 },
-			 Collider = {
-				 type = "BOX",
-				 shape = Vector3.new(200, 200, 200),      
-				 dynamic = true,
-				 trigger = false,
-				 center = Vector3.new(0,0,0)    
-				},
-			PhysicsMaterial = {
-				 staticFriction = 0.0,
-				 dynamicFriction = 0.0,
-				 restitution = 1.0,
-				 frictionCombine = 1,
-				 bounceCombine = 2
-			}
-		}
-   },
+--   cube4 = {
+-- 		ddol = false,
+-- 		components = {
+-- 			Transform = {
+-- 				position = Vector3.new(0,400,0),
+-- 				rotation = Quaternion.new(),
+-- 				scale = Vector3.new(2.0, 1, 2.0),
+-- 				},
+-- 			ModelRenderer = {
+-- 				file = "cube",
+-- 				["number of textures"] = 0
+-- 			},
+-- 			RigidBody = {
+-- 				useGravity = false, 
+-- 				isKinematic = true,
+-- 				mass = 10.0,
+-- 				position = Vector3.new(0, 400, 0),     
+-- 				velocity = Vector3.new(0, 0, 0),   
+-- 				damping = 0.0
+-- 			 },
+-- 			Collider = {
+-- 				type = "BOX",
+--     			shape = Vector3.new(400, 200, 400),      
+--     			dynamic = true,
+-- 				trigger = false,
+--     			center = Vector3.new(0,0,0)    
+-- 			}
+-- 		}
+--    },
    --    cube3 = {
 -- 		ddol = false,
 -- 		components = {
@@ -158,37 +151,37 @@ scene = { -- entidades en escena
 -- 			}   
 -- 		}
 --    },
---  esfera = {
--- 		ddol = false,
--- 		components = {
--- 			Transform = {
--- 				position = Vector3.new(0,300,0),
--- 				rotation = Quaternion.new(),
--- 				scale = Vector3.new(0.5),
--- 				},
--- 			ModelRenderer = {
--- 				file = "sphere",
--- 				["number of textures"] = 0
--- 			}
--- 			,
--- 			RigidBody = {	
--- 					useGravity = true,
--- 					isKinematic = false;
--- 					mass = 1.0,
--- 					position = Vector3.new(0, 300, 0),     
--- 					velocity = Vector3.new(0, 0, 0),   
--- 					damping = 0.0
--- 			 }
--- 			 ,
--- 			Collider = {
--- 				type = "CAPSULE",
---     			shape = Vector3.new(50, 0, 0),      
---     			dynamic = true,
--- 				trigger = false,
---     			center = Vector3.new(0,0,0)    
--- 			}   
--- 		}
---    },
+ esfera = {
+		ddol = false,
+		components = {
+			Transform = {
+				position = Vector3.new(0,300,0),
+				rotation = Quaternion.new(),
+				scale = Vector3.new(0.5),
+				},
+			ModelRenderer = {
+				file = "sphere",
+				["number of textures"] = 0
+			}
+			,
+			RigidBody = {	
+					useGravity = true,
+					isKinematic = false;
+					mass = 1.0,
+					position = Vector3.new(0, 300, 0),     
+					velocity = Vector3.new(0, 0, 0),   
+					damping = 0.0
+			 }
+			 ,
+			Collider = {
+				type = "CAPSULE",
+    			shape = Vector3.new(50, 0, 0),      
+    			dynamic = true,
+				trigger = false,
+    			center = Vector3.new(0,0,0)    
+			}   
+		}
+   },
    light = {
 		ddol = false,
 		components = {
