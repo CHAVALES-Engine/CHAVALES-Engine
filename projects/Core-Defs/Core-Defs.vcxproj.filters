@@ -63,11 +63,13 @@
     <ClInclude Include="..\..\src\Core-Defs\Vector4.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Core-Defs\guid.h" />
     <ClInclude Include="..\..\src\Core-Defs\CommonEnums.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Core-Defs\PhysicsTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Core-Defs\guid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
