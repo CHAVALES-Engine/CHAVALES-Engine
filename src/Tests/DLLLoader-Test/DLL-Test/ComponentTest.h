@@ -9,6 +9,7 @@
 #include "TimeManager.h"
 #include "../../../ComponentsProject/Transform.h"
 
+class UIPanel;
 class AudioSource;
 
 class ComponentTest : public core::Component
@@ -192,3 +193,19 @@ public:
 };
 
 REGISTER_COMPONENT(TimerChangescene);
+
+class ParentTest : public core::Component
+{
+	void ready() override
+	{
+		auto c = getEntity()->getComponent<Transform>()->getComponentInParents("UIPanel");
+		auto v = getEntity()->getComponent<Transform>()->getComponentsInParents("UIPanel");
+		if (c != nullptr)
+		{
+			Debug::out("//PARENT TEST//");
+			Debug::out("La entidad con UIPanel es ", c->getEntity()->getName(), " vista desde ", getEntity()->getName());
+		}
+	}
+};
+
+REGISTER_COMPONENT(ParentTest);
