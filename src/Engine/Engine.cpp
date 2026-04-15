@@ -503,7 +503,7 @@ float Engine::getVolume(int chID)
 
 uint32_t Engine::createBoxCollider(const core::Vector3<>& size, const core::Vector3<>& center, const core::Vector3<>& pos, const core::Quaternion<> rot, bool isDynamic, bool isTrigger)
 {
-	return _physicsModule->CreateBoxShape(size, center, pos,rot, isDynamic, isTrigger);
+	return _physicsModule->CreateBoxShape(size, center, pos, rot, isDynamic, isTrigger);
 }
 
 void Engine::setPhysicsPosition(uint32_t id, const core::Vector3<>& pos)
@@ -633,6 +633,11 @@ std::vector<ShapeRenderData> Engine::GetPhysicsRenderData()
 	if (!_physicsModule) return {};
 	return _physicsModule->GetRenderData();
 }
+
+void Engine::setGizmos(bool gizmos)
+{
+	_gizmos = gizmos;
+}
 #pragma endregion
 
 #pragma region Resources
@@ -737,7 +742,8 @@ void Engine::update(float dt)
 	{
 		_physicsModule->Update(dt);
 		auto physicsShapes = _physicsModule->GetRenderData();
-		if (_renderModule)
+
+		if ((_renderModule != nullptr) && _gizmos)
 			_renderModule->RenderPhysics(physicsShapes);//debbug colliders
 	}
 	if (_audioModule)

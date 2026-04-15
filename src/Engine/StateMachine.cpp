@@ -93,7 +93,9 @@ void StateMachine::addAndSetScene(const sceneName& n)
 
 		// destruye la escena actual
 		if (_currentScene.ptr != nullptr)
+		{
 			_currentScene.ptr->clearScene();
+		}
 
 		// setea nueva escena actual
 		_currentScene.ptr = s;

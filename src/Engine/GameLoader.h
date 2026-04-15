@@ -45,7 +45,7 @@ public:
 	 * @brief Traduce un objeto de sol a variant para guardarlo en el mapa de propiedades de un componente.
 	 *
 	 * @param e - Entidad a la que pertenecera el componente.
-	 * @param componenteObj - Par nombre, objeto de sol a traducir.
+	 * @param entidadObj - Par nombre, objeto de sol a traducir.
 	 */
 	static void instanceEntity(core::Entity* e, std::pair<sol::object, sol::object>& entidadObj);
 	static void initializeEntity(core::Entity* e, std::pair<sol::object, sol::object>& entidadObj);
@@ -78,12 +78,6 @@ public:
 	 * @param root - Ruta donde buscar el nombre de la escena.
 	 */
 	static std::string findSceneFile(const std::string& sceneName, const std::string& root);
-
-	/**
-	 * @brief LLama a preguntar por el nombre de la escena y usa findSceneFile para cargar el archivo .lua con loadLua.
-	 *
-	 */
-	static std::shared_ptr<core::Scene> loadSceneFromSearch(const std::string& sceneName);
 
 	/**
 	 * @brief Control de recargado de la escena desde el archivo .lua.

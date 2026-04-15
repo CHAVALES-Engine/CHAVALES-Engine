@@ -12,6 +12,8 @@
 #include "GameConfigurator.h"
 #include <checkMLNew.h>
 
+#include "Engine.h"
+
 namespace fs = std::filesystem;
 
 template<typename T>
@@ -339,10 +341,33 @@ void GameLoader::loadLua(
 	}
 
 	// --- lectura lua
+	// - Escena
 	sol::table scene = lua["scene"];
 	Debug::out("GAMELOADER: Cargando escena ", n, ".");
 
-	for (auto& entidadObj : scene)
+	// - Ajustes escena
+	// Gizmos
+	// dentro de la entidad, accedo al dontdestroyonload
+	sol::object gizmos = scene["gizmos"];
+
+	if (gizmos.is<bool>())
+	{
+		bool _gizmos_B = gizmos.as<bool>();
+		std::string _gizmos_S;
+
+		Engine::instance()->setGizmos(_gizmos_B);
+
+		_gizmos_B ? _gizmos_S = "true" : _gizmos_S = "false";
+		Debug::out("GAMELOADER: Render de gizmos inicializado a ", _gizmos_S, ".");
+	}
+	else
+	{
+		Debug::warning("GAMELOADER: No se ha leido la configuracion de render de gizmos, inicializado a false por defecto.");
+	}
+
+	sol::table entities = scene["entities"];
+
+	for (auto& entidadObj : entities)
 	{
 		// --- para cada entidad leida
 		core::Entity* e = new core::Entity();
@@ -360,7 +385,7 @@ void GameLoader::loadLua(
 		s->addEntity(e);
 	}
 
-	for (auto& entidadObj : scene)
+	for (auto& entidadObj : entities)
 	{
 		// --- para cada entidad leida
 		std::string name = entidadObj.first.as<std::string>();
@@ -375,20 +400,6 @@ void GameLoader::loadLua(
 	s->ready();
 
 	Debug::out("GAMELOADER: Escena ", n, " cargada.");
-}
-
-std::shared_ptr<core::Scene> GameLoader::loadScene(const sceneName& n)
-{
-	std::shared_ptr<core::Scene> s = std::make_shared<core::Scene>(n);
-
-#if _DEBUG
-	loadLua(s, n, "./game/scenes/");
-#else
-	loadLua(s, n, core::GameConfigurator::instance()._scenesRoot);
-#endif
-
-	_firstReload = true;
-	return s;
 }
 
 std::string GameLoader::findSceneFile(const std::string& sceneName, const std::string& root)
@@ -409,29 +420,29 @@ std::string GameLoader::findSceneFile(const std::string& sceneName, const std::s
 	return "";
 }
 
-std::shared_ptr<core::Scene> GameLoader::loadSceneFromSearch(const std::string& sceneName)
+std::shared_ptr<core::Scene> GameLoader::loadScene(const sceneName& n)
 {
 	std::string root = core::GameConfigurator::instance()._scenesRoot;
 
-	if (!fs::exists(root) || 
+	if (!fs::exists(root) ||
 		!fs::is_directory(root))
 	{
 		Debug::error("La ruta indicada no es un directorio valido: ", root);
 		return nullptr;
 	}
 
-	std::string path = findSceneFile(sceneName, root);
+	std::string path = findSceneFile(n, root);
 
 	if (path.empty())
 	{
-		Debug::error("No se encontro la escena ", sceneName);
+		Debug::error("No se encontro la escena ", n);
 		return nullptr;
 	}
 
 	Debug::out("Escena encontrada en ", path);
 
 	std::filesystem::path dir(path);
-	std::filesystem::path file = dir / (sceneName + ".lua");
+	std::filesystem::path file = dir / (n + ".lua");
 
 	if (!fs::exists(file))
 	{
@@ -439,17 +450,18 @@ std::shared_ptr<core::Scene> GameLoader::loadSceneFromSearch(const std::string& 
 		return nullptr;
 	}
 
-	std::shared_ptr<core::Scene> scene = std::make_shared<core::Scene>(sceneName);
+	std::shared_ptr<core::Scene> s = std::make_shared<core::Scene>(n);
 
-	loadLua(scene, sceneName, dir.string() + "/");
+	loadLua(s, n, root);
 
-	if (!scene)
+	if (!s)
 	{
-		Debug::error("Error cargando la escena ", sceneName);
+		Debug::error("Error cargando la escena ", n);
 		return nullptr;
 	}
 
-	return scene;
+	_firstReload = true;
+	return s;
 }
 
 bool GameLoader::reloadLua()

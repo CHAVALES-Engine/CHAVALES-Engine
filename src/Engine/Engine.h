@@ -28,12 +28,12 @@ class ResourcesModule;
 class ResourcesFacade;
 
 
-namespace core 
+namespace core
 {
 	class Scene;
 	//class Vector3<>;
 }
- 
+
 using entityID = ChavalesGUID;
 using transformID = uint64_t;
 using cameraID = uint64_t;
@@ -124,7 +124,7 @@ public:
 	//Metodos camaras
 #pragma region camera
 	/*
-	* @brief Camara nueva. Se asigna un id por orden de creacion. Main Camera id 0 y a�adidas manualmente 1 en adelante.
+	* @brief Camara nueva. Se asigna un id por orden de creacion. Main Camera id 0 y a adidas manualmente 1 en adelante.
 	*/
 	cameraID addCamera(const entityID& entityID, const float& FOVy, const float& nearClipDistance, const float& farClipDistance, const float& focalLength, const core::Color& bgColor);
 	/*
@@ -195,12 +195,12 @@ public:
 	* @brief Anadir keyframe a animacion de transform. Time pos en segundos.
 	*/
 	void addTransformKeyFrame(const animationID& animationID,
-							  const float& timePos, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float>& scale);
+		const float& timePos, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float>& scale);
 	/*
 	* @brief Anadir keyframe a animacion de transform con rotacion sencilla. Time pos en segundos.
 	*/
 	void addTransformKeyFrame(const animationID& animationID,
-							  const float& timePos, const core::Vector3<float>& pos, const float& rot, const int& axis, const core::Vector3<float>& scale);
+		const float& timePos, const core::Vector3<float>& pos, const float& rot, const int& axis, const core::Vector3<float>& scale);
 	/*
 	* @brief Establecer animacion activa.
 	*/
@@ -354,7 +354,7 @@ public:
 	*/
 	void setUILabelOpacity(const uiLabelID& labelID, float opacity);
 	/*
-  * @brief Establecer las dimensiones  del letrero 
+  * @brief Establecer las dimensiones  del letrero
   */
 	void setUILabelDimension(const uiLabelID& labelID, core::Vector2<float> dimension);
 	/*
@@ -395,11 +395,11 @@ public:
 	/*
 	* @brief Establecer textura del boton.
 	*/
-	void setUIButtonTexture(const uiButtonID& id,const std::string& texture);
+	void setUIButtonTexture(const uiButtonID& id, const std::string& texture);
 	/*
 	* @brief Establecer dimensiones del boton.
 	*/
-	void setUIButtonDimension(const uiButtonID& id,core::Vector2<float> dimension);
+	void setUIButtonDimension(const uiButtonID& id, core::Vector2<float> dimension);
 	/*
    * @brief Establecer la opacidad  del boton
    */
@@ -414,7 +414,7 @@ public:
 	/*
 	* @brief Anadir textureRect al panel.
 	*/
-	uiTextureRectID addUITextureRect(const std::string& panelName, const entityID& entityID,  const std::string& textureName, core::Vector2<float> size);
+	uiTextureRectID addUITextureRect(const std::string& panelName, const entityID& entityID, const std::string& textureName, core::Vector2<float> size);
 	/*
 	* @brief Establecer textura del textureRect.
 	*/
@@ -436,9 +436,7 @@ public:
 #pragma endregion
 #pragma endregion
 
-	//Metodos audio
-#pragma region audio
-
+#pragma region Audio
 	//Metodos del modulo de audio
 	/*
 	* @brief Crea un sonido en el módulo de audio.
@@ -452,7 +450,7 @@ public:
 	/*
 	* @brief Reproduce un sonido del módulo de audio recibiendo su id y su configuración: volumen, loop (si creado con looping: -1 = indef, 0 = one time, 1 = loop once), posición y velocidad (para audio 3D)
 	*/
-	int playSound(std::string id, float soundVolume, int looping = 0, const core::Vector3<> pos3 = {0.0f, 0.0f,0.0f}, const core::Vector3<> vel3 = {0.0f,0.0f,0.0f});
+	int playSound(std::string id, float soundVolume, int looping = 0, const core::Vector3<> pos3 = { 0.0f, 0.0f,0.0f }, const core::Vector3<> vel3 = { 0.0f,0.0f,0.0f });
 	/*
 	* @brief Configura en el módulo de audio el listener de la escena, recibiendo su posicion, forward y up, y adicionalmente la velocidad para el audio 3D (efecto Doppler)
 	*/
@@ -489,22 +487,21 @@ public:
 	* @brief Devuelve si un canal esta pausado (false) o en reproduccion (true)
 	*/
 	bool isChannelPlaying(int chID);
-	void setLooping(int chID,int typeOfLooping);
+	void setLooping(int chID, int typeOfLooping);
 	float getVolume(int chID);
 
 #pragma endregion
-
 
 #pragma region Physics
 
 	/*
 	* @brief Devuelve el id de la entidad que tiene el boxcollider y lo crea
 	*/
-	uint32_t createBoxCollider(const core::Vector3<>& size, const core::Vector3<>& center, const core::Vector3<>& pos, const core::Quaternion<> rot, bool isDynamic,  bool isTrigger);
+	uint32_t createBoxCollider(const core::Vector3<>& size, const core::Vector3<>& center, const core::Vector3<>& pos, const core::Quaternion<> rot, bool isDynamic, bool isTrigger);
 	/*
 	* @brief Setea la posicion fisica de la entidad
 	*/
-	void setPhysicsPosition( uint32_t id, const core::Vector3<>& pos);
+	void setPhysicsPosition(uint32_t id, const core::Vector3<>& pos);
 	/*
 	* @brief Setea la posicion fisica de la entidad
 	*/
@@ -567,6 +564,7 @@ public:
 
 	std::vector<ShapeRenderData> GetPhysicsRenderData();
 
+	void setGizmos(bool gizmos);
 #pragma endregion
 
 #pragma region Resources
@@ -575,6 +573,7 @@ public:
 
 #pragma endregion
 
+#pragma region Platform
 	/**
 	* @brief Devuelve anchura de la ventana
 	*/
@@ -585,6 +584,7 @@ public:
 	int getWindowHeight() const;
 
 	static InputFacade* input();
+#pragma endregion
 
 private:
 	/*
@@ -621,6 +621,8 @@ private:
 	*	Referencia al modulo de fisica
 	*/
 	PhysicsModule* _physicsModule = nullptr;
+	// gizmos
+	bool _gizmos = false;
 	/*
 	* @brief
 	*	Referencia al modulo de recursos
