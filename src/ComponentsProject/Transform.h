@@ -153,6 +153,50 @@ public:
 	 */
 	std::vector<std::shared_ptr<Component>> getComponentsInParents(const std::string& name) const;
 
+	/**
+	 * @tparam T - tipo del compomente a buscar
+	 * @return Devuelve el primer componente de tipo T en los padres del transform
+	 */
+	template <typename T>
+	T* getComponentInParents() const
+	{
+		const Transform* parent = getParent();
+		while (parent != nullptr)
+		{
+			core::Entity* e = parent->getEntity();
+			if (e != nullptr)
+			{
+				auto* c = e->getComponent<T>();
+				if (c != nullptr)
+					return c;
+			}
+			parent = parent->getParent();
+		}
+		return nullptr;
+	}
+	/**
+	 * @tparam T - tipo del compomente a buscar
+	 * @return Devuelve todos los componentes de tipo T en los padres del transform
+	 */
+	template <typename T>
+	std::vector<T*> getComponentsInParents() const
+	{
+		std::vector<T*> result;
+		const Transform* parent = getParent();
+		while (parent != nullptr)
+		{
+			core::Entity* e = parent->getEntity();
+			if (e != nullptr)
+			{
+				auto* c = e->getComponent<T>();
+				if (c != nullptr)
+					result.push_back(c);
+			}
+			parent = parent->getParent();
+		}
+		return result;
+	}
+
 	// TODO?
 	//Transform* getChildByName(std::string);
 	//Transform* getChildByID(size_t);

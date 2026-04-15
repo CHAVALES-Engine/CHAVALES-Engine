@@ -8,6 +8,7 @@
 #include "Scene.h"
 #include "TimeManager.h"
 #include "../../../ComponentsProject/Transform.h"
+#include "../../../ComponentsProject/UIPanel.h"
 
 class UIPanel;
 class AudioSource;
@@ -198,7 +199,7 @@ class ParentTest : public core::Component
 {
 	void ready() override
 	{
-		auto c = getEntity()->getComponent<Transform>()->getComponentInParents("UIPanel");
+		auto c = getEntity()->getComponent<Transform>()->getComponentInParents<UIPanel>();
 		auto v = getEntity()->getComponent<Transform>()->getComponentsInParents("UIPanel");
 		if (c != nullptr)
 		{
