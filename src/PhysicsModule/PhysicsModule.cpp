@@ -22,6 +22,7 @@ PxMaterial* defaultMaterial = nullptr;
 PxDefaultCpuDispatcher* dispatcher = nullptr;
 PxPvdTransport* pvdTransport = nullptr;
 
+
 std::unordered_map<ComponentID, PxMaterial*> materialMap;
 
 static PxCombineMode::Enum ToPxCombine(int mode)
@@ -138,7 +139,7 @@ ComponentID PhysicsModule::CreateRigidBody(core::Vector3<> pos, float mass, bool
 	else PxRigidBodyExt::setMassAndUpdateInertia(*body, mass > 0.0f ? mass : 1.0f);
 
 	body->setActorFlag(PxActorFlag::eDISABLE_GRAVITY, !useGravity);
-	
+
 	gScene->addActor(*body);
 
 	//id del actor del rigidbody
@@ -188,7 +189,6 @@ ComponentID PhysicsModule::CreateBoxShape(core::Vector3<> size, const core::Vect
 	ComponentID id = nextID++;
 	physicsMap[id] = { actor, {shape} };
 	actorToID[actor] = id;
-
 	return id;
 }
 
@@ -271,12 +271,29 @@ void PhysicsModule::SetPhysicsPosition(ComponentID id, const core::Vector3<>& po
 	it->second.actor->setGlobalPose(PxTransform(PxVec3(pos.getX(), pos.getY(), pos.getZ())));
 }
 
+void PhysicsModule::SetPhysicsRotation(ComponentID id, const core::Quaternion<>& rot)
+{
+	auto it = physicsMap.find(id);
+	if (it == physicsMap.end()) return;
+	PxTransform rotation = it->second.actor->getGlobalPose();
+	rotation.q = PxQuat(rot.getX(), rot.getY(), rot.getZ(), rot.getW());
+	it->second.actor->setGlobalPose(rotation);
+}
+
 core::Vector3<> PhysicsModule::GetPhysicsPosition(uint32_t id)
 {
 	auto it = physicsMap.find(id);
 	if (it == physicsMap.end()) return { 0,0,0 };
 	PxTransform t = it->second.actor->getGlobalPose();
 	return core::Vector3<>(t.p.x, t.p.y, t.p.z);
+}
+
+core::Quaternion<> PhysicsModule::GetPhysicsRotation(uint32_t id)
+{
+	auto it = physicsMap.find(id);
+	if (it == physicsMap.end()) return { 0,0,0,0 };
+	PxTransform t = it->second.actor->getGlobalPose();
+	return core::Quaternion<>(t.q.x, t.q.y, t.q.z, t.q.w);
 }
 
 core::Vector3<> PhysicsModule::GetLinearVelocity(uint32_t id)
@@ -395,13 +412,18 @@ void PhysicsModule::UpdateMaterial(uint32_t id, float staticF, float dynamicF, f
 {
 	auto it = materialMap.find(id);
 	if (it == materialMap.end()) return;
+	auto it1 = physicsMap.find(id);
+	if (it1 == physicsMap.end()) return;
 	PxMaterial* mat = it->second;
+	PxShape* shape = it1->second.actor->is<PxShape>();
 	if (!mat) return;
 	mat->setStaticFriction(staticF);
 	mat->setDynamicFriction(dynamicF);
 	mat->setRestitution(restitution);
 	mat->setFrictionCombineMode(ToPxCombine(frictionCombine));
 	mat->setRestitutionCombineMode(ToPxCombine(bounceCombine));
+	if (!shape) return;
+	shape->setMaterials(&mat, 1);
 }
 
 void PhysicsModule::Update(float dt)
@@ -471,7 +493,6 @@ void PhysicsModule::AttachBoxShape(ComponentID bodyID, const core::Vector3<> siz
 		PxRigidBodyExt::setMassAndUpdateInertia(*dyn, dyn->getMass());
 	}
 	it->second.shapes.push_back(shape);
-	
 }
 
 void PhysicsModule::AttachCapsuleShape(ComponentID bodyID, float radius, float height, const core::Vector3<>& center, bool isTrigger)
@@ -484,7 +505,7 @@ void PhysicsModule::AttachCapsuleShape(ComponentID bodyID, float radius, float h
 	PxShape* shape;
 	if (height <= 0.0f)//Esfera
 	{
-		 shape = gPhysics->createShape(PxSphereGeometry(radius), *defaultMaterial);
+		shape = gPhysics->createShape(PxSphereGeometry(radius), *defaultMaterial);
 	}
 	else//capsula
 	{
@@ -522,7 +543,6 @@ void PhysicsModule::AttachCapsuleShape(ComponentID bodyID, float radius, float h
 		PxRigidBodyExt::setMassAndUpdateInertia(*dyn, dyn->getMass());
 	}
 	it->second.shapes.push_back(shape);
-	
 }
 
 void PhysicsModule::setPhysicsTransform(ComponentID id, const core::Vector3<>& pos, const core::Quaternion<>& rot)

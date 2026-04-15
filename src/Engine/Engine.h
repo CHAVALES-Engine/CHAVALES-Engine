@@ -506,9 +506,17 @@ public:
 	*/
 	void setPhysicsPosition( uint32_t id, const core::Vector3<>& pos);
 	/*
+	* @brief Setea la posicion fisica de la entidad
+	*/
+	void setPhysicsRotation(uint32_t id, const core::Quaternion<>& rot);
+	/*
 	* @brief Coge la posicion del transform de la entidad en cuando a physx para poder mover el transform de la entidad y que se vea en nuestra escena
 	*/
 	core::Vector3<> getPhysicsPosition(uint32_t id);
+	/*
+	* @brief Coge la rotacion del transform de la entidad en cuando a physx para poder rotar el transform de la entidad y que se vea en nuestra escena
+	*/
+	core::Quaternion<> getPhysicsRotation(uint32_t id);
 	/*
 	* @brief Devuelve el id de la entidad que tiene el capsulecollider y lo crea
 	*/

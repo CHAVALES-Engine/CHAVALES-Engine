@@ -80,6 +80,11 @@ public:
 	core::Vector3<> getPosition();
 
 	/**
+	 * @brief Obtiene la rotación actual del rigidbody
+	 */
+	core::Quaternion<> getRotation();
+
+	/**
 	 * @brief Obtiene la masa del objeto
 	 */
 	float getMass();
@@ -93,6 +98,11 @@ public:
 	 * @brief Establece la posición del rigidbody
 	 */
 	void setPosition(core::Vector3<> pos);
+
+	/**
+	 * @brief Establece la rotación del rigidbody
+	 */
+	void setRotation(core::Quaternion<> rot);
 
 	/**
 	 * @brief Establece la masa del objeto

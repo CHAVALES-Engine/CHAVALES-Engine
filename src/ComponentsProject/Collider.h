@@ -128,4 +128,9 @@ public:
 	 * @brief Getter de la posición del collider respecto al transform de la entidad (posicion local)
 	 */
 	const core::Vector3<>& getCenter() const { return center; }
+
+	/**
+	 * @brief Obtiene el ID físico del objeto
+	 */
+	uint32_t getId() { return physicsID; };
 };

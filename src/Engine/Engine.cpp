@@ -511,9 +511,19 @@ void Engine::setPhysicsPosition(uint32_t id, const core::Vector3<>& pos)
 	_physicsModule->SetPhysicsPosition(id, pos);
 }
 
+void Engine::setPhysicsRotation(uint32_t id, const core::Quaternion<>& rot)
+{
+	_physicsModule->SetPhysicsRotation(id, rot);
+}
+
 core::Vector3<> Engine::getPhysicsPosition(uint32_t id)
 {
 	return _physicsModule->GetPhysicsPosition(id);
+}
+
+core::Quaternion<> Engine::getPhysicsRotation(uint32_t id)
+{
+	return _physicsModule->GetPhysicsRotation(id);
 }
 
 uint32_t Engine::createCapsuleCollider(float radius, float height, const core::Vector3<>& center, const core::Vector3<>& worldPos, bool isDynamic, bool isTrigger)

@@ -20,6 +20,7 @@ public:
 
 	bool Init();
 	core::Vector3<> GetPhysicsPosition(ComponentID id);
+	core::Quaternion<> GetPhysicsRotation(ComponentID id);
 	void Update(float dt);
 
 	bool rayCast(const PxVec3& origin,
@@ -32,6 +33,7 @@ public:
 	std::vector<PhysicsEvent> getEventsFor(ComponentID id);
 	void clearEvents();
 	void SetPhysicsPosition(ComponentID id, const core::Vector3<>& pos);
+	void SetPhysicsRotation(ComponentID id, const core::Quaternion<>& pos);
 
 	//rigidbody
 	uint32_t CreateRigidBody(core::Vector3<> pos, float mass, bool useGravity, bool isKinematic);

@@ -48,9 +48,15 @@ void RigidBody::update(uint64_t dt)
 	if (!transform) return;
 
 	if (!isKinematic)
+	{
 		transform->setGlobalPosition(getPosition());
+		transform->setGlobalRotation(getRotation());
+	}
 	else
+	{
 		setPosition(transform->getGlobalPosition());
+		setRotation(transform->getGlobalRotation());
+	}
 }
 
 core::Vector3<> RigidBody::getVelocity() {
@@ -59,6 +65,11 @@ core::Vector3<> RigidBody::getVelocity() {
 
 core::Vector3<> RigidBody::getPosition() {
 	return _eng->getPhysicsPosition(physicsID);
+}
+
+core::Quaternion<> RigidBody::getRotation()
+{
+	return _eng->getPhysicsRotation(physicsID);
 }
 
 float RigidBody::getMass()
@@ -72,6 +83,11 @@ void RigidBody::setVelocity(core::Vector3<> vel) {
 
 void RigidBody::setPosition(core::Vector3<> pos) {
 	_eng->setPhysicsPosition(physicsID, pos);
+}
+
+void RigidBody::setRotation(core::Quaternion<> rot)
+{
+	_eng->setPhysicsRotation(physicsID, rot);
 }
 
 void RigidBody::setMass(float mass)
