@@ -79,13 +79,8 @@ void StateMachine::gameLoop()
 
 void StateMachine::addAndSetScene(const sceneName& n)
 {
-#if _DEBUG
 	// cargar nueva escena
 	scenePtr s = std::move(GameLoader::loadScene(n));
-#else
-	//Cargar escena externa (prueba)
-	scenePtr s = std::move(GameLoader::loadSceneFromSearch(n));
-#endif
 
 	if (s != nullptr) // si se ha cargado correctamente
 	{
