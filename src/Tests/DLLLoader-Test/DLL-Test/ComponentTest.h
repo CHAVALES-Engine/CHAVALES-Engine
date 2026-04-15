@@ -7,8 +7,8 @@
 #include "InputFacade.h"
 #include "Scene.h"
 #include "TimeManager.h"
-#include "../../../ComponentsProject/Transform.h"
-#include "../../../ComponentsProject/UIPanel.h"
+#include "Transform.h"
+#include "UIPanel.h"
 
 class UIPanel;
 class AudioSource;
