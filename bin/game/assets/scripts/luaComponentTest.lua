@@ -1,28 +1,28 @@
 
 function init()
-    print("luaComponentTest init")
+    Debug.out("luaComponentTest init")
 end
 
 function ready()
-    print("luaComponentTest ready")
+    Debug.out("luaComponentTest ready")
 end
 
 function update()
-    print("luaComponentTest update")
+    Debug.out("luaComponentTest update")
 end
 
 function enable()
-    print("luaComponentTest enable")
+    Debug.out("luaComponentTest enable")
 end
 
 function fixedUpdate()
-    print("luaComponentTest fixedUpdate")
+    Debug.out("luaComponentTest fixedUpdate")
 end
 
 function disable()
-    print("luaComponentTest disable")
+    Debug.out("luaComponentTest disable")
 end
 
 function destroy()
-    print("luaComponentTest destroy")
+    Debug.out("luaComponentTest destroy")
 end

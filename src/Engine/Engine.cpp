@@ -739,9 +739,8 @@ bool Engine::_initPriv()
 	}
 
 	_stateMachine = new StateMachine();
-
+	// manager de scripts
 	ScriptsManager::instance().init();
-	ScriptsManager::instance().registerBindings();
 
 	//
 	//#if _DEBUG

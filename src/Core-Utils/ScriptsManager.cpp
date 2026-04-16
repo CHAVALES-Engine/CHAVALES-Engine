@@ -37,6 +37,17 @@ void ScriptsManager::registerBindings() const
 {
 	// TODO: exponer API api del motor
 	// pImpl->lua.new_usertype<Transform>("Transform", ...);
+	auto& lua = pImpl->lua;
+
+	lua["Debug"] = lua.create_table();
+
+	lua["Debug"]["out"] = [](const std::string& msg) {
+		Debug::out("[Lua] ", msg);
+		};
+
+	lua["Debug"]["error"] = [](const std::string& msg) {
+		Debug::error("[Lua] ", msg);
+		};
 }
 
 ScriptHandle ScriptsManager::loadScript(const std::string& path) const
