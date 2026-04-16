@@ -16,19 +16,11 @@ struct ScriptsManager::Impl {
 	std::unordered_map<ScriptHandle, sol::environment> envs;
 };
 
-ScriptsManager::ScriptsManager() : pImpl(std::make_unique<Impl>())
-{
-}
-// destructora necesita estar aqui porque tiene que conocer
-// la definicion de Imp
-ScriptsManager::~ScriptsManager() = default;
-
 inline ScriptsManager& ScriptsManager::instance()
 {
 	static ScriptsManager instance;
 	return instance;
 }
-
 void ScriptsManager::init() const
 {
 	// Inicializamos en la MV las biblioticas necesarias
@@ -100,7 +92,7 @@ bool ScriptsManager::execute(ScriptHandle h, const std::string& fn) const {
 	return ok;
 }
 
-bool ScriptsManager::execute(ScriptHandle h, const std::string& fn, ExecuteArgs  args) const {
+bool ScriptsManager::execute(ScriptHandle h, const std::string& fn, ExecuteArgs args) const {
 	auto it = pImpl->envs.find(h);
 	if (it == pImpl->envs.end()) return false;
 	// protected_function: captura el error internamente 
@@ -121,3 +113,11 @@ bool ScriptsManager::execute(ScriptHandle h, const std::string& fn, ExecuteArgs 
 	}
 	return ok;
 }
+
+ScriptsManager::ScriptsManager() : pImpl(std::make_unique<Impl>())
+{
+}
+
+// destructora necesita estar aqui porque tiene que conocer
+// la definicion de Imp
+ScriptsManager::~ScriptsManager() = default;

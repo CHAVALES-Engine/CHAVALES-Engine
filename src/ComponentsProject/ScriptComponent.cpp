@@ -1,6 +1,7 @@
 ﻿#include "ScriptComponent.h"
 #include "Script.h"
 #include "checkMLNew.h"
+#include "Clock.h"
 
 ScriptComponent::ScriptComponent() : _script(std::make_unique<Script>())
 {}
@@ -19,7 +20,8 @@ bool ScriptComponent::init(const Properties& p)
 
 void ScriptComponent::ready()
 {
-	_script->executeFunction("ready");
+	if (!_script->executeFunction("ready"))
+		Debug::warning("[Component: ]");
 }
 
 void ScriptComponent::enable()
@@ -34,7 +36,7 @@ void ScriptComponent::fixedUpdate()
 
 void ScriptComponent::update(uint64_t deltaTime)
 {
-	_script->executeFunction("update", deltaTime);
+	_script->executeFunction("update", { (int)deltaTime });
 }
 
 void ScriptComponent::disable()
