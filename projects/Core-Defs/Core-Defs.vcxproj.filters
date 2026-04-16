@@ -72,6 +72,9 @@
     <ClInclude Include="..\..\src\Core-Defs\guid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\Core-Defs\checkMLNew.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
