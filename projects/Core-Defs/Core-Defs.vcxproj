@@ -102,6 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Core-Defs\checkML.h" />
+    <ClInclude Include="..\..\src\Core-Defs\checkMLNew.h" />
     <ClInclude Include="..\..\src\Core-Defs\Color.h" />
     <ClInclude Include="..\..\src\Core-Defs\CommonEnums.h" />
     <ClInclude Include="..\..\src\Core-Defs\Component.h" />
