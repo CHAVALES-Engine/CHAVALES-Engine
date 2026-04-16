@@ -1531,22 +1531,22 @@ void RenderModule::shutdown()
 
 	if (_overlay)
 	{
-		Ogre::OverlayManager::getSingleton().destroy(_overlay);
+		//Ogre::OverlayManager::getSingleton().destroy(_overlay);
 		_overlay = nullptr;
 	}
 
-	if (ImGui::GetCurrentContext() != nullptr)
-	{
-		ImGui::DestroyContext();
-	}
+	//if (ImGui::GetCurrentContext() != nullptr)
+	//{
+	//	ImGui::DestroyContext();
+	//}
 
 	for (auto& m : _createdMaterials)
 		Ogre::MaterialManager::getSingleton().remove(m);
 
 	cleanScene(true);
 
-	delete _overlaySystem;
-	_overlaySystem = nullptr;
+	//delete _overlaySystem;
+	//_overlaySystem = nullptr;
 
 	Ogre::Codec::unregisterCodec(_jpgCodec);
 	Ogre::Codec::unregisterCodec(_jpegCodec);
