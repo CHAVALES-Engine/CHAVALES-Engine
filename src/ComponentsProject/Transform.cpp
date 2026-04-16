@@ -24,13 +24,6 @@ bool Transform::init(const Properties& p)
 	_localPosition = getProperty<core::Vector3<>>(p, "position");
 	_localRotation = getProperty<core::Quaternion<>>(p, "rotation");
 	_localScale = getProperty<core::Vector3<>>(p, "scale");
-	std::string auxType = getProperty<std::string>(p, "type");
-	if (auxType == "ui") {
-		_type = TransformType::UI;
-	}
-	else {
-		_type = TransformType::WORLD;
-	}
 	std::vector<std::string> pendingChildren = getProperty<std::vector<std::string>>(p, "children");
 	for (const std::string& childName : pendingChildren) {
 		core::Entity* childEntity = getEntity()->getScene()->findEntityByName(childName);
@@ -41,7 +34,7 @@ bool Transform::init(const Properties& p)
 			childTransform->setParent(this);
 	}
 	//pendingChildren.clear();
-	_transformID = Engine::instance()->addTransform(getEntity()->getEntityID(), getGlobalPosition(), getGlobalRotation(), getGlobalScale(),_type);
+	_transformID = Engine::instance()->addTransform(getEntity()->getEntityID(), getGlobalPosition(), getGlobalRotation(), getGlobalScale());
 	return true;
 }
 

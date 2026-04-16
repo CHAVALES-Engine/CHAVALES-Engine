@@ -17,7 +17,6 @@ using textureRectID = uint64_t;
  *		textureFolder = string
  *  	texturePath = string
  *		panelName = string
- *		dimension = vector2<float>
  * }
  *
  * --- Ejemplo de inicializacion ---
@@ -32,9 +31,7 @@ class UITextureRect : public core::Component
 {
 private :
 	textureRectID _textureRectID;
-	std::string  _panelName;
 	std::string _textureName;
-	core::Vector2<float> _dimension;
 	float _opacity;
 
 public:
@@ -42,8 +39,8 @@ public:
 	~UITextureRect();
 
 	bool init(const Properties& p) override;
+	void ready() override;
 	void setTexture(const std::string& texture);
-	void setDimension(core::Vector2<float> dimension);
 	void setVisible(bool visible);
 	void setOpacity(float opacity);
 

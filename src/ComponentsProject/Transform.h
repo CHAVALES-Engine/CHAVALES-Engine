@@ -52,7 +52,6 @@ class ENGINE_API Transform : public core::Component
 	bool _lockRotY = false;
 	bool _lockRotZ = false;
 
-	TransformType _type = TransformType::WORLD;
 	/**
 	 * @brief Lista de nombres de entidades a anyadir como hijos (Solo se usa en la inicializacion de componentes).
 	 */

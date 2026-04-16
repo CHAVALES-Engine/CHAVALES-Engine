@@ -17,15 +17,22 @@ UIPanel::~UIPanel()
 {
 }
 
+
+
 bool UIPanel::init(const Properties& p)
 {
     _title = getProperty<std::string>(p, "name");
-
-    _panelID = Engine::instance()->addUIPanel(getEntity()->getEntityID(),_title);
-
+    _panelID = Engine::instance()->addUIPanel(getEntity()->getEntityID(), _title);
     return true;
 }
-
+panelID UIPanel::getPanelID() const
+{
+    return _panelID;
+}
+void UIPanel::ready()
+{
+   
+}
 void UIPanel::setVisible(bool visible)
 {
     Engine::instance()->setUIPanelVisible(_panelID, visible);

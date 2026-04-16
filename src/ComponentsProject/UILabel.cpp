@@ -6,6 +6,8 @@
 #include <Debug.h>
 #include <PluginSDK.h>
 #include "checkMLNew.h"
+#include <UITransform.h>
+#include <UIPanel.h>
 
 REGISTER_COMPONENT(UILabel);
 
@@ -20,9 +22,7 @@ UILabel::~UILabel()
 bool UILabel::init(const Properties& p)
 {
 	_text = getProperty<std::string>(p, "text");
-	_panelName = getProperty<std::string>(p, "panelName");
 	_opacity = getProperty<float>(p, "opacity");
-	_dimension = getProperty<core::Vector2<float>>(p, "dimension");
 	_bgColor = getProperty<core::Color>(p, "bgColor");
 	_textColor = getProperty<core::Color>(p, "textColor");
 	std::string auxAlign = getProperty<std::string>(p, "align");
@@ -38,8 +38,15 @@ bool UILabel::init(const Properties& p)
 	}
 	_fontSize = getProperty<float>(p, "fontSize");
 	_fontName = getProperty<std::string>(p, "fontName");
-	_labelID = Engine::instance()->addUILabel(_panelName, getEntity()->getEntityID(), _text,_opacity,_dimension,_textColor,_bgColor,_fontSize, _align,_fontName);
 	return true;
+}
+
+void UILabel::ready()
+{
+	auto panel = getEntity()->getComponent<UITransform>()->getComponentInParents<UIPanel>();
+
+	uiPanelID  panelID = panel->getPanelID();
+	_labelID = Engine::instance()->addUILabel(panelID, getEntity()->getEntityID(), _text, _opacity, _textColor, _bgColor, _fontSize, _align, _fontName);
 }
 
 void UILabel::setText(const std::string& text)
@@ -61,12 +68,7 @@ void UILabel::setOpacity(float opacity)
 
 }
 
-void UILabel::setDimension(core::Vector2<float> dimension)
-{
-	_dimension = dimension;
-	Engine::instance()->setUILabelDimension(_labelID, _dimension);
 
-}
 
 void UILabel::setBackgroudColor(core::Color color)
 {

@@ -30,6 +30,7 @@
     <ClInclude Include="..\..\src\ComponentsProject\UILabel.h" />
     <ClInclude Include="..\..\src\ComponentsProject\UIPanel.h" />
     <ClInclude Include="..\..\src\ComponentsProject\UITextureRect.h" />
+    <ClInclude Include="..\..\src\ComponentsProject\UITransform.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\ComponentsProject\Animator.cpp" />
@@ -48,6 +49,7 @@
     <ClCompile Include="..\..\src\ComponentsProject\UILabel.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\UIPanel.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\UITextureRect.cpp" />
+    <ClCompile Include="..\..\src\ComponentsProject\UITransform.cpp" />
     <ClCompile Include="Skydome.cpp" />
   </ItemGroup>
   <ItemGroup>

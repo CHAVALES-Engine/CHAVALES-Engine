@@ -63,7 +63,6 @@ struct UILabelData {
 	std::string text;
 	bool visible;
 	float opacity = 1.0f;
-	core::Vector2<float> size;
 	core::Color textColor = core::Color(1, 1, 1, 1);
 	core::Color bgColor = core::Color(0, 0, 0, 0);
 	float fontSize = 16.0f;
@@ -79,7 +78,6 @@ struct UIButtonData {
 	std::string textureFile;
 	ImTextureID textureID;
 	bool buttonImage;
-	core::Vector2<float> size;
 	float opacity = 1.0f;
 	std::function<void()> onClick;
 };
@@ -89,7 +87,6 @@ struct UITextureRectData {
 	std::string textureFolder;
 	std::string textureFile;
 	bool visible;
-	core::Vector2<float> size;
 	float opacity = 1.0f;
 
 	ImTextureID textureID;
@@ -109,6 +106,9 @@ struct UIPanelData {
 struct UITransform {
 	entityID entity;
 	core::Vector2<float> position;
+	core::Vector2<float> dimension;
+	float rotation = 0.0f;
+	int zBuffer = 0;
 };
 
 
@@ -139,8 +139,7 @@ public:
 	/*
 	* @brief Anadir nodo.
 	*/
-	transformID addNode(const entityID& entityID, const core::Vector3<float>& pos = core::Vector3<float>(0.0f, 0.0f, 0.0f), const core::Quaternion<float>& rot = core::Quaternion<float>(0.0f, 0.0f, 0.0f, 1.0f), const core::Vector3<float> scale = core::Vector3<float>(1.0f, 1.0f, 1.0f), const bool& fromTransform = false, const TransformType type = TransformType::WORLD);
-	transformID addNode(const entityID& entityID, const TransformType type = TransformType::WORLD);
+	transformID addNode(const entityID& entityID, const core::Vector3<float>& pos = core::Vector3<float>(0.0f, 0.0f, 0.0f), const core::Quaternion<float>& rot = core::Quaternion<float>(0.0f, 0.0f, 0.0f, 1.0f), const core::Vector3<float> scale = core::Vector3<float>(1.0f, 1.0f, 1.0f));
 	/*
 	* @brief Getter de nodo. Devuelve -1 si no existe.
 	*/
@@ -171,6 +170,28 @@ public:
 	void setNodeScale(const transformID& id, const core::Vector3<float>& scale);
 
 	//Metodos transform UI
+
+	/*
+	* @brief Anadir nodoUI
+	*/
+	UITransformID addUITransform(const entityID& entityID, const core::Vector2<float>& pos = core::Vector2<float>(1.0f, 0.0f), const int& zBuffer = 0, const core::Vector2<float>& dimension = core::Vector2<float>(0.0f, 0.0f), const float& rotation = 0.0f);
+
+	/*
+	* @brief Establecer posicion del nodo.
+	*/
+	void setUITransformDimension(const UITransformID& id, const core::Vector2<float>& dim);
+	/*
+	* @brief Establecer dimension del nodo.
+	*/
+	void setUITransformPos(const UITransformID& id, const core::Vector2<float>& pos);
+	/*
+	* @brief Establecer rotacion del nodo.
+	*/
+	void setUITransformRotation(const UITransformID& id, const float& pos);
+	/*
+	* @brief Establecer zBuffer del nodo.
+	*/
+	void setUITransformZBuffer(const UITransformID& id, const int& pos);
 	 /*
 	* @brief Getter de nodoUI. Devuelve -1 si no existe.
 	*/
@@ -178,11 +199,7 @@ public:
 	/*
    * @brief Leer posicion del componente de la UI.
    */
-	core::Vector2<float> getUIPosition(const transformID& id);
-	/*
-	* @brief Establecer posicion  del componente de la UI.
-	*/
-	void setUIPosition(const transformID& id, const core::Vector2<float>& pos);
+	core::Vector2<float> getUIPosition(const UITransformID& id);
 
 
 
@@ -424,7 +441,7 @@ public:
 	/*
 	 * @brief Añadir un letrero al panel
 	 */
-	uiLabelID addUILabel(const std::string& panelName, const entityID& entityID, const std::string& text, const  float opacity, const  core::Vector2<float> size, const core::Color textColor, const core::Color bgColor, const float fontSize, const TextAlign textAlign, const std::string fontName);
+	uiLabelID addUILabel(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const  float opacity, const core::Color textColor, const core::Color bgColor, const float fontSize, const TextAlign textAlign, const std::string fontName);
 	/*
 	* @brief Establecer si el letrero es visible
 	*/
@@ -438,10 +455,6 @@ public:
    */
 	void  setUILabelOpacity(const uiLabelID& labelID, float opacity);
 	/*
-	* @brief Establecer las dimensiones  del letrero
-	*/
-	void setUILabelDimension(const uiLabelID& labelID, core::Vector2<float> dimension);
-	/*
 	* @brief Establecer el color del texto  del letrero
 	*/
 	void setUILabelTextColor(const uiLabelID id, core::Color color);
@@ -454,17 +467,17 @@ public:
 	*/
 	void setUILabelAlign(const uiLabelID id, const std::string& align);
 	/*
-	* @brief Establecer la tipografia  del letrero
+	* @brief Establecer la tipografia  del letreros
 	*/
 	//void setUILabelFont(const uiLabelID id, ImFont* font);
 	/*
 	 * @brief Añadir un boton al panel
 	 */
-	uiButtonID addUIButton(const std::string& panelName, const entityID& entityID, const std::string& text, core::Vector2<float> size);
+	uiButtonID addUIButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text);
 	/*
 	 * @brief Añadir un ImageBoton al panel
 	 */
-	uiButtonID addUIImageButton(const std::string& panelName, const entityID& entityID, const std::string& text, const std::string& textureFolder, const std::string& textureFile, core::Vector2<float> size);
+	uiButtonID addUIImageButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const std::string& textureFolder, const std::string& textureFile);
 
 	/*
 	* @brief Establecer si el boton es visible
@@ -478,10 +491,7 @@ public:
 	* @brief Establecer la textura del boton
 	*/
 	void  setUIButtonTexture(const uiButtonID& buttonID, const std::string& texture);
-	/*
-   * @brief Establecer las dimensiones del boton
-   */
-	void  setUIButtonDimension(const uiButtonID& buttonID, core::Vector2<float> dimension);
+	
 	/*
 	* @brief Establecer la opacidad  del boton
 	*/
@@ -493,15 +503,11 @@ public:
 	/*
 	* @brief Anadir textureRect al panel.
 	 */
-	uiTextureRectID addUITextureRect(const std::string& panelName, const entityID& entityID, const std::string& textureFolder, const std::string& textureFile, core::Vector2<float> size);
+	uiTextureRectID addUITextureRect(const uiPanelID& panelID, const entityID& entityID, const std::string& textureFolder, const std::string& textureFile);
 	/*
 	* @brief Establecer la textura del textureRect
 	*/
 	void  setUITextureRectTexture(const uiTextureRectID& textureRectID, const std::string& texture);
-	/*
-   * @brief Establecer las dimensiones  del textureRect
-   */
-	void  setUITextureRectDimension(const uiTextureRectID& textureRectID, core::Vector2<float> dimension);
 	/*
 	* @brief Establecer si el textureRect es visible
 	*/
@@ -547,7 +553,6 @@ private:
 	std::vector<UITransform> _uiTransforms;
 	std::vector<std::string> _createdMaterials;
 	TextAlign stringToAlign(const std::string& align);
-	uiPanelID getOrSetPanel(const std::string& panelName);
 
 	transformID _nextTransformID;
 	UITransformID _nextUITransformID;
@@ -562,6 +567,5 @@ private:
 	uiTextureRectID _nextTextureRectID;
 	Ogre::ImGuiOverlay* _overlay;
 	std::unordered_set<std::string> _resourceGroups;
-	ImFont* prueba;
 
 };

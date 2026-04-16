@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <Component.h>
 #include <PluginSDK.h>
 #include "Debug.h"
@@ -9,6 +9,7 @@
 #include "TimeManager.h"
 #include "Transform.h"
 #include "UIPanel.h"
+#include "UITransform.h"
 
 class UIPanel;
 class AudioSource;
@@ -201,8 +202,8 @@ class ParentTest : public core::Component
 {
 	void ready() override
 	{
-		auto c = getEntity()->getComponent<Transform>()->getComponentInParents<UIPanel>();
-		auto v = getEntity()->getComponent<Transform>()->getComponentsInParents("UIPanel");
+		auto c = getEntity()->getComponent<UITransform>()->getComponentInParents<UIPanel>();
+		auto v = getEntity()->getComponent<UITransform>()->getComponentsInParents("UIPanel");
 		if (c != nullptr)
 		{
 			Debug::out("//PARENT TEST//");

@@ -112,32 +112,28 @@ scene = { -- entidades en escena
       	CanvasUI = {
 			ddol = false,
 			components = {
-				Transform = {
-					position = Vector3.new(900,10,0),
-					rotation = Quaternion.new(),
-					scale = Vector3.new(0.5),
-					children = {"LabelUI"},
-					type = "ui"
+				UITransform = {
+					position = Vector2.new(900,10),
+					children = {"LabelUI", "ButtonUI"}
+					
 				},
 				UIPanel = {
 					name = "CanvasUI"
 				}
 			}
 		},
-		BottonUI = {
+		ButtonUI = {
 			ddol = false,
 			components = {
-				Transform = {
-						position = Vector3.new(100,60,0),
-						rotation = Quaternion.new(),
-						scale = Vector3.new(0.5),
-						type = "ui"
+				UITransform = {
+						position = Vector2.new(100,60),
+						dimension = Vector2.new(200,200),
+						zBuffer = 0
+
 						},
 				UIButton = {
-					textureName = "botonPrueba",
-					dimension = Vector2.new(200,200),
+					--textureName = "botonPrueba",
 					text = "Boton Botonez",
-					panelName = "CanvasUI",
 					opacity = 1.0
 				}
 			}
@@ -145,17 +141,14 @@ scene = { -- entidades en escena
 		LabelUI= {
 			ddol = false,
 			components = {
-				Transform = {
-						position = Vector3.new(900,10,0),
-						rotation = Quaternion.new(),
-						scale = Vector3.new(0.5),
-						children = {"ParentTestEntity"},
-						type = "ui"
+				UITransform = {
+						position = Vector2.new(600,60),
+						dimension = Vector2.new(200,200),
+						zBuffer = 0
+						
 					},
-				UILabel = {
-					dimension = Vector2.new(300,300),
+				UILabel = {	
 					text = "Boton Botonez ( En realidad es un UILabel)",
-					panelName = "CanvasUI",
 					opacity = 1.0,
 					bgColor = Color.new(1.0, 0.0, 0.0,1),
 					align = "center",
@@ -164,20 +157,7 @@ scene = { -- entidades en escena
 					textColor = Color.new(1.0,1.0, 0.0,1)
 				}
 			}
-  		},
-		ParentTestEntity = {
-			ddol = false,
-			components = {
-				Transform = {
-						position = Vector3.new(900,10,0),
-						rotation = Quaternion.new(),
-						scale = Vector3.new(0.5),
-						type = "ui"
-					},
-				ParentTest = {
-
-				}
-			}
-		}
+  		}
+		
 	}
 }

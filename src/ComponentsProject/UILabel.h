@@ -32,8 +32,6 @@ class UILabel : public core::Component
 private:
 	labelID _labelID;
 	std::string _text;
-	std::string _panelName;
-	core::Vector2<float> _dimension;
 	core::Color _bgColor;
 	core::Color _textColor;
 	float _opacity;
@@ -45,10 +43,10 @@ public:
 	~UILabel();
 
 	bool init(const Properties& p) override;
+	void ready() override;
 	void setText(const std::string& text);
 	void setVisible(bool visible);
 	void setOpacity(float opacity);
-	void setDimension(core::Vector2<float> dimension);
 	void setBackgroudColor(core::Color color);
 	void setTextColor(core::Color color);
 	void setAlign(TextAlign align);

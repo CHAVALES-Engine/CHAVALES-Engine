@@ -36,6 +36,7 @@ namespace core
 
 using entityID = ChavalesGUID;
 using transformID = uint64_t;
+using UITransformID = uint64_t;
 using cameraID = uint64_t;
 using modelID = uint64_t;
 using animationID = uint64_t;
@@ -106,7 +107,7 @@ public:
 	/*
 	* @brief Anadir nodo.
 	*/
-	transformID addTransform(const entityID& entityID, const core::Vector3<float>& pos = core::Vector3<float>(0.0f, 0.0f, 0.0f), const core::Quaternion<float>& rot = core::Quaternion<float>(0.0f, 0.0f, 0.0f, 1.0f), const core::Vector3<float>& scale = core::Vector3<float>(1.0f, 1.0f, 1.0f), const TransformType type = TransformType::WORLD);
+	transformID addTransform(const entityID& entityID, const core::Vector3<float>& pos = core::Vector3<float>(0.0f, 0.0f, 0.0f), const core::Quaternion<float>& rot = core::Quaternion<float>(0.0f, 0.0f, 0.0f, 1.0f), const core::Vector3<float>& scale = core::Vector3<float>(1.0f, 1.0f, 1.0f));
 	/*
 	* @brief Establecer posicion del nodo.
 	*/
@@ -119,6 +120,29 @@ public:
 	* @brief Establecer escala del nodo. Relativo a world space.
 	*/
 	void setTransformScale(const transformID& id, const core::Vector3<float>& scale);
+#pragma endregion
+	//Metodos UItransform
+#pragma region UItransform
+	/*
+	* @brief Anadir nodoUI
+	*/
+	UITransformID addUITransform(const entityID& entityID,const core::Vector2<float>& pos,const int& zBuffer, const core::Vector2<float>& dimension, const float& rotation);
+	/*
+	* @brief Establecer posicion del nodo.
+	*/
+	void setUITransformDimension(const UITransformID& id, const core::Vector2<float>& dim);
+	/*
+	* @brief Establecer dimension del nodo.
+	*/
+	void setUITransformPos(const UITransformID& id, const core::Vector2<float>& pos);
+	/*
+	* @brief Establecer rotacion del nodo.
+	*/
+	void setUITransformRotation(const UITransformID& id, const float& r);
+	/*
+	* @brief Establecer zBuffer del nodo.
+	*/
+	void setUITransformZBuffer(const UITransformID& id, const int& zBuff);
 #pragma endregion
 
 	//Metodos camaras
@@ -340,7 +364,7 @@ public:
 	/*
 	* @brief Anadir letrero al panel.
 	*/
-	uiLabelID addUILabel(const std::string& panelName, const entityID& entityID, const std::string& text, const  float opacity, const  core::Vector2<float> size, const core::Color textColor, const core::Color bgColor, const float fontSize, const TextAlign textAlign, const std::string fontName);
+	uiLabelID addUILabel(const uiPanelID& panelID,const entityID& entityID, const std::string& text, const  float opacity, const core::Color textColor, const core::Color bgColor, const float fontSize, const TextAlign textAlign, const std::string fontName);
 	/*
 	* @brief Establecer el texto del letrero.
 	*/
@@ -353,10 +377,6 @@ public:
 	* @brief Establecer la opacidad  del letrero
 	*/
 	void setUILabelOpacity(const uiLabelID& labelID, float opacity);
-	/*
-  * @brief Establecer las dimensiones  del letrero
-  */
-	void setUILabelDimension(const uiLabelID& labelID, core::Vector2<float> dimension);
 	/*
 	* @brief Establecer el color del texto  del letrero
    */
@@ -378,12 +398,12 @@ public:
 	/*
 	* @brief Anadir boton al panel.
 	*/
-	uiButtonID addUIButton(const std::string& panelName, const entityID& entityID, const std::string& text, core::Vector2<float> size);
+	uiButtonID addUIButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text);
 
 	/*
 	* @brief Anadir ImageBoton al panel.
 	*/
-	uiButtonID addUIImageButton(const std::string& panelName, const entityID& entityID, const std::string& text, const std::string& textureName, core::Vector2<float> size);
+	uiButtonID addUIImageButton(const uiPanelID&  panelID, const entityID& entityID, const std::string& text, const std::string& textureName);
 	/*
 	* @brief Establecer el texto del boton.
 	*/
@@ -396,10 +416,6 @@ public:
 	* @brief Establecer textura del boton.
 	*/
 	void setUIButtonTexture(const uiButtonID& id, const std::string& texture);
-	/*
-	* @brief Establecer dimensiones del boton.
-	*/
-	void setUIButtonDimension(const uiButtonID& id, core::Vector2<float> dimension);
 	/*
    * @brief Establecer la opacidad  del boton
    */
@@ -414,15 +430,12 @@ public:
 	/*
 	* @brief Anadir textureRect al panel.
 	*/
-	uiTextureRectID addUITextureRect(const std::string& panelName, const entityID& entityID, const std::string& textureName, core::Vector2<float> size);
+	uiTextureRectID addUITextureRect(const uiPanelID& panelID, const entityID& entityID, const std::string& textureName);
 	/*
 	* @brief Establecer textura del textureRect.
 	*/
 	void setUITextureRectTexture(const uiTextureRectID& id, const std::string& texture);
-	/*
-	* @brief Establecer dimensiones del textureRect.
-	*/
-	void setUITextureRectDimension(const uiTextureRectID& id, core::Vector2<float> dimension);
+	
 	/*
 	* @brief Establecer visibilidad del textureRect.
 	*/

@@ -41,6 +41,7 @@
 #include <guid.h>
 #include "GameConfigurator.h"
 #include <checkMLNew.h>
+#include <Vector2.h>
 
 static Ogre::Root* _root = nullptr;
 static Ogre::GL3PlusPlugin* _gl3Plugin = nullptr;
@@ -363,53 +364,30 @@ RenderModule::EventCallback RenderModule::getImguiInputCallback()
 	return ImGui_ImplSDL3_ProcessEvent;
 }
 
-transformID RenderModule::addNode(const entityID& entityID, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float> scale, const bool& fromTransform, const TransformType type)
+transformID RenderModule::addNode(const entityID& entityID, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float> scale)
 {
-	if (type == TransformType::WORLD) {
-		for (int i = 0; i < (int)_engineNodes.size(); i++)
+	for (int i = 0; i < (int)_engineNodes.size(); i++)
+	{
+		if (_engineNodes[i].nodeID == entityID)
 		{
-			if (_engineNodes[i].nodeID == entityID)
-			{
-				if (fromTransform)
-				{
-					_engineNodes[i].sceneNode->setPosition(Ogre::Vector3(pos.getX(), pos.getY(), pos.getZ()));
-					_engineNodes[i].sceneNode->setOrientation(Ogre::Quaternion(rot.getW(), rot.getX(), rot.getY(), rot.getZ()));
-					_engineNodes[i].sceneNode->setScale(Ogre::Vector3(scale.getX(), scale.getY(), scale.getZ()));
-				}
-				return i; //Ya existe
-			}
+			
+			_engineNodes[i].sceneNode->setPosition(Ogre::Vector3(pos.getX(), pos.getY(), pos.getZ()));
+			_engineNodes[i].sceneNode->setOrientation(Ogre::Quaternion(rot.getW(), rot.getX(), rot.getY(), rot.getZ()));
+			_engineNodes[i].sceneNode->setScale(Ogre::Vector3(scale.getX(), scale.getY(), scale.getZ()));
+			
+			return i; //Ya existe
 		}
+	}
 
-		// Crear nuevo nodo
-		EngineNode& aux = _engineNodes.emplace_back(_sceneMgr->getRootSceneNode()->createChildSceneNode(), entityID);
-		aux.sceneNode->setPosition(Ogre::Vector3(pos.getX(), pos.getY(), pos.getZ()));
-		aux.sceneNode->setOrientation(Ogre::Quaternion(rot.getW(), rot.getX(), rot.getY(), rot.getZ()));
-		aux.sceneNode->setScale(Ogre::Vector3(scale.getX(), scale.getY(), scale.getZ()));
-		return _nextTransformID++;
-	}
-	else {
-		for (int i = 0; i < (int)_uiTransforms.size(); i++) {
-			if (_uiTransforms[i].entity == entityID)
-			{
-				if (fromTransform)
-				{
-					_uiTransforms[i].position = { pos.getX(), pos.getY() };
-				}
-				return i; //Ya existe
-			}
-		}
-		UITransform uiT;
-		uiT.entity = entityID;
-		uiT.position = { pos.getX(), pos.getY() };
-		_uiTransforms.push_back(uiT);
-		return _nextUITransformID++;
-	}
+	// Crear nuevo nodo
+	EngineNode& aux = _engineNodes.emplace_back(_sceneMgr->getRootSceneNode()->createChildSceneNode(), entityID);
+	aux.sceneNode->setPosition(Ogre::Vector3(pos.getX(), pos.getY(), pos.getZ()));
+	aux.sceneNode->setOrientation(Ogre::Quaternion(rot.getW(), rot.getX(), rot.getY(), rot.getZ()));
+	aux.sceneNode->setScale(Ogre::Vector3(scale.getX(), scale.getY(), scale.getZ()));
+	return _nextTransformID++;
+	
 }
 
-transformID RenderModule::addNode(const entityID& entityID, const TransformType type)
-{
-	return addNode(entityID, core::Vector3<float>(0.0f, 0.0f, 0.0f), core::Quaternion<float>(0.0f, 0.0f, 0.0f, 1.0f), core::Vector3<float>(1.0f, 1.0f, 1.0f), false, type);
-}
 
 transformID RenderModule::getNode(const entityID& entityID)
 {
@@ -473,7 +451,46 @@ void RenderModule::setNodeScale(const transformID& id, const core::Vector3<float
 		_engineNodes[id].sceneNode->setScale(scale.getX(), scale.getY(), scale.getZ());
 	}
 }
+UITransformID RenderModule::addUITransform(const entityID& entityID, const core::Vector2<float>& pos, const int& zBuffer, const core::Vector2<float>& dimension, const float& rotation) {
+	for (int i = 0; i < (int)_uiTransforms.size(); i++) {
+		if (_uiTransforms[i].entity == entityID)
+		{
+			return i; //Ya existe
+		}
+	}
+	UITransform uiT;
+	uiT.entity = entityID;
+	uiT.position = pos;
+	uiT.dimension = dimension;
+	uiT.rotation = rotation;
+	uiT.zBuffer = zBuffer;
+	_uiTransforms.emplace_back(uiT);
+	return _uiTransforms.size() - 1;
+}
 
+void RenderModule::setUITransformDimension(const UITransformID& id, const core::Vector2<float>& dim) {
+	if (id >= 0 && id < _uiTransforms.size()) {
+		_uiTransforms[id].dimension = dim;
+	}
+}
+
+void RenderModule::setUITransformPos(const UITransformID& id, const core::Vector2<float>& pos) {
+	if (id >= 0 && id < _uiTransforms.size()) {
+		_uiTransforms[id].position = pos;
+	}
+}
+
+void RenderModule::setUITransformRotation(const UITransformID& id, const float& r) {
+	if (id >= 0 && id < _uiTransforms.size()) {
+		_uiTransforms[id].rotation = r;
+	}
+}
+
+void RenderModule::setUITransformZBuffer(const UITransformID& id, const int& zBuff) {
+	if (id >= 0 && id < _uiTransforms.size()) {
+		_uiTransforms[id].zBuffer = zBuff;
+	}
+}
 UITransformID RenderModule::getTransformUI(const entityID& entityID)
 {
 	for (int i = _uiTransforms.size() - 1; i >= 0; i--) {
@@ -483,20 +500,8 @@ UITransformID RenderModule::getTransformUI(const entityID& entityID)
 	return -1;
 }
 
-core::Vector2<float> RenderModule::getUIPosition(const transformID& id)
-{
-	if (id >= 0 && id < _uiTransforms.size()) {
-		return _uiTransforms[id].position;
-	}
-	return core::Vector2<float>(0, 0);
-}
 
-void RenderModule::setUIPosition(const transformID& id, const core::Vector2<float>& pos)
-{
-	if (id >= 0 && id < _uiTransforms.size()) {
-		_uiTransforms[id].position = pos;
-	}
-}
+
 
 void RenderModule::setViewportBGColor(core::Color color)
 {
@@ -506,7 +511,7 @@ void RenderModule::setViewportBGColor(core::Color color)
 cameraID RenderModule::addCamera(const entityID& entityID, const float& FOVy, const float& nearClipDistance, const float& farClipDistance, const float& focalLength, const core::Color& bgColor)
 {
 	//Si no existe un nodo con este entityID lo creamos
-	transformID nodeID = addNode(entityID, TransformType::WORLD);
+	transformID nodeID = addNode(entityID);
 	Ogre::Camera* camera = _cameras.emplace_back(_sceneMgr->createCamera("camera" + entityID.toString()));
 	camera->setAutoAspectRatio(true);
 	_engineNodes[nodeID].sceneNode->attachObject(camera);
@@ -595,7 +600,7 @@ void RenderModule::setCameraFocalLength(const cameraID& id, const float& focalLe
 
 modelID RenderModule::addModel(const entityID& entityID, const std::string& modelFolder, const std::string& modelFile)
 {
-	transformID nodeID = addNode(entityID, TransformType::WORLD);
+	transformID nodeID = addNode(entityID);
 
 	if (!_rgm->resourceGroupExists(modelFolder))
 	{
@@ -761,7 +766,7 @@ void RenderModule::setModelVisible(const modelID& id, const bool& visible)
 
 void RenderModule::addAnimator(const entityID& entityID, modelID& modelID)
 {
-	transformID nodeID = addNode(entityID, TransformType::WORLD);
+	transformID nodeID = addNode(entityID);
 	modelID = -1;
 	auto& node = _engineNodes[nodeID].sceneNode;
 	for (unsigned int i = 0; i < node->numAttachedObjects(); ++i)
@@ -895,7 +900,7 @@ void RenderModule::updateAnimation(const animationID& animationID, const uint64_
 
 lightID RenderModule::addLight(const entityID& entityID, const int& type, const core::Color& color, const float& intensity) {
 	//Si no existe un nodo con este entityID lo creamos
-	transformID nodeID = addNode(entityID, TransformType::WORLD);
+	transformID nodeID = addNode(entityID);
 
 	Ogre::Light* light = _sceneMgr->createLight("light" + std::to_string(_nextLightID));
 
@@ -975,7 +980,7 @@ void RenderModule::setLightSpotRange(const lightID& id, const float& inner, cons
 
 particleGenID RenderModule::addParticleGen(const entityID& entityID, const std::string& textureFolder, const std::string& textureFile)
 {
-	addNode(entityID, TransformType::WORLD);
+	addNode(entityID);
 
 	std::string matName = "ParticleMat_" + std::to_string(_nextParticleGenID);
 
@@ -1182,7 +1187,7 @@ void RenderModule::setSkydomeNull()
 }
 
 uiPanelID RenderModule::addUIPanel(const entityID& entityID, const std::string& title) {
-
+	addUITransform(entityID);
 	UIPanelData panel;
 	panel.entity = entityID;
 	panel.title = title;
@@ -1198,16 +1203,14 @@ void RenderModule::setUIPanelVisible(const uiPanelID& id, bool visible) {
 
 }
 
-uiLabelID RenderModule::addUILabel(const std::string& panelName, const entityID& entityID, const std::string& text, const  float opacity, const  core::Vector2<float> size, const core::Color textColor, const core::Color bgColor, const float fontSize, const TextAlign textAlign, const std::string fontName) {
-	addNode(entityID, TransformType::UI);
+uiLabelID RenderModule::addUILabel(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const  float opacity, const core::Color textColor, const core::Color bgColor, const float fontSize, const TextAlign textAlign, const std::string fontName) {
+	addUITransform(entityID);
 
-	uiPanelID panelID = getOrSetPanel(panelName);
 	UILabelData label;
 	label.entity = entityID;
 	label.text = text;
 	label.visible = true;
 	label.opacity = opacity;
-	label.size = size;
 	label.textColor = textColor;
 	label.bgColor = bgColor;
 	label.fontSize = fontSize;
@@ -1246,11 +1249,6 @@ void  RenderModule::setUILabelOpacity(const uiLabelID& labelID, float opacity) {
 	_uiPanels[panelID].labels[labelIndex].opacity = opacity;
 }
 
-void RenderModule::setUILabelDimension(const uiLabelID& labelID, core::Vector2<float> dimension) {
-	auto [panelID, labelIndex] = _labelToPanel[labelID];
-	_uiPanels[panelID].labels[labelIndex].size = dimension;
-}
-
 void RenderModule::setUILabelTextColor(const uiLabelID labelID, core::Color color) {
 	auto [panelID, labelIndex] = _labelToPanel[labelID];
 	_uiPanels[panelID].labels[labelIndex].textColor = color;
@@ -1270,16 +1268,14 @@ void RenderModule::setUILabelAlign(const uiLabelID labelID, const std::string& a
 //
 //}
 
-uiButtonID RenderModule::addUIImageButton(const std::string& panelName, const entityID& entityID, const std::string& text, const std::string& textureFolder, const std::string& textureFile, core::Vector2<float> size)
+uiButtonID RenderModule::addUIImageButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const std::string& textureFolder, const std::string& textureFile)
 {
-	addNode(entityID, TransformType::UI);
+	addUITransform(entityID);
 
-	uiPanelID panelID = getOrSetPanel(panelName);
 	UIButtonData button;
 	button.entity = entityID;
 	button.text = text;
 	button.visible = true;
-	button.size = size;
 	button.textureFolder = textureFolder;
 	button.textureFile = textureFile;
 
@@ -1301,15 +1297,13 @@ uiButtonID RenderModule::addUIImageButton(const std::string& panelName, const en
 	_buttonToPanel[id] = { panelID, buttonIndex };
 	return id;
 }
-uiButtonID RenderModule::addUIButton(const std::string& panelName, const entityID& entityID, const std::string& text, core::Vector2<float> size) {
-	addNode(entityID, TransformType::UI);
+uiButtonID RenderModule::addUIButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text) {
+	addUITransform(entityID);
 
-	uiPanelID panelID = getOrSetPanel(panelName);
 	UIButtonData button;
 	button.entity = entityID;
 	button.text = text;
 	button.visible = true;
-	button.size = size;
 	button.buttonImage = false;
 
 	_uiPanels[panelID].buttons.push_back(button);
@@ -1337,11 +1331,6 @@ void  RenderModule::setUIButtonTexture(const uiButtonID& buttonID, const std::st
 	_uiPanels[panelID].buttons[buttonIndex].textureFile = texture;
 }
 
-void  RenderModule::setUIButtonDimension(const uiButtonID& buttonID, core::Vector2<float> dimension) {
-	auto [panelID, buttonIndex] = _buttonToPanel[buttonID];
-	_uiPanels[panelID].buttons[buttonIndex].size = dimension;
-}
-
 void  RenderModule::setUIButtonOpacity(const uiButtonID& buttonID, float opacity) {
 	auto [panelID, buttonIndex] = _buttonToPanel[buttonID];
 	_uiPanels[panelID].buttons[buttonIndex].opacity = opacity;
@@ -1353,16 +1342,15 @@ void RenderModule::setUIButtonCallback(const uiButtonID& buttonID, std::function
 	_uiPanels[panelID].buttons[buttonIndex].onClick = callback;
 }
 
-uiTextureRectID RenderModule::addUITextureRect(const std::string& panelName, const entityID& entityID, const std::string& textureFolder, const std::string& textureFile, core::Vector2<float> size)
+uiTextureRectID RenderModule::addUITextureRect(const uiPanelID& panelID, const entityID& entityID, const std::string& textureFolder, const std::string& textureFile)
 {
-	addNode(entityID, TransformType::UI);
-	uiPanelID panelID = getOrSetPanel(panelName);
+	addUITransform(entityID);
 	UITextureRectData tex;
 	tex.entity = entityID;
 	tex.textureFolder = textureFolder;
 	tex.textureFile = textureFile;
 	tex.visible = true;
-	tex.size = size;
+
 
 	if (!_rgm->resourceGroupExists(textureFolder))
 	{
@@ -1386,10 +1374,7 @@ void  RenderModule::setUITextureRectTexture(const uiTextureRectID& textureRectID
 	auto [panelID, textureRectIndex] = _textureToPanel[textureRectID];
 	_uiPanels[panelID].textureRects[textureRectIndex].textureFile = texture;
 }
-void  RenderModule::setUITextureRectDimension(const uiTextureRectID& textureRectID, core::Vector2<float> dimension) {
-	auto [panelID, textureRectIndex] = _textureToPanel[textureRectID];
-	_uiPanels[panelID].textureRects[textureRectIndex].size = dimension;
-}
+
 void  RenderModule::setUITextureRectVisible(const uiTextureRectID& textureRectID, bool visible) {
 	auto [panelID, textureRectIndex] = _textureToPanel[textureRectID];
 	_uiPanels[panelID].textureRects[textureRectIndex].visible = visible;
@@ -1413,59 +1398,52 @@ TextAlign RenderModule::stringToAlign(const std::string& align)
 	}
 }
 
-uiPanelID RenderModule::getOrSetPanel(const std::string& panelName)
-{
-	for (int i = 0; i < _uiPanels.size(); i++) {
-		if (_uiPanels[i].title == panelName) {
-			return i;
-		}
-	}
-	UIPanelData panel;
-	panel.title = panelName;
-	panel.visible = true;
-	_uiPanels.push_back(panel);
-	return _uiPanels.size() - 1;
-}
 
 void RenderModule::renderUI() {
+	ImGui_ImplSDL3_NewFrame();
 	_overlay->NewFrame();
 	for (UIPanelData& panel : _uiPanels) {
 
 		if (!panel.visible) {
 			continue;
 		}
+		int tID = getTransformUI(panel.entity);
 		ImGui::SetNextWindowPos(ImVec2(0, 0));
 		ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
 		ImGui::Begin(panel.title.c_str(), nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoMove);
+
+		ImDrawList* drawList = ImGui::GetWindowDrawList();
+		ImDrawListSplitter splitter;
+		splitter.Split(drawList, 32);
+		splitter.SetCurrentChannel(drawList, _uiTransforms[tID].zBuffer);
 		for (UILabelData& label : panel.labels) {
 			if (!label.visible) {
 				continue;
 			}
-
-			const ImVec2 aux = { label.size.getX(), label.size.getY() };
 			int tID = getTransformUI(label.entity);
-			core::Vector2<> pos = _uiTransforms[tID].position;
-			const ImVec2 auxPos = { pos.getX(), pos.getY() };
+			splitter.SetCurrentChannel(drawList, _uiTransforms[tID].zBuffer);
+
+			const ImVec2 auxDim = { _uiTransforms[tID].dimension.getX(), _uiTransforms[tID].dimension.getY() };
+			const ImVec2 auxPos = { _uiTransforms[tID].position.getX(),  _uiTransforms[tID].position.getY() };
 			std::string labelName = "label_" + label.entity.toString();
-			ImGui::InvisibleButton(labelName.c_str(), aux);
-			ImDrawList* drawList = ImGui::GetWindowDrawList();
+			ImGui::InvisibleButton(labelName.c_str(), auxDim);
 			float auxOpacity = label.bgColor.getAlpha() * label.opacity;
-			drawList->AddRectFilled(auxPos, ImVec2(auxPos.x + aux.x, auxPos.y + aux.y), IM_COL32(label.bgColor.getRed() * 255, label.bgColor.getGreen() * 255, label.bgColor.getBlue() * 255, auxOpacity * 255));
+			drawList->AddRectFilled(auxPos, ImVec2(auxPos.x + auxDim.x, auxPos.y + auxDim.y), IM_COL32(label.bgColor.getRed() * 255, label.bgColor.getGreen() * 255, label.bgColor.getBlue() * 255, auxOpacity * 255));
 			ImGui::PushFont(label.font);
 			ImVec2 textSize = ImGui::CalcTextSize(label.text.c_str());
 
 			float posTextX;
-			float posTextY = auxPos.y + (aux.y - textSize.y) * 0.5f;
+			float posTextY = auxPos.y + (auxDim.y - textSize.y) * 0.5f;
 
 			switch (label.align) {
 			case TextAlign::LEFT:
 				posTextX = auxPos.x + 5.0f;
 				break;
 			case TextAlign::CENTER:
-				posTextX = auxPos.x + (aux.x - textSize.x) * 0.5f;
+				posTextX = auxPos.x + (auxDim.x - textSize.x) * 0.5f;
 				break;
 			case TextAlign::RIGHT:
-				posTextX = auxPos.x + aux.x - textSize.x - 5.0f;
+				posTextX = auxPos.x + auxDim.x - textSize.x - 5.0f;
 			}
 			drawList->AddText(ImVec2(posTextX, posTextY), IM_COL32(label.textColor.getRed() * 255, label.textColor.getGreen() * 255, label.textColor.getBlue() * 255, auxOpacity * 255), label.text.c_str());
 
@@ -1476,11 +1454,13 @@ void RenderModule::renderUI() {
 				continue;
 			}
 			int tID = getTransformUI(tex.entity);
+			splitter.SetCurrentChannel(drawList, _uiTransforms[tID].zBuffer);
+
 			auto pos = _uiTransforms[tID].position;
 			ImGui::SetCursorPos(ImVec2(pos.getX(), pos.getY()));
 			ImGui::PushStyleVar(ImGuiStyleVar_Alpha, tex.opacity);
 
-			const ImVec2 aux = { tex.size.getX(), tex.size.getY() };
+			const ImVec2 aux = { _uiTransforms[tID].dimension.getX(), _uiTransforms[tID].dimension.getY() };
 			ImGui::Image((ImTextureID)tex.textureID, aux);
 			ImGui::PopStyleVar();
 
@@ -1493,10 +1473,12 @@ void RenderModule::renderUI() {
 				continue;
 			}
 			int tID = getTransformUI(button.entity);
+			splitter.SetCurrentChannel(drawList, _uiTransforms[tID].zBuffer);
+
 			auto pos = _uiTransforms[tID].position;
 			ImGui::SetCursorPos(ImVec2(pos.getX(), pos.getY()));
 			ImGui::PushStyleVar(ImGuiStyleVar_Alpha, button.opacity);
-			const ImVec2 aux = { button.size.getX(), button.size.getY() };
+			const ImVec2 aux = { _uiTransforms[tID].dimension.getX(), _uiTransforms[tID].dimension.getY() };
 
 			if (button.buttonImage) {
 				std::string idButton = button.textureFile + "_" + button.entity.toString();
@@ -1516,6 +1498,8 @@ void RenderModule::renderUI() {
 			}
 			ImGui::PopStyleVar();
 		}
+		splitter.Merge(drawList);
+
 		ImGui::End();
 	}
 	ImGui::Render();

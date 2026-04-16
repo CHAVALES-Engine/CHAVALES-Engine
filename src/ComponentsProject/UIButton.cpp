@@ -5,6 +5,8 @@
 #include <Debug.h>
 #include <PluginSDK.h>
 #include "checkMLNew.h"
+#include <UITransform.h>
+#include <UIPanel.h>
 
 REGISTER_COMPONENT(UIButton);
 
@@ -18,21 +20,25 @@ UIButton::~UIButton()
 bool UIButton::init(const Properties& p)
 {
 	_textureName = getProperty<std::string>(p, "textureName");
-	_dimension = getProperty<core::Vector2<float>>(p, "dimension");
 	_text = getProperty<std::string>(p, "text");
-	_panelName = getProperty<std::string>(p, "panelName");
 	_opacity = getProperty<float>(p, "opacity");
 
+	return true;
+}
+
+void UIButton::ready()
+{
+	auto panel = getEntity()->getComponent<UITransform>()->getComponentInParents<UIPanel>();
+
+	uiPanelID  panelID = panel->getPanelID();
+
 	if (_textureName.empty()) {
-		_buttonID = Engine::instance()->addUIButton(_panelName, getEntity()->getEntityID(), _text, _dimension);
+		_buttonID = Engine::instance()->addUIButton(panelID, getEntity()->getEntityID(), _text);
 
 	}
 	else {
-		_buttonID = Engine::instance()->addUIImageButton(_panelName, getEntity()->getEntityID(), _text, _textureName, _dimension);
+		_buttonID = Engine::instance()->addUIImageButton(panelID, getEntity()->getEntityID(), _text, _textureName);
 	}
-
-
-	return true;
 }
 
 void UIButton::setText(const std::string& text) {
@@ -50,12 +56,7 @@ void UIButton::setTexture(const std::string& texture)
 	_textureName = texture;
 	Engine::instance()->setUIButtonTexture(_buttonID, _textureName);
 }
-void UIButton::setDimension(core::Vector2<float> dimension)
-{
-	_dimension = dimension;
-	Engine::instance()->setUIButtonDimension(_buttonID, dimension);
 
-}
 void UIButton::setOpacity(float opacity)
 {
 	_opacity = opacity;
