@@ -25,6 +25,9 @@ scene = { -- entidades en escena
 						velocity = 100
 					},
 					AudioListener = {
+					},
+					ScriptComponent = {
+						script = "./game/assets/scripts/luaComponentTest.lua"
 					}
 				}
 		},

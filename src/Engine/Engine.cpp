@@ -19,6 +19,8 @@
 #include <iostream>
 #include <checkMLNew.h>
 
+#include "ScriptsManager.h"
+
 using namespace std;
 Engine* Engine::_instance = nullptr;
 
@@ -737,6 +739,9 @@ bool Engine::_initPriv()
 	}
 
 	_stateMachine = new StateMachine();
+
+	ScriptsManager::instance().init();
+	ScriptsManager::instance().registerBindings();
 
 	//
 	//#if _DEBUG

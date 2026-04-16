@@ -1,7 +1,10 @@
 ﻿#include "ScriptComponent.h"
 #include "Script.h"
-#include "checkMLNew.h"
+#include "PluginSDK.h"
 #include "Clock.h"
+#include "checkMLNew.h"
+
+REGISTER_COMPONENT(ScriptComponent);
 
 ScriptComponent::ScriptComponent() : _script(std::make_unique<Script>())
 {}
@@ -15,6 +18,8 @@ bool ScriptComponent::init(const Properties& p)
 		!_script->loadScript(scriptPath))
 		return false;
 	// inicializacion de propiedades TODO
+
+	_script->executeFunction("init");
 	return true;
 }
 
