@@ -60,6 +60,10 @@ protected:
 	 * @brief Offset respecto a la entidad, donde esta el collider
 	 */
 	core::Vector3<> center = { 0,0,0 };
+	/**
+	 * @brief Rotacion local del collider respecto al transform
+	 */
+	core::Quaternion<> rotation;
 
 	/**
 	 * @brief Referencia a engine

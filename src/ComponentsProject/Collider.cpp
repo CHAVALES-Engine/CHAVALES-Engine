@@ -36,6 +36,12 @@ bool Collider::init(const Properties& p)
 		Debug::error("[COLLIDER] TIPO INCOMPATIBLE!!");
 	}
 
+	//ROTATION
+	/*rotation = getProperty<core::Quaternion<>>(p, "rotation");*/
+	core::Vector3<> r;
+	setProperty(p, "rotation", r);
+	core::Quaternion<float> q;
+	rotation = q.fromEuler(r);
 	//DYNAMIC
 	isDynamic = getProperty<bool>(p, "dynamic");
 	
@@ -57,7 +63,7 @@ void Collider::ready()
 	if (!transform) return;
 
 	core::Vector3<> pos = transform->getGlobalPosition();
-	core::Quaternion<> rot = transform->getGlobalRotation();
+	core::Quaternion<> rotGlob = transform->getGlobalRotation();
 
 	rigidBody = entity->getComponent<RigidBody>();
 
@@ -86,10 +92,10 @@ void Collider::ready()
 		switch (shapeType)
 		{
 		case ShapeType::BOX:
-			_eng->attachBoxShapeToRigidBody(physicsID, size, center, isTrigger);
+			_eng->attachBoxShapeToRigidBody(physicsID, size, center, rotation, isTrigger);
 			break;
 		case ShapeType::CAPSULE:
-			_eng->attachCapsuleShapeToRigidBody(physicsID, radius, height, center, isTrigger);
+			_eng->attachCapsuleShapeToRigidBody(physicsID, radius, height, center, rotation, isTrigger);
 			break;
 		}
 	}
@@ -99,10 +105,10 @@ void Collider::ready()
 		switch (shapeType)
 		{
 		case ShapeType::BOX:
-			physicsID = _eng->createBoxCollider(size, center, pos, rot, isDynamic, isTrigger);
+			physicsID = _eng->createBoxCollider(size, center, pos, rotGlob, rotation, isDynamic, isTrigger);
 			break;
 		case ShapeType::CAPSULE:
-			physicsID = _eng->createCapsuleCollider(radius, height, center, pos, rot, isDynamic, isTrigger);
+			physicsID = _eng->createCapsuleCollider(radius, height, center, pos, rotGlob, rotation, isDynamic, isTrigger);
 			break;
 		}
 	}

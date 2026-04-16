@@ -1590,12 +1590,16 @@ void RenderModule::DrawBox(const ShapeRenderData& data)
 	Ogre::Vector3 center(data.position.getX(), data.position.getY(), data.position.getZ());
 	//rot
 	Ogre::Quaternion q(data.rotation.getW(), data.rotation.getX(), data.rotation.getY(), data.rotation.getZ());
-	Ogre::Matrix3 rot;
-	q.ToRotationMatrix(rot);
 
-	auto transformPoint = [&](const Ogre::Vector3& p) {//mas facil asi
-		return center + (rot * p);
+	auto transformPoint = [&](const Ogre::Vector3& p)
+		{
+			return center + (q * p);
 		};
+	//Ogre::Matrix3 rot;
+	//q.ToRotationMatrix(rot);
+	//auto transformPoint = [&](const Ogre::Vector3& p) {//mas facil asi
+	//	return center + (rot * p);
+	//	};
 
 	Ogre::Vector3 v[8] = {
 		{-halfSize.x, -halfSize.y, -halfSize.z},

@@ -28,8 +28,8 @@ public:
 		float maxDistance);
 
 	//colliders
-	ComponentID  CreateBoxShape(core::Vector3<> dimension, const core::Vector3<>& center, core::Vector3<> pos, const core::Quaternion<> rot, bool isDynamic, bool isTrigger);
-	ComponentID CreateCapsuleShape(float radius, float height, const core::Vector3<>& center, const core::Vector3<>& worldPos, const core::Quaternion<> rot, bool isDynamic, bool isTrigger);
+	ComponentID  CreateBoxShape(core::Vector3<> dimension, const core::Vector3<>& center, core::Vector3<> pos, const core::Quaternion<> rot, const core::Quaternion<> rotationLoc, bool isDynamic, bool isTrigger);
+	ComponentID CreateCapsuleShape(float radius, float height, const core::Vector3<>& center, const core::Vector3<>& worldPos, const core::Quaternion<> rot, const core::Quaternion<> rotationLoc, bool isDynamic, bool isTrigger);
 	std::vector<PhysicsEvent> getEventsFor(ComponentID id);
 	void clearEvents();
 	void SetPhysicsPosition(ComponentID id, const core::Vector3<>& pos);
@@ -49,8 +49,8 @@ public:
 	void SetLinearDamping(uint32_t id, float damping);
 
 	//collider + rigidbody
-	void AttachBoxShape(ComponentID bodyID, const core::Vector3<> size, const core::Vector3<>& center, bool isTrigger);
-	void AttachCapsuleShape(ComponentID bodyID, float radius, float height, const core::Vector3<>& center, bool isTrigger);
+	void AttachBoxShape(ComponentID bodyID, const core::Vector3<> size, const core::Vector3<>& center, const core::Quaternion<> rotationLoc, bool isTrigger);
+	void AttachCapsuleShape(ComponentID bodyID, float radius, float height, const core::Vector3<>& center, const core::Quaternion<> rotationLoc, bool isTrigger);
 	void setPhysicsTransform(ComponentID id, const core::Vector3<>& pos, const core::Quaternion<>& rot);
 
 	//callbacks

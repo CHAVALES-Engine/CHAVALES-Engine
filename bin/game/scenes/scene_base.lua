@@ -51,6 +51,7 @@ scene = { -- entidades en escena
 				Collider = {
 					type = "BOX",
 					shape = Vector3.new(400, 100, 400),      
+					rotation = Vector3.new(0, 0, 0),--poner los grados que quieras que rote en el eje que quieres que rote
 					dynamic = true,
 					trigger = false,
 					center = Vector3.new(0,0,0)    
@@ -79,7 +80,8 @@ scene = { -- entidades en escena
 				},
 				Collider = {
 					type = "CAPSULE",
-					shape = Vector3.new(50, 0, 0),      
+					shape = Vector3.new(50, 0, 0),     
+					rotation = Vector3.new(),
 					dynamic = true,
 					trigger = false,
 					center = Vector3.new(0,0,0)    

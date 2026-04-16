@@ -150,7 +150,7 @@ ComponentID PhysicsModule::CreateRigidBody(core::Vector3<> pos, float mass, bool
 	return id;
 }
 
-ComponentID PhysicsModule::CreateBoxShape(core::Vector3<> size, const core::Vector3<>& center, core::Vector3<> position, const core::Quaternion<> rot, bool isDynamic, bool isTrigger)
+ComponentID PhysicsModule::CreateBoxShape(core::Vector3<> size, const core::Vector3<>& center, core::Vector3<> position, const core::Quaternion<> rot, const core::Quaternion<> rotationLoc, bool isDynamic, bool isTrigger)
 {
 	if (!gPhysics || !gScene) return 0;
 
@@ -158,12 +158,12 @@ ComponentID PhysicsModule::CreateBoxShape(core::Vector3<> size, const core::Vect
 	PxRigidActor* actor = isDynamic ? static_cast<PxRigidActor*>(gPhysics->createRigidDynamic(transform)) : static_cast<PxRigidActor*>(gPhysics->createRigidStatic(transform));
 	if (!actor) return 0;
 
-
 	PxBoxGeometry geo(size.getX() * 0.5f, size.getY() * 0.5f, size.getZ() * 0.5f);
 
 	PxShape* shape = gPhysics->createShape(geo, *defaultMaterial);
 	if (!shape) return 0;
-	PxTransform localPose(PxVec3(center.getX(), center.getY(), center.getZ()));
+	PxQuat qLoc(rotationLoc.getX(), rotationLoc.getY(), rotationLoc.getZ(), rotationLoc.getW());
+	PxTransform localPose(PxVec3(center.getX(), center.getY(), center.getZ()), qLoc);//pos y rot locales
 	shape->setLocalPose(localPose);
 
 	PxFilterData filterData;
@@ -192,7 +192,7 @@ ComponentID PhysicsModule::CreateBoxShape(core::Vector3<> size, const core::Vect
 	return id;
 }
 
-ComponentID PhysicsModule::CreateCapsuleShape(float radius, float height, const core::Vector3<>& center, const core::Vector3<>& worldPos, const core::Quaternion<> rot, bool isDynamic, bool isTrigger)
+ComponentID PhysicsModule::CreateCapsuleShape(float radius, float height, const core::Vector3<>& center, const core::Vector3<>& worldPos, const core::Quaternion<> rot, const core::Quaternion<> rotationLoc, bool isDynamic, bool isTrigger)
 {
 	if (!gPhysics || !gScene) return 0;
 
@@ -234,8 +234,11 @@ ComponentID PhysicsModule::CreateCapsuleShape(float radius, float height, const 
 	}
 
 	//rotadas en el eje Y para que se vean verticales
-	PxQuat rota(PxHalfPi, PxVec3(0, 0, 1));
-	PxTransform localPose(PxVec3(center.getX(), center.getY(), center.getZ()), rota);
+	PxQuat baseRot(PxHalfPi, PxVec3(0, 0, 1));
+	PxQuat qLoc(rotationLoc.getX(), rotationLoc.getY(), rotationLoc.getZ(), rotationLoc.getW());//local
+	PxQuat finalRot = baseRot * qLoc;//alineada eje Y + rot local collider
+
+	PxTransform localPose(PxVec3(center.getX(), center.getY(), center.getZ()), finalRot);
 	shape->setLocalPose(localPose);
 	actor->attachShape(*shape);
 
@@ -458,7 +461,7 @@ void PhysicsModule::onTrigger(PxTriggerPair* pairs, PxU32 count) {
 	}
 }
 
-void PhysicsModule::AttachBoxShape(ComponentID bodyID, const core::Vector3<> size, const core::Vector3<>& center, bool isTrigger)
+void PhysicsModule::AttachBoxShape(ComponentID bodyID, const core::Vector3<> size, const core::Vector3<>& center, const core::Quaternion<> rotationLoc, bool isTrigger)
 {
 	auto it = physicsMap.find(bodyID);
 	if (it == physicsMap.end()) return;
@@ -468,7 +471,8 @@ void PhysicsModule::AttachBoxShape(ComponentID bodyID, const core::Vector3<> siz
 
 	PxShape* shape = gPhysics->createShape(PxBoxGeometry(size.getX() * 0.5f, size.getY() * 0.5f, size.getZ() * 0.5f), *defaultMaterial);
 	if (!shape) return;
-	PxTransform localPose(PxVec3(center.getX(), center.getY(), center.getZ()));
+	PxQuat qLoc(rotationLoc.getX(), rotationLoc.getY(), rotationLoc.getZ(), rotationLoc.getW());//rot local
+	PxTransform localPose(PxVec3(center.getX(), center.getY(), center.getZ()), qLoc);//pos local
 	shape->setLocalPose(localPose);
 
 	PxFilterData filterData;
@@ -495,7 +499,7 @@ void PhysicsModule::AttachBoxShape(ComponentID bodyID, const core::Vector3<> siz
 	it->second.shapes.push_back(shape);
 }
 
-void PhysicsModule::AttachCapsuleShape(ComponentID bodyID, float radius, float height, const core::Vector3<>& center, bool isTrigger)
+void PhysicsModule::AttachCapsuleShape(ComponentID bodyID, float radius, float height, const core::Vector3<>& center, const core::Quaternion<> rotationLoc, bool isTrigger)
 {
 	auto it = physicsMap.find(bodyID);
 	if (it == physicsMap.end()) return;
@@ -516,8 +520,10 @@ void PhysicsModule::AttachCapsuleShape(ComponentID bodyID, float radius, float h
 	if (shape == NULL) return;
 
 	//rotadas en el eje Y para que se vean verticales
-	PxQuat rot(PxHalfPi, PxVec3(0, 0, 1));
-	PxTransform localPose(PxVec3(center.getX(), center.getY(), center.getZ()), rot);
+	PxQuat baseRot(PxHalfPi, PxVec3(0, 0, 1));
+	PxQuat qLoc(rotationLoc.getX(), rotationLoc.getY(), rotationLoc.getZ(), rotationLoc.getW());
+	PxQuat finalRot = baseRot * qLoc;//correcion eje + rot local collider
+	PxTransform localPose(PxVec3(center.getX(), center.getY(), center.getZ()), finalRot);
 	shape->setLocalPose(localPose);
 
 	PxFilterData filterData;
@@ -660,9 +666,9 @@ std::vector<ShapeRenderData> PhysicsModule::GetRenderData()
 			ShapeRenderData data;
 
 			PxTransform pose = PxShapeExt::getGlobalPose(*shape, *actor);
-
 			data.position = { pose.p.x, pose.p.y, pose.p.z };
 			data.rotation = { pose.q.x, pose.q.y, pose.q.z, pose.q.w };
+
 
 			const PxGeometry& geom = shape->getGeometry();
 			switch (geom.getType())
