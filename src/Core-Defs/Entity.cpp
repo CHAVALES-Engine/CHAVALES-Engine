@@ -15,7 +15,7 @@ namespace core
 		visible(true),
 		enabled(true),
 		scene(nullptr),
-		groupId(),
+		//groupId(),
 		name()
 	{
 	}
@@ -31,7 +31,7 @@ namespace core
 	void Entity::setDontDestroyOnLoad(bool ddol) { dontDestroyOnLoad = ddol; }
 	void Entity::setScene(Scene* s) { scene = s; }
 	void Entity::setEntityID(ChavalesGUID id) { entityID = id; }
-	void Entity::setGroupId(grpId_t id) { groupId = id; }
+	//void Entity::setGroupId(grpId_t id) { groupId = id; }
 	void Entity::setName(const std::string& n) { name = n; }
 
 	bool Entity::isAlive() const { return alive; }
@@ -42,10 +42,11 @@ namespace core
 
 	Scene* Entity::getScene() const { return scene; }
 	ChavalesGUID Entity::getEntityID() const { return entityID; }
-	grpId_t Entity::getGroupId() const { return groupId; }
+	//grpId_t Entity::getGroupId() const { return groupId; }
 	//bool core::Entity::inGroup(grpId_t id) const;
 	const std::string& Entity::getName() const { return name; }
 	const std::vector<std::shared_ptr<Component>>& Entity::getComponents() const { return components; }
+	size_t Entity::getComponentCount() const { return components.size(); }
 
 	std::shared_ptr<Component> Entity::getComponent(const std::string& name) const {
 		for (auto& c : components) {
@@ -53,6 +54,22 @@ namespace core
 				return c;
 		}
 		return nullptr;
+	}
+
+	void Entity::removeComponents() 
+	{
+		if (!components.empty())
+		{
+			for (auto c : components)
+			{
+				if (c != nullptr)
+				{
+					c->disable();
+					c->destroy();
+				}
+			}
+			components.clear();
+		}
 	}
 
 	void Entity::removeComponent(const std::string& name)
@@ -109,17 +126,6 @@ namespace core
 				c->update(dT);
 		}
 	}
-
-	//void Entity::render() const
-	//{
-	//	if (!visible) return;
-
-	//	for (const std::shared_ptr<Component>& c : components)
-	//	{
-	//		if (c->isEnabled())
-	//			c->render();
-	//	}
-	//}
 
 	void Entity::destroy()
 	{

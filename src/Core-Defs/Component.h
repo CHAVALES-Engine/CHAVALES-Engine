@@ -81,7 +81,7 @@ namespace core
 		/**
 		* @brief Metodo que inicializa las variables del componente tras ser creado
 		*/
-		virtual bool init(const Properties& p) { return true;  } 
+		virtual bool init(const Properties& p) { return true; } 
 
 		/**
 		* @brief Comportamiento cuando la escena comienza y ya se han inicializado el resto de entidades

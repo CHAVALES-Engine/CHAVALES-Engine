@@ -34,7 +34,7 @@ namespace core
 		void setDontDestroyOnLoad(bool ddol);
 		void setScene(Scene* s);
 		void setEntityID(entityID id);
-		void setGroupId(grpId_t id);
+		//void setGroupId(grpId_t id); // deberiamos usar esto para matrices de colisiones fisicas en algun momento
 		void setName(const std::string& n);
 
 		// --- GETTERS
@@ -44,11 +44,12 @@ namespace core
 		bool getDontDestoroyOnLoad() const;
 		Scene* getScene() const;
 		entityID getEntityID() const;
-		grpId_t getGroupId() const;
-		//bool inGroup(grpId_t id) const;
+		//grpId_t getGroupId() const; // deberiamos usar esto para matrices de colisiones fisicas en algun momento
 		const std::string& getName() const;
 		const std::vector<std::shared_ptr<Component>>& getComponents() const; 
+		size_t getComponentCount() const;
 
+#pragma region LIFECYCLE
 		// --- LIFECYLE
 		/**
 		* @brief Inicializa la entidad
@@ -82,8 +83,9 @@ namespace core
 		* @brief Destruye la entidad y sus componentes
 		*/
 		void destroy();
+#pragma endregion
 
-		// --- EC
+#pragma region COMPONENTS
 		/**
 		* @brief Agrega un componente ya creado a la entidad
 		* O(n) 
@@ -106,31 +108,47 @@ namespace core
 
 			c->setEntity(this);
 			c->enable();
-			c->ready();
+			//c->ready();
 			T* c_ref = c.get();
 			components.push_back(std::move(c));
 			return c_ref;
 		}
 
+		/**
+		* @brief Elimina todos los componentes
+		* O(n)
+		*/
+		void removeComponents();
 
 		/**
-		* @brief Elimina el primer componente del tipo indicado
+		* @brief Elimina todos los componentes del tipo indicado
 		* O(n)
 		*/
 		template <typename T>
 		void removeComponent()
 		{
-			for (auto it = components.begin(); it != components.end(); ++it)
+			for (auto it = components.begin(); it != components.end(); )
 			{
-				if (it->get() != nullptr)
+				auto* c = it->get();
+
+				if (c != nullptr && dynamic_cast<T*>(c))
 				{
-					(*it)->disable();
-					(*it)->destroy();
-					components.erase(it);
-					return;
+					c->disable();
+					c->destroy();
+					it = components.erase(it);
+				}
+				else
+				{
+					++it;
 				}
 			}
 		}
+
+		/**
+		* @brief Elimina todos los componentes del nombre
+		* O(n)
+		*/
+		void removeComponent(const std::string& name);
 
 		/**
 		* @brief Obtiene el primer componente del tipo indicado
@@ -146,37 +164,13 @@ namespace core
 			}
 			return nullptr;
 		}
+
 		/**
 		* @brief Obtiene el primer componente con el nombre indicado
 		* O(n)
 		*/
 		std::shared_ptr<Component> getComponent(const std::string& name) const;
 
-
-		/**
-		* @brief Elimina todos los componentes
-		* O(n)
-		*/
-		void removeComponents()
-		{
-			if (!components.empty())
-			{
-				for (auto c : components)
-				{
-					if (c != nullptr)
-					{
-						c.reset();
-					}
-				}
-
-				components.clear();
-			}
-		}
-		/**
-		* @brief Elimina todos los componentes del nombre
-		* O(n)
-		*/
-		void removeComponent(const std::string& name);
 		/**
 		* @brief Obtiene todos los componentes del mismo tipo indicado
 		* O(n)
@@ -210,6 +204,7 @@ namespace core
 			}
 			return false;
 		}
+#pragma endregion
 
 	protected:
 		std::vector<std::shared_ptr<Component>> components;
@@ -218,7 +213,7 @@ namespace core
 		bool enabled;
 		Scene* scene;
 		entityID entityID;
-		grpId_t groupId;
+		//grpId_t groupId; // para colisiones
 		std::string name;
 		bool dontDestroyOnLoad;
 	};

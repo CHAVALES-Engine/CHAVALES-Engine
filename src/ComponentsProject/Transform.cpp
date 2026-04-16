@@ -1,9 +1,7 @@
 ﻿#include "Transform.h"
 
-#include <Scene.h> // Primero debe estar scene por que si no usa la forward declare de Scene en Entity
-#include <Entity.h>
+#include "Scene.h"
 #include <Engine.h>
-
 #include <Debug.h>
 #include <PluginSDK.h>
 #include "checkMLNew.h"
@@ -309,4 +307,40 @@ core::Vector3<> Transform::up() const
 core::Vector3<> Transform::forward() const
 {
 	return (getGlobalRotation() * core::Vector3<>(0, 0, 1)).normalized();
+}
+
+std::shared_ptr<core::Component> Transform::getComponentInParents(const std::string& name) const
+{
+	const Transform* parent = getParent();
+	while (parent != nullptr)
+	{
+		core::Entity* e = parent->getEntity();
+		if (e != nullptr)
+		{
+			auto c = e->getComponent(name);
+			if (c != nullptr) 
+				return c;
+		}
+		parent = parent->getParent();
+	}
+
+	return nullptr;
+}
+
+std::vector<std::shared_ptr<core::Component>> Transform::getComponentsInParents(const std::string& name) const
+{
+	std::vector<std::shared_ptr<Component>> result;
+	const Transform* parent = getParent();
+	while (parent != nullptr)
+	{
+		core::Entity* e = parent->getEntity();
+		if (e != nullptr)
+		{
+			auto c = e->getComponent(name);
+			if (c != nullptr)
+				result.push_back(c);
+		}
+		parent = parent->getParent();
+	}
+	return result;
 }

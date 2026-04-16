@@ -31,7 +31,7 @@ bool Light::init(const Properties& p)
 }
 void Light::ready()
 {
-	Engine::instance()->addLight(getEntity()->getEntityID(), _typeInt, _color, _intensity);
+	_lightID = Engine::instance()->addLight(getEntity()->getEntityID(), _typeInt, _color, _intensity);
 }
 void Light::setType(Type type)
 {

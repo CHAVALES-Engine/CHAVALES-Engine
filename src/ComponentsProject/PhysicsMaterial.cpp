@@ -76,6 +76,13 @@ void PhysicsMaterial::update(uint64_t dt)
 	);
 }
 
+void PhysicsMaterial::destroy()
+{
+	Component::destroy();
+	if (_eng != nullptr)
+		_eng->destroyMaterial(physicsMaterialID);
+}
+
 float PhysicsMaterial::Combine(float a, float b, CombineMode mode)
 {
 	switch (mode)

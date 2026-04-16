@@ -243,6 +243,7 @@ bool RenderModule::Init(const HWND handle, const int width, const int height, co
 	}
 	catch (...)
 	{
+		shutdown();
 		std::cerr << "Error iniciando OGRE" << std::endl;
 		return false;
 	}
@@ -279,6 +280,9 @@ void RenderModule::cleanScene(const bool& end)
 
 	//Limpiar camaras
 	cleanCameras();
+
+	//Limpiar particulas
+	cleanParticleGens();
 
 	//Limpiar nodos
 	/*for (const EngineNode& engineNode : _engineNodes)
@@ -977,7 +981,7 @@ particleGenID RenderModule::addParticleGen(const entityID& entityID, const std::
 	std::string matName = "ParticleMat_" + std::to_string(_nextParticleGenID);
 
 	Ogre::MaterialPtr mat = Ogre::MaterialManager::getSingleton().create(matName, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-
+	_createdMaterials.push_back(matName);
 	mat->setReceiveShadows(false);
 
 	Ogre::Pass* pass = mat->getTechnique(0)->getPass(0);
@@ -1018,14 +1022,17 @@ void RenderModule::deleteParticleGen(const particleGenID& id)
 	if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
 	{
 		Ogre::ParticleSystem* ps = _particleGens[id];
-
+		Ogre::String mn = ps->getMaterialName();
 		Ogre::SceneNode* parent = ps->getParentSceneNode();
 		if (parent)
 			parent->detachObject(ps);
 
 		_sceneMgr->destroyParticleSystem(ps);
 
-		_particleGens.erase(_particleGens.begin() + id);
+		_particleGens[id] = nullptr;
+
+		if (!mn.empty())
+			Ogre::MaterialManager::getSingleton().remove(mn);
 	}
 }
 
@@ -1524,14 +1531,22 @@ void RenderModule::shutdown()
 
 	if (_overlay)
 	{
-		Ogre::OverlayManager::getSingleton().destroy(_overlay);
+		//Ogre::OverlayManager::getSingleton().destroy(_overlay);
 		_overlay = nullptr;
 	}
 
+	//if (ImGui::GetCurrentContext() != nullptr)
+	//{
+	//	ImGui::DestroyContext();
+	//}
+
+	for (auto& m : _createdMaterials)
+		Ogre::MaterialManager::getSingleton().remove(m);
+
 	cleanScene(true);
 
-	delete _overlaySystem;
-	_overlaySystem = nullptr;
+	//delete _overlaySystem;
+	//_overlaySystem = nullptr;
 
 	Ogre::Codec::unregisterCodec(_jpgCodec);
 	Ogre::Codec::unregisterCodec(_jpegCodec);

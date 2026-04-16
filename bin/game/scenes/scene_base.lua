@@ -25,10 +25,13 @@ scene = { -- entidades en escena
 						velocity = 100
 					},
 					AudioListener = {
+					},
+					ScriptComponent = {
+						script = "./game/assets/scripts/luaComponentTest.lua"
 					}
 				}
 		},
-		cube2 = {
+		cube = {
 			ddol = false,
 			components = {
 				Transform = {
@@ -109,6 +112,13 @@ scene = { -- entidades en escena
       	CanvasUI = {
 			ddol = false,
 			components = {
+				Transform = {
+					position = Vector3.new(900,10,0),
+					rotation = Quaternion.new(),
+					scale = Vector3.new(0.5),
+					children = {"LabelUI"},
+					type = "ui"
+				},
 				UIPanel = {
 					name = "CanvasUI"
 				}
@@ -139,6 +149,7 @@ scene = { -- entidades en escena
 						position = Vector3.new(900,10,0),
 						rotation = Quaternion.new(),
 						scale = Vector3.new(0.5),
+						children = {"ParentTestEntity"},
 						type = "ui"
 					},
 				UILabel = {
@@ -153,6 +164,20 @@ scene = { -- entidades en escena
 					textColor = Color.new(1.0,1.0, 0.0,1)
 				}
 			}
-  		}
+  		},
+		ParentTestEntity = {
+			ddol = false,
+			components = {
+				Transform = {
+						position = Vector3.new(900,10,0),
+						rotation = Quaternion.new(),
+						scale = Vector3.new(0.5),
+						type = "ui"
+					},
+				ParentTest = {
+
+				}
+			}
+		}
 	}
 }

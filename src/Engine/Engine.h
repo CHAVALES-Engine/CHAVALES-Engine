@@ -558,6 +558,8 @@ public:
 
 	void updateMaterial(uint32_t id, float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine);
 
+	void destroyMaterial(uint32_t id);
+
 	bool rayCast(const core::Vector3<>& origin,
 		const core::Vector3<>& direction,
 		float maxDistance);

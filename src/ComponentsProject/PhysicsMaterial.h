@@ -95,6 +95,8 @@ public:
 	 */
 	virtual void update(uint64_t dt) override;
 
+	void destroy() override;
+
 	/**
 	 * @brief Combina dos valores según el modo especificado
 	 */

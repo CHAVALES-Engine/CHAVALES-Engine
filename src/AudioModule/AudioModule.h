@@ -21,9 +21,9 @@ public:
 	AudioModule();
 	~AudioModule();
 
-	bool Init();
-	void Update();
-	void ShutDown();
+	bool init();
+	void update();
+	void shutdown();
 
 	/// <summary>
 	/// Loads sound via the path of the resource and the name of the sound, both by strings

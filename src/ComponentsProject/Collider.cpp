@@ -8,6 +8,7 @@
 REGISTER_COMPONENT(Collider);
 
 
+
 bool Collider::init(const Properties& p)
 {
 	_eng = Engine::instance();

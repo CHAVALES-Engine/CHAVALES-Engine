@@ -12,6 +12,7 @@
 #include <Vector3.h>
 #include <EngineAPI.h>
 #include <CommonEnums.h>
+#include <Entity.h>
 using transformID = uint64_t;
 
 /*
@@ -45,7 +46,7 @@ class ENGINE_API Transform : public core::Component
 	core::Vector3<> _localPosition;
 	core::Quaternion<> _localRotation;
 	core::Vector3<> _localScale;
-	Transform* _parent;
+	Transform* _parent = nullptr;
 	std::vector<Transform*> _children;
 	bool _lockRotX = false;
 	bool _lockRotY = false;
@@ -140,6 +141,61 @@ public:
 	 * @return Devuelve un vector normalizado representando el eje Z en coordenadas globales
 	 */
 	core::Vector3<> forward() const;
+
+	/**
+	 * @param name - nombre del compomente a buscar
+	 * @return Devuelve el primer componente de nombre name en los padres del transform
+	 */
+	std::shared_ptr<Component> getComponentInParents(const std::string& name) const;
+	/**
+	 * @param name - nombre del compomente a buscar
+	 * @return Devuelve todos los componentes de nombre name en los padres del transform
+	 */
+	std::vector<std::shared_ptr<Component>> getComponentsInParents(const std::string& name) const;
+
+	/**
+	 * @tparam T - tipo del compomente a buscar
+	 * @return Devuelve el primer componente de tipo T en los padres del transform
+	 */
+	template <typename T>
+	T* getComponentInParents() const
+	{
+		const Transform* parent = getParent();
+		while (parent != nullptr)
+		{
+			core::Entity* e = parent->getEntity();
+			if (e != nullptr)
+			{
+				auto* c = e->getComponent<T>();
+				if (c != nullptr)
+					return c;
+			}
+			parent = parent->getParent();
+		}
+		return nullptr;
+	}
+	/**
+	 * @tparam T - tipo del compomente a buscar
+	 * @return Devuelve todos los componentes de tipo T en los padres del transform
+	 */
+	template <typename T>
+	std::vector<T*> getComponentsInParents() const
+	{
+		std::vector<T*> result;
+		const Transform* parent = getParent();
+		while (parent != nullptr)
+		{
+			core::Entity* e = parent->getEntity();
+			if (e != nullptr)
+			{
+				auto* c = e->getComponent<T>();
+				if (c != nullptr)
+					result.push_back(c);
+			}
+			parent = parent->getParent();
+		}
+		return result;
+	}
 
 	// TODO?
 	//Transform* getChildByName(std::string);

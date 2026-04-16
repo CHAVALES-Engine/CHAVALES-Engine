@@ -90,11 +90,11 @@ public:
 	/**
 	 * @brief Constructora vacía
 	 */
-	Collider() {};
+	Collider() = default;
 	/**
 	 * @brief Destructora
 	 */
-	~Collider() {};
+	~Collider() = default;
 
 	/**
 	 * @brief Inicialización del componente con propiedades
