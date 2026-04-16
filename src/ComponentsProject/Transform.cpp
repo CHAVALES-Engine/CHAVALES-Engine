@@ -5,6 +5,7 @@
 #include <Debug.h>
 #include <PluginSDK.h>
 #include "checkMLNew.h"
+#include <cmath>
 
 REGISTER_COMPONENT(Transform);
 //
@@ -263,13 +264,8 @@ void Transform::rotateLocal(const core::Vector3<>& v)
 	//if (_lockRotY) v.setY(0);
 	//if (_lockRotZ) v.setZ(0);
 
-	//rotateLocal(core::Quaternion(v));
-
-	// esto hay que cambiarlo para que angleAxis sea estatico
-	core::Quaternion<> qx = core::Quaternion<>().angleAxis(v.getX(), core::Vector3<>(1.0f, 0.0f, 0.0f));
-	core::Quaternion<> qy = core::Quaternion<>().angleAxis(v.getY(), core::Vector3<>(0.0f, 1.0f, 0.0f));
-	core::Quaternion<> qz = core::Quaternion<>().angleAxis(v.getZ(), core::Vector3<>(0.0f, 0.0f, 1.0f));
-	core::Quaternion<> q = qz * qy * qx;
+	// esto hay que cambiarlo para que fromEuler sea estatico
+	core::Quaternion<> q = core::Quaternion<>().fromEuler(v);
 
 	rotateLocal(q);
 	//_localRotation.rotateLocal(v);
@@ -286,11 +282,7 @@ void Transform::rotateGlobal(const core::Vector3<>& v)
 	//if (_lockRotY) v.setY(0);
 	//if (_lockRotZ) v.setZ(0);
 
-	core::Quaternion<> qx = core::Quaternion<>().angleAxis(v.getX(), core::Vector3<>(1.0f, 0.0f, 0.0f));
-	core::Quaternion<> qy = core::Quaternion<>().angleAxis(v.getY(), core::Vector3<>(0.0f, 1.0f, 0.0f));
-	core::Quaternion<> qz = core::Quaternion<>().angleAxis(v.getZ(), core::Vector3<>(0.0f, 0.0f, 1.0f));
-	core::Quaternion<> q = qz * qy * qx;
-
+	core::Quaternion<> q = core::Quaternion<>().fromEuler(v);
 	rotateGlobal(q);
 }
 
@@ -307,6 +299,34 @@ core::Vector3<> Transform::up() const
 core::Vector3<> Transform::forward() const
 {
 	return (getGlobalRotation() * core::Vector3<>(0, 0, 1)).normalized();
+}
+
+void Transform::LookAt(const core::Vector3<>& target)
+{
+	// LAS CAMARAS DE OGRE MIRAN POR EL -Z !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	core::Vector3<> currentPosition = getGlobalPosition();
+	core::Vector3<> direction = getGlobalPosition() - target;
+
+	const float sqrMagnitude =
+		direction.getX() * direction.getX() +
+		direction.getY() * direction.getY() +
+		direction.getZ() * direction.getZ();
+
+	if (sqrMagnitude <= 0.000001f)
+		return;
+	
+	direction /= core::Maths::Sqrt(sqrMagnitude);
+
+	const float horizontalLength = core::Maths::Sqrt(
+		direction.getX() * direction.getX() +
+		direction.getZ() * direction.getZ()
+	);
+
+	const float yaw = std::atan2(direction.getX(), direction.getZ()) * 180.0f / M_PI;
+	const float pitch = -std::atan2(direction.getY(), horizontalLength) * 180.0f / M_PI;
+
+	core::Quaternion<> rotation;
+	setGlobalRotation(rotation.fromEuler(core::Vector3<>(pitch, yaw, 0.0f)));
 }
 
 std::shared_ptr<core::Component> Transform::getComponentInParents(const std::string& name) const

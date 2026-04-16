@@ -143,6 +143,12 @@ public:
 	core::Vector3<> forward() const;
 
 	/**
+	 * @brief Rota el transform para que su eje -forward apunte hacia una posicion global.
+	 * @param target Posicion objetivo en coordenadas globales.
+	 */
+	void LookAt(const core::Vector3<>& target);
+
+	/**
 	 * @param name - nombre del compomente a buscar
 	 * @return Devuelve el primer componente de nombre name en los padres del transform
 	 */
@@ -200,5 +206,4 @@ public:
 	// TODO?
 	//Transform* getChildByName(std::string);
 	//Transform* getChildByID(size_t);
-	//void lookAt();
 };

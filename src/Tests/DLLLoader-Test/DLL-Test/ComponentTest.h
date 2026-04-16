@@ -78,6 +78,8 @@ class ComponentTest : public core::Component
 		Engine::input()->addEventToAction("lock_h", input::MOUSE_AXIS_REL_X, device);
 		Engine::input()->addEventToAction("lock_v", input::GAMEPAD_AXIS_RIGHT_Y, device);
 		Engine::input()->addEventToAction("lock_v", input::MOUSE_AXIS_REL_Y, device);
+
+		_transform->LookAt(core::Vector3<>(0, 150, 0));
 	}
 
 	void update(uint64_t deltaTime) override
