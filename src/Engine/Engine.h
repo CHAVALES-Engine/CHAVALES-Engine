@@ -468,6 +468,14 @@ public:
 	*/
 	void setChannelVolume(int chID, float newVolume = 0.0f);
 	/*
+	* @brief Devuelve el volumen de un canal
+	*/
+	float getVolume(int chID);
+	/*
+	* @brief Configura el modo de loopeo de un canal: -1 = indef, 0 = one time, 1 = loop once
+	*/
+	void setLooping(int chID, int typeOfLooping);
+	/*
 	* @brief Devuelve la configuracion de loopeo que tiene un audio
 	*/
 	int getLooping(int chID) const;
@@ -487,8 +495,6 @@ public:
 	* @brief Devuelve si un canal esta pausado (false) o en reproduccion (true)
 	*/
 	bool isChannelPlaying(int chID);
-	void setLooping(int chID, int typeOfLooping);
-	float getVolume(int chID);
 
 #pragma endregion
 
