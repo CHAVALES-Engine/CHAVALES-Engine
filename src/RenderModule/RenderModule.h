@@ -545,6 +545,7 @@ private:
 	std::unordered_map<uiTextureRectID, std::pair<uiPanelID, int>> _textureToPanel;
 	std::unordered_map<std::string, ImFont*> _fonts;
 	std::vector<UITransform> _uiTransforms;
+	std::vector<std::string> _createdMaterials;
 	TextAlign stringToAlign(const std::string& align);
 	uiPanelID getOrSetPanel(const std::string& panelName);
 

@@ -13,16 +13,10 @@ AudioModule::AudioModule() : _nextChannelID(0),nativeRate()
 }
 AudioModule::~AudioModule()
 {
-	for (auto& s : _soundMap) 
-	{
-		s.second->release();
-	}
-	_soundMap.clear();
-	_system->release();
-	_system = nullptr;
+	shutdown();
 }
 
-bool AudioModule::Init()
+bool AudioModule::init()
 {
 	FMOD_RESULT result;
 	//Creates an FMOD System
@@ -44,7 +38,7 @@ bool AudioModule::Init()
 	return true;
 }
 
-void AudioModule::Update()
+void AudioModule::update()
 {
 	vector<ChannelMap::iterator> vecStoppedChannel;
 	for (auto i = _channelSound.begin(); i != _channelSound.end(); ++i)
@@ -64,11 +58,25 @@ void AudioModule::Update()
 	_system->update();
 }
 
-void AudioModule::ShutDown()
+void AudioModule::shutdown()
 {
 	//Destructora
+
+	for (auto& s : _soundMap)
+	{
+		s.second->release();
+	}
+	_soundMap.clear();
+
+	for (auto& ch : _channelSound)
+	{
+		ch.second->stop();
+	}
+	_channelSound.clear();
+
+	_system->close();
 	_system->release();
-	delete _system;
+	_system = nullptr;
 }
 
 bool AudioModule::loadSound(string path, string id, bool soundStream, bool soundLooping, bool sound3D)

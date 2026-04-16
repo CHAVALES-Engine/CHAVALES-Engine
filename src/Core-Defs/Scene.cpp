@@ -108,6 +108,10 @@ namespace core {
 			}
 			_entities.clear();
 		}
+		if (!_entitiesNames.empty())
+		{
+			_entitiesNames.clear();
+		}
 	}
 
 	void core::Scene::clearScene() // comprueba dont destroy on load
@@ -149,5 +153,4 @@ namespace core {
 		if (entIt != _entities.end()) return entIt->second;
 		return nullptr;
 	}
-
 }

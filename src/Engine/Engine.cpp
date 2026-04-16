@@ -38,20 +38,28 @@ void Engine::release()
 {
 	if (_instance) {
 		delete _instance->_platformModule;
+		_instance->_platformModule = nullptr;
 		delete _instance->_input;
+		_instance->_input = nullptr;
 
 		delete _instance->_audioModule;
+		_instance->_audioModule = nullptr;
 		delete _instance->_physicsModule;
+		_instance->_physicsModule = nullptr;
 		try {
 			delete _instance->_renderModule;
+			_instance->_renderModule = nullptr;
 		}
 		catch (exception e)
 		{
 			Debug::error(e.what());
 		}
 		delete _instance->_resourcesModule;
+		_instance->_resourcesModule = nullptr;
 		delete _instance->_resources;
+		_instance->_resources = nullptr;
 		delete _instance->_stateMachine;
+		_instance->_stateMachine = nullptr;
 		// desca
 		ComponentDLLLoader::instance().unLoadAll();
 		delete _instance;
@@ -620,6 +628,12 @@ void Engine::updateMaterial(uint32_t id, float staticF, float dynamicF, float re
 	_physicsModule->UpdateMaterial(id, staticF, dynamicF, restitution, frictionCombine, bounceCombine);
 }
 
+void Engine::destroyMaterial(uint32_t id)
+{
+	if (_physicsModule == nullptr) return;
+	_physicsModule->DestroyMaterial(id);
+}
+
 bool Engine::rayCast(const core::Vector3<>& origin,
 	const core::Vector3<>& direction,
 	float maxDistance)
@@ -709,7 +723,7 @@ bool Engine::_initPriv()
 	_platformModule->registerEventObserver(_renderModule->getImguiInputCallback());
 	//Audio
 	_audioModule = new AudioModule();
-	if (!_audioModule->Init()) {
+	if (!_audioModule->init()) {
 		delete _audioModule;
 		_audioModule = nullptr;
 		return false;
@@ -748,7 +762,7 @@ void Engine::update(float dt)
 	}
 	if (_audioModule)
 	{
-		_audioModule->Update();
+		_audioModule->update();
 	}
 }
 
