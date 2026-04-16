@@ -39,7 +39,6 @@
 #include <assimp/postprocess.h>
 #include <OgreGL3PlusTexture.h>
 #include <guid.h>
-#include <imgui_impl_sdl3.h>
 #include "GameConfigurator.h"
 #include <checkMLNew.h>
 
@@ -1147,10 +1146,10 @@ void RenderModule::setSkydome(const std::string& textureFolder, const std::strin
 		_resourceGroups.insert(textureFolder);
 	}
 
-	std::string matName = "ParticleMat_" + std::to_string(_nextParticleGenID);
+	std::string matName = "SkydomeMat_" + std::to_string(_nextParticleGenID);
 
 	Ogre::MaterialPtr mat = Ogre::MaterialManager::getSingleton().create(matName, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-
+	_createdMaterials.push_back(matName);
 	Ogre::Pass* pass = mat->getTechnique(0)->getPass(0);
 	pass->setLightingEnabled(false);
 	pass->setDepthWriteEnabled(false);
@@ -1524,6 +1523,9 @@ void RenderModule::renderUI() {
 
 void RenderModule::shutdown()
 {
+	ImGui_ImplSDL3_Shutdown();
+	ImGui::DestroyContext();
+
 	if (_sceneMgr && _overlaySystem)
 	{
 		_sceneMgr->removeRenderQueueListener(_overlaySystem);
@@ -1532,21 +1534,14 @@ void RenderModule::shutdown()
 	if (_overlay)
 	{
 		//Ogre::OverlayManager::getSingleton().destroy(_overlay);
-		_overlay = nullptr;
 	}
-
-	//if (ImGui::GetCurrentContext() != nullptr)
-	//{
-	//	ImGui::DestroyContext();
-	//}
 
 	for (auto& m : _createdMaterials)
 		Ogre::MaterialManager::getSingleton().remove(m);
 
 	cleanScene(true);
 
-	//delete _overlaySystem;
-	//_overlaySystem = nullptr;
+	
 
 	Ogre::Codec::unregisterCodec(_jpgCodec);
 	Ogre::Codec::unregisterCodec(_jpegCodec);
