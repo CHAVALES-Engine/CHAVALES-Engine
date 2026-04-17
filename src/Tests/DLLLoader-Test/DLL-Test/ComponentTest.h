@@ -29,6 +29,8 @@ class ComponentTest : public core::Component
 	std::vector<core::Color> vec3;
 	std::vector<core::Quaternion<>> vec4;
 	Transform* _transform = nullptr;
+	core::Entity* _esfera = nullptr;
+
 	bool init(const Properties& p) override
 	{
 		// ejemplos de inicializacion:
@@ -81,6 +83,7 @@ class ComponentTest : public core::Component
 		Engine::input()->addEventToAction("lock_v", input::MOUSE_AXIS_REL_Y, device);
 
 		_transform->LookAt(core::Vector3<>(0, 150, 0));
+		_esfera = getEntity()->getScene()->findEntityByName("esfera");
 	}
 
 	void update(uint64_t deltaTime) override
@@ -125,7 +128,7 @@ class ComponentTest : public core::Component
 			// bloquea el cursor
 			Engine::input()->setRelativeMouseMode(false);
 		}
-
+		_transform->LookAt(_esfera->getComponent<Transform>()->getGlobalPosition());
 	}
 
 	void fixedUpdate() override
