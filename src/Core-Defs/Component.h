@@ -122,13 +122,14 @@ namespace core
 		* @brief Obtiene una propiedad tipada del conjunto de propiedades
 		* @param props Propiedades del componente
 		* @param key Clave de la propiedad
+		* @param warn Si mostrar por consola errores o no
 		* @return Valor de la propiedad o el valor por defecto del tipo
 		*/
 		template <typename T>
 		inline T getProperty(
 			const Properties& props,
-			const std::string& key
-			//const T& param = T()
+			const std::string& key,
+			bool warn = true
 		)
 		{
 			auto it = props.find(key);
@@ -136,7 +137,8 @@ namespace core
 			// --- comprobamos si la clave existe
 			if (it == props.end())
 			{
-				Debug::warning("COMPONENT: No se encontró el parámetro ", key, " en las propiedades del componente ", getName(),".");
+				if (warn)
+					Debug::warning("COMPONENT: No se encontró el parámetro ", key, " en las propiedades del componente ", getName(),".");
 				return T(); // devolvemos valor por defecto
 			}
 
@@ -144,7 +146,8 @@ namespace core
 			if (const T* pval = std::get_if<T>(&it->second))
 				return *pval;
 
-			Debug::error("COMPONENT: No se pudo tipar el parámetro ", key, " en las propiedades del componente ", getName(), ".");
+			if (warn)
+				Debug::error("COMPONENT: No se pudo tipar el parámetro ", key, " en las propiedades del componente ", getName(), ".");
 			return T(); // devolvemos valor por defecto
 		}
 
@@ -153,13 +156,15 @@ namespace core
 		* @param props Propiedades del componente
 		* @param key Clave de la propiedad
 		* @param param Variable donde se almacenara el valor
+		* @param warn Si mostrar por consola errores o no
 		* @return true si la propiedad existe y tiene el tipo esperado
 		*/
 		template <typename T>
 		inline bool setProperty(
 			const Properties& props,
 			const std::string& key,
-			T& param
+			T& param,
+			bool warn = true
 		)
 		{
 			auto it = props.find(key);
@@ -167,7 +172,8 @@ namespace core
 			// --- comprobamos si la clave existe
 			if (it == props.end())
 			{
-				Debug::warning("COMPONENT: No se encontró el parámetro ", key, " en las propiedades del componente ", getName(), ".");
+				if (warn)
+					Debug::warning("COMPONENT: No se encontró el parámetro ", key, " en las propiedades del componente ", getName(), ".");
 				// devolvemos valor por defecto
 				return false;
 			}
@@ -178,7 +184,8 @@ namespace core
 				param = *pval;
 				return true;
 			}
-			Debug::error("COMPONENT: No se pudo tipar el parámetro ", key, " en las propiedades del componente ", getName(), ".");
+			if (warn)
+				Debug::error("COMPONENT: No se pudo tipar el parámetro ", key, " en las propiedades del componente ", getName(), ".");
 			return false;
 		}
 

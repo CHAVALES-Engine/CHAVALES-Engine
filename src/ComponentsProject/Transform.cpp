@@ -22,7 +22,16 @@ REGISTER_COMPONENT(Transform);
 bool Transform::init(const Properties& p)
 {
 	_localPosition = getProperty<core::Vector3<>>(p, "position");
-	_localRotation = getProperty<core::Quaternion<>>(p, "rotation");
+	core::Vector3<> _rot;
+	if (!setProperty(p, "rotation", _rot, false))
+	{
+		if (!setProperty(p, "rotation", _localRotation))
+			Debug::warning("[TRANSFORM] Rotacion no inicializada, predeterminada a ", core::ZERO);
+	}
+	else
+	{
+		_localRotation = core::Quaternion().fromEuler(_rot);
+	}
 	_localScale = getProperty<core::Vector3<>>(p, "scale");
 	std::vector<std::string> pendingChildren = getProperty<std::vector<std::string>>(p, "children");
 	for (const std::string& childName : pendingChildren) {
