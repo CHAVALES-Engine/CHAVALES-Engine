@@ -36,7 +36,7 @@ scene = { -- entidades en escena
 			components = {
 				Transform = {
 					position = Vector3.new(0,0,0),
-					rotation = Quaternion.new(),
+					rotation = Vector3.new(0.0,45.0,0.0),
 					scale = Vector3.new(2.0, 0.5, 2.0),
 					},
 				ModelRenderer = {
