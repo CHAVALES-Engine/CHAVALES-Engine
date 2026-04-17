@@ -295,8 +295,6 @@ void RenderModule::cleanScene(const bool& end)
 	}*/
 	// limpia toda la escena de Ogre de golpe
 
-
-	_sceneMgr->clearScene();
 	_engineNodes.clear();
 	_nextTransformID = 0;
 	_nextUITransformID = 0;
@@ -346,6 +344,7 @@ void RenderModule::cleanScene(const bool& end)
 	}
 	else
 	{
+		_sceneMgr->clearScene();
 		Ogre::StringVector groups = _rgm->getResourceGroups();
 		for (const std::string& groupName : groups)
 		{
@@ -1523,6 +1522,23 @@ void RenderModule::shutdown()
 
 	for (auto& m : _createdMaterials)
 		Ogre::MaterialManager::getSingleton().remove(m);
+
+	if (_debugDraw)
+	{
+		if (_debugNode)
+		{
+			_debugNode->detachObject(_debugDraw);
+		}
+
+		_sceneMgr->destroyManualObject(_debugDraw);
+		_debugDraw = nullptr;
+	}
+
+	if (_debugNode)
+	{
+		_sceneMgr->destroySceneNode(_debugNode);
+		_debugNode = nullptr;
+	}
 
 	cleanScene(true);
 	
