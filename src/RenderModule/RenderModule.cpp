@@ -1509,24 +1509,20 @@ void RenderModule::renderUI() {
 void RenderModule::shutdown()
 {
 	ImGui_ImplSDL3_Shutdown();
-	ImGui::DestroyContext();
+	//ImGui::DestroyContext();
 
 	if (_sceneMgr && _overlaySystem)
 	{
 		_sceneMgr->removeRenderQueueListener(_overlaySystem);
-	}
-
-	if (_overlay)
-	{
-		//Ogre::OverlayManager::getSingleton().destroy(_overlay);
+		delete _overlaySystem;
+		_overlaySystem = nullptr;
+		_overlay = nullptr;
 	}
 
 	for (auto& m : _createdMaterials)
 		Ogre::MaterialManager::getSingleton().remove(m);
 
 	cleanScene(true);
-
-	
 
 	Ogre::Codec::unregisterCodec(_jpgCodec);
 	Ogre::Codec::unregisterCodec(_jpegCodec);
