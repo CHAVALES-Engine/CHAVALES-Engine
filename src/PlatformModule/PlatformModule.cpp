@@ -75,6 +75,11 @@ HWND PlatformModule::getWindowHandle() const
 	return _windowHandle;
 }
 
+SDL_Window* PlatformModule::getSDLWindow() 
+{
+	return _window;
+}
+
 bool PlatformModule::syncronize()
 {
 	// limpia los ejes relativos

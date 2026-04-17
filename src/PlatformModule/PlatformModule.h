@@ -49,6 +49,11 @@ public:
 	*/
 	HWND getWindowHandle() const;
 	/**
+	* @brief Devuelve la ventana de SDL.
+	* @return SDL_Window - ventana
+	*/
+	SDL_Window* getSDLWindow();
+	/**
 	* @brief Actualiza eventos.
 	* @return bool - Booleano para saber si se ha cerrado la ventana.
 	*/

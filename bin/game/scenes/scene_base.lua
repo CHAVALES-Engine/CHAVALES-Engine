@@ -114,7 +114,7 @@ scene = { -- entidades en escena
 			components = {
 				UITransform = {
 					position = Vector2.new(900,10),
-					children = {"LabelUI", "ButtonUI"}
+					children = {"LabelUI", "ButtonUI","ButtonUI2"}
 					
 				},
 				UIPanel = {
@@ -138,6 +138,7 @@ scene = { -- entidades en escena
 				}
 			}
 		},
+		
 		LabelUI= {
 			ddol = false,
 			components = {

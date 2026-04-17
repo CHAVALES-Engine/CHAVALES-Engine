@@ -36,6 +36,7 @@
 #include <imgui.h>
 #include <imgui_impl_sdl3.h>
 #include <imgui_impl_sdl3.cpp>
+#include <imgui_impl_opengl3.h>
 #include <assimp/postprocess.h>
 #include <OgreGL3PlusTexture.h>
 #include <guid.h>
@@ -95,7 +96,7 @@ RenderModule::~RenderModule()
 	shutdown();
 }
 
-bool RenderModule::Init(const HWND handle, const int width, const int height, const std::vector<std::pair<FontName, FontPath>> fonts)
+bool RenderModule::Init(SDL_Window* sdlWindow,const HWND handle, const int width, const int height, const std::vector<std::pair<FontName, FontPath>> fonts)
 {
 	try
 	{
@@ -190,7 +191,7 @@ bool RenderModule::Init(const HWND handle, const int width, const int height, co
 		_overlaySystem = new Ogre::OverlaySystem();
 		_sceneMgr->addRenderQueueListener(_overlaySystem);
 
-		ImGui_ImplSDL3_InitForOther(nullptr);
+		ImGui_ImplSDL3_InitForOther(sdlWindow);
 
 		_overlay = new Ogre::ImGuiOverlay();
 		Ogre::OverlayManager::getSingleton().addOverlay(_overlay);
@@ -1403,7 +1404,8 @@ TextAlign RenderModule::stringToAlign(const std::string& align)
 
 void RenderModule::renderUI() {
 	ImGui_ImplSDL3_NewFrame();
-	_overlay->NewFrame();
+	ImGui::NewFrame();
+	//_overlay->NewFrame();
 	for (UIPanelData& panel : _uiPanels) {
 
 		if (!panel.visible) {
@@ -1486,6 +1488,7 @@ void RenderModule::renderUI() {
 				std::string idButton = button.textureFile + "_" + button.entity.toString();
 
 				if (ImGui::ImageButton(idButton.c_str(), (ImTextureID)(uintptr_t)button.textureID, aux)) {
+					std::cout << "CLICK OKIIIIIIIIIII\n";
 					if (button.onClick) {
 						button.onClick();
 					}
@@ -1493,11 +1496,14 @@ void RenderModule::renderUI() {
 			}
 			else {
 				if (ImGui::Button(button.text.c_str(), aux)) {
+					std::cout << "CLICK OK\n";
+
 					if (button.onClick) {
 						button.onClick();
 					}
 				}
 			}
+			
 			ImGui::PopStyleVar();
 		}
 		splitter.Merge(drawList);
@@ -1510,7 +1516,6 @@ void RenderModule::renderUI() {
 void RenderModule::shutdown()
 {
 	ImGui_ImplSDL3_Shutdown();
-	//ImGui::DestroyContext();
 
 	if (_sceneMgr && _overlaySystem)
 	{

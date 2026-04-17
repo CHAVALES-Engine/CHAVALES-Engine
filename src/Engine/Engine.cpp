@@ -731,7 +731,7 @@ bool Engine::_initPriv()
 	_input = new InputFacade(_platformModule);
 	//Render
 	_renderModule = new RenderModule();
-	if (!_renderModule->Init(_platformModule->getWindowHandle(), _platformModule->getWindowWidth(), _platformModule->getWindowHeight(), _resourcesModule->getAllFonts())) {
+	if (!_renderModule->Init(_platformModule->getSDLWindow(),_platformModule->getWindowHandle(), _platformModule->getWindowWidth(), _platformModule->getWindowHeight(), _resourcesModule->getAllFonts())) {
 		delete _renderModule;
 		_renderModule = nullptr;
 		return false;

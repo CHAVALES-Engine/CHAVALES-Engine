@@ -10,8 +10,10 @@
 #include "Transform.h"
 #include "UIPanel.h"
 #include "UITransform.h"
+#include "UIButton.h"
 
 class UIPanel;
+class UIButton;
 class AudioSource;
 
 class ComponentTest : public core::Component
@@ -30,6 +32,8 @@ class ComponentTest : public core::Component
 	std::vector<core::Quaternion<>> vec4;
 	Transform* _transform = nullptr;
 	core::Entity* _esfera = nullptr;
+	core::Entity* _button = nullptr;
+	UIButton* _button2 = nullptr;
 
 	bool init(const Properties& p) override
 	{
@@ -83,12 +87,18 @@ class ComponentTest : public core::Component
 		Engine::input()->addEventToAction("lock_v", input::MOUSE_AXIS_REL_Y, device);
 
 		_transform->LookAt(core::Vector3<>(0, 150, 0));
+
 		_esfera = getEntity()->getScene()->findEntityByName("esfera");
+		
 	}
 
 	void update(uint64_t deltaTime) override
 	{
-
+		_button = getEntity()->getScene()->findEntityByName("ButtonUI");
+		_button2 = _button->getComponent<UIButton>();
+		_button2->setOnClick([]() {
+			std::cout << "fnwioemfiowemcoiwemferdbrsbnrtnb";
+			});
 		if (!Engine::input()->isDeviceConnected(device)) return;
 
 		float speed = velocity * (float)deltaTime / 1000.0f;

@@ -32,6 +32,7 @@ namespace Ogre
 	class ParticleSystem;
 	class ImGui;
 }
+struct SDL_Window;
 struct ImFont;
 using entityID = ChavalesGUID;
 using transformID = uint64_t;
@@ -118,7 +119,7 @@ class RenderModule
 {
 public:
 	~RenderModule();
-	bool Init(const HWND handle, const int width, const int height, const std::vector<std::pair<FontName, FontPath>> fonts);
+	bool Init( SDL_Window* sdlWindow,const HWND handle, const int width, const int height, const std::vector<std::pair<FontName, FontPath>> fonts);
 	//void update();
 	/*
 	* @brief Renderizar frame.
