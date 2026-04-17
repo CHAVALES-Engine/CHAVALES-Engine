@@ -106,7 +106,7 @@ void Engine::setViewportBGColor(core::Color color)
 
 transformID Engine::addTransform(const entityID& entityID, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float>& scale)
 {
-	return _renderModule->addNode(entityID, pos, rot, scale);
+	return _renderModule->addNode(entityID, pos, rot, scale, true);
 }
 
 void Engine::setTransformPosition(const transformID& id, const core::Vector3<float>& pos)
