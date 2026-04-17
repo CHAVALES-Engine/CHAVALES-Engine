@@ -294,6 +294,8 @@ void RenderModule::cleanScene(const bool& end)
 		}
 	}*/
 	// limpia toda la escena de Ogre de golpe
+
+
 	_sceneMgr->clearScene();
 	_engineNodes.clear();
 	_nextTransformID = 0;
@@ -1523,6 +1525,9 @@ void RenderModule::shutdown()
 		Ogre::MaterialManager::getSingleton().remove(m);
 
 	cleanScene(true);
+	
+	Ogre::RTShader::ShaderGenerator::getSingleton().removeAllShaderBasedTechniques();
+	Ogre::RTShader::ShaderGenerator::destroy();
 
 	Ogre::Codec::unregisterCodec(_jpgCodec);
 	Ogre::Codec::unregisterCodec(_jpegCodec);
