@@ -69,7 +69,7 @@ std::pair<std::string, std::string> ResourcesModule::getAssetSourceFolder(std::s
 	auto it = _assetsMaps.find(assetName);
 	if (it == _assetsMaps.end())
 	{
-		Debug::error("ERROR: Name of the asset NOT FOUND");
+		Debug::error("ERROR: Name of the asset NOT FOUND, searched name:",assetName);
 		return { "", ""};
 	}
 	ChavalesGUID id = it->second;
