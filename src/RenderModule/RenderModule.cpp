@@ -36,6 +36,7 @@
 #include <imgui.h>
 #include <imgui_impl_sdl3.h>
 #include <imgui_impl_sdl3.cpp>
+#include <imgui_impl_opengl3.h>
 #include <assimp/postprocess.h>
 #include <OgreGL3PlusTexture.h>
 #include <guid.h>
@@ -95,7 +96,7 @@ RenderModule::~RenderModule()
 	shutdown();
 }
 
-bool RenderModule::Init(const HWND handle, const int width, const int height, const std::vector<std::pair<FontName, FontPath>> fonts)
+bool RenderModule::Init(SDL_Window* sdlWindow,const HWND handle, const int width, const int height, const std::vector<std::pair<FontName, FontPath>> fonts)
 {
 	try
 	{
@@ -190,7 +191,7 @@ bool RenderModule::Init(const HWND handle, const int width, const int height, co
 		_overlaySystem = new Ogre::OverlaySystem();
 		_sceneMgr->addRenderQueueListener(_overlaySystem);
 
-		ImGui_ImplSDL3_InitForOther(nullptr);
+		ImGui_ImplSDL3_InitForOther(sdlWindow);
 
 		_overlay = new Ogre::ImGuiOverlay();
 		Ogre::OverlayManager::getSingleton().addOverlay(_overlay);
@@ -294,7 +295,7 @@ void RenderModule::cleanScene(const bool& end)
 		}
 	}*/
 	// limpia toda la escena de Ogre de golpe
-	_sceneMgr->clearScene();
+
 	_engineNodes.clear();
 	_nextTransformID = 0;
 	_nextUITransformID = 0;
@@ -344,6 +345,7 @@ void RenderModule::cleanScene(const bool& end)
 	}
 	else
 	{
+		_sceneMgr->clearScene();
 		Ogre::StringVector groups = _rgm->getResourceGroups();
 		for (const std::string& groupName : groups)
 		{
@@ -364,17 +366,18 @@ RenderModule::EventCallback RenderModule::getImguiInputCallback()
 	return ImGui_ImplSDL3_ProcessEvent;
 }
 
-transformID RenderModule::addNode(const entityID& entityID, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float> scale)
+transformID RenderModule::addNode(const entityID& entityID, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float> scale, const bool& fromTransform)
 {
 	for (int i = 0; i < (int)_engineNodes.size(); i++)
 	{
 		if (_engineNodes[i].nodeID == entityID)
 		{
-			
-			_engineNodes[i].sceneNode->setPosition(Ogre::Vector3(pos.getX(), pos.getY(), pos.getZ()));
-			_engineNodes[i].sceneNode->setOrientation(Ogre::Quaternion(rot.getW(), rot.getX(), rot.getY(), rot.getZ()));
-			_engineNodes[i].sceneNode->setScale(Ogre::Vector3(scale.getX(), scale.getY(), scale.getZ()));
-			
+			if (fromTransform)
+			{
+				_engineNodes[i].sceneNode->setPosition(Ogre::Vector3(pos.getX(), pos.getY(), pos.getZ()));
+				_engineNodes[i].sceneNode->setOrientation(Ogre::Quaternion(rot.getW(), rot.getX(), rot.getY(), rot.getZ()));
+				_engineNodes[i].sceneNode->setScale(Ogre::Vector3(scale.getX(), scale.getY(), scale.getZ()));
+			}
 			return i; //Ya existe
 		}
 	}
@@ -1401,7 +1404,8 @@ TextAlign RenderModule::stringToAlign(const std::string& align)
 
 void RenderModule::renderUI() {
 	ImGui_ImplSDL3_NewFrame();
-	_overlay->NewFrame();
+	ImGui::NewFrame();
+	//_overlay->NewFrame();
 	for (UIPanelData& panel : _uiPanels) {
 
 		if (!panel.visible) {
@@ -1484,6 +1488,7 @@ void RenderModule::renderUI() {
 				std::string idButton = button.textureFile + "_" + button.entity.toString();
 
 				if (ImGui::ImageButton(idButton.c_str(), (ImTextureID)(uintptr_t)button.textureID, aux)) {
+					std::cout << "CLICK OKIIIIIIIIIII\n";
 					if (button.onClick) {
 						button.onClick();
 					}
@@ -1491,11 +1496,14 @@ void RenderModule::renderUI() {
 			}
 			else {
 				if (ImGui::Button(button.text.c_str(), aux)) {
+					std::cout << "CLICK OK\n";
+
 					if (button.onClick) {
 						button.onClick();
 					}
 				}
 			}
+			
 			ImGui::PopStyleVar();
 		}
 		splitter.Merge(drawList);
@@ -1508,24 +1516,39 @@ void RenderModule::renderUI() {
 void RenderModule::shutdown()
 {
 	ImGui_ImplSDL3_Shutdown();
-	ImGui::DestroyContext();
 
 	if (_sceneMgr && _overlaySystem)
 	{
 		_sceneMgr->removeRenderQueueListener(_overlaySystem);
-	}
-
-	if (_overlay)
-	{
-		//Ogre::OverlayManager::getSingleton().destroy(_overlay);
+		delete _overlaySystem;
+		_overlaySystem = nullptr;
+		_overlay = nullptr;
 	}
 
 	for (auto& m : _createdMaterials)
 		Ogre::MaterialManager::getSingleton().remove(m);
 
-	cleanScene(true);
+	if (_debugDraw)
+	{
+		if (_debugNode)
+		{
+			_debugNode->detachObject(_debugDraw);
+		}
 
+		_sceneMgr->destroyManualObject(_debugDraw);
+		_debugDraw = nullptr;
+	}
+
+	if (_debugNode)
+	{
+		_sceneMgr->destroySceneNode(_debugNode);
+		_debugNode = nullptr;
+	}
+
+	cleanScene(true);
 	
+	Ogre::RTShader::ShaderGenerator::getSingleton().removeAllShaderBasedTechniques();
+	Ogre::RTShader::ShaderGenerator::destroy();
 
 	Ogre::Codec::unregisterCodec(_jpgCodec);
 	Ogre::Codec::unregisterCodec(_jpegCodec);

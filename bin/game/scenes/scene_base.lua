@@ -36,7 +36,7 @@ scene = { -- entidades en escena
 			components = {
 				Transform = {
 					position = Vector3.new(0,0,0),
-					rotation = Quaternion.new(),
+					rotation = Vector3.new(0.0,45.0,0.0),
 					scale = Vector3.new(2.0, 0.5, 2.0),
 					},
 				ModelRenderer = {
@@ -114,7 +114,7 @@ scene = { -- entidades en escena
 			components = {
 				UITransform = {
 					position = Vector2.new(900,10),
-					children = {"LabelUI", "ButtonUI"}
+					children = {"LabelUI", "ButtonUI","ButtonUI2"}
 					
 				},
 				UIPanel = {
@@ -138,6 +138,7 @@ scene = { -- entidades en escena
 				}
 			}
 		},
+		
 		LabelUI= {
 			ddol = false,
 			components = {

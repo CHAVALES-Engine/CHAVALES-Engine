@@ -102,7 +102,7 @@ void Engine::setViewportBGColor(core::Color color)
 
 transformID Engine::addTransform(const entityID& entityID, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float>& scale)
 {
-	return _renderModule->addNode(entityID, pos, rot, scale);
+	return _renderModule->addNode(entityID, pos, rot, scale, true);
 }
 
 void Engine::setTransformPosition(const transformID& id, const core::Vector3<float>& pos)
@@ -721,7 +721,7 @@ bool Engine::_initPriv()
 	_input = new InputFacade(_platformModule);
 	//Render
 	_renderModule = new RenderModule();
-	if (!_renderModule->Init(_platformModule->getWindowHandle(), _platformModule->getWindowWidth(), _platformModule->getWindowHeight(), _resourcesModule->getAllFonts())) {
+	if (!_renderModule->Init(_platformModule->getSDLWindow(),_platformModule->getWindowHandle(), _platformModule->getWindowWidth(), _platformModule->getWindowHeight(), _resourcesModule->getAllFonts())) {
 		delete _renderModule;
 		_renderModule = nullptr;
 		return false;

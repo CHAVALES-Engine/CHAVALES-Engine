@@ -32,6 +32,7 @@ namespace Ogre
 	class ParticleSystem;
 	class ImGui;
 }
+struct SDL_Window;
 struct ImFont;
 using entityID = ChavalesGUID;
 using transformID = uint64_t;
@@ -118,7 +119,7 @@ class RenderModule
 {
 public:
 	~RenderModule();
-	bool Init(const HWND handle, const int width, const int height, const std::vector<std::pair<FontName, FontPath>> fonts);
+	bool Init( SDL_Window* sdlWindow,const HWND handle, const int width, const int height, const std::vector<std::pair<FontName, FontPath>> fonts);
 	//void update();
 	/*
 	* @brief Renderizar frame.
@@ -139,7 +140,7 @@ public:
 	/*
 	* @brief Anadir nodo.
 	*/
-	transformID addNode(const entityID& entityID, const core::Vector3<float>& pos = core::Vector3<float>(0.0f, 0.0f, 0.0f), const core::Quaternion<float>& rot = core::Quaternion<float>(0.0f, 0.0f, 0.0f, 1.0f), const core::Vector3<float> scale = core::Vector3<float>(1.0f, 1.0f, 1.0f));
+	transformID addNode(const entityID& entityID, const core::Vector3<float>& pos = core::Vector3<float>(0.0f, 0.0f, 0.0f), const core::Quaternion<float>& rot = core::Quaternion<float>(0.0f, 0.0f, 0.0f, 1.0f), const core::Vector3<float> scale = core::Vector3<float>(1.0f, 1.0f, 1.0f), const bool& fromTransform = false);
 	/*
 	* @brief Getter de nodo. Devuelve -1 si no existe.
 	*/
