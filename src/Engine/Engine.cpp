@@ -182,8 +182,8 @@ void Engine::setCameraFocalLength(const cameraID& id, const float& focalLength)
 
 modelID Engine::addModel(const entityID& entityID, const std::string& modelName)
 {
-	std::string model = _resourcesModule->getAssetSourceFolder(modelName);
-	return _renderModule->addModel(entityID, model,  modelName);
+	auto model = _resourcesModule->getAssetSourceFolder(modelName);
+	return _renderModule->addModel(entityID, model.second,  model.first);
 }
 
 void Engine::deleteModel(const modelID& id)
@@ -193,8 +193,8 @@ void Engine::deleteModel(const modelID& id)
 
 void Engine::setSubmeshDiffuse(const modelID& id, const std::string& textureName, const int& submesh)
 {
-	std::string texture = _resourcesModule->getAssetSourceFolder(textureName);
-	_renderModule->setDiffuse(id, submesh, texture, textureName);
+	auto texture = getAssetSourceFolder(textureName);
+	_renderModule->setDiffuse(id, submesh, texture.second, texture.first);
 }
 
 void Engine::setSubmeshTint(const modelID& id, const core::Color& tint, const int& submesh)
@@ -284,8 +284,8 @@ void Engine::setLightSpotRange(const lightID& id, const float& inner, const floa
 
 particleGenID Engine::addParticleGen(const entityID& entityID, const std::string& textureName)
 {
-	std::string particle = _resourcesModule->getAssetSourceFolder(textureName);
-	return _renderModule->addParticleGen(entityID, particle, textureName);
+	auto particle = getAssetSourceFolder(textureName);
+	return _renderModule->addParticleGen(entityID, particle.second, particle.first);
 }
 
 void Engine::deleteParticleGen(const particleGenID& id)
@@ -365,8 +365,8 @@ void Engine::setParticleGenPartColor(const particleGenID& id, const core::Color&
 
 void Engine::setSkydome(const std::string& textureName, const float& curvature, const float& tiling, const float& distance, const bool& drawFirst)
 {
-	std::string skydome = _resourcesModule->getAssetSourceFolder(textureName);
-	_renderModule->setSkydome(skydome, textureName, curvature, tiling, distance, drawFirst);
+	auto skydome = getAssetSourceFolder(textureName);
+	_renderModule->setSkydome(skydome.second, textureName, curvature, tiling, distance, drawFirst);
 }
 
 void Engine::setSkydomeNull()
@@ -414,9 +414,9 @@ uiButtonID  Engine::addUIButton(const uiPanelID& panelID, const entityID& entity
 
 uiButtonID Engine::addUIImageButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const std::string& textureName) {
 
-	std::string texture = _resourcesModule->getAssetSourceFolder(textureName);
+	auto texture = getAssetSourceFolder(textureName);
 
-	return _renderModule->addUIImageButton(panelID,entityID, text, texture, textureName);
+	return _renderModule->addUIImageButton(panelID,entityID, text, texture.second, texture.first);
 }
 void Engine::setUIButtonText(const uiButtonID& buttonID, const std::string& text) {
 	_renderModule->setUIButtonText(buttonID, text);
@@ -435,8 +435,8 @@ void Engine::setUIButtonCallback(const uiButtonID& id, std::function<void()> cal
 	_renderModule->setUIButtonCallback(id, callback);
 }
 uiTextureRectID Engine::addUITextureRect(const uiPanelID& panelID, const entityID& entityID, const std::string& textureName) {
-	std::string texture = _resourcesModule->getAssetSourceFolder(textureName);
-	return _renderModule->addUITextureRect(panelID, entityID, texture, textureName);
+	auto texture = getAssetSourceFolder(textureName);
+	return _renderModule->addUITextureRect(panelID, entityID, texture.second, texture.first);
 }
 void Engine::setUITextureRectTexture(const uiTextureRectID& textureRectID, const std::string& texture) {
 	_renderModule->setUITextureRectTexture(textureRectID, texture);
@@ -664,9 +664,9 @@ void Engine::setGizmos(bool gizmos)
 {
 	_gizmos = gizmos;
 }
-std::string Engine::getAssetSourceFolder(std::string assetName)
+std::pair<std::string, std::string> Engine::getAssetSourceFolder(std::string assetName) 
 {
-	return _resourcesModule->getAssetSourceFolder(assetName);
+	return _resourcesModule->getAssetSourceFolder(assetName); 
 }
 #pragma endregion
 

@@ -20,7 +20,7 @@ public:
 	/// </summary>
 	/// <param name="assetName">Name of the asset, this name is the real name of the file + the type of extension of the file</param>
 	/// <returns></returns>
-	std::string getAssetSourceFolder(std::string assetName);
+	std::pair<std::string, std::string> getAssetSourceFolder(std::string assetName);
 
 	/// <summary>
 	/// Method to the render module to retrive all fonts
@@ -44,7 +44,7 @@ private:
 	bool insertAssetMap(std::string sourceName); 
 
 	std::unordered_map<ChavalesGUID, std::string> _idMaps; //Map of IDs with the path of the associated asset
-	std::unordered_map<std::string, ChavalesGUID> _assetsMaps; //Map of assets sorted by name and with an ID
+	std::unordered_multimap<std::string, ChavalesGUID> _assetsMaps; //Map of assets sorted by name and with an ID
 
 	std::string typeOfFolder; //String of the folder to identify the type of assset and in which the folder is it
 	std::vector<std::pair<std::string, std::string>> _fontsVector; //Vector to save all fonts, in order to render load them

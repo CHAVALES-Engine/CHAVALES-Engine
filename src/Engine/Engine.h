@@ -588,7 +588,7 @@ public:
 #pragma endregion
 
 #pragma region Resources
-	std::string getAssetSourceFolder(std::string assetName);
+	std::pair<std::string, std::string> getAssetSourceFolder(std::string assetName);
 #pragma endregion
 #pragma region Platform
 	/**

@@ -40,7 +40,7 @@ scene = { -- entidades en escena
 					scale = Vector3.new(2.0, 0.5, 2.0),
 					},
 				ModelRenderer = {
-					file = "cube.fbx",
+					file = "mesh/cube.fbx",
 					["number of textures"] = 0
 				},
 				RigidBody = {
@@ -70,7 +70,7 @@ scene = { -- entidades en escena
 					scale = Vector3.new(0.5),
 					},
 				ModelRenderer = {
-					file = "sphere.fbx",
+					file = "mesh/sphere.fbx",
 					["number of textures"] = 0
 				},
 				RigidBody = {	

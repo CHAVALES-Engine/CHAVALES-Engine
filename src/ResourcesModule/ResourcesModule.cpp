@@ -52,7 +52,7 @@ bool ResourcesModule::insertAssetMap(std::string sourceName)
 	if (typeOfFolder == "fonts") {
 		_fontsVector.push_back({ nombreAsset,sourceName });;
 	}
-	_assetsMaps[nombreAsset] = aux;
+	_assetsMaps.insert({ typeOfFolder + "/" + nombreAsset,aux});
 	return true;
 } 
 
@@ -64,16 +64,17 @@ bool ResourcesModule::Init()
 	return true;
 }
 
-std::string ResourcesModule::getAssetSourceFolder(std::string assetName)
+std::pair<std::string, std::string> ResourcesModule::getAssetSourceFolder(std::string assetName)
 {
-	auto itAS = _assetsMaps.find(assetName);
-	if (itAS == _assetsMaps.end())
+	auto it = _assetsMaps.find(assetName);
+	if (it == _assetsMaps.end())
 	{
 		Debug::error("ERROR: Name of the asset NOT FOUND");
-		return "";
+		return { "", ""};
 	}
-	auto itID = _idMaps.find(itAS->second);
-	return itID->second;
+	ChavalesGUID id = it->second;
+	std::string realName = std::filesystem::path(it->first).filename().string(); 
+	return  { realName,_idMaps[id] };
 }
 
 std::vector<std::pair<std::string, std::string>> ResourcesModule::getAllFonts()
