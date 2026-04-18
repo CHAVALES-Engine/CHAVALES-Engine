@@ -1,8 +1,7 @@
 #include "AudioSource.h"
 #include "Engine.h"
 #include "Transform.h"
-#include "Entity.h"
-#include "ResourcesFacade.h" 
+#include "Entity.h" 
 #include <Debug.h>
 #include <PluginSDK.h>
 #include "checkMLNew.h"
@@ -37,7 +36,7 @@ void AudioSource::ready()
 	assert(entity->hasComponent<Transform>());
 	_tr = entity->getComponent<Transform>();
 	_lastPosition = _tr->getGlobalPosition();
-	Engine::instance()->loadSound(Engine::instance()->resources()->getAudioByName(_id), _id, _isStream, _loop, _is3D);
+	Engine::instance()->loadSound(Engine::instance()->getAssetSourceFolder(_id), _id, _isStream, _loop, _is3D);
 	if (_playOnReady)
 		playSound();
 	if (_is3D)

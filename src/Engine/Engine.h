@@ -25,7 +25,6 @@ class ComponentDLLLoader;
 class StateMachine;
 class InputFacade;
 class ResourcesModule;
-class ResourcesFacade;
 
 
 namespace core
@@ -589,11 +588,8 @@ public:
 #pragma endregion
 
 #pragma region Resources
-
-	ResourcesFacade* resources() const;
-
+	std::string getAssetSourceFolder(std::string assetName);
 #pragma endregion
-
 #pragma region Platform
 	/**
 	* @brief Devuelve anchura de la ventana
@@ -649,7 +645,6 @@ private:
 	*	Referencia al modulo de recursos
 	*/
 	ResourcesModule* _resourcesModule = nullptr;
-	ResourcesFacade* _resources;
 	/*
 	* @brief
 	*	Referencia a la maquina de estados

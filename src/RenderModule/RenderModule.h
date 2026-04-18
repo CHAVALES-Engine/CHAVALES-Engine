@@ -554,18 +554,18 @@ private:
 	std::vector<std::string> _createdMaterials;
 	TextAlign stringToAlign(const std::string& align);
 
-	transformID _nextTransformID;
-	UITransformID _nextUITransformID;
-	cameraID _nextCameraID;
-	modelID _nextModelID;
-	animationID _nextAnimationID;
-	lightID _nextLightID;
-	particleGenID _nextParticleGenID;
-	uiPanelID _nextPanelID;
-	uiLabelID _nextLabelID;
-	uiButtonID _nextButtonID;
-	uiTextureRectID _nextTextureRectID;
-	Ogre::ImGuiOverlay* _overlay;
-	std::unordered_set<std::string> _resourceGroups;
+    transformID _nextTransformID;
+    UITransformID _nextUITransformID;
+    cameraID _nextCameraID;
+    modelID _nextModelID;
+    animationID _nextAnimationID;
+    lightID _nextLightID;
+    particleGenID _nextParticleGenID;
+    uiPanelID _nextPanelID;
+    uiLabelID _nextLabelID;
+    uiButtonID _nextButtonID;
+    uiTextureRectID _nextTextureRectID;
+    Ogre::ImGuiOverlay* _overlay;
+    std::unordered_set<std::string> _resourceGroups;
 
 };

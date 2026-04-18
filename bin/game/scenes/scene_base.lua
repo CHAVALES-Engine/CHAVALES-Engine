@@ -40,7 +40,7 @@ scene = { -- entidades en escena
 					scale = Vector3.new(2.0, 0.5, 2.0),
 					},
 				ModelRenderer = {
-					file = "cube",
+					file = "cube.fbx",
 					["number of textures"] = 0
 				},
 				RigidBody = {
@@ -70,7 +70,7 @@ scene = { -- entidades en escena
 					scale = Vector3.new(0.5),
 					},
 				ModelRenderer = {
-					file = "sphere",
+					file = "sphere.fbx",
 					["number of textures"] = 0
 				},
 				RigidBody = {	
@@ -153,7 +153,7 @@ scene = { -- entidades en escena
 					bgColor = Color.new(1.0, 0.0, 0.0,1),
 					align = "center",
 					fontSize = 16.0,
-					fontName = "fontPrueba",
+					fontName = "fonts/horrendo.ttf",
 					textColor = Color.new(1.0,1.0, 0.0,1)
 				}
 			}

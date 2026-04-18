@@ -14,8 +14,6 @@
 #include "GameConfigurator.h"
 #include "StateMachine.h"
 #include "InputFacade.h"
-#include "ResourcesFacade.h"
-
 #include <iostream>
 #include <checkMLNew.h>
 
@@ -58,8 +56,6 @@ void Engine::release()
 		}
 		delete _instance->_resourcesModule;
 		_instance->_resourcesModule = nullptr;
-		delete _instance->_resources;
-		_instance->_resources = nullptr;
 		delete _instance->_stateMachine;
 		_instance->_stateMachine = nullptr;
 		// desca
@@ -186,8 +182,8 @@ void Engine::setCameraFocalLength(const cameraID& id, const float& focalLength)
 
 modelID Engine::addModel(const entityID& entityID, const std::string& modelName)
 {
-	auto model = _resourcesModule->getMesh(modelName);
-	return _renderModule->addModel(entityID, model.first, model.second);
+	std::string model = _resourcesModule->getAssetSourceFolder(modelName);
+	return _renderModule->addModel(entityID, model,  modelName);
 }
 
 void Engine::deleteModel(const modelID& id)
@@ -197,8 +193,8 @@ void Engine::deleteModel(const modelID& id)
 
 void Engine::setSubmeshDiffuse(const modelID& id, const std::string& textureName, const int& submesh)
 {
-	auto texture = _resourcesModule->getTexture(textureName);
-	_renderModule->setDiffuse(id, submesh, texture.first, texture.second);
+	std::string texture = _resourcesModule->getAssetSourceFolder(textureName);
+	_renderModule->setDiffuse(id, submesh, texture, textureName);
 }
 
 void Engine::setSubmeshTint(const modelID& id, const core::Color& tint, const int& submesh)
@@ -288,8 +284,8 @@ void Engine::setLightSpotRange(const lightID& id, const float& inner, const floa
 
 particleGenID Engine::addParticleGen(const entityID& entityID, const std::string& textureName)
 {
-	auto particle = _resourcesModule->getParticle(textureName);
-	return _renderModule->addParticleGen(entityID, particle.first, particle.second);
+	std::string particle = _resourcesModule->getAssetSourceFolder(textureName);
+	return _renderModule->addParticleGen(entityID, particle, textureName);
 }
 
 void Engine::deleteParticleGen(const particleGenID& id)
@@ -369,8 +365,8 @@ void Engine::setParticleGenPartColor(const particleGenID& id, const core::Color&
 
 void Engine::setSkydome(const std::string& textureName, const float& curvature, const float& tiling, const float& distance, const bool& drawFirst)
 {
-	auto skydome = _resourcesModule->getParticle(textureName);
-	_renderModule->setSkydome(skydome.first, skydome.second, curvature, tiling, distance, drawFirst);
+	std::string skydome = _resourcesModule->getAssetSourceFolder(textureName);
+	_renderModule->setSkydome(skydome, textureName, curvature, tiling, distance, drawFirst);
 }
 
 void Engine::setSkydomeNull()
@@ -418,9 +414,9 @@ uiButtonID  Engine::addUIButton(const uiPanelID& panelID, const entityID& entity
 
 uiButtonID Engine::addUIImageButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const std::string& textureName) {
 
-	auto texture = _resourcesModule->getImages(textureName);
+	std::string texture = _resourcesModule->getAssetSourceFolder(textureName);
 
-	return _renderModule->addUIImageButton(panelID,entityID, text, texture.first, texture.second);
+	return _renderModule->addUIImageButton(panelID,entityID, text, texture, textureName);
 }
 void Engine::setUIButtonText(const uiButtonID& buttonID, const std::string& text) {
 	_renderModule->setUIButtonText(buttonID, text);
@@ -439,8 +435,8 @@ void Engine::setUIButtonCallback(const uiButtonID& id, std::function<void()> cal
 	_renderModule->setUIButtonCallback(id, callback);
 }
 uiTextureRectID Engine::addUITextureRect(const uiPanelID& panelID, const entityID& entityID, const std::string& textureName) {
-	auto texture = _resourcesModule->getImages(textureName);
-	return _renderModule->addUITextureRect(panelID, entityID, texture.first, texture.second);
+	std::string texture = _resourcesModule->getAssetSourceFolder(textureName);
+	return _renderModule->addUITextureRect(panelID, entityID, texture, textureName);
 }
 void Engine::setUITextureRectTexture(const uiTextureRectID& textureRectID, const std::string& texture) {
 	_renderModule->setUITextureRectTexture(textureRectID, texture);
@@ -668,15 +664,10 @@ void Engine::setGizmos(bool gizmos)
 {
 	_gizmos = gizmos;
 }
-#pragma endregion
-
-#pragma region Resources
-
-ResourcesFacade* Engine::resources() const
+std::string Engine::getAssetSourceFolder(std::string assetName)
 {
-	return _resources;
+	return _resourcesModule->getAssetSourceFolder(assetName);
 }
-
 #pragma endregion
 
 //------Metodo de PlatformModule:
@@ -726,7 +717,6 @@ bool Engine::_initPriv()
 		_resourcesModule = nullptr;
 		return false;
 	}
-	_resources = new ResourcesFacade(_resourcesModule);
 
 	_input = new InputFacade(_platformModule);
 	//Render

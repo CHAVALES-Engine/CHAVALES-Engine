@@ -4,7 +4,7 @@ assets = {
 			sourceFolder = "./game/assets/mesh/",
 			fileName = "metroid.fbx"
 		},
-		cube = {
+		cube.fbx = {
 			sourceFolder = "./game/assets/mesh/",
 			fileName = "cube.fbx"
 		},

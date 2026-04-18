@@ -2,21 +2,10 @@
 #include <unordered_map>
 #include <string>
 #include <vector>
+#include <unordered_set>
 #include <filesystem>
 #include <sol.hpp>
-
-using AssetName = std::string; //To clarify the string
-using FileName = std::string; //To clarify the string
-using FolderName = std::string; //To clarify the string
-
-
-typedef std::unordered_map<AssetName, std::string> Audios;
-typedef std::unordered_map<AssetName, std::pair<FolderName, FileName>> Models;
-typedef std::unordered_map<AssetName, std::pair<FolderName, FileName>> Particles;
-typedef std::unordered_map<AssetName, std::pair<FolderName, FileName>> Textures;
-typedef std::unordered_map<AssetName, std::pair<FolderName, FileName>> Images;
-typedef std::unordered_map<AssetName, std::pair<FolderName, FileName>> Fonts;
-
+#include "guid.h"
 
 /*
  * +------------------+
@@ -46,112 +35,18 @@ public:
 
 	bool Init();
 
-	/// <summary>
-	/// Getter to recive the desire audio
-	/// </summary>
-	/// <param name="name">Name of the audio</param>
-	/// <returns></returns>
-	std::string getAudio(AssetName name);
-
-	/// <summary>
-	/// Getter to recive the desire mesh
-	/// </summary>
-	/// <param name="name">Name of the mesh</param>
-	/// <returns></returns>
-	std::pair<FolderName, FileName> getMesh(AssetName name);
-
-	/// <summary>
-	/// Getter to recive the desire particle
-	/// </summary>
-	/// <param name="name">Name of particle</param>
-	/// <returns></returns>
-	std::pair<FolderName, FileName> getParticle(AssetName name);
-
-	/// <summary>
-	/// Getter to recive the desire texture
-	/// </summary>
-	/// <param name="name">Name of texture</param>
-	/// <returns></returns>
-	std::pair<FolderName, FileName> getTexture(AssetName name);
-
-	//// <summary>
-	/// Getter to recive the desire image
-	/// </summary>
-	/// <param name="name">Name of image</param>
-	/// <returns></returns>
-	std::pair<FolderName, FileName> getImages(AssetName name);
-
-	/// <summary>
-	/// Getter to recive the desire font
-	/// </summary>
-	/// <param name="name">Name of font</param>
-	/// <returns></returns>
-	std::pair<FolderName, FileName> getFonts(AssetName name);
-
-	/// <summary>
-	/// Method to set the Path of the found audio
-	/// </summary>
-	/// <param name="name">Name of the desire asset</param>
-	/// <param name="newRoute">Name of the new path</param>
-	void setAudioSource(AssetName name, FolderName newRoute);
-
-	/// <summary>
-	/// Method to set the Path of the found model
-	/// </summary>
-	/// <param name="name">Name of the desire asset</param>
-	/// <param name="newRoute">Name of the new path</param>
-	void setMeshSource(AssetName name, FolderName newRoute);
-
-	/// <summary>
-	/// Method to set the Path of the found particle
-	/// </summary>
-	/// <param name="name">Name of the desire asset</param>
-	/// <param name="newRoute">Name of the new path</param>
-	void setParticleSource(AssetName name, FolderName newRoute);
-
-	/// <summary>
-	/// Method to set the Path of the found texture
-	/// </summary>
-	/// <param name="name">Name of the desire asset</param>
-	/// <param name="newRoute">Name of the new path</param>
-	void setTextureSource(AssetName name, FolderName newRoute);
-
-	/// <summary>
-	/// Method to set the Path of the found image
-	/// </summary>
-	/// <param name="name">Name of the desire asset</param>
-	/// <param name="newRoute">Name of the new path</param>
-	void setImageSource(AssetName name, FolderName newRoute);
-
-	/// <summary>
-	/// Method to set the Path of the found font
-	/// </summary>
-	/// <param name="name">Name of the desire asset</param>
-	/// <param name="newRoute">Name of the new path</param>
-	void setFontSource(AssetName name, FolderName newRoute);
-
-	std::vector<std::pair<AssetName, FileName>> getAllFonts();
+	std::string getAssetSourceFolder(std::string assetName);
+	std::vector<std::pair<std::string, std::string>> getAllFonts();
 
 private:
-	/// <summary>
-	/// Private method to load all the assets
-	/// </summary>
-	/// <param name="assetsType">A table of the desire asset</param>
-	/// <param name="typeOfAsset">Name of the desire asset</param>
-	/// <param name="asset">Group of all assets</param>
-	/// <returns></returns>
-	bool loadInternalAsset(const sol::table& assetsType,const std::string& typeOfAsset);
-	
-	std::pair<FolderName, FileName> loadOgreAsset(const std::string& assetName,std::pair<sol::object, sol::object>& assetType);
-	
-	std::string _luaRoute; // Route of the assets.lua
-	std::string _assetsRoute;
+	bool loadAsset(std::string sourceName);
 
-	Audios _audioMap; // Map to reserve all audios used in the game
-	Models _modelsMap;  // Map to reserve all models used in the game
-	Particles _particlesMap;  // Map to reserve all particles used in the game
-	Textures _texturesMap;  // Map to reserve all textures used in the game
-	Fonts _fontsMap;
-	Images _imagesMap;
+	bool insertAssetMap(std::string sourceName);
+
+	std::unordered_map<ChavalesGUID, std::string> _idMaps;
+	std::unordered_map<std::string, ChavalesGUID> _assetsMaps;
+
+	std::string typeOfFolder;
+	std::vector<std::pair<std::string, std::string>> _fontsVector;
 };
 
