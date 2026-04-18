@@ -72,7 +72,8 @@ void Engine::startLoop() const
 	if (!_stateMachine) return;
 	// Bucle de juego
 	_stateMachine->addAndSetScene(core::GameConfigurator::instance()._firstScene); // carga la primera escena
-	_stateMachine->gameLoop();
+	if (_stateMachine->getCurrentScnPtr() != nullptr)
+		_stateMachine->gameLoop();
 }
 
 bool Engine::pollEvents() const

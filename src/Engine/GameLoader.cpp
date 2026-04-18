@@ -452,7 +452,17 @@ std::shared_ptr<core::Scene> GameLoader::loadScene(const sceneName& n)
 
 	std::shared_ptr<core::Scene> s = std::make_shared<core::Scene>(n);
 
-	loadLua(s, n, root);
+	try
+	{
+		loadLua(s, n, root);
+		
+	}
+	catch (...)
+	{
+		Debug::error("[GAMELOADER] Error critico leyendo escena, borrando memoria creada a partir de ella");
+		s->clearScene();
+		return nullptr;
+	}
 
 	if (!s)
 	{
