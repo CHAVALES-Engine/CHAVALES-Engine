@@ -35,8 +35,6 @@
 #include <OgreOverlaySystem.h>
 #include <imgui.h>
 #include <imgui_impl_sdl3.h>
-#include <imgui_impl_sdl3.cpp>
-#include <imgui_impl_opengl3.h>
 #include <assimp/postprocess.h>
 #include <OgreGL3PlusTexture.h>
 #include <guid.h>
@@ -168,8 +166,10 @@ bool RenderModule::Init(SDL_Window* sdlWindow,const HWND handle, const int width
 		Ogre::MaterialManager::getSingleton().setActiveScheme(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME);
 		_vp->setMaterialScheme(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME);
 
-		ImGui::CreateContext();
-		ImGui::SetCurrentContext(ImGui::GetCurrentContext());
+		_overlaySystem = new Ogre::OverlaySystem();
+		_sceneMgr->addRenderQueueListener(_overlaySystem);
+		_overlay = new Ogre::ImGuiOverlay();
+		ImGui_ImplSDL3_InitForOther(sdlWindow);
 		ImGuiIO& io = ImGui::GetIO();
 		_fonts["default"] = io.Fonts->AddFontDefault();
 		for (auto font : fonts) {
@@ -188,12 +188,9 @@ bool RenderModule::Init(SDL_Window* sdlWindow,const HWND handle, const int width
 			(float)_vp->getActualWidth(),
 			(float)_vp->getActualHeight()
 		);
-		_overlaySystem = new Ogre::OverlaySystem();
-		_sceneMgr->addRenderQueueListener(_overlaySystem);
+		
 
-		ImGui_ImplSDL3_InitForOther(sdlWindow);
-
-		_overlay = new Ogre::ImGuiOverlay();
+		
 		Ogre::OverlayManager::getSingleton().addOverlay(_overlay);
 		_overlay->show();
 
