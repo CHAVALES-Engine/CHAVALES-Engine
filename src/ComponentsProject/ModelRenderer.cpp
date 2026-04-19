@@ -61,6 +61,16 @@ void ModelRenderer::setVisible(bool visible)
 	Engine::instance()->setModelVisible(_modelID, visible);
 }
 
+void ModelRenderer::enable()
+{
+    Engine::instance()->setModelVisible(_modelID, true);
+}
+
+void ModelRenderer::disable()
+{
+    Engine::instance()->setModelVisible(_modelID, false);
+}
+
 void ModelRenderer::destroy()
 {
     Engine::instance()->deleteModel(_modelID);

@@ -46,6 +46,8 @@ public:
 	void setDiffuse(std::string textureName, int submesh = 0);
 	void setTint(core::Color tint, int submesh = 0);
 	void setVisible(bool visible);
+	void enable() override;
+	void disable() override;
 	void destroy() override;
 };
 
