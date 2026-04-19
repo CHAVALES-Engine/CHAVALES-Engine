@@ -81,6 +81,13 @@ struct UIButtonData {
 	bool buttonImage;
 	float opacity = 1.0f;
 	std::function<void()> onClick;
+	ImFont* font;
+	float fontSize = 16.0f;
+	core::Color textColor = core::Color(1, 1, 1, 1);
+	core::Color bgColor = core::Color(0, 0, 0, 1);
+	core::Color hvColor = core::Color(0, 0, 0, 1);
+	core::Color psColor = core::Color(0, 0, 0, 1);
+
 };
 
 struct UITextureRectData {
@@ -458,23 +465,19 @@ public:
 	/*
 	* @brief Establecer el color del texto  del letrero
 	*/
-	void setUILabelTextColor(const uiLabelID id, core::Color color);
+	void setUILabelTextColor(const uiLabelID& labelID, core::Color color);
 	/*
 	 * @brief Establecer el color del fondo  del letrero
 	*/
-	void setUILabelBackGroundColor(const uiLabelID id, core::Color color);
+	void setUILabelBackGroundColor(const uiLabelID& labelID, core::Color color);
 	/*
 	* @brief Establecer el alineado  del letrero
 	*/
-	void setUILabelAlign(const uiLabelID id, const std::string& align);
-	/*
-	* @brief Establecer la tipografia  del letreros
-	*/
-	//void setUILabelFont(const uiLabelID id, ImFont* font);
+	void setUILabelAlign(const uiLabelID& labelID, const TextAlign& align);
 	/*
 	 * @brief Añadir un boton al panel
 	 */
-	uiButtonID addUIButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text);
+	uiButtonID addUIButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const float& fontSize, const std::string& fontName);
 	/*
 	 * @brief Añadir un ImageBoton al panel
 	 */
@@ -483,7 +486,7 @@ public:
 	/*
 	* @brief Establecer si el boton es visible
 	*/
-	void setUIButtonVisible(const uiButtonID& buttonID, bool visible);
+	void setUIButtonVisible(const uiButtonID& buttonID, bool& visible);
 	/*
 	* @brief Establecer el texto del boton
 	*/
@@ -492,11 +495,26 @@ public:
 	* @brief Establecer la textura del boton
 	*/
 	void  setUIButtonTexture(const uiButtonID& buttonID, const std::string& texture);
-	
 	/*
 	* @brief Establecer la opacidad  del boton
 	*/
-	void  setUIButtonOpacity(const uiButtonID& buttonID, float opacity);
+	void  setUIButtonOpacity(const uiButtonID& buttonID, float& opacity);
+	/*
+	* @brief Establecer el color de fondo del boton
+	*/
+	void  setUIButtonBackgroundColor(const uiButtonID& buttonID, core::Color& bgColor);
+	/*
+	* @brief Establecer el color del texto del boton
+	*/
+	void  setUIButtonTextColor(const uiButtonID& buttonID, core::Color& txColor);
+	/*
+	* @brief Establecer el color del hover del boton
+	*/
+	void  setUIButtonHoverColor(const uiButtonID& buttonID, core::Color& hvColor);
+	/*
+	* @brief Establecer el color del pulsado del boton
+	*/
+	void  setUIButtonPressColor(const uiButtonID& buttonID, core::Color& psColor);
 	/*
 	* @brief Establecer el callback del boton
 	*/
@@ -512,11 +530,15 @@ public:
 	/*
 	* @brief Establecer si el textureRect es visible
 	*/
-	void  setUITextureRectVisible(const uiTextureRectID& textureRectID, bool visible);
+	void  setUITextureRectVisible(const uiTextureRectID& textureRectID, bool& visible);
 	/*
 	* @brief Establecer la opacidad  del textureRect
 	*/
-	void  setUITextureRectOpacity(const uiTextureRectID& textureRectID, float opacity);
+	void  setUITextureRectOpacity(const uiTextureRectID& textureRectID, float& opacity);
+
+	void renderUI();
+	void cleanUI();
+
 
 	/*
 	* @brief Se encarga de dibujar el debug de todos los colliders en escena
@@ -536,7 +558,7 @@ public:
 	void DrawSphere(const ShapeRenderData& data);
 
 
-	void renderUI();
+	
 
 	void shutdown();
 private:

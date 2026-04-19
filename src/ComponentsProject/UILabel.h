@@ -50,6 +50,5 @@ public:
 	void setBackgroudColor(core::Color color);
 	void setTextColor(core::Color color);
 	void setAlign(TextAlign align);
-	void setFont(std::string font);
 };
 

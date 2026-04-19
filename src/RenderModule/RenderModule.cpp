@@ -282,6 +282,9 @@ void RenderModule::cleanScene(const bool& end)
 	//Limpiar particulas
 	cleanParticleGens();
 
+	//Limpiar UI
+	cleanUI();
+
 	//Limpiar nodos
 	/*for (const EngineNode& engineNode : _engineNodes)
 	{
@@ -295,11 +298,8 @@ void RenderModule::cleanScene(const bool& end)
 
 	_engineNodes.clear();
 	_nextTransformID = 0;
-	_nextUITransformID = 0;
-	_uiPanels.clear();
-	_labelToPanel.clear();
-	_buttonToPanel.clear();
-	_textureToPanel.clear();
+	
+	
 	// Esto filtra los grupos que se borran para que no se borren los grupos basicos de ogre y que no pete
 	/*static const std::vector<std::string> internalGroups = {"Scene", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, Ogre::ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME, Ogre::ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME};
 
@@ -1224,9 +1224,6 @@ uiLabelID RenderModule::addUILabel(const uiPanelID& panelID, const entityID& ent
 	else {
 		label.font = _fonts["default"];
 	}
-	//ImFont* fontAux = io.Fonts->AddFontFromFileTTF((fontFolder + fontFile).c_str(), fontSize);
-	//io.Fonts->Build();
-	//label.font = fontAux;
 	_uiPanels[panelID].labels.push_back(label);
 
 	uiLabelID id = _nextLabelID++;
@@ -1249,24 +1246,20 @@ void  RenderModule::setUILabelOpacity(const uiLabelID& labelID, float opacity) {
 	_uiPanels[panelID].labels[labelIndex].opacity = opacity;
 }
 
-void RenderModule::setUILabelTextColor(const uiLabelID labelID, core::Color color) {
+void RenderModule::setUILabelTextColor(const uiLabelID& labelID, core::Color color) {
 	auto [panelID, labelIndex] = _labelToPanel[labelID];
 	_uiPanels[panelID].labels[labelIndex].textColor = color;
 }
 
-void RenderModule::setUILabelBackGroundColor(const uiLabelID labelID, core::Color color) {
+void RenderModule::setUILabelBackGroundColor(const uiLabelID& labelID, core::Color color) {
 	auto [panelID, labelIndex] = _labelToPanel[labelID];
 	_uiPanels[panelID].labels[labelIndex].bgColor = color;
 }
 
-void RenderModule::setUILabelAlign(const uiLabelID labelID, const std::string& align) {
+void RenderModule::setUILabelAlign(const uiLabelID& labelID, const TextAlign& align) {
 	auto [panelID, labelIndex] = _labelToPanel[labelID];
-	_uiPanels[panelID].labels[labelIndex].align = stringToAlign(align);
+	_uiPanels[panelID].labels[labelIndex].align = align;
 }
-
-//void RenderModule::setUILabelFont(const uiLabelID id, ImFont* font) {
-//
-//}
 
 uiButtonID RenderModule::addUIImageButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const std::string& textureFolder, const std::string& textureFile)
 {
@@ -1297,7 +1290,7 @@ uiButtonID RenderModule::addUIImageButton(const uiPanelID& panelID, const entity
 	_buttonToPanel[id] = { panelID, buttonIndex };
 	return id;
 }
-uiButtonID RenderModule::addUIButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text) {
+uiButtonID RenderModule::addUIButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const float& fontSize,  const std::string& fontName) {
 	addUITransform(entityID);
 
 	UIButtonData button;
@@ -1305,7 +1298,14 @@ uiButtonID RenderModule::addUIButton(const uiPanelID& panelID, const entityID& e
 	button.text = text;
 	button.visible = true;
 	button.buttonImage = false;
-
+	std::string auxFontName = fontName + "_" + std::to_string((int)fontSize);
+	auto it = _fonts.find(auxFontName);
+	if (it != _fonts.end()) {
+		button.font = it->second;
+	}
+	else {
+		button.font = _fonts["default"];
+	}
 	_uiPanels[panelID].buttons.push_back(button);
 
 	uiButtonID id = _nextButtonID++;
@@ -1314,7 +1314,7 @@ uiButtonID RenderModule::addUIButton(const uiPanelID& panelID, const entityID& e
 	return id;
 }
 
-void RenderModule::setUIButtonVisible(const uiButtonID& buttonID, bool visible)
+void RenderModule::setUIButtonVisible(const uiButtonID& buttonID, bool& visible)
 {
 	auto [panelID, buttonIndex] = _buttonToPanel[buttonID];
 	_uiPanels[panelID].buttons[buttonIndex].visible = visible;
@@ -1331,9 +1331,29 @@ void  RenderModule::setUIButtonTexture(const uiButtonID& buttonID, const std::st
 	_uiPanels[panelID].buttons[buttonIndex].textureFile = texture;
 }
 
-void  RenderModule::setUIButtonOpacity(const uiButtonID& buttonID, float opacity) {
+void  RenderModule::setUIButtonOpacity(const uiButtonID& buttonID, float& opacity) {
 	auto [panelID, buttonIndex] = _buttonToPanel[buttonID];
 	_uiPanels[panelID].buttons[buttonIndex].opacity = opacity;
+}
+
+void  RenderModule::setUIButtonBackgroundColor(const uiButtonID& buttonID, core::Color& bgColor) {
+	auto [panelID, buttonIndex] = _buttonToPanel[buttonID];
+	_uiPanels[panelID].buttons[buttonIndex].bgColor = bgColor;
+}
+
+void  RenderModule::setUIButtonTextColor(const uiButtonID& buttonID, core::Color& txColor) {
+	auto [panelID, buttonIndex] = _buttonToPanel[buttonID];
+	_uiPanels[panelID].buttons[buttonIndex].textColor = txColor;
+}
+
+void  RenderModule::setUIButtonHoverColor(const uiButtonID& buttonID, core::Color& hvColor) {
+	auto [panelID, buttonIndex] = _buttonToPanel[buttonID];
+	_uiPanels[panelID].buttons[buttonIndex].hvColor = hvColor;
+}
+
+void  RenderModule::setUIButtonPressColor(const uiButtonID& buttonID, core::Color& psColor) {
+	auto [panelID, buttonIndex] = _buttonToPanel[buttonID];
+	_uiPanels[panelID].buttons[buttonIndex].psColor = psColor;
 }
 
 void RenderModule::setUIButtonCallback(const uiButtonID& buttonID, std::function<void()> callback)
@@ -1375,11 +1395,11 @@ void  RenderModule::setUITextureRectTexture(const uiTextureRectID& textureRectID
 	_uiPanels[panelID].textureRects[textureRectIndex].textureFile = texture;
 }
 
-void  RenderModule::setUITextureRectVisible(const uiTextureRectID& textureRectID, bool visible) {
+void  RenderModule::setUITextureRectVisible(const uiTextureRectID& textureRectID, bool& visible) {
 	auto [panelID, textureRectIndex] = _textureToPanel[textureRectID];
 	_uiPanels[panelID].textureRects[textureRectIndex].visible = visible;
 }
-void  RenderModule::setUITextureRectOpacity(const uiTextureRectID& textureRectID, float opacity) {
+void  RenderModule::setUITextureRectOpacity(const uiTextureRectID& textureRectID, float& opacity) {
 	auto [panelID, textureRectIndex] = _textureToPanel[textureRectID];
 	_uiPanels[panelID].textureRects[textureRectIndex].opacity = opacity;
 }
@@ -1402,7 +1422,6 @@ TextAlign RenderModule::stringToAlign(const std::string& align)
 void RenderModule::renderUI() {
 	ImGui_ImplSDL3_NewFrame();
 	ImGui::NewFrame();
-	//_overlay->NewFrame();
 	for (UIPanelData& panel : _uiPanels) {
 
 		if (!panel.visible) {
@@ -1483,7 +1502,7 @@ void RenderModule::renderUI() {
 
 			if (button.buttonImage) {
 				std::string idButton = button.textureFile + "_" + button.entity.toString();
-
+				
 				if (ImGui::ImageButton(idButton.c_str(), (ImTextureID)(uintptr_t)button.textureID, aux)) {
 					std::cout << "CLICK OKIIIIIIIIIII\n";
 					if (button.onClick) {
@@ -1492,6 +1511,11 @@ void RenderModule::renderUI() {
 				}
 			}
 			else {
+				ImGui::PushFont(button.font);
+				ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(button.textColor.getRed() * 255, button.textColor.getGreen() * 255, button.textColor.getBlue() * 255, button.textColor.getAlpha() * button.opacity* 255));
+				ImGui::PushStyleColor(ImGuiCol_Button, IM_COL32(button.bgColor.getRed() * 255, button.bgColor.getGreen() * 255, button.bgColor.getBlue() * 255, button.bgColor.getAlpha() * button.opacity * 255));
+				ImGui::PushStyleColor(ImGuiCol_ButtonHovered, IM_COL32(button.hvColor.getRed() * 255, button.hvColor.getGreen() * 255, button.hvColor.getBlue() * 255, button.hvColor.getAlpha() * button.opacity * 255));
+				ImGui::PushStyleColor(ImGuiCol_ButtonActive, IM_COL32(button.psColor.getRed() * 255, button.psColor.getGreen() * 255, button.psColor.getBlue() * 255, button.psColor.getAlpha() * button.opacity * 255));
 				if (ImGui::Button(button.text.c_str(), aux)) {
 					std::cout << "CLICK OK\n";
 
@@ -1499,6 +1523,8 @@ void RenderModule::renderUI() {
 						button.onClick();
 					}
 				}
+				ImGui::PopStyleColor(4);
+				ImGui::PopFont();
 			}
 			
 			ImGui::PopStyleVar();
@@ -1508,6 +1534,26 @@ void RenderModule::renderUI() {
 		ImGui::End();
 	}
 	ImGui::Render();
+}
+
+void RenderModule::cleanUI()
+{
+	_nextUITransformID = 0;
+	_nextLabelID = 0;
+	_nextButtonID = 0;
+	_nextTextureRectID = 0;
+	_nextPanelID = 0;
+	for (auto uiT : _uiPanels) {
+
+		uiT.labels.clear();
+		uiT.buttons.clear();
+		uiT.textureRects.clear();
+	}
+	_uiTransforms.clear();
+	_uiPanels.clear();
+	_labelToPanel.clear();
+	_buttonToPanel.clear();
+	_textureToPanel.clear();
 }
 
 void RenderModule::shutdown()

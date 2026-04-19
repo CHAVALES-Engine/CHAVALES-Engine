@@ -379,25 +379,22 @@ public:
 	/*
 	* @brief Establecer el color del texto  del letrero
    */
-	void setUILabelTextColor(const uiLabelID labelID, core::Color color);
+	void setUILabelTextColor(const uiLabelID& labelID, core::Color color);
 	/*
 	* @brief Establecer el color del fondo  del letrero
 	*/
-	void setUILabelBackGroundColor(const uiLabelID labelID, core::Color color);
+	void setUILabelBackGroundColor(const uiLabelID& labelID, core::Color color);
 	/*
 	* @brief Establecer el alineado  del letrero
 	*/
-	void setUILabelAlign(const uiLabelID labelID, const std::string& align);
-	/*
-	* @brief Establecer la tipografia  del letrero
-	*/
-	//void setUILabelFont(const uiLabelID id, ImFont* font);
+	void setUILabelAlign(const uiLabelID& labelID, const TextAlign& align);
+	
 #pragma endregion
 #pragma region UI-Buttons
 	/*
 	* @brief Anadir boton al panel.
 	*/
-	uiButtonID addUIButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text);
+	uiButtonID addUIButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const float& fontSize, const std::string& fontName, const core::Color& bgColor, const core::Color& txColor, const core::Color& hvColor, const core::Color& psColor);
 
 	/*
 	* @brief Anadir ImageBoton al panel.
@@ -406,19 +403,35 @@ public:
 	/*
 	* @brief Establecer el texto del boton.
 	*/
-	void setUIButtonText(const uiButtonID& id, const std::string& text);
+	void setUIButtonText(const uiButtonID& buttonID, const std::string& text);
 	/*
 	* @brief Establecer visibilidad del boton.
 	*/
-	void setUIButtonVisible(const uiButtonID& id, bool visible);
+	void setUIButtonVisible(const uiButtonID& buttonID, bool& visible);
 	/*
 	* @brief Establecer textura del boton.
 	*/
-	void setUIButtonTexture(const uiButtonID& id, const std::string& texture);
+	void setUIButtonTexture(const uiButtonID& buttonID, const std::string& texture);
 	/*
-   * @brief Establecer la opacidad  del boton
-   */
-	void  setUIButtonOpacity(const uiButtonID& buttonID, float opacity);
+	* @brief Establecer la opacidad  del boton
+	*/
+	void  setUIButtonOpacity(const uiButtonID& buttonID, float& opacity);
+	/*
+	* @brief Establecer el color de fondo del boton
+	*/
+	void  setUIButtonBackgroundColor(const uiButtonID& buttonID, core::Color& bgColor);
+	/*
+	* @brief Establecer el color del texto del boton
+	*/
+	void  setUIButtonTextColor(const uiButtonID& buttonID, core::Color& txColor);
+	/*
+	* @brief Establecer el color del hover del boton
+	*/
+	void  setUIButtonHoverColor(const uiButtonID& buttonID, core::Color& hvColor);
+	/*
+	* @brief Establecer el color del pulsado del boton
+	*/
+	void  setUIButtonPressColor(const uiButtonID& buttonID, core::Color& psColor);
 	/*
 	* @brief Establecer callback del boton.
 	*/
@@ -438,11 +451,11 @@ public:
 	/*
 	* @brief Establecer visibilidad del textureRect.
 	*/
-	void setUITextureRectVisible(const uiTextureRectID& id, bool visible);
+	void setUITextureRectVisible(const uiTextureRectID& id, bool& visible);
 	/*
 	* @brief Establecer la opacidad  del textureRect
 	*/
-	void  setUITextureRectOpacity(const uiTextureRectID& textureRectID, float opacity);
+	void  setUITextureRectOpacity(const uiTextureRectID& textureRectID, float& opacity);
 
 #pragma endregion
 #pragma endregion

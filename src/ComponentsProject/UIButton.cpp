@@ -22,7 +22,12 @@ bool UIButton::init(const Properties& p)
 	_textureName = getProperty<std::string>(p, "textureName");
 	_text = getProperty<std::string>(p, "text");
 	_opacity = getProperty<float>(p, "opacity");
-
+	_fontSize = getProperty<float>(p, "fontSize");
+	_fontName = getProperty<std::string>(p, "fontName");
+	_bgColor = getProperty<core::Color>(p, "bgColor");
+	_textColor = getProperty<core::Color>(p, "textColor");
+	_hoverColor = getProperty<core::Color>(p, "hoverColor");
+	_pressColor = getProperty<core::Color>(p, "pressColor");
 	return true;
 }
 
@@ -33,7 +38,7 @@ void UIButton::ready()
 	uiPanelID  panelID = panel->getPanelID();
 
 	if (_textureName.empty()) {
-		_buttonID = Engine::instance()->addUIButton(panelID, getEntity()->getEntityID(), _text);
+		_buttonID = Engine::instance()->addUIButton(panelID, getEntity()->getEntityID(), _text, _fontSize,_fontName,_bgColor,_textColor,_hoverColor,_pressColor);
 
 	}
 	else {
@@ -60,8 +65,26 @@ void UIButton::setTexture(const std::string& texture)
 void UIButton::setOpacity(float opacity)
 {
 	_opacity = opacity;
-	Engine::instance()->setUILabelOpacity(_buttonID, opacity);
+	Engine::instance()->setUIButtonOpacity(_buttonID, opacity);
 
+}
+void UIButton::setBackgroudColor(core::Color color) {
+	_bgColor = color;
+	Engine::instance()->setUIButtonBackgroundColor(_buttonID, _bgColor);
+}
+void UIButton::setTextColor(core::Color color) {
+	_textColor = color;
+	Engine::instance()->setUIButtonTextColor(_buttonID, _textColor);
+
+}
+void UIButton::setHoverColor(core::Color color) {
+	_hoverColor = color;
+	Engine::instance()->setUIButtonHoverColor(_buttonID, _hoverColor);
+
+}
+void UIButton::setPressColor(core::Color color) {
+	_pressColor = color;
+	Engine::instance()->setUIButtonPressColor(_buttonID, _pressColor);
 }
 void UIButton::setOnClick(std::function<void()> callback)
 {

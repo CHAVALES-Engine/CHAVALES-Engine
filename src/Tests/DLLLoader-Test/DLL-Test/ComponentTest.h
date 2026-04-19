@@ -8,12 +8,9 @@
 #include "Scene.h"
 #include "TimeManager.h"
 #include "Transform.h"
-#include "UIPanel.h"
-#include "UITransform.h"
-#include "UIButton.h"
 
-class UIPanel;
-class UIButton;
+
+
 class AudioSource;
 
 class ComponentTest : public core::Component
@@ -32,8 +29,6 @@ class ComponentTest : public core::Component
 	std::vector<core::Quaternion<>> vec4;
 	Transform* _transform = nullptr;
 	core::Entity* _esfera = nullptr;
-	core::Entity* _button = nullptr;
-	UIButton* _button2 = nullptr;
 
 	bool init(const Properties& p) override
 	{
@@ -94,11 +89,7 @@ class ComponentTest : public core::Component
 
 	void update(uint64_t deltaTime) override
 	{
-		_button = getEntity()->getScene()->findEntityByName("ButtonUI");
-		_button2 = _button->getComponent<UIButton>();
-		_button2->setOnClick([]() {
-			std::cout << "fnwioemfiowemcoiwemferdbrsbnrtnb";
-			});
+		
 		if (!Engine::input()->isDeviceConnected(device)) return;
 
 		float speed = velocity * (float)deltaTime / 1000.0f;
@@ -215,13 +206,7 @@ class ParentTest : public core::Component
 {
 	void ready() override
 	{
-		auto c = getEntity()->getComponent<UITransform>()->getComponentInParents<UIPanel>();
-		auto v = getEntity()->getComponent<UITransform>()->getComponentsInParents("UIPanel");
-		if (c != nullptr)
-		{
-			Debug::out("//PARENT TEST//");
-			Debug::out("La entidad con UIPanel es ", c->getEntity()->getName(), " vista desde ", getEntity()->getName());
-		}
+		
 	}
 };
 

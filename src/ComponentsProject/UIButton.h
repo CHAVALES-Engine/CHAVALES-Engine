@@ -38,6 +38,12 @@ private:
 	std::string _text;
 	std::string _textureName;
 	float _opacity;
+	float _fontSize;
+	std::string _fontName;
+	core::Color _bgColor;
+	core::Color _textColor;
+	core::Color _hoverColor;
+	core::Color _pressColor;
 
 public:
 	UIButton();
@@ -50,5 +56,9 @@ public:
 	void setTexture(const std::string& texture);
 	void setOnClick(std::function<void()>callback);
 	void setOpacity(float opacity);
+	void setBackgroudColor(core::Color color);
+	void setTextColor(core::Color color);
+	void setHoverColor(core::Color color);
+	void setPressColor(core::Color color);
 };
 

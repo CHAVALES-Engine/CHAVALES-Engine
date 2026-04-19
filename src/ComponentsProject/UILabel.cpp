@@ -85,9 +85,6 @@ void UILabel::setTextColor(core::Color color){
 void UILabel::setAlign(TextAlign align)
 {
 	_align = align;
+	Engine::instance()->setUILabelAlign(_labelID, align);
 }
 
-void UILabel::setFont(std::string font)
-{
-	_fontName = font;
-}

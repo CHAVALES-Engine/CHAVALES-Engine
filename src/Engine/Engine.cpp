@@ -385,6 +385,7 @@ void Engine::setUIPanelVisible(const uiPanelID& id, bool visible)
 	_renderModule->setUIPanelVisible(id, visible);
 }
 uiLabelID  Engine::addUILabel(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const  float opacity,  const core::Color textColor, const core::Color bgColor, const float fontSize, const TextAlign textAlign, const std::string fontName) {
+	
 	return _renderModule->addUILabel(panelID, entityID, text, opacity, textColor, bgColor, fontSize, textAlign, fontName);
 }
 void  Engine::setUILabelText(const uiLabelID& uiLabelID, const std::string& text) {
@@ -397,19 +398,18 @@ void Engine::setUILabelOpacity(const uiLabelID& labelID, float opacity) {
 	_renderModule->setUILabelOpacity(labelID, opacity);
 
 }
-void  Engine::setUILabelTextColor(const uiLabelID labelID, core::Color color) {
+void  Engine::setUILabelTextColor(const uiLabelID& labelID, core::Color color) {
 	_renderModule->setUILabelTextColor(labelID, color);
 }
-void  Engine::setUILabelBackGroundColor(const uiLabelID labelID, core::Color color) {
+void  Engine::setUILabelBackGroundColor(const uiLabelID& labelID, core::Color color) {
 	_renderModule->setUILabelBackGroundColor(labelID, color);
 }
-void  Engine::setUILabelAlign(const uiLabelID labelID, const std::string& align) {
+void  Engine::setUILabelAlign(const uiLabelID& labelID, const TextAlign& align) {
 	_renderModule->setUILabelAlign(labelID, align);
 }
-//void Engine::setUILabelFont(const uiLabelID id, ImFont* font){}
 
-uiButtonID  Engine::addUIButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text) {
-	return _renderModule->addUIButton(panelID, entityID, text);
+uiButtonID  Engine::addUIButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const float& fontSize, const std::string& fontName, const core::Color& bgColor, const core::Color& txColor, const core::Color& hvColor, const core::Color& psColor) {
+	return _renderModule->addUIButton(panelID, entityID, text, fontSize, fontName);
 
 }
 
@@ -422,15 +422,30 @@ uiButtonID Engine::addUIImageButton(const uiPanelID& panelID, const entityID& en
 void Engine::setUIButtonText(const uiButtonID& buttonID, const std::string& text) {
 	_renderModule->setUIButtonText(buttonID, text);
 }
-void Engine::setUIButtonVisible(const uiButtonID& buttonID, bool visible) {
+void Engine::setUIButtonVisible(const uiButtonID& buttonID, bool& visible) {
 	_renderModule->setUIButtonVisible(buttonID, visible);
 }
 void  Engine::setUIButtonTexture(const uiButtonID& buttonID, const std::string& texture) {
 	_renderModule->setUIButtonTexture(buttonID, texture);
 }
-void  Engine::setUIButtonOpacity(const uiButtonID& buttonID, float opacity) {
+void  Engine::setUIButtonOpacity(const uiButtonID& buttonID, float& opacity) {
 	_renderModule->setUIButtonOpacity(buttonID, opacity);
-
+}
+void Engine::setUIButtonBackgroundColor(const uiButtonID& buttonID, core::Color& bgColor)
+{
+	_renderModule->setUIButtonBackgroundColor(buttonID, bgColor);
+}
+void Engine::setUIButtonTextColor(const uiButtonID& buttonID, core::Color& txColor)
+{
+	_renderModule->setUIButtonTextColor(buttonID, txColor);
+}
+void Engine::setUIButtonHoverColor(const uiButtonID& buttonID, core::Color& hvColor)
+{
+	_renderModule->setUIButtonHoverColor(buttonID, hvColor);
+}
+void Engine::setUIButtonPressColor(const uiButtonID& buttonID, core::Color& psColor)
+{
+	_renderModule->setUIButtonPressColor(buttonID, psColor);
 }
 void Engine::setUIButtonCallback(const uiButtonID& id, std::function<void()> callback) {
 	_renderModule->setUIButtonCallback(id, callback);
@@ -442,10 +457,10 @@ uiTextureRectID Engine::addUITextureRect(const uiPanelID& panelID, const entityI
 void Engine::setUITextureRectTexture(const uiTextureRectID& textureRectID, const std::string& texture) {
 	_renderModule->setUITextureRectTexture(textureRectID, texture);
 }
-void Engine::setUITextureRectVisible(const uiTextureRectID& textureRectID, bool visible) {
+void Engine::setUITextureRectVisible(const uiTextureRectID& textureRectID, bool& visible) {
 	_renderModule->setUITextureRectVisible(textureRectID, visible);
 }
-void Engine::setUITextureRectOpacity(const uiTextureRectID& textureRectID, float opacity) {
+void Engine::setUITextureRectOpacity(const uiTextureRectID& textureRectID, float& opacity) {
 	_renderModule->setUITextureRectOpacity(textureRectID, opacity);
 
 }

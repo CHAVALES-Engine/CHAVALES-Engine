@@ -132,9 +132,11 @@ scene = { -- entidades en escena
 
 						},
 				UIButton = {
-					--textureName = "botonPrueba",
+					textureName = "images/prueba.jpg",
 					text = "Boton Botonez",
-					opacity = 1.0
+					opacity = 1.0,
+					fontName = "fonts/horrendo.ttf"
+
 				}
 			}
 		},
