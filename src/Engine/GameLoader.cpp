@@ -232,7 +232,13 @@ void GameLoader::instanceEntity(core::Entity* e, std::pair<sol::object, sol::obj
 	}
 
 	// dentro de la entidad, accedo a la tabla de componentes
-	sol::table componentes = partes["components"];
+	sol::object object = partes["components"];
+	if (object.get_type() != sol::type::table)
+	{
+		Debug::error("GAMELOADER: 'components' no existe o no es una tabla en la entidad ", entidadName, ", creando entidad vacia.");
+		return;
+	}
+	sol::table componentes = object;
 
 	for (auto& componenteObj : componentes)
 	{
@@ -245,7 +251,7 @@ void GameLoader::instanceEntity(core::Entity* e, std::pair<sol::object, sol::obj
 			e->addComponent(std::move(component)); // anyade sin inicializar
 		}
 		else
-			Debug::warning("GAMELOADER: Componente ", componenteName, " no registrado.");
+			Debug::warning("GAMELOADER: No existe el componente ", componenteName, " en ningun registro, no se cargara el componente en ", entidadName, ".");
 	}
 }
 
@@ -253,7 +259,13 @@ void GameLoader::initializeEntity(core::Entity* e, std::pair<sol::object, sol::o
 {
 	// dentro de la entidad, accedo a la tabla de componentes
 	sol::table partes = entidadObj.second;
-	sol::table componentes = partes["components"];
+	sol::object object = partes["components"];
+	if (object.get_type() != sol::type::table)
+	{
+		Debug::error("GAMELOADER: 'components' no existe o no es una tabla en la entidad ", e->getName(), ", creando entidad vacia.");
+		return;
+	}
+	sol::table componentes = object;
 
 	for (auto& componenteObj : componentes)
 	{
@@ -372,7 +384,14 @@ void GameLoader::loadLua(
 		Debug::warning("GAMELOADER: No se ha leido la configuracion de render de gizmos, inicializado a false por defecto.");
 	}
 
-	sol::table entities = scene["entities"];
+	object = scene["entities"];
+	if (!object.valid() || object.get_type() != sol::type::table)
+	{
+		Debug::error("GAMELOADER: 'entities' no existe o no es una tabla en ", path);
+		s = nullptr;
+		return;
+	}
+	sol::table entities = object;
 
 	for (auto& entidadObj : entities)
 	{
