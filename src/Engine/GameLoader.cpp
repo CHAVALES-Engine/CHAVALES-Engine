@@ -336,10 +336,9 @@ void GameLoader::defineFunc(sol::state& lua, const std::string& p)
 		Debug::error("GAMELOADER: Error cargando el script de carga de prefabs", err.what());
 	}
 
-	// printea "SOY UN ARGUMENTO"
 	try
 	{
-		script("SOY UN ARGUMENTO");
+		script("game/scenes/cube.lua");
 	}
 	catch (const sol::error& e)
 	{
@@ -354,16 +353,13 @@ void GameLoader::loadLua(
 	const std::string& p)
 {
 	sol::state lua;
-	lua.open_libraries(sol::lib::base);
+	lua.open_libraries(sol::lib::base, sol::lib::io);
 	std::string path = p + n + ".lua";
 	_path = path;
-
-	Debug::out(path);
 
 	defineUserTypes(lua);
 
 	std::string pathFunc = p + "luaFunc.lua";
-
 	defineFunc(lua, pathFunc);
 
 	try
