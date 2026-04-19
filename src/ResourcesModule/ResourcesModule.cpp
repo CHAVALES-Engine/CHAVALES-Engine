@@ -50,7 +50,7 @@ bool ResourcesModule::insertAssetMap(std::string sourceName)
 	}
 
 	if (typeOfFolder == "fonts") {
-		_fontsVector.push_back({ nombreAsset,sourceName });;
+		_fontsVector.push_back({ typeOfFolder + "/"+ nombreAsset,sourceName });;
 	}
 	_assetsMaps.insert({ typeOfFolder + "/" + nombreAsset,aux});
 	return true;
