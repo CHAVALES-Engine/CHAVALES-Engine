@@ -7,6 +7,10 @@
 #include <sol.hpp>
 #include "guid.h"
 
+struct AssetInfo {
+	ChavalesGUID _id;
+	bool isUpper;
+};
 class ResourcesModule
 {
 public:
@@ -44,7 +48,7 @@ private:
 	bool insertAssetMap(std::string sourceName); 
 
 	std::unordered_map<ChavalesGUID, std::string> _idMaps; //Map of IDs with the path of the associated asset
-	std::unordered_multimap<std::string, ChavalesGUID> _assetsMaps; //Map of assets sorted by name and with an ID
+	std::unordered_multimap<std::string, AssetInfo> _assetsMaps; //Map of assets sorted by name and with an ID
 
 	std::string typeOfFolder; //String of the folder to identify the type of assset and in which the folder is it
 	std::vector<std::pair<std::string, std::string>> _fontsVector; //Vector to save all fonts, in order to render load them
