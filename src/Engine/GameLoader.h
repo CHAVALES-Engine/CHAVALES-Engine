@@ -62,6 +62,13 @@ public:
 	 *
 	 * @param lua - Estado de lua donde definir los tipos.
 	 */
+	static void defineFunc(sol::state& lua, const std::string& p);
+
+	/**
+	 * @brief Para definir tipos de clases propias que poder traducir desde lua.
+	 *
+	 * @param lua - Estado de lua donde definir los tipos.
+	 */
 	static void loadLua(std::shared_ptr<core::Scene>& s, const sceneName& n, const std::string& p);
 
 	/**

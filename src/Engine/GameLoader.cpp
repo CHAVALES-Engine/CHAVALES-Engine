@@ -326,6 +326,28 @@ void GameLoader::defineUserTypes(sol::state& lua)
 		"a", &core::Color::getAlpha);
 }
 
+void GameLoader::defineFunc(sol::state& lua, const std::string& p)
+{
+	sol::load_result script = lua.load_file(p);
+
+	if (!script.valid())
+	{
+		sol::error err = script;
+		Debug::error("GAMELOADER: Error cargando el script de carga de prefabs", err.what());
+	}
+
+	// printea "SOY UN ARGUMENTO"
+	try
+	{
+		script("SOY UN ARGUMENTO");
+	}
+	catch (const sol::error& e)
+	{
+		// si no lo consigue saca error
+		Debug::error("Lua exception: ", e.what());
+	}
+}
+
 void GameLoader::loadLua(
 	std::shared_ptr<core::Scene>& s,
 	const sceneName& n,
@@ -336,7 +358,13 @@ void GameLoader::loadLua(
 	std::string path = p + n + ".lua";
 	_path = path;
 
+	Debug::out(path);
+
 	defineUserTypes(lua);
+
+	std::string pathFunc = p + "luaFunc.lua";
+
+	defineFunc(lua, pathFunc);
 
 	try
 	{
