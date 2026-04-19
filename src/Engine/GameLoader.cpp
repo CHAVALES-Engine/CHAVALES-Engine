@@ -334,7 +334,7 @@ void GameLoader::loadLua(
 	catch (const sol::error& e)
 	{
 		// si no lo consigue saca error
-		Debug::error("GAMELOADER: Error cargando escena: ", path);
+		Debug::error("GAMELOADER: Error abriendo escena: ", path);
 		Debug::error("Lua exception: ", e.what());
 		s = nullptr;
 		return;
@@ -342,7 +342,14 @@ void GameLoader::loadLua(
 
 	// --- lectura lua
 	// - Escena
-	sol::table scene = lua["scene"];
+	sol::object object = lua["scene"];
+	if (!object.valid() || object.get_type() != sol::type::table)
+	{
+		Debug::error("GAMELOADER: 'scene' no existe o no es una tabla en ", path);
+		s = nullptr;
+		return;
+	}
+	sol::table scene = object;
 	Debug::out("GAMELOADER: Cargando escena ", n, ".");
 
 	// - Ajustes escena
@@ -350,7 +357,7 @@ void GameLoader::loadLua(
 	// dentro de la entidad, accedo al dontdestroyonload
 	sol::object gizmos = scene["gizmos"];
 
-	if (gizmos.is<bool>())
+	if (gizmos.valid() && gizmos.is<bool>())
 	{
 		bool _gizmos_B = gizmos.as<bool>();
 		std::string _gizmos_S;
