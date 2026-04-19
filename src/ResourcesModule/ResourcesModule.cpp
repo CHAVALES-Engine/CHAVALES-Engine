@@ -52,6 +52,7 @@ bool ResourcesModule::insertAssetMap(std::string sourceName)
 	if (typeOfFolder == "fonts") {
 		_fontsVector.push_back({ typeOfFolder + "/"+ nombreAsset,sourceName });;
 	}
+	nombreAsset[0] = std::tolower(nombreAsset[0]);
 	_assetsMaps.insert({ typeOfFolder + "/" + nombreAsset,aux});
 	return true;
 } 
@@ -66,14 +67,31 @@ bool ResourcesModule::Init()
 
 std::pair<std::string, std::string> ResourcesModule::getAssetSourceFolder(std::string assetName)
 {
-	auto it = _assetsMaps.find(assetName);
+	std::string parentPath = std::filesystem::path(assetName).parent_path().string() + "/";
+	std::string comprobante = std::filesystem::path(assetName).filename().string();
+
+	std::string aux = comprobante;
+	if (std::isupper(comprobante[0]))
+	{
+		aux[0] = std::tolower(aux[0]);
+	}
+
+	auto it = _assetsMaps.find(parentPath + aux);
+	
 	if (it == _assetsMaps.end())
 	{
 		Debug::error("ERROR: Name of the asset NOT FOUND, searched name:",assetName);
 		return { "", ""};
 	}
+
+	std::string realName = std::filesystem::path(it->first).filename().string();
+
+	if (std::isupper(comprobante[0]))
+	{
+		realName[0] = std::toupper(realName[0]);
+	}
+
 	ChavalesGUID id = it->second;
-	std::string realName = std::filesystem::path(it->first).filename().string(); 
 	return  { realName,_idMaps[id] };
 }
 
