@@ -1610,11 +1610,11 @@ void RenderModule::shutdown()
 	if (_pngCodec) Ogre::Codec::unregisterCodec(_pngCodec);
 	if (_tgaCodec) Ogre::Codec::unregisterCodec(_tgaCodec);
 	if (_bmpCodec) Ogre::Codec::unregisterCodec(_bmpCodec);
-	delete _jpgCodec;
-	delete _jpegCodec;
-	delete _pngCodec;
-	delete _tgaCodec;
-	delete _bmpCodec;
+	delete _jpgCodec; _jpgCodec = nullptr;
+	delete _jpegCodec; _jpegCodec = nullptr;
+	delete _pngCodec; _pngCodec = nullptr;
+	delete _tgaCodec; _tgaCodec = nullptr;
+	delete _bmpCodec; _bmpCodec = nullptr;
 
 	delete _root;
 
