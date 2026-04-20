@@ -94,7 +94,7 @@ RenderModule::~RenderModule()
 	shutdown();
 }
 
-bool RenderModule::Init(SDL_Window* sdlWindow,const HWND handle, const int width, const int height, const std::vector<std::pair<FontName, FontPath>> fonts)
+bool RenderModule::Init(SDL_Window* sdlWindow, const HWND handle, const int width, const int height, const std::vector<std::pair<FontName, FontPath>> fonts)
 {
 	try
 	{
@@ -169,7 +169,8 @@ bool RenderModule::Init(SDL_Window* sdlWindow,const HWND handle, const int width
 		_overlaySystem = new Ogre::OverlaySystem();
 		_sceneMgr->addRenderQueueListener(_overlaySystem);
 		_overlay = new Ogre::ImGuiOverlay();
-		ImGui_ImplSDL3_InitForOther(sdlWindow);
+		if (ImGui_ImplSDL3_InitForOther(sdlWindow))
+			_imguiSDLInitialized = true;
 		ImGuiIO& io = ImGui::GetIO();
 		_fonts["default"] = io.Fonts->AddFontDefault();
 		for (auto font : fonts) {
@@ -188,9 +189,9 @@ bool RenderModule::Init(SDL_Window* sdlWindow,const HWND handle, const int width
 			(float)_vp->getActualWidth(),
 			(float)_vp->getActualHeight()
 		);
-		
 
-		
+
+
 		Ogre::OverlayManager::getSingleton().addOverlay(_overlay);
 		_overlay->show();
 
@@ -298,8 +299,8 @@ void RenderModule::cleanScene(const bool& end)
 
 	_engineNodes.clear();
 	_nextTransformID = 0;
-	
-	
+
+
 	// Esto filtra los grupos que se borran para que no se borren los grupos basicos de ogre y que no pete
 	/*static const std::vector<std::string> internalGroups = {"Scene", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, Ogre::ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME, Ogre::ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME};
 
@@ -385,7 +386,7 @@ transformID RenderModule::addNode(const entityID& entityID, const core::Vector3<
 	aux.sceneNode->setOrientation(Ogre::Quaternion(rot.getW(), rot.getX(), rot.getY(), rot.getZ()));
 	aux.sceneNode->setScale(Ogre::Vector3(scale.getX(), scale.getY(), scale.getZ()));
 	return _nextTransformID++;
-	
+
 }
 
 
@@ -1290,7 +1291,7 @@ uiButtonID RenderModule::addUIImageButton(const uiPanelID& panelID, const entity
 	_buttonToPanel[id] = { panelID, buttonIndex };
 	return id;
 }
-uiButtonID RenderModule::addUIButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const float& fontSize,  const std::string& fontName) {
+uiButtonID RenderModule::addUIButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const float& fontSize, const std::string& fontName) {
 	addUITransform(entityID);
 
 	UIButtonData button;
@@ -1502,7 +1503,7 @@ void RenderModule::renderUI() {
 
 			if (button.buttonImage) {
 				std::string idButton = button.textureFile + "_" + button.entity.toString();
-				
+
 				if (ImGui::ImageButton(idButton.c_str(), (ImTextureID)(uintptr_t)button.textureID, aux)) {
 					std::cout << "CLICK OKIIIIIIIIIII\n";
 					if (button.onClick) {
@@ -1512,7 +1513,7 @@ void RenderModule::renderUI() {
 			}
 			else {
 				ImGui::PushFont(button.font);
-				ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(button.textColor.getRed() * 255, button.textColor.getGreen() * 255, button.textColor.getBlue() * 255, button.textColor.getAlpha() * button.opacity* 255));
+				ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(button.textColor.getRed() * 255, button.textColor.getGreen() * 255, button.textColor.getBlue() * 255, button.textColor.getAlpha() * button.opacity * 255));
 				ImGui::PushStyleColor(ImGuiCol_Button, IM_COL32(button.bgColor.getRed() * 255, button.bgColor.getGreen() * 255, button.bgColor.getBlue() * 255, button.bgColor.getAlpha() * button.opacity * 255));
 				ImGui::PushStyleColor(ImGuiCol_ButtonHovered, IM_COL32(button.hvColor.getRed() * 255, button.hvColor.getGreen() * 255, button.hvColor.getBlue() * 255, button.hvColor.getAlpha() * button.opacity * 255));
 				ImGui::PushStyleColor(ImGuiCol_ButtonActive, IM_COL32(button.psColor.getRed() * 255, button.psColor.getGreen() * 255, button.psColor.getBlue() * 255, button.psColor.getAlpha() * button.opacity * 255));
@@ -1526,7 +1527,7 @@ void RenderModule::renderUI() {
 				ImGui::PopStyleColor(4);
 				ImGui::PopFont();
 			}
-			
+
 			ImGui::PopStyleVar();
 		}
 		splitter.Merge(drawList);
@@ -1558,7 +1559,11 @@ void RenderModule::cleanUI()
 
 void RenderModule::shutdown()
 {
-	ImGui_ImplSDL3_Shutdown();
+	if (_imguiSDLInitialized)
+	{
+		ImGui_ImplSDL3_Shutdown();
+		_imguiSDLInitialized = false;
+	}
 
 	if (_sceneMgr && _overlaySystem)
 	{
@@ -1589,7 +1594,7 @@ void RenderModule::shutdown()
 	}
 
 	cleanScene(true);
-	
+
 	Ogre::RTShader::ShaderGenerator::getSingleton().removeAllShaderBasedTechniques();
 	Ogre::RTShader::ShaderGenerator::destroy();
 
@@ -1703,8 +1708,8 @@ void RenderModule::DrawCapsule(const ShapeRenderData& data)
 	float r = data.radius;
 	float hh = data.halfHeight;
 
-	Ogre::Vector3 center(data.position.getX(),data.position.getY(),data.position.getZ());
-	Ogre::Quaternion q(data.rotation.getW(),data.rotation.getX(),data.rotation.getY(),data.rotation.getZ());
+	Ogre::Vector3 center(data.position.getX(), data.position.getY(), data.position.getZ());
+	Ogre::Quaternion q(data.rotation.getW(), data.rotation.getX(), data.rotation.getY(), data.rotation.getZ());
 
 	Ogre::Vector3 U = q * Ogre::Vector3::UNIT_Y;
 	Ogre::Vector3 V = q * Ogre::Vector3::UNIT_Z;

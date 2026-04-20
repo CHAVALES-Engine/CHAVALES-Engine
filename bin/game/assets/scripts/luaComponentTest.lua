@@ -1,4 +1,6 @@
 
+--Export("ajsda", sadasd, 3)
+
 function init()
     Debug.out("luaComponentTest init")
 end

@@ -591,4 +591,6 @@ private:
     Ogre::ImGuiOverlay* _overlay;
     std::unordered_set<std::string> _resourceGroups;
 
+	bool _imguiSDLInitialized = false;
+
 };
