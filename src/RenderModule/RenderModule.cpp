@@ -1649,15 +1649,14 @@ void RenderModule::shutdown()
 	delete _tgaCodec; _tgaCodec = nullptr;
 	delete _bmpCodec; _bmpCodec = nullptr;
 
-	delete _root;
+	delete _root; _root = nullptr;
 
-	_root = nullptr;
 	_window = nullptr;
 	_sceneMgr = nullptr;
 
-	delete _gl3Plugin;
-	delete _assimpPlugin;
-	delete _particlePlugin;
+	delete _gl3Plugin; _gl3Plugin = nullptr;
+	delete _assimpPlugin; _gl3Plugin = nullptr;
+	delete _particlePlugin; _gl3Plugin = nullptr;
 }
 
 void RenderModule::RenderPhysics(const std::vector<ShapeRenderData>& shapes)
