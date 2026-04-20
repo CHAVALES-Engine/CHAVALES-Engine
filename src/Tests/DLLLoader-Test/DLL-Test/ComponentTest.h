@@ -129,7 +129,10 @@ class ComponentTest : public core::Component
 			// bloquea el cursor
 			Engine::input()->setRelativeMouseMode(false);
 		}
-		_transform->LookAt(_esfera->getComponent<Transform>()->getGlobalPosition());
+		if (_esfera != nullptr)
+		{
+			//_transform->LookAt(_esfera->getComponent<Transform>()->getGlobalPosition());
+		}
 	}
 
 	void fixedUpdate() override
