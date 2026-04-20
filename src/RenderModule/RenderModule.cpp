@@ -286,6 +286,9 @@ void RenderModule::cleanScene(const bool& end)
 	//Limpiar UI
 	cleanUI();
 
+	//limpiar debug
+	cleanDebug();
+
 	//Limpiar nodos
 	/*for (const EngineNode& engineNode : _engineNodes)
 	{
@@ -340,6 +343,15 @@ void RenderModule::cleanScene(const bool& end)
 			_rgm->clearResourceGroup(resourceGroup);
 		}
 		_resourceGroups.clear();
+
+		//recreacion de debug draw
+		_debugDraw = _sceneMgr->createManualObject("DebugDraw");
+		_debugDraw->setDynamic(true);
+		_debugDraw->setRenderQueueGroup(Ogre::RENDER_QUEUE_OVERLAY);
+		_debugDraw->setBoundingBox(Ogre::AxisAlignedBox::BOX_INFINITE);
+
+		_debugNode = _sceneMgr->getRootSceneNode()->createChildSceneNode();
+		_debugNode->attachObject(_debugDraw);
 	}
 	else
 	{
@@ -1557,6 +1569,27 @@ void RenderModule::cleanUI()
 	_textureToPanel.clear();
 }
 
+void RenderModule::cleanDebug()
+{
+	if (_debugDraw)
+	{
+		_debugDraw->clear();
+	}
+
+	if (_debugNode && _debugDraw)
+	{
+		_debugNode->detachObject(_debugDraw);
+		_sceneMgr->destroyManualObject(_debugDraw);
+		_debugDraw = nullptr;
+	}
+
+	if (_debugNode)
+	{
+		_sceneMgr->destroySceneNode(_debugNode);
+		_debugNode = nullptr;
+	}
+}
+
 void RenderModule::shutdown()
 {
 	if (_imguiSDLInitialized)
@@ -1667,11 +1700,6 @@ void RenderModule::DrawBox(const ShapeRenderData& data)
 		{
 			return center + (q * p);
 		};
-	//Ogre::Matrix3 rot;
-	//q.ToRotationMatrix(rot);
-	//auto transformPoint = [&](const Ogre::Vector3& p) {//mas facil asi
-	//	return center + (rot * p);
-	//	};
 
 	Ogre::Vector3 v[8] = {
 		{-halfSize.x, -halfSize.y, -halfSize.z},

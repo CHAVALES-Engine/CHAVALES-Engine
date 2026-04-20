@@ -538,6 +538,10 @@ public:
 
 	void renderUI();
 	void cleanUI();
+	/*
+	* @brief Se encarga de resetear los colliders dibujados en escen
+	*/
+	void cleanDebug();
 
 
 	/*
@@ -556,7 +560,6 @@ public:
 	* @brief Dibuja el box sphere para debug
 	*/
 	void DrawSphere(const ShapeRenderData& data);
-
 
 	
 

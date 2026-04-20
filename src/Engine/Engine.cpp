@@ -93,6 +93,7 @@ void Engine::renderFrame()
 
 void Engine::cleanScene()
 {
+	_physicsModule->ReloadPhysics();
 	_renderModule->cleanScene(false);
 }
 
