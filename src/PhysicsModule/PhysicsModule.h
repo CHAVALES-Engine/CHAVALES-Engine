@@ -15,7 +15,14 @@ class PhysicsModule : public physx::PxSimulationEventCallback
 {
 public:
 
+	/*
+	* @brief Constructor del módulo de físicas
+	*/
 	PhysicsModule();
+
+	/*
+	* @brief Destructor del módulo de físicas
+	*/
 	virtual ~PhysicsModule();
 
 	/*
@@ -33,12 +40,16 @@ public:
 	*/
 	core::Quaternion<> GetPhysicsRotation(ComponentID id);
 	/*
-	* @brief Update 
+	* @brief Update
 	* @param deltatime
 	*/
 	void Update(float dt);
 
-	bool rayCast(const PxVec3& origin,const PxVec3& direction,float maxDistance);
+	/*
+	* @brief Lanza un raycast en la escena
+	* @param origen, direccion y distancia máxima
+	*/
+	bool rayCast(const PxVec3& origin, const PxVec3& direction, float maxDistance);
 
 	//COLLIDERS
 	/*
@@ -72,16 +83,58 @@ public:
 	void SetPhysicsRotation(ComponentID id, const core::Quaternion<>& pos);
 
 	//rigidbody
+	/*
+	* @brief Crea un rigidbody en la escena
+	* @param posición inicial, masa, uso de gravedad, si es cinemático
+	*/
 	uint32_t CreateRigidBody(core::Vector3<> pos, float mass, bool useGravity, bool isKinematic);
+
+	/*
+	* @brief Obtiene la velocidad lineal de un rigidbody
+	* @param id del rigidbody
+	*/
 	core::Vector3<> GetLinearVelocity(uint32_t id);
+
+	/*
+	* @brief Setea la velocidad lineal de un rigidbody
+	* @param id del rigidbody y nueva velocidad
+	*/
 	void SetLinearVelocity(uint32_t id, core::Vector3<> vel);
+
+	/*
+	* @brief Aplica una fuerza a un rigidbody
+	* @param id del rigidbody, fuerza y modo
+	*/
 	void AddForce(uint32_t id, core::Vector3<> force, char mode);
+
+	/*
+	* @brief Limpia fuerzas aplicadas a un rigidbody
+	* @param id del rigidbody y modo
+	*/
 	void ClearForce(uint32_t id, char mode);
 
+	/*
+	* @brief Obtiene la masa de un rigidbody
+	* @param id del rigidbody
+	*/
 	float GetMass(uint32_t id);
+
+	/*
+	* @brief Setea la masa de un rigidbody
+	* @param id del rigidbody y nueva masa
+	*/
 	void SetMass(uint32_t id, float mass);
 
+	/*
+	* @brief Obtiene el damping lineal de un rigidbody
+	* @param id del rigidbody
+	*/
 	float GetLinearDamping(uint32_t id);
+
+	/*
+	* @brief Setea el damping lineal de un rigidbody
+	* @param id del rigidbody y nuevo damping
+	*/
 	void SetLinearDamping(uint32_t id, float damping);
 
 	//collider + rigidbody
@@ -119,7 +172,16 @@ public:
 	void onAdvance(const physx::PxRigidBody* const* bodyBuffer, const physx::PxTransform* poseBuffer, const physx::PxU32 count) override {}
 
 	//MAYERIALES
+	/*
+	* @brief Crea un material físico
+	* @param fricción estática, fricción dinámica, restitución y modos de combinación
+	*/
 	uint32_t CreateMaterial(float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine);
+
+	/*
+	* @brief Actualiza un material físico existente
+	* @param id del material y nuevos parámetros
+	*/
 	void UpdateMaterial(uint32_t id, float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine);
 
 	//LIMPIEZA
