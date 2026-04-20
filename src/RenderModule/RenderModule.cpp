@@ -1638,11 +1638,11 @@ void RenderModule::shutdown()
 
 	cleanScene(true);
 
-	Ogre::Codec::unregisterCodec(_jpgCodec);
-	Ogre::Codec::unregisterCodec(_jpegCodec);
-	Ogre::Codec::unregisterCodec(_pngCodec);
-	Ogre::Codec::unregisterCodec(_tgaCodec);
-	Ogre::Codec::unregisterCodec(_bmpCodec);
+	if (_jpgCodec) Ogre::Codec::unregisterCodec(_jpgCodec);
+	if (_jpegCodec) Ogre::Codec::unregisterCodec(_jpegCodec);
+	if (_pngCodec) Ogre::Codec::unregisterCodec(_pngCodec);
+	if (_tgaCodec) Ogre::Codec::unregisterCodec(_tgaCodec);
+	if (_bmpCodec) Ogre::Codec::unregisterCodec(_bmpCodec);
 	delete _jpgCodec;
 	delete _jpegCodec;
 	delete _pngCodec;
