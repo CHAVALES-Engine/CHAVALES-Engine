@@ -691,7 +691,7 @@ std::vector<ShapeRenderData> PhysicsModule::GetRenderData()
 			{
 				const PxSphereGeometry& sphere = static_cast<const PxSphereGeometry&>(geom);
 
-				data.type = ShapeType::CAPSULE; // como dijiste: unificado
+				data.type = ShapeType::CAPSULE;
 				data.radius = sphere.radius;
 				data.halfHeight = 0.0f;
 				break;
@@ -716,4 +716,49 @@ std::vector<ShapeRenderData> PhysicsModule::GetRenderData()
 	}
 
 	return result;
+}
+
+void PhysicsModule::ReloadPhysics()
+{
+	physicsMap.clear();
+	actorToID.clear();
+	eventQueue.clear();
+
+	//libero escena act
+	if (gScene)
+	{
+		gScene->release();
+		gScene = nullptr;
+	}
+
+	//nueva igual
+	PxSceneDesc sceneDesc(gPhysics->getTolerancesScale());
+	sceneDesc.gravity = PxVec3(0.0f, -9.81f, 0.0f);
+
+	if (!dispatcher)
+		dispatcher = PxDefaultCpuDispatcherCreate(2);
+
+	sceneDesc.cpuDispatcher = dispatcher;
+	sceneDesc.filterShader = CustomFilterShader;
+	sceneDesc.simulationEventCallback = this;
+
+	sceneDesc.flags |= PxSceneFlag::eENABLE_ACTIVE_ACTORS;
+	sceneDesc.flags |= PxSceneFlag::eENABLE_PCM;
+	sceneDesc.flags |= PxSceneFlag::eENABLE_STABILIZATION;
+	sceneDesc.flags |= PxSceneFlag::eENABLE_CCD;
+
+	gScene = gPhysics->createScene(sceneDesc);
+
+	if (!gScene)
+	{
+		Debug::out("PHYSICS: Error recreando escena");
+		return;
+	}
+
+	gScene->setVisualizationParameter(PxVisualizationParameter::eCOLLISION_SHAPES, 1.0f);
+	gScene->setVisualizationParameter(PxVisualizationParameter::eACTOR_AXES, 1.0f);
+
+	//reasigno
+	raycast = Raycast(gScene);
+
 }
