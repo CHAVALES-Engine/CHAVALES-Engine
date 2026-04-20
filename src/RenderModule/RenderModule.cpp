@@ -273,12 +273,6 @@ void RenderModule::cleanScene(const bool& end)
 	//Limpiar modelos
 	cleanModels();
 
-	//Limpiar luces
-	cleanLights();
-
-	//Limpiar camaras
-	cleanCameras();
-
 	//Limpiar particulas
 	cleanParticleGens();
 
