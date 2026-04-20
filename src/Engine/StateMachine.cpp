@@ -39,17 +39,6 @@ void StateMachine::gameLoop()
 
 		if (_currentScene.ptr != nullptr)
 		{
-			if (GameLoader::reloadLua() || ComponentDLLLoader::instance().checkReload()) // si es necesario recargar...
-			{
-				Debug::warning("Reloading scene [", _currentScene.name, "]");
-				//limpia logica
-				_currentScene.ptr->onDestroy(); // elimina escena
-				//limpia render
-				Engine::instance()->cleanScene();  // limpia la escena
-				scenePtr s = std::move(GameLoader::loadScene(_currentScene.name)); // vuelve a cargar
-				_currentScene.ptr = s;
-			}
-
 			_deltaTime = core::Clock::calculateDeltaTime(startTime);
 
 			core::Clock::setDeltaTime(_deltaTime); // para acceso general
@@ -63,6 +52,17 @@ void StateMachine::gameLoop()
 			_currentScene.ptr->update(_deltaTime);
 			Engine::instance()->update(_deltaTime);
 			Engine::instance()->renderFrame();
+
+			if (GameLoader::reloadLua() || ComponentDLLLoader::instance().checkReload()) // si es necesario recargar...
+			{
+				Debug::warning("Reloading scene [", _currentScene.name, "]");
+				//limpia logica
+				_currentScene.ptr->onDestroy(); // elimina escena
+				//limpia render
+				Engine::instance()->cleanScene();  // limpia la escena
+				scenePtr s = std::move(GameLoader::loadScene(_currentScene.name)); // vuelve a cargar
+				_currentScene.ptr = s;
+			}
 		}
 	}
 
