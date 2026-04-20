@@ -22,7 +22,7 @@ public:
 	/// <summary>
 	/// Method to retrive the path of the desire asset
 	/// </summary>
-	/// <param name="assetName">Name of the asset, this name is the real name of the file + the type of extension of the file</param>
+	/// <param name="assetName">Name of the asset, this name is the real name of the folder + file + the type of extension of the file</param>
 	/// <returns></returns>
 	std::pair<std::string, std::string> getAssetSourceFolder(std::string assetName);
 

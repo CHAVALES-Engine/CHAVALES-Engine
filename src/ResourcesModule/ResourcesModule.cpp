@@ -75,7 +75,9 @@ std::pair<std::string, std::string> ResourcesModule::getAssetSourceFolder(std::s
 	std::string comprobante = std::filesystem::path(assetName).filename().string();
 
 	std::string aux = comprobante;
-	aux[0] = std::tolower(aux[0]);
+	if (std::isupper(aux[0])) {
+		aux[0] = std::tolower(aux[0]);
+	}
 
 	auto it = _assetsMaps.find(parentPath + aux);
 	
