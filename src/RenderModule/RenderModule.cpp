@@ -1573,9 +1573,6 @@ void RenderModule::shutdown()
 		_overlay = nullptr;
 	}
 
-	for (auto& m : _createdMaterials)
-		Ogre::MaterialManager::getSingleton().remove(m);
-
 	if (_debugDraw)
 	{
 		if (_debugNode)
@@ -1593,10 +1590,20 @@ void RenderModule::shutdown()
 		_debugNode = nullptr;
 	}
 
-	cleanScene(true);
+	for (auto& m : _createdMaterials)
+		Ogre::MaterialManager::getSingleton().remove(m);
 
-	Ogre::RTShader::ShaderGenerator::getSingleton().removeAllShaderBasedTechniques();
-	Ogre::RTShader::ShaderGenerator::destroy();
+	if (Ogre::RTShader::ShaderGenerator::getSingletonPtr())
+	{
+		Ogre::RTShader::ShaderGenerator::getSingleton()
+			.removeAllShaderBasedTechniques();
+		if (_sceneMgr)
+			Ogre::RTShader::ShaderGenerator::getSingleton()
+			.removeSceneManager(_sceneMgr);
+		Ogre::RTShader::ShaderGenerator::destroy();
+	}
+
+	cleanScene(true);
 
 	Ogre::Codec::unregisterCodec(_jpgCodec);
 	Ogre::Codec::unregisterCodec(_jpegCodec);
@@ -1611,13 +1618,13 @@ void RenderModule::shutdown()
 
 	delete _root;
 
-	delete _gl3Plugin;
-	delete _assimpPlugin;
-	delete _particlePlugin;
-
 	_root = nullptr;
 	_window = nullptr;
 	_sceneMgr = nullptr;
+
+	delete _gl3Plugin;
+	delete _assimpPlugin;
+	delete _particlePlugin;
 }
 
 void RenderModule::RenderPhysics(const std::vector<ShapeRenderData>& shapes)
