@@ -602,6 +602,7 @@ public:
 
 #pragma region Resources
 	std::pair<std::string, std::string> getAssetSourceFolder(std::string assetName);
+	std::vector<std::pair<std::string, std::string>> getAllAssets();
 #pragma endregion
 #pragma region Platform
 	/**

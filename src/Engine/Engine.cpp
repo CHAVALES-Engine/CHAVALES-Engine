@@ -685,6 +685,10 @@ std::pair<std::string, std::string> Engine::getAssetSourceFolder(std::string ass
 {
 	return _resourcesModule->getAssetSourceFolder(assetName); 
 }
+std::vector<std::pair<std::string, std::string>> Engine::getAllAssets()
+{
+	return _resourcesModule->getAllAssets();
+}
 #pragma endregion
 
 //------Metodo de PlatformModule:

@@ -15,14 +15,16 @@ ResourcesModule::~ResourcesModule()
 
 bool ResourcesModule::loadAsset(std::string sourceName)
 {
-	if (!std::filesystem::is_directory(sourceName) && std::filesystem::is_regular_file(sourceName)) insertAssetMap(sourceName);
-	if (!std::filesystem::is_directory(sourceName) && !std::filesystem::is_regular_file(sourceName)) return false;
+	/*if (!std::filesystem::is_directory(sourceName) && std::filesystem::is_regular_file(sourceName)) insertAssetMap(sourceName);
+	if (!std::filesystem::is_directory(sourceName) && !std::filesystem::is_regular_file(sourceName)) return false;*/
 	for (const auto& entry : std::filesystem::directory_iterator(sourceName)) 
 	{
 		if (entry.is_directory()) 
 		{
 			typeOfFolder = entry.path().filename().string();
-			loadAsset(sourceName + typeOfFolder + "/");
+			if (loadAsset(sourceName + typeOfFolder + "/")) {
+				return false;
+			}
 		}
 		else 
 		{
@@ -99,5 +101,17 @@ std::pair<std::string, std::string> ResourcesModule::getAssetSourceFolder(std::s
 std::vector<std::pair<std::string, std::string>> ResourcesModule::getAllFonts()
 {
 	return _fontsVector;
+}
+
+std::vector<std::pair<std::string, std::string>> ResourcesModule::getAllAssets()
+{
+	std::vector<std::pair<std::string, std::string>> auxiliar;
+	for (auto i = _assetsMaps.begin(); i != _assetsMaps.end();++i) {
+
+		auto id = _idMaps.find(i->second._id);
+		std::string ruta = id->second;
+		auxiliar.push_back({ i->first,ruta });
+	}
+	return auxiliar;
 }
 

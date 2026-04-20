@@ -32,6 +32,11 @@ public:
 	/// <returns></returns>
 	std::vector<std::pair<std::string, std::string>> getAllFonts();
 
+	/// <summary>
+	/// Access all assets reserved in the engine
+	/// </summary>
+	/// <returns></returns>
+	std::vector<std::pair<std::string, std::string>> getAllAssets();
 private:
 	/// <summary>
 	/// Method to go overall the assets folders, it's recursive which means it will travel across the folder unitl it has reserved all the assets of that folder
