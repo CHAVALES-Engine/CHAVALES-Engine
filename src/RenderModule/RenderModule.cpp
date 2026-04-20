@@ -1591,6 +1591,8 @@ void RenderModule::cleanDebug()
 
 void RenderModule::shutdown()
 {
+	if (!_root) return;
+
 	if (_imguiSDLInitialized)
 	{
 		ImGui_ImplSDL3_Shutdown();
