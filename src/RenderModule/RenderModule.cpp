@@ -243,11 +243,6 @@ bool RenderModule::Init(SDL_Window* sdlWindow, const HWND handle, const int widt
 	catch (const std::exception& e)
 	{
 		std::cerr << "Error iniciando OGRE: " << e.what() << std::endl;
-	}
-	catch (...)
-	{
-		shutdown();
-		std::cerr << "Error iniciando OGRE" << std::endl;
 		return false;
 	}
 }
