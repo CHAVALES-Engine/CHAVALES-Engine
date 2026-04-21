@@ -347,21 +347,39 @@ void GameLoader::defineFunc(sol::state& lua, const std::string& p)
 		{
 			Debug::out("Resultado de func() valido");
 			sol::table root = result;
-			sol::object cube = root["cube"];
 
-			if (cube.valid() && cube.get_type() != sol::type::table)
+			if (root.get_type() == sol::type::table)
 			{
-				Debug::out("Cube ES valido");
+				Debug::warning("Resultado de func() SI es una tabla");
+			}
+			else
+			{
+				Debug::error("Resultado de func() NO es una tabla");
+				return;
+			}
+
+			sol::object cube = root["cube"];
+			if (cube.valid())
+			{
+				Debug::warning("Cube ES valido");
+				if (cube.get_type() == sol::type::table)
+				{
+					Debug::warning("Cube ES una tabla");
+				}
+				else
+				{
+					Debug::error("Cube NO es una tabla");
+				}
 			}
 			else 
 			{
-				Debug::out("Cube NO es valido");
+				Debug::error("Cube NO es valido");
 			}
 		}
 		else
 		{
 			sol::error err = result;
-			Debug::error("Resultado invalido: ", err.what());
+			Debug::error("Resultado de func() invalido: ", err.what());
 		}
 	}
 	catch (const sol::error& e)
