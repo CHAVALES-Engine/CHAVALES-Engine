@@ -334,11 +334,35 @@ void GameLoader::defineFunc(sol::state& lua, const std::string& p)
 	{
 		sol::error err = script;
 		Debug::error("GAMELOADER: Error cargando el script de carga de prefabs", err.what());
+		return;
 	}
+
+	sol::protected_function func = script;
 
 	try
 	{
-		script("game/scenes/cube.lua");
+		sol::protected_function_result result = func("game/scenes/cube.lua");
+
+		if (result.valid())
+		{
+			Debug::out("Resultado de func() valido");
+			sol::table root = result;
+			sol::object cube = root["cube"];
+
+			if (cube.valid() && cube.get_type() != sol::type::table)
+			{
+				Debug::out("Cube ES valido");
+			}
+			else 
+			{
+				Debug::out("Cube NO es valido");
+			}
+		}
+		else
+		{
+			sol::error err = result;
+			Debug::error("Resultado invalido: ", err.what());
+		}
 	}
 	catch (const sol::error& e)
 	{

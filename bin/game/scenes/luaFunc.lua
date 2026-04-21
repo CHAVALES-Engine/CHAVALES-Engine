@@ -41,3 +41,14 @@ local lines = loadPrefab(p)
 for k,v in pairs(lines) do
   print('line[' .. k .. ']', v)
 end
+
+return {
+    cube = {
+        ddol = false,
+        components = {
+            Transform = {
+                
+            }
+        }
+    }
+}
