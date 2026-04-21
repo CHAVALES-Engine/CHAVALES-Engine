@@ -22,7 +22,7 @@ bool ResourcesModule::loadAsset(std::string sourceName)
 		if (entry.is_directory()) 
 		{
 			typeOfFolder = entry.path().filename().string();
-			if (loadAsset(sourceName + typeOfFolder + "/")) {
+			if (!loadAsset(sourceName + typeOfFolder + "/")) {
 				return false;
 			}
 		}
@@ -45,7 +45,13 @@ bool ResourcesModule::insertAssetMap(std::string sourceName)
 	ChavalesGUID aux = ChavalesGUID::generate();
 	_idMaps[aux] = nombreCarpeta + "/";
 
-	auto it = _assetsMaps.find(typeOfFolder + "/" + sourceName);
+	bool mayus = false;
+	if (std::isupper(nombreAsset[0])) {
+		mayus = true;
+	}
+	nombreAsset[0] = std::tolower(nombreAsset[0]);
+
+	auto it = _assetsMaps.find(typeOfFolder + "/" + nombreAsset);
 	if (it != _assetsMaps.end()) {
 		Debug::error("ERROR: asset con NOMBRE EXISTENTE");
 		return false;
@@ -54,11 +60,6 @@ bool ResourcesModule::insertAssetMap(std::string sourceName)
 	if (typeOfFolder == "fonts") {
 		_fontsVector.push_back({ typeOfFolder + "/"+ nombreAsset,sourceName });;
 	}
-	bool mayus = false;
-	if (std::isupper(nombreAsset[0])) {
-		mayus = true;
-	}
-	nombreAsset[0] = std::tolower(nombreAsset[0]);
 	_assetsMaps.insert({ typeOfFolder + "/" + nombreAsset,{aux,mayus} });
 	return true;
 } 
