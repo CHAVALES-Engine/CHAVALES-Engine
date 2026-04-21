@@ -57,5 +57,6 @@ private:
 
 	std::string typeOfFolder; //String of the folder to identify the type of assset and in which the folder is it
 	std::vector<std::pair<std::string, std::string>> _fontsVector; //Vector to save all fonts, in order to render load them
+
 };
 

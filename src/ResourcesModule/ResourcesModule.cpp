@@ -15,16 +15,17 @@ ResourcesModule::~ResourcesModule()
 
 bool ResourcesModule::loadAsset(std::string sourceName)
 {
-	/*if (!std::filesystem::is_directory(sourceName) && std::filesystem::is_regular_file(sourceName)) insertAssetMap(sourceName);
-	if (!std::filesystem::is_directory(sourceName) && !std::filesystem::is_regular_file(sourceName)) return false;*/
 	for (const auto& entry : std::filesystem::directory_iterator(sourceName)) 
 	{
 		if (entry.is_directory()) 
 		{
+			std::string previousType = typeOfFolder;
+
 			typeOfFolder = entry.path().filename().string();
 			if (!loadAsset(sourceName + typeOfFolder + "/")) {
 				return false;
 			}
+			typeOfFolder = previousType;
 		}
 		else 
 		{
