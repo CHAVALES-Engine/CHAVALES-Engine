@@ -23,60 +23,6 @@ public:
 	GameLoader() = default;
 	~GameLoader() = default;
 
-	// -- Traducciones de Lua
-	/**
-	 * @brief Traduce un objeto de sol a variant para guardarlo en el mapa de propiedades de un componente.
-	 *
-	 * @param obj - Objeto de sol a traducir.
-	 * @param clave - Nombre con el que se guardara la propiedad en el mapa de propiedades.
-	 * @param props - Mapa de propiedades del componente.
-	 */
-	static void parseObject(const sol::object& obj, const std::string& clave, Properties& props, const std::string& componentName);
-
-	/**
-	 * @brief Traduce un objeto de sol a variant para guardarlo en el mapa de propiedades de un componente.
-	 *
-	 * @param e - Entidad a la que pertenecera el componente.
-	 * @param componenteObj - Par nombre, objeto de sol a traducir.
-	 */
-	static void parseComponent(core::Entity* e, std::pair<sol::object, sol::object>& componenteObj);
-
-	/**
-	 * @brief Traduce un objeto de sol a variant para guardarlo en el mapa de propiedades de un componente.
-	 *
-	 * @param e - Entidad a la que pertenecera el componente.
-	 * @param entidadObj - Par nombre, objeto de sol a traducir.
-	 */
-	static void instanceEntity(core::Entity* e, std::pair<sol::object, sol::object> const& entidadObj);
-	static void initializeEntity(core::Entity* e, std::pair<sol::object, sol::object> const& entidadObj);
-
-	/**
-	 * @brief Para definir tipos de clases propias que poder traducir desde lua.
-	 *
-	 * @param lua - Estado de lua donde definir los tipos.
-	 */
-	static void defineUserTypes(sol::state& lua);
-
-	/**
-	 * @brief Para definir tipos de clases propias que poder traducir desde lua.
-	 *
-	 * @param lua - Estado de lua donde definir los tipos.
-	 */
-	static void defineFunc(sol::state& lua, const std::string& p);
-
-	/**
-	 * @brief Para definir tipos de clases propias que poder traducir desde lua.
-	 *
-	 * @param lua - Estado de lua donde definir los tipos.
-	 */
-	static void loadLua(std::shared_ptr<core::Scene>& s, const sceneName& n, const std::string& p);
-	/**
-	 * Carga un archivo de lua y lo mete en la escena activa.
-	 * @param s - Escena a la que anyadir.
-	 * @param p - path del fichero a cargar.
-	 */
-	static core::Entity* loadLua(const std::shared_ptr<core::Scene>& s, std::string const& p);
-
 	/**
 	 * @brief Carga una escena dada de lua.
 	 *
@@ -92,17 +38,73 @@ public:
 	static core::Entity* loadPrefab(std::string const& n);
 
 	/**
+	 * @brief Control de recargado de la escena desde el archivo .lua.
+	 */
+	static bool reloadLua();
+
+private:
+	// -- Traducciones de Lua
+	/**
+	 * @brief Traduce un objeto de sol a variant para guardarlo en el mapa de propiedades de un componente.
+	 *
+	 * @param obj - Objeto de sol a traducir.
+	 * @param clave - Nombre con el que se guardara la propiedad en el mapa de propiedades.
+	 * @param props - Mapa de propiedades del componente.
+	 */
+	static void _parseObject(const sol::object& obj, const std::string& clave, Properties& props, const std::string& componentName);
+
+	/**
+	 * @brief Traduce un objeto de sol a variant para guardarlo en el mapa de propiedades de un componente.
+	 *
+	 * @param e - Entidad a la que pertenecera el componente.
+	 * @param componenteObj - Par nombre, objeto de sol a traducir.
+	 */
+	static void _parseComponent(core::Entity* e, std::pair<sol::object, sol::object>& componenteObj);
+
+	/**
+	 * @brief Traduce un objeto de sol a variant para guardarlo en el mapa de propiedades de un componente.
+	 *
+	 * @param e - Entidad a la que pertenecera el componente.
+	 * @param entidadObj - Par nombre, objeto de sol a traducir.
+	 */
+	static void _instanceEntity(core::Entity* e, std::pair<sol::object, sol::object> const& entidadObj);
+	static void _initializeEntity(core::Entity* e, std::pair<sol::object, sol::object> const& entidadObj);
+
+	/**
+	 * @brief Para definir tipos de clases propias que poder traducir desde lua.
+	 *
+	 * @param lua - Estado de lua donde definir los tipos.
+	 */
+	static void _defineUserTypes(sol::state& lua);
+
+	/**
+	 * @brief Para definir tipos de clases propias que poder traducir desde lua.
+	 *
+	 * @param lua - Estado de lua donde definir los tipos.
+	 */
+	static void _defineFunc(sol::state& lua, const std::string& p);
+
+	/**
+	 * @brief Para definir tipos de clases propias que poder traducir desde lua.
+	 *
+	 * @param lua - Estado de lua donde definir los tipos.
+	 */
+	static void _loadLua(std::shared_ptr<core::Scene>& s, const sceneName& n, const std::string& p);
+
+	/**
+	 * Carga un archivo de lua y lo mete en la escena activa.
+	 * @param s - Escena a la que anyadir.
+	 * @param p - path del fichero a cargar.
+	 */
+	static core::Entity* _loadLua(const std::shared_ptr<core::Scene>& s, std::string const& p);
+
+	/**
 	 * @brief Busca en la ruta el nombre de la escena y devuelve la ruta completa hasta el .lua.
 	 *
 	 * @param sceneName - Nombre de la escena a cargar.
 	 * @param root - Ruta donde buscar el nombre de la escena.
 	 */
-	static std::string findSceneFile(const std::string& sceneName, const std::string& root);
-
-	/**
-	 * @brief Control de recargado de la escena desde el archivo .lua.
-	 */
-	static bool reloadLua();
+	static std::string _findSceneFile(const std::string& sceneName, const std::string& root);
 
 	/**
 	 * @brief Comprueba si una tabla sol es un vector de tipo especificado en la plantilla
@@ -110,7 +112,7 @@ public:
 	 * @returns Si la tabla es traducible a un vector de plantilla
 	 */
 	template<typename T>
-	static bool isVectorOf(const sol::table& table);
+	static bool _isVectorOf(const sol::table& table);
 
 	/**
 	 * @brief Traduce una tabla sol a vector de tipo especificado en el template
@@ -118,9 +120,8 @@ public:
 	 * @returns vector de tipo T con el contenido de la tabla
 	 */
 	template<typename T>
-	static std::vector<T> parseVector(const sol::table& table);
+	static std::vector<T> _parseVector(const sol::table& table);
 
-private:
 	static inline std::string _path = "";
 	static inline std::filesystem::file_time_type _lastTime;
 	static inline uintmax_t _lastSize;
