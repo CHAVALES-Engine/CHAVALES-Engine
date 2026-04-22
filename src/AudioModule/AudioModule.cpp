@@ -190,7 +190,7 @@ bool AudioModule::setLooping(int chID, int typeOfLooping)
 	if (itChFound == _channelSound.end())
 	{
 		Debug::error("[setLooping] Channel not found: Couldn't find channel, there isn't an existing channel with this id: " + to_string(chID));
-		return;
+		return false;
 	}
 	auto res = itChFound->second->setLoopCount(typeOfLooping);
 	if (res == FMOD_OK) return true;
