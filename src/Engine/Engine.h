@@ -467,11 +467,11 @@ public:
 	* @brief Crea un sonido en el módulo de audio.
 	Recibe un path y un id, además de parámetros de configuración, como si es stream (sonido corto) o no (música), si tiene loop o si es 3D.
 	*/
-	void loadSound(std::string path, std::string id, bool soundStream = true, bool soundLooping = false, bool sound3D = true);
+	bool loadSound(std::string path, std::string id, bool soundStream = true, bool soundLooping = false, bool sound3D = true);
 	/*
 	* @brief Descarga un sonido del módulo de audio recibiendo su id.
 	*/
-	void unloadSound(std::string id);
+	bool unloadSound(std::string id);
 	/*
 	* @brief Reproduce un sonido del módulo de audio recibiendo su id y su configuración: volumen, loop (si creado con looping: -1 = indef, 0 = one time, 1 = loop once), posición y velocidad (para audio 3D)
 	*/
@@ -483,15 +483,15 @@ public:
 	/*
 	* @brief Actualiza la posición y velocidad de un audio 3D
 	*/
-	void setSourcePosition(int chID, core::Vector3<> pos, core::Vector3<> vel);
+	bool setSourcePosition(int chID, core::Vector3<> pos, core::Vector3<> vel);
 	/*
 	* @brief Cambia el radio minimo y maximo de difusión de un audio 3D
 	*/
-	void setMinMaxRadius(int chID, float min, float max);
+	bool setMinMaxRadius(int chID, float min, float max);
 	/*
 	* @brief Actualiza el volumen de un canal
 	*/
-	void setChannelVolume(int chID, float newVolume = 0.0f);
+	bool setChannelVolume(int chID, float newVolume = 0.0f);
 	/*
 	* @brief Devuelve el volumen de un canal
 	*/
@@ -499,7 +499,7 @@ public:
 	/*
 	* @brief Configura el modo de loopeo de un canal: -1 = indef, 0 = one time, 1 = loop once
 	*/
-	void setLooping(int chID, int typeOfLooping);
+	bool setLooping(int chID, int typeOfLooping);
 	/*
 	* @brief Devuelve la configuracion de loopeo que tiene un audio
 	*/
@@ -515,7 +515,7 @@ public:
 	/*
 	* @brief Configura el milisegundo de inicio y de final del audio que se reproduciran
 	*/
-	void setDelay(int chID, double start, double end, bool stopChannel);
+	bool setDelay(int chID, double start, double end, bool stopChannel);
 	/*
 	* @brief Devuelve si un canal esta pausado (false) o en reproduccion (true)
 	*/

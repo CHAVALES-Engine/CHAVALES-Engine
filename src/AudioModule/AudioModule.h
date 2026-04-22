@@ -42,7 +42,8 @@ public:
 	bool unloadSound(std::string id);
 
 	/// <summary>
-	/// It searches for a sound, if it is found yhe sound is associated to a channel,then it plays
+	/// It searches for a sound, if it is found the sound is associated to a channel. It then starts playing.
+	/// The method returns the channel.
 	/// </summary>
 	/// <param name="id">Id of the sound to play</param>
 	/// <param name="vec3">Position of the sound that is going to be played</param>
@@ -64,7 +65,13 @@ public:
 	/// <param name="typeOfLooping">Retrives the type of looping</param>
 	bool getLooping(int chID, int* typeOfLooping);
 
-	void setLooping(int chID, int typeOfLooping);
+	/// <summary>
+	/// Method to set the loop configuration of a channel. 
+	/// </summary>
+	/// <param name="chID"></param>
+	/// <param name="typeOfLooping">(0: no loop, 1: only plays one time, -1: loops infinently)</param>
+	/// <returns></returns>
+	bool setLooping(int chID, int typeOfLooping);
 
 	/// <summary>
 	/// Stops the disire sound
@@ -106,7 +113,7 @@ public:
 	/// <param name="chID">Id of the desire sound</param>
 	/// <param name="pos">New position of the sound</param>
 	/// <param name="vel">New velocity of propagation of the sound</param>
-	void setAudioPos(int chID, core::Vector3<> pos, core::Vector3<> vel);
+	bool setAudioPos(int chID, core::Vector3<> pos, core::Vector3<> vel);
 
 	/// <summary>
 	/// Method to se the minimum and maximus radius of a 3D audio
@@ -114,7 +121,7 @@ public:
 	/// <param name="chID"></param>
 	/// <param name="min"></param>
 	/// <param name="max"></param>
-	void setMinMaxRadius(int chID, float min, float max);
+	bool setMinMaxRadius(int chID, float min, float max);
 
 	/// <summary>
 	/// Method to observe if the channel is playing 
@@ -133,9 +140,9 @@ public:
 	/// True: When dspclock_end is reached, behaves like ChannelControl::stop has been called.
 	///	False: When dspclock_end is reached, behaves like ChannelControl::setPaused has been called.
 	/// </param>
-	void setDelay(int chID, double start, double end, bool stopChannel);
+	bool setDelay(int chID, double start, double end, bool stopChannel);
 
-	void getVolume(int chID, float& volume);
+	bool getVolume(int chID, float& volume);
 
 	bool isValidChannel(int chID);
 

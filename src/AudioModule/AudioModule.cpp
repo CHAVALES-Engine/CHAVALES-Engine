@@ -161,8 +161,12 @@ bool AudioModule::setChannelVolume(int chID, float newVolume)
 		Debug::error("[setChannelVolume] Channel not found: Couldn't find channel, there isn't an existing channel with this id: " + to_string(chID));
 		return false;
 	}
-	itChFound->second->setVolume(newVolume);
-	return true;
+	auto res = itChFound->second->setVolume(newVolume);
+	if(res == FMOD_OK) return true;
+	else {
+		Debug::error("[setChannelVolume] Unexpected Error: Couldn't set the volume of the channel with this id: " + to_string(chID));
+		return false;
+	}
 }
 bool AudioModule::getLooping(int chID, int* typeOfLooping)
 {
@@ -172,11 +176,15 @@ bool AudioModule::getLooping(int chID, int* typeOfLooping)
 		Debug::error("[getLooping] Channel not found: Couldn't find channel, there isn't an existing channel with this id: " + to_string(chID));
 		return false;
 	}
-	itChFound->second->getLoopCount(typeOfLooping);
-	return true;
+	auto res = itChFound->second->getLoopCount(typeOfLooping);
+	if (res == FMOD_OK) return true;
+	else {
+		Debug::error("[getLooping] Unexpected Error: Couldn't get the loop configuration of the channel with this id: " + to_string(chID));
+		return false;
+	}
 }
 
-void AudioModule::setLooping(int chID, int typeOfLooping)
+bool AudioModule::setLooping(int chID, int typeOfLooping)
 {
 	auto itChFound = _channelSound.find(chID);
 	if (itChFound == _channelSound.end())
@@ -184,7 +192,12 @@ void AudioModule::setLooping(int chID, int typeOfLooping)
 		Debug::error("[setLooping] Channel not found: Couldn't find channel, there isn't an existing channel with this id: " + to_string(chID));
 		return;
 	}
-	itChFound->second->setLoopCount(typeOfLooping);
+	auto res = itChFound->second->setLoopCount(typeOfLooping);
+	if (res == FMOD_OK) return true;
+	else {
+		Debug::error("[setLooping] Unexpected Error: Couldn't set the loop configuration of the channel with this id: " + to_string(chID));
+		return false;
+	}
 }
 
 bool AudioModule::stopPlaying(int chID)
@@ -195,8 +208,12 @@ bool AudioModule::stopPlaying(int chID)
 		Debug::error("[stopPlaying] Channel not found: Couldn't find channel, there isn't an existing channel with this id: " + to_string(chID));
 		return false;
 	}
-	itChFound->second->stop();
-	return true;
+	auto res = itChFound->second->stop();
+	if (res == FMOD_OK) return true;
+	else {
+		Debug::error("[stopPlaying] Unexpected Error: Couldn't stop the channel with this id: " + to_string(chID));
+		return false;
+	}
 }
 
 bool AudioModule::pauseChannel(int chID, bool pause)
@@ -207,7 +224,12 @@ bool AudioModule::pauseChannel(int chID, bool pause)
 		Debug::error("[pauseChannel] Channel not found: Couldn't find channel, there isn't an existing channel with this id: " + to_string(chID));
 		return false;
 	}
-	return itChFound->second->setPaused(pause);
+	auto res =  itChFound->second->setPaused(pause);
+	if (res == FMOD_OK) return true;
+	else {
+		Debug::error("[pauseChannel] Unexpected Error: Couldn't pause/resume the channel with this id: " + to_string(chID));
+		return false;
+	}
 }
 
 void AudioModule::setListener(core::Vector3<> pos, core::Vector3<> forward, core::Vector3<> up, core::Vector3<> vel)
@@ -241,24 +263,49 @@ void AudioModule::unMuteEverything()
 	}
 }
 
-void AudioModule::setAudioPos(int chID, core::Vector3<> pos, core::Vector3<> vel)
+bool AudioModule::setAudioPos(int chID, core::Vector3<> pos, core::Vector3<> vel)
 {
 	auto itCH = _channelSound.find(chID);
-	if (itCH == _channelSound.end()) return;
+	if (itCH == _channelSound.end())
+	{
+		Debug::error("[setAudioPos] Channel not found: Couldn't find channel, there isn't an existing channel with this id: " + to_string(chID));
+		return false;
+	}
 	FMOD_VECTOR position = { pos.getX(),pos.getY(),pos.getZ() };
 	FMOD_VECTOR velocity = { vel.getX(),vel.getY(),vel.getZ() };
-	itCH->second->set3DAttributes(&position, &velocity);
+	auto res = itCH->second->set3DAttributes(&position, &velocity);
+	if (res == FMOD_OK) return true;
+	else {
+		Debug::error("[setAudiPos] Unexpected Error: Couldn't set the position/velocity of the sound in channel with this id: " + to_string(chID));
+		return false;
+	}
 }
 
-void AudioModule::setMinMaxRadius(int chID, float min, float max)
+bool AudioModule::setMinMaxRadius(int chID, float min, float max)
 {
 	auto itCH = _channelSound.find(chID);
-	if (itCH == _channelSound.end()) return;
+	if (itCH == _channelSound.end())
+	{
+		Debug::error("[setMinMaxRadius] Channel not found: Couldn't find channel, there isn't an existing channel with this id: " + to_string(chID));
+		return false;
+	}
 	itCH->second->set3DMinMaxDistance(min, max);
 	FMOD::Sound* sound = nullptr;
-	itCH->second->getCurrentSound(&sound);
+	auto res = itCH->second->getCurrentSound(&sound);
 	if (sound != nullptr)
 		sound->set3DMinMaxDistance(min, max);
+	else
+	{
+		Debug::warning("[setMinMaxRadius] Careful, there isn't a sound assocaited with this channel id: " + to_string(chID) + ". The Min/Max Radius parametres may override to the default settigs (1,10000)");
+		return false;
+	}
+
+	if (res == FMOD_OK) return true;
+	else
+	{
+		Debug::error("[setMinMaxRadius] Unexpected Error: Couldn't set the min/max radius of the sound in channel with this id: " + to_string(chID));
+		return false;
+	}
 }
 
 bool AudioModule::isChannelPlaying(int chID)
@@ -267,6 +314,7 @@ bool AudioModule::isChannelPlaying(int chID)
 
 	if (itChFound == _channelSound.end())
 	{
+		Debug::error("[isChannelPlaying] Channel not found: Couldn't find channel, there isn't an existing channel with this id: " + to_string(chID));
 		return false;
 	}
 
@@ -276,26 +324,40 @@ bool AudioModule::isChannelPlaying(int chID)
 	return isPlaying;
 }
 
-void AudioModule::setDelay(int chID, double start, double end, bool stopChannel)
+bool AudioModule::setDelay(int chID, double start, double end, bool stopChannel)
 {
 	unsigned long long sampleStart = (start / 1000) * nativeRate;
 	unsigned long long sampleEnd = (end / 1000) * nativeRate;
 	auto itChFound = _channelSound.find(chID);
 
-	if (itChFound == _channelSound.end()) {
-		return;
+	if (itChFound == _channelSound.end())
+	{
+		Debug::error("[setDelay] Channel not found: Couldn't find channel, there isn't an existing channel with this id: " + to_string(chID));
+		return false;
 	}
-	itChFound->second->setDelay(sampleStart, sampleEnd, stopChannel);
+	auto res = itChFound->second->setDelay(sampleStart, sampleEnd, stopChannel);
+	if (res == FMOD_OK) return true;
+	else {
+		Debug::error("[setDelay] Unexpected Error: Couldn't set the delay in channel with this id: " + to_string(chID));
+		return false;
+	}
 }
 
-void AudioModule::getVolume(int chID, float& volume)
+bool AudioModule::getVolume(int chID, float& volume)
 {
 	auto itChFound = _channelSound.find(chID);
 
-	if (itChFound == _channelSound.end()) {
-		return;
+	if (itChFound == _channelSound.end())
+	{
+		Debug::error("[setDelay] Channel not found: Couldn't find channel, there isn't an existing channel with this id: " + to_string(chID));
+		return false;
 	}
-	itChFound->second->getVolume(&volume);
+	auto res = itChFound->second->getVolume(&volume);
+	if (res == FMOD_OK) return true;
+	else {
+		Debug::error("[getVolume] Unexpected Error: Couldn't get the volume of the channel with this id: " + to_string(chID));
+		return false;
+	}
 }
 
 bool AudioModule::isValidChannel(int chID)
