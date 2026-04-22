@@ -669,8 +669,12 @@ void RenderModule::deleteModel(const modelID& id)
 
 void RenderModule::cleanModels()
 {
-	for (Ogre::Entity* model : _models)
+	// itera al reves para evitar problemas de 
+	// que intente eliminarse algo ya eliminado
+	while (!_models.empty())
 	{
+		Ogre::Entity* model = _models.back();
+
 		if (model != nullptr)
 		{
 			for (unsigned int i = 0; i < model->getNumSubEntities(); ++i)
@@ -683,23 +687,22 @@ void RenderModule::cleanModels()
 					for (unsigned short t = 0; t < mat->getNumTechniques(); ++t)
 					{
 						Ogre::Technique* tech = mat->getTechnique(t);
-
-						if (tech)
-						{
+						if (tech && _shaderGen)
 							_shaderGen->removeShaderBasedTechnique(tech, Ogre::MaterialManager::DEFAULT_SCHEME_NAME);
-						}
 					}
 				}
 			}
+
 			Ogre::SceneNode* parent = model->getParentSceneNode();
 			if (parent)
 				parent->detachObject(model);
 
 			_sceneMgr->destroyEntity(model);
 		}
+
+		_models.pop_back(); // Elimina de la lista mientras iteras
 	}
 
-	_models.clear();
 	_nextModelID = 0;
 }
 
