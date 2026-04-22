@@ -21,6 +21,14 @@ namespace core
 	{
 	public:
 		static GameConfigurator& instance();
+
+		// --- Carpeta root de contenido del juego
+		/*
+		* @brief
+		*	Ruta donde buscar las escenas del juego
+		*/
+		std::string _root = "./game/";
+
 		// --- Carga de juegos
 		/*
 		* @brief
@@ -76,11 +84,6 @@ namespace core
 		*	Ruta donde buscar los assets del juego
 		*/
 		std::string _assetsRoot = "./game/assets/";
-		/*
-		* @brief
-		*	Nombre del .lua de la lista de assets
-		*/
-		std::string _assetsList = "assetList";
 
 		// Serializacion
 		/**
@@ -99,5 +102,38 @@ namespace core
 		 * @brief Cargar desde disco.
 		 */
 		bool LoadFromFile(const std::string& path);
+	private:
+		template<typename T>
+		static T GetValue(const toml::table& table, const std::string& key, const T& defaultValue)
+		{
+			try
+			{
+				auto node = table[key];
+				if (!node) return defaultValue; //clave no existe
+
+				if constexpr (std::is_same_v<T, std::string>)
+					return node.value_or(defaultValue);
+				else if constexpr (std::is_same_v<T, int>)
+				{
+					auto val = node.as_integer();
+					return val ? val->get() : defaultValue;
+				}
+				else if constexpr (std::is_same_v<T, float>)
+				{
+					auto val = node.as_floating_point();
+					return val ? static_cast<float>(val->get()) : defaultValue;
+				}
+				else if constexpr (std::is_same_v<T, bool>)
+				{
+					auto val = node.as_boolean();
+					return val ? val->get() : defaultValue;
+				}
+			}
+			catch (const std::exception& e)
+			{
+				Debug::warning("GAME CONFIGURATOR: Error leyendo ", key, ": ", e.what());
+			}
+			return defaultValue;
+		}
 	};
 }

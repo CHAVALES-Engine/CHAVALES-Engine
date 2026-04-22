@@ -1,3 +1,5 @@
+root = "./game/"
+
 [game]
 first_scene = 'scene_base'
 game_dll = 'juego'
