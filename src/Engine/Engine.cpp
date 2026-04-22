@@ -13,6 +13,8 @@
 #include "ComponentDLLLoader.h"
 #include "GameConfigurator.h"
 #include "StateMachine.h"
+#include "GameLoader.h"
+
 #include "InputFacade.h"
 #include <iostream>
 #include <checkMLNew.h>
@@ -81,9 +83,20 @@ bool Engine::pollEvents() const
 	return _platformModule->syncronize();
 }
 
-const void Engine::addAndSetScene(std::string n) const
+const void Engine::addAndSetScene(std::string const& n) const
 {
 	_stateMachine->addAndSetScene(n);
+}
+
+core::Entity* Engine::instantiatePrefab(std::string const& pref) const
+{
+	// Leer la escena prefab y parsear a lista de entidades
+	return GameLoader::loadPrefab(core::GameConfigurator::instance()._root + pref);
+}
+
+std::shared_ptr<core::Scene> Engine::getScene() const
+{
+	return _stateMachine->getCurrentScnPtr();
 }
 
 void Engine::renderFrame()

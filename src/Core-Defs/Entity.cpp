@@ -109,9 +109,12 @@ namespace core
 	{
 		if (!enabled) return;
 
-		for (std::shared_ptr<Component>& c : components)
+		// Copiar los componentes para iterar de forma segura
+		std::vector<std::shared_ptr<Component>> componentsCopy = components;
+
+		for (auto& c : componentsCopy)
 		{
-			if (c->isEnabled())
+			if (c && c->isEnabled())
 				c->fixedUpdate();
 		}
 	}
@@ -120,9 +123,12 @@ namespace core
 	{
 		if (!enabled) return;
 
-		for (std::shared_ptr<Component>& c : components)
+		// Copiar los componentes para iterar de forma segura
+		std::vector<std::shared_ptr<Component>> componentsCopy = components;
+
+		for (auto& c : componentsCopy)
 		{
-			if (c->isEnabled())
+			if (c && c->isEnabled())
 				c->update(dT);
 		}
 	}

@@ -47,8 +47,8 @@ public:
 	 * @param e - Entidad a la que pertenecera el componente.
 	 * @param entidadObj - Par nombre, objeto de sol a traducir.
 	 */
-	static void instanceEntity(core::Entity* e, std::pair<sol::object, sol::object>& entidadObj);
-	static void initializeEntity(core::Entity* e, std::pair<sol::object, sol::object>& entidadObj);
+	static void instanceEntity(core::Entity* e, std::pair<sol::object, sol::object> const& entidadObj);
+	static void initializeEntity(core::Entity* e, std::pair<sol::object, sol::object> const& entidadObj);
 
 	/**
 	 * @brief Para definir tipos de clases propias que poder traducir desde lua.
@@ -70,6 +70,12 @@ public:
 	 * @param lua - Estado de lua donde definir los tipos.
 	 */
 	static void loadLua(std::shared_ptr<core::Scene>& s, const sceneName& n, const std::string& p);
+	/**
+	 * Carga un archivo de lua y lo mete en la escena activa.
+	 * @param s - Escena a la que anyadir.
+	 * @param p - path del fichero a cargar.
+	 */
+	static core::Entity* loadLua(const std::shared_ptr<core::Scene>& s, std::string const& p);
 
 	/**
 	 * @brief Carga una escena dada de lua.
@@ -77,6 +83,13 @@ public:
 	 * @param n - Nombre de la escena a cargar, debe coincidir con el .lua que la define.
 	 */
 	static std::shared_ptr<core::Scene> loadScene(const sceneName& n);
+
+	/**
+	 * @brief Carga un prefab e instancia las entidades.
+	 * @param n - path del prefab a cargar.
+	 * @return 
+	 */
+	static core::Entity* loadPrefab(std::string const& n);
 
 	/**
 	 * @brief Busca en la ruta el nombre de la escena y devuelve la ruta completa hasta el .lua.

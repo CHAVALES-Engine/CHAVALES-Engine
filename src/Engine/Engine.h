@@ -29,6 +29,7 @@ class ResourcesModule;
 
 namespace core
 {
+	class Entity;
 	class Scene;
 	//class Vector3<>;
 }
@@ -76,17 +77,28 @@ public:
 	bool pollEvents() const;
 	/**
 	 *
+	 * @param n - path de la escena.
 	 */
-	const void addAndSetScene(std::string n) const;
+	const void addAndSetScene(std::string const& n) const;
+	/**
+	 * @brief Instancia un prefab en la escena.
+	 * @param pref - path del prefab a instanciar.
+	 */
+	core::Entity* instantiatePrefab(std::string const& pref) const;
+	/**
+	 * @brief Devuelve la escena actual.
+	 * @return std::shared_ptr <const core::Scene> - Puntero inteligente a la escena actual.
+	 */
+	std::shared_ptr <core::Scene> getScene() const;
 
-	//Metodos del modulo de render
+		//Metodos del modulo de render
 #pragma region Render
 	//Metodos generales
 #pragma region general
 	/*
 	* @brief Renderizar frame.
 	*/
-	void renderFrame();
+		void renderFrame();
 	/*
 	* @brief Limpiar escena.
 	*/
@@ -125,7 +137,7 @@ public:
 	/*
 	* @brief Anadir nodoUI
 	*/
-	UITransformID addUITransform(const entityID& entityID,const core::Vector2<float>& pos,const int& zBuffer, const core::Vector2<float>& dimension, const float& rotation);
+	UITransformID addUITransform(const entityID& entityID, const core::Vector2<float>& pos, const int& zBuffer, const core::Vector2<float>& dimension, const float& rotation);
 	/*
 	* @brief Establecer posicion del nodo.
 	*/
@@ -363,7 +375,7 @@ public:
 	/*
 	* @brief Anadir letrero al panel.
 	*/
-	uiLabelID addUILabel(const uiPanelID& panelID,const entityID& entityID, const std::string& text, const  float opacity, const core::Color textColor, const core::Color bgColor, const float fontSize, const TextAlign textAlign, const std::string fontName);
+	uiLabelID addUILabel(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const  float opacity, const core::Color textColor, const core::Color bgColor, const float fontSize, const TextAlign textAlign, const std::string fontName);
 	/*
 	* @brief Establecer el texto del letrero.
 	*/
@@ -388,7 +400,7 @@ public:
 	* @brief Establecer el alineado  del letrero
 	*/
 	void setUILabelAlign(const uiLabelID& labelID, const TextAlign& align);
-	
+
 #pragma endregion
 #pragma region UI-Buttons
 	/*
@@ -399,7 +411,7 @@ public:
 	/*
 	* @brief Anadir ImageBoton al panel.
 	*/
-	uiButtonID addUIImageButton(const uiPanelID&  panelID, const entityID& entityID, const std::string& text, const std::string& textureName);
+	uiButtonID addUIImageButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const std::string& textureName);
 	/*
 	* @brief Establecer el texto del boton.
 	*/
@@ -447,7 +459,7 @@ public:
 	* @brief Establecer textura del textureRect.
 	*/
 	void setUITextureRectTexture(const uiTextureRectID& id, const std::string& texture);
-	
+
 	/*
 	* @brief Establecer visibilidad del textureRect.
 	*/

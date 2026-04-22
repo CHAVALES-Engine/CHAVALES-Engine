@@ -145,7 +145,7 @@ void GameLoader::parseObject(const sol::object& obj, const std::string& clave, P
 		}
 		else
 		{
-			Debug::error("GAMELOADER: El tipo del parametro de ", clave, " no esta definido para el componente ", componentName,".");
+			Debug::error("GAMELOADER: El tipo del parametro de ", clave, " no esta definido para el componente ", componentName, ".");
 		}
 		break;
 	}
@@ -163,7 +163,7 @@ void GameLoader::parseComponent(core::Entity* e, std::pair<sol::object, sol::obj
 	std::string componenteName = componenteObj.first.as<std::string>();
 	std::shared_ptr<core::Component> component = e->getComponent(componenteName);
 
-	if (component != nullptr)
+	if (component != nullptr && componenteObj.first.is<std::string>())
 	{
 		// si este tipo de componente estaba registrado y se ha creado
 		Properties properties;
@@ -192,7 +192,7 @@ void GameLoader::parseComponent(core::Entity* e, std::pair<sol::object, sol::obj
 		else
 		{
 			// --- quita el componente a la entidad
-			e->removeComponent(componenteName);
+			//e->removeComponent(componenteName);
 			Debug::warning("GAMELOADER: Error al cargar componente ", componenteName, ": no se pudo inicializar correctamente.");
 		}
 	}
@@ -203,7 +203,7 @@ void GameLoader::parseComponent(core::Entity* e, std::pair<sol::object, sol::obj
 	}
 }
 
-void GameLoader::instanceEntity(core::Entity* e, std::pair<sol::object, sol::object>& entidadObj)
+void GameLoader::instanceEntity(core::Entity* e, std::pair<sol::object, sol::object> const& entidadObj)
 {
 	// nombre de la entidad
 	std::string entidadName = entidadObj.first.as<std::string>();
@@ -246,7 +246,7 @@ void GameLoader::instanceEntity(core::Entity* e, std::pair<sol::object, sol::obj
 		std::string componenteName = componenteObj.first.as<std::string>();
 		std::shared_ptr<core::Component> component = ComponentRegister::instance().create(componenteName);
 		// anyade el componente a la entidad si existe el componente
-		if (component != nullptr){
+		if (component != nullptr) {
 			component->setName(componenteName);
 			e->addComponent(std::move(component)); // anyade sin inicializar
 		}
@@ -255,7 +255,7 @@ void GameLoader::instanceEntity(core::Entity* e, std::pair<sol::object, sol::obj
 	}
 }
 
-void GameLoader::initializeEntity(core::Entity* e, std::pair<sol::object, sol::object>& entidadObj)
+void GameLoader::initializeEntity(core::Entity* e, std::pair<sol::object, sol::object> const& entidadObj)
 {
 	// dentro de la entidad, accedo a la tabla de componentes
 	sol::table partes = entidadObj.second;
@@ -371,7 +371,7 @@ void GameLoader::defineFunc(sol::state& lua, const std::string& p)
 					Debug::error("Cube NO es una tabla");
 				}
 			}
-			else 
+			else
 			{
 				Debug::error("Cube NO es valido");
 			}
@@ -494,6 +494,122 @@ void GameLoader::loadLua(
 	Debug::out("GAMELOADER: Escena ", n, " cargada.");
 }
 
+core::Entity* GameLoader::loadLua(const std::shared_ptr<core::Scene>& s, std::string const& p)
+{
+	sol::state lua;
+	lua.open_libraries(sol::lib::base, sol::lib::io);
+	// tipos de usuario
+	defineUserTypes(lua);
+
+	std::string path = p + ".lua";
+	Debug::warning("GAMELOADER: cargando prefab: ", path);
+
+	/*std::string pathFunc = p + "luaFunc.lua";
+	defineFunc(lua, pathFunc);*/
+
+	try
+	{
+		// intenta leer archivo
+		// - Prefab
+		sol::object object = lua.safe_script_file(path);
+		if (!object.valid() || object.get_type() != sol::type::table) {
+			Debug::error("GAMELOADER: 'prefab' no existe o no es una tabla en ", path);
+			return nullptr;
+		}
+		// ESTO POR SI UN PREFAB TIENE MAS DE UNA ENTIDAD
+
+		//// - Lee las entradas de la tabla de lua para meterla en la escena y a sus hijos.
+		sol::table table = object;
+		//for (auto& table : entities)	{
+		//	// --- para cada entidad leida
+		//	core::Entity* e = new core::Entity();
+		//	instanceEntity(e, table);
+		//	// --- mete la entidad en la escena
+		//	s->addEntity(e);
+		//}
+		//for (auto& table : entities)	{
+		//	std::string name = table.first.as<std::string>();
+		//	core::Entity* e = s->findEntityByName(name);
+		//	if (!e) continue;
+		//	initializeEntity(e, table);
+		//}
+		//s->ready();
+
+		//Debug::out("GAMELOADER: Prefab ", p, " cargado.");
+
+		// Prefab de 1 entidad.
+		core::Entity* e = new core::Entity();
+		std::string prefabName = p.substr(p.find_last_of("/\\") + 1);
+		Debug::out("GAMELOADER: Configurando entidad ", prefabName, ".");
+		e->setName(prefabName);
+
+		// DDOL
+		sol::object ddol = table["ddol"];
+		if (ddol.is<bool>())
+		{
+			bool ddolValue = ddol.as<bool>();
+			e->setDontDestroyOnLoad(ddolValue);
+			Debug::out("GAMELOADER: DontDestroyOnLoad = ", (ddolValue ? "true" : "false"));
+		}
+		else
+		{
+			Debug::warning("GAMELOADER: DontDestroyOnLoad no especificado, usando false.");
+		}
+
+		// Componentes
+		sol::object componentsObj = table["components"];
+		if (!componentsObj.valid() || componentsObj.get_type() != sol::type::table)
+		{
+			Debug::error("GAMELOADER: 'components' no existe en ", prefabName);
+			return nullptr;
+		}
+
+		sol::table componentes = componentsObj;
+		for (auto& kv : componentes)
+		{
+			// Filtrar solo claves string
+			if (!kv.first.is<std::string>())
+				continue;
+
+			std::string componenteName = kv.first.as<std::string>();
+			std::shared_ptr<core::Component> component = ComponentRegister::instance().create(componenteName);
+
+			if (component != nullptr)
+			{
+				component->setName(componenteName);
+				e->addComponent(std::move(component));
+			}
+			else
+			{
+				Debug::warning("GAMELOADER: Componente ", componenteName, " no registrado.");
+			}
+		}
+
+
+		s->addEntity(e);
+
+		// inicializacion de componentes.
+		for (auto& kv : componentes)
+		{
+			if (!kv.first.is<std::string>())
+				continue;
+
+			parseComponent(e, kv);
+		}
+
+		e->ready();
+
+		return e;
+	}
+	catch (const sol::error& e)
+	{
+		// si no lo consigue saca error
+		Debug::error("GAMELOADER: Error abriendo escena: ", path);
+		Debug::error("Lua exception: ", e.what());
+		return nullptr;
+	}
+}
+
 std::string GameLoader::findSceneFile(const std::string& sceneName, const std::string& root)
 {
 	std::string target = sceneName + ".lua";
@@ -547,7 +663,7 @@ std::shared_ptr<core::Scene> GameLoader::loadScene(const sceneName& n)
 	try
 	{
 		loadLua(s, n, root);
-		
+
 	}
 	catch (...)
 	{
@@ -564,6 +680,11 @@ std::shared_ptr<core::Scene> GameLoader::loadScene(const sceneName& n)
 
 	_firstReload = true;
 	return s;
+}
+
+core::Entity* GameLoader::loadPrefab(std::string const& n)
+{
+	return loadLua(Engine::instance()->getScene(), n);
 }
 
 bool GameLoader::reloadLua()
