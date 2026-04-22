@@ -23,6 +23,13 @@ if not exist "%LIBSDIR%" mkdir "%LIBSDIR%"
 if not exist "%DEBUGDIR%" mkdir "%DEBUGDIR%"
 if not exist "%RELEASESDIR%" mkdir "%RELEASESDIR%"
 
+:: Limpiar compilacion anterior
+if exist "%BUILDDIR%" (
+    echo Limpiando compilacion anterior de OGRE...
+    rd /s /q "%BUILDDIR%"
+    mkdir "%BUILDDIR%"
+)
+
 :: ------------------------
 :: COPIAR DEPENDENCIAS
 :: Copia las fuentes de deps/ a build/ solo si no existen ya,

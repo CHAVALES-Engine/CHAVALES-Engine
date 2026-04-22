@@ -17,6 +17,9 @@ if not exist "%LIBSDIR%" mkdir "%LIBSDIR%"
 if not exist "%DEBUGDIR%" mkdir "%DEBUGDIR%"
 if not exist "%RELEASEDIR%" mkdir "%RELEASEDIR%"
 
+:: Limpiar compilacion anterior
+if exist "%SLNDIR%\x64" rd /s /q "%SLNDIR%\x64"
+
 pushd "%SLNDIR%"
 
 echo Compilando DEBUG
