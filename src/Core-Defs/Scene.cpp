@@ -43,34 +43,53 @@ namespace core {
 
 	void core::Scene::ready()
 	{
-		if (!_entities.empty())
+		if (_entities.empty()) return;
+
+		std::vector<entityID> guids;
+		for (const auto& [guid, _] : _entities)
+			guids.push_back(guid);
+
+		for (const auto& guid : guids)
 		{
-			for (auto& [guid, e] : _entities)
-			{
-				e->ready();
-			}
+			auto it = _entities.find(guid);
+			if (it != _entities.end() && it->second)
+				it->second->ready();
 		}
 	}
 
 	void core::Scene::fixedUpdate()
 	{
-		if (!_entities.empty())
+		if (_entities.empty()) return;
+		// Copiar los guids para iterar de forma segura
+		// pos si se anyade o quitan entidades en runtime
+		std::vector<entityID> guids;
+		for (const auto& [guid, _] : _entities)
+			guids.push_back(guid);
+
+		for (auto& guid : guids)
 		{
-			for (auto& [guid, e] : _entities)
-			{
-				e->fixedUpdate();
-			}
+			auto it = _entities.find(guid);
+			if (it != _entities.end() && it->second)
+				it->second->fixedUpdate();
 		}
+
 	}
 
 	void core::Scene::update(uint64_t dT)
 	{
-		if (!_entities.empty())
+		if (_entities.empty()) return;
+
+		// Copiar los guids para iterar de forma segura
+		// pos si se anyade o quitan entidades en runtime
+		std::vector<entityID> guids;
+		for (const auto& [guid, _] : _entities)
+			guids.push_back(guid);
+
+		for (auto& guid : guids)
 		{
-			for (auto& [guid, e] : _entities)
-			{
-				e->update(dT);
-			}
+			auto it = _entities.find(guid);
+			if (it != _entities.end() && it->second)
+				it->second->update(dT);
 		}
 	}
 
@@ -135,8 +154,27 @@ namespace core {
 	{
 		entityID guid = ChavalesGUID::generate();
 		e->setEntityID(guid);
+
+		std::string originalName = e->getName();
+		std::string finalName = originalName;
+		int counter = 1;
+
+		// iterar hasta encontrar un nombre valido.
+		while (_entitiesNames.find(finalName) != _entitiesNames.end())
+		{
+			Debug::warning("SCENE: Nombre duplicado. ", finalName);
+			finalName = originalName + "_" + std::to_string(counter);
+			counter++;
+		}
+		// Si el nombre es diferente actualiza el de la entidad.
+		if (finalName != originalName)
+		{
+			e->setName(finalName);
+			Debug::warning("SCENE: Nombre duplicado. Renombrado de '", originalName, "' a '", finalName, "'");
+		}
+
 		_entities[guid] = e;
-		_entitiesNames[e->getName()] = guid;
+		_entitiesNames[finalName] = guid;
 		e->setScene(this);
 	}
 

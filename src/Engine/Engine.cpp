@@ -13,6 +13,8 @@
 #include "ComponentDLLLoader.h"
 #include "GameConfigurator.h"
 #include "StateMachine.h"
+#include "GameLoader.h"
+
 #include "InputFacade.h"
 #include <iostream>
 #include <checkMLNew.h>
@@ -81,9 +83,20 @@ bool Engine::pollEvents() const
 	return _platformModule->syncronize();
 }
 
-const void Engine::addAndSetScene(std::string n) const
+const void Engine::addAndSetScene(std::string const& n) const
 {
 	_stateMachine->addAndSetScene(n);
+}
+
+core::Entity* Engine::instantiatePrefab(std::string const& pref) const
+{
+	// Leer la escena prefab y parsear a lista de entidades
+	return GameLoader::loadPrefab(core::GameConfigurator::instance()._root + pref);
+}
+
+std::shared_ptr<core::Scene> Engine::getScene() const
+{
+	return _stateMachine->getCurrentScnPtr();
 }
 
 void Engine::renderFrame()
@@ -467,24 +480,22 @@ void Engine::setUITextureRectOpacity(const uiTextureRectID& textureRectID, float
 }
 
 
-void Engine::loadSound(std::string path, std::string id, bool soundStream, bool soundLooping, bool sound3D)
+bool Engine::loadSound(std::string path, std::string id, bool soundStream, bool soundLooping, bool sound3D)
 {
-	_audioModule->loadSound(path, id, soundStream, soundLooping, sound3D);
+	return _audioModule->loadSound(path, id, soundStream, soundLooping, sound3D);
 }
-
-void Engine::unloadSound(std::string id)
+bool Engine::unloadSound(std::string id)
 {
-	_audioModule->unloadSound(id);
+	return _audioModule->unloadSound(id);
 }
 int Engine::playSound(std::string id, float soundVolume, int looping, const core::Vector3<> vec3, const core::Vector3<> vel3)
 {
 	return _audioModule->playSound(id, soundVolume, looping, vec3, vel3);
 }
-void Engine::setChannelVolume(int chID, float newVolume)
+bool Engine::setChannelVolume(int chID, float newVolume)
 {
-	_audioModule->setChannelVolume(chID, newVolume);
+	return _audioModule->setChannelVolume(chID, newVolume);
 }
-
 int Engine::getLooping(int chID) const
 {
 	int looping = 0;
@@ -499,24 +510,22 @@ bool Engine::stopPlaying(int chID)
 {
 	return _audioModule->stopPlaying(chID);
 }
-
 bool Engine::pauseChannel(int chID, bool pause)
 {
 	return _audioModule->pauseChannel(chID, pause);
 }
-
-void Engine::setSourcePosition(int chID, core::Vector3<> pos, core::Vector3<> vel)
+bool Engine::setSourcePosition(int chID, core::Vector3<> pos, core::Vector3<> vel)
 {
-	_audioModule->setAudioPos(chID, pos, vel);
+	return _audioModule->setAudioPos(chID, pos, vel);
 }
-void Engine::setMinMaxRadius(int chID, float min, float max)
+bool Engine::setMinMaxRadius(int chID, float min, float max)
 {
-	_audioModule->setMinMaxRadius(chID, min, max);
+	return _audioModule->setMinMaxRadius(chID, min, max);
 }
 
-void Engine::setDelay(int chID, double start, double end, bool stopChannel)
+bool Engine::setDelay(int chID, double start, double end, bool stopChannel)
 {
-	_audioModule->setDelay(chID, start, end, stopChannel);
+	return _audioModule->setDelay(chID, start, end, stopChannel);
 }
 
 bool Engine::isChannelPlaying(int chID)
@@ -524,9 +533,9 @@ bool Engine::isChannelPlaying(int chID)
 	return _audioModule->isChannelPlaying(chID);
 }
 
-void Engine::setLooping(int chID, int typeOfLooping)
+bool Engine::setLooping(int chID, int typeOfLooping)
 {
-	_audioModule->setLooping(chID, typeOfLooping);
+	return _audioModule->setLooping(chID, typeOfLooping);
 }
 
 float Engine::getVolume(int chID)

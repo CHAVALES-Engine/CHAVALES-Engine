@@ -19,8 +19,10 @@ if not exist "%LIBSDIR%" mkdir "%LIBSDIR%"
 if not exist "%DEBUGDIR%" mkdir "%DEBUGDIR%"
 if not exist "%RELEASEDIR%" mkdir "%RELEASEDIR%"
 if not exist "%PM_PACKAGES_ROOT%" mkdir "%PM_PACKAGES_ROOT%"
+
 :: Limpia lo anterior
 rd /s /q "%SLN_DIR%" 2>nul
+rd /s /q "%BUILDDIR%" 2>nul
 
 pushd "%PHYSXDIR%"
 call generate_projects.bat vc17win64-cpu-only

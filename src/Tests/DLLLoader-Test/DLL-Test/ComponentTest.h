@@ -95,9 +95,10 @@ class ComponentTest : public core::Component
 		float speed = velocity * (float)deltaTime / 1000.0f;
 		float mouseSensitivity = velocity / 100.0f;
 
-		if (Engine::input()->isKeyReleased(input::KEY_K))
-			entity->getScene()->findEntityByName("cube2")->destroy();
-
+		if (Engine::input()->isJustPressed(input::KEY_K)) {
+			//entity->getScene()->findEntityByName("cube2")->destroy();
+			core::Entity* e = Engine::instance()->instantiatePrefab("prefabs/cube");
+		}
 		// --- Movimiento WASD
 		if (Engine::input()->isActionPressed("front", device))
 			_transform->translate(_transform->forward() * -speed);
