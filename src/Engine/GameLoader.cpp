@@ -346,34 +346,14 @@ void GameLoader::defineFunc(sol::state& lua, const std::string& p)
 		if (result.valid())
 		{
 			Debug::out("Resultado de func() valido");
-			sol::table root = result;
 
-			if (root.get_type() == sol::type::table)
+			if (result.get_type() == sol::type::table)
 			{
 				Debug::warning("Resultado de func() SI es una tabla");
 			}
 			else
 			{
 				Debug::error("Resultado de func() NO es una tabla");
-				return;
-			}
-
-			sol::object cube = root["cube"];
-			if (cube.valid())
-			{
-				Debug::warning("Cube ES valido");
-				if (cube.get_type() == sol::type::table)
-				{
-					Debug::warning("Cube ES una tabla");
-				}
-				else
-				{
-					Debug::error("Cube NO es una tabla");
-				}
-			}
-			else 
-			{
-				Debug::error("Cube NO es valido");
 			}
 		}
 		else
@@ -450,6 +430,7 @@ void GameLoader::loadLua(
 		Debug::warning("GAMELOADER: No se ha leido la configuracion de render de gizmos, inicializado a false por defecto.");
 	}
 
+	// - Traduccion de entidades
 	object = scene["entities"];
 	if (!object.valid() || object.get_type() != sol::type::table)
 	{
