@@ -7,6 +7,105 @@
 
 REGISTER_COMPONENT(RigidBody);
 
+RigidBody::RigidBody()
+{
+	// Getters (retornan valores)
+	registerMethod("getVelocity", [this](const std::vector<std::any>& args) {
+		getVelocity();
+		});
+
+	registerMethod("getPosition", [this](const std::vector<std::any>& args) {
+		getPosition();
+		});
+
+	registerMethod("getRotation", [this](const std::vector<std::any>& args) {
+		getRotation();
+		});
+
+	registerMethod("getMass", [this](const std::vector<std::any>& args) {
+		getMass();
+		});
+
+	registerMethod("getLinearDamping", [this](const std::vector<std::any>& args) {
+		getLinearDamping();
+		});
+
+	registerMethod("getId", [this](const std::vector<std::any>& args) {
+		getId();
+		});
+
+	registerMethod("getIsKinematic", [this](const std::vector<std::any>& args) {
+		getIsKinematic();
+		});
+
+	// Setters
+	registerMethod("setVelocity", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			setVelocity(std::any_cast<core::Vector3<>>(args[0]));
+		}
+		});
+
+	registerMethod("setPosition", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			setPosition(std::any_cast<core::Vector3<>>(args[0]));
+		}
+		});
+
+	registerMethod("setRotation", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			setRotation(std::any_cast<core::Quaternion<>>(args[0]));
+		}
+		});
+
+	registerMethod("setMass", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			setMass(std::any_cast<float>(args[0]));
+		}
+		});
+
+	registerMethod("setLinearDamping", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			setLinearDamping(std::any_cast<float>(args[0]));
+		}
+		});
+
+	// Metodos con multiples parametros
+	registerMethod("AddForce", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 2) {
+			AddForce(
+				std::any_cast<core::Vector3<>>(args[0]),
+				std::any_cast<char>(args[1])
+			);
+		}
+		});
+
+	registerMethod("ClearForce", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			ClearForce(std::any_cast<char>(args[0]));
+		}
+		});
+
+	registerMethod("blockAxes", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 3) {
+			blockAxes(
+				std::any_cast<bool>(args[0]),
+				std::any_cast<bool>(args[1]),
+				std::any_cast<bool>(args[2])
+			);
+		}
+		});
+
+	registerMethod("blockAngles", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 3) {
+			blockAngles(
+				std::any_cast<bool>(args[0]),
+				std::any_cast<bool>(args[1]),
+				std::any_cast<bool>(args[2])
+			);
+		}
+		});
+}
+
 bool RigidBody::init(const Properties& p)
 {
 	_eng = Engine::instance();
@@ -20,6 +119,10 @@ bool RigidBody::init(const Properties& p)
 	{
 		setVelocity(getProperty<core::Vector3<>>(p, "velocity"));
 		setLinearDamping(getProperty<float>(p, "damping"));
+		std::vector<bool> blockAxis(3, false); // valor por defecto
+		setProperty(p, "blockAxes", blockAxis, false);
+		std::vector<bool> blockAngles(3, false); // valor por defecto
+		setProperty(p, "blockAxes", blockAngles, false);
 	}
 	return true;
 }
@@ -35,8 +138,8 @@ void RigidBody::ready()
 
 	if (getMass() <= 0.0f)
 		setMass(1.0f);
-	if(!isKinematic)
-	_eng->setLinearVelocity(physicsID, getVelocity());
+	if (!isKinematic)
+		_eng->setLinearVelocity(physicsID, getVelocity());
 
 }
 

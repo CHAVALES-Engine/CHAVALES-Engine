@@ -9,10 +9,6 @@
 #include "TimeManager.h"
 #include "Transform.h"
 
-
-
-class AudioSource;
-
 class ComponentTest : public core::Component
 {
 	int velocity = 0;
@@ -87,54 +83,67 @@ class ComponentTest : public core::Component
 		
 	}
 
-	void update(uint64_t deltaTime) override
-	{
-		
-		if (!Engine::input()->isDeviceConnected(device)) return;
-
-		float speed = velocity * (float)deltaTime / 1000.0f;
-		float mouseSensitivity = velocity / 100.0f;
-
-		if (Engine::input()->isJustPressed(input::KEY_K)) {
-			//entity->getScene()->findEntityByName("cube2")->destroy();
-			core::Entity* e = Engine::instance()->instantiatePrefab("prefabs/cube");
-		}
-		// --- Movimiento WASD
-		if (Engine::input()->isActionPressed("front", device))
-			_transform->translate(_transform->forward() * -speed);
-		if (Engine::input()->isActionPressed("back", device))
-			_transform->translate(_transform->forward() * speed);
-		if (Engine::input()->isActionPressed("left", device))
-			_transform->translate(_transform->right() * -speed);
-		if (Engine::input()->isActionPressed("right", device))
-			_transform->translate(_transform->right() * speed);
-
-		// --- Rotacion con raton
-		if (Engine::input()->isJustPressed(input::KEY_CTRL))
-			moveCamera = !moveCamera;
-		//Debug::out(Engine::input()->getAxis(input::MOUSE_AXIS_REL_X), "/", Engine::input()->getAxis(input::MOUSE_AXIS_REL_Y));
-		if (moveCamera)
+	void update(uint64_t deltaTime) override{
 		{
-			// bloquea el cursor
-			Engine::input()->setRelativeMouseMode(true);
-			float mouseX = Engine::input()->getActionAxis("lock_h", device);
-			float mouseY = Engine::input()->getActionAxis("lock_v", device);
 
-			if (mouseX != 0)
-				_transform->rotateGlobal(core::Vector3<>(0, -mouseX * mouseSensitivity, 0));
-			if (mouseY != 0)
-				_transform->rotateLocal(core::Vector3<>(-mouseY * mouseSensitivity, 0, 0));
+			if (!Engine::input()->isDeviceConnected(device)) return;
+
+			float speed = velocity * (float)deltaTime / 1000.0f;
+			float mouseSensitivity = velocity / 100.0f;
+
+			if (Engine::input()->isJustPressed(input::KEY_K)) {
+				//entity->getScene()->findEntityByName("cube2")->destroy();
+				core::Entity* e = Engine::instance()->instantiatePrefab("prefabs/cube");
+			}
+			if (Engine::input()->isJustPressed(input::KEY_O)) {
+				auto sphere = Engine::instance()->getScene()->findEntityByName("esfera");
+				if (sphere)
+				{
+					auto rb = sphere->getComponent("RigidBody");
+
+					if (rb)
+					{
+						rb->call("AddForce", {core::Vector3<>(0, 100, 0),'I'}); 
+					}
+				}
+			}
+			// --- Movimiento WASD
+			if (Engine::input()->isActionPressed("front", device))
+				_transform->translate(_transform->forward() * -speed);
+			if (Engine::input()->isActionPressed("back", device))
+				_transform->translate(_transform->forward() * speed);
+			if (Engine::input()->isActionPressed("left", device))
+				_transform->translate(_transform->right() * -speed);
+			if (Engine::input()->isActionPressed("right", device))
+				_transform->translate(_transform->right() * speed);
+
+			// --- Rotacion con raton
+			if (Engine::input()->isJustPressed(input::KEY_CTRL))
+				moveCamera = !moveCamera;
+			//Debug::out(Engine::input()->getAxis(input::MOUSE_AXIS_REL_X), "/", Engine::input()->getAxis(input::MOUSE_AXIS_REL_Y));
+			if (moveCamera)
+			{
+				// bloquea el cursor
+				Engine::input()->setRelativeMouseMode(true);
+				float mouseX = Engine::input()->getActionAxis("lock_h", device);
+				float mouseY = Engine::input()->getActionAxis("lock_v", device);
+
+				if (mouseX != 0)
+					_transform->rotateGlobal(core::Vector3<>(0, -mouseX * mouseSensitivity, 0));
+				if (mouseY != 0)
+					_transform->rotateLocal(core::Vector3<>(-mouseY * mouseSensitivity, 0, 0));
+			}
+			else
+			{
+				// bloquea el cursor
+				Engine::input()->setRelativeMouseMode(false);
+			}
+			if (_esfera != nullptr)
+			{
+				//_transform->LookAt(_esfera->getComponent<Transform>()->getGlobalPosition());
+			}
 		}
-		else
-		{
-			// bloquea el cursor
-			Engine::input()->setRelativeMouseMode(false);
-		}
-		if (_esfera != nullptr)
-		{
-			//_transform->LookAt(_esfera->getComponent<Transform>()->getGlobalPosition());
-		}
-	}
+	};
 
 	void fixedUpdate() override
 	{

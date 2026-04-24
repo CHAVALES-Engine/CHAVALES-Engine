@@ -16,6 +16,7 @@ using Property = std::variant<
 	std::string,
 	core::Vector2<>,
 	core::Vector3<>,
+	core::Vector3<bool>,
 	core::Vector4<>,
 	core::Quaternion<>,
 	core::Color,

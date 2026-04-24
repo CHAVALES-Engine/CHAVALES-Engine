@@ -131,6 +131,10 @@ void GameLoader::_parseObject(const sol::object& obj, const std::string& clave, 
 		{
 			props[clave] = obj.as<core::Vector3<>>();
 		}
+		else if (obj.is<core::Vector3<bool>>())
+		{
+			props[clave] = obj.as<core::Vector3<bool>>();
+		}
 		else if (obj.is<core::Vector4<>>())
 		{
 			props[clave] = obj.as<core::Vector4<>>();

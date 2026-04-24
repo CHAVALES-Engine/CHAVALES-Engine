@@ -25,6 +25,8 @@ class RigidBody : public core::Component {
  *			position = Vector3.new(0, 0, -10),     
  *			velocity = Vector3.new(0, 200, 0),   
  *			damping = 0.0
+ *			blockAxes = { false, false, true },
+ *			blockAngles = { false, false, true }
  *		}
 */
 public:
@@ -52,6 +54,8 @@ public:
 	 * @brief Indica si el cuerpo es cinemático (no afectado por fuerzas)
 	 */
 	bool isKinematic;
+
+	RigidBody();
 
 	/**
 	 * @brief Inicialización del componente con propiedades

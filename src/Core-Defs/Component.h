@@ -5,6 +5,7 @@
  * TODO: MESSAGES
  */
 #pragma once
+#include <any>
 #include <memory>
 #include <functional>
 #include <cstdint>
@@ -189,7 +190,35 @@ namespace core
 			return false;
 		}
 
+		virtual void call(const std::string& method, const std::vector<std::any>& args) {
+			auto it = _methods.find(method);
+			if (it != _methods.end()) {
+				try {
+					it->second(args);
+				}
+				catch (const std::bad_any_cast& e) {
+					Debug::error("Invalid arguments for method: ", method);
+				}
+			}
+			else {
+				Debug::warning("Method not found: ", method);
+			}
+		}
+
 	protected:
+		/**
+		 * @brief Registra los metodos del componente para poder llamarlos desde otra dll.
+		 * @tparam Func 
+		 * @param name 
+		 * @param f 
+		 */
+		template<typename Func>
+		void registerMethod(const std::string& name, Func&& f) {
+			_methods[name] = std::move(f);
+		}
+		
+		std::unordered_map<std::string, std::function<void(const std::vector<std::any>&)>> _methods;
+
 		std::string _name;
 		Entity* entity;
 		bool enabled;
