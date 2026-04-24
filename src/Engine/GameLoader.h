@@ -78,11 +78,15 @@ private:
 	static void _defineUserTypes(sol::state& lua);
 
 	/**
-	 * @brief Para definir tipos de clases propias que poder traducir desde lua.
-	 *
-	 * @param lua - Estado de lua donde definir los tipos.
+	 * @brief Funcion que ejecuta un lua a nivel de motor para hidratar los prefabs de una escena.
+	 
+	 * @param lua - Estado de lua.
+	 * @param fp - Ruta al archivo lua de funciones.
+	 * @param sp - Ruta a la escena a hidratar.
+	 * @param st - Tabla sol resultante de la ejecucion de lua al hidratar los prefabs.
+	 * @returns Si el lua se ha podido ejecutar correctamente y ha devuelto una tabla valida.
 	 */
-	static void _defineFunc(sol::state& lua, const std::string& p);
+	static bool _defineFunc(sol::state& lua, const std::string& fp, const std::string& sp, sol::table& st);
 
 	/**
 	 * @brief Para definir tipos de clases propias que poder traducir desde lua.
