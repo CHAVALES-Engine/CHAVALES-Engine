@@ -1,7 +1,3 @@
-/*
- * @file
- * @brief
- */
 #pragma once
 
 #include <iostream>
@@ -45,11 +41,7 @@
 */
 
 /**
-*
 * @brief Para hacer mensajes de Debug.
-*
-* TODO: Timestamp. PAIGRO AQUI.
-*
 */
 class Debug
 {
@@ -186,7 +178,6 @@ private:
 
 		if (_file.is_open() && (mode == Mode::FILE || mode == Mode::BOTH))
 		{
-			//TODO: timestamp aqui solo en fichero. PAIGRO AQUI.
 			_file << type;
 			(_file << ... << args);
 			_file << '\n';

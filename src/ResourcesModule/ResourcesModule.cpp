@@ -54,7 +54,7 @@ bool ResourcesModule::insertAssetMap(std::string sourceName)
 
 	auto it = _assetsMaps.find(typeOfFolder + "/" + nombreAsset);
 	if (it != _assetsMaps.end()) {
-		Debug::error("ERROR: asset con NOMBRE EXISTENTE");
+		Debug::error("[ResourcesModule] Asset con NOMBRE EXISTENTE");
 		return false;
 	}
 
@@ -87,7 +87,7 @@ std::pair<std::string, std::string> ResourcesModule::getAssetSourceFolder(std::s
 	
 	if (it == _assetsMaps.end())
 	{
-		Debug::error("ERROR: Name of the asset NOT FOUND, searched name:",assetName);
+		Debug::error("[ResourcesModule] Name of the asset NOT FOUND, searched name: ",assetName);
 		return { "", ""};
 	}
 

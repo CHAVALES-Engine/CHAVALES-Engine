@@ -19,7 +19,7 @@ PlatformModule::PlatformModule() :
 	_window(nullptr), _windowHandle(nullptr)
 {
 	_inputMapper = new input::InputMapper();
-	
+
 }
 
 PlatformModule::~PlatformModule()
@@ -40,7 +40,7 @@ bool PlatformModule::Init()
 {
 	// Inicializacion de SDL
 	if (!SDL_Init(SDL_INIT_EVENTS | SDL_INIT_VIDEO | SDL_INIT_GAMEPAD)) {
-		Debug::error("SDL Couldn't be initialized.");
+		Debug::error("[Paltform] SDL Could not be initialized.");
 		return false;
 	}
 	// Creacion de ventana
@@ -49,7 +49,7 @@ bool PlatformModule::Init()
 		core::GameConfigurator::instance()._windowHeight,
 		SDL_WINDOW_RESIZABLE)) == nullptr)
 	{
-		Debug::error("SDL Couldn't be Created.");
+		Debug::error("[Platform]SDL Could not be created.");
 		return false;
 	}
 
@@ -75,7 +75,7 @@ HWND PlatformModule::getWindowHandle() const
 	return _windowHandle;
 }
 
-SDL_Window* PlatformModule::getSDLWindow() 
+SDL_Window* PlatformModule::getSDLWindow()
 {
 	return _window;
 }
@@ -168,7 +168,6 @@ bool PlatformModule::isKeyPressed(input::InputEvent inputEvent, input::DeviceID 
 	for (const auto& [id, vd] : _virtualDevices)
 		if (func(vd))
 		{
-			//Debug::out("Tecla: ", toString(inputEvent), " pressed");
 			return true;
 		}
 	return false;
@@ -200,7 +199,6 @@ bool PlatformModule::isJustPressed(input::InputEvent inputEvent, input::DeviceID
 	for (const auto& [id, vd] : _virtualDevices)
 		if (func(vd))
 		{
-			//Debug::out("Tecla: ", toString(inputEvent), " pressed");
 			return true;
 		}
 	return false;
@@ -231,7 +229,6 @@ bool PlatformModule::isKeyReleased(input::InputEvent inputEvent, input::DeviceID
 	for (const auto& [id, vd] : _virtualDevices)
 		if (func(vd))
 		{
-			//Debug::out("Tecla: ", toString(inputEvent), " pressed");
 			return true;
 		}
 	return false;
@@ -260,7 +257,7 @@ float PlatformModule::getAxis(input::InputEvent inputEvent, input::DeviceID devi
 		float value = func(vd);
 		if (abs(value) > abs(maxVal)) maxVal = value;
 	}
-	//Debug::out("Tecla: ", toString(inputEvent), " pressed");
+
 	return maxVal;
 }
 
@@ -623,7 +620,7 @@ void PlatformModule::_processEvent(const SDL_Event& event)
 	case SDL_EVENT_GAMEPAD_ADDED: {
 		uint32_t id = event.gdevice.which;
 		SDL_Gamepad* gamepad = SDL_OpenGamepad(id);
-		Debug::warning("New Gamepad: ", id);
+		Debug::warning("[Platform] New Gamepad with id: ", id);
 		if (gamepad) {
 			_devicesID[id] = gamepad;
 			input::VirtualDevice* virtualDevice = new input::VirtualDevice();
