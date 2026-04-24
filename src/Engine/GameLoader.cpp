@@ -326,47 +326,53 @@ void GameLoader::_defineUserTypes(sol::state& lua)
 		"a", &core::Color::getAlpha);
 }
 
-void GameLoader::_defineFunc(sol::state& lua, const std::string& p)
+bool GameLoader::_defineFunc(sol::state& lua, const std::string& fp, const std::string& sp, sol::table& st)
 {
-	sol::load_result script = lua.load_file(p);
+	sol::load_result script = lua.load_file(fp);
 
 	if (!script.valid())
 	{
 		sol::error err = script;
 		Debug::error("GAMELOADER: Error cargando el script de carga de prefabs", err.what());
-		return;
+		return false;
 	}
 
 	sol::protected_function func = script;
+	bool finished = false; 
 
 	try
 	{
-		sol::protected_function_result result = func("game/scenes/cube.lua");
+		sol::protected_function_result result = func(sp);
 
 		if (result.valid())
 		{
-			Debug::out("Resultado de func() valido");
+			//Debug::out("Resultado de func() valido");
 
 			if (result.get_type() == sol::type::table)
 			{
-				Debug::warning("Resultado de func() SI es una tabla");
+				//Debug::warning("Resultado de func() SI es una tabla");
+				st = result;
+				finished = true;
 			}
 			else
 			{
-				Debug::error("Resultado de func() NO es una tabla");
+				Debug::error("GAMELOADER: Resultado de luaFunc NO es una tabla"); 
 			}
 		}
 		else
 		{
 			sol::error err = result;
-			Debug::error("Resultado de func() invalido: ", err.what());
+			Debug::error("GAMELOADER: Resultado de luaFunc invalido: ", err.what());
 		}
 	}
 	catch (const sol::error& e)
 	{
 		// si no lo consigue saca error
+		Debug::error("GAMELOADER: Error al ejecutar");
 		Debug::error("Lua exception: ", e.what());
 	}
+
+	return finished;
 }
 
 void GameLoader::_loadLua(
@@ -376,23 +382,24 @@ void GameLoader::_loadLua(
 {
 	sol::state lua;
 	lua.open_libraries(sol::lib::base, sol::lib::io);
-	std::string path = p + n + ".lua";
-	_path = path;
+	std::string scenePath = p + n + ".lua";
+	_path = scenePath;
 
 	_defineUserTypes(lua);
 
-	std::string pathFunc = p + "luaFunc.lua";
-	_defineFunc(lua, pathFunc);
+	std::string funcPath = p + "luaFunc.lua";
+	sol::table wateredScene;
+	bool luaObtained = _defineFunc(lua, funcPath, scenePath, wateredScene);
 
 	try
 	{
 		// intenta leer archivo
-		lua.safe_script_file(path);
+		lua.safe_script_file(scenePath);
 	}
 	catch (const sol::error& e)
 	{
 		// si no lo consigue saca error
-		Debug::error("GAMELOADER: Error abriendo escena: ", path);
+		Debug::error("GAMELOADER: Error abriendo escena: ", scenePath);
 		Debug::error("Lua exception: ", e.what());
 		s = nullptr;
 		return;
@@ -400,10 +407,27 @@ void GameLoader::_loadLua(
 
 	// --- lectura lua
 	// - Escena
-	sol::object object = lua["scene"];
+	sol::object object;
+	if (!luaObtained)
+	{
+		object = lua["scene"];
+		Debug::out("GAMELOADER: No se hidrataron los prefabs, cargando escena de manera usual.");
+	}
+	else
+	{
+		object = wateredScene["scene"];
+		if (!object.valid() || object.get_type() != sol::type::table)
+		{
+			object = lua["scene"];
+			Debug::out("GAMELOADER: No se hidrataron los prefabs, cargando escena de manera usual.");
+		}
+		else
+			Debug::out("GAMELOADER: Se hidrataron los prefabs, cargando escena a traves de luaFunc.lua");
+	}
+
 	if (!object.valid() || object.get_type() != sol::type::table)
 	{
-		Debug::error("GAMELOADER: 'scene' no existe o no es una tabla en ", path);
+		Debug::error("GAMELOADER: 'scene' no existe o no es una tabla en ", scenePath);
 		s = nullptr;
 		return;
 	}
@@ -434,7 +458,7 @@ void GameLoader::_loadLua(
 	object = scene["entities"];
 	if (!object.valid() || object.get_type() != sol::type::table)
 	{
-		Debug::error("GAMELOADER: 'entities' no existe o no es una tabla en ", path);
+		Debug::error("GAMELOADER: 'entities' no existe o no es una tabla en ", scenePath);
 		s = nullptr;
 		return;
 	}
