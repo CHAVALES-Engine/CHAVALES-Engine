@@ -45,7 +45,7 @@ bool Collider::init(const Properties& p)
 	rotation = q.fromEuler(r);
 	//DYNAMIC
 	isDynamic = getProperty<bool>(p, "dynamic");
-	
+
 	//TRIGGER
 	isTrigger = getProperty<bool>(p, "trigger");
 
@@ -88,7 +88,7 @@ void Collider::ready()
 			Debug::warning("[COLLIDER] RigidBody ID no válido aún. Esperando...");
 			return;
 		}
-		
+
 
 		switch (shapeType)
 		{
@@ -131,20 +131,24 @@ void Collider::update(uint64_t deltaTime)
 }
 
 
-void Collider::onTriggerEnter(ComponentID other) 
+void Collider::onTriggerEnter(ComponentID other)
 {
 	Debug::out("[TRIGGER] Trigger enter");
+	hasTriggered = true;
 }
 
-void Collider::onTriggerExit(ComponentID other) 
+void Collider::onTriggerExit(ComponentID other)
 {
 	Debug::out("[TRIGGER] Trigger exit");
+	hasTriggered = false;
 }
 
 void Collider::onCollisionEnter(ComponentID other) {
 	Debug::out("[COLLIDER] Collision enter");
+	hasCollided = true;
 }
 
 void Collider::onCollisionExit(ComponentID other) {
 	Debug::out("[COLLIDER] Collision exit");
+	hasCollided = false;
 }

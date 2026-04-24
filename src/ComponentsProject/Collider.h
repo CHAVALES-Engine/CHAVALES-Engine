@@ -141,4 +141,7 @@ public:
 	 * @brief Obtiene el ID físico del objeto
 	 */
 	uint32_t getId() { return physicsID; };
+
+	bool hasCollided = false;
+	bool hasTriggered = false;
 };
