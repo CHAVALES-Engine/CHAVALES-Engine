@@ -2,7 +2,7 @@
 scene = { -- entidades en escena
 	gizmos = true,
 	entities = {
-		--cube = loadPrefab(),
+		cube = loadPrefab("game/scenes/cube.lua"),
 		-- ENTIDAD 1
 		camera = { -- nombre de la entidad
 				ddol = false, -- dont destroy on loads

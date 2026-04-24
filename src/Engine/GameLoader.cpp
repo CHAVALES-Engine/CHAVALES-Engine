@@ -375,6 +375,24 @@ bool GameLoader::_defineFunc(sol::state& lua, const std::string& fp, const std::
 	return finished;
 }
 
+bool GameLoader::_injectPrefabFunc(sol::state& lua, const std::string& fp)
+{
+	try
+	{
+		sol::load_result script = lua.load_file(fp);
+		sol::protected_function func = script;
+		sol::table luaFunc = func();
+		lua["loadPrefab"] = luaFunc["loadPrefab"];
+	}
+	catch (const sol::error& e)
+	{
+		Debug::error("GAMELOADER: Error inyectando funciones desde ", fp);
+		Debug::error("Lua exception: ", e.what());
+		return false;
+	}
+	return true;
+}
+
 void GameLoader::_loadLua(
 	std::shared_ptr<core::Scene>& s,
 	const sceneName& n,
@@ -389,7 +407,10 @@ void GameLoader::_loadLua(
 
 	std::string funcPath = p + "luaFunc.lua";
 	sol::table wateredScene;
-	bool luaObtained = _defineFunc(lua, funcPath, scenePath, wateredScene);
+	//bool luaObtained = _defineFunc(lua, funcPath, scenePath, wateredScene);
+	bool luaObtained = false;
+
+	_injectPrefabFunc(lua, funcPath);
 
 	try
 	{

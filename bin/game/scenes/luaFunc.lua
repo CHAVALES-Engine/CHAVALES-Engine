@@ -54,34 +54,38 @@ local function loadScene (path)
     end
 end
 
-local function loadPrefab (path) -- le pasas el path del prefab que quieras cargar
+function resultTable.loadPrefab(path) -- le pasas el path del prefab que quieras cargar
 
     if not fileExists(path) then -- primero comprueba si existe, si no devuelve vacio
         return {}
     end
 
-    local lines = {}
-
-    for line in io.lines(path) do
-        lines[#lines + 1] = line
-    end
-
-    table.insert(resultTable, 1, lines)
-
-    -- debug
-    for k,v in pairs(resultTable) do
-        print('line[' .. k .. ']', v)
-    end
-
-    return lines
+    return dofile(path)
+    
+    -- local lines = {}
+    
+    -- for line in io.lines(path) do
+    --     lines[#lines + 1] = line
+    -- end
+    
+    -- -- table.insert(resultTable, 1, lines)
+    
+    -- -- debug
+    -- for k,v in pairs(resultTable) do
+    --     print('line[' .. k .. ']', v)
+    -- end
+    
+    -- return lines
 end
 
 local scenePath = ...
 print(scenePath)
 
-local lines = loadPrefab(scenePath)
+-- local lines = loadPrefab(scenePath)
 
 -- debug
 -- for k,v in pairs(lines) do
 --  print('line[' .. k .. ']', v)
 -- end
+
+return resultTable

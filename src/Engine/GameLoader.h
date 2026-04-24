@@ -89,6 +89,15 @@ private:
 	static bool _defineFunc(sol::state& lua, const std::string& fp, const std::string& sp, sol::table& st);
 
 	/**
+	 * @brief Funcion que injecta en el estado de lua las funcion loadPrefab.
+
+	 * @param lua - Estado de lua.
+	 * @param fp - Ruta al archivo lua de funciones.
+	 * @returns Si el lua se ha podido ejecutar correctamente y se ha inyectado la función.
+	 */
+	static bool _injectPrefabFunc(sol::state& lua, const std::string& fp);
+
+	/**
 	 * @brief Para definir tipos de clases propias que poder traducir desde lua.
 	 *
 	 * @param lua - Estado de lua donde definir los tipos.
