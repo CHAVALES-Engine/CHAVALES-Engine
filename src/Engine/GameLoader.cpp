@@ -341,7 +341,7 @@ void GameLoader::_defineFunc(sol::state& lua, const std::string& p)
 
 	try
 	{
-		sol::protected_function_result result = func("game/scenes/cube.lua");
+		sol::protected_function_result result = func("game/scenes/scene_base.lua");
 
 		if (result.valid())
 		{
@@ -375,7 +375,7 @@ void GameLoader::_loadLua(
 	const std::string& p)
 {
 	sol::state lua;
-	lua.open_libraries(sol::lib::base, sol::lib::io);
+	lua.open_libraries(sol::lib::base, sol::lib::io, sol::lib::table);
 	std::string path = p + n + ".lua";
 	_path = path;
 

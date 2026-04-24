@@ -2,6 +2,7 @@
 scene = { -- entidades en escena
 	gizmos = true,
 	entities = {
+		--cube = loadPrefab(),
 		-- ENTIDAD 1
 		camera = { -- nombre de la entidad
 				ddol = false, -- dont destroy on loads
@@ -140,7 +141,6 @@ scene = { -- entidades en escena
 				}
 			}
 		},
-		
 		LabelUI= {
 			ddol = false,
 			components = {
@@ -161,6 +161,5 @@ scene = { -- entidades en escena
 				}
 			}
   		}
-		
 	}
 }
