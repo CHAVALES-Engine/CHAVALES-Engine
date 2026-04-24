@@ -362,6 +362,28 @@ void PhysicsModule::ClearForce(uint32_t id, char mode)
 	}
 }
 
+void PhysicsModule::BlockAxes(uint32_t id, bool x, bool y, bool z)
+{
+	auto it = physicsMap.find(id);
+	if (it == physicsMap.end()) return;
+	PxRigidDynamic* body = it->second.actor->is<PxRigidDynamic>();
+	if (!body) return;
+	body->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_LINEAR_X, x);
+	body->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_LINEAR_Y, y);
+	body->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_LINEAR_Z, z);
+}
+
+void PhysicsModule::BlockAngles(uint32_t id, bool x, bool y, bool z)
+{
+	auto it = physicsMap.find(id);
+	if (it == physicsMap.end()) return;
+	PxRigidDynamic* body = it->second.actor->is<PxRigidDynamic>();
+	if (!body) return;
+	body->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_ANGULAR_X, x);
+	body->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y, y);
+	body->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z, z);
+}
+
 float PhysicsModule::GetMass(uint32_t id)
 {
 	auto it = physicsMap.find(id);

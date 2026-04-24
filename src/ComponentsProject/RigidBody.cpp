@@ -114,3 +114,13 @@ void RigidBody::ClearForce(char mode)
 	_eng->clearForce(physicsID, mode);
 }
 
+void RigidBody::blockAxes(bool x, bool y, bool z)
+{
+	_eng->blockAxes(physicsID, x, y, z);
+}
+
+void RigidBody::blockAngles(bool x, bool y, bool z)
+{
+	_eng->blockAngles(physicsID, x, y, z);
+}
+

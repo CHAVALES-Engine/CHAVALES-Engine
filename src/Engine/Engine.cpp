@@ -656,6 +656,16 @@ void Engine::clearForce(uint32_t id, char mode)
 	_physicsModule->ClearForce(id, mode);
 }
 
+void Engine::blockAxes(uint32_t id, bool x, bool y, bool z)
+{
+	_physicsModule->BlockAxes(id, x, y, z);
+}
+
+void Engine::blockAngles(uint32_t id, bool x, bool y, bool z)
+{
+	_physicsModule->BlockAngles(id, x, y, z);
+}
+
 uint32_t Engine::createMaterial(float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine)
 {
 	return _physicsModule->CreateMaterial(staticF, dynamicF, restitution, frictionCombine, bounceCombine);

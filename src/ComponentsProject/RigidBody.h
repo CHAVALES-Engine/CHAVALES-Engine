@@ -133,6 +133,22 @@ public:
 	void ClearForce(char mode);
 
 	/**
+	 * @brief Bloquea ejes
+	 * @param x bloquea x
+	 * @param y bloquea y
+	 * @param z bloquea z
+	 */
+	void blockAxes(bool x, bool y, bool z);
+
+	/**
+	 * @brief Bloquea rotacion
+	 * @param x bloquea x
+	 * @param y bloquea y
+	 * @param z bloquea z
+	 */
+	void blockAngles(bool x, bool y, bool z);
+
+	/**
 	 * @brief Obtiene el ID físico del objeto
 	 */
 	uint32_t getId() { return physicsID; };
