@@ -67,7 +67,7 @@ PhysicsModule::~PhysicsModule()
 	if (gScene) { gScene->release(); gScene = nullptr; }
 	if (dispatcher) { dispatcher->release(); dispatcher = nullptr; }
 	if (gPhysics) { gPhysics->release(); gPhysics = nullptr; }
-	if (pvdTransport) { pvdTransport->release();pvdTransport = nullptr; }
+	if (pvdTransport) { pvdTransport->release(); pvdTransport = nullptr; }
 	if (gPvd) { gPvd->release(); gPvd = nullptr; }
 	PxCloseExtensions();
 	if (gFoundation) { gFoundation->release(); gFoundation = nullptr; }
@@ -107,7 +107,7 @@ bool PhysicsModule::Init()
 	sceneDesc.cpuDispatcher = dispatcher;
 	sceneDesc.filterShader = CustomFilterShader;
 	sceneDesc.simulationEventCallback = this;
-	Debug::out("PHYSICSMODULE: Callback asignado");
+	Debug::out("[PhysicsModule] Callback asignado");
 	gScene = gPhysics->createScene(sceneDesc);
 
 	if (!gScene)
@@ -154,7 +154,7 @@ ComponentID PhysicsModule::CreateBoxShape(core::Vector3<> size, const core::Vect
 {
 	if (!gPhysics || !gScene) return 0;
 
-	PxTransform transform(PxVec3(position.getX(), position.getY(), position.getZ()),PxQuat(rot.getX(), rot.getY(), rot.getZ(), rot.getW()));//posicion y rotacion del trasnform
+	PxTransform transform(PxVec3(position.getX(), position.getY(), position.getZ()), PxQuat(rot.getX(), rot.getY(), rot.getZ(), rot.getW()));//posicion y rotacion del trasnform
 	PxRigidActor* actor = isDynamic ? static_cast<PxRigidActor*>(gPhysics->createRigidDynamic(transform)) : static_cast<PxRigidActor*>(gPhysics->createRigidStatic(transform));
 	if (!actor) return 0;
 
@@ -196,7 +196,7 @@ ComponentID PhysicsModule::CreateCapsuleShape(float radius, float height, const 
 {
 	if (!gPhysics || !gScene) return 0;
 
-	PxTransform transform(PxVec3(worldPos.getX(), worldPos.getY(), worldPos.getZ()),PxQuat(rot.getX(), rot.getY(), rot.getZ(), rot.getW()));//pos y rot del trasnform de entity
+	PxTransform transform(PxVec3(worldPos.getX(), worldPos.getY(), worldPos.getZ()), PxQuat(rot.getX(), rot.getY(), rot.getZ(), rot.getW()));//pos y rot del trasnform de entity
 	PxRigidActor* actor = isDynamic ? static_cast<PxRigidActor*>(gPhysics->createRigidDynamic(transform)) : static_cast<PxRigidActor*>(gPhysics->createRigidStatic(transform));
 	if (!actor) return 0;
 
@@ -478,8 +478,6 @@ void PhysicsModule::onTrigger(PxTriggerPair* pairs, PxU32 count) {
 			eventQueue.push_back({ a, b, CollisionType::TriggerEnter });
 		if (pairs[i].status & PxPairFlag::eNOTIFY_TOUCH_LOST)
 			eventQueue.push_back({ a, b, CollisionType::TriggerExit });
-
-		//Debug::out("PHYSICSMODULE: Trigger callback");
 	}
 }
 
@@ -609,7 +607,6 @@ void PhysicsModule::onContact(const PxContactPairHeader& pairHeader,
 		if (pairs[i].events & PxPairFlag::eNOTIFY_TOUCH_LOST)
 			eventQueue.push_back({ a, b, CollisionType::CollisionExit });
 	}
-	//Debug::out("PHYSICSMODULE: Collision detected");
 }
 
 void PhysicsModule::DestroyBody(ComponentID id)
@@ -773,7 +770,7 @@ void PhysicsModule::ReloadPhysics()
 
 	if (!gScene)
 	{
-		Debug::out("PHYSICS: Error recreando escena");
+		Debug::error("[PhysicsModule] Error recreando escena");
 		return;
 	}
 
