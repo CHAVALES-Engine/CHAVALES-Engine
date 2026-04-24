@@ -113,6 +113,22 @@ public:
 	*/
 	void ClearForce(uint32_t id, char mode);
 
+	/**
+	 * @brief Bloquea ejes
+	 * @param x bloquea x
+	 * @param y bloquea y
+	 * @param z bloquea z
+	 */
+	void BlockAxes(uint32_t id, bool x, bool y, bool z);
+
+	/**
+	 * @brief Bloquea rotacion
+	 * @param x bloquea x
+	 * @param y bloquea y
+	 * @param z bloquea z
+	 */
+	void BlockAngles(uint32_t id, bool x, bool y, bool z);
+
 	/*
 	* @brief Obtiene la masa de un rigidbody
 	* @param id del rigidbody

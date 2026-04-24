@@ -1,4 +1,4 @@
-cube = {
+prefab = {
     ddol = false,
     components = {
         Transform = {
@@ -28,3 +28,5 @@ cube = {
         }
     }
 }
+
+return prefab

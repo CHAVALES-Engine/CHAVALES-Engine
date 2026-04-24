@@ -91,14 +91,14 @@ public:
 	 */
 	std::shared_ptr <core::Scene> getScene() const;
 
-		//Metodos del modulo de render
+	//Metodos del modulo de render
 #pragma region Render
 	//Metodos generales
 #pragma region general
 	/*
 	* @brief Renderizar frame.
 	*/
-		void renderFrame();
+	void renderFrame();
 	/*
 	* @brief Limpiar escena.
 	*/
@@ -596,6 +596,9 @@ public:
 
 	void addForce(uint32_t id, core::Vector3<> force, char mode);
 	void clearForce(uint32_t id, char mode);
+
+	void blockAxes(uint32_t id, bool x, bool y, bool z);
+	void blockAngles(uint32_t id, bool x, bool y, bool z);
 
 	uint32_t createMaterial(float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine);
 
