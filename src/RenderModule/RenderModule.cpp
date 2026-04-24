@@ -63,32 +63,6 @@ static Ogre::STBIImageCodec* _bmpCodec;
 static Ogre::ManualObject* _debugDraw = nullptr;
 static Ogre::SceneNode* _debugNode = nullptr;
 
-/*void ImGuiManager::AddElement(UIElement element)
-{
-	_uiElements.push_back(element);
-}
-	_uiElements.push_back(element);
-}*/
-
-/*void ImGuiManager::Clear()
-{
-	_uiElements.clear();
-}*/
-
-/*void ImGuiManager::Draw()
-{
-	_overlay->NewFrame();
-   // ImGui::ShowDemoWindow();
-	for (auto e : _uiElements) {
-		e();
-	}
-	ImDrawData* draw_data = ImGui::GetDrawData();
-	if (!draw_data || draw_data->CmdListsCount == 0)
-		std::cout << "No draw commands generated\n";
-	else
-		std::cout << "Draw commands generated: " << draw_data->CmdListsCount << "\n";
-}*/
-
 RenderModule::~RenderModule()
 {
 	shutdown();
@@ -190,8 +164,6 @@ bool RenderModule::Init(SDL_Window* sdlWindow, const HWND handle, const int widt
 			(float)_vp->getActualHeight()
 		);
 
-
-
 		Ogre::OverlayManager::getSingleton().addOverlay(_overlay);
 		_overlay->show();
 
@@ -233,7 +205,7 @@ bool RenderModule::Init(SDL_Window* sdlWindow, const HWND handle, const int widt
 		_debugDraw = _sceneMgr->createManualObject("DebugDraw");
 		_debugDraw->setDynamic(true);
 		_debugDraw->setRenderQueueGroup(Ogre::RENDER_QUEUE_OVERLAY);
-		_debugDraw->setBoundingBox(Ogre::AxisAlignedBox::BOX_INFINITE);//A LO MEJOR QUITO ESTE QUE SINO SE CARGAN TODOS Y PUEDE SER MUY PESADO, MEJOR SOLO LO QUE SE VE
+		_debugDraw->setBoundingBox(Ogre::AxisAlignedBox::BOX_INFINITE);
 		_debugNode = _sceneMgr->getRootSceneNode()->createChildSceneNode();
 		_debugNode->attachObject(_debugDraw);
 		//---------------------------------------------------------
@@ -249,9 +221,6 @@ bool RenderModule::Init(SDL_Window* sdlWindow, const HWND handle, const int widt
 
 void RenderModule::renderFrame()
 {
-	// if (_ui)
-	 //    _ui->Draw();
-
 	renderUI();
 	_root->renderOneFrame();
 }
@@ -282,45 +251,8 @@ void RenderModule::cleanScene(const bool& end)
 	//limpiar debug
 	cleanDebug();
 
-	//Limpiar nodos
-	/*for (const EngineNode& engineNode : _engineNodes)
-	{
-		Ogre::SceneNode* sceneNode = engineNode.sceneNode;
-		if (sceneNode != nullptr)
-		{
-			_sceneMgr->destroySceneNode(sceneNode);
-		}
-	}*/
-	// limpia toda la escena de Ogre de golpe
-
 	_engineNodes.clear();
 	_nextTransformID = 0;
-
-
-	// Esto filtra los grupos que se borran para que no se borren los grupos basicos de ogre y que no pete
-	/*static const std::vector<std::string> internalGroups = {"Scene", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, Ogre::ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME, Ogre::ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME};
-
-
-	Ogre::StringVector groups = _rgm->getResourceGroups();
-
-	for (const std::string& groupName : groups)
-	{
-		bool isInternal = false;
-		for (const auto& ig : internalGroups)
-			if (groupName == ig) { isInternal = true; break; }
-
-		if (!isInternal)
-		{
-			// Liberar modelos y textruas
-			_rgm->unloadResourceGroup(groupName);
-
-			// Limpiar lista
-			_rgm->clearResourceGroup(groupName);
-
-			// Borrar grupo
-			_rgm->destroyResourceGroup(groupName);
-		}
-	}*/
 
 	//Si se va a crear una escena nueva dejamos una camara de seguridad. Volvemos a anadir rtss a imgui.
 	if (!end)
@@ -394,7 +326,6 @@ transformID RenderModule::addNode(const entityID& entityID, const core::Vector3<
 
 }
 
-
 transformID RenderModule::getNode(const entityID& entityID)
 {
 	for (int i = _engineNodes.size() - 1; i >= 0; i--)
@@ -457,13 +388,16 @@ void RenderModule::setNodeScale(const transformID& id, const core::Vector3<float
 		_engineNodes[id].sceneNode->setScale(scale.getX(), scale.getY(), scale.getZ());
 	}
 }
-UITransformID RenderModule::addUITransform(const entityID& entityID, const core::Vector2<float>& pos, const int& zBuffer, const core::Vector2<float>& dimension, const float& rotation) {
-	for (int i = 0; i < (int)_uiTransforms.size(); i++) {
+UITransformID RenderModule::addUITransform(const entityID& entityID, const core::Vector2<float>& pos, const int& zBuffer, const core::Vector2<float>& dimension, const float& rotation)
+{
+	for (int i = 0; i < (int)_uiTransforms.size(); i++)
+	{
 		if (_uiTransforms[i].entity == entityID)
 		{
 			return i; //Ya existe
 		}
 	}
+
 	UITransform uiT;
 	uiT.entity = entityID;
 	uiT.position = pos;
@@ -505,9 +439,6 @@ UITransformID RenderModule::getTransformUI(const entityID& entityID)
 	}
 	return -1;
 }
-
-
-
 
 void RenderModule::setViewportBGColor(core::Color color)
 {
@@ -770,7 +701,6 @@ void RenderModule::setModelVisible(const modelID& id, const bool& visible)
 		if (node)
 			node->setVisible(visible, false);
 	}
-
 }
 
 void RenderModule::addAnimator(const entityID& entityID, modelID& modelID)
@@ -907,13 +837,15 @@ void RenderModule::updateAnimation(const animationID& animationID, const uint64_
 	}
 }
 
-lightID RenderModule::addLight(const entityID& entityID, const int& type, const core::Color& color, const float& intensity) {
+lightID RenderModule::addLight(const entityID& entityID, const int& type, const core::Color& color, const float& intensity) 
+{
 	//Si no existe un nodo con este entityID lo creamos
 	transformID nodeID = addNode(entityID);
 
 	Ogre::Light* light = _sceneMgr->createLight("light" + std::to_string(_nextLightID));
 
-	switch (type) {
+	switch (type)
+	{
 	case 0: light->setType(Ogre::Light::LT_POINT); break;
 	case 1: light->setType(Ogre::Light::LT_DIRECTIONAL); break;
 	case 2: light->setType(Ogre::Light::LT_SPOTLIGHT); break;
@@ -931,7 +863,9 @@ lightID RenderModule::addLight(const entityID& entityID, const int& type, const 
 
 	return _nextLightID++;
 }
-void  RenderModule::deleteLight(const lightID& id) {
+
+void  RenderModule::deleteLight(const lightID& id) 
+{
 	if (id >= 0 && id < _lights.size() && _lights[id] != nullptr)
 	{
 		Ogre::Light* light = _lights[id];
@@ -942,11 +876,13 @@ void  RenderModule::deleteLight(const lightID& id) {
 	}
 }
 
-void RenderModule::setLightActive(const lightID& id, const bool& active) {
+void RenderModule::setLightActive(const lightID& id, const bool& active) 
+{
 	if (id >= 0 && id < _lights.size() && _lights[id] != nullptr) _lights[id]->setVisible(active);
 }
 
-void RenderModule::cleanLights() {
+void RenderModule::cleanLights() 
+{
 	for (Ogre::Light* light : _lights)
 	{
 		if (light != nullptr)
@@ -962,28 +898,41 @@ void RenderModule::cleanLights() {
 	_nextLightID = 0;
 }
 
-void RenderModule::setLightType(const lightID& id, const int& type) {
+void RenderModule::setLightType(const lightID& id, const int& type) 
+{
 	if (id >= 0 && id < _lights.size() && _lights[id] != nullptr)
 	{
 		Ogre::Light* light = _lights[id];
-		switch (type) {
-		case 0: light->setType(Ogre::Light::LT_POINT); break;
-		case 1: light->setType(Ogre::Light::LT_DIRECTIONAL); break;
-		case 2: light->setType(Ogre::Light::LT_SPOTLIGHT); break;
-		case 3: light->setType(Ogre::Light::LT_RECTLIGHT); break;
+		switch (type) 
+		{
+			case 0: 
+				light->setType(Ogre::Light::LT_POINT); 
+				break;
+			case 1: 
+				light->setType(Ogre::Light::LT_DIRECTIONAL); 
+				break;
+			case 2: 
+				light->setType(Ogre::Light::LT_SPOTLIGHT); 
+				break;
+			case 3: 
+				light->setType(Ogre::Light::LT_RECTLIGHT); 
+				break;
 		}
 	}
 }
 
-void RenderModule::setLightColor(const lightID& id, const core::Color& color) {
+void RenderModule::setLightColor(const lightID& id, const core::Color& color)
+{
 	if (id >= 0 && id < _lights.size() && _lights[id] != nullptr) _lights[id]->setDiffuseColour(color.getRed(), color.getGreen(), color.getBlue());
 }
 
-void RenderModule::setLightIntensity(const lightID& id, const float& intensity) {
+void RenderModule::setLightIntensity(const lightID& id, const float& intensity) 
+{
 	if (id >= 0 && id < _lights.size() && _lights[id] != nullptr) _lights[id]->setPowerScale(intensity);
 }
 
-void RenderModule::setLightSpotRange(const lightID& id, const float& inner, const float& outer, const float& falloff) {
+void RenderModule::setLightSpotRange(const lightID& id, const float& inner, const float& outer, const float& falloff) 
+{
 	if (id >= 0 && id < _lights.size() && _lights[id] != nullptr) _lights[id]->setSpotlightRange(Ogre::Degree(inner), Ogre::Degree(outer), falloff);
 }
 
@@ -1195,7 +1144,8 @@ void RenderModule::setSkydomeNull()
 	_sceneMgr->setSkyDome(false, "");
 }
 
-uiPanelID RenderModule::addUIPanel(const entityID& entityID, const std::string& title) {
+uiPanelID RenderModule::addUIPanel(const entityID& entityID, const std::string& title) 
+{
 	addUITransform(entityID);
 	UIPanelData panel;
 	panel.entity = entityID;
@@ -1207,12 +1157,13 @@ uiPanelID RenderModule::addUIPanel(const entityID& entityID, const std::string& 
 	return _nextPanelID++;
 }
 
-void RenderModule::setUIPanelVisible(const uiPanelID& id, bool visible) {
+void RenderModule::setUIPanelVisible(const uiPanelID& id, bool visible) 
+{
 	_uiPanels[id].visible = visible;
-
 }
 
-uiLabelID RenderModule::addUILabel(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const  float opacity, const core::Color textColor, const core::Color bgColor, const float fontSize, const TextAlign textAlign, const std::string fontName) {
+uiLabelID RenderModule::addUILabel(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const  float opacity, const core::Color textColor, const core::Color bgColor, const float fontSize, const TextAlign textAlign, const std::string fontName) 
+{
 	addUITransform(entityID);
 
 	UILabelData label;
@@ -1227,10 +1178,12 @@ uiLabelID RenderModule::addUILabel(const uiPanelID& panelID, const entityID& ent
 
 	std::string auxFontName = fontName + "_" + std::to_string((int)fontSize);
 	auto it = _fonts.find(auxFontName);
-	if (it != _fonts.end()) {
+	if (it != _fonts.end()) 
+	{
 		label.font = it->second;
 	}
-	else {
+	else 
+	{
 		label.font = _fonts["default"];
 	}
 	_uiPanels[panelID].labels.push_back(label);
@@ -1241,31 +1194,38 @@ uiLabelID RenderModule::addUILabel(const uiPanelID& panelID, const entityID& ent
 	return id;
 }
 
-void RenderModule::setUILabelVisible(const uiLabelID& labelID, bool visible) {
+void RenderModule::setUILabelVisible(const uiLabelID& labelID, bool visible) 
+{
 	auto [panelID, labelIndex] = _labelToPanel[labelID];
 	_uiPanels[panelID].labels[labelIndex].visible = visible;
 }
 
-void RenderModule::setUILabelText(const uiLabelID& labelID, const std::string& text) {
+void RenderModule::setUILabelText(const uiLabelID& labelID, const std::string& text) 
+{
 	auto [panelID, labelIndex] = _labelToPanel[labelID];
 	_uiPanels[panelID].labels[labelIndex].text = text;
 }
-void  RenderModule::setUILabelOpacity(const uiLabelID& labelID, float opacity) {
+
+void RenderModule::setUILabelOpacity(const uiLabelID& labelID, float opacity) 
+{
 	auto [panelID, labelIndex] = _labelToPanel[labelID];
 	_uiPanels[panelID].labels[labelIndex].opacity = opacity;
 }
 
-void RenderModule::setUILabelTextColor(const uiLabelID& labelID, core::Color color) {
+void RenderModule::setUILabelTextColor(const uiLabelID& labelID, core::Color color) 
+{
 	auto [panelID, labelIndex] = _labelToPanel[labelID];
 	_uiPanels[panelID].labels[labelIndex].textColor = color;
 }
 
-void RenderModule::setUILabelBackGroundColor(const uiLabelID& labelID, core::Color color) {
+void RenderModule::setUILabelBackGroundColor(const uiLabelID& labelID, core::Color color) 
+{
 	auto [panelID, labelIndex] = _labelToPanel[labelID];
 	_uiPanels[panelID].labels[labelIndex].bgColor = color;
 }
 
-void RenderModule::setUILabelAlign(const uiLabelID& labelID, const TextAlign& align) {
+void RenderModule::setUILabelAlign(const uiLabelID& labelID, const TextAlign& align) 
+{
 	auto [panelID, labelIndex] = _labelToPanel[labelID];
 	_uiPanels[panelID].labels[labelIndex].align = align;
 }
@@ -1299,7 +1259,9 @@ uiButtonID RenderModule::addUIImageButton(const uiPanelID& panelID, const entity
 	_buttonToPanel[id] = { panelID, buttonIndex };
 	return id;
 }
-uiButtonID RenderModule::addUIButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const float& fontSize, const std::string& fontName) {
+
+uiButtonID RenderModule::addUIButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const float& fontSize, const std::string& fontName) 
+{
 	addUITransform(entityID);
 
 	UIButtonData button;
@@ -1309,10 +1271,13 @@ uiButtonID RenderModule::addUIButton(const uiPanelID& panelID, const entityID& e
 	button.buttonImage = false;
 	std::string auxFontName = fontName + "_" + std::to_string((int)fontSize);
 	auto it = _fonts.find(auxFontName);
-	if (it != _fonts.end()) {
+
+	if (it != _fonts.end()) 
+	{
 		button.font = it->second;
 	}
-	else {
+	else 
+		{
 		button.font = _fonts["default"];
 	}
 	_uiPanels[panelID].buttons.push_back(button);
@@ -1335,32 +1300,38 @@ void RenderModule::setUIButtonText(const uiButtonID& buttonID, const std::string
 	_uiPanels[panelID].buttons[buttonIndex].text = text;
 }
 
-void  RenderModule::setUIButtonTexture(const uiButtonID& buttonID, const std::string& texture) {
+void RenderModule::setUIButtonTexture(const uiButtonID& buttonID, const std::string& texture) 
+{
 	auto [panelID, buttonIndex] = _buttonToPanel[buttonID];
 	_uiPanels[panelID].buttons[buttonIndex].textureFile = texture;
 }
 
-void  RenderModule::setUIButtonOpacity(const uiButtonID& buttonID, float& opacity) {
+void RenderModule::setUIButtonOpacity(const uiButtonID& buttonID, float& opacity) 
+{
 	auto [panelID, buttonIndex] = _buttonToPanel[buttonID];
 	_uiPanels[panelID].buttons[buttonIndex].opacity = opacity;
 }
 
-void  RenderModule::setUIButtonBackgroundColor(const uiButtonID& buttonID, core::Color& bgColor) {
+void RenderModule::setUIButtonBackgroundColor(const uiButtonID& buttonID, core::Color& bgColor) 
+{
 	auto [panelID, buttonIndex] = _buttonToPanel[buttonID];
 	_uiPanels[panelID].buttons[buttonIndex].bgColor = bgColor;
 }
 
-void  RenderModule::setUIButtonTextColor(const uiButtonID& buttonID, core::Color& txColor) {
+void RenderModule::setUIButtonTextColor(const uiButtonID& buttonID, core::Color& txColor) 
+{
 	auto [panelID, buttonIndex] = _buttonToPanel[buttonID];
 	_uiPanels[panelID].buttons[buttonIndex].textColor = txColor;
 }
 
-void  RenderModule::setUIButtonHoverColor(const uiButtonID& buttonID, core::Color& hvColor) {
+void  RenderModule::setUIButtonHoverColor(const uiButtonID& buttonID, core::Color& hvColor) 
+{
 	auto [panelID, buttonIndex] = _buttonToPanel[buttonID];
 	_uiPanels[panelID].buttons[buttonIndex].hvColor = hvColor;
 }
 
-void  RenderModule::setUIButtonPressColor(const uiButtonID& buttonID, core::Color& psColor) {
+void  RenderModule::setUIButtonPressColor(const uiButtonID& buttonID, core::Color& psColor) 
+{
 	auto [panelID, buttonIndex] = _buttonToPanel[buttonID];
 	_uiPanels[panelID].buttons[buttonIndex].psColor = psColor;
 }
@@ -1380,13 +1351,13 @@ uiTextureRectID RenderModule::addUITextureRect(const uiPanelID& panelID, const e
 	tex.textureFile = textureFile;
 	tex.visible = true;
 
-
 	if (!_rgm->resourceGroupExists(textureFolder))
 	{
 		_rgm->addResourceLocation(textureFolder, "FileSystem", textureFolder);
 		_rgm->loadResourceGroup(textureFolder);
 		_resourceGroups.insert(textureFolder);
 	}
+
 	Ogre::TexturePtr texture = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
 	tex.textureID = (ImTextureID)texture->getHandle();
 	_uiPanels[panelID].textureRects.push_back(tex);
@@ -1399,20 +1370,23 @@ uiTextureRectID RenderModule::addUITextureRect(const uiPanelID& panelID, const e
 	return id;
 }
 
-void  RenderModule::setUITextureRectTexture(const uiTextureRectID& textureRectID, const std::string& texture) {
+void  RenderModule::setUITextureRectTexture(const uiTextureRectID& textureRectID, const std::string& texture) 
+{
 	auto [panelID, textureRectIndex] = _textureToPanel[textureRectID];
 	_uiPanels[panelID].textureRects[textureRectIndex].textureFile = texture;
 }
 
-void  RenderModule::setUITextureRectVisible(const uiTextureRectID& textureRectID, bool& visible) {
+void RenderModule::setUITextureRectVisible(const uiTextureRectID& textureRectID, bool& visible) 
+{
 	auto [panelID, textureRectIndex] = _textureToPanel[textureRectID];
 	_uiPanels[panelID].textureRects[textureRectIndex].visible = visible;
 }
-void  RenderModule::setUITextureRectOpacity(const uiTextureRectID& textureRectID, float& opacity) {
+
+void RenderModule::setUITextureRectOpacity(const uiTextureRectID& textureRectID, float& opacity) 
+{
 	auto [panelID, textureRectIndex] = _textureToPanel[textureRectID];
 	_uiPanels[panelID].textureRects[textureRectIndex].opacity = opacity;
 }
-
 
 TextAlign RenderModule::stringToAlign(const std::string& align)
 {
@@ -1427,15 +1401,15 @@ TextAlign RenderModule::stringToAlign(const std::string& align)
 	}
 }
 
-
-void RenderModule::renderUI() {
+void RenderModule::renderUI() 
+{
 	ImGui_ImplSDL3_NewFrame();
 	ImGui::NewFrame();
-	for (UIPanelData& panel : _uiPanels) {
 
-		if (!panel.visible) {
-			continue;
-		}
+	for (UIPanelData& panel : _uiPanels) 
+	{
+		if (!panel.visible) continue;
+
 		int tID = getTransformUI(panel.entity);
 		ImGui::SetNextWindowPos(ImVec2(0, 0));
 		ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
@@ -1445,8 +1419,11 @@ void RenderModule::renderUI() {
 		ImDrawListSplitter splitter;
 		splitter.Split(drawList, 32);
 		splitter.SetCurrentChannel(drawList, _uiTransforms[tID].zBuffer);
-		for (UILabelData& label : panel.labels) {
-			if (!label.visible) {
+
+		for (UILabelData& label : panel.labels) 
+		{
+			if (!label.visible) 
+			{
 				continue;
 			}
 			int tID = getTransformUI(label.entity);
@@ -1464,7 +1441,8 @@ void RenderModule::renderUI() {
 			float posTextX;
 			float posTextY = auxPos.y + (auxDim.y - textSize.y) * 0.5f;
 
-			switch (label.align) {
+			switch (label.align) 
+			{
 			case TextAlign::LEFT:
 				posTextX = auxPos.x + 5.0f;
 				break;
@@ -1474,14 +1452,19 @@ void RenderModule::renderUI() {
 			case TextAlign::RIGHT:
 				posTextX = auxPos.x + auxDim.x - textSize.x - 5.0f;
 			}
+
 			drawList->AddText(ImVec2(posTextX, posTextY), IM_COL32(label.textColor.getRed() * 255, label.textColor.getGreen() * 255, label.textColor.getBlue() * 255, auxOpacity * 255), label.text.c_str());
 
 			ImGui::PopFont();
 		}
-		for (UITextureRectData& tex : panel.textureRects) {
-			if (!tex.visible) {
+
+		for (UITextureRectData& tex : panel.textureRects) 
+		{
+			if (!tex.visible) 
+			{
 				continue;
 			}
+
 			int tID = getTransformUI(tex.entity);
 			splitter.SetCurrentChannel(drawList, _uiTransforms[tID].zBuffer);
 
@@ -1492,15 +1475,15 @@ void RenderModule::renderUI() {
 			const ImVec2 aux = { _uiTransforms[tID].dimension.getX(), _uiTransforms[tID].dimension.getY() };
 			ImGui::Image((ImTextureID)tex.textureID, aux);
 			ImGui::PopStyleVar();
-
 		}
 
-
-
-		for (UIButtonData& button : panel.buttons) {
-			if (!button.visible) {
+		for (UIButtonData& button : panel.buttons) 
+		{
+			if (!button.visible) 
+			{
 				continue;
 			}
+
 			int tID = getTransformUI(button.entity);
 			splitter.SetCurrentChannel(drawList, _uiTransforms[tID].zBuffer);
 
@@ -1509,26 +1492,34 @@ void RenderModule::renderUI() {
 			ImGui::PushStyleVar(ImGuiStyleVar_Alpha, button.opacity);
 			const ImVec2 aux = { _uiTransforms[tID].dimension.getX(), _uiTransforms[tID].dimension.getY() };
 
-			if (button.buttonImage) {
+			if (button.buttonImage) 
+			{
 				std::string idButton = button.textureFile + "_" + button.entity.toString();
 
-				if (ImGui::ImageButton(idButton.c_str(), (ImTextureID)(uintptr_t)button.textureID, aux)) {
-					std::cout << "CLICK OKIIIIIIIIIII\n";
-					if (button.onClick) {
+				if (ImGui::ImageButton(idButton.c_str(), (ImTextureID)(uintptr_t)button.textureID, aux)) 
+				{
+					Debug::out("[RENDERMODULE] Button clicked");
+
+					if (button.onClick)
+					{
 						button.onClick();
 					}
 				}
 			}
-			else {
+			else 
+			{
 				ImGui::PushFont(button.font);
 				ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(button.textColor.getRed() * 255, button.textColor.getGreen() * 255, button.textColor.getBlue() * 255, button.textColor.getAlpha() * button.opacity * 255));
 				ImGui::PushStyleColor(ImGuiCol_Button, IM_COL32(button.bgColor.getRed() * 255, button.bgColor.getGreen() * 255, button.bgColor.getBlue() * 255, button.bgColor.getAlpha() * button.opacity * 255));
 				ImGui::PushStyleColor(ImGuiCol_ButtonHovered, IM_COL32(button.hvColor.getRed() * 255, button.hvColor.getGreen() * 255, button.hvColor.getBlue() * 255, button.hvColor.getAlpha() * button.opacity * 255));
 				ImGui::PushStyleColor(ImGuiCol_ButtonActive, IM_COL32(button.psColor.getRed() * 255, button.psColor.getGreen() * 255, button.psColor.getBlue() * 255, button.psColor.getAlpha() * button.opacity * 255));
-				if (ImGui::Button(button.text.c_str(), aux)) {
-					std::cout << "CLICK OK\n";
 
-					if (button.onClick) {
+				if (ImGui::Button(button.text.c_str(), aux)) 
+				{
+					Debug::out("[RENDERMODULE] Button clicked");
+
+					if (button.onClick) 
+					{
 						button.onClick();
 					}
 				}
@@ -1735,7 +1726,7 @@ void RenderModule::DrawBox(const ShapeRenderData& data)
 void RenderModule::DrawCapsule(const ShapeRenderData& data)
 {
 	const int segments = 32;
-	const int rings = 4;//uso solo 4 anillos, si quieres mas cambialo
+	const int rings = 4;
 
 	float r = data.radius;
 	float hh = data.halfHeight;
@@ -1747,7 +1738,8 @@ void RenderModule::DrawCapsule(const ShapeRenderData& data)
 	Ogre::Vector3 V = q * Ogre::Vector3::UNIT_Z;
 	Ogre::Vector3 W = q * Ogre::Vector3::UNIT_X;
 
-	auto drawCircle = [&](const Ogre::Vector3& C) {
+	auto drawCircle = [&](const Ogre::Vector3& C)
+	{
 		for (int i = 0; i < segments; i++)
 		{
 			float a0 = Ogre::Math::TWO_PI * i / segments;
@@ -1759,9 +1751,9 @@ void RenderModule::DrawCapsule(const ShapeRenderData& data)
 			_debugDraw->position(p0);
 			_debugDraw->position(p1);
 		}
-		};
+	};
 
-	//distribucion de aros por todo el tronco
+	// distribucion de aros por el tronco
 	float totalHeight = 2.0f * hh;
 	float step = totalHeight / rings;
 
@@ -1772,7 +1764,7 @@ void RenderModule::DrawCapsule(const ShapeRenderData& data)
 		drawCircle(C);
 	}
 
-	//para marcar la altura
+	// para marcar la altura
 	Ogre::Vector3 bottom(0, data.position.getY() - r - totalHeight * 0.5f, 0);
 	Ogre::Vector3 top(0, data.position.getY() + r + totalHeight * 0.5f, 0);
 	_debugDraw->position(bottom);
@@ -1781,12 +1773,13 @@ void RenderModule::DrawCapsule(const ShapeRenderData& data)
 
 void RenderModule::DrawSphere(const ShapeRenderData& data)
 {
-	const int segments = 24;//si tira mucho del ordenador poner 16 
+	const int segments = 24; // si tira mucho del ordenador poner 16
 	float radius = data.radius;
 	Ogre::Vector3 center(data.position.getX(), data.position.getY(), data.position.getZ());
 	Ogre::Quaternion q(data.rotation.getW(), data.rotation.getX(), data.rotation.getY(), data.rotation.getZ());
 
-	auto drawCircle = [&](Ogre::Vector3 axis1, Ogre::Vector3 axis2) {
+	auto drawCircle = [&](Ogre::Vector3 axis1, Ogre::Vector3 axis2) 
+	{
 		for (int i = 0; i < segments; i++)
 		{
 			float a0 = Ogre::Math::TWO_PI * i / segments;
@@ -1801,9 +1794,8 @@ void RenderModule::DrawSphere(const ShapeRenderData& data)
 			_debugDraw->position(p0);
 			_debugDraw->position(p1);
 		}
-		};
+	};
 
-	//solo hago tres circulos, uno en cada eje
 	drawCircle(Ogre::Vector3::UNIT_X, Ogre::Vector3::UNIT_Y);
 	drawCircle(Ogre::Vector3::UNIT_X, Ogre::Vector3::UNIT_Z);
 	drawCircle(Ogre::Vector3::UNIT_Y, Ogre::Vector3::UNIT_Z);
