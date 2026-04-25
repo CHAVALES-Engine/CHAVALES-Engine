@@ -90,7 +90,7 @@ public:
 	/**
 	 * @brief Constructora vacía
 	 */
-	Collider() = default;
+	Collider();
 	/**
 	 * @brief Destructora
 	 */

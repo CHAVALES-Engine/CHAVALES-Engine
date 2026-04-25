@@ -58,8 +58,3 @@ void core::Component::call(const std::string& method, const std::vector<std::any
 		Debug::warning("Method not found: ", method);
 	}
 }
-
-template<typename Func>
-void core::Component::registerMethod(const std::string& name, Func&& f) {
-	_methods[name] = std::move(f);
-}	

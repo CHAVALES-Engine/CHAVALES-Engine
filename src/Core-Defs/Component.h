@@ -205,7 +205,9 @@ namespace core
 		 * @param f - 
 		 */
 		template<typename Func>
-		void registerMethod(const std::string& name, Func&& f);
+		void registerMethod(const std::string& name, Func&& f) {
+			_methods[name] = std::move(f);
+		};
 		
 		std::unordered_map<std::string, std::function<void(const std::vector<std::any>&)>> _methods;
 
