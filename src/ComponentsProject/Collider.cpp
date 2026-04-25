@@ -8,6 +8,41 @@
 REGISTER_COMPONENT(Collider);
 
 
+Collider::Collider()
+{
+	// Getters
+	registerMethod("getCenter", [this](const std::vector<std::any>& args) {
+		getCenter();
+		});
+
+	registerMethod("getId", [this](const std::vector<std::any>& args) {
+		getId();
+		});
+	// Metodos de colision
+	registerMethod("onTriggerEnter", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			onTriggerEnter(std::any_cast<ComponentID>(args[0]));
+		}
+		});
+
+	registerMethod("onTriggerExit", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			onTriggerExit(std::any_cast<ComponentID>(args[0]));
+		}
+		});
+
+	registerMethod("onCollisionEnter", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			onCollisionEnter(std::any_cast<ComponentID>(args[0]));
+		}
+		});
+
+	registerMethod("onCollisionExit", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			onCollisionExit(std::any_cast<ComponentID>(args[0]));
+		}
+		});
+}
 
 bool Collider::init(const Properties& p)
 {

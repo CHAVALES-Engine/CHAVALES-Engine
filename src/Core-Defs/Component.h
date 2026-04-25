@@ -190,32 +190,22 @@ namespace core
 			return false;
 		}
 
-		virtual void call(const std::string& method, const std::vector<std::any>& args) {
-			auto it = _methods.find(method);
-			if (it != _methods.end()) {
-				try {
-					it->second(args);
-				}
-				catch (const std::bad_any_cast& e) {
-					Debug::error("Invalid arguments for method: ", method);
-				}
-			}
-			else {
-				Debug::warning("Method not found: ", method);
-			}
-		}
+		/**
+		 * @brief Metodo que llama a una funcion registrada.
+		 * @param method - nombre del metodo.
+		 * @param args - argumentos de la funcion.
+		 */
+		virtual void call(const std::string& method, const std::vector<std::any>& args) const;
 
 	protected:
 		/**
 		 * @brief Registra los metodos del componente para poder llamarlos desde otra dll.
 		 * @tparam Func 
-		 * @param name 
-		 * @param f 
+		 * @param name - nombre de la funcion.
+		 * @param f - 
 		 */
 		template<typename Func>
-		void registerMethod(const std::string& name, Func&& f) {
-			_methods[name] = std::move(f);
-		}
+		void registerMethod(const std::string& name, Func&& f);
 		
 		std::unordered_map<std::string, std::function<void(const std::vector<std::any>&)>> _methods;
 

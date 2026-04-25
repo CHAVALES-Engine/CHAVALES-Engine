@@ -42,3 +42,24 @@ const std::string& core::Component::getName() const
 {
 	return _name;
 }
+
+void core::Component::call(const std::string& method, const std::vector<std::any>& args) const 
+{
+	auto it = _methods.find(method);
+	if (it != _methods.end()) {
+		try {
+			it->second(args);
+		}
+		catch (const std::bad_any_cast& e) {
+			Debug::error("Invalid arguments for method: ", method);
+		}
+	}
+	else {
+		Debug::warning("Method not found: ", method);
+	}
+}
+
+template<typename Func>
+void core::Component::registerMethod(const std::string& name, Func&& f) {
+	_methods[name] = std::move(f);
+}	

@@ -9,7 +9,7 @@ REGISTER_COMPONENT(RigidBody);
 
 RigidBody::RigidBody()
 {
-	// Getters (retornan valores)
+	// Getters
 	registerMethod("getVelocity", [this](const std::vector<std::any>& args) {
 		getVelocity();
 		});
