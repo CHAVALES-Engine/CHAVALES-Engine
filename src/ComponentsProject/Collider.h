@@ -1,6 +1,7 @@
 #pragma once
 #include  "../../src/Core-Defs/Component.h"
 #include "CommonEnums.h"
+#include "Message.h"
 
 using ComponentID = unsigned int;
 class Engine;
@@ -86,6 +87,11 @@ protected:
 	 */
 	ShapeType shapeType;
 
+	// Callbacks
+	core::Message<ComponentID> _onTriggerEnter;
+	core::Message<ComponentID> _onTriggerExit;
+	core::Message<ComponentID> _onCollisionEnter;
+	core::Message<ComponentID> _onCollisionExit;
 public:
 	/**
 	 * @brief Constructora vacía
@@ -144,4 +150,5 @@ public:
 
 	bool hasCollided = false;
 	bool hasTriggered = false;
+
 };

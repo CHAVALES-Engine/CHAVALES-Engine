@@ -42,6 +42,35 @@ Collider::Collider()
 			onCollisionExit(std::any_cast<ComponentID>(args[0]));
 		}
 		});
+
+	// callbacks
+	registerMethod("subscribeOnTriggerEnter", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			auto func = std::any_cast<std::function<void(ComponentID)>>(args[0]);
+			_onTriggerEnter.subscribe(func);
+		}
+		});
+
+	registerMethod("subscribeOnTriggerExit", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			auto func = std::any_cast<std::function<void(ComponentID)>>(args[0]);
+			_onTriggerExit.subscribe(func);
+		}
+		});
+
+	registerMethod("subscribeOnCollisionEnter", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			auto func = std::any_cast<std::function<void(ComponentID)>>(args[0]);
+			_onCollisionEnter.subscribe(func);
+		}
+		});
+
+	registerMethod("subscribeOnCollisionExit", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			auto func = std::any_cast<std::function<void(ComponentID)>>(args[0]);
+			_onCollisionExit.subscribe(func);
+		}
+		});
 }
 
 bool Collider::init(const Properties& p)
@@ -169,21 +198,25 @@ void Collider::update(uint64_t deltaTime)
 void Collider::onTriggerEnter(ComponentID other)
 {
 	Debug::out("[TRIGGER] Trigger enter");
+	_onTriggerEnter.emit(other);
 	hasTriggered = true;
 }
 
 void Collider::onTriggerExit(ComponentID other)
 {
 	Debug::out("[TRIGGER] Trigger exit");
+	_onTriggerExit.emit(other);
 	hasTriggered = false;
 }
 
 void Collider::onCollisionEnter(ComponentID other) {
 	Debug::out("[COLLIDER] Collision enter");
+	_onCollisionEnter.emit(other);
 	hasCollided = true;
 }
 
 void Collider::onCollisionExit(ComponentID other) {
 	Debug::out("[COLLIDER] Collision exit");
+	_onCollisionExit.emit(other);
 	hasCollided = false;
 }
