@@ -47,6 +47,7 @@ class ENGINE_API Transform : public core::Component
 	core::Quaternion<> _localRotation;
 	core::Vector3<> _localScale;
 	Transform* _parent = nullptr;
+	std::vector<std::string> _pendingChildren;
 	std::vector<Transform*> _children;
 	bool _lockRotX = false;
 	bool _lockRotY = false;

@@ -33,15 +33,7 @@ bool Transform::init(const Properties& p)
 		_localRotation = core::Quaternion().fromEuler(_rot);
 	}
 	_localScale = getProperty<core::Vector3<>>(p, "scale");
-	std::vector<std::string> pendingChildren = getProperty<std::vector<std::string>>(p, "children");
-	for (const std::string& childName : pendingChildren) {
-		core::Entity* childEntity = getEntity()->getScene()->findEntityByName(childName);
-		if (!childEntity) 
-			//Debug::warning("Transform: hijo no encontrado: ", childName);
-			continue;
-		if (Transform* childTransform = childEntity->getComponent<Transform>()) 
-			childTransform->setParent(this);
-	}
+	_pendingChildren = getProperty<std::vector<std::string>>(p, "children");
 	//pendingChildren.clear();
 	_transformID = Engine::instance()->addTransform(getEntity()->getEntityID(), getGlobalPosition(), getGlobalRotation(), getGlobalScale());
 	return true;
@@ -50,6 +42,14 @@ bool Transform::init(const Properties& p)
 void Transform::ready()
 {
 	//Debug::out("[TRANSFORM] ", getEntity()->getName(), " tiene ", _children.size(), " hijo", (_children.size() != 1 ? "s" : ""));
+	for (const std::string& childName : _pendingChildren) {
+		core::Entity* childEntity = getEntity()->getScene()->findEntityByName(childName);
+		if (!childEntity)
+			//Debug::warning("Transform: hijo no encontrado: ", childName);
+			continue;
+		if (Transform* childTransform = childEntity->getComponent<Transform>())
+			childTransform->setParent(this);
+	}
 }
 
 void Transform::setGlobalPosition(core::Vector3<> gp)
