@@ -198,7 +198,7 @@ public:
 	{
 		Debug::out("CAMBIO DE ESCENA");
 
-		Engine::instance()->addAndSetScene("scene2");
+		Engine::instance()->requestSceneChange("scene2");
 	}
 
 	void fixedUpdate() override
