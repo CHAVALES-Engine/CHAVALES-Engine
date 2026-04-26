@@ -410,10 +410,7 @@ void GameLoader::_loadLua(
 	_defineUserTypes(lua);
 
 	std::string funcPath = p + "luaFunc.lua";
-	sol::table wateredScene;
 	//bool luaObtained = _defineFunc(lua, funcPath, scenePath, wateredScene);
-	bool luaObtained = false;
-
 	_injectPrefabFunc(lua, funcPath);
 
 	try
@@ -432,24 +429,7 @@ void GameLoader::_loadLua(
 
 	// --- lectura lua
 	// - Escena
-	sol::object object;
-	if (!luaObtained)
-	{
-		object = lua["scene"];
-		Debug::out("GAMELOADER: No se hidrataron los prefabs, cargando escena de manera usual.");
-	}
-	else
-	{
-		object = wateredScene["scene"];
-		if (!object.valid() || object.get_type() != sol::type::table)
-		{
-			object = lua["scene"];
-			Debug::out("GAMELOADER: No se hidrataron los prefabs, cargando escena de manera usual.");
-		}
-		else
-			Debug::out("GAMELOADER: Se hidrataron los prefabs, cargando escena a traves de luaFunc.lua");
-	}
-
+	sol::object object = lua["scene"];
 	if (!object.valid() || object.get_type() != sol::type::table)
 	{
 		Debug::error("GAMELOADER: 'scene' no existe o no es una tabla en ", scenePath);

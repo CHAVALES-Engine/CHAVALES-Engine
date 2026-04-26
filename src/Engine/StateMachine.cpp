@@ -102,7 +102,9 @@ void StateMachine::_addAndSetScene(const sceneName& n)
 		// destruye la escena actual
 		if (_currentScene.ptr != nullptr)
 		{
+			_currentScene.ptr->onDestroy();
 			_currentScene.ptr->clearScene();
+			Engine::instance()->cleanScene();
 		}
 
 		// setea nueva escena actual
@@ -143,7 +145,7 @@ void StateMachine::_processSceneChange()
 	if (!_hasPendingSceneChange) return;
 
 	sceneName nextScene = _pendingSceneName; // guardar antes de clar
+	_hasPendingSceneChange = false;
 	_pendingSceneName.clear();
 	_addAndSetScene(nextScene);
-	_hasPendingSceneChange = false;
 }

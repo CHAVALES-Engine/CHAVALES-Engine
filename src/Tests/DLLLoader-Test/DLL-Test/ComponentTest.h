@@ -215,12 +215,17 @@ public:
 
 REGISTER_COMPONENT(TimerChangescene);
 
-class ParentTest : public core::Component
+class InitialTest : public core::Component
 {
 	void ready() override
 	{
-		
+		Debug::out("READY");
+	}
+
+	void update(uint64_t deltaTime) override
+	{
+		Debug::out("UPDATE");
 	}
 };
 
-REGISTER_COMPONENT(ParentTest);
+REGISTER_COMPONENT(InitialTest);

@@ -135,18 +135,19 @@ namespace core {
 
 	void core::Scene::clearScene() // comprueba dont destroy on load
 	{
-		if (!_entities.empty())
+		for (auto it = _entities.begin(); it != _entities.end(); )
 		{
-			for (auto& [guid, e] : _entities)
-			{
-				// solo se destruye si debe
-				if (!e->getDontDestoroyOnLoad())
-				{
-					delete e;
-				}
-			}
+			auto& [guid, e] = *it;
 
-			_entities.clear();
+			if (!e->getDontDestroyOnLoad())
+			{
+				delete e;
+				it = _entities.erase(it);
+			}
+			else
+			{
+				++it;
+			}
 		}
 	}
 

@@ -450,6 +450,7 @@ cameraID RenderModule::addCamera(const entityID& entityID, const float& FOVy, co
 	//Si no existe un nodo con este entityID lo creamos
 	transformID nodeID = addNode(entityID);
 	Ogre::Camera* camera = _cameras.emplace_back(_sceneMgr->createCamera("camera" + entityID.toString()));
+	cameraID createdCameraID = _cameras.size() - 1;
 	camera->setAutoAspectRatio(true);
 	_engineNodes[nodeID].sceneNode->attachObject(camera);
 
@@ -459,12 +460,14 @@ cameraID RenderModule::addCamera(const entityID& entityID, const float& FOVy, co
 	camera->setFocalLength(focalLength);
 
 	//Si es la main camera auxiliar o es la primera camara manual se convierte automaticamente en la activa
-	if (_nextCameraID <= 1)
+	if (_vp == nullptr || _vp->getCamera() == nullptr || (_cameras.size() == 2 && entityID != _mainCameraID))
 	{
-		setAsActiveCamera(_nextCameraID);
+		setAsActiveCamera(createdCameraID);
 		_vp->setBackgroundColour(Ogre::ColourValue(bgColor.getRed(), bgColor.getGreen(), bgColor.getBlue()));
 	}
-	return _nextCameraID++;
+
+	_nextCameraID = _cameras.size();
+	return createdCameraID;
 }
 
 void RenderModule::deleteCamera(const cameraID& id)
@@ -478,6 +481,10 @@ void RenderModule::deleteCamera(const cameraID& id)
 		if (parent) parent->detachObject(cam);
 		_sceneMgr->destroyCamera(cam);
 		_cameras.erase(_cameras.begin() + id);
+		_nextCameraID = _cameras.size();
+
+		if (_vp != nullptr && _vp->getCamera() == nullptr && !_cameras.empty())
+			_vp->setCamera(_cameras[0]);
 	}
 }
 

@@ -38,7 +38,7 @@ namespace core
 	bool Entity::isVisible() const { return visible; }
 	bool Entity::isEnabled() const { return enabled; }
 
-	bool Entity::getDontDestoroyOnLoad() const { return dontDestroyOnLoad; }
+	bool Entity::getDontDestroyOnLoad() const { return dontDestroyOnLoad; }
 
 	Scene* Entity::getScene() const { return scene; }
 	ChavalesGUID Entity::getEntityID() const { return entityID; }

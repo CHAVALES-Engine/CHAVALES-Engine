@@ -41,7 +41,7 @@ namespace core
 		bool isAlive() const;
 		bool isVisible() const;
 		bool isEnabled() const;
-		bool getDontDestoroyOnLoad() const;
+		bool getDontDestroyOnLoad() const;
 		Scene* getScene() const;
 		entityID getEntityID() const;
 		//grpId_t getGroupId() const; // deberiamos usar esto para matrices de colisiones fisicas en algun momento
