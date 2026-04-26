@@ -151,6 +151,17 @@ namespace core {
 		}
 	}
 
+	std::vector<Entity*> core::Scene::getDDOLEntities()
+	{
+		std::vector<Entity*> persistentEntities;
+
+		for (const auto& [guid, e] : _entities)
+			if (e->getDontDestroyOnLoad())
+				persistentEntities.push_back(e);
+
+		return persistentEntities;
+	}
+
 	void core::Scene::addEntity(Entity* e)
 	{
 		entityID guid = ChavalesGUID::generate();

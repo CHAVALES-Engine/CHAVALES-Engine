@@ -7,6 +7,7 @@
 #include <cstdint>
 #include <string>
 #include <unordered_map>
+#include <vector>
 
 #include "guid.h"
 
@@ -79,6 +80,11 @@ namespace core
 		 *
 		 */
 		void clearScene();
+
+		/**
+		 * @brief Extrae las entidades marcadas como DontDestroyOnLoad de la escena.
+		 */
+		std::vector<Entity*> getDDOLEntities();
 
 		/**
 		 * @brief Inserta una nueva entidad en el vector de entidades.

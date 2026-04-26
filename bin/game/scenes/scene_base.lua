@@ -33,6 +33,19 @@ scene = { -- entidades en escena
 					}
 				}
 		},
+		gameManager = {
+			ddol = true,
+			components = {
+				Transform = {
+					position = Vector3.new(0,0,0),
+					rotation = Quaternion.new(),
+					scale = Vector3.new(0.5)
+                },
+                PersistentTest =
+                {
+                }
+			}
+		},
 		esfera = {
 			ddol = false,
 			components = {

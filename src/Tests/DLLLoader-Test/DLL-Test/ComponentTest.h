@@ -243,3 +243,18 @@ class ChangeTest : public core::Component
 };
 
 REGISTER_COMPONENT(ChangeTest);
+
+class PersistentTest : public core::Component
+{
+	void ready() override
+	{
+		Debug::out("READY PERSISTENT");
+	}
+
+	void update(uint64_t deltaTime) override
+	{
+		//Debug::out("UPDATE PERSISTENT");
+	}
+};
+
+REGISTER_COMPONENT(PersistentTest);
