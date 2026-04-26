@@ -3,6 +3,13 @@
 
 Skydome::Skydome()
 {
+	registerMethod("setSkydome", [this](const std::vector<std::any>& args) {
+		setSkydome();
+		});
+
+	registerMethod("setSkydomeNull", [this](const std::vector<std::any>& args) {
+		setSkydomeNull();
+		});
 }
 
 Skydome::~Skydome()

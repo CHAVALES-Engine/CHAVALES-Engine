@@ -55,11 +55,11 @@ public:
 
 	bool init(const Properties& p) override;
 	void ready() override;
-	void setType(Type type);
+	void setType(const Type& type);
 	void setColor(const core::Color& color);
-	void setIntensity(float intensity);
+	void setIntensity(const float& intensity);
 	void setDirection(const core::Vector3<float>& dir);
-	void setSpotRange(float inner, float outer, float falloff);
+	void setSpotRange(const float& inner, const float& outer, const float& falloff);
 
 	Type getType() const;
 	core::Color getColor() const;

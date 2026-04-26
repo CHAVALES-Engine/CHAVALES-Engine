@@ -11,6 +11,53 @@ REGISTER_COMPONENT(Light);
 
 Light::Light() : _type(Type::POINT), _color(1, 1, 1, 1), _intensity(1.0f), _innerAngle(15.0f), _outerAngle(45.0f), _falloff(1.0f)
 {
+	registerMethod("setType", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			setType(std::any_cast<Type>(args[0]));
+		}
+		});
+
+	registerMethod("setColor", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			setColor(std::any_cast<core::Color>(args[0]));
+		}
+		});
+
+	registerMethod("setIntensity", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			setIntensity(std::any_cast<float>(args[0]));
+		}
+		});
+
+	registerMethod("setSpotRange", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 3) {
+			setSpotRange(std::any_cast<float>(args[0]), std::any_cast<float>(args[0]), std::any_cast<float>(args[0]));
+		}
+		});
+
+	registerMethod("getType", [this](const std::vector<std::any>& args) {
+		getType();
+		});
+
+	registerMethod("getColor", [this](const std::vector<std::any>& args) {
+		getColor();
+		});
+
+	registerMethod("getIntensity", [this](const std::vector<std::any>& args) {
+		getIntensity();
+		});
+
+	registerMethod("getInnerAngle", [this](const std::vector<std::any>& args) {
+		getInnerAngle();
+		});
+
+	registerMethod("getOuterAngle", [this](const std::vector<std::any>& args) {
+		getOuterAngle();
+		});
+
+	registerMethod("getFallOff", [this](const std::vector<std::any>& args) {
+		getFallOff();
+		});
 }
 
 Light::~Light()
@@ -33,7 +80,7 @@ void Light::ready()
 {
 	_lightID = Engine::instance()->addLight(getEntity()->getEntityID(), _typeInt, _color, _intensity);
 }
-void Light::setType(Type type)
+void Light::setType(const Type& type)
 {
 	_type = type;
 }
@@ -43,12 +90,12 @@ void Light::setColor(const core::Color& color)
 	_color = color;
 }
 
-void Light::setIntensity(float intensity)
+void Light::setIntensity(const float& intensity)
 {
 	_intensity = intensity;
 }
 
-void Light::setSpotRange(float inner, float outer, float falloff) {
+void Light::setSpotRange(const float& inner, const float& outer, const float& falloff) {
 	_innerAngle = inner;
 	_outerAngle = outer;
 	_falloff = falloff;
