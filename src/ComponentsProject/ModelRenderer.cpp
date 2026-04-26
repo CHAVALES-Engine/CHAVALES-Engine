@@ -46,17 +46,17 @@ void ModelRenderer::ready()
     }
 }
 
-void ModelRenderer::setDiffuse(std::string textureName, int submesh)
+void ModelRenderer::setDiffuse(const std::string& textureName, const int& submesh)
 {
 	Engine::instance()->setSubmeshDiffuse(_modelID, textureName, submesh);
 }
 
-void ModelRenderer::setTint(core::Color tint, int submesh)
+void ModelRenderer::setTint(const core::Color& tint, const int& submesh)
 {
 	Engine::instance()->setSubmeshTint(_modelID, tint, submesh);
 }
 
-void ModelRenderer::setVisible(bool visible)
+void ModelRenderer::setVisible(const bool& visible)
 {
 	Engine::instance()->setModelVisible(_modelID, visible);
 }

@@ -43,9 +43,9 @@ public:
 	bool init(const Properties& p) override;
 	void ready() override;
 
-	void setDiffuse(std::string textureName, int submesh = 0);
-	void setTint(core::Color tint, int submesh = 0);
-	void setVisible(bool visible);
+	void setDiffuse(const std::string& textureName, const int& submesh = 0);
+	void setTint(const core::Color& tint, const int& submesh = 0);
+	void setVisible(const bool& visible);
 	void enable() override;
 	void disable() override;
 	void destroy() override;
