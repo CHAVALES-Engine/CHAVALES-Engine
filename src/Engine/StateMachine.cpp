@@ -55,23 +55,7 @@ void StateMachine::gameLoop()
 			Engine::instance()->update(_deltaTime);
 			Engine::instance()->renderFrame();
 
-			if (GameLoader::reloadLua() || ComponentDLLLoader::instance().checkReload()) // si es necesario recargar...
-			{
-				Debug::warning("Reloading scene [", _currentScene.name, "]");
-				//limpia logica
-				_currentScene.ptr->destroy(); // elimina escena
-				//limpia render
-				Engine::instance()->cleanScene();  // limpia la escena
-				scenePtr s = std::move(GameLoader::loadScene(_currentScene.name)); // vuelve a cargar
-				_currentScene.ptr = s;
-
-				if (_currentScene.ptr != nullptr)
-				{
-					// --- a este nivel se llama al ready:
-					// garantizamos que en el ready el resto de entidades y sus componentes estan inicializados 
-					_currentScene.ptr->ready();
-				}
-			}
+			_processHotLuaReload();
 		}
 	}
 
@@ -152,4 +136,29 @@ void StateMachine::_processSceneChange()
 	_hasPendingSceneChange = false;
 	_pendingSceneName.clear();
 	_addAndSetScene(nextScene);
+}
+
+void StateMachine::_processHotLuaReload()
+{
+	if (GameLoader::reloadLua() || ComponentDLLLoader::instance().checkReload()) // si es necesario recargar...
+	{
+		Debug::warning("Reloading scene [", _currentScene.name, "]");
+
+		//limpia logica
+		//_currentScene.ptr->destroy(); // elimina escena
+		//_currentScene.ptr->clearScene();
+		////limpia render
+		//Engine::instance()->cleanScene();  // limpia la escena
+		//scenePtr s = std::move(GameLoader::loadScene(_currentScene.name)); // vuelve a cargar
+		//_currentScene.ptr = s;
+
+		//if (_currentScene.ptr != nullptr)
+		//{
+		//	// --- a este nivel se llama al ready:
+		//	// garantizamos que en el ready el resto de entidades y sus componentes estan inicializados 
+		//	_currentScene.ptr->ready();
+		//}
+
+		_addAndSetScene(_currentScene.name);
+	}
 }
