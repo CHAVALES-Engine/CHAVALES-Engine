@@ -516,11 +516,6 @@ void GameLoader::_loadLua(
 		// inicializamos los componentes
 		_initializeEntity(e, entidadObj);
 	}
-
-	// --- a este nivel se llama al ready:
-	// garantizamos que en el ready el resto de entidades y sus componentes estan inicializados
-	s->ready();
-
 	Debug::out("GAMELOADER: Escena ", n, " cargada.");
 }
 
@@ -693,7 +688,6 @@ std::shared_ptr<core::Scene> GameLoader::loadScene(const sceneName& n)
 	try
 	{
 		_loadLua(s, n, root);
-
 	}
 	catch (...)
 	{

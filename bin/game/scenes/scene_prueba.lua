@@ -1,4 +1,5 @@
 scene = { -- entidades en escena
+entities = {
 	-- ENTIDAD 1
 	entidad1 = { -- nombre de la entidad
 		components = { -- componentes de esa entidad
@@ -10,9 +11,6 @@ scene = { -- entidades en escena
 				-- escala local
 				scale = Vector3.new(1)
 			},
-			ComponentTest = {
-
-			}
 		}
 	},
 	-- ENTIDAD 2
@@ -28,4 +26,5 @@ scene = { -- entidades en escena
 			},
 		}
 	} 
+}
 }

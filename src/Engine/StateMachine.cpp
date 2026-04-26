@@ -31,9 +31,11 @@ StateMachine::~StateMachine()
 void StateMachine::gameLoop()
 {
 	auto startTime = core::Clock::getNow();
+	_isLoopRunning = true;
 
 	while (!_endGame) // bucle de juego
 	{
+		_processSceneChange();
 		_endGame = Engine::instance()->pollEvents();
 		core::TimerManager::instance().update();
 
@@ -62,9 +64,18 @@ void StateMachine::gameLoop()
 				Engine::instance()->cleanScene();  // limpia la escena
 				scenePtr s = std::move(GameLoader::loadScene(_currentScene.name)); // vuelve a cargar
 				_currentScene.ptr = s;
+
+				if (_currentScene.ptr != nullptr)
+				{
+					// --- a este nivel se llama al ready:
+					// garantizamos que en el ready el resto de entidades y sus componentes estan inicializados 
+					_currentScene.ptr->ready();
+				}
 			}
 		}
 	}
+
+	_isLoopRunning = false;
 
 	// llamar a la destructora de la escena
 	if (_currentScene.ptr != nullptr)
@@ -77,8 +88,10 @@ void StateMachine::gameLoop()
 	_currentScene.ptr = nullptr;
 }
 
-void StateMachine::addAndSetScene(const sceneName& n)
+void StateMachine::_addAndSetScene(const sceneName& n)
 {
+	_isPerformingSceneChange = true;
+
 	// cargar nueva escena
 	scenePtr s = std::move(GameLoader::loadScene(n));
 
@@ -95,9 +108,42 @@ void StateMachine::addAndSetScene(const sceneName& n)
 		// setea nueva escena actual
 		_currentScene.ptr = s;
 		_currentScene.name = n;
+
+		if (_currentScene.ptr != nullptr)
+		{
+			// --- a este nivel se llama al ready:
+			// garantizamos que en el ready el resto de entidades y sus componentes estan inicializados 
+			_currentScene.ptr->ready();
+		}
 	}
 	else
 	{
 		Debug::out("[STATEMACHINE] No se pudo cargar la escena ", n);
 	}
+
+	_isPerformingSceneChange = false;
+}
+
+void StateMachine::requestSceneChange(const sceneName& sn)
+{
+	if (_isLoopRunning || _isPerformingSceneChange)
+	{
+		_pendingSceneName = sn;
+		_hasPendingSceneChange = true;
+		Debug::out("STATEMACHINE: Cambio de escena encolado a ", sn);
+		return;
+	}
+
+	Debug::out("STATEMACHINE: Cambio de escena a ", sn);
+	_addAndSetScene(sn);
+}
+
+void StateMachine::_processSceneChange()
+{
+	if (!_hasPendingSceneChange) return;
+
+	sceneName nextScene = _pendingSceneName; // guardar antes de clar
+	_pendingSceneName.clear();
+	_addAndSetScene(nextScene);
+	_hasPendingSceneChange = false;
 }

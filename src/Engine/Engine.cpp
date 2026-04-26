@@ -73,7 +73,7 @@ void Engine::startLoop() const
 {
 	if (!_stateMachine) return;
 	// Bucle de juego
-	_stateMachine->addAndSetScene(core::GameConfigurator::instance()._firstScene); // carga la primera escena
+	_stateMachine->requestSceneChange(core::GameConfigurator::instance()._firstScene); // carga la primera escena
 	if (_stateMachine->getCurrentScnPtr() != nullptr)
 		_stateMachine->gameLoop();
 }
@@ -83,9 +83,9 @@ bool Engine::pollEvents() const
 	return _platformModule->syncronize();
 }
 
-const void Engine::addAndSetScene(std::string const& n) const
+const void Engine::requestSceneChange(std::string const& n) const
 {
-	_stateMachine->addAndSetScene(n);
+	_stateMachine->requestSceneChange(n);
 }
 
 core::Entity* Engine::instantiatePrefab(std::string const& pref) const
