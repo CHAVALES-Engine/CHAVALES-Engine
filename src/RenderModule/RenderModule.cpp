@@ -569,6 +569,16 @@ modelID RenderModule::addModel(const entityID& entityID, const std::string& mode
 
 		if (!_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, mat->getName()))
 			Debug::error("[RenderModule] validateMaterial");
+
+		auto tech = mat->getTechnique(0);
+		auto pass = tech->getPass(0);
+
+		// Reset material
+		pass->setDiffuse(1, 1, 1, 1);
+		pass->setAmbient(0.5, 0.5, 0.5);
+		pass->setSpecular(0, 0, 0, 1);
+		pass->setSelfIllumination(0, 0, 0);
+		pass->setShininess(0);
 	}
 
 	return _nextModelID++;
