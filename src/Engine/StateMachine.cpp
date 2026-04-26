@@ -111,16 +111,16 @@ void StateMachine::_addAndSetScene(const sceneName& n)
 		_currentScene.ptr = s;
 		_currentScene.name = n;
 
-		// anyade las entidades que sean persistentes de la escena anterior
-		for (core::Entity* pe : persistentEntities)
-			_currentScene.ptr->addEntity(pe);
-
 		if (_currentScene.ptr != nullptr)
 		{
 			// --- a este nivel se llama al ready:
 			// garantizamos que en el ready el resto de entidades y sus componentes estan inicializados 
 			_currentScene.ptr->ready();
 		}
+
+		// anyade las entidades que sean persistentes de la escena anterior saltandose sus readys
+		for (core::Entity* pe : persistentEntities)
+			_currentScene.ptr->addEntity(pe);
 	}
 	else
 	{
