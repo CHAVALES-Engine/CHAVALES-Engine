@@ -92,6 +92,12 @@ void StateMachine::_addAndSetScene(const sceneName& n)
 {
 	_isPerformingSceneChange = true;
 
+	if (_currentScene.ptr != nullptr)
+	{
+		_currentScene.ptr->onDestroy();
+		Engine::instance()->cleanScene();
+	}
+
 	// cargar nueva escena
 	scenePtr s = std::move(GameLoader::loadScene(n));
 
@@ -99,12 +105,9 @@ void StateMachine::_addAndSetScene(const sceneName& n)
 	{
 		Debug::out("STATEMACHINE: Entrando a escena ", n);
 
-		// destruye la escena actual
 		if (_currentScene.ptr != nullptr)
 		{
-			_currentScene.ptr->onDestroy();
 			_currentScene.ptr->clearScene();
-			Engine::instance()->cleanScene();
 		}
 
 		// setea nueva escena actual
