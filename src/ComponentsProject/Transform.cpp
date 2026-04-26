@@ -19,6 +19,180 @@ REGISTER_COMPONENT(Transform);
 //
 //Transform::~Transform() {}
 
+Transform::Transform()
+{
+	registerMethod("setGlobalPosition", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			setGlobalPosition(std::any_cast<core::Vector3<>>(args[0]));
+		}
+		});
+
+	registerMethod("setLocalPosition", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			setLocalPosition(std::any_cast<core::Vector3<>>(args[0]));
+		}
+		});
+
+	registerMethod("setGlobalRotation", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			setGlobalRotation(std::any_cast<core::Quaternion<>>(args[0]));
+		}
+		});
+
+	registerMethod("setLocalRotation", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			setLocalRotation(std::any_cast<core::Quaternion<>>(args[0]));
+		}
+		});
+
+	registerMethod("setGlobalScale", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			setGlobalScale(std::any_cast<core::Vector3<>>(args[0]));
+		}
+		});
+
+	registerMethod("setLocalScale", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			setLocalScale(std::any_cast<core::Vector3<>>(args[0]));
+		}
+		});
+
+	registerMethod("lockRotationX", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			lockRotationX(std::any_cast<bool>(args[0]));
+		}
+		});
+
+	registerMethod("lockRotationY", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			lockRotationY(std::any_cast<bool>(args[0]));
+		}
+		});
+
+	registerMethod("lockRotationZ", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			lockRotationZ(std::any_cast<bool>(args[0]));
+		}
+		});
+
+	registerMethod("getGlobalPosition", [this](const std::vector<std::any>& args) {
+		getGlobalPosition();
+		});
+
+	registerMethod("getLocalPosition", [this](const std::vector<std::any>& args) {
+		getLocalPosition();
+		});
+
+	registerMethod("getGlobalRotation", [this](const std::vector<std::any>& args) {
+		getGlobalRotation();
+		});
+
+	registerMethod("getLocalRotation", [this](const std::vector<std::any>& args) {
+		getLocalRotation();
+		});
+
+	registerMethod("getGlobalScale", [this](const std::vector<std::any>& args) {
+		getGlobalScale();
+		});
+
+	registerMethod("getLocalScale", [this](const std::vector<std::any>& args) {
+		getLocalScale();
+		});
+
+	registerMethod("getParent", [this](const std::vector<std::any>& args) {
+		getParent();
+		});
+
+	registerMethod("setParent", [this](const std::vector<std::any>& args) {
+		if (args.size() == 1) {
+			setParent(std::any_cast<Transform*>(args[0]));
+		}
+		else if (args.size() >= 2) {
+			setParent(std::any_cast<Transform*>(args[0]), std::any_cast<bool>(args[1]));
+		}
+		});
+
+	registerMethod("getChildren", [this](const std::vector<std::any>& args) {
+		getChildren();
+		});
+
+	registerMethod("detachChild", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			detachChild(std::any_cast<Transform*>(args[0]));
+		}
+		});
+
+	registerMethod("detachChildren", [this](const std::vector<std::any>& args) {
+		detachChildren();
+		});
+
+	registerMethod("translate", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			translate(std::any_cast<core::Vector3<>>(args[0]));
+		}
+		});
+
+	registerMethod("rotateLocal", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1)
+		{
+			const std::any& arg = args[0];
+
+			if (arg.type() == typeid(core::Quaternion<>)) {
+				rotateLocal(std::any_cast<core::Quaternion<>>(arg));
+			}
+			else if (arg.type() == typeid(core::Vector3<>)) {
+				rotateLocal(std::any_cast<core::Vector3<>>(arg));
+			}
+		}
+		});
+
+	registerMethod("rotateGlobal", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1)
+		{
+			const std::any& arg = args[0];
+
+			if (arg.type() == typeid(core::Quaternion<>)) {
+				rotateGlobal(std::any_cast<core::Quaternion<>>(arg));
+			}
+			else if (arg.type() == typeid(core::Vector3<>)) {
+				rotateGlobal(std::any_cast<core::Vector3<>>(arg));
+			}
+		}
+		});
+
+	registerMethod("right", [this](const std::vector<std::any>& args) {
+		right();
+		});
+
+	registerMethod("up", [this](const std::vector<std::any>& args) {
+		up();
+		});
+
+	registerMethod("forward", [this](const std::vector<std::any>& args) {
+		forward();
+		});
+
+	registerMethod("LookAt", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			LookAt(std::any_cast<core::Vector3<>>(args[0]));
+		}
+		});
+
+	registerMethod("getComponentInParents", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1)
+		{
+			getComponentInParents(std::any_cast<std::string>(args[0]));
+		}
+		});
+
+	registerMethod("getComponentsInParents", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1)
+		{
+			getComponentsInParents(std::any_cast<std::string>(args[0]));
+		}
+		});
+}
+
 bool Transform::init(const Properties& p)
 {
 	_localPosition = getProperty<core::Vector3<>>(p, "position");

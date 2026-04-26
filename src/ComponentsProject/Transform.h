@@ -58,7 +58,7 @@ class ENGINE_API Transform : public core::Component
 	 */
 	//std::vector<std::string> _pendingChildren;
 public:
-	//Transform();
+	Transform();
 	//~Transform() ;
 
 	bool init(const Properties& p) override;
