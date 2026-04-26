@@ -14,6 +14,21 @@ REGISTER_COMPONENT(UITextureRect);
 
 UITextureRect::UITextureRect()
 {
+	registerMethod("setVisible", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			setVisible(std::any_cast<bool>(args[0]));
+		}
+		});
+	registerMethod("setOpacity", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			setOpacity(std::any_cast<float>(args[0]));
+		}
+		});
+	registerMethod("setTexture", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			setTexture(std::any_cast<std::string>(args[0]));
+		}
+		});
 }
 
 UITextureRect::~UITextureRect()

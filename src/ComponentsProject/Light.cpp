@@ -31,7 +31,7 @@ Light::Light() : _type(Type::POINT), _color(1, 1, 1, 1), _intensity(1.0f), _inne
 
 	registerMethod("setSpotRange", [this](const std::vector<std::any>& args) {
 		if (args.size() >= 3) {
-			setSpotRange(std::any_cast<float>(args[0]), std::any_cast<float>(args[0]), std::any_cast<float>(args[0]));
+			setSpotRange(std::any_cast<float>(args[0]), std::any_cast<float>(args[1]), std::any_cast<float>(args[2]));
 		}
 		});
 

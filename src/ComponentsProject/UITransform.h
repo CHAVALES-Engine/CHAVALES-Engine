@@ -46,7 +46,8 @@ class ENGINE_API UITransform : public core::Component
 	std::vector<UITransform*> _children;
 
 public:
-
+	UITransform();
+	//~UITransform();
 	bool init(const Properties& p) override;
 
 	void setPosition(const core::Vector2<>& pos);

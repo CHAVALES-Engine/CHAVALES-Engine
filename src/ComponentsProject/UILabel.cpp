@@ -13,6 +13,36 @@ REGISTER_COMPONENT(UILabel);
 
 UILabel::UILabel() : _text("Label")
 {
+	registerMethod("setText", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			setText(std::any_cast<std::string>(args[0]));
+		}
+		});
+	registerMethod("setVisible", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			setVisible(std::any_cast<bool>(args[0]));
+		}
+		});
+	registerMethod("setOpacity", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			setOpacity(std::any_cast<float>(args[0]));
+		}
+		});
+	registerMethod("setBackgroudColor", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			setBackgroudColor(std::any_cast<core::Color>(args[0]));
+		}
+		});
+	registerMethod("setTextColor", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			setTextColor(std::any_cast<core::Color>(args[0]));
+		}
+		});
+	registerMethod("setAlign", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			setAlign(std::any_cast<TextAlign>(args[0]));
+		}
+		});
 }
 
 UILabel::~UILabel()

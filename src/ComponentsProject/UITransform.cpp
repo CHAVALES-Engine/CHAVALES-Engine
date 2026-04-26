@@ -8,6 +8,80 @@
 
 REGISTER_COMPONENT(UITransform);
 
+UITransform::UITransform()
+{
+	registerMethod("setPosition", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			setPosition(std::any_cast<core::Vector2<>>(args[0]));
+		}
+		});
+	registerMethod("setDimension", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			setDimension(std::any_cast<core::Vector2<>>(args[0]));
+		}
+		});
+	registerMethod("setRotation", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			setRotation(std::any_cast<float>(args[0]));
+		}
+		});
+	registerMethod("setZbuffer", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			setZbuffer(std::any_cast<int>(args[0]));
+		}
+		});
+	registerMethod("getPosition", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			getPosition();
+		}
+		});
+	registerMethod("getDimension", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			getDimension();
+		}
+		});
+	registerMethod("getRotation", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			getRotation();
+		}
+		});
+	registerMethod("getZBuffer", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			getZBuffer();
+		}
+		});
+	registerMethod("setParent", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			setParent(std::any_cast<UITransform*>(args[0]));
+		}
+		});
+	registerMethod("getParent", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			getParent();
+		}
+		});
+	registerMethod("getChildren", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			getChildren();
+		}
+		});
+	registerMethod("detachChild", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			detachChild(std::any_cast<UITransform*>(args[0]));
+		}
+		});
+	registerMethod("detachChildren", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			detachChildren();
+		}
+		});
+	registerMethod("getComponentInParents", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			getComponentInParents(std::any_cast<std::string>(args[0]));
+		}
+		});
+}
+
 bool UITransform::init(const Properties& p)
 {
 	_position = getProperty<core::Vector2<>>(p, "position");

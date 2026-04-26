@@ -11,6 +11,11 @@ REGISTER_COMPONENT(UIPanel);
 
 UIPanel::UIPanel() : _title("Panel")
 {
+    registerMethod("setVisible", [this](const std::vector<std::any>& args) {
+        if (args.size() >= 1) {
+            setVisible(std::any_cast<bool>(args[0]));
+        }
+        });
 }
 
 UIPanel::~UIPanel()
