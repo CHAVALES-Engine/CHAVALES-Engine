@@ -117,7 +117,7 @@ namespace core {
 		}
 	}
 
-	void core::Scene::onDestroy() // elimina al completo
+	void core::Scene::destroy() // elimina al completo
 	{
 		if (!_entities.empty())
 		{

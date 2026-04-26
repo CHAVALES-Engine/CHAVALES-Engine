@@ -22,6 +22,7 @@ namespace core
 
 	Entity::~Entity()
 	{
+		disable();
 		destroy();
 	}
 

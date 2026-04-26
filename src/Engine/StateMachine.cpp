@@ -59,7 +59,7 @@ void StateMachine::gameLoop()
 			{
 				Debug::warning("Reloading scene [", _currentScene.name, "]");
 				//limpia logica
-				_currentScene.ptr->onDestroy(); // elimina escena
+				_currentScene.ptr->destroy(); // elimina escena
 				//limpia render
 				Engine::instance()->cleanScene();  // limpia la escena
 				scenePtr s = std::move(GameLoader::loadScene(_currentScene.name)); // vuelve a cargar
@@ -80,7 +80,7 @@ void StateMachine::gameLoop()
 	// llamar a la destructora de la escena
 	if (_currentScene.ptr != nullptr)
 	{
-		_currentScene.ptr->onDestroy();
+		_currentScene.ptr->destroy();
 
 		Engine::instance()->cleanScene();  // limpia la escena
 		Engine::instance()->renderFrame(); // renderiza frame vacío
@@ -94,7 +94,6 @@ void StateMachine::_addAndSetScene(const sceneName& n)
 
 	if (_currentScene.ptr != nullptr)
 	{
-		_currentScene.ptr->onDestroy();
 		Engine::instance()->cleanScene();
 	}
 

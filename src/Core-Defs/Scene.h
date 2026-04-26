@@ -72,7 +72,7 @@ namespace core
 		 * @brief Parte del ciclo de escena. Se llama cuando esta se destruye.
 		 *
 		 */
-		virtual void onDestroy();
+		virtual void destroy();
 
 		/**
 		 * @brief Parte del ciclo de escena. Se llama cuando se carga una escena nueva.
