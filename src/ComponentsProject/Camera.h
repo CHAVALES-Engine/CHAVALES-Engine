@@ -60,6 +60,7 @@ public:
 	float getFarClipDistance() const;
 	float getFocalLength() const;
 	core::Color getBgColor() const;
+
 	void destroy() override;
 };
 
