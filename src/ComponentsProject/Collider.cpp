@@ -21,53 +21,53 @@ Collider::Collider()
 	// Metodos de colision
 	registerMethod("onTriggerEnter", [this](const std::vector<std::any>& args) {
 		if (args.size() >= 1) {
-			onTriggerEnter(std::any_cast<ComponentID>(args[0]));
+			onTriggerEnter(std::any_cast<core::Entity*>(args[0]));
 		}
 		});
 
 	registerMethod("onTriggerExit", [this](const std::vector<std::any>& args) {
 		if (args.size() >= 1) {
-			onTriggerExit(std::any_cast<ComponentID>(args[0]));
+			onTriggerExit(std::any_cast<core::Entity*>(args[0]));
 		}
 		});
 
 	registerMethod("onCollisionEnter", [this](const std::vector<std::any>& args) {
 		if (args.size() >= 1) {
-			onCollisionEnter(std::any_cast<ComponentID>(args[0]));
+			onCollisionEnter(std::any_cast<core::Entity*>(args[0]));
 		}
 		});
 
 	registerMethod("onCollisionExit", [this](const std::vector<std::any>& args) {
 		if (args.size() >= 1) {
-			onCollisionExit(std::any_cast<ComponentID>(args[0]));
+			onCollisionExit(std::any_cast<core::Entity*>(args[0]));
 		}
 		});
 
 	// callbacks
 	registerMethod("subscribeOnTriggerEnter", [this](const std::vector<std::any>& args) {
 		if (args.size() >= 1) {
-			auto func = std::any_cast<std::function<void(ComponentID)>>(args[0]);
+			auto func = std::any_cast<std::function<void(core::Entity*)>>(args[0]);
 			_onTriggerEnter.subscribe(func);
 		}
 		});
 
 	registerMethod("subscribeOnTriggerExit", [this](const std::vector<std::any>& args) {
 		if (args.size() >= 1) {
-			auto func = std::any_cast<std::function<void(ComponentID)>>(args[0]);
+			auto func = std::any_cast<std::function<void(core::Entity*)>>(args[0]);
 			_onTriggerExit.subscribe(func);
 		}
 		});
 
 	registerMethod("subscribeOnCollisionEnter", [this](const std::vector<std::any>& args) {
 		if (args.size() >= 1) {
-			auto func = std::any_cast<std::function<void(ComponentID)>>(args[0]);
+			auto func = std::any_cast<std::function<void(core::Entity*)>>(args[0]);
 			_onCollisionEnter.subscribe(func);
 		}
 		});
 
 	registerMethod("subscribeOnCollisionExit", [this](const std::vector<std::any>& args) {
 		if (args.size() >= 1) {
-			auto func = std::any_cast<std::function<void(ComponentID)>>(args[0]);
+			auto func = std::any_cast<std::function<void(core::Entity*)>>(args[0]);
 			_onCollisionExit.subscribe(func);
 		}
 		});
@@ -177,6 +177,8 @@ void Collider::ready()
 			break;
 		}
 	}
+
+	Engine::instance()->registerActorEntity(physicsID, getEntity());
 }
 
 void Collider::update(uint64_t deltaTime)
@@ -185,37 +187,37 @@ void Collider::update(uint64_t deltaTime)
 
 	for (auto& event : _eng->getPhysicsEvents(physicsID)) {
 		switch (event.type) {
-		case CollisionType::TriggerEnter: onTriggerEnter(event.b); break;
-		case CollisionType::TriggerExit: onTriggerExit(event.b); break;
-		case CollisionType::CollisionEnter: onCollisionEnter(event.b); break;
-		case CollisionType::CollisionExit: onCollisionExit(event.b); break;
+		case CollisionType::TriggerEnter: onTriggerEnter(event.otherEntity); break;
+		case CollisionType::TriggerExit: onTriggerExit(event.otherEntity); break;
+		case CollisionType::CollisionEnter: onCollisionEnter(event.otherEntity); break;
+		case CollisionType::CollisionExit: onCollisionExit(event.otherEntity); break;
 		}
 	}
 	_eng->clearPhysicsEvents();
 }
 
 
-void Collider::onTriggerEnter(ComponentID other)
+void Collider::onTriggerEnter(core::Entity* other)
 {
 	Debug::out("[TRIGGER] Trigger enter");
 	_onTriggerEnter.emit(other);
 	hasTriggered = true;
 }
 
-void Collider::onTriggerExit(ComponentID other)
+void Collider::onTriggerExit(core::Entity* other)
 {
 	Debug::out("[TRIGGER] Trigger exit");
 	_onTriggerExit.emit(other);
 	hasTriggered = false;
 }
 
-void Collider::onCollisionEnter(ComponentID other) {
+void Collider::onCollisionEnter(core::Entity* other) {
 	Debug::out("[COLLIDER] Collision enter");
 	_onCollisionEnter.emit(other);
 	hasCollided = true;
 }
 
-void Collider::onCollisionExit(ComponentID other) {
+void Collider::onCollisionExit(core::Entity* other) {
 	Debug::out("[COLLIDER] Collision exit");
 	_onCollisionExit.emit(other);
 	hasCollided = false;

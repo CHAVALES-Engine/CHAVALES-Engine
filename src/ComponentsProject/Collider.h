@@ -88,10 +88,10 @@ protected:
 	ShapeType shapeType;
 
 	// Callbacks
-	core::Message<ComponentID> _onTriggerEnter;
-	core::Message<ComponentID> _onTriggerExit;
-	core::Message<ComponentID> _onCollisionEnter;
-	core::Message<ComponentID> _onCollisionExit;
+	core::Message<core::Entity*> _onTriggerEnter;
+	core::Message<core::Entity*> _onTriggerExit;
+	core::Message<core::Entity*> _onCollisionEnter;
+	core::Message<core::Entity*> _onCollisionExit;
 public:
 	/**
 	 * @brief Constructora vacía
@@ -119,24 +119,24 @@ public:
 
 	/**
 	 * @brief Detección de solapamiento entre colliders donde al menos uno es trigger
-	 * @param ComponentId other, otro collider contra el que choca
+	 * @param core::Entity other, otro collider contra el que choca
 	 */
-	void onTriggerEnter(ComponentID other);
+	void onTriggerEnter(core::Entity* other);
 	/**
 	 * @brief Detección de salida de solapamiento entre colliders donde al menos uno es trigger
-	 * @param ComponentId other, otro collider contra el que había chocado
+	 * @param core::Entity other, otro collider contra el que había chocado
 	 */
-	void onTriggerExit(ComponentID other);
+	void onTriggerExit(core::Entity* other);
 	/**
 	 * @brief Detección de choque entre colliders donde ninguno es trigger
-	 * @param ComponentId other, otro collider contra el que choca
+	 * @param core::Entity other, otro collider contra el que choca
 	 */
-	void onCollisionEnter(ComponentID other);
+	void onCollisionEnter(core::Entity* other);
 	/**
 	 * @brief Detección de salida de choque entre colliders donde ninguno es trigger
 	 * @param ComponentId other, otro collider contra el que había chocado
 	 */
-	void onCollisionExit(ComponentID other);
+	void onCollisionExit(core::Entity* other);
 
 	/**
 	 * @brief Getter de la posición del collider respecto al transform de la entidad (posicion local)

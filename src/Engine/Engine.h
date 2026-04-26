@@ -536,7 +536,12 @@ public:
 #pragma endregion
 
 #pragma region Physics
-
+	/**
+	 * emparenta un actor de physx con una entidad
+	 * @param physicsID 
+	 * @param entity 
+	 */
+	void registerActorEntity(ComponentID physicsID, core::Entity* entity);
 	/*
 	* @brief Devuelve el id de la entidad que tiene el boxcollider y lo crea
 	*/

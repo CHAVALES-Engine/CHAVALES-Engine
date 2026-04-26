@@ -533,6 +533,11 @@ bool Engine::isChannelPlaying(int chID)
 	return _audioModule->isChannelPlaying(chID);
 }
 
+void Engine::registerActorEntity(ComponentID physicsID, core::Entity* entity)
+{
+	_physicsModule->setActorEntity(physicsID, entity);
+}
+
 bool Engine::setLooping(int chID, int typeOfLooping)
 {
 	return _audioModule->setLooping(chID, typeOfLooping);
