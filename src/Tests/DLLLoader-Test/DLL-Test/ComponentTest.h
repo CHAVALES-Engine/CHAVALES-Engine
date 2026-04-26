@@ -219,13 +219,27 @@ class InitialTest : public core::Component
 {
 	void ready() override
 	{
-		Debug::out("READY");
+		Debug::out("READY INITIAL");
 	}
 
 	void update(uint64_t deltaTime) override
 	{
-		Debug::out("UPDATE");
 	}
 };
 
 REGISTER_COMPONENT(InitialTest);
+
+class ChangeTest : public core::Component
+{
+	void ready() override
+	{
+		Debug::out("READY CHANGE");
+		//Engine::instance()->requestSceneChange("scene_prueba");
+	}
+
+	void update(uint64_t deltaTime) override
+	{
+	}
+};
+
+REGISTER_COMPONENT(ChangeTest);

@@ -25,6 +25,7 @@ scene = { -- entidades en escena
 					ComponentTest = {
 						velocity = 100
 					},
+					ChangeTest = {},
 					AudioListener = {
 					},
 					ScriptComponent = {
