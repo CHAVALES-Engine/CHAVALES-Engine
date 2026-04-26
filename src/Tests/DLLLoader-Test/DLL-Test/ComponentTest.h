@@ -198,7 +198,7 @@ public:
 	{
 		Debug::out("CAMBIO DE ESCENA");
 
-		Engine::instance()->addAndSetScene("scene2");
+		Engine::instance()->requestSceneChange("scene2");
 	}
 
 	void fixedUpdate() override
@@ -215,12 +215,46 @@ public:
 
 REGISTER_COMPONENT(TimerChangescene);
 
-class ParentTest : public core::Component
+class InitialTest : public core::Component
 {
 	void ready() override
 	{
-		
+		Debug::out("READY INITIAL");
+	}
+
+	void update(uint64_t deltaTime) override
+	{
 	}
 };
 
-REGISTER_COMPONENT(ParentTest);
+REGISTER_COMPONENT(InitialTest);
+
+class ChangeTest : public core::Component
+{
+	void ready() override
+	{
+		Debug::out("READY CHANGE");
+		//Engine::instance()->requestSceneChange("scene_prueba");
+	}
+
+	void update(uint64_t deltaTime) override
+	{
+	}
+};
+
+REGISTER_COMPONENT(ChangeTest);
+
+class PersistentTest : public core::Component
+{
+	void ready() override
+	{
+		Debug::out("READY PERSISTENT");
+	}
+
+	void update(uint64_t deltaTime) override
+	{
+		//Debug::out("UPDATE PERSISTENT");
+	}
+};
+
+REGISTER_COMPONENT(PersistentTest);

@@ -43,11 +43,10 @@ public:
 	void gameLoop();
 
 	/**
-	 * @brief Inserta una escena nueva en la maquina de estados y la setea como escena activa actualmente.
-	 * @param n - Nombre de la escena a insertar.
-	 * @param s - Puntero a la escena a insertar.
+	 * @brief Metodo para pedir un cambio de escena 
+	 * @param sn - nombre de la escena 
 	 */
-	void addAndSetScene(const sceneName& n);
+	void requestSceneChange(const sceneName& sn);
 
 	/**
 	 * @brief Devuelve el nombre de la escena activa actualmente.
@@ -72,6 +71,17 @@ public:
 
 private:
 	/**
+	 * @brief Inserta una escena nueva en la maquina de estados y la setea como escena activa actualmente.
+	 * @param n - Nombre de la escena a insertar.
+	 */
+	void _addAndSetScene(const sceneName& n);
+
+	/**
+	 * @brief Procesa peticiones de cambio de escena si las ha habido.
+	 */
+	void _processSceneChange();
+
+	/**
 	 * @brief Tiempo desde la ultima actualizacion.
 	 */
 	uint64_t _deltaTime;
@@ -85,4 +95,24 @@ private:
 	 * @brief Booleano de control de ejecucion del bucle de juego.
 	 */
 	bool _endGame = false;
+
+	/**
+	 * @brief Si el bucle principal ya esta en ejecucion.
+	 */
+	bool _isLoopRunning = false;
+
+	/**
+	 * @brief Si se esta ejecutando una transicion de escena.
+	 */
+	bool _isPerformingSceneChange = false;
+
+	/**
+	 * @brief Si hay un cambio de escena pendiente de aplicar.
+	 */
+	bool _hasPendingSceneChange = false;
+
+	/**
+	 * @brief Nombre de la siguiente escena solicitada.
+	 */
+	sceneName _pendingSceneName;
 };

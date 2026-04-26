@@ -14,34 +14,19 @@ function dump(o) -- hace print de la tabla de manera recursiva
 end
 
 local function fileExists(path) -- comprueba que el fichero que pasas existe
-    print("comprobando que existe " .. path)
+    print("[LUAFUNC] Comprobando que existe " .. path)
 
     local file = io.open(path, "r") -- abre el fichero
 
     if file then
-        print("LUAFUNC: Fichero encontrado")
-
+        print("[LUAFUNC] Fichero encontrado")
         local content = file:read("*all") -- lee el ficheross
         file:close()
- 
         dofile(path)
-
-        resultTable[#resultTable+1] = scene
-
-        local entities = {}
-        entities[#entities+1] = resultTable
-
-        print("Prefab:", dump(entities))
-
-        for k,v in pairs(entities) do
-            print("holaaaaaaaaaaaaaaaaaaa")
-            print('['..k..'] = ', v)
-        end
-
-
+        -- print("Prefab:", dump(entities))
         return content
     else
-        print("LUAFUNC: Fichero no encontrado")
+        print("[LUAFUNC] Fichero no encontrado")
         return nil
     end
 end
@@ -64,6 +49,5 @@ function resultTable.loadPrefab(path) -- le pasas el path del prefab que quieras
 end
 
 local scenePath = ...
-print(scenePath)
 
 return resultTable

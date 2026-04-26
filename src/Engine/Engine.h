@@ -79,7 +79,7 @@ public:
 	 *
 	 * @param n - path de la escena.
 	 */
-	const void addAndSetScene(std::string const& n) const;
+	const void requestSceneChange(std::string const& n) const;
 	/**
 	 * @brief Instancia un prefab en la escena.
 	 * @param pref - path del prefab a instanciar.
