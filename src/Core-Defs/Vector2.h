@@ -253,7 +253,9 @@ namespace core
 		 */
 		inline Vector2 normalized()
 		{
-			return *this / magnitude();
+			float mag = magnitude();
+			if (mag > 1e-6f) return *this / mag;
+			else return Vector3(0, 0, 0);
 		}
 
 	private:
