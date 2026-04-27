@@ -381,6 +381,12 @@ void Transform::setParent(Transform* t, bool keepWorldMeasures)
 		setGlobalRotation(globalRot);
 		setGlobalScale(globalScale);
 	}
+	else
+	{
+		Engine::instance()->setTransformPosition(_transformID, getGlobalPosition());
+		Engine::instance()->setTransformRotation(_transformID, getGlobalRotation());
+		Engine::instance()->setTransformScale(_transformID, getGlobalScale());
+	}
 }
 
 std::vector<Transform*>& Transform::getChildren() { return _children; }

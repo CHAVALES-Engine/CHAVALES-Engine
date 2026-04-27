@@ -94,7 +94,7 @@ public:
 	 * @param t - Transform del padre
 	 * @param keepWorldMeasures - Si mantener o no el estado del Transform al cambiar de parentesco, por defecto es true
 	 */
-	void setParent(Transform* t, bool keepWorldMeasures = true);
+	void setParent(Transform* t, bool keepWorldMeasures = false);
 	/**
 	 * @return Todos los hijos de primer grado de este transform
 	 */
