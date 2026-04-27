@@ -7,7 +7,6 @@
 #include "InputFacade.h"
 #include "Scene.h"
 #include "TimeManager.h"
-#include "Transform.h"
 
 class ComponentTest : public core::Component
 {
@@ -23,7 +22,7 @@ class ComponentTest : public core::Component
 	std::vector<core::Vector4<>> vec2;
 	std::vector<core::Color> vec3;
 	std::vector<core::Quaternion<>> vec4;
-	Transform* _transform = nullptr;
+	std::shared_ptr<Component> _transform = nullptr;
 	core::Entity* _esfera = nullptr;
 
 	bool init(const Properties& p) override
@@ -59,10 +58,10 @@ class ComponentTest : public core::Component
 		//	Debug::out(s);
 		/*Debug::out("Hola :-) Mi vida es ", health);
 		Debug::out("test ", test);*/
-		_transform = getEntity()->getComponent<Transform>();
+		_transform = getEntity()->getComponent("Transform");
 		// bloquea el cursor
 		Engine::instance()->input()->setRelativeMouseMode(false);
-		_transform->lockRotationZ(true);
+		_transform->call("lockRotationZ", { true });
 		Engine::input()->addEventToAction("left", input::KEY_A, device);
 		Engine::input()->addEventToAction("left", input::BUTTON_GP_LEFT, device);
 		Engine::input()->addEventToAction("right", input::KEY_D, device);
@@ -77,13 +76,13 @@ class ComponentTest : public core::Component
 		Engine::input()->addEventToAction("lock_v", input::GAMEPAD_AXIS_RIGHT_Y, device);
 		Engine::input()->addEventToAction("lock_v", input::MOUSE_AXIS_REL_Y, device);
 
-		_transform->LookAt(core::Vector3<>(0, 150, 0));
+		_transform->call("LookAt", { core::Vector3<>(0, 150, 0) });
 
 		_esfera = getEntity()->getScene()->findEntityByName("esfera");
-		
+
 	}
 
-	void update(uint64_t deltaTime) override{
+	void update(uint64_t deltaTime) override {
 		{
 
 			if (!Engine::input()->isDeviceConnected(device)) return;
@@ -103,19 +102,23 @@ class ComponentTest : public core::Component
 
 					if (rb)
 					{
-						rb->call("AddForce", {core::Vector3<>(0, 100, 0),'I'}); 
+						rb->call("AddForce", { core::Vector3<>(0, 100, 0),'I' });
 					}
 				}
 			}
 			// --- Movimiento WASD
+
+			auto forward = _transform->call<core::Vector3<>>("forward");
+			auto right = _transform->call<core::Vector3<>>("right");
+
 			if (Engine::input()->isActionPressed("front", device))
-				_transform->translate(_transform->forward() * -speed);
+				_transform->call("translate", { forward.value() * -speed });
 			if (Engine::input()->isActionPressed("back", device))
-				_transform->translate(_transform->forward() * speed);
+				_transform->call("translate", { forward.value() * speed });
 			if (Engine::input()->isActionPressed("left", device))
-				_transform->translate(_transform->right() * -speed);
+				_transform->call("translate", { right.value() * -speed });
 			if (Engine::input()->isActionPressed("right", device))
-				_transform->translate(_transform->right() * speed);
+				_transform->call("translate", { right.value() * speed });
 
 			// --- Rotacion con raton
 			if (Engine::input()->isJustPressed(input::KEY_CTRL))
@@ -129,9 +132,9 @@ class ComponentTest : public core::Component
 				float mouseY = Engine::input()->getActionAxis("lock_v", device);
 
 				if (mouseX != 0)
-					_transform->rotateGlobal(core::Vector3<>(0, -mouseX * mouseSensitivity, 0));
+					_transform->call("rotateGlobal", { core::Vector3<>(0, -mouseX * mouseSensitivity, 0) });
 				if (mouseY != 0)
-					_transform->rotateLocal(core::Vector3<>(-mouseY * mouseSensitivity, 0, 0));
+					_transform->call("rotateLocal", { core::Vector3<>(-mouseY * mouseSensitivity, 0, 0) });
 			}
 			else
 			{

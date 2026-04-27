@@ -12,11 +12,11 @@ Collider::Collider()
 {
 	// Getters
 	registerMethod("getCenter", [this](const std::vector<std::any>& args) {
-		getCenter();
+		return getCenter();
 		});
 
 	registerMethod("getId", [this](const std::vector<std::any>& args) {
-		getId();
+		return getId();
 		});
 	// Metodos de colision
 	registerMethod("onTriggerEnter", [this](const std::vector<std::any>& args) {

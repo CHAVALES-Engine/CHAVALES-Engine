@@ -32,22 +32,22 @@ UITransform::UITransform()
 		});
 	registerMethod("getPosition", [this](const std::vector<std::any>& args) {
 		if (args.size() >= 1) {
-			getPosition();
+			return getPosition();
 		}
 		});
 	registerMethod("getDimension", [this](const std::vector<std::any>& args) {
 		if (args.size() >= 1) {
-			getDimension();
+			return getDimension();
 		}
 		});
 	registerMethod("getRotation", [this](const std::vector<std::any>& args) {
 		if (args.size() >= 1) {
-			getRotation();
+			return getRotation();
 		}
 		});
 	registerMethod("getZBuffer", [this](const std::vector<std::any>& args) {
 		if (args.size() >= 1) {
-			getZBuffer();
+			return getZBuffer();
 		}
 		});
 	registerMethod("setParent", [this](const std::vector<std::any>& args) {
@@ -57,12 +57,12 @@ UITransform::UITransform()
 		});
 	registerMethod("getParent", [this](const std::vector<std::any>& args) {
 		if (args.size() >= 1) {
-			getParent();
+			return getParent();
 		}
 		});
 	registerMethod("getChildren", [this](const std::vector<std::any>& args) {
 		if (args.size() >= 1) {
-			getChildren();
+			return getChildren();
 		}
 		});
 	registerMethod("detachChild", [this](const std::vector<std::any>& args) {
@@ -77,7 +77,7 @@ UITransform::UITransform()
 		});
 	registerMethod("getComponentInParents", [this](const std::vector<std::any>& args) {
 		if (args.size() >= 1) {
-			getComponentInParents(std::any_cast<std::string>(args[0]));
+			return getComponentInParents(std::any_cast<std::string>(args[0]));
 		}
 		});
 }

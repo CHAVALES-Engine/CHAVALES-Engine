@@ -45,23 +45,23 @@ Camera::Camera() : _FOVy(45.0f), _nearClipDistance(0.1f), _farClipDistance(1000.
 		});
 
 	registerMethod("getFOVy", [this](const std::vector<std::any>& args) {
-		getFOVy();
+		return getFOVy();
 		});
 
 	registerMethod("getNearClipDistance", [this](const std::vector<std::any>& args) {
-		getNearClipDistance();
+		return getNearClipDistance();
 		});
 
 	registerMethod("getFarClipDistance", [this](const std::vector<std::any>& args) {
-		getFarClipDistance();
+		return getFarClipDistance();
 		});
 
 	registerMethod("getFocalLength", [this](const std::vector<std::any>& args) {
-		getFocalLength();
+		return getFocalLength();
 		});
 
 	registerMethod("getBgColor", [this](const std::vector<std::any>& args) {
-		getBgColor();
+		return getBgColor();
 		});
 }
 

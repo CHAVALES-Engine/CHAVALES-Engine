@@ -76,31 +76,31 @@ Transform::Transform()
 		});
 
 	registerMethod("getGlobalPosition", [this](const std::vector<std::any>& args) {
-		getGlobalPosition();
+		return getGlobalPosition();
 		});
 
 	registerMethod("getLocalPosition", [this](const std::vector<std::any>& args) {
-		getLocalPosition();
+		return getLocalPosition();
 		});
 
 	registerMethod("getGlobalRotation", [this](const std::vector<std::any>& args) {
-		getGlobalRotation();
+		return getGlobalRotation();
 		});
 
 	registerMethod("getLocalRotation", [this](const std::vector<std::any>& args) {
-		getLocalRotation();
+		return getLocalRotation();
 		});
 
 	registerMethod("getGlobalScale", [this](const std::vector<std::any>& args) {
-		getGlobalScale();
+		return getGlobalScale();
 		});
 
 	registerMethod("getLocalScale", [this](const std::vector<std::any>& args) {
-		getLocalScale();
+		return getLocalScale();
 		});
 
 	registerMethod("getParent", [this](const std::vector<std::any>& args) {
-		getParent();
+		return getParent();
 		});
 
 	registerMethod("setParent", [this](const std::vector<std::any>& args) {
@@ -113,7 +113,7 @@ Transform::Transform()
 		});
 
 	registerMethod("getChildren", [this](const std::vector<std::any>& args) {
-		getChildren();
+		return getChildren();
 		});
 
 	registerMethod("detachChild", [this](const std::vector<std::any>& args) {
@@ -161,15 +161,15 @@ Transform::Transform()
 		});
 
 	registerMethod("right", [this](const std::vector<std::any>& args) {
-		right();
+		return right();
 		});
 
 	registerMethod("up", [this](const std::vector<std::any>& args) {
-		up();
+		return up();
 		});
 
 	registerMethod("forward", [this](const std::vector<std::any>& args) {
-		forward();
+		return forward();
 		});
 
 	registerMethod("LookAt", [this](const std::vector<std::any>& args) {
@@ -181,14 +181,14 @@ Transform::Transform()
 	registerMethod("getComponentInParents", [this](const std::vector<std::any>& args) {
 		if (args.size() >= 1)
 		{
-			getComponentInParents(std::any_cast<std::string>(args[0]));
+			return getComponentInParents(std::any_cast<std::string>(args[0]));
 		}
 		});
 
 	registerMethod("getComponentsInParents", [this](const std::vector<std::any>& args) {
 		if (args.size() >= 1)
 		{
-			getComponentsInParents(std::any_cast<std::string>(args[0]));
+			return getComponentsInParents(std::any_cast<std::string>(args[0]));
 		}
 		});
 }

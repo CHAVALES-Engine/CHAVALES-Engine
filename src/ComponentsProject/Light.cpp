@@ -36,27 +36,27 @@ Light::Light() : _type(Type::POINT), _color(1, 1, 1, 1), _intensity(1.0f), _inne
 		});
 
 	registerMethod("getType", [this](const std::vector<std::any>& args) {
-		getType();
+		return getType();
 		});
 
 	registerMethod("getColor", [this](const std::vector<std::any>& args) {
-		getColor();
+		return getColor();
 		});
 
 	registerMethod("getIntensity", [this](const std::vector<std::any>& args) {
-		getIntensity();
+		return getIntensity();
 		});
 
 	registerMethod("getInnerAngle", [this](const std::vector<std::any>& args) {
-		getInnerAngle();
+		return getInnerAngle();
 		});
 
 	registerMethod("getOuterAngle", [this](const std::vector<std::any>& args) {
-		getOuterAngle();
+		return getOuterAngle();
 		});
 
 	registerMethod("getFallOff", [this](const std::vector<std::any>& args) {
-		getFallOff();
+		return getFallOff();
 		});
 }
 
