@@ -330,12 +330,16 @@ core::Vector3<> Transform::getGlobalPosition() const
 	if (_parent != nullptr)
 	{
 		core::Vector3<> gpp = _parent->getGlobalPosition();
-		// se deberia recalcular con escala y rotacion? misma duda que en setGlobalPosition
-		return {
-			_localPosition.getX() + gpp.getX(),
-			_localPosition.getY() + gpp.getY(),
-			_localPosition.getZ() + gpp.getZ(),
-		};
+		core::Quaternion<> gpr = _parent->getGlobalRotation();
+		core::Vector3<> gps = _parent->getGlobalScale();
+
+		core::Vector3<> scaledLocal(
+			_localPosition.getX() * gps.getX(),
+			_localPosition.getY() * gps.getY(),
+			_localPosition.getZ() * gps.getZ()
+		);
+
+		return gpp + (gpr * scaledLocal);
 	}
 
 	return _localPosition;
