@@ -206,4 +206,9 @@ public:
 	// TODO?
 	//Transform* getChildByName(std::string);
 	//Transform* getChildByID(size_t);
+
+private:
+	void refreshPostion();
+	void refreshRotation();
+	void refreshScale();
 };
