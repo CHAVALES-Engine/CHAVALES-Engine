@@ -207,8 +207,16 @@ public:
 	//Transform* getChildByName(std::string);
 	//Transform* getChildByID(size_t);
 
-private:
+	/**
+	 * @brief Ajusta posicion al nuevo contexto.
+	 */
 	void refreshPostion();
+	/**
+	 * @brief Ajusta rotacion al nuevo contexto.
+	 */
 	void refreshRotation();
+	/**
+	 * @brief Ajusta escala al nuevo contexto.
+	 */
 	void refreshScale();
 };
