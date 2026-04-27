@@ -104,6 +104,11 @@ namespace core
 		*/
 		virtual void update(uint64_t deltaTime) {}
 
+		/**
+		* @brief Comportamiento en cada actualizaci�n por frame despues de update
+		*/
+		virtual void lateUpdate(uint64_t deltaTime) {}
+
 		///**
 		//* @brief Comportamiento de renderizado del componente
 		//*/

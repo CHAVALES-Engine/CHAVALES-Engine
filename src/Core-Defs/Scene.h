@@ -61,7 +61,14 @@ namespace core
 		 *
 		 */
 		virtual void update(uint64_t dT);
-		//virtual void render();
+		
+		/**
+		 * @brief Parte del ciclo de escena. Se llama una vez cada frame despues de update.
+		 *
+		 * @param dT - deltaTime.
+		 *
+		 */
+		virtual void lateUpdate(uint64_t dT);
 
 		/**
 		 * @brief Parte del ciclo de escena. Se llama cuando esta se deshabilita.

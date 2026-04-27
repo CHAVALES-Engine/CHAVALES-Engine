@@ -134,6 +134,20 @@ namespace core
 		}
 	}
 
+	void Entity::lateUpdate(uint64_t dT)
+	{
+		if (!enabled) return;
+
+		// Copiar los componentes para iterar de forma segura
+		std::vector<std::shared_ptr<Component>> componentsCopy = components;
+
+		for (auto& c : componentsCopy)
+		{
+			if (c && c->isEnabled())
+				c->lateUpdate(dT);
+		}
+	}
+
 	void Entity::destroy()
 	{
 		alive = false;

@@ -93,6 +93,24 @@ namespace core {
 		}
 	}
 
+	void core::Scene::lateUpdate(uint64_t dT)
+	{
+		if (_entities.empty()) return;
+
+		// Copiar los guids para iterar de forma segura
+		// pos si se anyade o quitan entidades en runtime
+		std::vector<entityID> guids;
+		for (const auto& [guid, _] : _entities)
+			guids.push_back(guid);
+
+		for (auto& guid : guids)
+		{
+			auto it = _entities.find(guid);
+			if (it != _entities.end() && it->second)
+				it->second->lateUpdate(dT);
+		}
+	}
+
 	//void core::Scene::render()
 	//{
 	//	if (!_entities.empty())

@@ -72,6 +72,10 @@ namespace core
 		*/
 		void update(uint64_t dT);
 		/**
+		* @brief Ejecuta la actualizacion por frame despues de update
+		*/
+		void lateUpdate(uint64_t dT);
+		/**
 		* @brief Renderiza la entidad
 		*/
 		//void render() const;
