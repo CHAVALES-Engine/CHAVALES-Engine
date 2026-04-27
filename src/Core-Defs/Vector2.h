@@ -255,7 +255,7 @@ namespace core
 		{
 			float mag = magnitude();
 			if (mag > 1e-6f) return *this / mag;
-			else return Vector3(0, 0, 0);
+			else return Vector2(0, 0);
 		}
 
 	private:
