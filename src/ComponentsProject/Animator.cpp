@@ -1,8 +1,10 @@
 #include "Animator.h"
-
+#include "PluginSDK.h"
 #include "Entity.h"
 #include "Engine.h"
 #include "checkMLNew.h"
+
+REGISTER_COMPONENT(Animator);
 
 Animator::Animator()
 {
