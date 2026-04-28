@@ -731,7 +731,7 @@ void RenderModule::addAnimator(const entityID& entityID, modelID& modelID)
 		Ogre::Entity* ent = dynamic_cast<Ogre::Entity*>(obj);
 		if (ent)
 		{
-			modelID = _nextModelID - 1;
+			modelID = _models.size() - 1;
 			return;
 		}
 	}
