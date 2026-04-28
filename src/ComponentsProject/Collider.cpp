@@ -15,9 +15,22 @@ Collider::Collider()
 		return getCenter();
 		});
 
+	registerMethod("getIsTrigger", [this](const std::vector<std::any>& args) {
+		return getIsTrigger();
+		});
+
+	registerMethod("getSize", [this](const std::vector<std::any>& args) {
+		return getSize();
+		});
+
+	registerMethod("getRotation", [this](const std::vector<std::any>& args) {
+		return getRotation();
+		});
+
 	registerMethod("getId", [this](const std::vector<std::any>& args) {
 		return getId();
 		});
+
 	// Metodos de colision
 	registerMethod("onTriggerEnter", [this](const std::vector<std::any>& args) {
 		if (args.size() >= 1) {
@@ -196,6 +209,15 @@ void Collider::update(uint64_t deltaTime)
 	_eng->clearPhysicsEvents();
 }
 
+void Collider::enable()
+{
+	_eng->setActorEnabled(physicsID, true, isTrigger);
+}
+
+void Collider::disable()
+{
+	_eng->setActorEnabled(physicsID, false, isTrigger);
+}
 
 void Collider::onTriggerEnter(core::Entity* other)
 {
@@ -222,3 +244,4 @@ void Collider::onCollisionExit(core::Entity* other) {
 	_onCollisionExit.emit(other);
 	hasCollided = false;
 }
+

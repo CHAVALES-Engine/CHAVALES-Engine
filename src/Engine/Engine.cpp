@@ -705,6 +705,18 @@ void Engine::setGizmos(bool gizmos)
 {
 	_gizmos = gizmos;
 }
+void Engine::deletePhysicsComponent(ComponentID id)
+{
+	_physicsModule->DestroyBody(id);
+}
+void Engine::deletePhysicsMaterial(ComponentID id)
+{
+	_physicsModule->DestroyMaterial(id);
+}
+void Engine::setActorEnabled(ComponentID id, bool enabled, bool isTrigger)
+{
+	_physicsModule->SetActorEnabled(id, enabled, isTrigger);
+}
 std::pair<std::string, std::string> Engine::getAssetSourceFolder(std::string assetName) 
 {
 	return _resourcesModule->getAssetSourceFolder(assetName); 

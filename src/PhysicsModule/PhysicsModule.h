@@ -232,6 +232,8 @@ public:
 	*/
 	void ReloadPhysics();
 
+	void SetActorEnabled(ComponentID id, bool enabled, bool isTrigger);
+
 private:
 	Raycast raycast;
 	ComponentID nextID = 1;
