@@ -2,6 +2,11 @@
 #include <cstdint>
 #include "CommonEnums.h"
 
+namespace core
+{
+	class Entity;
+}
+
 using ComponentID = uint32_t;
 
 enum class CollisionType {
@@ -15,6 +20,7 @@ struct PhysicsEvent {
     ComponentID a;
     ComponentID b;
     CollisionType type;
+    core::Entity* otherEntity;
 };
 
 struct ShapeRenderData

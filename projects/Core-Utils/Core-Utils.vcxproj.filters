@@ -33,9 +33,6 @@
     <ClInclude Include="..\..\src\Core-Utils\EngineAPI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Core-Utils\Message.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\Core-Utils\MessagesManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>

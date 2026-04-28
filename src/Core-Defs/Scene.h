@@ -7,6 +7,7 @@
 #include <cstdint>
 #include <string>
 #include <unordered_map>
+#include <vector>
 
 #include "guid.h"
 
@@ -60,7 +61,14 @@ namespace core
 		 *
 		 */
 		virtual void update(uint64_t dT);
-		//virtual void render();
+		
+		/**
+		 * @brief Parte del ciclo de escena. Se llama una vez cada frame despues de update.
+		 *
+		 * @param dT - deltaTime.
+		 *
+		 */
+		virtual void lateUpdate(uint64_t dT);
 
 		/**
 		 * @brief Parte del ciclo de escena. Se llama cuando esta se deshabilita.
@@ -72,13 +80,18 @@ namespace core
 		 * @brief Parte del ciclo de escena. Se llama cuando esta se destruye.
 		 *
 		 */
-		virtual void onDestroy();
+		virtual void destroy();
 
 		/**
 		 * @brief Parte del ciclo de escena. Se llama cuando se carga una escena nueva.
 		 *
 		 */
 		void clearScene();
+
+		/**
+		 * @brief Extrae las entidades marcadas como DontDestroyOnLoad de la escena.
+		 */
+		std::vector<Entity*> getDDOLEntities();
 
 		/**
 		 * @brief Inserta una nueva entidad en el vector de entidades.

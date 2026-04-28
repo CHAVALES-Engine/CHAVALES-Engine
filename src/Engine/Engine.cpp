@@ -73,7 +73,7 @@ void Engine::startLoop() const
 {
 	if (!_stateMachine) return;
 	// Bucle de juego
-	_stateMachine->addAndSetScene(core::GameConfigurator::instance()._firstScene); // carga la primera escena
+	_stateMachine->requestSceneChange(core::GameConfigurator::instance()._firstScene); // carga la primera escena
 	if (_stateMachine->getCurrentScnPtr() != nullptr)
 		_stateMachine->gameLoop();
 }
@@ -83,9 +83,9 @@ bool Engine::pollEvents() const
 	return _platformModule->syncronize();
 }
 
-const void Engine::addAndSetScene(std::string const& n) const
+const void Engine::requestSceneChange(std::string const& n) const
 {
-	_stateMachine->addAndSetScene(n);
+	_stateMachine->requestSceneChange(n);
 }
 
 core::Entity* Engine::instantiatePrefab(std::string const& pref) const
@@ -533,6 +533,11 @@ bool Engine::isChannelPlaying(int chID)
 	return _audioModule->isChannelPlaying(chID);
 }
 
+void Engine::registerActorEntity(ComponentID physicsID, core::Entity* entity)
+{
+	_physicsModule->setActorEntity(physicsID, entity);
+}
+
 bool Engine::setLooping(int chID, int typeOfLooping)
 {
 	return _audioModule->setLooping(chID, typeOfLooping);
@@ -699,6 +704,18 @@ std::vector<ShapeRenderData> Engine::GetPhysicsRenderData()
 void Engine::setGizmos(bool gizmos)
 {
 	_gizmos = gizmos;
+}
+void Engine::deletePhysicsComponent(ComponentID id)
+{
+	_physicsModule->DestroyBody(id);
+}
+void Engine::deletePhysicsMaterial(ComponentID id)
+{
+	_physicsModule->DestroyMaterial(id);
+}
+void Engine::setActorEnabled(ComponentID id, bool enabled, bool isTrigger)
+{
+	_physicsModule->SetActorEnabled(id, enabled, isTrigger);
 }
 std::pair<std::string, std::string> Engine::getAssetSourceFolder(std::string assetName) 
 {

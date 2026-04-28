@@ -9,7 +9,32 @@
 
 REGISTER_COMPONENT(ModelRenderer);
 
-ModelRenderer::ModelRenderer() {}
+ModelRenderer::ModelRenderer()
+{
+    registerMethod("setDiffuse", [this](const std::vector<std::any>& args) {
+        if (args.size() == 1) {
+            setDiffuse(std::any_cast<std::string>(args[0]));
+        }
+        else if (args.size() >= 2) {
+            setDiffuse(std::any_cast<std::string>(args[0]), std::any_cast<int>(args[1]));
+        }
+        });
+
+    registerMethod("setTint", [this](const std::vector<std::any>& args) {
+        if (args.size() == 1) {
+            setTint(std::any_cast<core::Color>(args[0]));
+        }
+        else if (args.size() >= 2) {
+            setTint(std::any_cast<core::Color>(args[0]), std::any_cast<int>(args[1]));
+        }
+        });
+
+    registerMethod("setVisible", [this](const std::vector<std::any>& args) {
+        if (args.size() >= 1) {
+            setVisible(std::any_cast<bool>(args[0]));
+        }
+        });
+}
 
 ModelRenderer::~ModelRenderer()
 {
@@ -46,17 +71,17 @@ void ModelRenderer::ready()
     }
 }
 
-void ModelRenderer::setDiffuse(std::string textureName, int submesh)
+void ModelRenderer::setDiffuse(const std::string& textureName, const int& submesh)
 {
 	Engine::instance()->setSubmeshDiffuse(_modelID, textureName, submesh);
 }
 
-void ModelRenderer::setTint(core::Color tint, int submesh)
+void ModelRenderer::setTint(const core::Color& tint, const int& submesh)
 {
 	Engine::instance()->setSubmeshTint(_modelID, tint, submesh);
 }
 
-void ModelRenderer::setVisible(bool visible)
+void ModelRenderer::setVisible(const bool& visible)
 {
 	Engine::instance()->setModelVisible(_modelID, visible);
 }

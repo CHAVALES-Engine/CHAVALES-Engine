@@ -71,6 +71,12 @@ public:
 	* Limpia la lista de eventos registrados
 	*/
 	void clearEvents();
+	/**
+	 * Asigna una entidad a una PhiscX actor.
+	 * @param physicsID 
+	 * @param entity 
+	 */
+	void setActorEntity(ComponentID physicsID, core::Entity* entity);
 	/*
 	* Setea la posición de un componente en physx
 	* @param id del componente y la posición a poner
@@ -226,11 +232,14 @@ public:
 	*/
 	void ReloadPhysics();
 
+	void SetActorEnabled(ComponentID id, bool enabled, bool isTrigger);
+
 private:
 	Raycast raycast;
 	ComponentID nextID = 1;
 	ComponentID nextIDMaterial = 1;
 	std::unordered_map<ComponentID, PhysXComponent> physicsMap;
 	std::unordered_map<physx::PxRigidActor*, ComponentID> actorToID;
+	std::unordered_map<physx::PxRigidActor*, core::Entity*> actorToEntity;
 	std::vector<PhysicsEvent> eventQueue;
 };

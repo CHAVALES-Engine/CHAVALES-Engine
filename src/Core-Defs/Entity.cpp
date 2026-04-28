@@ -22,6 +22,7 @@ namespace core
 
 	Entity::~Entity()
 	{
+		disable();
 		destroy();
 	}
 
@@ -38,7 +39,7 @@ namespace core
 	bool Entity::isVisible() const { return visible; }
 	bool Entity::isEnabled() const { return enabled; }
 
-	bool Entity::getDontDestoroyOnLoad() const { return dontDestroyOnLoad; }
+	bool Entity::getDontDestroyOnLoad() const { return dontDestroyOnLoad; }
 
 	Scene* Entity::getScene() const { return scene; }
 	ChavalesGUID Entity::getEntityID() const { return entityID; }
@@ -130,6 +131,20 @@ namespace core
 		{
 			if (c && c->isEnabled())
 				c->update(dT);
+		}
+	}
+
+	void Entity::lateUpdate(uint64_t dT)
+	{
+		if (!enabled) return;
+
+		// Copiar los componentes para iterar de forma segura
+		std::vector<std::shared_ptr<Component>> componentsCopy = components;
+
+		for (auto& c : componentsCopy)
+		{
+			if (c && c->isEnabled())
+				c->lateUpdate(dT);
 		}
 	}
 

@@ -1,6 +1,6 @@
 #pragma once
-#include "../../src/Core-Defs/Vector3.h"
-#include "../../src/Core-Defs/Component.h"
+#include "Vector3.h"
+#include "Component.h"
 
 class Engine;
 

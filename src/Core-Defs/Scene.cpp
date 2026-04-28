@@ -93,6 +93,24 @@ namespace core {
 		}
 	}
 
+	void core::Scene::lateUpdate(uint64_t dT)
+	{
+		if (_entities.empty()) return;
+
+		// Copiar los guids para iterar de forma segura
+		// pos si se anyade o quitan entidades en runtime
+		std::vector<entityID> guids;
+		for (const auto& [guid, _] : _entities)
+			guids.push_back(guid);
+
+		for (auto& guid : guids)
+		{
+			auto it = _entities.find(guid);
+			if (it != _entities.end() && it->second)
+				it->second->lateUpdate(dT);
+		}
+	}
+
 	//void core::Scene::render()
 	//{
 	//	if (!_entities.empty())
@@ -117,7 +135,7 @@ namespace core {
 		}
 	}
 
-	void core::Scene::onDestroy() // elimina al completo
+	void core::Scene::destroy() // elimina al completo
 	{
 		if (!_entities.empty())
 		{
@@ -135,19 +153,31 @@ namespace core {
 
 	void core::Scene::clearScene() // comprueba dont destroy on load
 	{
-		if (!_entities.empty())
+		for (auto it = _entities.begin(); it != _entities.end(); )
 		{
-			for (auto& [guid, e] : _entities)
-			{
-				// solo se destruye si debe
-				if (!e->getDontDestoroyOnLoad())
-				{
-					delete e;
-				}
-			}
+			auto& [guid, e] = *it;
 
-			_entities.clear();
+			if (!e->getDontDestroyOnLoad())
+			{
+				delete e;
+				it = _entities.erase(it);
+			}
+			else
+			{
+				++it;
+			}
 		}
+	}
+
+	std::vector<Entity*> core::Scene::getDDOLEntities()
+	{
+		std::vector<Entity*> persistentEntities;
+
+		for (const auto& [guid, e] : _entities)
+			if (e->getDontDestroyOnLoad())
+				persistentEntities.push_back(e);
+
+		return persistentEntities;
 	}
 
 	void core::Scene::addEntity(Entity* e)

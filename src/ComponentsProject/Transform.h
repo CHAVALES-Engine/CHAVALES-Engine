@@ -47,6 +47,7 @@ class ENGINE_API Transform : public core::Component
 	core::Quaternion<> _localRotation;
 	core::Vector3<> _localScale;
 	Transform* _parent = nullptr;
+	std::vector<std::string> _pendingChildren;
 	std::vector<Transform*> _children;
 	bool _lockRotX = false;
 	bool _lockRotY = false;
@@ -57,7 +58,7 @@ class ENGINE_API Transform : public core::Component
 	 */
 	//std::vector<std::string> _pendingChildren;
 public:
-	//Transform();
+	Transform();
 	//~Transform() ;
 
 	bool init(const Properties& p) override;
@@ -93,7 +94,7 @@ public:
 	 * @param t - Transform del padre
 	 * @param keepWorldMeasures - Si mantener o no el estado del Transform al cambiar de parentesco, por defecto es true
 	 */
-	void setParent(Transform* t, bool keepWorldMeasures = true);
+	void setParent(Transform* t, bool keepWorldMeasures = false);
 	/**
 	 * @return Todos los hijos de primer grado de este transform
 	 */
@@ -205,4 +206,18 @@ public:
 	// TODO?
 	//Transform* getChildByName(std::string);
 	//Transform* getChildByID(size_t);
+
+private:
+	/**
+	 * @brief Ajusta posicion al nuevo contexto.
+	 */
+	void refreshPostion();
+	/**
+	 * @brief Ajusta rotacion al nuevo contexto.
+	 */
+	void refreshRotation();
+	/**
+	 * @brief Ajusta escala al nuevo contexto.
+	 */
+	void refreshScale();
 };

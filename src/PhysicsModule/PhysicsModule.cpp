@@ -267,6 +267,13 @@ void PhysicsModule::clearEvents()
 	eventQueue.clear();
 }
 
+void PhysicsModule::setActorEntity(ComponentID physicsID, core::Entity* entity)
+{
+	auto it = physicsMap.find(physicsID);
+	if (it != physicsMap.end())
+		actorToEntity[it->second.actor] = entity;
+}
+
 void PhysicsModule::SetPhysicsPosition(ComponentID id, const core::Vector3<>& pos)
 {
 	auto it = physicsMap.find(id);
@@ -468,16 +475,19 @@ void PhysicsModule::onTrigger(PxTriggerPair* pairs, PxU32 count) {
 
 		auto itA = actorToID.find(triggerActor);
 		auto itB = actorToID.find(otherActor);
-		if (itA == actorToID.end() || itB == actorToID.end())//comprubeo
+		auto itOther = actorToEntity.find(otherActor);
+		if (itA == actorToID.end() || itB == actorToID.end() ||//comprubeo
+			itOther == actorToEntity.end())
 			continue;
 
 		ComponentID a = itA->second;
 		ComponentID b = itB->second;
+		core::Entity* entityB = itOther->second;
 
 		if (pairs[i].status & PxPairFlag::eNOTIFY_TOUCH_FOUND)
-			eventQueue.push_back({ a, b, CollisionType::TriggerEnter });
+			eventQueue.push_back({ a, b, CollisionType::TriggerEnter, entityB });
 		if (pairs[i].status & PxPairFlag::eNOTIFY_TOUCH_LOST)
-			eventQueue.push_back({ a, b, CollisionType::TriggerExit });
+			eventQueue.push_back({ a, b, CollisionType::TriggerExit, entityB });
 	}
 }
 
@@ -592,20 +602,25 @@ void PhysicsModule::onContact(const PxContactPairHeader& pairHeader,
 
 	auto itA = actorToID.find(actor0);
 	auto itB = actorToID.find(actor1);
+	auto entA = actorToEntity.find(actor0);
+	auto entB = actorToEntity.find(actor1);
 
-	if (itA == actorToID.end() || itB == actorToID.end())
+	if (entA == actorToEntity.end() || entB == actorToEntity.end() ||
+		itA == actorToID.end() || itB == actorToID.end())
 		return;
 
 	ComponentID a = itA->second;
 	ComponentID b = itB->second;
+	core::Entity* entityA = entA->second;
+	core::Entity* entityB = entA->second;
 
 	for (PxU32 i = 0; i < nbPairs; i++)
 	{
 		if (pairs[i].events & PxPairFlag::eNOTIFY_TOUCH_FOUND)
-			eventQueue.push_back({ a, b, CollisionType::CollisionEnter });
+			eventQueue.push_back({ a, b, CollisionType::CollisionEnter, entityB });
 
 		if (pairs[i].events & PxPairFlag::eNOTIFY_TOUCH_LOST)
-			eventQueue.push_back({ a, b, CollisionType::CollisionExit });
+			eventQueue.push_back({ a, b, CollisionType::CollisionExit, entityB });
 	}
 }
 
@@ -634,6 +649,7 @@ void PhysicsModule::DestroyBody(ComponentID id)
 	}
 	comp.shapes.clear();
 
+	actorToEntity.erase(actor);
 	actorToID.erase(actor);
 	actor->release();//libero al actor
 
@@ -667,6 +683,7 @@ void PhysicsModule::ClearScene()
 		DestroyBody(id);
 
 	physicsMap.clear();
+	actorToEntity.clear();
 	actorToID.clear();
 	eventQueue.clear();
 }
@@ -683,8 +700,15 @@ std::vector<ShapeRenderData> PhysicsModule::GetRenderData()
 		for (PxShape* shape : comp.shapes)
 		{
 			if (!shape) continue;
-			ShapeRenderData data;
 
+			PxShapeFlags flags = shape->getFlags();
+			//si ambos están descativados es que el collider esta disabled
+			if (!(flags & PxShapeFlag::eSIMULATION_SHAPE) && !(flags & PxShapeFlag::eTRIGGER_SHAPE))
+			{
+				continue;//no renderiza
+			}
+
+			ShapeRenderData data;
 			PxTransform pose = PxShapeExt::getGlobalPose(*shape, *actor);
 			data.position = { pose.p.x, pose.p.y, pose.p.z };
 			data.rotation = { pose.q.x, pose.q.y, pose.q.z, pose.q.w };
@@ -697,12 +721,7 @@ std::vector<ShapeRenderData> PhysicsModule::GetRenderData()
 			{
 				const PxBoxGeometry& box = static_cast<const PxBoxGeometry&>(geom);
 				data.type = ShapeType::BOX;
-
-				data.size = core::Vector3<>(
-					box.halfExtents.x * 2.0f,
-					box.halfExtents.y * 2.0f,
-					box.halfExtents.z * 2.0f
-				);
+				data.size = core::Vector3<>(box.halfExtents.x * 2.0f, box.halfExtents.y * 2.0f, box.halfExtents.z * 2.0f);
 				break;
 			}
 
@@ -741,6 +760,7 @@ void PhysicsModule::ReloadPhysics()
 {
 	physicsMap.clear();
 	actorToID.clear();
+	actorToEntity.clear();
 	eventQueue.clear();
 
 	//libero escena act
@@ -781,3 +801,37 @@ void PhysicsModule::ReloadPhysics()
 	raycast = Raycast(gScene);
 
 }
+
+
+void PhysicsModule::SetActorEnabled(ComponentID id, bool enabled, bool isTrigger)
+{
+	auto it = physicsMap.find(id);
+	if (it == physicsMap.end()) return;
+
+	PhysXComponent& comp = it->second;
+
+	for (PxShape* shape : comp.shapes) {
+		if (!shape) continue;
+
+		if (enabled) {
+			if (isTrigger) {
+				shape->setFlag(PxShapeFlag::eSIMULATION_SHAPE, false);
+				shape->setFlag(PxShapeFlag::eTRIGGER_SHAPE, true);
+			}
+			else {
+				shape->setFlag(PxShapeFlag::eSIMULATION_SHAPE, true);
+				shape->setFlag(PxShapeFlag::eTRIGGER_SHAPE, false);
+			}
+			shape->setFlag(PxShapeFlag::eSCENE_QUERY_SHAPE, true);
+		}
+		else {
+			//desactivo todo
+			shape->setFlag(PxShapeFlag::eSIMULATION_SHAPE, false);
+			shape->setFlag(PxShapeFlag::eTRIGGER_SHAPE, false);
+			shape->setFlag(PxShapeFlag::eSCENE_QUERY_SHAPE, false);
+		}
+	}
+}
+
+
+

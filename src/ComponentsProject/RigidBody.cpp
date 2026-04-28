@@ -9,33 +9,29 @@ REGISTER_COMPONENT(RigidBody);
 
 RigidBody::RigidBody()
 {
-	// Getters (retornan valores)
+	// Getters
 	registerMethod("getVelocity", [this](const std::vector<std::any>& args) {
-		getVelocity();
+		return getVelocity();
 		});
 
 	registerMethod("getPosition", [this](const std::vector<std::any>& args) {
-		getPosition();
+		return getPosition();
 		});
 
 	registerMethod("getRotation", [this](const std::vector<std::any>& args) {
-		getRotation();
+		return getRotation();
 		});
 
 	registerMethod("getMass", [this](const std::vector<std::any>& args) {
-		getMass();
+		return getMass();
 		});
 
 	registerMethod("getLinearDamping", [this](const std::vector<std::any>& args) {
-		getLinearDamping();
-		});
-
-	registerMethod("getId", [this](const std::vector<std::any>& args) {
-		getId();
+		return getLinearDamping();
 		});
 
 	registerMethod("getIsKinematic", [this](const std::vector<std::any>& args) {
-		getIsKinematic();
+		return getIsKinematic();
 		});
 
 	// Setters
@@ -43,30 +39,35 @@ RigidBody::RigidBody()
 		if (args.size() >= 1) {
 			setVelocity(std::any_cast<core::Vector3<>>(args[0]));
 		}
+		return std::any();
 		});
 
 	registerMethod("setPosition", [this](const std::vector<std::any>& args) {
 		if (args.size() >= 1) {
 			setPosition(std::any_cast<core::Vector3<>>(args[0]));
 		}
+		return std::any();
 		});
 
 	registerMethod("setRotation", [this](const std::vector<std::any>& args) {
 		if (args.size() >= 1) {
 			setRotation(std::any_cast<core::Quaternion<>>(args[0]));
 		}
+		return std::any();
 		});
 
 	registerMethod("setMass", [this](const std::vector<std::any>& args) {
 		if (args.size() >= 1) {
 			setMass(std::any_cast<float>(args[0]));
 		}
+		return std::any();
 		});
 
 	registerMethod("setLinearDamping", [this](const std::vector<std::any>& args) {
 		if (args.size() >= 1) {
 			setLinearDamping(std::any_cast<float>(args[0]));
 		}
+		return std::any();
 		});
 
 	// Metodos con multiples parametros
@@ -77,12 +78,14 @@ RigidBody::RigidBody()
 				std::any_cast<char>(args[1])
 			);
 		}
+		return std::any();
 		});
 
 	registerMethod("ClearForce", [this](const std::vector<std::any>& args) {
 		if (args.size() >= 1) {
 			ClearForce(std::any_cast<char>(args[0]));
 		}
+		return std::any();
 		});
 
 	registerMethod("blockAxes", [this](const std::vector<std::any>& args) {
@@ -93,6 +96,7 @@ RigidBody::RigidBody()
 				std::any_cast<bool>(args[2])
 			);
 		}
+		return std::any();
 		});
 
 	registerMethod("blockAngles", [this](const std::vector<std::any>& args) {
@@ -103,6 +107,7 @@ RigidBody::RigidBody()
 				std::any_cast<bool>(args[2])
 			);
 		}
+		return std::any();
 		});
 }
 

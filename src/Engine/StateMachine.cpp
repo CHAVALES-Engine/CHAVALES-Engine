@@ -31,9 +31,11 @@ StateMachine::~StateMachine()
 void StateMachine::gameLoop()
 {
 	auto startTime = core::Clock::getNow();
+	_isLoopRunning = true;
 
 	while (!_endGame) // bucle de juego
 	{
+		_processSceneChange();
 		_endGame = Engine::instance()->pollEvents();
 		core::TimerManager::instance().update();
 
@@ -50,26 +52,20 @@ void StateMachine::gameLoop()
 			}
 
 			_currentScene.ptr->update(_deltaTime);
+			_currentScene.ptr->lateUpdate(_deltaTime);
 			Engine::instance()->update(_deltaTime);
 			Engine::instance()->renderFrame();
 
-			if (GameLoader::reloadLua() || ComponentDLLLoader::instance().checkReload()) // si es necesario recargar...
-			{
-				Debug::warning("Reloading scene [", _currentScene.name, "]");
-				//limpia logica
-				_currentScene.ptr->onDestroy(); // elimina escena
-				//limpia render
-				Engine::instance()->cleanScene();  // limpia la escena
-				scenePtr s = std::move(GameLoader::loadScene(_currentScene.name)); // vuelve a cargar
-				_currentScene.ptr = s;
-			}
+			_processHotLuaReload();
 		}
 	}
+
+	_isLoopRunning = false;
 
 	// llamar a la destructora de la escena
 	if (_currentScene.ptr != nullptr)
 	{
-		_currentScene.ptr->onDestroy();
+		_currentScene.ptr->destroy();
 
 		Engine::instance()->cleanScene();  // limpia la escena
 		Engine::instance()->renderFrame(); // renderiza frame vacío
@@ -77,8 +73,18 @@ void StateMachine::gameLoop()
 	_currentScene.ptr = nullptr;
 }
 
-void StateMachine::addAndSetScene(const sceneName& n)
+void StateMachine::_addAndSetScene(const sceneName& n)
 {
+	_isPerformingSceneChange = true;
+	std::vector<core::Entity*> persistentEntities;
+
+	if (_currentScene.ptr != nullptr) // Esto NO deberia ir antes de saber si se ha cargado la escena o no pero como muchos inits() de componentes que se hacen en loadScene() dependen de IDs que luego se borran en el clearScene() peta -> UIPanel.init() hace addUIPanel() y guarda _panelID despues destruye la escena vieja y llama a cleanScene(), se pierde la referencia y peta
+	{
+		persistentEntities = _currentScene.ptr->getDDOLEntities();
+		_currentScene.ptr->clearScene();
+		Engine::instance()->cleanScene();
+	}
+
 	// cargar nueva escena
 	scenePtr s = std::move(GameLoader::loadScene(n));
 
@@ -86,18 +92,74 @@ void StateMachine::addAndSetScene(const sceneName& n)
 	{
 		Debug::out("STATEMACHINE: Entrando a escena ", n);
 
-		// destruye la escena actual
-		if (_currentScene.ptr != nullptr)
-		{
-			_currentScene.ptr->clearScene();
-		}
-
 		// setea nueva escena actual
 		_currentScene.ptr = s;
 		_currentScene.name = n;
+
+		if (_currentScene.ptr != nullptr)
+		{
+			// --- a este nivel se llama al ready:
+			// garantizamos que en el ready el resto de entidades y sus componentes estan inicializados 
+			_currentScene.ptr->ready();
+		}
+
+		// anyade las entidades que sean persistentes de la escena anterior saltandose sus readys
+		for (core::Entity* pe : persistentEntities)
+			_currentScene.ptr->addEntity(pe);
 	}
 	else
 	{
 		Debug::out("[STATEMACHINE] No se pudo cargar la escena ", n);
+	}
+
+	_isPerformingSceneChange = false;
+}
+
+void StateMachine::requestSceneChange(const sceneName& sn)
+{
+	if (_isLoopRunning || _isPerformingSceneChange)
+	{
+		_pendingSceneName = sn;
+		_hasPendingSceneChange = true;
+		Debug::out("STATEMACHINE: Cambio de escena encolado a ", sn);
+		return;
+	}
+
+	Debug::out("STATEMACHINE: Cambio de escena a ", sn);
+	_addAndSetScene(sn);
+}
+
+void StateMachine::_processSceneChange()
+{
+	if (!_hasPendingSceneChange) return;
+
+	sceneName nextScene = _pendingSceneName; // guardar antes de clar
+	_hasPendingSceneChange = false;
+	_pendingSceneName.clear();
+	_addAndSetScene(nextScene);
+}
+
+void StateMachine::_processHotLuaReload()
+{
+	if (GameLoader::reloadLua() || ComponentDLLLoader::instance().checkReload()) // si es necesario recargar...
+	{
+		Debug::warning("Reloading scene [", _currentScene.name, "]");
+
+		//limpia logica
+		//_currentScene.ptr->destroy(); // elimina escena
+		//_currentScene.ptr->clearScene();
+		////limpia render
+		//Engine::instance()->cleanScene();  // limpia la escena
+		//scenePtr s = std::move(GameLoader::loadScene(_currentScene.name)); // vuelve a cargar
+		//_currentScene.ptr = s;
+
+		//if (_currentScene.ptr != nullptr)
+		//{
+		//	// --- a este nivel se llama al ready:
+		//	// garantizamos que en el ready el resto de entidades y sus componentes estan inicializados 
+		//	_currentScene.ptr->ready();
+		//}
+
+		_addAndSetScene(_currentScene.name);
 	}
 }

@@ -9,6 +9,7 @@
 #include <memory>
 #include <functional>
 #include <cstdint>
+#include <optional>
 #include <variant>
 #include <string>
 #include <unordered_map>
@@ -23,26 +24,26 @@ namespace core
 	 * +-----------+
 	 * | COMPONENT |
 	 * +-----------+
-	 * 
+	 *
 	 * --- Ejemplo de uso en lua ---
 	 * Component = {
 	 *		-- ejemplo de tipo basico/tipos del proyecto
 	 *		atributo1 = tipo,
 	 *		-- ejemplo de TAD vector
-	 *		atributo2 = 
+	 *		atributo2 =
 	 *		{
 	 *			tipo,
 	 *			tipo
 	 *		}
 	 * }
-	 * 
+	 *
 	 * --- Ejemplo de inicializacion ---
 	 * En bool init(const Properties& p):
 	 *		# Ej1, asignacion:
 	 * component = getProperty<tipo>(properties, "atributo1");
-	 *		# Ej2, setter: 
+	 *		# Ej2, setter:
 	 * return setProperty(properties, "atributo1", component);
-	 * 
+	 *
 	*/
 
 	class Component
@@ -82,7 +83,7 @@ namespace core
 		/**
 		* @brief Metodo que inicializa las variables del componente tras ser creado
 		*/
-		virtual bool init(const Properties& p) { return true; } 
+		virtual bool init(const Properties& p) { return true; }
 
 		/**
 		* @brief Comportamiento cuando la escena comienza y ya se han inicializado el resto de entidades
@@ -103,6 +104,11 @@ namespace core
 		* @brief Comportamiento en cada actualizaci�n por frame
 		*/
 		virtual void update(uint64_t deltaTime) {}
+
+		/**
+		* @brief Comportamiento en cada actualizaci�n por frame despues de update
+		*/
+		virtual void lateUpdate(uint64_t deltaTime) {}
 
 		///**
 		//* @brief Comportamiento de renderizado del componente
@@ -139,7 +145,7 @@ namespace core
 			if (it == props.end())
 			{
 				if (warn)
-					Debug::warning("COMPONENT: No se encontró el parámetro ", key, " en las propiedades del componente ", getName(),".");
+					Debug::warning("COMPONENT: No se encontró el parámetro ", key, " en las propiedades del componente ", getName(), ".");
 				return T(); // devolvemos valor por defecto
 			}
 
@@ -190,35 +196,64 @@ namespace core
 			return false;
 		}
 
-		virtual void call(const std::string& method, const std::vector<std::any>& args) {
+		/**
+		 * @brief Llamar un método registrado
+		 * @tparam T - Tipo de retorno (void si no devuelve nada)
+		 * @param method - nombre del método
+		 * @param args - argumentos
+		 * @return std::optional<T> si T != void, bool si T == void
+		 */
+		template<typename T = void>
+		auto call(const std::string& method, const std::vector<std::any>& args = {}) const
+		{
 			auto it = _methods.find(method);
-			if (it != _methods.end()) {
-				try {
-					it->second(args);
-				}
-				catch (const std::bad_any_cast& e) {
-					Debug::error("Invalid arguments for method: ", method);
+			if (it == _methods.end()) {
+				Debug::warning("COMPONENT: Metodo no encontrado: ", method);
+				if constexpr (std::is_void_v<T>)
+					return false;
+				else
+					return std::optional<T>(std::nullopt);
+			}
+			try {
+				std::any result = it->second(args);
+				if constexpr (std::is_void_v<T>) return true;
+				else {
+					// Metodo que devuelve algo - devuelve std::optional<T>
+					try {
+						return std::optional<T>(std::any_cast<T>(result));
+					}
+					catch (const std::bad_any_cast&) {
+						Debug::error("COMPONENT: No se pudo hacer el anycast en: ", method);
+						return std::optional<T>(std::nullopt);
+					}
 				}
 			}
-			else {
-				Debug::warning("Method not found: ", method);
+			catch (const std::exception& e) {
+				Debug::error("COMPONENT: Excepcion en: ", method);
+				if constexpr (std::is_void_v<T>) return false; // Devuelve void
+				else return std::optional<T>(std::nullopt);	// Devuelve algo
 			}
 		}
-
 	protected:
 		/**
-		 * @brief Registra los metodos del componente para poder llamarlos desde otra dll.
-		 * @tparam Func 
-		 * @param name 
-		 * @param f 
+		 * @brief Registra un metodo
 		 */
 		template<typename Func>
-		void registerMethod(const std::string& name, Func&& f) {
-			_methods[name] = std::move(f);
+		void registerMethod(const std::string& name, Func&& f)
+		{
+			_methods[name] = [f = std::forward<Func>(f)](const std::vector<std::any>& args) -> std::any {
+				using ReturnType = std::invoke_result_t<Func, const std::vector<std::any>&>;
+				if constexpr (std::is_void_v<ReturnType>) {
+					// Metodos que devuelven void
+					f(args);
+					return std::any();
+				}
+				else // Metodos que devuelven algo
+					return std::any(f(args));
+				};
 		}
-		
-		std::unordered_map<std::string, std::function<void(const std::vector<std::any>&)>> _methods;
 
+		std::unordered_map<std::string, std::function<std::any(const std::vector<std::any>&)>> _methods;
 		std::string _name;
 		Entity* entity;
 		bool enabled;

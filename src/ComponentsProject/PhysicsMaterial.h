@@ -1,6 +1,6 @@
 #pragma once
 #include <algorithm>
-#include "../../src/Core-Defs/Component.h"
+#include "Component.h"
 
 class Engine;
 

@@ -1,31 +1,129 @@
+-- Escena principal de ejemplo
 scene = { -- entidades en escena
-	-- ENTIDAD 1
-	entidad1 = { -- nombre de la entidad
-		components = { -- componentes de esa entidad
-			Transform = { -- componente transform
-				-- posicion local
-				position = Vector3.new(1,2,3),
-				-- rotacion local
-				rotation = Quaternion.new(),
-				-- escala local
-				scale = Vector3.new(1)
-			},
-			ComponentTest = {
-
+	gizmos = true,
+	entities = {
+		cube = loadPrefab("game/scenes/cube.lua"),
+		-- ENTIDAD 1
+		camera = { -- nombre de la entidad
+				ddol = false, -- dont destroy on loads
+				components = { -- componentes de esa entidad
+					Transform = { -- componente transform
+						-- posicion local
+						position = Vector3.new(200.0,200.0,200.0),
+						-- rotacion local
+						rotation = Quaternion.new(0.0,0.0,1.0,45.0),
+						-- escala local
+						scale = Vector3.new(1)
+					},
+					Camera = {
+						FOVy = 1.0,
+						nearPlane = 0.1,
+						farPlane = 10000.0,
+						["focal length"] = 60.0
+						--["background color"] = Color.new(0.5,0.5,0.5,1)
+					},
+					InitialTest = {}
+				}
+		},
+		esfera = {
+			ddol = false,
+			components = {
+				Transform = {
+					position = Vector3.new(0,300,0),
+					rotation = Quaternion.new(),
+					scale = Vector3.new(0.5),
+					},
+				ModelRenderer = {
+					file = "mesh/sphere.fbx",
+					["number of textures"] = 0
+				},
+				RigidBody = {	
+						useGravity = true,
+						isKinematic = false;
+						mass = 1.0,
+						position = Vector3.new(0, 300, 0),     
+						velocity = Vector3.new(0, 0, 0),   
+						damping = 0.0,
+						blockAxes = {true}
+				},
+				Collider = {
+					type = "CAPSULE",
+					shape = Vector3.new(50, 0, 0),     
+					rotation = Vector3.new(),
+					dynamic = true,
+					trigger = false,
+					center = Vector3.new(0,0,0)    
+				}   
 			}
-		}
-	},
-	-- ENTIDAD 2
-	entidad2 = { -- nombre de la entidad
-		components = { -- componentes de esa entidad
-			Transform = { -- componente transform
-				-- posicion local
-				position = Vector3.new(1,2,3),
-				-- rotacion local
-				rotation = Quaternion.new(),
-				-- escala local
-				scale = Vector3.new(1)
-			},
-		}
-	} 
+		},
+   		light = {
+			ddol = false,
+			components = {
+				Transform = {
+					position = Vector3.new(0,0,0),
+					rotation = Quaternion.new(),
+					scale = Vector3.new(0.5)
+					},
+				Light = {
+					type = 1,
+					color = Color.new(1,1,1,1),
+					intensity = 1.0, 
+					inner   = 30.0,
+					outer   = 60.0,
+					falloff = 1.0
+				}
+			}
+   		},
+      	CanvasUI = {
+			ddol = false,
+			components = {
+				UITransform = {
+					position = Vector2.new(900,10),
+					children = {"LabelUI", "ButtonUI","ButtonUI2"}
+					
+				},
+				UIPanel = {
+					name = "CanvasUI"
+				}
+			}
+		},
+		ButtonUI = {
+			ddol = false,
+			components = {
+				UITransform = {
+						position = Vector2.new(100,60),
+						dimension = Vector2.new(200,200),
+						zBuffer = 0
+
+						},
+				UIButton = {
+					textureName = "images/prueba.jpg",
+					text = "Boton Botonez",
+					opacity = 1.0,
+					fontName = "fonts/horrendo.ttf"
+
+				}
+			}
+		},
+		LabelUI= {
+			ddol = false,
+			components = {
+				UITransform = {
+						position = Vector2.new(600,60),
+						dimension = Vector2.new(200,200),
+						zBuffer = 0
+						
+					},
+				UILabel = {	
+					text = "Boton Botonez ( En realidad es un UILabel)",
+					opacity = 1.0,
+					bgColor = Color.new(1.0, 0.0, 0.0,1),
+					align = "center",
+					fontSize = 16.0,
+					fontName = "fonts/horrendo.ttf",
+					textColor = Color.new(1.0,1.0, 0.0,1)
+				}
+			}
+  		}
+	}
 }

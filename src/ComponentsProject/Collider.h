@@ -1,6 +1,7 @@
 #pragma once
-#include  "../../src/Core-Defs/Component.h"
+#include  "Component.h"
 #include "CommonEnums.h"
+#include "Message.h"
 
 using ComponentID = unsigned int;
 class Engine;
@@ -18,7 +19,7 @@ namespace core {
  * --- Ejemplo de uso en lua ---
  * Collider = {
  *		type = BOX / CAPSULE
- *		shape = Vector3.new(400, 100, 400), / Vector3.new(50, 0, 0), --  Z no se usa, para esfera Y = 0   
+ *		shape = Vector3.new(400, 100, 400), / Vector3.new(50, 0, 0), --  Z no se usa, para esfera Y = 0
  *		dynamic = true,
  *		trigger = false,
  *      center = Vector3.new(0,0,0)
@@ -29,10 +30,10 @@ namespace core {
  *		# Ej1, asignacion:
  *			isDynamic = getProperty<bool>(p, "dynamic");
  *		# Ej2, setter:
- * 
+ *
  * --- Importante a la hora de crearlos ---
- *	El capsule colider va orientado en el eje Y siempre cuando se crea, 
- *  también le anade la rotacion que lleve el trasnform de la entidad a la que va unido
+ *	El capsule colider va orientado en el eje Y siempre cuando se crea,
+ *  tambien le anade la rotacion que lleve el trasnform de la entidad a la que va unido
  *  La el mesh mide 1,2,1 por lo que si quieres poner todo acorde el collider debe medir x,x*4,0
  * La mesh del sphere es 2,2,2 asi que recuerda que es enorme y debe ser x,0,0
 */
@@ -66,10 +67,6 @@ protected:
 	core::Quaternion<> rotation;
 
 	/**
-	 * @brief Referencia a engine
-	 */
-	Engine* _eng;
-	/**
 	 * @brief Id del collider o en caso de estar unido a rigidbody, id de ambos
 	 */
 	ComponentID physicsID = 0;
@@ -87,10 +84,15 @@ protected:
 	ShapeType shapeType;
 
 public:
+	// Callbacks
+	core::Message<core::Entity*> _onTriggerEnter;
+	core::Message<core::Entity*> _onTriggerExit;
+	core::Message<core::Entity*> _onCollisionEnter;
+	core::Message<core::Entity*> _onCollisionExit;
 	/**
 	 * @brief Constructora vacía
 	 */
-	Collider() = default;
+	Collider();
 	/**
 	 * @brief Destructora
 	 */
@@ -104,44 +106,73 @@ public:
 	/**
 	 * @brief Llamado cuando el objeto está listo
 	 */
-	virtual void ready() override;
+	void ready() override;
 	/**
 	 * @brief Actualización por frame
 	 * @param deltaTime Tiempo entre frames (normalmente en ms)
 	 */
-	virtual void update(uint64_t deltaTime) override;
-
+	void update(uint64_t deltaTime) override;
+	/**
+	* @brief Activa collider
+	*/
+	void enable() override;
+	/**
+	 * @brief Desactiva collider
+	 */
+	void disable() override;
 	/**
 	 * @brief Detección de solapamiento entre colliders donde al menos uno es trigger
-	 * @param ComponentId other, otro collider contra el que choca
+	 * @param core::Entity other, otro collider contra el que choca
 	 */
-	void onTriggerEnter(ComponentID other);
+	void onTriggerEnter(core::Entity* other);
 	/**
 	 * @brief Detección de salida de solapamiento entre colliders donde al menos uno es trigger
-	 * @param ComponentId other, otro collider contra el que había chocado
+	 * @param core::Entity other, otro collider contra el que había chocado
 	 */
-	void onTriggerExit(ComponentID other);
+	void onTriggerExit(core::Entity* other);
 	/**
 	 * @brief Detección de choque entre colliders donde ninguno es trigger
-	 * @param ComponentId other, otro collider contra el que choca
+	 * @param core::Entity other, otro collider contra el que choca
 	 */
-	void onCollisionEnter(ComponentID other);
+	void onCollisionEnter(core::Entity* other);
 	/**
 	 * @brief Detección de salida de choque entre colliders donde ninguno es trigger
 	 * @param ComponentId other, otro collider contra el que había chocado
 	 */
-	void onCollisionExit(ComponentID other);
-
+	void onCollisionExit(core::Entity* other);
 	/**
 	 * @brief Getter de la posición del collider respecto al transform de la entidad (posicion local)
 	 */
 	const core::Vector3<>& getCenter() const { return center; }
-
 	/**
 	 * @brief Obtiene el ID físico del objeto
 	 */
 	uint32_t getId() { return physicsID; };
+	/**
+	 * @brief Obtine el tamaño del collider
+	 */
+	core::Vector3<> getSize() {
+		switch (shapeType)
+		{
+		case ShapeType::BOX:
+			return size;
+			break;
+		case ShapeType::CAPSULE:
+			return core::Vector3<>(radius, height, radius);
+			break;
+		}
+	};
+	/**
+	 * @brief Devuelve la rotacion local del collider
+	 */
+	core::Quaternion<> getRotation() { return rotation; };
+	/**
+	 * @brief Devuelve si es trigger
+	 */
+	bool getIsTrigger() { return isTrigger; };
+
 
 	bool hasCollided = false;
 	bool hasTriggered = false;
+
 };

@@ -1,12 +1,58 @@
 #include "Animator.h"
-
+#include "PluginSDK.h"
 #include "Entity.h"
 #include "Engine.h"
 #include "checkMLNew.h"
 
+REGISTER_COMPONENT(Animator);
+
 Animator::Animator()
 {
+	registerMethod("registerSkeletonAnim", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 2) {
+			registerSkeletonAnim(std::any_cast<std::string>(args[0]), std::any_cast<bool>(args[1]));
+		}
+		});
 
+	registerMethod("createTransformAnimation", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 3) {
+			createTransformAnimation(std::any_cast<std::string>(args[0]), std::any_cast<bool>(args[1]), std::any_cast<float>(args[2]));
+		}
+		});
+
+	registerMethod("addTransformKeyFrame", [this](const std::vector<std::any>& args) {
+		if (args.size() == 5) {
+			addTransformKeyFrame(
+				std::any_cast<std::string>(args[0]),
+				std::any_cast<float>(args[1]),
+				std::any_cast<core::Vector3<float>>(args[2]),
+				std::any_cast<core::Quaternion<float>>(args[3]),
+				std::any_cast<core::Vector3<float>>(args[4])
+			);
+		}
+		else if (args.size() >= 6) {
+			addTransformKeyFrame(
+				std::any_cast<std::string>(args[0]),
+				std::any_cast<float>(args[1]),
+				std::any_cast<core::Vector3<float>>(args[2]),
+				std::any_cast<float>(args[3]),
+				std::any_cast<Axis>(args[4]),
+				std::any_cast<core::Vector3<float>>(args[5])
+			);
+		}
+		});
+
+	registerMethod("setAnimEnabled", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 2) {
+			setAnimEnabled(std::any_cast<std::string>(args[0]), std::any_cast<bool>(args[1]));
+		}
+		});
+
+	registerMethod("setAnimTimePos", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 2) {
+			setAnimTimePos(std::any_cast<std::string>(args[0]), std::any_cast<float>(args[1]));
+		}
+		});
 }
 
 Animator::~Animator()
@@ -92,7 +138,7 @@ void Animator::setAnimTimePos(const std::string& animationName, const float& tim
 	auto aux = _animations.find(animationName);
 	if (aux != _animations.end())
 	{
-		Engine::instance()->setAnimEnabled(aux->second.id, timePos);
+		Engine::instance()->setAnimTimePos(aux->second.id, timePos);
 	}
 }
 

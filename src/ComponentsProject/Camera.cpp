@@ -12,7 +12,58 @@
 
 REGISTER_COMPONENT(Camera);
 
-Camera::Camera() : _FOVy(45.0f), _nearClipDistance(0.1f), _farClipDistance(1000.0f), _focalLength(1.0f), _bgColor(0.0f, 0.0f, 0.0f, 1.0f) {}
+Camera::Camera() : _FOVy(45.0f), _nearClipDistance(0.1f), _farClipDistance(1000.0f), _focalLength(1.0f), _bgColor(0.0f, 0.0f, 0.0f, 1.0f)
+{
+	registerMethod("setFOVy", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			setFOVy(std::any_cast<float>(args[0]));
+		}
+		});
+
+	registerMethod("setNearClipDistance", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			setNearClipDistance(std::any_cast<float>(args[0]));
+		}
+		});
+
+	registerMethod("setFarClipDistance", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			setFarClipDistance(std::any_cast<float>(args[0]));
+		}
+		});
+
+	registerMethod("setFocalLength", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			setFocalLength(std::any_cast<float>(args[0]));
+		}
+		});
+
+	registerMethod("setBgColor", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			setBgColor(std::any_cast<core::Color>(args[0]));
+		}
+		});
+
+	registerMethod("getFOVy", [this](const std::vector<std::any>& args) {
+		return getFOVy();
+		});
+
+	registerMethod("getNearClipDistance", [this](const std::vector<std::any>& args) {
+		return getNearClipDistance();
+		});
+
+	registerMethod("getFarClipDistance", [this](const std::vector<std::any>& args) {
+		return getFarClipDistance();
+		});
+
+	registerMethod("getFocalLength", [this](const std::vector<std::any>& args) {
+		return getFocalLength();
+		});
+
+	registerMethod("getBgColor", [this](const std::vector<std::any>& args) {
+		return getBgColor();
+		});
+}
 
 Camera::~Camera()
 {
