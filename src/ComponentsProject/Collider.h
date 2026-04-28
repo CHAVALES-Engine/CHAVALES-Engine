@@ -67,10 +67,6 @@ protected:
 	core::Quaternion<> rotation;
 
 	/**
-	 * @brief Referencia a engine
-	 */
-	Engine* _eng;
-	/**
 	 * @brief Id del collider o en caso de estar unido a rigidbody, id de ambos
 	 */
 	ComponentID physicsID = 0;
