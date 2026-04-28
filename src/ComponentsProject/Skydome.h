@@ -4,6 +4,7 @@
  */
 #pragma once
 #include <Component.h>
+#include <EngineAPI.h>
 
 using particleGenID = uint64_t;
 
@@ -30,7 +31,7 @@ using particleGenID = uint64_t;
  * return setProperty(properties, "atributo1", component);
  *
 */
-class Skydome : public core::Component
+class ENGINE_API Skydome : public core::Component
 {
 	bool _enabledOnStart;
 	std::string _textureName;

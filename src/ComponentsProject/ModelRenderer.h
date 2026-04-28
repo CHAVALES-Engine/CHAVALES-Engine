@@ -5,6 +5,7 @@
 #pragma once
 
 #include <Component.h>
+#include <EngineAPI.h>
 
 #include <utility>
 
@@ -30,7 +31,7 @@ using modelID = uint64_t;
  * ...
  *
 */
-class ModelRenderer : public core::Component
+class ENGINE_API ModelRenderer : public core::Component
 {
 	modelID _modelID;
 	std::string _modelName;

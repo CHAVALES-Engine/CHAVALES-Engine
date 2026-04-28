@@ -5,6 +5,7 @@
 #pragma once
 #include <Component.h>
 #include <Vector3.h>
+#include <EngineAPI.h>
 
 using particleGenID = uint64_t;
 
@@ -32,7 +33,7 @@ using particleGenID = uint64_t;
  * return setProperty(properties, "atributo1", component);
  *
 */
-class ParticleGen : public core::Component
+class ENGINE_API ParticleGen : public core::Component
 {
 	particleGenID _particleGenID;
 

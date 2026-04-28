@@ -6,6 +6,7 @@
 #include <Component.h>
 #include <vector>
 #include <utility>
+#include <EngineAPI.h>
 
 #include <Vector3.h>
 #include <Quaternion.h>
@@ -54,7 +55,7 @@ struct Animation
 		: id(id), type(type), active(active) {};
 };
 
-class Animator : public core::Component
+class ENGINE_API Animator : public core::Component
 {
 	modelID _modelID;
 	//Cada animacion tiene su nombre y un interruptor que indica su actividad

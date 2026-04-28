@@ -5,6 +5,7 @@
 #pragma once
 #include <Component.h>
 #include <Color.h>
+#include <EngineAPI.h>
 
 using cameraID = uint64_t;
 
@@ -30,7 +31,7 @@ using cameraID = uint64_t;
  * return setProperty(properties, "atributo1", component);
  *
 */
-class Camera : public core::Component
+class ENGINE_API Camera : public core::Component
 {
 	cameraID _cameraID;
 

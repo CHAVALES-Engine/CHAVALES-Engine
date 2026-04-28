@@ -5,6 +5,7 @@
 #pragma once
 #include <Component.h>
 #include <CommonEnums.h>
+#include <EngineAPI.h>
 
 using labelID = uint64_t;
 /*
@@ -27,7 +28,7 @@ using labelID = uint64_t;
  * return setProperty(properties, "atributo1", component);
  *
 */
-class UILabel : public core::Component
+class ENGINE_API UILabel : public core::Component
 {
 private:
 	labelID _labelID;
