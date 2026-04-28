@@ -229,7 +229,7 @@ namespace core
 		* @brief Devuelve un entero aleatorio entre min y max, ambos incluidos. [min,max]
 		*
 		* @param min - límite inferior del Random.
-		* @param max - límite exterior del Random.
+		* @param max - límite superior del Random.
 		*/
 		static int Random(int min, int max) {
 			std::uniform_int_distribution<int> dist(min, max);
@@ -240,7 +240,7 @@ namespace core
 		* @brief Devuelve un float aleatorio entre min y max,exclusivos. [min,max)
 		*
 		* @param min - límite inferior del Random.
-		* @param max - límite exterior del Random.
+		* @param max - límite superior del Random.
 		*/
 		static float Random(float min, float max) {
 			std::uniform_real_distribution<float> dist(min, max);
@@ -251,7 +251,7 @@ namespace core
 		* @brief Devuelve un double aleatorio entre min y max,  exclusivos. [min,max)
 		*
 		* @param min - límite inferior del Random.
-		* @param max - límite exterior del Random.
+		* @param max - límite superior del Random.
 		*/
 		static double Random(double min, double max) {
 			std::uniform_real_distribution<double> dist(min, max);
@@ -259,7 +259,6 @@ namespace core
 		}
 		/*
 		* @brief Devuelve un double aleatorio entre 0.0 y 1.0,  exclusivos. [0.0,1.0)
-		*
 		*/
 		static double Random() {
 			std::uniform_real_distribution<double> dist;
