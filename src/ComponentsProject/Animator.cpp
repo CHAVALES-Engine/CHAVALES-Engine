@@ -2,6 +2,7 @@
 #include "PluginSDK.h"
 #include "Entity.h"
 #include "Engine.h"
+#include "ModelRenderer.h"
 #include "checkMLNew.h"
 
 REGISTER_COMPONENT(Animator);
@@ -62,7 +63,8 @@ Animator::~Animator()
 
 void Animator::ready()
 {
-	Engine::instance()->addAnimator(getEntity()->getEntityID(), _modelID);
+	auto model = getEntity()->getComponent<ModelRenderer>();
+	_modelID = model != nullptr ? model->getModelID() : -1;
 }
 
 void Animator::update(uint64_t deltaTime)

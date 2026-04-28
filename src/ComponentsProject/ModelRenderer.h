@@ -47,6 +47,7 @@ public:
 	void setDiffuse(const std::string& textureName, const int& submesh = 0);
 	void setTint(const core::Color& tint, const int& submesh = 0);
 	void setVisible(const bool& visible);
+	modelID getModelID();
 	void enable() override;
 	void disable() override;
 	void destroy() override;

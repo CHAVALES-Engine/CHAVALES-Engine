@@ -303,11 +303,6 @@ public:
 
 	// --- Metodos animaciones
 	/*
-	* @brief Anadir animator.
-	*/
-	void addAnimator(const entityID& entityID, modelID& modelID);
-
-	/*
 	* @brief Limpiar animaciones
 	*/
 	void cleanAnimations();

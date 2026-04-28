@@ -720,23 +720,6 @@ void RenderModule::setModelVisible(const modelID& id, const bool& visible)
 	}
 }
 
-void RenderModule::addAnimator(const entityID& entityID, modelID& modelID)
-{
-	transformID nodeID = addNode(entityID);
-	modelID = -1;
-	auto& node = _engineNodes[nodeID].sceneNode;
-	for (unsigned int i = 0; i < node->numAttachedObjects(); ++i)
-	{
-		Ogre::MovableObject* obj = node->getAttachedObject(i);
-		Ogre::Entity* ent = dynamic_cast<Ogre::Entity*>(obj);
-		if (ent)
-		{
-			modelID = _models.size() - 1;
-			return;
-		}
-	}
-}
-
 void RenderModule::cleanAnimations()
 {
 	for (Ogre::AnimationState* state : _animations)

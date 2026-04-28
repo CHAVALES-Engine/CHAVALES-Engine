@@ -215,10 +215,6 @@ public:
 	//Metodos animaciones
 #pragma region animation
 	/*
-	* @brief Anadir animator.
-	*/
-	void addAnimator(const entityID& entityID, modelID& modelID);
-	/*
 	* @brief Registrar animacion de esqueleto.
 	*/
 	animationID registerSkeletonAnim(const modelID& modelID, const std::string& animationName, const bool& loop);

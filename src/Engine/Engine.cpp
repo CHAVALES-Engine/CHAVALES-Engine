@@ -222,11 +222,6 @@ void Engine::setModelVisible(const modelID& id, const bool& visible)
 	_renderModule->setModelVisible(id, visible);
 }
 
-void Engine::addAnimator(const entityID& entityID, modelID& modelID)
-{
-	_renderModule->addAnimator(entityID, modelID);
-}
-
 animationID Engine::registerSkeletonAnim(const modelID& modelID, const std::string& animationName, const bool& loop)
 {
 	return _renderModule->registerSkeletonAnim(modelID, animationName, loop);

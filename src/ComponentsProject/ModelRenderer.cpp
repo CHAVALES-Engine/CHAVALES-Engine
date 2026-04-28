@@ -56,14 +56,14 @@ bool ModelRenderer::init(const Properties& p)
         if (setProperty(p, "texture" + std::to_string(i), texture))
             _textures.push_back(texture);
     }
+
+    //Carga el modelo en ogre y se guarda una referencia a el
+    _modelID = Engine::instance()->addModel(getEntity()->getEntityID(), _modelName);
 	return true;
 }
 
 void ModelRenderer::ready()
 {
-    //Carga el modelo en ogre y se guarda una referencia a el
-    _modelID = Engine::instance()->addModel(getEntity()->getEntityID(), _modelName);
-
     // Aplica texturas
     for (auto& texture : _textures)
     {
@@ -84,6 +84,11 @@ void ModelRenderer::setTint(const core::Color& tint, const int& submesh)
 void ModelRenderer::setVisible(const bool& visible)
 {
 	Engine::instance()->setModelVisible(_modelID, visible);
+}
+
+modelID ModelRenderer::getModelID()
+{
+    return _modelID;
 }
 
 void ModelRenderer::enable()
