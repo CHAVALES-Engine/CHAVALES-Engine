@@ -1,5 +1,5 @@
 #pragma once
-#include  "../../src/Core-Defs/Component.h"
+#include  "Component.h"
 #include "CommonEnums.h"
 #include "Message.h"
 

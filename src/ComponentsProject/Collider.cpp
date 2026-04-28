@@ -74,7 +74,7 @@ Collider::Collider()
 	registerMethod("subscribeOnCollisionEnter", [this](const std::vector<std::any>& args) {
 		if (args.size() >= 1) {
 			auto func = std::any_cast<std::function<void(core::Entity*)>>(args[0]);
-			_onCollisionEnter.subscribe(func);
+			_onCollisionEnter.subscribe(std::any_cast<std::function<void(core::Entity*)>>(args[0]));
 		}
 		});
 
