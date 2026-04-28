@@ -87,12 +87,12 @@ protected:
 	 */
 	ShapeType shapeType;
 
+public:
 	// Callbacks
 	core::Message<core::Entity*> _onTriggerEnter;
 	core::Message<core::Entity*> _onTriggerExit;
 	core::Message<core::Entity*> _onCollisionEnter;
 	core::Message<core::Entity*> _onCollisionExit;
-public:
 	/**
 	 * @brief Constructora vacía
 	 */
