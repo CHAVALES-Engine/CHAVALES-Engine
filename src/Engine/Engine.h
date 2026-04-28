@@ -538,8 +538,8 @@ public:
 #pragma region Physics
 	/**
 	 * emparenta un actor de physx con una entidad
-	 * @param physicsID 
-	 * @param entity 
+	 * @param physicsID
+	 * @param entity
 	 */
 	void registerActorEntity(ComponentID physicsID, core::Entity* entity);
 	/*
@@ -617,7 +617,27 @@ public:
 
 	std::vector<ShapeRenderData> GetPhysicsRenderData();
 
+	/*
+	* @brief Setea los gizmos para debuggear physx
+	*/
 	void setGizmos(bool gizmos);
+	/*
+	* @brief Elimina componente de physx usando su id
+	* @param physx id
+	*/
+	void deletePhysicsComponent(ComponentID id);
+	/*
+	* @brief Elimina materiales usando su id
+	* @param physx id
+	*/
+	void deletePhysicsMaterial(ComponentID id);
+	/*
+	* @brief Activa/desactiva collider
+	* @param physx id
+	*/
+	void setActorEnabled(ComponentID id, bool enabled, bool isTrigger);
+
+
 #pragma endregion
 
 #pragma region Resources

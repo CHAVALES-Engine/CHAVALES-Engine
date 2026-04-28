@@ -700,8 +700,15 @@ std::vector<ShapeRenderData> PhysicsModule::GetRenderData()
 		for (PxShape* shape : comp.shapes)
 		{
 			if (!shape) continue;
-			ShapeRenderData data;
 
+			PxShapeFlags flags = shape->getFlags();
+			//si ambos están descativados es que el collider esta disabled
+			if (!(flags & PxShapeFlag::eSIMULATION_SHAPE) && !(flags & PxShapeFlag::eTRIGGER_SHAPE))
+			{
+				continue;//no renderiza
+			}
+
+			ShapeRenderData data;
 			PxTransform pose = PxShapeExt::getGlobalPose(*shape, *actor);
 			data.position = { pose.p.x, pose.p.y, pose.p.z };
 			data.rotation = { pose.q.x, pose.q.y, pose.q.z, pose.q.w };
@@ -714,12 +721,7 @@ std::vector<ShapeRenderData> PhysicsModule::GetRenderData()
 			{
 				const PxBoxGeometry& box = static_cast<const PxBoxGeometry&>(geom);
 				data.type = ShapeType::BOX;
-
-				data.size = core::Vector3<>(
-					box.halfExtents.x * 2.0f,
-					box.halfExtents.y * 2.0f,
-					box.halfExtents.z * 2.0f
-				);
+				data.size = core::Vector3<>(box.halfExtents.x * 2.0f, box.halfExtents.y * 2.0f, box.halfExtents.z * 2.0f);
 				break;
 			}
 
@@ -799,3 +801,37 @@ void PhysicsModule::ReloadPhysics()
 	raycast = Raycast(gScene);
 
 }
+
+
+void PhysicsModule::SetActorEnabled(ComponentID id, bool enabled, bool isTrigger)
+{
+	auto it = physicsMap.find(id);
+	if (it == physicsMap.end()) return;
+
+	PhysXComponent& comp = it->second;
+
+	for (PxShape* shape : comp.shapes) {
+		if (!shape) continue;
+
+		if (enabled) {
+			if (isTrigger) {
+				shape->setFlag(PxShapeFlag::eSIMULATION_SHAPE, false);
+				shape->setFlag(PxShapeFlag::eTRIGGER_SHAPE, true);
+			}
+			else {
+				shape->setFlag(PxShapeFlag::eSIMULATION_SHAPE, true);
+				shape->setFlag(PxShapeFlag::eTRIGGER_SHAPE, false);
+			}
+			shape->setFlag(PxShapeFlag::eSCENE_QUERY_SHAPE, true);
+		}
+		else {
+			//desactivo todo
+			shape->setFlag(PxShapeFlag::eSIMULATION_SHAPE, false);
+			shape->setFlag(PxShapeFlag::eTRIGGER_SHAPE, false);
+			shape->setFlag(PxShapeFlag::eSCENE_QUERY_SHAPE, false);
+		}
+	}
+}
+
+
+
