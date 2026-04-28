@@ -7,6 +7,7 @@
 #include "InputFacade.h"
 #include "Scene.h"
 #include "TimeManager.h"
+#include "Collider.h"
 
 class ComponentTest : public core::Component
 {
@@ -79,6 +80,14 @@ class ComponentTest : public core::Component
 		_transform->call("LookAt", { core::Vector3<>(0, 150, 0) });
 
 		_esfera = getEntity()->getScene()->findEntityByName("esfera");
+		_esfera->getComponent<Collider>()->_onCollisionEnter.subscribe([this](core::Entity* other) {
+			Debug::out("NNNNNNNNNNNNNNNNNAAaa");
+
+			});
+		/*
+		call("subscribeOnCollisionEnter",
+			{
+		);*/
 
 	}
 

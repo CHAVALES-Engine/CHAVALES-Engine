@@ -254,21 +254,6 @@ namespace core
 		}
 
 		std::unordered_map<std::string, std::function<std::any(const std::vector<std::any>&)>> _methods;
-
-		template<typename T>
-		T safeAnyCast(const std::optional<std::any>& opt) {
-			if (opt.has_value()) {
-				try {
-					return std::any_cast<T>(opt.value());
-				}
-				catch (const std::bad_any_cast&) {
-					Debug::error("Bad any_cast");
-					return T();
-				}
-			}
-			return T();
-		}
-
 		std::string _name;
 		Entity* entity;
 		bool enabled;
