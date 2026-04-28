@@ -137,6 +137,7 @@ void Animator::setAnimEnabled(const std::string& animationName, const bool& acti
 	if (aux != _animations.end())
 	{
 		Engine::instance()->setAnimEnabled(aux->second.id, active);
+		aux->second.active = active;
 	}
 }
 
