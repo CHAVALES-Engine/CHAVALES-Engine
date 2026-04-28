@@ -63,8 +63,7 @@ Animator::~Animator()
 
 void Animator::ready()
 {
-	auto model = getEntity()->getComponent<ModelRenderer>();
-	_modelID = model != nullptr ? model->getModelID() : -1;
+	
 }
 
 void Animator::update(uint64_t deltaTime)
@@ -76,6 +75,12 @@ void Animator::update(uint64_t deltaTime)
 			Engine::instance()->updateAnimation(animation.second.id, deltaTime);
 		}
 	}
+}
+
+void Animator::registerAnimator()
+{
+	auto model = getEntity()->getComponent<ModelRenderer>();
+	_modelID = model != nullptr ? model->getModelID() : -1;
 }
 
 bool Animator::registerSkeletonAnim(const std::string& animationName, const bool& loop)
