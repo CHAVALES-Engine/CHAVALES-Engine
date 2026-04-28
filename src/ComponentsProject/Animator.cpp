@@ -48,7 +48,7 @@ Animator::Animator()
 		}
 		});
 
-	registerMethod("setAnimTimePose", [this](const std::vector<std::any>& args) {
+	registerMethod("setAnimTimePos", [this](const std::vector<std::any>& args) {
 		if (args.size() >= 2) {
 			setAnimTimePos(std::any_cast<std::string>(args[0]), std::any_cast<float>(args[1]));
 		}
@@ -138,7 +138,7 @@ void Animator::setAnimTimePos(const std::string& animationName, const float& tim
 	auto aux = _animations.find(animationName);
 	if (aux != _animations.end())
 	{
-		Engine::instance()->setAnimEnabled(aux->second.id, timePos);
+		Engine::instance()->setAnimTimePos(aux->second.id, timePos);
 	}
 }
 
