@@ -79,7 +79,7 @@ void Animator::update(uint64_t deltaTime)
 
 void Animator::registerAnimator()
 {
-	auto model = getEntity()->getComponent<ModelRenderer>();
+	ModelRenderer* model = getEntity()->getComponent<ModelRenderer>();
 	_modelID = model != nullptr ? model->getModelID() : -1;
 }
 

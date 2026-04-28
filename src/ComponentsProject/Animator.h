@@ -69,6 +69,10 @@ public:
 	void update(uint64_t deltaTime) override;
 
 	/*
+	* @brief Registrar animator. Llamar en ready.
+	*/
+	void registerAnimator();
+	/*
 	* @brief Establecer loop de animacion de esqueleto. Devuelve true si se ha encontrado la animacion.
 	*/
 	bool registerSkeletonAnim(const std::string& animationName, const bool& loop);
