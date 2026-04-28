@@ -10,7 +10,7 @@ Animator::Animator()
 {
 	registerMethod("registerSkeletonAnim", [this](const std::vector<std::any>& args) {
 		if (args.size() >= 2) {
-			registerSkeletonAnim(std::any_cast<std::string>(args[0]), std::any_cast<float>(args[1]));
+			registerSkeletonAnim(std::any_cast<std::string>(args[0]), std::any_cast<bool>(args[1]));
 		}
 		});
 
