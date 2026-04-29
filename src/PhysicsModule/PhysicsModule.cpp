@@ -847,7 +847,7 @@ std::vector<PhysicsEvent> PhysicsModule::consumeEventsFor(ComponentID id)
 
 	for (auto& e : eventQueue)
 	{
-		if (e.a == id || e.b == id)
+		if (e.a == id)// || e.b == id)
 			result.push_back(e);
 		else
 			remaining.push_back(e);

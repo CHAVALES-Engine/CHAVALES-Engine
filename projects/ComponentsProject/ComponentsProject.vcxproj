@@ -117,6 +117,7 @@
       </PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)src\Engine\;$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)src\Core-Utils\;$(SolutionDir)src\Core-Defs\</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -146,6 +147,7 @@
       </PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)src\Engine\;$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)src\Core-Utils\;$(SolutionDir)src\Core-Defs\</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>
