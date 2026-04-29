@@ -196,7 +196,7 @@ void Collider::update(uint64_t deltaTime)
 {
 	if (!entity || physicsID == 0 || !transform) return;
 
-	for (auto& event : Engine::instance()->getPhysicsEvents(physicsID)) {
+	for (auto& event : Engine::instance()->consumeEvents(physicsID)) {
 		switch (event.type) {
 		case CollisionType::TriggerEnter: onTriggerEnter(event.otherEntity); break;
 		case CollisionType::TriggerExit: onTriggerExit(event.otherEntity); break;
@@ -204,7 +204,7 @@ void Collider::update(uint64_t deltaTime)
 		case CollisionType::CollisionExit: onCollisionExit(event.otherEntity); break;
 		}
 	}
-	Engine::instance()->clearPhysicsEvents();
+	//Engine::instance()->clearPhysicsEvents();
 }
 
 void Collider::enable()

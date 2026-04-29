@@ -234,6 +234,8 @@ public:
 
 	void SetActorEnabled(ComponentID id, bool enabled, bool isTrigger);
 
+	std::vector<PhysicsEvent> consumeEventsFor(ComponentID id);
+
 private:
 	Raycast raycast;
 	ComponentID nextID = 1;

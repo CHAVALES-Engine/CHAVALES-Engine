@@ -80,7 +80,14 @@ class ComponentTest : public core::Component
 		_transform->call("LookAt", { core::Vector3<>(0, 150, 0) });
 
 		_esfera = getEntity()->getScene()->findEntityByName("esfera");
-		_esfera->getComponent<Collider>()->_onCollisionEnter.subscribe([this](core::Entity* other) {
+		_esfera->getComponent<Collider>()->_onCollisionEnter.subscribe([](core::Entity* other) {
+			Debug::out("NNNNNNNNNNNNNNNNNAAaa");
+
+			});
+
+			
+		cube = getEntity()->getScene()->findEntityByName("cube");
+		cube->getComponent<Collider>()->_onCollisionEnter.subscribe([](core::Entity* other) {
 			Debug::out("NNNNNNNNNNNNNNNNNAAaa");
 
 			});

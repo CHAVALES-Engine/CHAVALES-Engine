@@ -609,6 +609,11 @@ void Engine::setPhysicsTransform(ComponentID id, const core::Vector3<>& pos, con
 	_physicsModule->setPhysicsTransform(id, pos, rot);
 }
 
+std::vector<PhysicsEvent> Engine::consumeEvents(ComponentID id)
+{
+	return _physicsModule->consumeEventsFor(id);
+}
+
 ///
 uint32_t Engine::createRigidBody(core::Vector3<> pos, float mass, bool useGravity, bool isKinematic)
 {

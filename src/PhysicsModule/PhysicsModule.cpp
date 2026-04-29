@@ -612,15 +612,21 @@ void PhysicsModule::onContact(const PxContactPairHeader& pairHeader,
 	ComponentID a = itA->second;
 	ComponentID b = itB->second;
 	core::Entity* entityA = entA->second;
-	core::Entity* entityB = entA->second;
+	core::Entity* entityB = entB->second;
 
 	for (PxU32 i = 0; i < nbPairs; i++)
 	{
 		if (pairs[i].events & PxPairFlag::eNOTIFY_TOUCH_FOUND)
+		{
 			eventQueue.push_back({ a, b, CollisionType::CollisionEnter, entityB });
+			eventQueue.push_back({ b, a, CollisionType::CollisionEnter, entityA });
+		}
 
 		if (pairs[i].events & PxPairFlag::eNOTIFY_TOUCH_LOST)
+		{
 			eventQueue.push_back({ a, b, CollisionType::CollisionExit, entityB });
+			eventQueue.push_back({ b, a, CollisionType::CollisionExit, entityA });
+		}
 	}
 }
 
@@ -834,4 +840,19 @@ void PhysicsModule::SetActorEnabled(ComponentID id, bool enabled, bool isTrigger
 }
 
 
+std::vector<PhysicsEvent> PhysicsModule::consumeEventsFor(ComponentID id)
+{
+	std::vector<PhysicsEvent> result;
+	std::vector<PhysicsEvent> remaining;
 
+	for (auto& e : eventQueue)
+	{
+		if (e.a == id || e.b == id)
+			result.push_back(e);
+		else
+			remaining.push_back(e);
+	}
+
+	eventQueue = std::move(remaining);
+	return result;
+}

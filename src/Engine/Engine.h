@@ -583,6 +583,8 @@ public:
 	*/
 	void setPhysicsTransform(ComponentID id, const core::Vector3<>& pos, const core::Quaternion<>& rot);
 
+	std::vector<PhysicsEvent> consumeEvents(ComponentID id);
+
 	uint32_t createRigidBody(core::Vector3<> pos, float mass, bool useGravity, bool isKinematic);
 
 	core::Vector3<> getLinearVelocity(uint32_t id);
