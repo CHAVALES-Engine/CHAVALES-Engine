@@ -207,7 +207,6 @@ public:
 	//Transform* getChildByName(std::string);
 	//Transform* getChildByID(size_t);
 
-private:
 	/**
 	 * @brief Ajusta posicion al nuevo contexto.
 	 */
