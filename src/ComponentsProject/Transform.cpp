@@ -221,7 +221,7 @@ void Transform::ready()
 		if (!childEntity)
 			//Debug::warning("Transform: hijo no encontrado: ", childName);
 			continue;
-		if (Transform* childTransform = childEntity->getComponent<Transform>())
+		if (std::shared_ptr<Transform> childTransform = childEntity->getComponent<Transform>())
 			childTransform->setParent(this);
 	}
 }

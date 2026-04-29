@@ -71,7 +71,7 @@ public:
 
 
 	template <typename T>
-	T* getComponentInParents() const
+	std::shared_ptr<T> getComponentInParents() const
 	{
 		const UITransform* parent = getParent();
 		while (parent != nullptr)
@@ -79,7 +79,7 @@ public:
 			core::Entity* e = parent->getEntity();
 			if (e != nullptr)
 			{
-				auto* c = e->getComponent<T>();
+				std::shared_ptr<T> c = e->getComponent<T>();
 				if (c != nullptr)
 					return c;
 			}

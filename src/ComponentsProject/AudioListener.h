@@ -26,7 +26,7 @@ class Transform;
 class AudioListener : public core::Component
 {
 private:
-	Transform* _transform;
+	std::shared_ptr<Transform> _transform;
 	core::Vector3<> _lastPos;
 
 public:

@@ -40,7 +40,7 @@ private:
 	/*
 	* @brief Referencia al Tranform de la entidad para el audio 3D
 	*/
-	Transform* _tr;
+	std::shared_ptr<Transform> _tr;
 	/*
 	* @brief Vector que guarda la última posición regristrada para el cálculo de velocidad
 	*/

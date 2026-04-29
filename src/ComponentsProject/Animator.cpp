@@ -63,7 +63,7 @@ Animator::~Animator()
 
 void Animator::ready()
 {
-	
+
 }
 
 void Animator::update(uint64_t deltaTime)
@@ -79,7 +79,7 @@ void Animator::update(uint64_t deltaTime)
 
 void Animator::registerAnimator()
 {
-	ModelRenderer* model = getEntity()->getComponent<ModelRenderer>();
+	std::shared_ptr<ModelRenderer> model = getEntity()->getComponent<ModelRenderer>();
 	_modelID = model != nullptr ? model->getModelID() : -1;
 }
 

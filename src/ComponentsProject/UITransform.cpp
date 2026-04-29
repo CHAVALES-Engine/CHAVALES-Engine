@@ -94,7 +94,7 @@ bool UITransform::init(const Properties& p)
 		core::Entity* e = getEntity()->getScene()->findEntityByName(name);
 		if (!e) continue;
 
-		if (auto* t = e->getComponent<UITransform>())
+		if (std::shared_ptr<UITransform> t = e->getComponent<UITransform>())
 			t->setParent(this);
 	}
 	_UItransformID = Engine::instance()->addUITransform(getEntity()->getEntityID(),getPosition(), getZBuffer(),getDimension(), getRotation());

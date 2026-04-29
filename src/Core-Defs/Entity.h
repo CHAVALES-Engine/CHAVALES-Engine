@@ -167,7 +167,7 @@ namespace core
 		{
 			for (std::shared_ptr<Component>& c : components)
 			{
-				if (std::shared_ptr<T> ptr = std::dynamic_pointer_cast<T>(c.get()))
+				if (std::shared_ptr<T> ptr = std::dynamic_pointer_cast<T>(c))
 					return ptr;
 			}
 			return nullptr;
@@ -189,7 +189,7 @@ namespace core
 			std::vector<T*> cmp; 
 			for (std::shared_ptr<Component>& c : components)
 			{
-				if (T* ptr = dynamic_cast<T*>(c.get()))
+				if (T* ptr = dynamic_cast<T*>(c))
 					cmp.push_back(ptr);
 			}
 			if (cmp.empty())

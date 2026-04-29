@@ -73,11 +73,11 @@ protected:
 	/**
 	 * @brief Transform de la entidad
 	 */
-	Transform* transform;
+	std::shared_ptr<Transform> transform;
 	/**
 	 * @brief RigidBody al que está unido en caso de no ser null
 	 */
-	RigidBody* rigidBody = nullptr;
+	std::shared_ptr<RigidBody> rigidBody = nullptr;
 	/**
 	 * @brief Shape del collider
 	 */
