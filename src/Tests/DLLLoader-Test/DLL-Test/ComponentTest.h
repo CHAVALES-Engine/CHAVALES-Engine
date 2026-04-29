@@ -86,7 +86,7 @@ class ComponentTest : public core::Component
 			});
 
 			
-		cube = getEntity()->getScene()->findEntityByName("cube");
+		core::Entity* cube = getEntity()->getScene()->findEntityByName("cube");
 		cube->getComponent<Collider>()->_onCollisionEnter.subscribe([](core::Entity* other) {
 			Debug::out("NNNNNNNNNNNNNNNNNAAaa");
 
