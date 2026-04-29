@@ -81,14 +81,14 @@ class ComponentTest : public core::Component
 
 		_esfera = getEntity()->getScene()->findEntityByName("esfera");
 		_esfera->getComponent<Collider>()->_onCollisionEnter.subscribe([](core::Entity* other) {
-			Debug::out("NNNNNNNNNNNNNNNNNAAaa");
+			Debug::out("SPHERE");
 
 			});
 
 			
 		core::Entity* cube = getEntity()->getScene()->findEntityByName("cube");
 		cube->getComponent<Collider>()->_onCollisionEnter.subscribe([](core::Entity* other) {
-			Debug::out("NNNNNNNNNNNNNNNNNAAaa");
+			Debug::out("CUBE");
 
 			});
 		/*
