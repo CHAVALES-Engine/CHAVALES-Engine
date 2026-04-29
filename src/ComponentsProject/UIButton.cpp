@@ -77,7 +77,7 @@ bool UIButton::init(const Properties& p)
 	return true;
 }
 
-void UIButton::ready()
+void UIButton::awake()
 {
 	auto panel = getEntity()->getComponent<UITransform>()->getComponentInParents<UIPanel>();
 

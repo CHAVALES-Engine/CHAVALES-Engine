@@ -50,7 +50,7 @@ public:
 	~UIButton();
 
 	bool init(const Properties& p) override;
-	void ready() override;
+	void awake() override;
 	void setText(const std::string& text);
 	void setVisible(bool visible);
 	void setTexture(const std::string& texture);
