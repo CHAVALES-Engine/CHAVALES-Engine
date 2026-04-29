@@ -402,12 +402,12 @@ public:
 	/*
 	* @brief Anadir boton al panel.
 	*/
-	uiButtonID addUIButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const float& fontSize, const std::string& fontName, const core::Color& bgColor, const core::Color& txColor, const core::Color& hvColor, const core::Color& psColor);
+	uiButtonID addUIButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const float& fontSize, const std::string& fontName, const core::Color& bgColor, const core::Color& txColor, const core::Color& hvColor, const core::Color& psColor, const float& opacity);
 
 	/*
 	* @brief Anadir ImageBoton al panel.
 	*/
-	uiButtonID addUIImageButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const std::string& textureName);
+	uiButtonID addUIImageButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const std::string& textureName, const core::Color& bgColor, const core::Color& hvColor, const core::Color& psColor, const float& opacity);
 	/*
 	* @brief Establecer el texto del boton.
 	*/

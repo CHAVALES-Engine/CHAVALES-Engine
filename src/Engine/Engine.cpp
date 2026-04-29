@@ -417,16 +417,16 @@ void  Engine::setUILabelAlign(const uiLabelID& labelID, const TextAlign& align) 
 	_renderModule->setUILabelAlign(labelID, align);
 }
 
-uiButtonID  Engine::addUIButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const float& fontSize, const std::string& fontName, const core::Color& bgColor, const core::Color& txColor, const core::Color& hvColor, const core::Color& psColor) {
-	return _renderModule->addUIButton(panelID, entityID, text, fontSize, fontName);
+uiButtonID  Engine::addUIButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const float& fontSize, const std::string& fontName, const core::Color& bgColor, const core::Color& txColor, const core::Color& hvColor, const core::Color& psColor,const float& opacity) {
+	return _renderModule->addUIButton(panelID, entityID, text, fontSize, fontName, bgColor,txColor, hvColor, psColor,opacity);
 
 }
 
-uiButtonID Engine::addUIImageButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const std::string& textureName) {
+uiButtonID Engine::addUIImageButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const std::string& textureName, const core::Color& bgColor, const core::Color& hvColor, const core::Color& psColor, const float& opacity) {
 
 	auto texture = getAssetSourceFolder(textureName);
 
-	return _renderModule->addUIImageButton(panelID,entityID, text, texture.second, texture.first);
+	return _renderModule->addUIImageButton(panelID,entityID, text, texture.second, texture.first,bgColor, hvColor, psColor, opacity);
 }
 void Engine::setUIButtonText(const uiButtonID& buttonID, const std::string& text) {
 	_renderModule->setUIButtonText(buttonID, text);

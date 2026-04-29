@@ -71,7 +71,7 @@ bool UILabel::init(const Properties& p)
 	return true;
 }
 
-void UILabel::ready()
+void UILabel::awake()
 {
 	auto panel = getEntity()->getComponent<UITransform>()->getComponentInParents<UIPanel>();
 

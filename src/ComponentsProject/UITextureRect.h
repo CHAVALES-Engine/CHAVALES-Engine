@@ -40,7 +40,7 @@ public:
 	~UITextureRect();
 
 	bool init(const Properties& p) override;
-	void ready() override;
+	void awake() override;
 	void setTexture(const std::string& texture);
 	void setVisible(bool visible);
 	void setOpacity(float opacity);

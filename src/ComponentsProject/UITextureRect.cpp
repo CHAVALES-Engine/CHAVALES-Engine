@@ -43,7 +43,7 @@ bool UITextureRect::init(const Properties& p)
 	return true;
 }
 
-void UITextureRect::ready()
+void UITextureRect::awake()
 {
 	auto panel = getEntity()->getComponent<UITransform>()->getComponentInParents<UIPanel>();
 

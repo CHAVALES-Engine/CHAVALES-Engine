@@ -84,11 +84,11 @@ void UIButton::awake()
 	uiPanelID  panelID = panel->getPanelID();
 
 	if (_textureName.empty()) {
-		_buttonID = Engine::instance()->addUIButton(panelID, getEntity()->getEntityID(), _text, _fontSize,_fontName,_bgColor,_textColor,_hoverColor,_pressColor);
+		_buttonID = Engine::instance()->addUIButton(panelID, getEntity()->getEntityID(), _text, _fontSize,_fontName,_bgColor,_textColor,_hoverColor,_pressColor, _opacity);
 
 	}
 	else {
-		_buttonID = Engine::instance()->addUIImageButton(panelID, getEntity()->getEntityID(), _text, _textureName);
+		_buttonID = Engine::instance()->addUIImageButton(panelID, getEntity()->getEntityID(), _text, _textureName,_bgColor,_hoverColor,_pressColor, _opacity);
 	}
 }
 

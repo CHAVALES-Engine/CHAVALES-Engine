@@ -1230,7 +1230,7 @@ void RenderModule::setUILabelAlign(const uiLabelID& labelID, const TextAlign& al
 	_uiPanels[panelID].labels[labelIndex].align = align;
 }
 
-uiButtonID RenderModule::addUIImageButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const std::string& textureFolder, const std::string& textureFile)
+uiButtonID RenderModule::addUIImageButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const std::string& textureFolder, const std::string& textureFile, const core::Color& bgColor, const core::Color& hvColor, const core::Color& psColor, const float& opacity)
 {
 	addUITransform(entityID);
 
@@ -1240,6 +1240,10 @@ uiButtonID RenderModule::addUIImageButton(const uiPanelID& panelID, const entity
 	button.visible = true;
 	button.textureFolder = textureFolder;
 	button.textureFile = textureFile;
+	button.hvColor = hvColor;
+	button.psColor = psColor;
+	button.opacity = opacity;
+	button.bgColor = bgColor;
 
 	button.buttonImage = true;
 	if (!_rgm->resourceGroupExists(textureFolder))
@@ -1260,7 +1264,7 @@ uiButtonID RenderModule::addUIImageButton(const uiPanelID& panelID, const entity
 	return id;
 }
 
-uiButtonID RenderModule::addUIButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const float& fontSize, const std::string& fontName) 
+uiButtonID RenderModule::addUIButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const float& fontSize, const std::string& fontName, const core::Color& bgColor, const core::Color& txColor, const core::Color& hvColor, const core::Color& psColor,  const float& opacity)
 {
 	addUITransform(entityID);
 
@@ -1269,6 +1273,12 @@ uiButtonID RenderModule::addUIButton(const uiPanelID& panelID, const entityID& e
 	button.text = text;
 	button.visible = true;
 	button.buttonImage = false;
+	button.textColor = txColor;
+	button.hvColor = hvColor;
+	button.bgColor = bgColor;
+	button.psColor = psColor;
+	button.opacity = opacity;
+	
 	std::string auxFontName = fontName + "_" + std::to_string((int)fontSize);
 	auto it = _fonts.find(auxFontName);
 
@@ -1491,11 +1501,15 @@ void RenderModule::renderUI()
 			ImGui::SetCursorPos(ImVec2(pos.getX(), pos.getY()));
 			ImGui::PushStyleVar(ImGuiStyleVar_Alpha, button.opacity);
 			const ImVec2 aux = { _uiTransforms[tID].dimension.getX(), _uiTransforms[tID].dimension.getY() };
-
+			ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(button.textColor.getRed() * 255, button.textColor.getGreen() * 255, button.textColor.getBlue() * 255, button.textColor.getAlpha() * button.opacity * 255));
+			ImGui::PushStyleColor(ImGuiCol_Button, IM_COL32(button.bgColor.getRed() * 255, button.bgColor.getGreen() * 255, button.bgColor.getBlue() * 255, button.bgColor.getAlpha() * button.opacity * 255));
+			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, IM_COL32(button.hvColor.getRed() * 255, button.hvColor.getGreen() * 255, button.hvColor.getBlue() * 255, button.hvColor.getAlpha() * button.opacity * 255));
+			float irew = button.psColor.getAlpha() * button.opacity * 255;
+			ImGui::PushStyleColor(ImGuiCol_ButtonActive, IM_COL32(button.psColor.getRed() * 255, button.psColor.getGreen() * 255, button.psColor.getBlue() * 255, button.psColor.getAlpha() * button.opacity * 255));
 			if (button.buttonImage) 
 			{
 				std::string idButton = button.textureFile + "_" + button.entity.toString();
-
+				ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
 				if (ImGui::ImageButton(idButton.c_str(), (ImTextureID)(uintptr_t)button.textureID, aux)) 
 				{
 					Debug::out("[RENDERMODULE] Button clicked");
@@ -1505,14 +1519,12 @@ void RenderModule::renderUI()
 						button.onClick();
 					}
 				}
+				ImGui::PopStyleVar();
 			}
 			else 
 			{
 				ImGui::PushFont(button.font);
-				ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(button.textColor.getRed() * 255, button.textColor.getGreen() * 255, button.textColor.getBlue() * 255, button.textColor.getAlpha() * button.opacity * 255));
-				ImGui::PushStyleColor(ImGuiCol_Button, IM_COL32(button.bgColor.getRed() * 255, button.bgColor.getGreen() * 255, button.bgColor.getBlue() * 255, button.bgColor.getAlpha() * button.opacity * 255));
-				ImGui::PushStyleColor(ImGuiCol_ButtonHovered, IM_COL32(button.hvColor.getRed() * 255, button.hvColor.getGreen() * 255, button.hvColor.getBlue() * 255, button.hvColor.getAlpha() * button.opacity * 255));
-				ImGui::PushStyleColor(ImGuiCol_ButtonActive, IM_COL32(button.psColor.getRed() * 255, button.psColor.getGreen() * 255, button.psColor.getBlue() * 255, button.psColor.getAlpha() * button.opacity * 255));
+				
 
 				if (ImGui::Button(button.text.c_str(), aux)) 
 				{
@@ -1523,9 +1535,9 @@ void RenderModule::renderUI()
 						button.onClick();
 					}
 				}
-				ImGui::PopStyleColor(4);
 				ImGui::PopFont();
 			}
+			ImGui::PopStyleColor(4);
 
 			ImGui::PopStyleVar();
 		}
