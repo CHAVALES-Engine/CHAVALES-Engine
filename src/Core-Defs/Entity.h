@@ -163,11 +163,11 @@ namespace core
 		* O(n)
 		*/
 		template <typename T>
-		T* getComponent()
+		std::shared_ptr<T> getComponent()
 		{
 			for (std::shared_ptr<Component>& c : components)
 			{
-				if (T* ptr = dynamic_cast<T*>(c.get()))
+				if (std::shared_ptr<T> ptr = std::dynamic_pointer_cast<T>(c.get()))
 					return ptr;
 			}
 			return nullptr;
