@@ -80,16 +80,35 @@ class ComponentTest : public core::Component
 		_transform->call("LookAt", { core::Vector3<>(0, 150, 0) });
 
 		_esfera = getEntity()->getScene()->findEntityByName("esfera");
-		_esfera->getComponent<Collider>()->_onCollisionEnter.subscribe([](core::Entity* other) {
-			Debug::out("SPHERE");
+		if (!_esfera) {
+			Debug::error("[ComponentTest] No encontrada la esfera");
+			return;
+		}
 
+		auto col_esfera = _esfera->getComponent<Collider>();
+		if (!col_esfera) {
+			Debug::error("[ComponentTest] La esfera no tiene Collider");
+			return;
+		}
+
+		col_esfera->_onCollisionEnter.subscribe([](core::Entity* other) {
+			Debug::out("SPHERE");
 			});
 
-			
 		core::Entity* cube = getEntity()->getScene()->findEntityByName("cube");
-		cube->getComponent<Collider>()->_onCollisionEnter.subscribe([](core::Entity* other) {
-			Debug::out("CUBE");
+		if (!cube) {
+			Debug::error("[ComponentTest] No encontrado el cube");
+			return;
+		}
 
+		auto col_cube = cube->getComponent<Collider>();
+		if (!col_cube) {
+			Debug::error("[ComponentTest] El cube no tiene Collider");
+			return;
+		}
+
+		col_cube->_onCollisionEnter.subscribe([](core::Entity* other) {
+			Debug::out("CUBE");
 			});
 		/*
 		call("subscribeOnCollisionEnter",
