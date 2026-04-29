@@ -1,5 +1,6 @@
 #include "PhysicsModule.h"
-//#include <PxPhysicsAPI.h>
+#include "PxPhysicsAPI.h"
+#include "PxSimulationEventCallback.h"
 #include "checkMLNew.h"
 #include "Debug.h"
 using namespace physx;
@@ -120,12 +121,13 @@ bool PhysicsModule::Init()
 	return gPhysics != nullptr;
 }
 
-bool PhysicsModule::rayCast(const PxVec3& origin,
+core::Vector3<> PhysicsModule::rayCast(const PxVec3& origin,
 	const PxVec3& direction,
 	float maxDistance)
 {
 	PxRaycastBuffer hitInfo;
-	return raycast.Cast(origin, direction, maxDistance, hitInfo);
+	raycast.Cast(origin, direction, maxDistance, hitInfo);
+	return { hitInfo.block.position.x, hitInfo.block.position.y, hitInfo.block.position.z };
 }
 
 ComponentID PhysicsModule::CreateRigidBody(core::Vector3<> pos, float mass, bool useGravity, bool isKinematic)

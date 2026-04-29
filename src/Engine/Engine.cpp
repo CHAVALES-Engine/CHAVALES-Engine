@@ -687,9 +687,9 @@ void Engine::destroyMaterial(uint32_t id)
 	_physicsModule->DestroyMaterial(id);
 }
 
-bool Engine::rayCast(const core::Vector3<>& origin,
+core::Vector3<> Engine::rayCast(const core::Vector3<>& origin,
 	const core::Vector3<>& direction,
-	float maxDistance)
+	float maxDistance) const
 {
 	return _physicsModule->rayCast({ origin.getX(), origin.getY(), origin.getZ() },
 		{ direction.getX(), direction.getY(), direction.getZ() },

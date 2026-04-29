@@ -1,11 +1,9 @@
 #pragma once
 // TODO: This is an example of a library function
-#include "../../dependencies/PhysX/physx/include/PxPhysicsAPI.h"
-#include "../../src/Core-Defs/Vector3.h"
-#include "../../src/Core-Defs/Quaternion.h"
-#include "../../src/Core-Defs/PhysicsTypes.h"
+#include "Vector3.h"
+#include "Quaternion.h"
+#include "PhysicsTypes.h"
 #include <unordered_map>
-#include "../../dependencies/PhysX/physx/include/PxSimulationEventCallback.h"
 #include "Raycast.h"
 
 struct PhysXComponent;
@@ -49,7 +47,7 @@ public:
 	* @brief Lanza un raycast en la escena
 	* @param origen, direccion y distancia máxima
 	*/
-	bool rayCast(const PxVec3& origin, const PxVec3& direction, float maxDistance);
+	core::Vector3<> rayCast(const PxVec3& origin, const PxVec3& direction, float maxDistance);
 
 	//COLLIDERS
 	/*

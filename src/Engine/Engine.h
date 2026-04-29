@@ -609,10 +609,9 @@ public:
 
 	void destroyMaterial(uint32_t id);
 
-	bool rayCast(const core::Vector3<>& origin,
+	core::Vector3<> rayCast(const core::Vector3<>& origin,
 		const core::Vector3<>& direction,
-		float maxDistance);
-
+		float maxDistance) const;
 	std::vector<ShapeRenderData> GetPhysicsRenderData();
 
 	/*
