@@ -98,6 +98,14 @@ namespace core
 	//	}
 	//}
 
+	void Entity::awake()
+	{
+		for (std::shared_ptr<Component>& c : components)
+		{
+			c->awake();
+		}
+	}
+
 	void Entity::ready()
 	{
 		for (std::shared_ptr<Component>& c : components)

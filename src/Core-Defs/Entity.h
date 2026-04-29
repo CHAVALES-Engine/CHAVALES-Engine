@@ -56,6 +56,10 @@ namespace core
 		*/
 		//void init(const Properties& p);
 		/**
+		* @brief Ejecuta la fase de despertar de la entidad y sus componentes
+		*/
+		void awake();
+		/**
 		* @brief Ejecuta la fase de arranque de la entidad y sus componentes
 		*/
 		void ready();

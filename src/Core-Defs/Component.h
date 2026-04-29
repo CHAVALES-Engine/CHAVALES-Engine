@@ -86,7 +86,12 @@ namespace core
 		virtual bool init(const Properties& p) { return true; }
 
 		/**
-		* @brief Comportamiento cuando la escena comienza y ya se han inicializado el resto de entidades
+		* @brief Comportamiento cuando todos los componentes de una entidad se han inicializado pero el resto de entidades no tienen por que estar inicializadas
+		*/
+		virtual void awake() {}
+
+		/**
+		* @brief Comportamiento cuando la escena comienza y ya se han inicializado y despertado el resto de entidades
 		*/
 		virtual void ready() {} // analogo al start en unity
 

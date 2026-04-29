@@ -43,6 +43,12 @@ namespace core
 		//virtual void init();
 
 		/**
+		 * @brief Parte del ciclo de escena. Se llama cuando todas las entidades y componentes ya se han inicializado.
+		 *
+		 */
+		virtual void awake();
+
+		/**
 		 * @brief Parte del ciclo de escena. Se llama despues de la inicializacion.
 		 *
 		 */

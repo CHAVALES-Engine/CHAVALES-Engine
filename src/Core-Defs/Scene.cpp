@@ -41,6 +41,22 @@ namespace core {
 	//	}
 	//}
 
+	void core::Scene::awake()
+	{
+		if (_entities.empty()) return;
+
+		std::vector<entityID> guids;
+		for (const auto& [guid, _] : _entities)
+			guids.push_back(guid);
+
+		for (const auto& guid : guids)
+		{
+			auto it = _entities.find(guid);
+			if (it != _entities.end() && it->second)
+				it->second->awake();
+		}
+	}
+
 	void core::Scene::ready()
 	{
 		if (_entities.empty()) return;
