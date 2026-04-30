@@ -1423,7 +1423,7 @@ void RenderModule::renderUI()
 		int tID = getTransformUI(panel.entity);
 		ImGui::SetNextWindowPos(ImVec2(0, 0));
 		ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
-		ImGui::Begin(panel.title.c_str(), nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoMove);
+		ImGui::Begin(panel.title.c_str(), nullptr, ImGuiWindowFlags_NoTitleBar |ImGuiWindowFlags_NoScrollWithMouse|ImGuiWindowFlags_NoScrollbar| ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoMove);
 
 		ImDrawList* drawList = ImGui::GetWindowDrawList();
 		ImDrawListSplitter splitter;
