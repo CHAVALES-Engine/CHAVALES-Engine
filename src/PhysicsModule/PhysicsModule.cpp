@@ -121,13 +121,16 @@ bool PhysicsModule::Init()
 	return gPhysics != nullptr;
 }
 
-core::Vector3<> PhysicsModule::rayCast(const PxVec3& origin,
-	const PxVec3& direction,
-	float maxDistance)
+bool PhysicsModule::rayCast(const PxVec3& origin,
+	const PxVec3& direction, 
+	float maxDistance, 
+	core::Vector3<>& hitPos)
 {
 	PxRaycastBuffer hitInfo;
 	raycast.Cast(origin, direction, maxDistance, hitInfo);
-	return { hitInfo.block.position.x, hitInfo.block.position.y, hitInfo.block.position.z };
+	if (!hitInfo.hasBlock) return false;
+	hitPos = { hitInfo.block.position.x, hitInfo.block.position.y, hitInfo.block.position.z };
+	return true;
 }
 
 ComponentID PhysicsModule::CreateRigidBody(core::Vector3<> pos, float mass, bool useGravity, bool isKinematic)

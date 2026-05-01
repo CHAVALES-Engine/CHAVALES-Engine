@@ -1652,8 +1652,8 @@ void RenderModule::shutdown()
 	_sceneMgr = nullptr;
 
 	delete _gl3Plugin; _gl3Plugin = nullptr;
-	delete _assimpPlugin; _gl3Plugin = nullptr;
-	delete _particlePlugin; _gl3Plugin = nullptr;
+	delete _assimpPlugin; _assimpPlugin = nullptr;
+	delete _particlePlugin; _particlePlugin = nullptr;
 }
 
 void RenderModule::RenderPhysics(const std::vector<ShapeRenderData>& shapes)

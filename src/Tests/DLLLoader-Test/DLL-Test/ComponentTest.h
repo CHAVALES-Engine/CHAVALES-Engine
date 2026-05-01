@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include <Component.h>
 #include <PluginSDK.h>
+
+#include "Camera.h"
 #include "Debug.h"
 #include "Engine.h"
 #include "Entity.h"
@@ -8,6 +10,7 @@
 #include "Scene.h"
 #include "TimeManager.h"
 #include "Collider.h"
+#include "Transform.h"
 
 class ComponentTest : public core::Component
 {
@@ -127,7 +130,40 @@ class ComponentTest : public core::Component
 
 			if (Engine::input()->isJustPressed(input::KEY_K)) {
 				//entity->getScene()->findEntityByName("cube2")->destroy();
-				core::Entity* e = Engine::instance()->instantiatePrefab("prefabs/cube");
+				if (std::shared_ptr<Camera> camera = getEntity()->getScene()->
+					findEntityByName("camera")->getComponent<Camera>())
+				{
+					float mouseX = Engine::input()->getAxis(input::MOUSE_AXIS_X);
+					float mouseY = Engine::input()->getAxis(input::MOUSE_AXIS_Y);
+					/*float mouseX = 0;
+					float mouseY =0;*/
+					core::Vector2 mousePos(mouseX, mouseY);
+					core::Vector3<> rayDir; 
+					
+					core::Vector3<> rayOrigin = camera->screenToWorld(mousePos,
+						Engine::instance()->getWindowWidth(), 
+						Engine::instance()->getWindowHeight(), 
+						rayDir);
+
+					Debug::out("Mouse: " + std::to_string(mouseX) + ", " + std::to_string(mouseY));
+					Debug::out("Window: " + std::to_string(Engine::instance()->getWindowWidth()) + ", " + std::to_string(Engine::instance()->getWindowHeight()));
+					Debug::out("RayOrigin: " + std::to_string(rayOrigin.getX()) + ", " + std::to_string(rayOrigin.getY()) + ", " + std::to_string(rayOrigin.getZ()));
+					Debug::out("RayDir: " + std::to_string(rayDir.getX()) + ", " + std::to_string(rayDir.getY()) + ", " + std::to_string(rayDir.getZ()));
+					Debug::out("FOVy: " + std::to_string(camera->getFOVy()));
+					Debug::out("Near: " + std::to_string(camera->getNearClipDistance()));
+
+					core::Vector3<> hitPos;
+					if (Engine::instance()->rayCast(rayOrigin, rayDir, 10000.0f, hitPos))
+					{
+						Debug::out("HitPos: " + std::to_string(hitPos.getX()) + ", " + std::to_string(hitPos.getY()) + ", " + std::to_string(hitPos.getZ()));
+						core::Entity* e = Engine::instance()->instantiatePrefab("prefabs/testPoint");
+						e->getComponent<Transform>()->setGlobalPosition(hitPos);
+					}
+					else
+					{
+						Debug::out("NO HIT");
+					}
+				}
 			}
 			if (Engine::input()->isJustPressed(input::KEY_O)) {
 				auto sphere = Engine::instance()->getScene()->findEntityByName("esfera");
