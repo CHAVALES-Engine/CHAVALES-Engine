@@ -480,7 +480,6 @@ void RenderModule::deleteCamera(const cameraID& id)
 		Ogre::SceneNode* parent = cam->getParentSceneNode();
 		if (parent) parent->detachObject(cam);
 		_sceneMgr->destroyCamera(cam);
-		_cameras.erase(_cameras.begin() + id);
 		_nextCameraID = _cameras.size();
 
 		if (_vp != nullptr && _vp->getCamera() == nullptr && !_cameras.empty())
@@ -611,7 +610,6 @@ void RenderModule::deleteModel(const modelID& id)
 		Ogre::SceneNode* parent = model->getParentSceneNode();
 		parent->detachObject(model);
 		_sceneMgr->destroyEntity(model);
-		_models.erase(_models.begin() + id);
 	}
 }
 
@@ -872,7 +870,6 @@ void  RenderModule::deleteLight(const lightID& id)
 		Ogre::SceneNode* parent = light->getParentSceneNode();
 		if (parent) parent->detachObject(light);
 		_sceneMgr->destroyLight(light);
-		_lights.erase(_lights.begin() + id);
 	}
 }
 
