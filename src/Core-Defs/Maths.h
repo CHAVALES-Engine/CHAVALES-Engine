@@ -24,6 +24,10 @@ namespace core
 	*	Constante de conversion de radianes a grados. Uso: [ deg = rad * rad2deg ].
 	*/
 #define M_RAD2DEG 360 / (M_PI * 2);
+	/** @brief
+	*	Constante de conversion de grados a radianes. Uso: [ rad = deg * deg2rad ].
+	*/
+#define M_DEG2RAD (M_PI * 2) / 360;
 
 	/**
 	 * @brief Funciones matematicas.
