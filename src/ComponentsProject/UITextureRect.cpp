@@ -33,6 +33,7 @@ UITextureRect::UITextureRect()
 
 UITextureRect::~UITextureRect()
 {
+	Engine::instance()->deleteUITextureRect(_textureRectID);
 }
 
 bool UITextureRect::init(const Properties& p)

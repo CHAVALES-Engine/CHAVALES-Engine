@@ -393,9 +393,17 @@ void Engine::setUIPanelVisible(const uiPanelID& id, bool visible)
 {
 	_renderModule->setUIPanelVisible(id, visible);
 }
+void Engine::deleteUIPanel(const uiPanelID& id)
+{
+	_renderModule->deleteUIPanel(id);
+}
 uiLabelID  Engine::addUILabel(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const  float opacity,  const core::Color textColor, const core::Color bgColor, const float fontSize, const TextAlign textAlign, const std::string fontName) {
 	
 	return _renderModule->addUILabel(panelID, entityID, text, opacity, textColor, bgColor, fontSize, textAlign, fontName);
+}
+void Engine::deleteUILabel(const uiLabelID& id)
+{
+	_renderModule->deleteUILabel(id);
 }
 void  Engine::setUILabelText(const uiLabelID& uiLabelID, const std::string& text) {
 	_renderModule->setUILabelText(uiLabelID, text);
@@ -419,6 +427,12 @@ void  Engine::setUILabelAlign(const uiLabelID& labelID, const TextAlign& align) 
 
 uiButtonID  Engine::addUIButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const float& fontSize, const std::string& fontName, const core::Color& bgColor, const core::Color& txColor, const core::Color& hvColor, const core::Color& psColor,const float& opacity) {
 	return _renderModule->addUIButton(panelID, entityID, text, fontSize, fontName, bgColor,txColor, hvColor, psColor,opacity);
+
+}
+
+void Engine::deleteUIButton(const uiButtonID& id)
+{
+	_renderModule->deleteUIButton(id);
 
 }
 
@@ -462,6 +476,10 @@ void Engine::setUIButtonCallback(const uiButtonID& id, std::function<void()> cal
 uiTextureRectID Engine::addUITextureRect(const uiPanelID& panelID, const entityID& entityID, const std::string& textureName) {
 	auto texture = getAssetSourceFolder(textureName);
 	return _renderModule->addUITextureRect(panelID, entityID, texture.second, texture.first);
+}
+void Engine::deleteUITextureRect(const uiTextureRectID& id)
+{
+	_renderModule->deleteUITextureRect(id);
 }
 void Engine::setUITextureRectTexture(const uiTextureRectID& textureRectID, const std::string& texture) {
 	_renderModule->setUITextureRectTexture(textureRectID, texture);

@@ -20,6 +20,7 @@ UIPanel::UIPanel() : _title("Panel")
 
 UIPanel::~UIPanel()
 {
+    Engine::instance()->deleteUIPanel(_panelID);
 }
 
 

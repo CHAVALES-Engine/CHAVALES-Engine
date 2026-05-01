@@ -71,6 +71,7 @@ struct UILabelData
 	float fontSize = 16.0f;
 	TextAlign align = TextAlign::LEFT;
 	ImFont* font;
+	bool alive = true;
 };
 
 struct UIButtonData 
@@ -90,7 +91,7 @@ struct UIButtonData
 	core::Color bgColor = core::Color(0, 0, 0, 1);
 	core::Color hvColor = core::Color(0, 0, 0, 1);
 	core::Color psColor = core::Color(0, 0, 0, 1);
-
+	bool alive = true;
 };
 
 struct UITextureRectData 
@@ -102,6 +103,7 @@ struct UITextureRectData
 	float opacity = 1.0f;
 
 	ImTextureID textureID;
+	bool alive = true;
 };
 
 struct UIPanelData 
@@ -113,6 +115,7 @@ struct UIPanelData
 	std::vector<UILabelData> labels;
 	std::vector<UIButtonData> buttons;
 	std::vector<UITextureRectData> textureRects;
+	bool alive = true;
 };
 
 struct UITransform
@@ -494,12 +497,18 @@ public:
 	* @brief Establecer si el panel es visible
 	*/
 	void setUIPanelVisible(const uiPanelID& id, bool visible);
-
+	/*
+	* @brief borrar panel de UI.
+	*/
+	void deleteUIPanel(const uiPanelID& id);
 	/*
 	 * @brief Añadir un letrero al panel
 	 */
 	uiLabelID addUILabel(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const  float opacity, const core::Color textColor, const core::Color bgColor, const float fontSize, const TextAlign textAlign, const std::string fontName);
-
+	/*
+	* @brief borrar label de UI.
+	*/
+	void deleteUILabel(const uiLabelID& id);
 	/*
 	* @brief Establecer si el letrero es visible
 	*/
@@ -534,7 +543,10 @@ public:
 	 * @brief Añadir un boton al panel
 	 */
 	uiButtonID addUIButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const float& fontSize, const std::string& fontName, const core::Color& bgColor, const core::Color& txColor, const core::Color& hvColor, const core::Color& psColor, const float& opacity);
-
+	/*
+	* @brief borrar boton de UI.
+	*/
+	void deleteUIButton(const uiButtonID& id);
 	/*
 	 * @brief Añadir un ImageBoton al panel
 	 */
@@ -589,7 +601,10 @@ public:
 	 * @brief Anadir textureRect al panel.
 	 */
 	uiTextureRectID addUITextureRect(const uiPanelID& panelID, const entityID& entityID, const std::string& textureFolder, const std::string& textureFile);
-
+	/*
+	* @brief borrar textureRect de UI.
+	*/
+	void deleteUITextureRect(const uiTextureRectID& id);
 	/*
 	* @brief Establecer la textura del textureRect
 	*/

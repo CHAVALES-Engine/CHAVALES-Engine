@@ -1158,6 +1158,23 @@ void RenderModule::setUIPanelVisible(const uiPanelID& id, bool visible)
 {
 	_uiPanels[id].visible = visible;
 }
+void  RenderModule::deleteUIPanel(const uiPanelID& id) {
+	auto& panel = _uiPanels[id];
+	panel.alive = false;
+	panel.visible = false;
+
+	for (auto& button : panel.buttons) {
+		button.alive = false;
+		button.onClick = nullptr;
+	}
+	for (auto& label : panel.labels) {
+		label.alive = false;
+	}
+	for (auto& texRect : panel.textureRects) {
+		texRect.alive = false;
+	}
+}
+
 
 uiLabelID RenderModule::addUILabel(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const  float opacity, const core::Color textColor, const core::Color bgColor, const float fontSize, const TextAlign textAlign, const std::string fontName) 
 {
@@ -1189,6 +1206,11 @@ uiLabelID RenderModule::addUILabel(const uiPanelID& panelID, const entityID& ent
 	int  labelIndex = _uiPanels[panelID].labels.size() - 1;
 	_labelToPanel[id] = { panelID, labelIndex };
 	return id;
+}
+void RenderModule::deleteUILabel(const uiLabelID& id) {
+	auto [panelID, labelIndex] = _labelToPanel[id];
+	auto& label = _uiPanels[panelID].buttons[labelIndex];
+	label.alive = false;
 }
 
 void RenderModule::setUILabelVisible(const uiLabelID& labelID, bool visible) 
@@ -1294,6 +1316,12 @@ uiButtonID RenderModule::addUIButton(const uiPanelID& panelID, const entityID& e
 	_buttonToPanel[id] = { panelID, buttonIndex };
 	return id;
 }
+void RenderModule::deleteUIButton(const uiButtonID& id) {
+	auto [panelID, buttonIndex] = _buttonToPanel[id];
+	auto& button = _uiPanels[panelID].buttons[buttonIndex];
+	button.alive = false;
+	button.onClick = nullptr;
+}
 
 void RenderModule::setUIButtonVisible(const uiButtonID& buttonID, bool& visible)
 {
@@ -1376,6 +1404,11 @@ uiTextureRectID RenderModule::addUITextureRect(const uiPanelID& panelID, const e
 
 	return id;
 }
+void RenderModule::deleteUITextureRect(const uiTextureRectID& id) {
+	auto [panelID, textureRectIndex] = _textureToPanel[id];
+	auto& textureRect = _uiPanels[panelID].buttons[textureRectIndex];
+	textureRect.alive = false;
+}
 
 void  RenderModule::setUITextureRectTexture(const uiTextureRectID& textureRectID, const std::string& texture) 
 {
@@ -1415,7 +1448,7 @@ void RenderModule::renderUI()
 
 	for (UIPanelData& panel : _uiPanels) 
 	{
-		if (!panel.visible) continue;
+		if (!panel.visible || !panel.alive) continue;
 
 		int tID = getTransformUI(panel.entity);
 		ImGui::SetNextWindowPos(ImVec2(0, 0));
@@ -1429,7 +1462,7 @@ void RenderModule::renderUI()
 
 		for (UILabelData& label : panel.labels) 
 		{
-			if (!label.visible) 
+			if (!label.visible|| !label.alive) 
 			{
 				continue;
 			}
@@ -1466,7 +1499,7 @@ void RenderModule::renderUI()
 
 		for (UITextureRectData& tex : panel.textureRects) 
 		{
-			if (!tex.visible) 
+			if (!tex.visible||!tex.alive) 
 			{
 				continue;
 			}
@@ -1485,7 +1518,7 @@ void RenderModule::renderUI()
 
 		for (UIButtonData& button : panel.buttons) 
 		{
-			if (!button.visible) 
+			if (!button.visible ||!button.alive) 
 			{
 				continue;
 			}

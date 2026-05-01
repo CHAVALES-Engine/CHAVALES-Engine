@@ -62,6 +62,7 @@ UIButton::UIButton(): _text("Button")
 
 UIButton::~UIButton()
 {
+	Engine::instance()->deleteUIButton(_buttonID);
 }
 bool UIButton::init(const Properties& p)
 {

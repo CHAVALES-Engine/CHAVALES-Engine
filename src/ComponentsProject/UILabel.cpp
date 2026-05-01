@@ -47,6 +47,7 @@ UILabel::UILabel() : _text("Label")
 
 UILabel::~UILabel()
 {
+	Engine::instance()->deleteUILabel(_labelID);
 }
 
 bool UILabel::init(const Properties& p)
