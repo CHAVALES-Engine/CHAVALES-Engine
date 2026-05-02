@@ -174,10 +174,44 @@ bool RenderModule::Init(SDL_Window* sdlWindow, const HWND handle, const int widt
 
 		_vp->setOverlaysEnabled(true);
 
+		Ogre::MaterialManager& matMgr = Ogre::MaterialManager::getSingleton();
+
+		Ogre::String baseMatName = "BaseMatChavales";
+		Ogre::MaterialPtr baseMat = matMgr.getByName(baseMatName);
+		if (!baseMat)
+		{
+			Ogre::MaterialPtr baseMat = Ogre::MaterialManager::getSingleton().create(baseMatName, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+
+			Ogre::Technique* baseMatTech = baseMat->createTechnique();
+			Ogre::Pass* baseMatpPass = baseMatTech->createPass();
+
+			baseMat->load();
+
+			baseMatpPass->setDiffuse(1, 1, 1, 1);
+			baseMatpPass->setAmbient(0.5, 0.5, 0.5);
+			baseMatpPass->setSpecular(0, 0, 0, 1);
+			baseMatpPass->setSelfIllumination(0, 0, 0);
+			baseMatpPass->setShininess(0);
+
+			// RTSS
+			_shaderGen->createShaderBasedTechnique(*baseMat, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
+
+			_shaderGen->invalidateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, baseMat->getName(), baseMat->getGroup());
+
+			if (!_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, baseMat->getName()))
+			{
+				Debug::error("[RenderModule] BaseMat validateMaterial");
+			}
+		}
+		
+		_createdMaterials.push_back(baseMatName);
+
+
+
 		//---------------debug colliders--------------
 		std::string debugMatName = "Debug/PhysicsLines";
 		//compruebo si existe por si acaso
-		Ogre::MaterialManager& matMgr = Ogre::MaterialManager::getSingleton();
+		
 		Ogre::MaterialPtr mat = matMgr.getByName(debugMatName);
 		if (!mat)
 		{
@@ -561,26 +595,7 @@ modelID RenderModule::addModel(const entityID& entityID, const std::string& mode
 	{
 		Ogre::SubEntity* sub = model->getSubEntity(i);
 		Ogre::MaterialPtr mat = sub->getMaterial();
-
-		mat->load();
-
-		// Generar tecnica RTSS sobre el material ya cargado
-		_shaderGen->createShaderBasedTechnique(*mat, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
-
-		_shaderGen->invalidateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, mat->getName(), mat->getGroup());
-
-		if (!_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, mat->getName()))
-			Debug::error("[RenderModule] validateMaterial");
-
-		auto tech = mat->getTechnique(0);
-		auto pass = tech->getPass(0);
-
-		// Reset material
-		pass->setDiffuse(1, 1, 1, 1);
-		pass->setAmbient(0.5, 0.5, 0.5);
-		pass->setSpecular(0, 0, 0, 1);
-		pass->setSelfIllumination(0, 0, 0);
-		pass->setShininess(0);
+		sub->setMaterial(Ogre::MaterialManager::getSingleton().getByName("BaseMatChavales"));
 	}
 
 	return _nextModelID++;
@@ -590,29 +605,13 @@ void RenderModule::deleteModel(const modelID& id)
 {
 	if (id >= 0 && id < _models.size() && _models[id] != nullptr)
 	{
-		Ogre::Entity* model = _models[id]; 
+		Ogre::Entity* model = _models[id];
 		_models[id] = nullptr;
-		for (unsigned int i = 0; i < model->getNumSubEntities(); ++i)
-		{
-			Ogre::SubEntity* sub = model->getSubEntity(i);
-			Ogre::MaterialPtr mat = sub->getMaterial();
-
-			if (mat != nullptr)
-			{
-				for (unsigned short t = 0; t < mat->getNumTechniques(); ++t)
-				{
-					Ogre::Technique* tech = mat->getTechnique(t);
-
-					if (tech)
-					{
-						_shaderGen->removeShaderBasedTechnique(tech, Ogre::MaterialManager::DEFAULT_SCHEME_NAME);
-					}
-				}
-			}
-		}
 
 		Ogre::SceneNode* parent = model->getParentSceneNode();
-		parent->detachObject(model);
+		if (parent)
+			parent->detachObject(model);
+
 		_sceneMgr->destroyEntity(model);
 	}
 }
@@ -627,29 +626,12 @@ void RenderModule::cleanModels()
 		_models.pop_back(); // Elimina de la lista mientras iteras
 		if (model != nullptr)
 		{
-			for (unsigned int i = 0; i < model->getNumSubEntities(); ++i)
-			{
-				Ogre::SubEntity* sub = model->getSubEntity(i);
-				Ogre::MaterialPtr mat = sub->getMaterial();
-
-				if (mat != nullptr)
-				{
-					for (unsigned short t = 0; t < mat->getNumTechniques(); ++t)
-					{
-						Ogre::Technique* tech = mat->getTechnique(t);
-						if (tech && _shaderGen)
-							_shaderGen->removeShaderBasedTechnique(tech, Ogre::MaterialManager::DEFAULT_SCHEME_NAME);
-					}
-				}
-			}
-
 			Ogre::SceneNode* parent = model->getParentSceneNode();
 			if (parent)
 				parent->detachObject(model);
 
 			_sceneMgr->destroyEntity(model);
 		}
-
 	}
 
 	_nextModelID = 0;
