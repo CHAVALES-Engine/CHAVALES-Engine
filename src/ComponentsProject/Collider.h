@@ -2,6 +2,7 @@
 #include  "Component.h"
 #include "CommonEnums.h"
 #include "Message.h"
+#include <EngineAPI.h>
 
 using ComponentID = unsigned int;
 class Engine;
@@ -37,7 +38,7 @@ namespace core {
  *  La el mesh mide 1,2,1 por lo que si quieres poner todo acorde el collider debe medir x,x*4,0
  * La mesh del sphere es 2,2,2 asi que recuerda que es enorme y debe ser x,0,0
 */
-class Collider : public core::Component
+class ENGINE_API Collider : public core::Component
 {
 protected:
 	/**

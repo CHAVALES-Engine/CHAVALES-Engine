@@ -1,9 +1,10 @@
 #pragma once
 #include "Component.h"
+#include <EngineAPI.h>
 
 class Script;
 
-class ScriptComponent :
+class ENGINE_API ScriptComponent :
     public  core::Component
 {
 public:
