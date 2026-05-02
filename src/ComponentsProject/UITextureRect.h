@@ -44,6 +44,7 @@ public:
 	void setTexture(const std::string& texture);
 	void setVisible(bool visible);
 	void setOpacity(float opacity);
+	void destroy() override;
 
 };
 

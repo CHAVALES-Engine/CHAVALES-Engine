@@ -55,6 +55,7 @@ public:
 	void ready() override;
 	void enable() override;
 	void disable() override;
+	void destroy() override;
 
 	/*
 	* @brief Establecer emision de generador de particulas.

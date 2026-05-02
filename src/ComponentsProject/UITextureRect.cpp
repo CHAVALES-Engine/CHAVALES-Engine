@@ -33,7 +33,7 @@ UITextureRect::UITextureRect()
 
 UITextureRect::~UITextureRect()
 {
-	Engine::instance()->deleteUITextureRect(_textureRectID);
+	//Engine::instance()->deleteUITextureRect(_textureRectID);
 }
 
 bool UITextureRect::init(const Properties& p)
@@ -68,4 +68,9 @@ void UITextureRect::setOpacity(float opacity)
 	_opacity = opacity;
 	Engine::instance()->setUITextureRectOpacity(_textureRectID, opacity);
 
+}
+
+void UITextureRect::destroy()
+{
+	Engine::instance()->deleteUITextureRect(_textureRectID);
 }

@@ -475,6 +475,7 @@ void RenderModule::deleteCamera(const cameraID& id)
 	if (id >= 0 && id < _cameras.size() && _cameras[id] != nullptr)
 	{
 		Ogre::Camera* cam = _cameras[id];
+		_cameras[id] = nullptr;
 		//Desvinculamos del viewport en caso de actividad
 		if (_vp->getCamera() == cam) _vp->setCamera(nullptr);
 		Ogre::SceneNode* parent = cam->getParentSceneNode();
@@ -504,8 +505,10 @@ void RenderModule::setAsActiveCamera(const cameraID& id)
 
 void RenderModule::cleanCameras()
 {
-	for (Ogre::Camera* cam : _cameras)
+	while (!_cameras.empty())
 	{
+		Ogre::Camera* cam = _cameras.back();
+		_cameras.pop_back();
 		if (cam != nullptr)
 		{
 			Ogre::SceneNode* parent = cam->getParentSceneNode();
@@ -587,7 +590,8 @@ void RenderModule::deleteModel(const modelID& id)
 {
 	if (id >= 0 && id < _models.size() && _models[id] != nullptr)
 	{
-		Ogre::Entity* model = _models[id];
+		Ogre::Entity* model = _models[id]; 
+		_models[id] = nullptr;
 		for (unsigned int i = 0; i < model->getNumSubEntities(); ++i)
 		{
 			Ogre::SubEntity* sub = model->getSubEntity(i);
@@ -620,7 +624,7 @@ void RenderModule::cleanModels()
 	while (!_models.empty())
 	{
 		Ogre::Entity* model = _models.back();
-
+		_models.pop_back();
 		if (model != nullptr)
 		{
 			for (unsigned int i = 0; i < model->getNumSubEntities(); ++i)
@@ -720,8 +724,10 @@ void RenderModule::setModelVisible(const modelID& id, const bool& visible)
 
 void RenderModule::cleanAnimations()
 {
-	for (Ogre::AnimationState* state : _animations)
+	while (!_animations.empty())
 	{
+		Ogre::AnimationState* state = _animations.back();
+		_animations.pop_back();
 		if (state != nullptr)
 		{
 			Ogre::String name = state->getAnimationName();
@@ -735,7 +741,6 @@ void RenderModule::cleanAnimations()
 			}
 		}
 	}
-
 	_animations.clear();
 	_nextAnimationID = 0;
 }
@@ -867,6 +872,7 @@ void  RenderModule::deleteLight(const lightID& id)
 	if (id >= 0 && id < _lights.size() && _lights[id] != nullptr)
 	{
 		Ogre::Light* light = _lights[id];
+		_lights[id] = nullptr;
 		Ogre::SceneNode* parent = light->getParentSceneNode();
 		if (parent) parent->detachObject(light);
 		_sceneMgr->destroyLight(light);
@@ -880,8 +886,10 @@ void RenderModule::setLightActive(const lightID& id, const bool& active)
 
 void RenderModule::cleanLights() 
 {
-	for (Ogre::Light* light : _lights)
+	while (!_lights.empty())
 	{
+		Ogre::Light* light = _lights.back();
+		_lights.pop_back();
 		if (light != nullptr)
 		{
 			Ogre::SceneNode* parent = light->getParentSceneNode();
@@ -997,8 +1005,10 @@ void RenderModule::deleteParticleGen(const particleGenID& id)
 
 void RenderModule::cleanParticleGens()
 {
-	for (Ogre::ParticleSystem* ps : _particleGens)
+	while (!_particleGens.empty())
 	{
+		Ogre::ParticleSystem* ps = _particleGens.back();
+		_particleGens.pop_back();
 		if (ps != nullptr)
 		{
 			Ogre::SceneNode* parent = ps->getParentSceneNode();
@@ -1584,8 +1594,10 @@ void RenderModule::cleanUI()
 	_nextButtonID = 0;
 	_nextTextureRectID = 0;
 	_nextPanelID = 0;
-	for (auto uiT : _uiPanels) {
-
+	while (!_uiPanels.empty())
+	{
+		auto uiT = _uiPanels.back();
+		_uiPanels.pop_back();
 		uiT.labels.clear();
 		uiT.buttons.clear();
 		uiT.textureRects.clear();

@@ -68,7 +68,7 @@ Camera::Camera() : _FOVy(45.0f), _nearClipDistance(0.1f), _farClipDistance(1000.
 
 Camera::~Camera()
 {
-	Engine::instance()->deleteCamera(_cameraID);
+	//Engine::instance()->deleteCamera(_cameraID);
 }
 
 bool Camera::init(const Properties& p)

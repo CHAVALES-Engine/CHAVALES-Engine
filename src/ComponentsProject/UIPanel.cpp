@@ -20,7 +20,7 @@ UIPanel::UIPanel() : _title("Panel")
 
 UIPanel::~UIPanel()
 {
-    Engine::instance()->deleteUIPanel(_panelID);
+    //Engine::instance()->deleteUIPanel(_panelID);
 }
 
 
@@ -43,5 +43,10 @@ void UIPanel::setVisible(bool visible)
 {
     Engine::instance()->setUIPanelVisible(_panelID, visible);
 
+}
+
+void UIPanel::destroy()
+{
+    Engine::instance()->deleteUIPanel(_panelID);
 }
 

@@ -47,7 +47,7 @@ UILabel::UILabel() : _text("Label")
 
 UILabel::~UILabel()
 {
-	Engine::instance()->deleteUILabel(_labelID);
+	//Engine::instance()->deleteUILabel(_labelID);
 }
 
 bool UILabel::init(const Properties& p)
@@ -78,6 +78,11 @@ void UILabel::awake()
 
 	uiPanelID  panelID = panel->getPanelID();
 	_labelID = Engine::instance()->addUILabel(panelID, getEntity()->getEntityID(), _text, _opacity, _textColor, _bgColor, _fontSize, _align, _fontName);
+}
+
+void UILabel::destroy()
+{
+	Engine::instance()->deleteUILabel(_labelID);
 }
 
 void UILabel::setText(const std::string& text)

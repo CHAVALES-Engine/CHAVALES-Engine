@@ -62,7 +62,7 @@ UIButton::UIButton(): _text("Button")
 
 UIButton::~UIButton()
 {
-	Engine::instance()->deleteUIButton(_buttonID);
+	//Engine::instance()->deleteUIButton(_buttonID);
 }
 bool UIButton::init(const Properties& p)
 {
@@ -91,6 +91,11 @@ void UIButton::awake()
 	else {
 		_buttonID = Engine::instance()->addUIImageButton(panelID, getEntity()->getEntityID(), _text, _textureName,_bgColor,_hoverColor,_pressColor, _opacity);
 	}
+}
+
+void UIButton::destroy()
+{
+	Engine::instance()->deleteUIButton(_buttonID);
 }
 
 void UIButton::setText(const std::string& text) {

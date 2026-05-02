@@ -87,7 +87,7 @@ ParticleGen::ParticleGen()
 
 ParticleGen::~ParticleGen()
 {
-	Engine::instance()->deleteParticleGen(_particleGenID);
+	//Engine::instance()->deleteParticleGen(_particleGenID);
 }
 
 bool ParticleGen::init(const Properties& p)
@@ -111,6 +111,11 @@ void ParticleGen::enable()
 void ParticleGen::disable()
 {
 	Engine::instance()->setParticleGenEnabled(_particleGenID, false);
+}
+
+void ParticleGen::destroy()
+{
+	Engine::instance()->deleteParticleGen(_particleGenID);
 }
 
 void ParticleGen::ready()
