@@ -1219,7 +1219,7 @@ uiLabelID RenderModule::addUILabel(const uiPanelID& panelID, const entityID& ent
 }
 void RenderModule::deleteUILabel(const uiLabelID& id) {
 	auto [panelID, labelIndex] = _labelToPanel[id];
-	auto& label = _uiPanels[panelID].buttons[labelIndex];
+	auto& label = _uiPanels[panelID].labels[labelIndex];
 	label.alive = false;
 }
 
@@ -1416,7 +1416,7 @@ uiTextureRectID RenderModule::addUITextureRect(const uiPanelID& panelID, const e
 }
 void RenderModule::deleteUITextureRect(const uiTextureRectID& id) {
 	auto [panelID, textureRectIndex] = _textureToPanel[id];
-	auto& textureRect = _uiPanels[panelID].buttons[textureRectIndex];
+	auto& textureRect = _uiPanels[panelID].textureRects[textureRectIndex];
 	textureRect.alive = false;
 }
 
