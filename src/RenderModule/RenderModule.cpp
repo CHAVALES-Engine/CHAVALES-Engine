@@ -183,12 +183,13 @@ bool RenderModule::Init(SDL_Window* sdlWindow, const HWND handle, const int widt
 			Ogre::MaterialPtr baseMat = Ogre::MaterialManager::getSingleton().create(baseMatName, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
 			Ogre::Technique* baseMatTech = baseMat->createTechnique();
-			Ogre::Pass* baseMatpPass = baseMatTech->createPass();
+			Ogre::Pass* baseMatPass = baseMatTech->createPass();
 
 			baseMat->load();
 
-			baseMatpPass->setDiffuse(1.0f, 1.0f, 1.0f, 1.0f);
-			baseMatpPass->setLightingEnabled(true);
+			baseMatPass->setDiffuse(1.0f, 1.0f, 1.0f, 1.0f);
+			baseMatPass->setLightingEnabled(true);
+			baseMatPass->setCullingMode(Ogre::CULL_NONE);
 
 			// RTSS
 			_shaderGen->createShaderBasedTechnique(*baseMat, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
