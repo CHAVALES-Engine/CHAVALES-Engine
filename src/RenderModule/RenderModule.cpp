@@ -187,11 +187,8 @@ bool RenderModule::Init(SDL_Window* sdlWindow, const HWND handle, const int widt
 
 			baseMat->load();
 
-			baseMatpPass->setDiffuse(1, 1, 1, 1);
-			baseMatpPass->setAmbient(0.5, 0.5, 0.5);
-			baseMatpPass->setSpecular(0, 0, 0, 1);
-			baseMatpPass->setSelfIllumination(0, 0, 0);
-			baseMatpPass->setShininess(0);
+			baseMatpPass->setDiffuse(1.0f, 1.0f, 1.0f, 1.0f);
+			baseMatpPass->setLightingEnabled(true);
 
 			// RTSS
 			_shaderGen->createShaderBasedTechnique(*baseMat, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
