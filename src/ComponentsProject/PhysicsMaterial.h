@@ -1,6 +1,7 @@
 #pragma once
 #include <algorithm>
 #include "Component.h"
+#include <EngineAPI.h>
 
 class Engine;
 
@@ -11,7 +12,7 @@ class Engine;
  * Controla fricción (estática y dinámica) y rebote (restitution),
  * así como cómo se combinan estos valores entre dos materiales.
  */
-class PhysicsMaterial : public core::Component
+class ENGINE_API PhysicsMaterial : public core::Component
 {
 /*
  * +-----------------+
