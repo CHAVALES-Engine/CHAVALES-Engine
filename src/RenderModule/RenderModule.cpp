@@ -624,7 +624,7 @@ void RenderModule::cleanModels()
 	while (!_models.empty())
 	{
 		Ogre::Entity* model = _models.back();
-		_models.pop_back();
+		_models.pop_back(); // Elimina de la lista mientras iteras
 		if (model != nullptr)
 		{
 			for (unsigned int i = 0; i < model->getNumSubEntities(); ++i)
@@ -650,7 +650,6 @@ void RenderModule::cleanModels()
 			_sceneMgr->destroyEntity(model);
 		}
 
-		_models.pop_back(); // Elimina de la lista mientras iteras
 	}
 
 	_nextModelID = 0;
