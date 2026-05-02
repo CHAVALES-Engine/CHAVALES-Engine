@@ -176,39 +176,6 @@ bool RenderModule::Init(SDL_Window* sdlWindow, const HWND handle, const int widt
 
 		Ogre::MaterialManager& matMgr = Ogre::MaterialManager::getSingleton();
 
-		Ogre::String baseMatName = "BaseMatChavales";
-		Ogre::MaterialPtr baseMat = matMgr.getByName(baseMatName);
-
-		if (!baseMat)
-		{
-			// Obtener BaseWhite
-			Ogre::MaterialPtr baseWhite = matMgr.getByName("BaseWhite");
-
-			if (!baseWhite)
-			{
-				Debug::error("[RenderModule] BaseWhite not found");
-			}
-			else
-			{
-				baseMat = baseWhite->clone(baseMatName);
-				baseMat->load();
-
-				// RTSS
-				_shaderGen->createShaderBasedTechnique(*baseMat, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
-
-				_shaderGen->invalidateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, baseMat->getName(), baseMat->getGroup());
-
-				if (!_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, baseMat->getName()))
-				{
-					Debug::error("[RenderModule] BaseMat validateMaterial");
-				}
-			}
-		}
-		
-		_createdMaterials.push_back(baseMatName);
-
-
-
 		//---------------debug colliders--------------
 		std::string debugMatName = "Debug/PhysicsLines";
 		//compruebo si existe por si acaso
@@ -596,7 +563,38 @@ modelID RenderModule::addModel(const entityID& entityID, const std::string& mode
 	{
 		Ogre::SubEntity* sub = model->getSubEntity(i);
 		Ogre::MaterialPtr mat = sub->getMaterial();
-		sub->setMaterial(Ogre::MaterialManager::getSingleton().getByName("BaseMatChavales"));
+		Ogre::MaterialManager& matMgr = Ogre::MaterialManager::getSingleton();
+
+		Ogre::String baseMatName = "BaseMatChavales_" + std::to_string(_nextModelID) + "_" + std::to_string(i);
+		Ogre::MaterialPtr baseMat = matMgr.getByName(baseMatName);
+		if (!baseMat)
+		{
+			// Obtener BaseWhite
+			Ogre::MaterialPtr baseWhite = matMgr.getByName("BaseWhite");
+
+			if (!baseWhite)
+			{
+				Debug::error("[RenderModule] BaseWhite not found");
+			}
+			else
+			{
+				baseMat = baseWhite->clone(baseMatName);
+				baseMat->load();
+
+				// RTSS
+				_shaderGen->createShaderBasedTechnique(*baseMat, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
+
+				_shaderGen->invalidateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, baseMat->getName(), baseMat->getGroup());
+
+				if (!_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, baseMat->getName()))
+				{
+					Debug::error("[RenderModule] BaseMat validateMaterial");
+				}
+			}
+		}
+
+		_createdMaterials.push_back(baseMatName);
+		sub->setMaterial(Ogre::MaterialManager::getSingleton().getByName(baseMatName));
 	}
 
 	return _nextModelID++;
@@ -610,6 +608,26 @@ void RenderModule::deleteModel(const modelID& id)
 		_models[id] = nullptr;
 
 		Ogre::SceneNode* parent = model->getParentSceneNode();
+
+		for (unsigned int i = 0; i < model->getNumSubEntities(); ++i)
+		{
+			Ogre::SubEntity* sub = model->getSubEntity(i);
+			Ogre::MaterialPtr mat = sub->getMaterial();
+
+			if (mat != nullptr)
+			{
+				for (unsigned short t = 0; t < mat->getNumTechniques(); ++t)
+				{
+					Ogre::Technique* tech = mat->getTechnique(t);
+
+					if (tech)
+					{
+						_shaderGen->removeShaderBasedTechnique(tech, Ogre::MaterialManager::DEFAULT_SCHEME_NAME);
+					}
+				}
+			}
+		}
+
 		if (parent)
 			parent->detachObject(model);
 
@@ -628,6 +646,26 @@ void RenderModule::cleanModels()
 		if (model != nullptr)
 		{
 			Ogre::SceneNode* parent = model->getParentSceneNode();
+
+			for (unsigned int i = 0; i < model->getNumSubEntities(); ++i)
+			{
+				Ogre::SubEntity* sub = model->getSubEntity(i);
+				Ogre::MaterialPtr mat = sub->getMaterial();
+
+				if (mat != nullptr)
+				{
+					for (unsigned short t = 0; t < mat->getNumTechniques(); ++t)
+					{
+						Ogre::Technique* tech = mat->getTechnique(t);
+
+						if (tech)
+						{
+							_shaderGen->removeShaderBasedTechnique(tech, Ogre::MaterialManager::DEFAULT_SCHEME_NAME);
+						}
+					}
+				}
+			}
+
 			if (parent)
 				parent->detachObject(model);
 
