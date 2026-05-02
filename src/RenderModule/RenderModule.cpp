@@ -596,7 +596,25 @@ modelID RenderModule::addModel(const entityID& entityID, const std::string& mode
 	{
 		Ogre::SubEntity* sub = model->getSubEntity(i);
 		Ogre::MaterialPtr mat = sub->getMaterial();
-		sub->setMaterial(Ogre::MaterialManager::getSingleton().getByName("BaseMatChavales"));
+		mat->load();
+
+		// Generar tecnica RTSS sobre el material ya cargado
+		_shaderGen->createShaderBasedTechnique(*mat, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
+
+		_shaderGen->invalidateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, mat->getName(), mat->getGroup());
+
+		if (!_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, mat->getName()))
+			Debug::error("[RenderModule] validateMaterial");
+
+		auto tech = mat->getTechnique(0);
+		auto pass = tech->getPass(0);
+
+		// Reset material
+		pass->setDiffuse(1, 1, 1, 1);
+		pass->setAmbient(0.5, 0.5, 0.5);
+		pass->setSpecular(0, 0, 0, 1);
+		pass->setSelfIllumination(0, 0, 0);
+		pass->setShininess(0);
 	}
 
 	return _nextModelID++;
