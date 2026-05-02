@@ -178,26 +178,30 @@ bool RenderModule::Init(SDL_Window* sdlWindow, const HWND handle, const int widt
 
 		Ogre::String baseMatName = "BaseMatChavales";
 		Ogre::MaterialPtr baseMat = matMgr.getByName(baseMatName);
+
 		if (!baseMat)
 		{
-			Ogre::MaterialPtr baseMat = Ogre::MaterialManager::getSingleton().create(baseMatName, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+			// Obtener BaseWhite
+			Ogre::MaterialPtr baseWhite = matMgr.getByName("BaseWhite");
 
-			Ogre::Technique* baseMatTech = baseMat->createTechnique();
-			Ogre::Pass* baseMatPass = baseMatTech->createPass();
-
-			baseMat->load();
-
-			baseMatPass->setDiffuse(1.0f, 1.0f, 1.0f, 1.0f);
-			baseMatPass->setLightingEnabled(false);
-
-			// RTSS
-			_shaderGen->createShaderBasedTechnique(*baseMat, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
-
-			_shaderGen->invalidateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, baseMat->getName(), baseMat->getGroup());
-
-			if (!_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, baseMat->getName()))
+			if (!baseWhite)
 			{
-				Debug::error("[RenderModule] BaseMat validateMaterial");
+				Debug::error("[RenderModule] BaseWhite not found");
+			}
+			else
+			{
+				baseMat = baseWhite->clone(baseMatName);
+				baseMat->load();
+
+				// RTSS
+				_shaderGen->createShaderBasedTechnique(*baseMat, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
+
+				_shaderGen->invalidateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, baseMat->getName(), baseMat->getGroup());
+
+				if (!_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, baseMat->getName()))
+				{
+					Debug::error("[RenderModule] BaseMat validateMaterial");
+				}
 			}
 		}
 		
