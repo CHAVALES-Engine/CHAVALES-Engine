@@ -56,6 +56,18 @@ public:
 	 */
 	bool isKinematic;
 
+
+	/**
+	 * @brief Poiscion para simular igual en distintos pc
+	 */
+	core::Vector3<> smoothedPosition;
+
+
+	/**
+	 * @brief Indica si estamos en el primerFrame
+	 */
+	bool firstFrame = true;
+
 	RigidBody();
 
 	/**
