@@ -716,7 +716,6 @@ void RenderModule::setTint(const modelID& id, const subMeshID& subID, const core
 		Ogre::SubEntity* sub = model->getSubEntity(subID);
 
 		Ogre::MaterialPtr mat = sub->getMaterial();
-		sub->setMaterial(mat);
 
 		if (mat->getNumTechniques() == 0)
 			mat->createTechnique();
@@ -731,6 +730,8 @@ void RenderModule::setTint(const modelID& id, const subMeshID& subID, const core
 		pass->setDiffuse(tint.getRed(), tint.getGreen(), tint.getBlue(), tint.getAlpha());
 
 		mat->reload();
+		sub->setMaterial(mat);
+		model->_updateRenderQueue(nullptr);
 	}
 }
 
