@@ -1588,8 +1588,8 @@ void RenderModule::renderUI()
 			{
 				ImGui::PushFont(button.font);
 				
-
-				if (ImGui::Button(button.entity.toString().c_str(), aux))
+				std::string textID = button.text + "##" + button.entity.toString();
+				if (ImGui::Button(textID.c_str(), aux))
 				{
 					Debug::out("[RENDERMODULE] Button clicked");
 
