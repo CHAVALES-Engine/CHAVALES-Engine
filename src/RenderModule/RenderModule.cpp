@@ -747,12 +747,11 @@ void RenderModule::cleanAnimations()
 {
 	while (!_animations.empty())
 	{
-		auto it = _sceneMgr->getAnimationIterator();
+		const auto& anims = _sceneMgr->getAnimations();
 
-		while (it.hasMoreElements())
+		for (const auto& pair : anims)
 		{
-			Ogre::Animation* anim = it.getNext();
-			Ogre::String name = anim->getName();
+			const Ogre::String& name = pair.first;
 
 			_sceneMgr->destroyAnimationState(name);
 			_sceneMgr->destroyAnimation(name);
