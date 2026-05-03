@@ -46,6 +46,10 @@ bool ResourcesModule::insertAssetMap(std::string sourceName)
 	ChavalesGUID aux = ChavalesGUID::generate();
 	_idMaps[aux] = nombreCarpeta + "/";
 
+	if (typeOfFolder == "fonts") {
+		_fontsVector.push_back({ typeOfFolder + "/" + nombreAsset,sourceName });;
+	}
+
 	bool mayus = false;
 	if (std::isupper(nombreAsset[0])) {
 		mayus = true;
@@ -58,9 +62,7 @@ bool ResourcesModule::insertAssetMap(std::string sourceName)
 		return false;
 	}
 
-	if (typeOfFolder == "fonts") {
-		_fontsVector.push_back({ typeOfFolder + "/"+ nombreAsset,sourceName });;
-	}
+	
 	_assetsMaps.insert({ typeOfFolder + "/" + nombreAsset,{aux,mayus} });
 	return true;
 } 
