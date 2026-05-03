@@ -241,6 +241,10 @@ public:
 	*/
 	void setAnimTimePos(const animationID& animationID, const float& timePos);
 	/*
+	* @brief Ajusta la velocidad de la animacion.
+	*/
+	void setAnimSpeed(const animationID& animationID, const float& speed);
+	/*
 	* @brief Actualizar animacion.
 	*/
 	void updateAnimation(const animationID& animationID, const uint64_t& deltaTime);

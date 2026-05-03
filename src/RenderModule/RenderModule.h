@@ -345,6 +345,11 @@ public:
 	void setAnimTimePos(const animationID& animationID, const float& timePos);
 
 	/*
+	* @brief Ajustar velocidad animacion.
+	*/
+	void setAnimSpeed(const animationID& animationID, const float& speed);
+
+	/*
 	* @brief Actualizar animacion.
 	*/
 	void updateAnimation(const animationID& animationID, const uint64_t& deltaTime);
@@ -659,7 +664,8 @@ private:
 	std::vector<EngineNode> _engineNodes;
 	std::vector<Ogre::Camera*> _cameras;
 	std::vector<Ogre::Entity*> _models;
-	std::vector<Ogre::AnimationState*> _animations;
+	//Animation State y speed
+	std::vector<std::pair<Ogre::AnimationState*, float>> _animations;
 	std::vector<Ogre::Light*> _lights;
 	std::vector<Ogre::ParticleSystem*> _particleGens;
 	std::vector<UIPanelData> _uiPanels;

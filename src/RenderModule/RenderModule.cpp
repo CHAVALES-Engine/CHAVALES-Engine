@@ -746,7 +746,7 @@ void RenderModule::cleanAnimations()
 {
 	while (!_animations.empty())
 	{
-		Ogre::AnimationState* state = _animations.back();
+		Ogre::AnimationState* state = _animations.back().first;
 		_animations.pop_back();
 		if (state != nullptr)
 		{
@@ -769,10 +769,10 @@ animationID RenderModule::registerSkeletonAnim(const modelID& modelID, const std
 {
 	if (modelID >= 0 && modelID < _models.size() && _models[modelID] != nullptr)
 	{
-		auto anim = _animations.emplace_back(_models[modelID]->getAnimationState(animationName));
-		if (anim == nullptr)
+		auto anim = _animations.emplace_back(std::make_pair(_models[modelID]->getAnimationState(animationName), 1.0f));
+		if (anim.first == nullptr)
 			return -1;
-		_animations.back()->setLoop(loop);
+		_animations.back().first->setLoop(loop);
 		return _nextAnimationID++;
 	}
 	return -1;
@@ -786,8 +786,8 @@ animationID RenderModule::createTransformAnimation(const entityID& entityID, con
 		Ogre::Animation* animation = _sceneMgr->createAnimation(animationName + std::to_string(_nextAnimationID), totalDuration);
 		animation->setInterpolationMode(Ogre::Animation::IM_LINEAR);
 		animation->createNodeTrack(0, _engineNodes[nodeID].sceneNode);
-		_animations.emplace_back(_sceneMgr->createAnimationState(animationName + std::to_string(_nextAnimationID)));
-		_animations.back()->setLoop(loop);
+		_animations.emplace_back(std::make_pair(_sceneMgr->createAnimationState(animationName + std::to_string(_nextAnimationID)), 1.0f));
+		_animations.back().first->setLoop(loop);
 		return _nextAnimationID++;
 	}
 	return -1;
@@ -795,9 +795,9 @@ animationID RenderModule::createTransformAnimation(const entityID& entityID, con
 
 void RenderModule::addTransformKeyFrame(const animationID& animationID, const float& timePos, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float>& scale)
 {
-	if (animationID >= 0 && animationID < _animations.size() && _animations[animationID] != nullptr)
+	if (animationID >= 0 && animationID < _animations.size() && _animations[animationID].first != nullptr)
 	{
-		Ogre::Animation* anim = _sceneMgr->getAnimation(_animations[animationID]->getAnimationName());
+		Ogre::Animation* anim = _sceneMgr->getAnimation(_animations[animationID].first->getAnimationName());
 
 		Ogre::NodeAnimationTrack* track = anim->getNodeTrack(0);
 
@@ -810,9 +810,9 @@ void RenderModule::addTransformKeyFrame(const animationID& animationID, const fl
 
 void RenderModule::addTransformKeyFrame(const animationID& animationID, const float& timePos, const core::Vector3<float>& pos, const float& rot, const int& axis, const core::Vector3<float>& scale)
 {
-	if (animationID >= 0 && animationID < _animations.size() && _animations[animationID] != nullptr)
+	if (animationID >= 0 && animationID < _animations.size() && _animations[animationID].first != nullptr)
 	{
-		Ogre::Animation* anim = _sceneMgr->getAnimation(_animations[animationID]->getAnimationName());
+		Ogre::Animation* anim = _sceneMgr->getAnimation(_animations[animationID].first->getAnimationName());
 
 		Ogre::NodeAnimationTrack* track = anim->getNodeTrack(0);
 
@@ -838,25 +838,34 @@ void RenderModule::addTransformKeyFrame(const animationID& animationID, const fl
 
 void RenderModule::setAnimEnabled(const animationID& animationID, const bool& active)
 {
-	if (animationID >= 0 && animationID < _animations.size() && _animations[animationID] != nullptr)
+	if (animationID >= 0 && animationID < _animations.size() && _animations[animationID].first != nullptr)
 	{
-		_animations[animationID]->setEnabled(active);
+		_animations[animationID].first->setEnabled(active);
 	}
 }
 
 void RenderModule::setAnimTimePos(const animationID& animationID, const float& timePos)
 {
-	if (animationID >= 0 && animationID < _animations.size() && _animations[animationID] != nullptr)
+	if (animationID >= 0 && animationID < _animations.size() && _animations[animationID].first != nullptr)
 	{
-		_animations[animationID]->setTimePosition(timePos);
+		_animations[animationID].first->setTimePosition(timePos);
+	}
+}
+
+void RenderModule::setAnimSpeed(const animationID& animationID, const float& speed)
+{
+	if (animationID >= 0 && animationID < _animations.size() && _animations[animationID].first != nullptr)
+	{
+		_animations[animationID].second = speed;
 	}
 }
 
 void RenderModule::updateAnimation(const animationID& animationID, const uint64_t& deltaTime)
 {
-	if (animationID >= 0 && animationID < _animations.size() && _animations[animationID] != nullptr)
+	if (animationID >= 0 && animationID < _animations.size() && _animations[animationID].first != nullptr)
 	{
-		_animations[animationID]->addTime((float)deltaTime / 1000.0f);
+		auto& anim = _animations[animationID];
+		anim.first->addTime(((float)deltaTime / 1000.0f) * anim.second);
 	}
 }
 

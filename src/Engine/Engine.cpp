@@ -252,6 +252,11 @@ void Engine::setAnimTimePos(const animationID& animationID, const float& timePos
 	_renderModule->setAnimTimePos(animationID, timePos);
 }
 
+void Engine::setAnimSpeed(const animationID& animationID, const float& speed)
+{
+	_renderModule->setAnimSpeed(animationID, speed);
+}
+
 void Engine::updateAnimation(const animationID& animationID, const uint64_t& deltaTime)
 {
 	_renderModule->updateAnimation(animationID, deltaTime);

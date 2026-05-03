@@ -98,4 +98,8 @@ public:
 	* @brief Reanudar animacíon a partir de cierto instante de tiempo.
 	*/
 	void setAnimTimePos(const std::string& animationName, const float& timePos);
+	/*
+	* @brief Ajustar velocidad de animacion.
+	*/
+	void setAnimSpeed(const std::string& animationName, const float& speed);
 };

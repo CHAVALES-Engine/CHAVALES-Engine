@@ -150,4 +150,13 @@ void Animator::setAnimTimePos(const std::string& animationName, const float& tim
 	}
 }
 
+void Animator::setAnimSpeed(const std::string& animationName, const float& speed)
+{
+	auto aux = _animations.find(animationName);
+	if (aux != _animations.end())
+	{
+		Engine::instance()->setAnimSpeed(aux->second.id, speed);
+	}
+}
+
 
