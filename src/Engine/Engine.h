@@ -638,7 +638,7 @@ public:
 	bool rayCast(const core::Vector3<>& origin,
 		const core::Vector3<>& direction,
 		float maxDistance,
-		core::Vector3<>& hitPos) const;
+		RayInfo& rayInfo) const;
 	std::vector<ShapeRenderData> GetPhysicsRenderData();
 
 	/*

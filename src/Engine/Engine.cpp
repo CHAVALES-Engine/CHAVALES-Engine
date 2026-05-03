@@ -717,12 +717,12 @@ void Engine::destroyMaterial(uint32_t id)
 
 bool Engine::rayCast(const core::Vector3<>& origin,
 	const core::Vector3<>& direction,
-	float maxDistance, 
-	core::Vector3<>& hitPos) const
+	float maxDistance,
+	RayInfo& rayInfo) const
 {
 	return _physicsModule->rayCast({ origin.getX(), origin.getY(), origin.getZ() },
 		{ direction.getX(), direction.getY(), direction.getZ() },
-		maxDistance, hitPos);
+		maxDistance, rayInfo);
 }
 std::vector<ShapeRenderData> Engine::GetPhysicsRenderData()
 {

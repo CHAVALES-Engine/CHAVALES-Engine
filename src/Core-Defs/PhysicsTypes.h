@@ -37,3 +37,9 @@ struct ShapeRenderData
     float radius = 0.0f;
     float halfHeight = 0.0f; // 0 = sphere
 };
+
+struct RayInfo
+{
+    core::Vector3<> hitPos;
+    core::Entity* otherEntity;
+};

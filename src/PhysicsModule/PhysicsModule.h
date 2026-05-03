@@ -47,7 +47,7 @@ public:
 	* @brief Lanza un raycast en la escena
 	* @param origen, direccion y distancia máxima
 	*/
-	bool rayCast(const PxVec3& origin, const PxVec3& direction, float maxDistance, core::Vector3<> & hitPos);
+	bool rayCast(const PxVec3& origin, const PxVec3& direction, float maxDistance, RayInfo& rayInfo);
 
 	//COLLIDERS
 	/*

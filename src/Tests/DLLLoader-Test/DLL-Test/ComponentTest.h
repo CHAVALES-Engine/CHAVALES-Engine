@@ -152,12 +152,12 @@ class ComponentTest : public core::Component
 					Debug::out("FOVy: " + std::to_string(camera->getFOVy()));
 					Debug::out("Near: " + std::to_string(camera->getNearClipDistance()));
 
-					core::Vector3<> hitPos;
-					if (Engine::instance()->rayCast(rayOrigin, rayDir, 10000.0f, hitPos))
+					RayInfo rayInfo;
+					if (Engine::instance()->rayCast(rayOrigin, rayDir, 10000.0f, rayInfo))
 					{
-						Debug::out("HitPos: " + std::to_string(hitPos.getX()) + ", " + std::to_string(hitPos.getY()) + ", " + std::to_string(hitPos.getZ()));
+						Debug::out("HitPos: " + std::to_string(rayInfo.hitPos.getX()) + ", " + std::to_string(rayInfo.hitPos.getY()) + ", " + std::to_string(rayInfo.hitPos.getZ()));
 						core::Entity* e = Engine::instance()->instantiatePrefab("prefabs/testPoint");
-						e->getComponent<Transform>()->setGlobalPosition(hitPos);
+						e->getComponent<Transform>()->setGlobalPosition(rayInfo.hitPos);
 					}
 					else
 					{

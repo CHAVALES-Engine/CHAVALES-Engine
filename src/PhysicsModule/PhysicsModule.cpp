@@ -124,12 +124,14 @@ bool PhysicsModule::Init()
 bool PhysicsModule::rayCast(const PxVec3& origin,
 	const PxVec3& direction, 
 	float maxDistance, 
-	core::Vector3<>& hitPos)
+	RayInfo& rayInfo)
 {
 	PxRaycastBuffer hitInfo;
 	raycast.Cast(origin, direction, maxDistance, hitInfo);
 	if (!hitInfo.hasBlock) return false;
-	hitPos = { hitInfo.block.position.x, hitInfo.block.position.y, hitInfo.block.position.z };
+	rayInfo.hitPos = { hitInfo.block.position.x, hitInfo.block.position.y, hitInfo.block.position.z };
+	auto it = actorToEntity.find(hitInfo.block.actor);
+	rayInfo.otherEntity = it != actorToEntity.end() ? it->second : nullptr;
 	return true;
 }
 
