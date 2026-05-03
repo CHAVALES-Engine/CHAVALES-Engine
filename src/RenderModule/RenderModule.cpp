@@ -259,6 +259,7 @@ void RenderModule::cleanScene(const bool& end)
 	//Si se va a crear una escena nueva dejamos una camara de seguridad. Volvemos a anadir rtss a imgui.
 	if (!end)
 	{
+		_sceneMgr->setAmbientLight(Ogre::ColourValue(0.0f, 0.0f, 0.0f));
 		addCamera(_mainCameraID, 45.0f, 0.1f, 1000.0f, 1.0f, { 0.0f, 0.0f, 0.0f, 1.0f });
 		//Limpiamos solo recursos del juego
 		for (auto resourceGroup : _resourceGroups)
