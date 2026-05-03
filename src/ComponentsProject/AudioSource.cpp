@@ -47,11 +47,12 @@ void AudioSource::ready()
 
 void AudioSource::update(uint64_t deltaTime)
 {
+	/*playSound();
 	if (_is3D) {
 		core::Vector3<> velocity = (_tr->getGlobalPosition() - _lastPosition) / deltaTime;
 		_lastPosition = _tr->getGlobalPosition();
 		Engine::instance()->setSourcePosition(_channelID, _tr->getGlobalPosition(), velocity);
-	}
+	}*/
 }
 
 void AudioSource::disable()

@@ -139,16 +139,24 @@ int AudioModule::playSound(std::string id, float soundVolume, int looping, const
 		return -1;
 	}
 	FMOD::Channel* channel = nullptr;
-	_system->playSound(itSoundFound->second, nullptr, true, &channel);
+	FMOD_RESULT result = _system->playSound(itSoundFound->second, nullptr, true, &channel);
 	//If channel has been correctly created, then registers it
-	if (channel) {
+	if (result == FMOD_OK) {
 		FMOD_VECTOR pos = { pos3.getX(),pos3.getY(),pos3.getZ() };
 		FMOD_VECTOR vel = { vel3.getX(),vel3.getY(),vel3.getZ() };
 		channel->set3DAttributes(&pos, &vel);
 		channel->setVolume(soundVolume);
 		channel->setPaused(false);
+		if (channel == nullptr) {
+			Debug::error("Channel is null after playSound");
+		}
 		channel->setLoopCount(looping);
 		_channelSound[nextChID] = channel;
+	}
+	else 
+	{
+		Debug::error("[playSOund] The sound hasn't been genrated correctly");
+		return -1;
 	}
 	return nextChID;
 }

@@ -666,6 +666,7 @@ private:
 	std::vector<Ogre::Entity*> _models;
 	//Animation State y speed
 	std::vector<std::pair<Ogre::AnimationState*, float>> _animations;
+	std::vector<std::string> _sceneAnims;
 	std::vector<Ogre::Light*> _lights;
 	std::vector<Ogre::ParticleSystem*> _particleGens;
 	std::vector<UIPanelData> _uiPanels;

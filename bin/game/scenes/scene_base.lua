@@ -81,7 +81,7 @@ scene = { -- entidades en escena
 					loop = true,
 					isStream = false,
 					playOnReady = true,
-					soundVolume = 1.0,
+					soundVolume = 10.0,
 					minRadius = 150.0,
 					maxRadius = 200.0
 				}  
