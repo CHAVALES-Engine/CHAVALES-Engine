@@ -1589,7 +1589,7 @@ void RenderModule::renderUI()
 				ImGui::PushFont(button.font);
 				
 
-				if (ImGui::Button(button.text.c_str(), aux)) 
+				if (ImGui::Button(button.entity.toString().c_str(), aux))
 				{
 					Debug::out("[RENDERMODULE] Button clicked");
 
