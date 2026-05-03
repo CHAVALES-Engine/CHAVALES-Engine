@@ -731,6 +731,10 @@ void RenderModule::setTint(const modelID& id, const subMeshID& subID, const core
 
 		mat->reload();
 		sub->setMaterial(mat);
+
+		_shaderGen->invalidateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, mat->getName(), mat->getGroup());
+
+		_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, mat->getName());
 	}
 }
 
