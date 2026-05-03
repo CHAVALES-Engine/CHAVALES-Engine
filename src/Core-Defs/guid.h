@@ -88,6 +88,10 @@ struct ChavalesGUID
 	constexpr bool isValid() const { return high != 0 || low != 0; }
 };
 
+inline std::ostream& operator<<(std::ostream& os, const ChavalesGUID& id) {
+	os << id.toString();
+	return os;
+}
 
 namespace std
 {
