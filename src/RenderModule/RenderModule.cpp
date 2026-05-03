@@ -751,7 +751,7 @@ void RenderModule::cleanAnimations()
 		_animations.pop_back();
 		if (state != nullptr)
 		{
-			Ogre::String name = state->getAnimationName();
+			std::string name = state->getAnimationName();
 			state->setEnabled(false);
 
 			//Destruir solo si es transform animation. Las de esqueleto se borran junto a la entidad.
