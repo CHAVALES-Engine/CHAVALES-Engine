@@ -729,6 +729,8 @@ void RenderModule::setTint(const modelID& id, const subMeshID& subID, const core
 		pass->setDepthWriteEnabled(false);
 
 		pass->setDiffuse(tint.getRed(), tint.getGreen(), tint.getBlue(), tint.getAlpha());
+
+		mat->reload();
 	}
 }
 
