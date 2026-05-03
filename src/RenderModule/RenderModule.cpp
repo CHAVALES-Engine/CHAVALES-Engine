@@ -731,7 +731,6 @@ void RenderModule::setTint(const modelID& id, const subMeshID& subID, const core
 
 		mat->reload();
 		sub->setMaterial(mat);
-		model->_updateRenderQueue(nullptr);
 	}
 }
 
