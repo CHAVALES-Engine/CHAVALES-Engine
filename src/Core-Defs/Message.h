@@ -31,7 +31,7 @@ namespace core
 		{
 			for (int i = 0; i < _subscribers.size(); i++)
 			{
-				Debug::out("EJECUTANDO SUBSCRIBER");
+				//Debug::out("EJECUTANDO SUBSCRIBER");
 				_subscribers[i](args...);
 			}
 		}
