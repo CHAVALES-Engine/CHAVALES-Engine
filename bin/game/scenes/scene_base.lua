@@ -74,7 +74,17 @@ scene = { -- entidades en escena
 					dynamic = true,
 					trigger = false,
 					center = Vector3.new(0,0,0)    
-				}   
+				},
+				AudioSource = {
+					soundID = "sfx/smb_1-up.wav",
+					is3D = true,
+					loop = true,
+					isStream = false,
+					playOnReady = true,
+					soundVolume = 1.0,
+					minRadius = 150.0,
+					maxRadius = 200.0
+				}  
 			}
 		},
 		ambientLight = {
