@@ -167,7 +167,7 @@ ComponentID PhysicsModule::CreateBoxShape(core::Vector3<> size, const core::Vect
 
 	PxBoxGeometry geo(size.getX() * 0.5f, size.getY() * 0.5f, size.getZ() * 0.5f);
 
-	PxShape* shape = gPhysics->createShape(geo, *defaultMaterial);
+	PxShape* shape = gPhysics->createShape(geo, *defaultMaterial, true);
 	if (!shape) return 0;
 	PxQuat qLoc(rotationLoc.getX(), rotationLoc.getY(), rotationLoc.getZ(), rotationLoc.getW());
 	PxTransform localPose(PxVec3(center.getX(), center.getY(), center.getZ()), qLoc);//pos y rot locales
@@ -212,14 +212,14 @@ ComponentID PhysicsModule::CreateCapsuleShape(float radius, float height, const 
 	if (height <= 0.0f)//Esfera
 	{
 		PxSphereGeometry geo(radius);
-		shape = gPhysics->createShape(geo, *defaultMaterial);
+		shape = gPhysics->createShape(geo, *defaultMaterial, true);
 	}
 	else//capsula
 	{
 		float halfHeight = (height * 0.5f) - radius;
 		halfHeight = std::max(0.0f, halfHeight);
 		PxCapsuleGeometry geo(radius, halfHeight);
-		shape = gPhysics->createShape(geo, *defaultMaterial);
+		shape = gPhysics->createShape(geo, *defaultMaterial, true);
 	}
 	if (!shape) return 0;
 
@@ -519,7 +519,7 @@ void PhysicsModule::AttachBoxShape(ComponentID bodyID, const core::Vector3<> siz
 	PxRigidActor* actor = it->second.actor;
 	if (!actor) return;
 
-	PxShape* shape = gPhysics->createShape(PxBoxGeometry(size.getX() * 0.5f, size.getY() * 0.5f, size.getZ() * 0.5f), *defaultMaterial);
+	PxShape* shape = gPhysics->createShape(PxBoxGeometry(size.getX() * 0.5f, size.getY() * 0.5f, size.getZ() * 0.5f), *defaultMaterial, true);
 	if (!shape) return;
 	PxQuat qLoc(rotationLoc.getX(), rotationLoc.getY(), rotationLoc.getZ(), rotationLoc.getW());//rot local
 	PxTransform localPose(PxVec3(center.getX(), center.getY(), center.getZ()), qLoc);//pos local
@@ -559,13 +559,13 @@ void PhysicsModule::AttachCapsuleShape(ComponentID bodyID, float radius, float h
 	PxShape* shape;
 	if (height <= 0.0f)//Esfera
 	{
-		shape = gPhysics->createShape(PxSphereGeometry(radius), *defaultMaterial);
+		shape = gPhysics->createShape(PxSphereGeometry(radius), *defaultMaterial, true);
 	}
 	else//capsula
 	{
 		float halfHeight = (height * 0.5f) - radius;
 		halfHeight = std::max(0.0f, halfHeight);
-		shape = gPhysics->createShape(PxCapsuleGeometry(radius, halfHeight), *defaultMaterial);
+		shape = gPhysics->createShape(PxCapsuleGeometry(radius, halfHeight), *defaultMaterial, true);
 	}
 	if (shape == NULL) return;
 
@@ -728,7 +728,7 @@ std::vector<ShapeRenderData> PhysicsModule::GetRenderData()
 			if (!shape) continue;
 
 			PxShapeFlags flags = shape->getFlags();
-			//si ambos están descativados es que el collider esta disabled
+			//si ambos estï¿½n descativados es que el collider esta disabled
 			if (!(flags & PxShapeFlag::eSIMULATION_SHAPE) && !(flags & PxShapeFlag::eTRIGGER_SHAPE))
 			{
 				continue;//no renderiza
