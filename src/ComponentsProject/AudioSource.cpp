@@ -36,7 +36,9 @@ void AudioSource::ready()
 	assert(entity->hasComponent<Transform>());
 	_tr = entity->getComponent<Transform>();
 	_lastPosition = _tr->getGlobalPosition();
-	Engine::instance()->loadSound(Engine::instance()->getAssetSourceFolder(_id).first, _id, _isStream, _loop, _is3D);
+	std::pair<std::string, std::string> path = Engine::instance()->getAssetSourceFolder(_id);
+	std::string realPath = path.second + path.first;
+	Engine::instance()->loadSound(realPath, _id, _isStream, _loop, _is3D);
 	if (_playOnReady)
 		playSound();
 	if (_is3D)
