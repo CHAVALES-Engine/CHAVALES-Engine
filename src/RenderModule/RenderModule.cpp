@@ -718,9 +718,8 @@ void RenderModule::setTint(const modelID& id, const subMeshID& subID, const core
 		Ogre::MaterialPtr mat = sub->getMaterial();
 		sub->setMaterial(mat);
 
-		if (mat->getNumTechniques() == 0)
-			mat->createTechnique();
-		Ogre::Technique* tech = mat->getTechnique(0);
+		Ogre::Technique* tech = mat->getTechnique(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME);
+
 		if (tech->getNumPasses() == 0)
 			tech->createPass();
 		Ogre::Pass* pass = tech->getPass(0);
