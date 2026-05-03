@@ -745,18 +745,12 @@ void RenderModule::setModelVisible(const modelID& id, const bool& visible)
 
 void RenderModule::cleanAnimations()
 {
-	while (!_animations.empty())
+	for (auto& anim : _sceneAnims)
 	{
-		const auto& anims = _sceneMgr->getAnimations();
-
-		for (const auto& pair : anims)
-		{
-			const Ogre::String& name = pair.first;
-
-			_sceneMgr->destroyAnimationState(name);
-			_sceneMgr->destroyAnimation(name);
-		}
+		_sceneMgr->destroyAnimationState(anim);
+		_sceneMgr->destroyAnimation(anim);
 	}
+	_sceneAnims.clear();
 	_animations.clear();
 	_nextAnimationID = 0;
 }
@@ -780,6 +774,7 @@ animationID RenderModule::createTransformAnimation(const entityID& entityID, con
 	if (nodeID != -1 && _engineNodes[nodeID].sceneNode != nullptr)
 	{
 		Ogre::Animation* animation = _sceneMgr->createAnimation(animationName + std::to_string(_nextAnimationID), totalDuration);
+		_sceneAnims.push_back(animationName + std::to_string(_nextAnimationID));
 		animation->setInterpolationMode(Ogre::Animation::IM_LINEAR);
 		animation->createNodeTrack(0, _engineNodes[nodeID].sceneNode);
 		_animations.emplace_back(std::make_pair(_sceneMgr->createAnimationState(animationName + std::to_string(_nextAnimationID)), 1.0f));
