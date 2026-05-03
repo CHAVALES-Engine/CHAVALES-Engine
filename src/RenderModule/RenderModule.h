@@ -390,6 +390,11 @@ public:
 	 */
 	void setLightSpotRange(const lightID& id, const float& inner, const float& outer, const float& falloff);
 
+	/*
+	 * @brief Cambiar luz ambiente de la escena.
+	 */
+	void setAmbientLight(const core::Color& color);
+
 	// --- Metodos particulas
 	/*
 	* @brief Anadir generador de particulas.

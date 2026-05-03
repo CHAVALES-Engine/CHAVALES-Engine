@@ -874,7 +874,6 @@ lightID RenderModule::addLight(const entityID& entityID, const int& type, const 
 	case 2: light->setType(Ogre::Light::LT_SPOTLIGHT); break;
 	case 3: light->setType(Ogre::Light::LT_RECTLIGHT); break;
 	}
-
 	light->setDiffuseColour(color.getRed(), color.getGreen(), color.getBlue());
 	light->setSpecularColour(color.getRed(), color.getGreen(), color.getBlue());
 
@@ -959,6 +958,11 @@ void RenderModule::setLightIntensity(const lightID& id, const float& intensity)
 void RenderModule::setLightSpotRange(const lightID& id, const float& inner, const float& outer, const float& falloff) 
 {
 	if (id >= 0 && id < _lights.size() && _lights[id] != nullptr) _lights[id]->setSpotlightRange(Ogre::Degree(inner), Ogre::Degree(outer), falloff);
+}
+
+void RenderModule::setAmbientLight(const core::Color& color)
+{
+	_sceneMgr->setAmbientLight(Ogre::ColourValue(color.getRed(), color.getGreen(), color.getBlue()));
 }
 
 particleGenID RenderModule::addParticleGen(const entityID& entityID, const std::string& textureFolder, const std::string& textureFile)

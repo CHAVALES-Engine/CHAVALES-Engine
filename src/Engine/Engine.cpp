@@ -292,6 +292,11 @@ void Engine::setLightSpotRange(const lightID& id, const float& inner, const floa
 	_renderModule->setLightSpotRange(id, inner, outer, falloff);
 }
 
+void Engine::setAmbientLight(const core::Color& color)
+{
+	_renderModule->setAmbientLight(color);
+}
+
 particleGenID Engine::addParticleGen(const entityID& entityID, const std::string& textureName)
 {
 	auto particle = getAssetSourceFolder(textureName);

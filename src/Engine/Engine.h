@@ -261,21 +261,28 @@ public:
 	*/
 	void setLightActive(const lightID& id, const bool& active);
 	/*
-	* @brief Establecer el tipo de luz
+	* @brief Establecer el tipo de luz.
 	*/
 	void setLightType(const lightID& id, const int& type);
 	/*
-	* @brief Establecer el color de la luz
+	* @brief Establecer el color de la luz.
 	*/
 	void setLightColor(const lightID& id, const core::Color& color);
 	/*
-	* @brief Establecer la intensidad de luz
+	* @brief Establecer la intensidad de luz.
 	*/
 	void setLightIntensity(const lightID& id, const float& intensity);
 	/*
-	* @brief Establecer el cono de luz (ángulo interno, ángulo externo y suavidad de degradado)
+	* @brief Establecer el cono de luz (ángulo interno, ángulo externo y suavidad de degradado).
 	*/
 	void setLightSpotRange(const lightID& id, const float& inner, const float& outer, const float& falloff);
+#pragma endregion
+
+#pragma region ambientLight
+	/*
+	* @brief Cambiar luz ambiente de la escena.
+	*/
+	void setAmbientLight(const core::Color& color);
 #pragma endregion
 
 	//Metodos particulas

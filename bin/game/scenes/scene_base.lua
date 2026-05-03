@@ -77,6 +77,13 @@ scene = { -- entidades en escena
 				}   
 			}
 		},
+		ambientLight = {
+			components = {
+				AmbientLight = {
+					color = Color.new(0.3, 0.0, 0.0, 0.0)
+				}
+			}
+		},
    		light = {
 			ddol = false,
 			components = {
