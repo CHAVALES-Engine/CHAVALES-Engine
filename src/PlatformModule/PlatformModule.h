@@ -115,6 +115,12 @@ public:
 	 */
 	bool isActionPressed(const std::string& actionName, input::DeviceID device = input::ANY_DEVICE) const;
 	/*
+	 * @brief Devuelve si se ha pulsado una accion
+	 * @param actionName - accion a comprobar
+	 * @param device - id del dispositivo a comprobar. ANY_DEVICE por defecto => si se ha pulsado en cualquier dispositivo.
+	 */
+	bool isActionJustPressed(const std::string& actionName, input::DeviceID device = input::ANY_DEVICE) const;
+	/*
 	 * @brief Devuelve si se ha dejado de pulsar una accion
 	 * @param actionName - accion a comprobar
 	 * @param device - id del dispositivo a comprobar. ANY_DEVICE por defecto => si se ha dejado de pulsar en cualquier dispositivo.

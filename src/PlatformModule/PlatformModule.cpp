@@ -211,9 +211,9 @@ bool PlatformModule::isKeyReleased(input::InputEvent inputEvent, input::DeviceID
 	// "func" es la funcion escogida segun el tipo de dato de inputEvent.
 	auto func = [&](const input::VirtualDevice* vd) -> bool {
 		return std::visit(input::overloaded{
-			[&](input::Key k) {return vd->isPressed(k); },
-			[&](input::GamepadButton b) {return vd->isPressed(b); },
-			[&](input::MouseButton b) {return vd->isPressed(b); },
+			[&](input::Key k) {return vd->isReleased(k); },
+			[&](input::GamepadButton b) {return vd->isReleased(b); },
+			[&](input::MouseButton b) {return vd->isReleased(b); },
 			[](auto&& inputEvent) { Debug::error("[Input] inputEvent not allowed ", toString(inputEvent)); return false; }
 			}, inputEvent);
 		};
@@ -265,6 +265,15 @@ bool PlatformModule::isActionPressed(const std::string& actionName, input::Devic
 {
 	for (input::InputEvent event : _inputMapper->getInputEvents(actionName, device)) {
 		if (isKeyPressed(event, device))
+			return true;
+	}
+	return false;
+}
+
+bool PlatformModule::isActionJustPressed(const std::string& actionName, input::DeviceID device) const
+{
+	for (input::InputEvent event : _inputMapper->getInputEvents(actionName, device)) {
+		if (isJustPressed(event, device))
 			return true;
 	}
 	return false;

@@ -42,6 +42,11 @@ bool InputFacade::isActionPressed(const std::string& actionName, input::DeviceID
 	return _platform->isActionPressed(actionName, device);
 }
 
+bool InputFacade::isActionJustPressed(const std::string& actionName, input::DeviceID device) const
+{
+	return _platform->isActionJustPressed(actionName, device);
+}
+
 bool InputFacade::isActionReleased(const std::string& actionName, input::DeviceID device) const
 {
 	return _platform->isActionReleased(actionName, device);
