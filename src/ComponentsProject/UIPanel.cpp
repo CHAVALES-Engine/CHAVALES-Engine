@@ -18,12 +18,7 @@ UIPanel::UIPanel() : _title("Panel")
         });
 }
 
-UIPanel::~UIPanel()
-{
-    //Engine::instance()->deleteUIPanel(_panelID);
-}
-
-
+UIPanel::~UIPanel(){}
 
 bool UIPanel::init(const Properties& p)
 {

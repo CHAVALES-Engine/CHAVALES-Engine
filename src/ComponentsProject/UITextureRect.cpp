@@ -31,10 +31,7 @@ UITextureRect::UITextureRect()
 		});
 }
 
-UITextureRect::~UITextureRect()
-{
-	//Engine::instance()->deleteUITextureRect(_textureRectID);
-}
+UITextureRect::~UITextureRect(){}
 
 bool UITextureRect::init(const Properties& p)
 {

@@ -45,10 +45,7 @@ UILabel::UILabel() : _text("Label")
 		});
 }
 
-UILabel::~UILabel()
-{
-	//Engine::instance()->deleteUILabel(_labelID);
-}
+UILabel::~UILabel(){}
 
 bool UILabel::init(const Properties& p)
 {

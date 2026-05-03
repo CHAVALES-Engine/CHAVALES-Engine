@@ -413,13 +413,13 @@ UITransformID RenderModule::addUITransform(const entityID& entityID, const core:
 
 void RenderModule::setUITransformDimension(const UITransformID& id, const core::Vector2<float>& dim) {
 	if (id >= 0 && id < _uiTransforms.size()) {
-		_uiTransforms[id].dimension = dim;
+		_uiTransforms[id].dimension = { std::max(0.0f,dim.getX()), std::max(0.0f,dim.getY()) };
 	}
 }
 
 void RenderModule::setUITransformPos(const UITransformID& id, const core::Vector2<float>& pos) {
 	if (id >= 0 && id < _uiTransforms.size()) {
-		_uiTransforms[id].position = pos;
+		_uiTransforms[id].position = { std::max(0.0f,pos.getX()), std::max(0.0f,pos.getY()) };
 	}
 }
 
