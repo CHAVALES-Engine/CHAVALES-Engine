@@ -47,7 +47,7 @@ bool ResourcesModule::insertAssetMap(std::string sourceName)
 	_idMaps[aux] = nombreCarpeta + "/";
 
 	if (typeOfFolder == "fonts") {
-		_fontsVector.push_back({ typeOfFolder + "/" + nombreAsset,sourceName });;
+		_fontsVector.push_back({ typeOfFolder + "/" + nombreAsset,sourceName });
 	}
 
 	bool mayus = false;
