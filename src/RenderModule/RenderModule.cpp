@@ -747,19 +747,15 @@ void RenderModule::cleanAnimations()
 {
 	while (!_animations.empty())
 	{
-		Ogre::AnimationState* state = _animations.back().first;
-		_animations.pop_back();
-		if (state != nullptr)
-		{
-			std::string name = state->getAnimationName();
-			state->setEnabled(false);
+		auto it = _sceneMgr->getAnimationIterator();
 
-			//Destruir solo si es transform animation. Las de esqueleto se borran junto a la entidad.
-			if (_sceneMgr->hasAnimation(name))
-			{
-				_sceneMgr->destroyAnimationState(name);
-				_sceneMgr->destroyAnimation(name);
-			}
+		while (it.hasMoreElements())
+		{
+			Ogre::Animation* anim = it.getNext();
+			Ogre::String name = anim->getName();
+
+			_sceneMgr->destroyAnimationState(name);
+			_sceneMgr->destroyAnimation(name);
 		}
 	}
 	_animations.clear();
