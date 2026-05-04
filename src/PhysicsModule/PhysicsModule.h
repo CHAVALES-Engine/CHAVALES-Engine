@@ -247,5 +247,5 @@ private:
 	std::unordered_map<physx::PxRigidActor*, core::Entity*> actorToEntity;
 	std::vector<PhysicsEvent> eventQueue;
 	float accumulator = 0.0f;
-	static constexpr float fixedDt = 16.666f;
+	float fixedDt = 1/60.0f;
 };

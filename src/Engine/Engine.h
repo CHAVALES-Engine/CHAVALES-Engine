@@ -463,6 +463,10 @@ public:
 	*/
 	void  setUIButtonPressColor(const uiButtonID& buttonID, core::Color& psColor);
 	/*
+	* @brief Establecer el disable  del boton
+	*/
+	void setUIButtonDisable(const uiButtonID& buttonID, bool disable);
+	/*
 	* @brief Establecer callback del boton.
 	*/
 	void setUIButtonCallback(const uiButtonID& id, std::function<void()> callback);

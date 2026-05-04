@@ -122,8 +122,8 @@ bool PhysicsModule::Init()
 }
 
 bool PhysicsModule::rayCast(const PxVec3& origin,
-	const PxVec3& direction, 
-	float maxDistance, 
+	const PxVec3& direction,
+	float maxDistance,
 	RayInfo& rayInfo)
 {
 	PxRaycastBuffer hitInfo;
@@ -480,21 +480,11 @@ void PhysicsModule::Update(float dt)
 {
 	if (!gScene) return;
 	if (dt <= 0.0f) return;
-
-	accumulator += dt;
-
-	const float maxAccumulatedTime = 250.0f; 
-
-	if (accumulator > maxAccumulatedTime)
-		accumulator = maxAccumulatedTime;
-
-	while (accumulator >= fixedDt)
-	{
-		gScene->simulate(fixedDt / 1000.0f);
-		gScene->fetchResults(true);
-
-		accumulator -= fixedDt;
-	}
+	accumulator += dt / 1000.0f;
+	if (accumulator < fixedDt) return;
+	accumulator -= fixedDt;
+	gScene->simulate(fixedDt);
+	gScene->fetchResults(true);
 }
 
 void PhysicsModule::onTrigger(PxTriggerPair* pairs, PxU32 count) {

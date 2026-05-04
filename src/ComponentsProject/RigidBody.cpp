@@ -157,20 +157,7 @@ void RigidBody::update(uint64_t dt)
 
 	if (!isKinematic)
 	{
-		core::Vector3<> physicsPos = getPosition();
-
-		if (firstFrame)
-		{
-			smoothedPosition = physicsPos;
-			firstFrame = false;
-		}
-
-		float smoothFactor = 0.35f;
-
-		smoothedPosition =
-			smoothedPosition + (physicsPos - smoothedPosition) * smoothFactor;
-
-		transform->setGlobalPosition(smoothedPosition);
+		transform->setGlobalPosition(getPosition());
 		transform->setGlobalRotation(getRotation());
 	}
 	else

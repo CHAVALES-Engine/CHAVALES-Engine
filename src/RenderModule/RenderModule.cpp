@@ -1411,6 +1411,12 @@ void  RenderModule::setUIButtonPressColor(const uiButtonID& buttonID, core::Colo
 	_uiPanels[panelID].buttons[buttonIndex].psColor = psColor;
 }
 
+void RenderModule::setUIButtonDisable(const uiButtonID& buttonID, bool disable)
+{
+	auto [panelID, buttonIndex] = _buttonToPanel[buttonID];
+	_uiPanels[panelID].buttons[buttonIndex].disable = disable;
+}
+
 void RenderModule::setUIButtonCallback(const uiButtonID& buttonID, std::function<void()> callback)
 {
 	auto [panelID, buttonIndex] = _buttonToPanel[buttonID];
@@ -1578,14 +1584,14 @@ void RenderModule::renderUI()
 			{
 				std::string idButton = button.textureFile + "_" + button.entity.toString();
 				ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
-				if (ImGui::ImageButton(idButton.c_str(), (ImTextureID)(uintptr_t)button.textureID, aux)) 
+				if (ImGui::ImageButton(idButton.c_str(), (ImTextureID)(uintptr_t)button.textureID, aux))
 				{
 					Debug::out("[RENDERMODULE] Button clicked");
 
-					if (button.onClick)
+					if (!button.disable && button.onClick)
 					{
 						button.onClick();
-					}
+					}	
 				}
 				ImGui::PopStyleVar();
 			}
@@ -1598,7 +1604,7 @@ void RenderModule::renderUI()
 				{
 					Debug::out("[RENDERMODULE] Button clickedd");
 
-					if (button.onClick) 
+					if (!button.disable && button.onClick)
 					{
 						button.onClick();
 					}

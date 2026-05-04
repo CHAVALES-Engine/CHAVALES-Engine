@@ -73,11 +73,11 @@ scene = { -- entidades en escena
                     center = Vector3.new(0, 0, 0)
                 },
                 PhysicsMaterial = {
-                    staticFriction = 0.0,
-                    dynamicFriction = 0.0,
-                    restitution = 0.8,
-                    frictionCombine = 2,
-                    bounceCombine = 2
+                    staticFriction = 0.5,
+                    dynamicFriction = 0.5,
+                    restitution = 0.0,
+                    frictionCombine = 1,
+                    bounceCombine = 1
                 },
                 AudioSource = {
                     soundID = "sfx/smb_1-up.wav",
