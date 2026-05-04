@@ -221,6 +221,7 @@ namespace core {
 				++it;
 			}
 		}
+		_entitiesNames.clear();
 	}
 
 	std::vector<Entity*> core::Scene::getDDOLEntities()

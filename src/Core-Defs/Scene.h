@@ -142,6 +142,14 @@ namespace core
 		{
 			return _name;
 		}
+		/**
+		 * @brief Settea el nombre de la escena.
+		 *
+		 */
+		inline void setName(sceneName n)
+		{
+			_name = n;
+		}
 
 	private:
 		sceneName _name;

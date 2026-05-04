@@ -86,27 +86,31 @@ void StateMachine::_addAndSetScene(const sceneName& n)
 		_currentScene.ptr->clearScene();
 		Engine::instance()->cleanScene();
 	}
+	else
+	{
+		_currentScene.ptr = std::make_shared<core::Scene>("");
+	}
 
 	// cargar nueva escena
-	scenePtr s = std::move(GameLoader::loadScene(n));
+	GameLoader::loadScene(n, _currentScene.ptr);
 
-	if (s != nullptr) // si se ha cargado correctamente
+	if (_currentScene.ptr != nullptr) // si se ha cargado correctamente
 	{
 		Debug::out("STATEMACHINE: Entrando a escena ", n);
 
 		// anyade las entidades que sean persistentes de la escena anterior saltandose sus readys
 		for (core::Entity* pe : persistentEntities)
-			s->addEntity(pe);
+			_currentScene.ptr->addEntity(pe);
 		// como son dool no hace falta llamar otra vez awake y ready
-		s->addListedEntities();
+		_currentScene.ptr->addListedEntities();
 
 		// --- a este nivel se llama al ready:
 		// garantizamos que en el ready el resto de entidades y sus componentes estan inicializados 
-		s->awake();
-		s->ready();
+		_currentScene.ptr->awake();
+		_currentScene.ptr->ready();
 
 		// setea nueva escena actual
-		_currentScene.ptr = s;
+		_currentScene.ptr = _currentScene.ptr;
 		_currentScene.name = n;
 	}
 	else
