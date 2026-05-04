@@ -83,9 +83,14 @@ bool Engine::pollEvents() const
 	return _platformModule->syncronize();
 }
 
-const void Engine::requestSceneChange(std::string const& n) const
+void Engine::requestSceneChange(std::string const& n) const
 {
 	_stateMachine->requestSceneChange(n);
+}
+
+void Engine::quitGame() const
+{
+	_stateMachine->endGame();
 }
 
 core::Entity* Engine::instantiatePrefab(std::string const& pref) const

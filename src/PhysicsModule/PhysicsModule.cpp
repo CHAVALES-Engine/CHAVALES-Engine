@@ -105,6 +105,8 @@ bool PhysicsModule::Init()
 	sceneDesc.flags |= PxSceneFlag::eENABLE_STABILIZATION;
 	sceneDesc.flags |= PxSceneFlag::eENABLE_CCD;
 
+	sceneDesc.kineKineFilteringMode = PxPairFilteringMode::eKEEP;
+
 	sceneDesc.cpuDispatcher = dispatcher;
 	sceneDesc.filterShader = CustomFilterShader;
 	sceneDesc.simulationEventCallback = this;
@@ -285,7 +287,11 @@ void PhysicsModule::SetPhysicsPosition(ComponentID id, const core::Vector3<>& po
 {
 	auto it = physicsMap.find(id);
 	if (it == physicsMap.end()) return;
-	it->second.actor->is<PxRigidDynamic>()->setKinematicTarget({ pos.getX(), pos.getY(), pos.getZ() });
+	auto body = it->second.actor->is<PxRigidDynamic>();
+	if (body->getRigidBodyFlags() & PxRigidBodyFlag::eKINEMATIC)
+		body->setKinematicTarget(PxTransform(pos.getX(), pos.getY(), pos.getZ(), it->second.actor->is<PxRigidDynamic>()->getGlobalPose().q));
+	else
+		it->second.actor->setGlobalPose(PxTransform(PxVec3(pos.getX(), pos.getY(), pos.getZ())));
 }
 
 void PhysicsModule::SetPhysicsRotation(ComponentID id, const core::Quaternion<>& rot)
@@ -488,41 +494,27 @@ void PhysicsModule::Update(float dt)
 }
 
 void PhysicsModule::onTrigger(PxTriggerPair* pairs, PxU32 count) {
-	for (PxU32 i = 0; i < count; ++i)
+	for (physx::PxU32 i = 0; i < count; i++)
 	{
-		auto* triggerActor = static_cast<PxRigidActor*>(pairs[i].triggerActor);
-		auto* otherActor = static_cast<PxRigidActor*>(pairs[i].otherActor);
-
-		if (!triggerActor || !otherActor) continue;
+		auto* triggerActor = (physx::PxRigidActor*)pairs[i].triggerActor;
+		auto* otherActor = (physx::PxRigidActor*)pairs[i].otherActor;
+		if (!triggerActor || !otherActor) continue;//compruebo
 
 		auto itA = actorToID.find(triggerActor);
 		auto itB = actorToID.find(otherActor);
-
-		auto entA = actorToEntity.find(triggerActor);
-		auto entB = actorToEntity.find(otherActor);
-
-		if (itA == actorToID.end() || itB == actorToID.end()) continue;
-		if (entA == actorToEntity.end() || entB == actorToEntity.end()) continue;
+		auto itOther = actorToEntity.find(otherActor);
+		if (itA == actorToID.end() || itB == actorToID.end() ||//comprubeo
+			itOther == actorToEntity.end())
+			continue;
 
 		ComponentID a = itA->second;
 		ComponentID b = itB->second;
+		core::Entity* entityB = itOther->second;
 
-		core::Entity* entityA = entA->second;
-		core::Entity* entityB = entB->second;
-
-		//ENTER
 		if (pairs[i].status & PxPairFlag::eNOTIFY_TOUCH_FOUND)
-		{
 			eventQueue.push_back({ a, b, CollisionType::TriggerEnter, entityB });
-			eventQueue.push_back({ b, a, CollisionType::TriggerEnter, entityA });
-		}
-
-		//EXIT
 		if (pairs[i].status & PxPairFlag::eNOTIFY_TOUCH_LOST)
-		{
 			eventQueue.push_back({ a, b, CollisionType::TriggerExit, entityB });
-			eventQueue.push_back({ b, a, CollisionType::TriggerExit, entityA });
-		}
 	}
 }
 
@@ -827,6 +819,8 @@ void PhysicsModule::ReloadPhysics()
 	sceneDesc.flags |= PxSceneFlag::eENABLE_STABILIZATION;
 	sceneDesc.flags |= PxSceneFlag::eENABLE_CCD;
 
+	sceneDesc.kineKineFilteringMode = PxPairFilteringMode::eKEEP;
+
 	gScene = gPhysics->createScene(sceneDesc);
 
 	if (!gScene)
@@ -882,7 +876,7 @@ std::vector<PhysicsEvent> PhysicsModule::consumeEventsFor(ComponentID id)
 
 	for (auto& e : eventQueue)
 	{
-		if (e.a == id)//|| e.b == id)
+		if (e.a == id)// || e.b == id)
 			result.push_back(e);
 		else
 			remaining.push_back(e);
