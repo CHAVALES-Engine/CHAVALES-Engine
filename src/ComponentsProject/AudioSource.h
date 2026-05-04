@@ -46,6 +46,10 @@ private:
 	*/
 	core::Vector3<float> _lastPosition;
 	/*
+	* @brief Ruta de donde se encuentre el sonido
+	*/
+	std::string _path;
+	/*
 	* @brief Identificador del audio para la carga del recurso
 	*/
 	std::string _id;
@@ -82,6 +86,10 @@ private:
 	* @brief Identificador del canal que reproduce el sonido
 	*/
 	int _channelID;
+
+	int _protectedID;
+
+	bool isPlaying;
 
 public:
 	AudioSource();

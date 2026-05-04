@@ -80,14 +80,15 @@ scene = { -- entidades en escena
                     bounceCombine = 1
                 },
                 AudioSource = {
-                    soundID = "sfx/smb_1-up.wav",
+                    soundPath = "sfx/smb_1-up.wav",
+                    soundID = "vidaExtra1",
                     is3D = true,
-                    loop = true,
+                    loop = false,
                     isStream = false,
                     playOnReady = true,
-                    soundVolume = 10.0,
+                    soundVolume = 9.0,
                     minRadius = 150.0,
-                    maxRadius = 200.0
+                    maxRadius = 300.0
                 }
             }
         },
@@ -164,6 +165,55 @@ scene = { -- entidades en escena
                     fontSize = 16.0,
                     fontName = "fonts/horrendo.ttf",
                     textColor = Color.new(1.0, 1.0, 0.0, 1)
+                }
+            }
+        },
+        auxiliar = {
+           ddol = false,
+            components = {
+                Transform = {
+                    position = Vector3.new(500, 300, 300),
+                    rotation = Quaternion.new(),
+                    scale = Vector3.new(0.5)
+                },
+                ModelRenderer = {
+                    file = "mesh/sphere.fbx",
+                    ["number of textures"] = 0
+                },
+                RigidBody = {
+                    useGravity = true,
+                    isKinematic = false,
+                    mass = 1.0,
+                    position = Vector3.new(0, 300, 0),
+                    velocity = Vector3.new(0, 40, 0),
+                    damping = 0.0,
+                    blockAxes = {true}
+                },
+                Collider = {
+                    type = "CAPSULE",
+                    shape = Vector3.new(50, 0, 0),
+                    rotation = Vector3.new(),
+                    dynamic = true,
+                    trigger = false,
+                    center = Vector3.new(0, 0, 0)
+                },
+                PhysicsMaterial = {
+                    staticFriction = 0.0,
+                    dynamicFriction = 0.0,
+                    restitution = 0.8,
+                    frictionCombine = 2,
+                    bounceCombine = 2
+                },
+                AudioSource = {
+                    soundPath = "sfx/smb_1-up.wav",
+                    soundID = "vidaExtra2",
+                    is3D = true,
+                    loop = true,
+                    isStream = false,
+                    playOnReady = true,
+                    soundVolume = 1.0,
+                    minRadius = 150.0,
+                    maxRadius = 600.0
                 }
             }
         }

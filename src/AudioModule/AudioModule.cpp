@@ -40,21 +40,6 @@ bool AudioModule::init()
 
 void AudioModule::update()
 {
-	vector<ChannelMap::iterator> vecStoppedChannel;
-	for (auto i = _channelSound.begin(); i != _channelSound.end(); ++i)
-	{
-		bool soundPlaying = false;
-		i->second->isPlaying(&soundPlaying);
-		if (!soundPlaying)
-		{
-			vecStoppedChannel.push_back(i);
-		}
-	}
-	for (auto& it : vecStoppedChannel)
-	{
-		it->second->stop(); 
-		_channelSound.erase(it);
-	}
 	_system->update();
 }
 
@@ -82,38 +67,39 @@ void AudioModule::shutdown()
 bool AudioModule::loadSound(string path, string id, bool soundStream, bool soundLooping, bool sound3D)
 {
 	auto itSoundFound = _soundMap.find(id);
-	if (itSoundFound != _soundMap.end())
+	if (itSoundFound == _soundMap.end())
 	{
-		Debug::error("Sound creation error: Couldn't create sound, there is already a sound with this id: " + id);
-		return false;
-	}
-	//Depends in the parameters of the method
-	FMOD_MODE eMode = FMOD_DEFAULT;
-	if (sound3D) {
-		eMode |= FMOD_3D | FMOD_3D_LINEARROLLOFF;
-	}
-	else {
-		eMode |= FMOD_2D;
-	}
-	eMode |= soundLooping ? FMOD_LOOP_NORMAL : FMOD_LOOP_OFF;
-	eMode |= soundStream ? FMOD_CREATESTREAM : FMOD_CREATECOMPRESSEDSAMPLE;
+		//Depends in the parameters of the method
+		FMOD_MODE eMode = FMOD_DEFAULT;
+		if (sound3D) {
+			eMode |= FMOD_3D | FMOD_3D_LINEARROLLOFF;
+		}
+		else {
+			eMode |= FMOD_2D;
+		}
+		eMode |= soundLooping ? FMOD_LOOP_NORMAL : FMOD_LOOP_OFF;
+		eMode |= soundStream ? FMOD_CREATESTREAM : FMOD_CREATECOMPRESSEDSAMPLE;
 
-	//Result helps to identifie exceptions
-	FMOD_RESULT result;
-	FMOD::Sound* sound = nullptr;
 
-	result = _system->createSound(path.c_str(), eMode, nullptr, &sound);
 
-	if (result == FMOD_OK)
-	{
-		_soundMap[id] = sound;
-		return true;
+		//Result helps to identifie exceptions
+		FMOD_RESULT result;
+		FMOD::Sound* sound = nullptr;
+
+		result = _system->createSound(path.c_str(), eMode, nullptr, &sound);
+
+		if (result == FMOD_OK)
+		{
+			_soundMap[id] = sound;
+			return true;
+		}
+		else
+		{
+			Debug::error("FMOD error: Couldn't locate sound");
+			return false;
+		}
 	}
-	else
-	{
-		Debug::error("FMOD error: Couldn't locate sound");
-		return false;
-	}
+	return true;
 }
 
 bool AudioModule::unloadSound(std::string id)
@@ -147,9 +133,6 @@ int AudioModule::playSound(std::string id, float soundVolume, int looping, const
 		channel->set3DAttributes(&pos, &vel);
 		channel->setVolume(soundVolume);
 		channel->setPaused(false);
-		if (channel == nullptr) {
-			Debug::error("Channel is null after playSound");
-		}
 		channel->setLoopCount(looping);
 		_channelSound[nextChID] = channel;
 	}
@@ -232,8 +215,10 @@ bool AudioModule::pauseChannel(int chID, bool pause)
 		Debug::error("[pauseChannel] Channel not found: Couldn't find channel, there isn't an existing channel with this id: " + to_string(chID));
 		return false;
 	}
+	bool isPlaying;
+	itChFound->second->isPlaying(&isPlaying);
 	auto res =  itChFound->second->setPaused(pause);
-	if (res == FMOD_OK) return true;
+	if (res == FMOD_OK || !isPlaying) return true;
 	else {
 		Debug::error("[pauseChannel] Unexpected Error: Couldn't pause/resume the channel with this id: " + to_string(chID));
 		return false;

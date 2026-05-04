@@ -9,8 +9,8 @@
 
 REGISTER_COMPONENT(AudioSource);
 
-AudioSource::AudioSource() : _tr(nullptr), _lastPosition(0.0f, 0.0f, 0.0f), _id(), _is3D(false), _loop(false),
-_isStream(),_playOnReady(), _soundVolume(0.0f),_minRadius(1.0f), _maxRadius(100.0f), _channelID()
+AudioSource::AudioSource() : _tr(nullptr), _lastPosition(0.0f, 0.0f, 0.0f),_path(), _id(), _is3D(false), _loop(false),
+_isStream(),_playOnReady(), _soundVolume(0.0f),_minRadius(1.0f), _maxRadius(100.0f), _channelID(-1),_protectedID(-1)
 {
 }
 
@@ -20,6 +20,7 @@ AudioSource::~AudioSource()
 
 bool AudioSource::init(const Properties& p)
 {
+	_path = getProperty<std::string>(p, "soundPath");
 	_id = getProperty<std::string>(p, "soundID");
 	_is3D = getProperty<bool>(p, "is3D");
 	_loop = getProperty<bool>(p, "loop");
@@ -36,43 +37,79 @@ void AudioSource::ready()
 	assert(entity->hasComponent<Transform>());
 	_tr = entity->getComponent<Transform>();
 	_lastPosition = _tr->getGlobalPosition();
-	std::pair<std::string, std::string> path = Engine::instance()->getAssetSourceFolder(_id);
+	std::pair<std::string, std::string> path = Engine::instance()->getAssetSourceFolder(_path);
 	std::string realPath = path.second + path.first;
 	Engine::instance()->loadSound(realPath, _id, _isStream, _loop, _is3D);
-	if (_playOnReady)
-		playSound();
-	if (_is3D)
-		Engine::instance()->setMinMaxRadius(_channelID, _minRadius, _maxRadius);
+	if (_playOnReady) 
+	{
+		playSound(); 
+		if (_is3D)  
+		{
+			Engine::instance()->setMinMaxRadius(_channelID, _minRadius, _maxRadius);
+		}
+	}
+	
 }
 
 void AudioSource::update(uint64_t deltaTime)
 {
-	/*playSound();
-	if (_is3D) {
-		core::Vector3<> velocity = (_tr->getGlobalPosition() - _lastPosition) / deltaTime;
-		_lastPosition = _tr->getGlobalPosition();
-		Engine::instance()->setSourcePosition(_channelID, _tr->getGlobalPosition(), velocity);
-	}*/
+	float dt = deltaTime / 1000.0f;
+	
+	if (_is3D && dt > 0 && isPlaying) {
+		isPlaying = Engine::instance()->isChannelPlaying(_channelID);
+		auto currentPos = _tr->getGlobalPosition();
+		auto velocity = (currentPos - _lastPosition) / dt;
+
+		Engine::instance()->setSourcePosition(_channelID, currentPos, velocity);
+
+		_lastPosition = currentPos;		
+	}
+	if (!isPlaying) {
+		_channelID = -1;
+	}
 }
 
 void AudioSource::disable()
 {
+	_channelID = _protectedID;
 	pauseSound(true);
 }
 void AudioSource::destroy()
 {
+	_channelID = _protectedID;
 	stopSound();
 }
 void AudioSource::enable()
 {
-	pauseSound(false);
+	//pauseSound(false);
 }
 
 void AudioSource::playSound()
 {
 	int looping = 0;
 	if (_loop) looping = -1;
-	_channelID = Engine::instance()->playSound(_id, _soundVolume, looping, _tr->getGlobalPosition());
+
+	if (_channelID == -1) 
+	{
+		if (_protectedID != -1) {
+			int aux = _protectedID;
+			_channelID = _protectedID;
+			_protectedID = aux;
+			Engine::instance()->playSound(_id, _soundVolume, looping, _tr->getGlobalPosition());
+			isPlaying = true;
+		}
+		else {
+			_protectedID = Engine::instance()->playSound(_id, _soundVolume, looping, _tr->getGlobalPosition());
+			isPlaying = true;
+			int aux = _protectedID;
+			_channelID = _protectedID;
+			_protectedID = aux;
+		}		
+	}
+	else 
+	{
+		Engine::instance()->playSound(_id, _soundVolume, looping, _tr->getGlobalPosition());
+	}
 }
 
 int AudioSource::getLooping() const
