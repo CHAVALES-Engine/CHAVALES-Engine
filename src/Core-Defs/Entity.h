@@ -92,6 +92,8 @@ namespace core
 		* @brief Destruye la entidad y sus componentes
 		*/
 		void destroy();
+		bool isInitialized() const { return _initialized; }
+		void setInitialized(bool i) { _initialized = i; }
 #pragma endregion
 
 #pragma region COMPONENTS
@@ -220,6 +222,7 @@ namespace core
 		bool alive;
 		bool visible;
 		bool enabled;
+		bool _initialized = false;
 		Scene* scene;
 		entityID entityID;
 		//grpId_t groupId; // para colisiones

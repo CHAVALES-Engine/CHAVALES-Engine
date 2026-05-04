@@ -69,7 +69,7 @@ namespace core {
 		}*/
 		for (auto [guid, ent] : _entities)
 		{
-			if (ent && ent->isAlive())
+			if (ent && ent->isAlive() && !ent->isInitialized())
 				ent->awake();
 		}
 	}
@@ -91,8 +91,9 @@ namespace core {
 		}*/
 		for (auto [guid, ent] : _entities)
 		{
-			if (ent && ent->isAlive())
+			if (ent && ent->isAlive() && !ent->isInitialized())
 				ent->ready();
+			ent->setInitialized(true);
 		}
 	}
 
