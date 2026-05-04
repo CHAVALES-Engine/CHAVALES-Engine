@@ -484,20 +484,11 @@ void GameLoader::_loadLua(
 	{
 		// --- para cada entidad leida
 		core::Entity* e = new core::Entity();
-
 		_instanceEntity(e, entidadObj);
-
-		// --- a este nivel se llamaria al awake:
-		// metodo de logica de un componente sin garantizar que el resto de componentes y entidades esten inicializados
-		//for (auto& c : e->getComponents())
-		//{
-		//	//c->awake();
-		//}
-
-		// --- mete la entidad en la escena
+		// --- lista la entidad para anyadir en la escena
 		s->addEntity(e);
 	}
-
+	// Mete en la escena las entidades
 	s->addListedEntities();
 
 	for (auto& entidadObj : entities)
@@ -509,8 +500,8 @@ void GameLoader::_loadLua(
 		// inicializamos los componentes
 		_initializeEntity(e, entidadObj);
 	}
-
-	s->awake();
+	// statemachine controla esto, ya no hace falta
+	//s->awake();
 	Debug::out("GAMELOADER: Escena ", n, " cargada.");
 }
 
