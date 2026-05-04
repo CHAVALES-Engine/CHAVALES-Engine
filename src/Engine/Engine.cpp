@@ -730,6 +730,11 @@ std::vector<ShapeRenderData> Engine::GetPhysicsRenderData()
 	return _physicsModule->GetRenderData();
 }
 
+void Engine::SetGravity(const core::Vector3<>& gravity) const
+{
+	_physicsModule->SetGravity(gravity);
+}
+
 void Engine::setGizmos(bool gizmos)
 {
 	_gizmos = gizmos;

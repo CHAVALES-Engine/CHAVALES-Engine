@@ -641,6 +641,8 @@ public:
 		RayInfo& rayInfo) const;
 	std::vector<ShapeRenderData> GetPhysicsRenderData();
 
+	void SetGravity(const core::Vector3<>& gravity = { 0.0f, -9.8f,0.0f }) const;
+
 	/*
 	* @brief Setea los gizmos para debuggear physx
 	*/
