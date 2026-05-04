@@ -34,7 +34,7 @@ public:
 	/**
 	 * @brief Referencia al engine principal
 	 */
-	Engine* _eng = nullptr;
+	//Engine* _eng = nullptr;
 
 	/**
 	 * @brief Valor de gravedad aplicado manualmente (si procede)

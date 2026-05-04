@@ -498,6 +498,8 @@ void GameLoader::_loadLua(
 		s->addEntity(e);
 	}
 
+	s->addListedEntities();
+
 	for (auto& entidadObj : entities)
 	{
 		// --- para cada entidad leida
@@ -606,6 +608,7 @@ core::Entity* GameLoader::_loadLua(const std::shared_ptr<core::Scene>& s, const 
 
 
 		s->addEntity(e);
+		s->addListedEntities();
 
 		// inicializacion de componentes.
 		for (auto& kv : componentes)

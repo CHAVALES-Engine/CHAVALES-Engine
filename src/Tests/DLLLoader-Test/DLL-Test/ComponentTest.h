@@ -46,6 +46,23 @@ class ComponentTest : public core::Component
 		return setProperty(p, "velocity", velocity);
 	}
 
+	void awake() override
+	{
+		Engine::input()->addEventToAction("left", input::KEY_A, device);
+		Engine::input()->addEventToAction("left", input::BUTTON_GP_LEFT, device);
+		Engine::input()->addEventToAction("right", input::KEY_D, device);
+		Engine::input()->addEventToAction("right", input::BUTTON_GP_RIGHT, device);
+		Engine::input()->addEventToAction("front", input::KEY_W, device);
+		Engine::input()->addEventToAction("front", input::BUTTON_GP_UP, device);
+		Engine::input()->addEventToAction("back", input::KEY_S, device);
+		Engine::input()->addEventToAction("back", input::BUTTON_GP_DOWN, device);
+
+		Engine::input()->addEventToAction("lock_h", input::GAMEPAD_AXIS_RIGHT_X, device);
+		Engine::input()->addEventToAction("lock_h", input::MOUSE_AXIS_REL_X, device);
+		Engine::input()->addEventToAction("lock_v", input::GAMEPAD_AXIS_RIGHT_Y, device);
+		Engine::input()->addEventToAction("lock_v", input::MOUSE_AXIS_REL_Y, device);
+	}
+
 	void ready() override
 	{
 		//Debug::out(">>READY<<");
@@ -66,22 +83,11 @@ class ComponentTest : public core::Component
 		_transform = getEntity()->getComponent("Transform");
 		// bloquea el cursor
 		Engine::instance()->input()->setRelativeMouseMode(false);
-		_transform->call("lockRotationZ", { true });
-		Engine::input()->addEventToAction("left", input::KEY_A, device);
-		Engine::input()->addEventToAction("left", input::BUTTON_GP_LEFT, device);
-		Engine::input()->addEventToAction("right", input::KEY_D, device);
-		Engine::input()->addEventToAction("right", input::BUTTON_GP_RIGHT, device);
-		Engine::input()->addEventToAction("front", input::KEY_W, device);
-		Engine::input()->addEventToAction("front", input::BUTTON_GP_UP, device);
-		Engine::input()->addEventToAction("back", input::KEY_S, device);
-		Engine::input()->addEventToAction("back", input::BUTTON_GP_DOWN, device);
-
-		Engine::input()->addEventToAction("lock_h", input::GAMEPAD_AXIS_RIGHT_X, device);
-		Engine::input()->addEventToAction("lock_h", input::MOUSE_AXIS_REL_X, device);
-		Engine::input()->addEventToAction("lock_v", input::GAMEPAD_AXIS_RIGHT_Y, device);
-		Engine::input()->addEventToAction("lock_v", input::MOUSE_AXIS_REL_Y, device);
-
-		_transform->call("LookAt", { core::Vector3<>(0, 150, 0) });
+		if (_transform)
+		{
+			_transform->call("lockRotationZ", { true });
+			_transform->call("LookAt", { core::Vector3<>(0, 150, 0) });
+		}
 
 		_esfera = getEntity()->getScene()->findEntityByName("esfera");
 		if (!_esfera) {
@@ -140,11 +146,11 @@ class ComponentTest : public core::Component
 					/*float mouseX = 0;
 					float mouseY =0;*/
 					core::Vector2 mousePos(mouseX, mouseY);
-					core::Vector3<> rayDir; 
-					
+					core::Vector3<> rayDir;
+
 					core::Vector3<> rayOrigin = camera->screenToWorld(mousePos,
-						Engine::instance()->getWindowWidth(), 
-						Engine::instance()->getWindowHeight(), 
+						Engine::instance()->getWindowWidth(),
+						Engine::instance()->getWindowHeight(),
 						rayDir);
 
 					//Debug::out("Mouse: " + std::to_string(mouseX) + ", " + std::to_string(mouseY));
@@ -180,7 +186,10 @@ class ComponentTest : public core::Component
 				}
 			}
 			// --- Movimiento WASD
+			if (!_transform)
+				_transform = getEntity()->getComponent("Transform");
 
+			if (!_transform) return;
 			auto forward = _transform->call<core::Vector3<>>("forward");
 			auto right = _transform->call<core::Vector3<>>("right");
 

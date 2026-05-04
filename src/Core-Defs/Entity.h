@@ -18,10 +18,11 @@ namespace core
 
 	class Entity
 	{
+		friend Scene;
+		virtual ~Entity(); // Destroys the entity
 	public:
 		Entity();
 		Entity(std::string);
-		virtual ~Entity(); // Destroys the entity
 
 		// prohibimos copia
 		Entity(const Entity&) = delete;

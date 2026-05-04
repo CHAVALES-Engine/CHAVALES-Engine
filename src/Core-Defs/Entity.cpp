@@ -4,6 +4,7 @@
 #include "ec.h"
 #include "guid.h"
 #include "checkMLNew.h"
+#include "Scene.h"
 
 namespace core
 {
@@ -75,6 +76,7 @@ namespace core
 
 	void Entity::removeComponent(const std::string& name)
 	{
+		if (!alive) return;
 		for (auto it = components.begin(); it != components.end(); )
 		{
 			if ((*it)->getName() == name)
@@ -100,6 +102,7 @@ namespace core
 
 	void Entity::awake()
 	{
+		if (!alive) return;
 		for (std::shared_ptr<Component>& c : components)
 		{
 			c->awake();
@@ -108,6 +111,7 @@ namespace core
 
 	void Entity::ready()
 	{
+		if (!alive) return;
 		for (std::shared_ptr<Component>& c : components)
 		{
 			c->ready();
@@ -158,12 +162,16 @@ namespace core
 
 	void Entity::destroy()
 	{
+		if (!alive) return;
 		alive = false;
+		if (scene)
+			scene->destroyEntity(this);
 		removeComponents();
 	}
 
 	void Entity::enable()
 	{
+		if (!alive) return;
 		if (!enabled)
 		{
 			enabled = true;
@@ -174,6 +182,7 @@ namespace core
 
 	void Entity::disable()
 	{
+		if (!alive) return;
 		if (enabled)
 		{
 			enabled = false;
@@ -184,6 +193,7 @@ namespace core
 
 	Component* Entity::addComponent(std::shared_ptr<Component> c)
 	{
+		if (!alive) return nullptr;;
 		c->setEntity(this);
 		c->enable();
 		//c->ready();

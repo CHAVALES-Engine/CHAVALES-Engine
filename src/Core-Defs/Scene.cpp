@@ -5,7 +5,7 @@
 #include "checkMLNew.h"
 namespace core {
 	core::Scene::Scene(sceneName name) :
-		_name(name)
+		_name(std::move(name))
 	{
 		_active = false; Debug::out("SCENE: Escena '", _name, "' creada.");
 	}
@@ -13,8 +13,9 @@ namespace core {
 	core::Scene::~Scene()
 	{
 		Debug::out("SCENE: Destruyendo escena '", _name, "'. Limpiando contenedores.");
-		_entities.clear();
-		_entitiesNames.clear();
+		destroy();
+		/*_entities.clear();
+		_entitiesNames.clear();*/
 	}
 
 	void core::Scene::onEnable()
@@ -54,7 +55,7 @@ namespace core {
 			return;
 		}
 
-		std::vector<entityID> guids;
+		/*std::vector<entityID> guids;
 		for (const auto& [guid, _] : _entities)
 			guids.push_back(guid);
 
@@ -65,6 +66,11 @@ namespace core {
 				it->second->awake();
 			else if (it != _entities.end())
 				Debug::error("SCENE: awake() - Entidad con GUID ", guid, " es nula.");
+		}*/
+		for (auto [guid, ent] : _entities)
+		{
+			if (ent && ent->isAlive())
+				ent->awake();
 		}
 	}
 
@@ -73,7 +79,7 @@ namespace core {
 		Debug::out("SCENE: Llamando a ready() en escena '", _name, "'.");
 		if (_entities.empty()) return;
 
-		std::vector<entityID> guids;
+		/*std::vector<entityID> guids;
 		for (const auto& [guid, _] : _entities)
 			guids.push_back(guid);
 
@@ -82,6 +88,11 @@ namespace core {
 			auto it = _entities.find(guid);
 			if (it != _entities.end() && it->second)
 				it->second->ready();
+		}*/
+		for (auto [guid, ent] : _entities)
+		{
+			if (ent && ent->isAlive())
+				ent->ready();
 		}
 	}
 
@@ -90,7 +101,7 @@ namespace core {
 		if (_entities.empty()) return;
 		// Copiar los guids para iterar de forma segura
 		// pos si se anyade o quitan entidades en runtime
-		std::vector<entityID> guids;
+		/*std::vector<entityID> guids;
 		for (const auto& [guid, _] : _entities)
 			guids.push_back(guid);
 
@@ -99,6 +110,11 @@ namespace core {
 			auto it = _entities.find(guid);
 			if (it != _entities.end() && it->second)
 				it->second->fixedUpdate();
+		}*/
+		for (auto [guid, ent] : _entities)
+		{
+			if (ent && ent->isAlive())
+				ent->fixedUpdate();
 		}
 
 	}
@@ -109,7 +125,7 @@ namespace core {
 
 		// Copiar los guids para iterar de forma segura
 		// pos si se anyade o quitan entidades en runtime
-		std::vector<entityID> guids;
+		/*std::vector<entityID> guids;
 		for (const auto& [guid, _] : _entities)
 			guids.push_back(guid);
 
@@ -118,6 +134,11 @@ namespace core {
 			auto it = _entities.find(guid);
 			if (it != _entities.end() && it->second)
 				it->second->update(dT);
+		}*/
+		for (auto [guid, ent] : _entities)
+		{
+			if (ent && ent->isAlive())
+				ent->update(dT);
 		}
 	}
 
@@ -125,17 +146,16 @@ namespace core {
 	{
 		if (_entities.empty()) return;
 
-		// Copiar los guids para iterar de forma segura
-		// pos si se anyade o quitan entidades en runtime
-		std::vector<entityID> guids;
-		for (const auto& [guid, _] : _entities)
-			guids.push_back(guid);
+		//// Copiar los guids para iterar de forma segura
+		//// pos si se anyade o quitan entidades en runtime
+		//std::vector<entityID> guids;
+		//for (const auto& [guid, _] : _entities)
+		//	guids.push_back(guid);
 
-		for (auto& guid : guids)
+		for (auto [guid, ent] : _entities)
 		{
-			auto it = _entities.find(guid);
-			if (it != _entities.end() && it->second)
-				it->second->lateUpdate(dT);
+			if (ent && ent->isAlive())
+				ent->lateUpdate(dT);
 		}
 	}
 
@@ -187,7 +207,7 @@ namespace core {
 		{
 			auto& [guid, e] = *it;
 
-			if (!e->getDontDestroyOnLoad())
+			if (e && !e->getDontDestroyOnLoad())
 			{
 				delete e;
 				it = _entities.erase(it);
@@ -217,31 +237,45 @@ namespace core {
 			Debug::error("SCENE: Intento de anyadir una entidad nula a la escena '", _name, "'");
 			return;
 		}
-		entityID guid = ChavalesGUID::generate();
-		e->setEntityID(guid);
+		_entitiesToAdd.push_back(e);
+	}
 
-		std::string originalName = e->getName();
-		std::string finalName = originalName;
-		int counter = 1;
-
-		// iterar hasta encontrar un nombre valido.
-		while (_entitiesNames.find(finalName) != _entitiesNames.end())
-		{
-			//Debug::warning("SCENE: Nombre duplicado. ", finalName);
-			finalName = originalName + "_" + std::to_string(counter);
-			counter++;
+	void Scene::destroyEntity(core::Entity* e)
+	{
+		if (!e) {
+			Debug::error("SCENE: Intento de anyadir una entidad nula a la escena '", _name, "'");
+			return;
 		}
-		// Si el nombre es diferente actualiza el de la entidad.
-		if (finalName != originalName)
-		{
-			e->setName(finalName);
-			Debug::warning("SCENE: Nombre duplicado. Renombrado de '", originalName, "' a '", finalName, "'");
-		}
+		_entitiesToDelete.push_back(e->getEntityID());
+	}
 
-		_entities[guid] = e;
-		_entitiesNames[finalName] = guid;
-		e->setScene(this);
-		Debug::out("SCENE: Entidad '", finalName, "' [ID: ", guid, "] anyadida con exito.");
+	void core::Scene::destroyDeadEntities()
+	{
+		if (_entitiesToDelete.empty()) return;
+
+		for (const auto& guid : _entitiesToDelete)
+		{
+			auto it = _entities.find(guid);
+			if (it == _entities.end()) continue;
+
+			Entity* e = it->second;
+
+			// Limpiar del mapa de nombres
+			_entitiesNames.erase(e->getName());
+
+			// Destruir y liberar
+			delete e;
+			_entities.erase(it);
+		}
+		_entitiesToDelete.clear();
+	}
+
+	void Scene::addListedEntities()
+	{
+		for (auto* e : _entitiesToAdd)
+			_addEntity(e);
+
+		_entitiesToAdd.clear();
 	}
 
 	std::unordered_map<ChavalesGUID, core::Entity*> core::Scene::getEntities() const
@@ -261,5 +295,39 @@ namespace core {
 
 		Debug::error("SCENE: Inconsistencia detectada. Nombre '", name, "' existe pero su GUID no tiene entidad asociada.");
 		return nullptr;
+	}
+
+	void Scene::_addEntity(core::Entity* e)
+	{
+		if (!e) {
+			Debug::error("SCENE: Intento de anyadir una entidad nula a la escena '", _name, "'");
+			return;
+		}
+
+		entityID guid = ChavalesGUID::generate();
+		e->setEntityID(guid);
+
+		std::string originalName = e->getName();
+		std::string finalName = originalName;
+		int counter = 1;
+
+		// iterar hasta encontrar un nombre valido.
+		while (_entitiesNames.find(finalName) != _entitiesNames.end())
+		{
+			//Debug::warning("SCENE: Nombre duplicado. ", finalName);
+			finalName = originalName + "_" + std::to_string(counter);
+			counter++;
+		}
+		// Si el nombre es diferente actualiza el de la entidad.
+		if (finalName != originalName)
+		{
+			e->setName(finalName);
+			//Debug::warning("SCENE: Nombre duplicado. Renombrado de '", originalName, "' a '", finalName, "'");
+		}
+
+		_entities[guid] = e;
+		_entitiesNames[finalName] = guid;
+		e->setScene(this);
+		Debug::out("SCENE: Entidad '", finalName, "' [ID: ", guid, "] anyadida con exito.");
 	}
 }

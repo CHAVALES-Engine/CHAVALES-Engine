@@ -32,6 +32,9 @@ void AudioListener::ready()
 
 void AudioListener::update(uint64_t deltaTime)
 {
+	if (!_transform)
+		_transform = getEntity()->getComponent<Transform>();
+	if (!_transform) return;
 	core::Vector3<> vel = (_transform->getGlobalPosition() - _lastPos) / deltaTime;
 	_lastPos = _transform->getGlobalPosition();
 	Engine::instance()->setListener(_transform->getGlobalPosition(), _transform->forward(), _transform->up(), vel);

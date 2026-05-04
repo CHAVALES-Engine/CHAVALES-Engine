@@ -55,7 +55,9 @@ void StateMachine::gameLoop()
 			_currentScene.ptr->lateUpdate(_deltaTime);
 			Engine::instance()->update(_deltaTime);
 			Engine::instance()->renderFrame();
-
+			// Gestion de creacion y eliminado de entidades en runtime
+			_currentScene.ptr->addListedEntities();
+			_currentScene.ptr->destroyDeadEntities();
 			_processHotLuaReload();
 		}
 	}
