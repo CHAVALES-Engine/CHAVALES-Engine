@@ -481,20 +481,13 @@ void PhysicsModule::Update(float dt)
 	if (!gScene) return;
 	if (dt <= 0.0f) return;
 
-	accumulator += dt;
+	float dtSec = dt / 1000.0f;
 
-	const float maxAccumulatedTime = 250.0f; 
+	if (dtSec > 0.033f) 
+		dtSec = 0.033f;
 
-	if (accumulator > maxAccumulatedTime)
-		accumulator = maxAccumulatedTime;
-
-	while (accumulator >= fixedDt)
-	{
-		gScene->simulate(fixedDt / 1000.0f);
-		gScene->fetchResults(true);
-
-		accumulator -= fixedDt;
-	}
+	gScene->simulate(dtSec);
+	gScene->fetchResults(true);
 }
 
 void PhysicsModule::onTrigger(PxTriggerPair* pairs, PxU32 count) {
