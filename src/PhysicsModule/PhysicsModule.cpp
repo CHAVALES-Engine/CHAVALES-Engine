@@ -122,8 +122,8 @@ bool PhysicsModule::Init()
 }
 
 bool PhysicsModule::rayCast(const PxVec3& origin,
-	const PxVec3& direction, 
-	float maxDistance, 
+	const PxVec3& direction,
+	float maxDistance,
 	RayInfo& rayInfo)
 {
 	PxRaycastBuffer hitInfo;
@@ -480,13 +480,10 @@ void PhysicsModule::Update(float dt)
 {
 	if (!gScene) return;
 	if (dt <= 0.0f) return;
-
-	float dtSec = dt / 1000.0f;
-
-	if (dtSec > 0.033f) 
-		dtSec = 0.033f;
-
-	gScene->simulate(dtSec);
+	accumulator += dt / 1000.0f;
+	if (accumulator < fixedDt) return;
+	accumulator -= fixedDt;
+	gScene->simulate(fixedDt);
 	gScene->fetchResults(true);
 }
 
