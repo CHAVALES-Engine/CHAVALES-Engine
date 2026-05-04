@@ -187,19 +187,24 @@ namespace core {
 	void core::Scene::destroy() // elimina al completo
 	{
 		Debug::out("SCENE: Destruyendo todas las entidades de la escena '", _name, "'.");
-		if (!_entities.empty())
+		while (!_entities.empty())
 		{
-			for (auto& [guid, e] : _entities)
-			{
-				e->setScene(nullptr);
-				delete e;
-			}
-			_entities.clear();
+			auto it = _entities.begin();
+			it->second->setScene(nullptr);
+			delete it->second;
+			_entities.erase(it);
 		}
-		if (!_entitiesNames.empty())
+		_entities.clear();
+		_entitiesNames.clear();
+		while (!_entitiesToAdd.empty())
 		{
-			_entitiesNames.clear();
+			Entity* e = _entitiesToAdd.back();
+			_entitiesToAdd.pop_back();
+			e->setScene(nullptr);
+			delete e;
 		}
+		_entitiesToAdd.clear();
+		_entitiesToDelete.clear();
 	}
 
 	void core::Scene::clearScene() // comprueba dont destroy on load
