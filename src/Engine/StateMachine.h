@@ -42,6 +42,11 @@ public:
 	 */
 	void gameLoop();
 
+	void endGame()
+	{
+		_endGame = true;
+	}
+
 	/**
 	 * @brief Metodo para pedir un cambio de escena 
 	 * @param sn - nombre de la escena 

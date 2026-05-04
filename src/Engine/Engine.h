@@ -76,10 +76,14 @@ public:
 	*/
 	bool pollEvents() const;
 	/**
-	 *
+	 * @brief Solicita un cambio de escena a la maquina de estados.
 	 * @param n - path de la escena.
 	 */
-	const void requestSceneChange(std::string const& n) const;
+	void requestSceneChange(std::string const& n) const;
+	/**
+	 * @brief Acaba y cierra el juego.
+	 */
+	void quitGame() const;
 	/**
 	 * @brief Instancia un prefab en la escena.
 	 * @param pref - path del prefab a instanciar.
