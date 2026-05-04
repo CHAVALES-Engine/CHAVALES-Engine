@@ -52,6 +52,11 @@ UIButton::UIButton(): _text("Button")
 			setPressColor(std::any_cast<core::Color>(args[0]));
 		}
 		});
+	registerMethod("disable", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			disable(std::any_cast<bool>(args[0]));
+		}
+		});
 	registerMethod("setOnClick", [this](const std::vector<std::any>& args) {
 		if (args.size() >= 1) {
 			setOnClick(std::any_cast<std::function<void()>>(args[0]));
@@ -137,6 +142,10 @@ void UIButton::setHoverColor(core::Color color) {
 void UIButton::setPressColor(core::Color color) {
 	_pressColor = color;
 	Engine::instance()->setUIButtonPressColor(_buttonID, _pressColor);
+}
+void UIButton::disable(bool disable)
+{
+	Engine::instance()->setUIButtonDisable(_buttonID, disable);
 }
 void UIButton::setOnClick(std::function<void()> callback)
 {

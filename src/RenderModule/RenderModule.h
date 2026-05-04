@@ -92,6 +92,7 @@ struct UIButtonData
 	core::Color hvColor = core::Color(0, 0, 0, 1);
 	core::Color psColor = core::Color(0, 0, 0, 1);
 	bool alive = true;
+	bool disable = false;
 };
 
 struct UITextureRectData 
@@ -601,7 +602,10 @@ public:
 	* @brief Establecer el color del pulsado del boton
 	*/
 	void  setUIButtonPressColor(const uiButtonID& buttonID, core::Color& psColor);
-
+	/*
+	* @brief Establecer el disable  del boton
+	*/
+	void setUIButtonDisable(const uiButtonID& buttonID, bool disable);
 	/*
 	* @brief Establecer el callback del boton
 	*/

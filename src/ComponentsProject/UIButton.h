@@ -61,5 +61,6 @@ public:
 	void setTextColor(core::Color color);
 	void setHoverColor(core::Color color);
 	void setPressColor(core::Color color);
+	void disable(bool disable);
 };
 

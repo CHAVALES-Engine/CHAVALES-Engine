@@ -480,6 +480,9 @@ void Engine::setUIButtonPressColor(const uiButtonID& buttonID, core::Color& psCo
 {
 	_renderModule->setUIButtonPressColor(buttonID, psColor);
 }
+void Engine::setUIButtonDisable(const uiButtonID& buttonID, bool disable) {
+	_renderModule->setUIButtonDisable(buttonID, disable);
+}
 void Engine::setUIButtonCallback(const uiButtonID& id, std::function<void()> callback) {
 	_renderModule->setUIButtonCallback(id, callback);
 }
