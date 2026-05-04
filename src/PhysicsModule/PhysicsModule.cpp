@@ -105,6 +105,8 @@ bool PhysicsModule::Init()
 	sceneDesc.flags |= PxSceneFlag::eENABLE_STABILIZATION;
 	sceneDesc.flags |= PxSceneFlag::eENABLE_CCD;
 
+	sceneDesc.kineKineFilteringMode = PxPairFilteringMode::eKEEP;
+
 	sceneDesc.cpuDispatcher = dispatcher;
 	sceneDesc.filterShader = CustomFilterShader;
 	sceneDesc.simulationEventCallback = this;
@@ -816,6 +818,8 @@ void PhysicsModule::ReloadPhysics()
 	sceneDesc.flags |= PxSceneFlag::eENABLE_PCM;
 	sceneDesc.flags |= PxSceneFlag::eENABLE_STABILIZATION;
 	sceneDesc.flags |= PxSceneFlag::eENABLE_CCD;
+
+	sceneDesc.kineKineFilteringMode = PxPairFilteringMode::eKEEP;
 
 	gScene = gPhysics->createScene(sceneDesc);
 

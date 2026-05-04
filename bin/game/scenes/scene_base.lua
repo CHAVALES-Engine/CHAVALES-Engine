@@ -47,7 +47,7 @@ scene = { -- entidades en escena
             ddol = false,
             components = {
                 Transform = {
-                    position = Vector3.new(0, 100, 0),
+                    position = Vector3.new(0, 50, 0),
                     rotation = Quaternion.new(),
                     scale = Vector3.new(0.5)
                 },
@@ -56,10 +56,10 @@ scene = { -- entidades en escena
                     ["number of textures"] = 0
                 },
                 RigidBody = {
-                    useGravity = true,
+                    useGravity = false,
                     isKinematic = true,
                     mass = 1.0,
-                    position = Vector3.new(0, 100, 0),
+                    position = Vector3.new(0, 50, 0),
                     velocity = Vector3.new(0, 40, 0),
                     damping = 0.0,
                     blockAxes = {true}
