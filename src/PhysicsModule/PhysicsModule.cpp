@@ -498,23 +498,37 @@ void PhysicsModule::onTrigger(PxTriggerPair* pairs, PxU32 count) {
 	{
 		auto* triggerActor = (physx::PxRigidActor*)pairs[i].triggerActor;
 		auto* otherActor = (physx::PxRigidActor*)pairs[i].otherActor;
-		if (!triggerActor || !otherActor) continue;//compruebo
+
+		if (!triggerActor || !otherActor) continue;
 
 		auto itA = actorToID.find(triggerActor);
 		auto itB = actorToID.find(otherActor);
-		auto itOther = actorToEntity.find(otherActor);
-		if (itA == actorToID.end() || itB == actorToID.end() ||//comprubeo
-			itOther == actorToEntity.end())
-			continue;
+
+		auto itEntityA = actorToEntity.find(triggerActor);
+		auto itEntityB = actorToEntity.find(otherActor);
+
+		if (itA == actorToID.end() || itB == actorToID.end()) continue;
+		if (itEntityA == actorToEntity.end() || itEntityB == actorToEntity.end()) continue;
 
 		ComponentID a = itA->second;
 		ComponentID b = itB->second;
-		core::Entity* entityB = itOther->second;
 
+		core::Entity* entityA = itEntityA->second;
+		core::Entity* entityB = itEntityB->second;
+
+		//ENTER
 		if (pairs[i].status & PxPairFlag::eNOTIFY_TOUCH_FOUND)
+		{
 			eventQueue.push_back({ a, b, CollisionType::TriggerEnter, entityB });
+			eventQueue.push_back({ b, a, CollisionType::TriggerEnter, entityA });
+		}
+
+		//EXIT
 		if (pairs[i].status & PxPairFlag::eNOTIFY_TOUCH_LOST)
+		{
 			eventQueue.push_back({ a, b, CollisionType::TriggerExit, entityB });
+			eventQueue.push_back({ b, a, CollisionType::TriggerExit, entityA });
+		}
 	}
 }
 

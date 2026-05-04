@@ -69,7 +69,7 @@ scene = { -- entidades en escena
                     shape = Vector3.new(50, 0, 0),
                     rotation = Vector3.new(),
                     dynamic = true,
-                    trigger = false,
+                    trigger = true,
                     center = Vector3.new(0, 0, 0)
                 },
                 PhysicsMaterial = {
