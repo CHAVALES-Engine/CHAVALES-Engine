@@ -1512,7 +1512,6 @@ void RenderModule::renderUI()
 			const ImVec2 auxDim = { _uiTransforms[tID].dimension.getX(), _uiTransforms[tID].dimension.getY() };
 			const ImVec2 auxPos = { _uiTransforms[tID].position.getX(),  _uiTransforms[tID].position.getY() };
 			std::string labelName = "label_" + label.entity.toString();
-			ImGui::InvisibleButton(labelName.c_str(), auxDim);
 			drawList->AddRectFilled(auxPos, ImVec2(auxPos.x + auxDim.x, auxPos.y + auxDim.y), IM_COL32(label.bgColor.getRed() * 255, label.bgColor.getGreen() * 255, label.bgColor.getBlue() * 255, label.bgColor.getAlpha() * label.opacity * 255));
 			ImGui::PushFont(label.font);
 			ImVec2 textSize = ImGui::CalcTextSize(label.text.c_str());
@@ -1597,7 +1596,7 @@ void RenderModule::renderUI()
 				std::string textID = button.text + "##" + button.entity.toString();
 				if (ImGui::Button(textID.c_str(), aux))
 				{
-					Debug::out("[RENDERMODULE] Button clicked");
+					Debug::out("[RENDERMODULE] Button clickedd");
 
 					if (button.onClick) 
 					{
