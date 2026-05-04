@@ -250,19 +250,15 @@ namespace core {
 	}
 
 	void core::Scene::destroyDeadEntities()
-	{
-		if (_entitiesToDelete.empty()) return;
-
+	{ 
 		for (const auto& guid : _entitiesToDelete)
 		{
 			auto it = _entities.find(guid);
 			if (it == _entities.end()) continue;
 
 			Entity* e = it->second;
-
 			// Limpiar del mapa de nombres
 			_entitiesNames.erase(e->getName());
-
 			// Destruir y liberar
 			delete e;
 			_entities.erase(it);

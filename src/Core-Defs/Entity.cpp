@@ -24,7 +24,7 @@ namespace core
 	Entity::~Entity()
 	{
 		disable();
-		destroy();
+		removeComponents();
 	}
 
 	void Entity::setAlive(bool a) { alive = a; }
@@ -166,7 +166,6 @@ namespace core
 		alive = false;
 		if (scene)
 			scene->destroyEntity(this);
-		removeComponents();
 	}
 
 	void Entity::enable()
