@@ -74,7 +74,8 @@ public:
 	 * @brief ID del material en el sistema de físicas
 	 */
 	uint32_t physicsMaterialID = 0;
-
+	uint32_t physicsShapeID = 0;
+	
 	PhysicsMaterial();
 
 	/**

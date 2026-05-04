@@ -190,13 +190,17 @@ public:
 	void onWake(physx::PxActor** actors, physx::PxU32 count) override {}
 	void onSleep(physx::PxActor** actors, physx::PxU32 count) override {}
 	void onAdvance(const physx::PxRigidBody* const* bodyBuffer, const physx::PxTransform* poseBuffer, const physx::PxU32 count) override {}
-
+	/*
+	* @brief Setea la gravedad de la escena
+	* @param gravedad en Vector3
+	*/
+	void SetGravity(core::Vector3<> gravity);
 	//MAYERIALES
 	/*
 	* @brief Crea un material físico
 	* @param fricción estática, fricción dinámica, restitución y modos de combinación
 	*/
-	uint32_t CreateMaterial(float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine);
+	uint32_t CreateMaterial(ComponentID id, float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine);
 
 	/*
 	* @brief Actualiza un material físico existente

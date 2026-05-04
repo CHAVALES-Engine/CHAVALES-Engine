@@ -699,9 +699,9 @@ void Engine::blockAngles(uint32_t id, bool x, bool y, bool z)
 	_physicsModule->BlockAngles(id, x, y, z);
 }
 
-uint32_t Engine::createMaterial(float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine)
+uint32_t Engine::createMaterial(ComponentID id, float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine)
 {
-	return _physicsModule->CreateMaterial(staticF, dynamicF, restitution, frictionCombine, bounceCombine);
+	return _physicsModule->CreateMaterial(id, staticF, dynamicF, restitution, frictionCombine, bounceCombine);
 }
 
 void Engine::updateMaterial(uint32_t id, float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine)

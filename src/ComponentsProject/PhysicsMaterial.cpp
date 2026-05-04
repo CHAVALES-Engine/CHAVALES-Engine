@@ -50,16 +50,17 @@ void PhysicsMaterial::ready()
 	if (restitution > 1.0f) restitution = 1.0f;
 	if (!entity) return;
 
+	auto collider = entity->getComponent<Collider>();
+	if (!collider) return;
+	physicsShapeID = collider->getId();
 	physicsMaterialID = _eng->createMaterial(
+		physicsShapeID,
 		staticFriction,
 		dynamicFriction,
 		restitution,
 		static_cast<int>(frictionCombine),
 		static_cast<int>(bounceCombine)
 	);
-	auto collider = entity->getComponent<Collider>();
-	if (!collider) return;
-	physicsMaterialID = collider->getId();
 }
 
 void PhysicsMaterial::update(uint64_t dt)

@@ -629,7 +629,7 @@ public:
 	void blockAxes(uint32_t id, bool x, bool y, bool z);
 	void blockAngles(uint32_t id, bool x, bool y, bool z);
 
-	uint32_t createMaterial(float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine);
+	uint32_t createMaterial(ComponentID id, float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine);
 
 	void updateMaterial(uint32_t id, float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine);
 

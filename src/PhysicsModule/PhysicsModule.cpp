@@ -434,7 +434,13 @@ void PhysicsModule::SetLinearDamping(uint32_t id, float damping)
 	body->setLinearDamping(PxReal(damping));
 }
 
-uint32_t PhysicsModule::CreateMaterial(float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine)
+void PhysicsModule::SetGravity(core::Vector3<> gravity)
+{
+	if (!gScene) return;
+	gScene->setGravity(PxVec3(gravity.getX(), gravity.getY(), gravity.getZ()));
+}
+
+uint32_t PhysicsModule::CreateMaterial(ComponentID id, float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine)
 {
 	if (!gPhysics) return 0;
 	PxMaterial* mat = gPhysics->createMaterial(staticF, dynamicF, restitution);
@@ -442,9 +448,14 @@ uint32_t PhysicsModule::CreateMaterial(float staticF, float dynamicF, float rest
 	mat->setFrictionCombineMode(ToPxCombine(frictionCombine));
 	mat->setRestitutionCombineMode(ToPxCombine(bounceCombine));
 	//usa tus propios ids
-	ComponentID id = nextIDMaterial++;
-	materialMap[id] = mat;
-	return id;
+	ComponentID cid = nextIDMaterial++;
+	materialMap[cid] = mat;
+	// Aplicar directamente al actor si existe
+	auto actorIt = physicsMap.find(id);
+	if (actorIt != physicsMap.end())
+		for (PxShape* shape : actorIt->second.shapes)
+			if (shape) shape->setMaterials(&mat, 1);
+	return cid;
 }
 
 void PhysicsModule::UpdateMaterial(uint32_t id, float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine)

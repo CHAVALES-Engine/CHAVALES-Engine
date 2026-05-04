@@ -13,7 +13,7 @@ prefab = {
         RigidBody = {
             useGravity = false, 
             isKinematic = true,
-            mass = 10.0,
+            mass = 1000.0,
             position = Vector3.new(0, 0, 0),     
             velocity = Vector3.new(0, 0, 0),   
             damping = 0.0
@@ -25,6 +25,13 @@ prefab = {
             dynamic = true,
             trigger = false,
             center = Vector3.new(0,0,0)    
+        },
+        PhysicsMaterial = {
+            staticFriction = 0.0,
+            dynamicFriction = 0.0,
+            restitution = 0.8,
+            frictionCombine = 2,
+            bounceCombine = 2
         }
     }
 }
