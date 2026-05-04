@@ -488,27 +488,41 @@ void PhysicsModule::Update(float dt)
 }
 
 void PhysicsModule::onTrigger(PxTriggerPair* pairs, PxU32 count) {
-	for (physx::PxU32 i = 0; i < count; i++)
+	for (PxU32 i = 0; i < count; ++i)
 	{
-		auto* triggerActor = (physx::PxRigidActor*)pairs[i].triggerActor;
-		auto* otherActor = (physx::PxRigidActor*)pairs[i].otherActor;
-		if (!triggerActor || !otherActor) continue;//compruebo
+		auto* triggerActor = static_cast<PxRigidActor*>(pairs[i].triggerActor);
+		auto* otherActor = static_cast<PxRigidActor*>(pairs[i].otherActor);
+
+		if (!triggerActor || !otherActor) continue;
 
 		auto itA = actorToID.find(triggerActor);
 		auto itB = actorToID.find(otherActor);
-		auto itOther = actorToEntity.find(otherActor);
-		if (itA == actorToID.end() || itB == actorToID.end() ||//comprubeo
-			itOther == actorToEntity.end())
-			continue;
+
+		auto entA = actorToEntity.find(triggerActor);
+		auto entB = actorToEntity.find(otherActor);
+
+		if (itA == actorToID.end() || itB == actorToID.end()) continue;
+		if (entA == actorToEntity.end() || entB == actorToEntity.end()) continue;
 
 		ComponentID a = itA->second;
 		ComponentID b = itB->second;
-		core::Entity* entityB = itOther->second;
 
+		core::Entity* entityA = entA->second;
+		core::Entity* entityB = entB->second;
+
+		//ENTER
 		if (pairs[i].status & PxPairFlag::eNOTIFY_TOUCH_FOUND)
+		{
 			eventQueue.push_back({ a, b, CollisionType::TriggerEnter, entityB });
+			eventQueue.push_back({ b, a, CollisionType::TriggerEnter, entityA });
+		}
+
+		//EXIT
 		if (pairs[i].status & PxPairFlag::eNOTIFY_TOUCH_LOST)
+		{
 			eventQueue.push_back({ a, b, CollisionType::TriggerExit, entityB });
+			eventQueue.push_back({ b, a, CollisionType::TriggerExit, entityA });
+		}
 	}
 }
 
@@ -868,7 +882,7 @@ std::vector<PhysicsEvent> PhysicsModule::consumeEventsFor(ComponentID id)
 
 	for (auto& e : eventQueue)
 	{
-		if (e.a == id)// || e.b == id)
+		if (e.a == id)//|| e.b == id)
 			result.push_back(e);
 		else
 			remaining.push_back(e);

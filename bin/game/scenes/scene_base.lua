@@ -47,7 +47,7 @@ scene = { -- entidades en escena
             ddol = false,
             components = {
                 Transform = {
-                    position = Vector3.new(0, 300, 0),
+                    position = Vector3.new(0, 100, 0),
                     rotation = Quaternion.new(),
                     scale = Vector3.new(0.5)
                 },
@@ -57,9 +57,9 @@ scene = { -- entidades en escena
                 },
                 RigidBody = {
                     useGravity = true,
-                    isKinematic = false,
+                    isKinematic = true,
                     mass = 1.0,
-                    position = Vector3.new(0, 300, 0),
+                    position = Vector3.new(0, 100, 0),
                     velocity = Vector3.new(0, 40, 0),
                     damping = 0.0,
                     blockAxes = {true}
@@ -203,18 +203,19 @@ scene = { -- entidades en escena
                     restitution = 0.8,
                     frictionCombine = 2,
                     bounceCombine = 2
-                },
-                AudioSource = {
-                    soundPath = "sfx/smb_1-up.wav",
-                    soundID = "vidaExtra2",
-                    is3D = true,
-                    loop = true,
-                    isStream = false,
-                    playOnReady = true,
-                    soundVolume = 1.0,
-                    minRadius = 150.0,
-                    maxRadius = 600.0
                 }
+                -- ,
+                -- AudioSource = {
+                --     soundPath = "sfx/smb_1-up.wav",
+                --     soundID = "vidaExtra2",
+                --     is3D = true,
+                --     loop = true,
+                --     isStream = false,
+                --     playOnReady = true,
+                --     soundVolume = 1.0,
+                --     minRadius = 150.0,
+                --     maxRadius = 600.0
+                -- }
             }
         }
     }
