@@ -285,7 +285,7 @@ void PhysicsModule::SetPhysicsPosition(ComponentID id, const core::Vector3<>& po
 {
 	auto it = physicsMap.find(id);
 	if (it == physicsMap.end()) return;
-	it->second.actor->setGlobalPose(PxTransform(PxVec3(pos.getX(), pos.getY(), pos.getZ())));
+	it->second.actor->is<PxRigidDynamic>()->setKinematicTarget({ pos.getX(), pos.getY(), pos.getZ() });
 }
 
 void PhysicsModule::SetPhysicsRotation(ComponentID id, const core::Quaternion<>& rot)
