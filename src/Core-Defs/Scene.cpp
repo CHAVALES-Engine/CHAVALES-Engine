@@ -190,6 +190,7 @@ namespace core {
 		{
 			for (auto& [guid, e] : _entities)
 			{
+				e->setScene(nullptr);
 				delete e;
 			}
 			_entities.clear();
@@ -209,6 +210,7 @@ namespace core {
 
 			if (e && !e->getDontDestroyOnLoad())
 			{
+				e->setScene(nullptr);
 				delete e;
 				it = _entities.erase(it);
 			}
@@ -260,6 +262,7 @@ namespace core {
 			// Limpiar del mapa de nombres
 			_entitiesNames.erase(e->getName());
 			// Destruir y liberar
+			e->setScene(nullptr);
 			delete e;
 			_entities.erase(it);
 		}
