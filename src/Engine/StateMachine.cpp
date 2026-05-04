@@ -94,20 +94,20 @@ void StateMachine::_addAndSetScene(const sceneName& n)
 	{
 		Debug::out("STATEMACHINE: Entrando a escena ", n);
 
-		// setea nueva escena actual
-		_currentScene.ptr = s;
-		_currentScene.name = n;
-
 		// anyade las entidades que sean persistentes de la escena anterior saltandose sus readys
 		for (core::Entity* pe : persistentEntities)
-			_currentScene.ptr->addEntity(pe);
+			s->addEntity(pe);
 		// como son dool no hace falta llamar otra vez awake y ready
-		_currentScene.ptr->addListedEntities();
+		s->addListedEntities();
 
 		// --- a este nivel se llama al ready:
 		// garantizamos que en el ready el resto de entidades y sus componentes estan inicializados 
-		_currentScene.ptr->awake();
-		_currentScene.ptr->ready();
+		s->awake();
+		s->ready();
+
+		// setea nueva escena actual
+		_currentScene.ptr = s;
+		_currentScene.name = n;
 	}
 	else
 	{
