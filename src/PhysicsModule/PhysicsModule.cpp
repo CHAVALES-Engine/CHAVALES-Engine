@@ -118,7 +118,7 @@ bool PhysicsModule::Init()
 
 	gScene->setVisualizationParameter(PxVisualizationParameter::eCOLLISION_SHAPES, 1.0f);
 	gScene->setVisualizationParameter(PxVisualizationParameter::eACTOR_AXES, 1.0f);
-
+	gScene->setGravity(gScene->getGravity() * 10);
 	raycast = Raycast(gScene);
 	return gPhysics != nullptr;
 }
@@ -482,14 +482,11 @@ void PhysicsModule::UpdateMaterial(uint32_t id, float staticF, float dynamicF, f
 	shape->setMaterials(&mat, 1);
 }
 
-void PhysicsModule::Update(float dt)
+void PhysicsModule::fixedUpdate(float dt)
 {
 	if (!gScene) return;
-	if (dt <= 0.0f) return;
-	accumulator += dt / 1000.0f;
-	if (accumulator < fixedDt) return;
-	accumulator -= fixedDt;
-	gScene->simulate(fixedDt);
+
+	gScene->simulate(dt / 1000.0f);
 	gScene->fetchResults(true);
 }
 

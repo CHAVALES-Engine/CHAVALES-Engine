@@ -17,7 +17,9 @@ namespace core
 using sceneName = std::string;
 using scenePtr = std::shared_ptr<core::Scene>;
 
-struct scene 
+class PhysicsModule;
+
+struct scene
 {
 	scenePtr ptr = nullptr;
 	sceneName name = " ";
@@ -48,8 +50,8 @@ public:
 	}
 
 	/**
-	 * @brief Metodo para pedir un cambio de escena 
-	 * @param sn - nombre de la escena 
+	 * @brief Metodo para pedir un cambio de escena
+	 * @param sn - nombre de la escena
 	 */
 	void requestSceneChange(const sceneName& sn);
 
@@ -122,4 +124,9 @@ private:
 	 * @brief Nombre de la siguiente escena solicitada.
 	 */
 	sceneName _pendingSceneName;
+
+	/**
+	 * @brief Referencia fisica.
+	 */
+	PhysicsModule* _physicsModule = nullptr;
 };

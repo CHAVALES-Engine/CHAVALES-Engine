@@ -13,6 +13,7 @@
 #include "Debug.h"
 #include "GameLoader.h"
 #include "TimeManager.h"
+#include "PhysicsModule.h"
 #include "checkMLNew.h"
 
 class GameLoader;
@@ -21,11 +22,14 @@ StateMachine::StateMachine() :
 	_endGame(false)
 {
 	_deltaTime = 0;
+	_physicsModule = new PhysicsModule();
 }
 
 StateMachine::~StateMachine()
 {
 	_currentScene.ptr = nullptr;
+	delete _physicsModule;
+	_physicsModule = nullptr;
 }
 
 void StateMachine::gameLoop()
@@ -48,6 +52,7 @@ void StateMachine::gameLoop()
 			if (_deltaTime >= core::Clock::FRAME_RATE)
 			{
 				_currentScene.ptr->fixedUpdate();
+				_physicsModule->fixedUpdate(core::Clock::FRAME_RATE);
 				startTime = core::Clock::getNow();
 			}
 

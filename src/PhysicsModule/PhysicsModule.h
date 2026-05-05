@@ -41,7 +41,7 @@ public:
 	* @brief Update
 	* @param deltatime
 	*/
-	void Update(float dt);
+	void fixedUpdate(float dt);
 
 	/*
 	* @brief Lanza un raycast en la escena
