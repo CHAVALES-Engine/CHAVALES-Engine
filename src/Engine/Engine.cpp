@@ -140,9 +140,9 @@ void Engine::setTransformScale(const transformID& id, const core::Vector3<float>
 	_renderModule->setNodeScale(id, scale);
 }
 
-UITransformID Engine::addUITransform(const entityID& entityID, const core::Vector2<float>& pos,const int& zBuffer, const core::Vector2<float>& dimension, const float& rotation)
+UITransformID Engine::addUITransform(const entityID& entityID, const core::Vector2<float>& pos, const int& zBuffer, const core::Vector2<float>& dimension, const float& rotation)
 {
-	return _renderModule->addUITransform(entityID, pos,zBuffer, dimension, rotation);
+	return _renderModule->addUITransform(entityID, pos, zBuffer, dimension, rotation);
 }
 
 void Engine::setUITransformDimension(const UITransformID& id, const core::Vector2<float>& dim)
@@ -203,7 +203,7 @@ void Engine::setCameraFocalLength(const cameraID& id, const float& focalLength)
 modelID Engine::addModel(const entityID& entityID, const std::string& modelName)
 {
 	auto model = _resourcesModule->getAssetSourceFolder(modelName);
-	return _renderModule->addModel(entityID, model.second,  model.first);
+	return _renderModule->addModel(entityID, model.second, model.first);
 }
 
 void Engine::deleteModel(const modelID& id)
@@ -412,8 +412,8 @@ void Engine::deleteUIPanel(const uiPanelID& id)
 {
 	_renderModule->deleteUIPanel(id);
 }
-uiLabelID  Engine::addUILabel(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const  float opacity,  const core::Color textColor, const core::Color bgColor, const float fontSize, const TextAlign textAlign, const std::string fontName) {
-	
+uiLabelID  Engine::addUILabel(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const  float opacity, const core::Color textColor, const core::Color bgColor, const float fontSize, const TextAlign textAlign, const std::string fontName) {
+
 	return _renderModule->addUILabel(panelID, entityID, text, opacity, textColor, bgColor, fontSize, textAlign, fontName);
 }
 void Engine::deleteUILabel(const uiLabelID& id)
@@ -440,8 +440,8 @@ void  Engine::setUILabelAlign(const uiLabelID& labelID, const TextAlign& align) 
 	_renderModule->setUILabelAlign(labelID, align);
 }
 
-uiButtonID  Engine::addUIButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const float& fontSize, const std::string& fontName, const core::Color& bgColor, const core::Color& txColor, const core::Color& hvColor, const core::Color& psColor,const float& opacity) {
-	return _renderModule->addUIButton(panelID, entityID, text, fontSize, fontName, bgColor,txColor, hvColor, psColor,opacity);
+uiButtonID  Engine::addUIButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const float& fontSize, const std::string& fontName, const core::Color& bgColor, const core::Color& txColor, const core::Color& hvColor, const core::Color& psColor, const float& opacity) {
+	return _renderModule->addUIButton(panelID, entityID, text, fontSize, fontName, bgColor, txColor, hvColor, psColor, opacity);
 
 }
 
@@ -455,7 +455,7 @@ uiButtonID Engine::addUIImageButton(const uiPanelID& panelID, const entityID& en
 
 	auto texture = getAssetSourceFolder(textureName);
 
-	return _renderModule->addUIImageButton(panelID,entityID, text, texture.second, texture.first,bgColor, hvColor, psColor, opacity);
+	return _renderModule->addUIImageButton(panelID, entityID, text, texture.second, texture.first, bgColor, hvColor, psColor, opacity);
 }
 void Engine::setUIButtonText(const uiButtonID& buttonID, const std::string& text) {
 	_renderModule->setUIButtonText(buttonID, text);
@@ -759,9 +759,9 @@ void Engine::setActorEnabled(ComponentID id, bool enabled, bool isTrigger)
 {
 	_physicsModule->SetActorEnabled(id, enabled, isTrigger);
 }
-std::pair<std::string, std::string> Engine::getAssetSourceFolder(std::string assetName) 
+std::pair<std::string, std::string> Engine::getAssetSourceFolder(std::string assetName)
 {
-	return _resourcesModule->getAssetSourceFolder(assetName); 
+	return _resourcesModule->getAssetSourceFolder(assetName);
 }
 std::vector<std::pair<std::string, std::string>> Engine::getAllAssets()
 {
@@ -820,7 +820,7 @@ bool Engine::_initPriv()
 	_input = new InputFacade(_platformModule);
 	//Render
 	_renderModule = new RenderModule();
-	if (!_renderModule->Init(_platformModule->getSDLWindow(),_platformModule->getWindowHandle(), _platformModule->getWindowWidth(), _platformModule->getWindowHeight(), _resourcesModule->getAllFonts())) {
+	if (!_renderModule->Init(_platformModule->getSDLWindow(), _platformModule->getWindowHandle(), _platformModule->getWindowWidth(), _platformModule->getWindowHeight(), _resourcesModule->getAllFonts())) {
 		delete _renderModule;
 		_renderModule = nullptr;
 		return false;
@@ -870,5 +870,11 @@ void Engine::update(float dt)
 	{
 		_audioModule->update();
 	}
+}
+
+void Engine::fixedUpdate(float dt)
+{
+	if (_physicsModule)
+		_physicsModule->fixedUpdate(dt);
 }
 

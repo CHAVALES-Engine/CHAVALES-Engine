@@ -52,6 +52,7 @@ class ENGINE_API Engine
 	~Engine() = default;
 public:
 	void update(float dt);
+	void fixedUpdate(float dt);
 	/*
 	* @brief Inicializacion del motor
 	* @return bool - True si se ha inicializado correctamente
