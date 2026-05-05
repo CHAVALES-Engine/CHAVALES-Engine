@@ -111,6 +111,7 @@ void Engine::renderFrame()
 
 void Engine::cleanScene()
 {
+	_audioModule->stopEverything();
 	_physicsModule->ReloadPhysics();
 	_renderModule->cleanScene(false);
 }
@@ -565,6 +566,19 @@ bool Engine::setDelay(int chID, double start, double end, bool stopChannel)
 bool Engine::isChannelPlaying(int chID)
 {
 	return _audioModule->isChannelPlaying(chID);
+}
+
+void  Engine::muteEverything()
+{
+	_audioModule->muteEverything();
+}
+void  Engine::stopEverything()
+{
+	_audioModule->stopEverything();
+}
+void  Engine::unMuteEverything()
+{
+	_audioModule->unMuteEverything();
 }
 
 void Engine::registerActorEntity(ComponentID physicsID, core::Entity* entity)

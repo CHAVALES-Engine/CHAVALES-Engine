@@ -564,6 +564,21 @@ public:
 	*/
 	bool isChannelPlaying(int chID);
 
+	/*
+	* @brief Pausa todos los canales
+	*/
+	void muteEverything();
+
+	/*
+	* @brief Para y elimina todos los canales
+	*/
+	void stopEverything();
+
+	/*
+	* @brief Reanuda todos los canales
+	*/
+	void unMuteEverything();
+
 #pragma endregion
 
 #pragma region Physics

@@ -105,6 +105,11 @@ public:
 	void muteEverything();
 
 	/// <summary>
+	/// Method to stop all chanels
+	/// </summary>
+	void stopEverything();
+
+	/// <summary>
 	/// Method to unmute all chanels
 	/// </summary>
 	void unMuteEverything();
