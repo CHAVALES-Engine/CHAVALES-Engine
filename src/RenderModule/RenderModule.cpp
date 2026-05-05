@@ -256,6 +256,16 @@ void RenderModule::cleanScene(const bool& end)
 	_engineNodes.clear();
 	_nextTransformID = 0;
 
+	Ogre::MaterialManager& matMgr = Ogre::MaterialManager::getSingleton();
+
+	for (auto& m : _createdMaterials)
+	{
+		if (matMgr.resourceExists(m))
+		{
+			matMgr.remove(m);
+		}
+	}
+
 	//Si se va a crear una escena nueva dejamos una camara de seguridad. Volvemos a anadir rtss a imgui.
 	if (!end)
 	{
@@ -610,21 +620,28 @@ void RenderModule::deleteModel(const modelID& id)
 
 		Ogre::SceneNode* parent = model->getParentSceneNode();
 
+		Ogre::MaterialManager& matMgr = Ogre::MaterialManager::getSingleton();
+
 		for (unsigned int i = 0; i < model->getNumSubEntities(); ++i)
 		{
 			Ogre::SubEntity* sub = model->getSubEntity(i);
 			Ogre::MaterialPtr mat = sub->getMaterial();
 
-			if (mat != nullptr)
+			if (mat)
 			{
+				Ogre::String matName = mat->getName();
+
 				for (unsigned short t = 0; t < mat->getNumTechniques(); ++t)
 				{
 					Ogre::Technique* tech = mat->getTechnique(t);
-
 					if (tech)
 					{
 						_shaderGen->removeShaderBasedTechnique(tech, Ogre::MaterialManager::DEFAULT_SCHEME_NAME);
 					}
+				}
+				if (matMgr.resourceExists(matName))
+				{
+					matMgr.remove(matName);
 				}
 			}
 		}
@@ -648,21 +665,28 @@ void RenderModule::cleanModels()
 		{
 			Ogre::SceneNode* parent = model->getParentSceneNode();
 
+			Ogre::MaterialManager& matMgr = Ogre::MaterialManager::getSingleton();
+
 			for (unsigned int i = 0; i < model->getNumSubEntities(); ++i)
 			{
 				Ogre::SubEntity* sub = model->getSubEntity(i);
 				Ogre::MaterialPtr mat = sub->getMaterial();
 
-				if (mat != nullptr)
+				if (mat)
 				{
+					Ogre::String matName = mat->getName();
+
 					for (unsigned short t = 0; t < mat->getNumTechniques(); ++t)
 					{
 						Ogre::Technique* tech = mat->getTechnique(t);
-
 						if (tech)
 						{
 							_shaderGen->removeShaderBasedTechnique(tech, Ogre::MaterialManager::DEFAULT_SCHEME_NAME);
 						}
+					}
+					if (matMgr.resourceExists(matName))
+					{
+						matMgr.remove(matName);
 					}
 				}
 			}
@@ -1703,9 +1727,6 @@ void RenderModule::shutdown()
 		_sceneMgr->destroySceneNode(_debugNode);
 		_debugNode = nullptr;
 	}
-
-	for (auto& m : _createdMaterials)
-		Ogre::MaterialManager::getSingleton().remove(m);
 
 	if (Ogre::RTShader::ShaderGenerator::getSingletonPtr())
 	{
