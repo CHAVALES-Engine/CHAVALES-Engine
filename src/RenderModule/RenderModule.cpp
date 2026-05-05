@@ -1616,7 +1616,7 @@ void RenderModule::renderUI()
 			if (click && !button.disable && button.onClick) {
 				button.onClick();
 			}
-			ImGui::PopStyleColor(2);
+			ImGui::PopStyleColor(4);
 			ImGui::PopStyleVar();
 		}
 		splitter.Merge(drawList);
