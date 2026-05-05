@@ -85,10 +85,24 @@ bool UIButton::init(const Properties& p)
 
 void UIButton::awake()
 {
-	auto panel = getEntity()->getComponent<UITransform>()->getComponentInParents<UIPanel>();
-
+	auto uiT = getEntity()->getComponent<UITransform>();
+	if (!uiT) {
+		Debug::error("[UIButton] - No transform, no se crea UIButton");
+		_buttonID = UINT64_MAX;
+		return;
+	}
+	auto panel = uiT->getComponentInParents<UIPanel>();
+	if (!panel) {
+		Debug::error("[UIButton] - No UIPanel en padres, no se crea UIButton");
+		_buttonID = UINT64_MAX;
+		return;
+	}
 	uiPanelID  panelID = panel->getPanelID();
-
+	if (panelID == UINT64_MAX) {
+		Debug::error("[UIButton] - panelID, no se crea UIButton");
+		_buttonID = UINT64_MAX;
+		return;
+	}
 	if (_textureName.empty()) {
 		_buttonID = Engine::instance()->addUIButton(panelID, getEntity()->getEntityID(), _text, _fontSize,_fontName,_bgColor,_textColor,_hoverColor,_pressColor, _opacity);
 
@@ -100,54 +114,60 @@ void UIButton::awake()
 
 void UIButton::destroy()
 {
+	if (_buttonID == UINT64_MAX)return;
 	Engine::instance()->deleteUIButton(_buttonID);
 }
 
 void UIButton::setText(const std::string& text) {
 	_text = text;
+	if (_buttonID == UINT64_MAX)return;
 	Engine::instance()->setUIButtonText(_buttonID, _text);
-
 }
 
 void UIButton::setVisible(bool visible) {
+	if (_buttonID == UINT64_MAX)return;
 	Engine::instance()->setUIButtonVisible(_buttonID, visible);
-
 }
 void UIButton::setTexture(const std::string& texture)
 {
 	_textureName = texture;
+	if (_buttonID == UINT64_MAX)return;
 	Engine::instance()->setUIButtonTexture(_buttonID, _textureName);
 }
 
 void UIButton::setOpacity(float opacity)
 {
 	_opacity = opacity;
+	if (_buttonID == UINT64_MAX)return;
 	Engine::instance()->setUIButtonOpacity(_buttonID, opacity);
-
 }
 void UIButton::setBackgroudColor(core::Color color) {
 	_bgColor = color;
+	if (_buttonID == UINT64_MAX)return;
 	Engine::instance()->setUIButtonBackgroundColor(_buttonID, _bgColor);
 }
 void UIButton::setTextColor(core::Color color) {
 	_textColor = color;
+	if (_buttonID == UINT64_MAX)return;
 	Engine::instance()->setUIButtonTextColor(_buttonID, _textColor);
-
 }
 void UIButton::setHoverColor(core::Color color) {
 	_hoverColor = color;
+	if (_buttonID == UINT64_MAX)return;
 	Engine::instance()->setUIButtonHoverColor(_buttonID, _hoverColor);
-
 }
 void UIButton::setPressColor(core::Color color) {
 	_pressColor = color;
+	if (_buttonID == UINT64_MAX)return;
 	Engine::instance()->setUIButtonPressColor(_buttonID, _pressColor);
 }
 void UIButton::disable(bool disable)
 {
+	if (_buttonID == UINT64_MAX)return;
 	Engine::instance()->setUIButtonDisable(_buttonID, disable);
 }
 void UIButton::setOnClick(std::function<void()> callback)
 {
+	if (_buttonID == UINT64_MAX)return;
 	Engine::instance()->setUIButtonCallback(_buttonID, callback);
 }

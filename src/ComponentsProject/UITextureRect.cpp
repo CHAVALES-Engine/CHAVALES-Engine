@@ -43,31 +43,47 @@ bool UITextureRect::init(const Properties& p)
 
 void UITextureRect::awake()
 {
-	auto panel = getEntity()->getComponent<UITransform>()->getComponentInParents<UIPanel>();
-
-
+	auto uiT = getEntity()->getComponent<UITransform>();
+	if (!uiT) {
+		Debug::error("[UITextureRect] - No transform, no se crea UITextureRect");
+		_textureRectID = UINT64_MAX;
+		return;
+	}
+	auto panel = uiT->getComponentInParents<UIPanel>();
+	if (!panel) {
+		Debug::error("[UITextureRect] - No UIPanel en padres, no se crea UITextureRect");
+		_textureRectID = UINT64_MAX;
+		return;
+	}
 	uiPanelID  panelID = panel->getPanelID();
+	if (panelID == UINT64_MAX) {
+		Debug::error("[UITextureRect] - panelID, no se crea UITextureRect");
+		_textureRectID = UINT64_MAX;
+		return;
+	}
 	_textureRectID = Engine::instance()->addUITextureRect(panelID,getEntity()->getEntityID(), _textureName, _opacity);
 }
 
 void UITextureRect::setTexture(const std::string& texture)
 {
 	_textureName = texture;
+	if (_textureRectID == UINT64_MAX)return;
 	Engine::instance()->setUITextureRectTexture(_textureRectID, _textureName);
 }
 
 void UITextureRect::setVisible(bool visible) {
+	if (_textureRectID == UINT64_MAX)return;
 	Engine::instance()->setUITextureRectVisible(_textureRectID, visible);
-
 }
 void UITextureRect::setOpacity(float opacity)
 {
 	_opacity = opacity;
+	if (_textureRectID == UINT64_MAX)return;
 	Engine::instance()->setUITextureRectOpacity(_textureRectID, opacity);
-
 }
 
 void UITextureRect::destroy()
 {
+	if (_textureRectID == UINT64_MAX)return;
 	Engine::instance()->deleteUITextureRect(_textureRectID);
 }

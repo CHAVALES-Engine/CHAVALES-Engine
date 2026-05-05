@@ -71,46 +71,65 @@ bool UILabel::init(const Properties& p)
 
 void UILabel::awake()
 {
+	auto uiT = getEntity()->getComponent<UITransform>();
+	if (!uiT) {
+		Debug::error("[UILabel] - No transform, no se crea UILabel");
+		_labelID = UINT64_MAX;
+		return;
+	}
 	auto panel = getEntity()->getComponent<UITransform>()->getComponentInParents<UIPanel>();
-
+	if (!panel) {
+		Debug::error("[UILabel] - No UIPanel en padres, no se crea UILabel");
+		_labelID = UINT64_MAX;
+		return;
+	}
 	uiPanelID  panelID = panel->getPanelID();
+	if (panelID == UINT64_MAX) {
+		Debug::error("[UILabel] - panelID, no se crea UILabel");
+		_labelID = UINT64_MAX;
+		return;
+	}
 	_labelID = Engine::instance()->addUILabel(panelID, getEntity()->getEntityID(), _text, _opacity, _textColor, _bgColor, _fontSize, _align, _fontName);
 }
 
 void UILabel::destroy()
 {
+	if (_labelID == UINT64_MAX)return;
 	Engine::instance()->deleteUILabel(_labelID);
 }
 
 void UILabel::setText(const std::string& text)
 {
 	_text = text;
+	if (_labelID == UINT64_MAX)return;
 	Engine::instance()->setUILabelText(_labelID, _text);
 
 }
 
 void UILabel::setVisible(bool visible)
 {
+	if (_labelID == UINT64_MAX)return;
 	Engine::instance()->setUILabelVisible(_labelID, visible);
 }
 
 void UILabel::setOpacity(float opacity)
 {
 	_opacity = opacity;
+	if (_labelID == UINT64_MAX)return;
 	Engine::instance()->setUILabelOpacity(_labelID, _opacity);
 
 }
 
-
-
 void UILabel::setBackgroudColor(core::Color color)
 {
 	_bgColor = color;
+	if (_labelID == UINT64_MAX)return;
 	Engine::instance()->setUILabelBackGroundColor(_labelID, _bgColor);
 }
 
 void UILabel::setTextColor(core::Color color){
 	_textColor = color;
+	if (_labelID == UINT64_MAX)return;
 	Engine::instance()->setUILabelTextColor(_labelID, _textColor);
 
 }
@@ -118,6 +137,7 @@ void UILabel::setTextColor(core::Color color){
 void UILabel::setAlign(TextAlign align)
 {
 	_align = align;
+	if (_labelID == UINT64_MAX)return;
 	Engine::instance()->setUILabelAlign(_labelID, align);
 }
 
