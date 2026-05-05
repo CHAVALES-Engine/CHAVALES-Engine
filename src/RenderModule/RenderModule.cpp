@@ -1339,7 +1339,11 @@ uiButtonID RenderModule::addUIImageButton(const uiPanelID& panelID, const entity
 		_rgm->loadResourceGroup(textureFolder);
 		_resourceGroups.insert(textureFolder);
 	}
-	
+	if (!Ogre::ResourceGroupManager::getSingleton().resourceExists(textureFolder, textureFile))
+	{
+		Debug::error("[UIButton] Textura no existe");
+		return UINT64_MAX;
+	}
 	Ogre::TexturePtr tex = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
 	button.textureID = (ImTextureID)tex->getHandle();
 
@@ -1405,6 +1409,11 @@ void RenderModule::setUIButtonText(const uiButtonID& buttonID, const std::string
 
 void RenderModule::setUIButtonTexture(const uiButtonID& buttonID, std::string& textureFolder, std::string& textureFile)
 {
+	if (!Ogre::ResourceGroupManager::getSingleton().resourceExists(textureFolder, textureFile))
+	{
+		Debug::error("[UIButton] Textura no existe");
+		return;
+	}
 	Ogre::TexturePtr tex = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
 	auto [panelID, buttonIndex] = _buttonToPanel[buttonID];
 	_uiPanels[panelID].buttons[buttonIndex].textureFile = textureFile;
@@ -1470,7 +1479,11 @@ uiTextureRectID RenderModule::addUITextureRect(const uiPanelID& panelID, const e
 		_rgm->loadResourceGroup(textureFolder);
 		_resourceGroups.insert(textureFolder);
 	}
-	
+	if (!Ogre::ResourceGroupManager::getSingleton().resourceExists(textureFolder, textureFile))
+	{
+		Debug::error("[UITextureRect] Textura no existe");
+		return UINT64_MAX;
+	}
 	Ogre::TexturePtr texture = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
 	tex.textureID = (ImTextureID)texture->getHandle();
 	_uiPanels[panelID].textureRects.push_back(tex);
@@ -1490,6 +1503,11 @@ void RenderModule::deleteUITextureRect(const uiTextureRectID& id) {
 
 void  RenderModule::setUITextureRectTexture(const uiTextureRectID& textureRectID, std::string& textureFolder, std::string& textureFile)
 {
+	if (!Ogre::ResourceGroupManager::getSingleton().resourceExists(textureFolder, textureFile))
+	{
+		Debug::error("[UITextureRect] Textura no existe");
+		return;
+	}
 	Ogre::TexturePtr tex = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
 	auto [panelID, textureRectIndex] = _textureToPanel[textureRectID];
 	_uiPanels[panelID].textureRects[textureRectIndex].textureFile = textureFile;
