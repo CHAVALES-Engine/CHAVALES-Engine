@@ -350,7 +350,7 @@ transformID RenderModule::getNode(const entityID& entityID)
 
 core::Vector3<float> RenderModule::getNodePosition(const transformID& id)
 {
-	if (id >= 0 && id < _engineNodes.size() && _engineNodes[id].sceneNode != nullptr)
+	if (id != UINT64_MAX && id < _engineNodes.size() && _engineNodes[id].sceneNode != nullptr)
 	{
 		Ogre::Vector3 pos = _engineNodes[id].sceneNode->getPosition();
 		return core::Vector3<float>(pos.x, pos.y, pos.z);
@@ -360,7 +360,7 @@ core::Vector3<float> RenderModule::getNodePosition(const transformID& id)
 
 void RenderModule::setNodePosition(const transformID& id, const core::Vector3<float>& pos)
 {
-	if (id >= 0 && id < _engineNodes.size() && _engineNodes[id].sceneNode != nullptr)
+	if (id != UINT64_MAX && id < _engineNodes.size() && _engineNodes[id].sceneNode != nullptr)
 	{
 		_engineNodes[id].sceneNode->setPosition(pos.getX(), pos.getY(), pos.getZ());
 	}
@@ -368,7 +368,7 @@ void RenderModule::setNodePosition(const transformID& id, const core::Vector3<fl
 
 core::Quaternion<float> RenderModule::getNodeRotation(const transformID& id)
 {
-	if (id >= 0 && id < _engineNodes.size() && _engineNodes[id].sceneNode != nullptr)
+	if (id != UINT64_MAX && id < _engineNodes.size() && _engineNodes[id].sceneNode != nullptr)
 	{
 		Ogre::Quaternion rot = _engineNodes[id].sceneNode->getOrientation();
 		return core::Quaternion<float>(rot.x, rot.y, rot.z, rot.w);
@@ -378,7 +378,7 @@ core::Quaternion<float> RenderModule::getNodeRotation(const transformID& id)
 
 void RenderModule::setNodeRotation(const transformID& id, const core::Quaternion<float>& rot)
 {
-	if (id >= 0 && id < _engineNodes.size() && _engineNodes[id].sceneNode != nullptr)
+	if (id != UINT64_MAX && id < _engineNodes.size() && _engineNodes[id].sceneNode != nullptr)
 	{
 		_engineNodes[id].sceneNode->setOrientation(rot.getW(), rot.getX(), rot.getY(), rot.getZ());
 	}
@@ -386,7 +386,7 @@ void RenderModule::setNodeRotation(const transformID& id, const core::Quaternion
 
 core::Vector3<float> RenderModule::getNodeScale(const transformID& id)
 {
-	if (id >= 0 && id < _engineNodes.size() && _engineNodes[id].sceneNode != nullptr)
+	if (id != UINT64_MAX && id < _engineNodes.size() && _engineNodes[id].sceneNode != nullptr)
 	{
 		Ogre::Vector3 pos = _engineNodes[id].sceneNode->getScale();
 		return core::Vector3<float>(pos.x, pos.y, pos.z);
@@ -396,7 +396,7 @@ core::Vector3<float> RenderModule::getNodeScale(const transformID& id)
 
 void RenderModule::setNodeScale(const transformID& id, const core::Vector3<float>& scale)
 {
-	if (id >= 0 && id < _engineNodes.size() && _engineNodes[id].sceneNode != nullptr)
+	if (id != UINT64_MAX && id < _engineNodes.size() && _engineNodes[id].sceneNode != nullptr)
 	{
 		_engineNodes[id].sceneNode->setScale(scale.getX(), scale.getY(), scale.getZ());
 	}
@@ -422,25 +422,25 @@ UITransformID RenderModule::addUITransform(const entityID& entityID, const core:
 }
 
 void RenderModule::setUITransformDimension(const UITransformID& id, const core::Vector2<float>& dim) {
-	if (id >= 0 && id < _uiTransforms.size()) {
+	if (id != UINT64_MAX && id < _uiTransforms.size()) {
 		_uiTransforms[id].dimension = { std::max(0.1f,dim.getX()), std::max(0.1f,dim.getY()) };
 	}
 }
 
 void RenderModule::setUITransformPos(const UITransformID& id, const core::Vector2<float>& pos) {
-	if (id >= 0 && id < _uiTransforms.size()) {
+	if (id != UINT64_MAX && id < _uiTransforms.size()) {
 		_uiTransforms[id].position = { std::max(0.0f,pos.getX()), std::max(0.0f,pos.getY()) };
 	}
 }
 
 void RenderModule::setUITransformRotation(const UITransformID& id, const float& r) {
-	if (id >= 0 && id < _uiTransforms.size()) {
+	if (id != UINT64_MAX && id < _uiTransforms.size()) {
 		_uiTransforms[id].rotation = r;
 	}
 }
 
 void RenderModule::setUITransformZBuffer(const UITransformID& id, const int& zBuff) {
-	if (id >= 0 && id < _uiTransforms.size()) {
+	if (id != UINT64_MAX && id < _uiTransforms.size()) {
 		_uiTransforms[id].zBuffer = zBuff;
 	}
 }
@@ -485,7 +485,7 @@ cameraID RenderModule::addCamera(const entityID& entityID, const float& FOVy, co
 
 void RenderModule::deleteCamera(const cameraID& id)
 {
-	if (id >= 0 && id < _cameras.size() && _cameras[id] != nullptr)
+	if (id != UINT64_MAX && id < _cameras.size() && _cameras[id] != nullptr)
 	{
 		Ogre::Camera* cam = _cameras[id];
 		_cameras[id] = nullptr;
@@ -503,7 +503,7 @@ void RenderModule::deleteCamera(const cameraID& id)
 
 void RenderModule::setAsActiveCamera(const cameraID& id)
 {
-	if (id >= 0 && id < _cameras.size() && _cameras[id] != nullptr)
+	if (id != UINT64_MAX && id < _cameras.size() && _cameras[id] != nullptr)
 	{
 		if (_vp == nullptr)
 		{
@@ -539,22 +539,22 @@ void RenderModule::cleanCameras()
 
 void RenderModule::setCameraFOVy(const cameraID& id, const float& FOVy)
 {
-	if (id >= 0 && id < _cameras.size() && _cameras[id] != nullptr) _cameras[id]->setFOVy(Ogre::Radian(FOVy));
+	if (id != UINT64_MAX && id < _cameras.size() && _cameras[id] != nullptr) _cameras[id]->setFOVy(Ogre::Radian(FOVy));
 }
 
 void RenderModule::setCameraNearClipDistance(const cameraID& id, const float& nearClipDistance)
 {
-	if (id >= 0 && id < _cameras.size() && _cameras[id] != nullptr) _cameras[id]->setNearClipDistance(nearClipDistance);
+	if (id != UINT64_MAX && id < _cameras.size() && _cameras[id] != nullptr) _cameras[id]->setNearClipDistance(nearClipDistance);
 }
 
 void RenderModule::setCameraFarClipDistance(const cameraID& id, const float& farClipDistance)
 {
-	if (id >= 0 && id < _cameras.size() && _cameras[id] != nullptr) _cameras[id]->setFarClipDistance(farClipDistance);
+	if (id != UINT64_MAX && id < _cameras.size() && _cameras[id] != nullptr) _cameras[id]->setFarClipDistance(farClipDistance);
 }
 
 void RenderModule::setCameraFocalLength(const cameraID& id, const float& focalLength)
 {
-	if (id >= 0 && id < _cameras.size() && _cameras[id] != nullptr) _cameras[id]->setFocalLength(focalLength);
+	if (id != UINT64_MAX && id < _cameras.size() && _cameras[id] != nullptr) _cameras[id]->setFocalLength(focalLength);
 }
 
 modelID RenderModule::addModel(const entityID& entityID, const std::string& modelFolder, const std::string& modelFile)
@@ -613,7 +613,7 @@ modelID RenderModule::addModel(const entityID& entityID, const std::string& mode
 
 void RenderModule::deleteModel(const modelID& id)
 {
-	if (id >= 0 && id < _models.size() && _models[id] != nullptr)
+	if (id != UINT64_MAX && id < _models.size() && _models[id] != nullptr)
 	{
 		Ogre::Entity* model = _models[id];
 		_models[id] = nullptr;
@@ -703,7 +703,7 @@ void RenderModule::cleanModels()
 
 void RenderModule::setDiffuse(const modelID& id, const subMeshID& subID, const std::string& textureFolder, const std::string& textureFile)
 {
-	if (id >= 0 && id < _models.size() && _models[id] != nullptr)
+	if (id != UINT64_MAX && id < _models.size() && _models[id] != nullptr)
 	{
 		Ogre::Entity* model = _models[id];
 		Ogre::SubEntity* sub = model->getSubEntity(subID);
@@ -734,7 +734,7 @@ void RenderModule::setDiffuse(const modelID& id, const subMeshID& subID, const s
 
 void RenderModule::setTint(const modelID& id, const subMeshID& subID, const core::Color& tint)
 {
-	if (id >= 0 && id < _models.size() && _models[id] != nullptr)
+	if (id != UINT64_MAX && id < _models.size() && _models[id] != nullptr)
 	{
 		Ogre::Entity* model = _models[id];
 		Ogre::SubEntity* sub = model->getSubEntity(subID);
@@ -764,7 +764,7 @@ void RenderModule::setTint(const modelID& id, const subMeshID& subID, const core
 
 void RenderModule::setModelVisible(const modelID& id, const bool& visible)
 {
-	if (id >= 0 && id < _models.size() && _models[id] != nullptr)
+	if (id != UINT64_MAX && id < _models.size() && _models[id] != nullptr)
 	{
 		Ogre::Entity* model = _models[id];
 		Ogre::SceneNode* node = model->getParentSceneNode();
@@ -787,7 +787,7 @@ void RenderModule::cleanAnimations()
 
 animationID RenderModule::registerSkeletonAnim(const modelID& modelID, const std::string& animationName, const bool& loop)
 {
-	if (modelID >= 0 && modelID < _models.size() && _models[modelID] != nullptr)
+	if (modelID != UINT64_MAX && modelID < _models.size() && _models[modelID] != nullptr)
 	{
 		auto anim = _animations.emplace_back(std::make_pair(_models[modelID]->getAnimationState(animationName), 1.0f));
 		if (anim.first == nullptr)
@@ -816,7 +816,7 @@ animationID RenderModule::createTransformAnimation(const entityID& entityID, con
 
 void RenderModule::addTransformKeyFrame(const animationID& animationID, const float& timePos, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float>& scale)
 {
-	if (animationID >= 0 && animationID < _animations.size() && _animations[animationID].first != nullptr)
+	if (animationID != UINT64_MAX && animationID < _animations.size() && _animations[animationID].first != nullptr)
 	{
 		Ogre::Animation* anim = _sceneMgr->getAnimation(_animations[animationID].first->getAnimationName());
 
@@ -831,7 +831,7 @@ void RenderModule::addTransformKeyFrame(const animationID& animationID, const fl
 
 void RenderModule::addTransformKeyFrame(const animationID& animationID, const float& timePos, const core::Vector3<float>& pos, const float& rot, const int& axis, const core::Vector3<float>& scale)
 {
-	if (animationID >= 0 && animationID < _animations.size() && _animations[animationID].first != nullptr)
+	if (animationID != UINT64_MAX && animationID < _animations.size() && _animations[animationID].first != nullptr)
 	{
 		Ogre::Animation* anim = _sceneMgr->getAnimation(_animations[animationID].first->getAnimationName());
 
@@ -859,7 +859,7 @@ void RenderModule::addTransformKeyFrame(const animationID& animationID, const fl
 
 void RenderModule::setAnimEnabled(const animationID& animationID, const bool& active)
 {
-	if (animationID >= 0 && animationID < _animations.size() && _animations[animationID].first != nullptr)
+	if (animationID != UINT64_MAX && animationID < _animations.size() && _animations[animationID].first != nullptr)
 	{
 		_animations[animationID].first->setEnabled(active);
 	}
@@ -867,7 +867,7 @@ void RenderModule::setAnimEnabled(const animationID& animationID, const bool& ac
 
 void RenderModule::setAnimTimePos(const animationID& animationID, const float& timePos)
 {
-	if (animationID >= 0 && animationID < _animations.size() && _animations[animationID].first != nullptr)
+	if (animationID != UINT64_MAX && animationID < _animations.size() && _animations[animationID].first != nullptr)
 	{
 		_animations[animationID].first->setTimePosition(timePos);
 	}
@@ -875,7 +875,7 @@ void RenderModule::setAnimTimePos(const animationID& animationID, const float& t
 
 void RenderModule::setAnimSpeed(const animationID& animationID, const float& speed)
 {
-	if (animationID >= 0 && animationID < _animations.size() && _animations[animationID].first != nullptr)
+	if (animationID != UINT64_MAX && animationID < _animations.size() && _animations[animationID].first != nullptr)
 	{
 		_animations[animationID].second = speed;
 	}
@@ -883,7 +883,7 @@ void RenderModule::setAnimSpeed(const animationID& animationID, const float& spe
 
 void RenderModule::updateAnimation(const animationID& animationID, const uint64_t& deltaTime)
 {
-	if (animationID >= 0 && animationID < _animations.size() && _animations[animationID].first != nullptr)
+	if (animationID != UINT64_MAX && animationID < _animations.size() && _animations[animationID].first != nullptr)
 	{
 		auto& anim = _animations[animationID];
 		anim.first->addTime(((float)deltaTime / 1000.0f) * anim.second);
@@ -918,7 +918,7 @@ lightID RenderModule::addLight(const entityID& entityID, const int& type, const 
 
 void  RenderModule::deleteLight(const lightID& id) 
 {
-	if (id >= 0 && id < _lights.size() && _lights[id] != nullptr)
+	if (id != UINT64_MAX && id < _lights.size() && _lights[id] != nullptr)
 	{
 		Ogre::Light* light = _lights[id];
 		_lights[id] = nullptr;
@@ -930,7 +930,7 @@ void  RenderModule::deleteLight(const lightID& id)
 
 void RenderModule::setLightActive(const lightID& id, const bool& active) 
 {
-	if (id >= 0 && id < _lights.size() && _lights[id] != nullptr) _lights[id]->setVisible(active);
+	if (id != UINT64_MAX && id < _lights.size() && _lights[id] != nullptr) _lights[id]->setVisible(active);
 }
 
 void RenderModule::cleanLights() 
@@ -954,7 +954,7 @@ void RenderModule::cleanLights()
 
 void RenderModule::setLightType(const lightID& id, const int& type) 
 {
-	if (id >= 0 && id < _lights.size() && _lights[id] != nullptr)
+	if (id != UINT64_MAX && id < _lights.size() && _lights[id] != nullptr)
 	{
 		Ogre::Light* light = _lights[id];
 		switch (type) 
@@ -977,17 +977,17 @@ void RenderModule::setLightType(const lightID& id, const int& type)
 
 void RenderModule::setLightColor(const lightID& id, const core::Color& color)
 {
-	if (id >= 0 && id < _lights.size() && _lights[id] != nullptr) _lights[id]->setDiffuseColour(color.getRed(), color.getGreen(), color.getBlue());
+	if (id != UINT64_MAX && id < _lights.size() && _lights[id] != nullptr) _lights[id]->setDiffuseColour(color.getRed(), color.getGreen(), color.getBlue());
 }
 
 void RenderModule::setLightIntensity(const lightID& id, const float& intensity) 
 {
-	if (id >= 0 && id < _lights.size() && _lights[id] != nullptr) _lights[id]->setPowerScale(intensity);
+	if (id != UINT64_MAX && id < _lights.size() && _lights[id] != nullptr) _lights[id]->setPowerScale(intensity);
 }
 
 void RenderModule::setLightSpotRange(const lightID& id, const float& inner, const float& outer, const float& falloff) 
 {
-	if (id >= 0 && id < _lights.size() && _lights[id] != nullptr) _lights[id]->setSpotlightRange(Ogre::Degree(inner), Ogre::Degree(outer), falloff);
+	if (id != UINT64_MAX && id < _lights.size() && _lights[id] != nullptr) _lights[id]->setSpotlightRange(Ogre::Degree(inner), Ogre::Degree(outer), falloff);
 }
 
 void RenderModule::setAmbientLight(const core::Color& color)
@@ -1040,7 +1040,7 @@ particleGenID RenderModule::addParticleGen(const entityID& entityID, const std::
 
 void RenderModule::deleteParticleGen(const particleGenID& id)
 {
-	if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+	if (id != UINT64_MAX && id < _particleGens.size() && _particleGens[id] != nullptr)
 	{
 		Ogre::ParticleSystem* ps = _particleGens[id];
 		Ogre::String mn = ps->getMaterialName();
@@ -1079,85 +1079,85 @@ void RenderModule::cleanParticleGens()
 
 void RenderModule::setParticleGenEnabled(const particleGenID& id, const bool& enabled)
 {
-	if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+	if (id != UINT64_MAX && id < _particleGens.size() && _particleGens[id] != nullptr)
 		_particleGens[id]->getEmitter(0)->setEnabled(enabled);
 }
 
 void RenderModule::setParticleGenEmitting(const particleGenID& id, const bool& emitting)
 {
-	if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+	if (id != UINT64_MAX && id < _particleGens.size() && _particleGens[id] != nullptr)
 		_particleGens[id]->getEmitter(0)->setEnabled(emitting);
 }
 
 void RenderModule::setParticleGenQuota(const particleGenID& id, const float& quota)
 {
-	if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+	if (id != UINT64_MAX && id < _particleGens.size() && _particleGens[id] != nullptr)
 		_particleGens[id]->setParticleQuota(static_cast<size_t>(quota));
 }
 
 void RenderModule::setParticleGenEmissionRate(const particleGenID& id, const float& rate)
 {
-	if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+	if (id != UINT64_MAX && id < _particleGens.size() && _particleGens[id] != nullptr)
 		_particleGens[id]->getEmitter(0)->setEmissionRate(rate);
 }
 
 void RenderModule::setParticleGenDuration(const particleGenID& id, const float& duration)
 {
-	if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+	if (id != UINT64_MAX && id < _particleGens.size() && _particleGens[id] != nullptr)
 		_particleGens[id]->getEmitter(0)->setDuration(duration);
 }
 
 void RenderModule::setParticleGenTimeToLive(const particleGenID& id, const float& time)
 {
-	if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+	if (id != UINT64_MAX && id < _particleGens.size() && _particleGens[id] != nullptr)
 		_particleGens[id]->getEmitter(0)->setTimeToLive(time);
 }
 
 void RenderModule::setParticleGenVelocity(const particleGenID& id, const float& velocity)
 {
-	if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+	if (id != UINT64_MAX && id < _particleGens.size() && _particleGens[id] != nullptr)
 		_particleGens[id]->getEmitter(0)->setParticleVelocity(velocity);
 }
 
 void RenderModule::setParticleGenMinVelocity(const particleGenID& id, const float& velocity)
 {
-	if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+	if (id != UINT64_MAX && id < _particleGens.size() && _particleGens[id] != nullptr)
 		_particleGens[id]->getEmitter(0)->setMinParticleVelocity(velocity);
 }
 
 void RenderModule::setParticleGenMaxVelocity(const particleGenID& id, const float& velocity)
 {
-	if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+	if (id != UINT64_MAX && id < _particleGens.size() && _particleGens[id] != nullptr)
 		_particleGens[id]->getEmitter(0)->setMaxParticleVelocity(velocity);
 }
 
 void RenderModule::setParticleGenDirection(const particleGenID& id, const core::Vector3<float>& direction)
 {
-	if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+	if (id != UINT64_MAX && id < _particleGens.size() && _particleGens[id] != nullptr)
 		_particleGens[id]->getEmitter(0)->setDirection(Ogre::Vector3(direction.getX(), direction.getY(), direction.getZ()));
 }
 
 void RenderModule::setParticleGenAngle(const particleGenID& id, const float& angle)
 {
-	if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+	if (id != UINT64_MAX && id < _particleGens.size() && _particleGens[id] != nullptr)
 		_particleGens[id]->getEmitter(0)->setAngle(Ogre::Degree(angle));
 }
 
 void RenderModule::setParticleGenPartWidth(const particleGenID& id, const float& width)
 {
-	if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+	if (id != UINT64_MAX && id < _particleGens.size() && _particleGens[id] != nullptr)
 		_particleGens[id]->setDefaultWidth(width);
 }
 
 void RenderModule::setParticleGenPartHeight(const particleGenID& id, const float& height)
 {
-	if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+	if (id != UINT64_MAX && id < _particleGens.size() && _particleGens[id] != nullptr)
 		_particleGens[id]->setDefaultHeight(height);
 }
 
 void RenderModule::setParticleGenPartColor(const particleGenID& id, const core::Color& color)
 {
-	if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+	if (id != UINT64_MAX && id < _particleGens.size() && _particleGens[id] != nullptr)
 		_particleGens[id]->getEmitter(0)->setColour(Ogre::ColourValue(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()));
 }
 
