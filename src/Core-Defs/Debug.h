@@ -170,7 +170,7 @@ private:
 	static void _write(Mode mode, const char* color, const char* type, const char* end, Args&&... args)
 	{
 #ifdef _DEBUG
-#ifdef ENGINE_EXPORTS
+#ifndef ENGINE_EXPORTS
 		if (mode == Mode::CONS || mode == Mode::BOTH)
 		{
 			std::cout << color << type;
