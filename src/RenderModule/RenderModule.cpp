@@ -403,6 +403,10 @@ void RenderModule::setNodeScale(const transformID& id, const core::Vector3<float
 }
 UITransformID RenderModule::addUITransform(const entityID& entityID, const core::Vector2<float>& pos, const int& zBuffer, const core::Vector2<float>& dimension, const float& rotation)
 {
+	if (zBuffer < 0 || zBuffer >32) {
+		Debug::error("zBuffer fuera de rango [0-32]");
+		return -1;
+	}
 	for (int i = 0; i < (int)_uiTransforms.size(); i++)
 	{
 		if (_uiTransforms[i].entity == entityID)
@@ -410,7 +414,7 @@ UITransformID RenderModule::addUITransform(const entityID& entityID, const core:
 			return i; //Ya existe
 		}
 	}
-
+	
 	UITransform uiT;
 	uiT.entity = entityID;
 	uiT.position = pos;
@@ -1243,7 +1247,7 @@ void  RenderModule::deleteUIPanel(const uiPanelID& id) {
 uiLabelID RenderModule::addUILabel(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const  float opacity, const core::Color textColor, const core::Color bgColor, const float fontSize, const TextAlign textAlign, const std::string fontName) 
 {
 	addUITransform(entityID);
-
+	
 	UILabelData label;
 	label.entity = entityID;
 	label.text = text;
@@ -1316,7 +1320,7 @@ void RenderModule::setUILabelAlign(const uiLabelID& labelID, const TextAlign& al
 uiButtonID RenderModule::addUIImageButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const std::string& textureFolder, const std::string& textureFile, const core::Color& bgColor, const core::Color& hvColor, const core::Color& psColor, const float& opacity)
 {
 	addUITransform(entityID);
-
+	
 	UIButtonData button;
 	button.entity = entityID;
 	button.text = text;
@@ -1335,7 +1339,10 @@ uiButtonID RenderModule::addUIImageButton(const uiPanelID& panelID, const entity
 		_rgm->loadResourceGroup(textureFolder);
 		_resourceGroups.insert(textureFolder);
 	}
-
+	if (!Ogre::TextureManager::getSingleton().resourceExists(textureFolder, textureFile)) {
+		Debug::error("La textura del UIButton no exite: " + textureFolder + textureFile);
+		return UINT64_MAX;
+	}
 	Ogre::TexturePtr tex = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
 	button.textureID = (ImTextureID)tex->getHandle();
 
@@ -1350,7 +1357,7 @@ uiButtonID RenderModule::addUIImageButton(const uiPanelID& panelID, const entity
 uiButtonID RenderModule::addUIButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const float& fontSize, const std::string& fontName, const core::Color& bgColor, const core::Color& txColor, const core::Color& hvColor, const core::Color& psColor,  const float& opacity)
 {
 	addUITransform(entityID);
-
+	
 	UIButtonData button;
 	button.entity = entityID;
 	button.text = text;
@@ -1401,6 +1408,10 @@ void RenderModule::setUIButtonText(const uiButtonID& buttonID, const std::string
 
 void RenderModule::setUIButtonTexture(const uiButtonID& buttonID, std::string& textureFolder, std::string& textureFile)
 {
+	if (!Ogre::TextureManager::getSingleton().resourceExists(textureFolder, textureFile)) {
+		Debug::error("La textura del UIButtont no exite: " + textureFolder + textureFile);
+		return;
+	}
 	Ogre::TexturePtr tex = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
 	auto [panelID, buttonIndex] = _buttonToPanel[buttonID];
 	_uiPanels[panelID].buttons[buttonIndex].textureFile = textureFile;
@@ -1466,7 +1477,10 @@ uiTextureRectID RenderModule::addUITextureRect(const uiPanelID& panelID, const e
 		_rgm->loadResourceGroup(textureFolder);
 		_resourceGroups.insert(textureFolder);
 	}
-
+	if (!Ogre::TextureManager::getSingleton().resourceExists(textureFolder, textureFile)) {
+		Debug::error("La textura del UItextureRect no exite: " + textureFolder + textureFile);
+		return UINT64_MAX;
+	}
 	Ogre::TexturePtr texture = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
 	tex.textureID = (ImTextureID)texture->getHandle();
 	_uiPanels[panelID].textureRects.push_back(tex);
@@ -1486,6 +1500,10 @@ void RenderModule::deleteUITextureRect(const uiTextureRectID& id) {
 
 void  RenderModule::setUITextureRectTexture(const uiTextureRectID& textureRectID, std::string& textureFolder, std::string& textureFile)
 {
+	if (!Ogre::TextureManager::getSingleton().resourceExists(textureFolder, textureFile)) {
+		Debug::error("La textura del UItextureRect no exite: " + textureFolder + textureFile);
+		return;
+	}
 	Ogre::TexturePtr tex = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
 	auto [panelID, textureRectIndex] = _textureToPanel[textureRectID];
 	_uiPanels[panelID].textureRects[textureRectIndex].textureFile = textureFile;
