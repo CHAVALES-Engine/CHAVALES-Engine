@@ -486,8 +486,21 @@ void PhysicsModule::fixedUpdate(float dt)
 {
 	if (!gScene) return;
 
-	gScene->simulate(dt / 1000.0f);
-	gScene->fetchResults(true);
+	int maxSubsteps = 10;
+	float dtMs = dt / 1000.0f;
+	accumulator += dtMs;
+
+	int steps = 0;
+
+	while (accumulator >= fixedDt && steps < maxSubsteps)
+	{
+
+		gScene->simulate(dt / 1000.0f);
+		gScene->fetchResults(true);
+
+		accumulator -= dt / 1000.0f;
+		steps++;
+	}
 }
 
 void PhysicsModule::onTrigger(PxTriggerPair* pairs, PxU32 count) {
