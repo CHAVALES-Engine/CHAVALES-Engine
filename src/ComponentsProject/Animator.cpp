@@ -80,7 +80,7 @@ void Animator::update(uint64_t deltaTime)
 void Animator::registerAnimator()
 {
 	std::shared_ptr<ModelRenderer> model = getEntity()->getComponent<ModelRenderer>();
-	_modelID = model != nullptr ? model->getModelID() : -1;
+	_modelID = model != nullptr ? model->getModelID() : UINT64_MAX;
 }
 
 bool Animator::registerSkeletonAnim(const std::string& animationName, const bool& loop)

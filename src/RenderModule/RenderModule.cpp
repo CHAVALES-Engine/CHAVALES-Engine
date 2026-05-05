@@ -345,7 +345,7 @@ transformID RenderModule::getNode(const entityID& entityID)
 	{
 		if (_engineNodes[i].nodeID == entityID) return i;
 	}
-	return -1;
+	return UINT64_MAX;
 }
 
 core::Vector3<float> RenderModule::getNodePosition(const transformID& id)
@@ -450,7 +450,7 @@ UITransformID RenderModule::getTransformUI(const entityID& entityID)
 		if (_uiTransforms[i].entity == entityID) return i;
 
 	}
-	return -1;
+	return UINT64_MAX;
 }
 
 void RenderModule::setViewportBGColor(core::Color color)
@@ -791,17 +791,17 @@ animationID RenderModule::registerSkeletonAnim(const modelID& modelID, const std
 	{
 		auto anim = _animations.emplace_back(std::make_pair(_models[modelID]->getAnimationState(animationName), 1.0f));
 		if (anim.first == nullptr)
-			return -1;
+			return UINT64_MAX;
 		_animations.back().first->setLoop(loop);
 		return _nextAnimationID++;
 	}
-	return -1;
+	return UINT64_MAX;
 }
 
 animationID RenderModule::createTransformAnimation(const entityID& entityID, const std::string& animationName, const bool& loop, const float& totalDuration)
 {
 	transformID nodeID = getNode(entityID);
-	if (nodeID != -1 && _engineNodes[nodeID].sceneNode != nullptr)
+	if (nodeID != UINT64_MAX && _engineNodes[nodeID].sceneNode != nullptr)
 	{
 		Ogre::Animation* animation = _sceneMgr->createAnimation(animationName + std::to_string(_nextAnimationID), totalDuration);
 		_sceneAnims.push_back(animationName + std::to_string(_nextAnimationID));
@@ -811,7 +811,7 @@ animationID RenderModule::createTransformAnimation(const entityID& entityID, con
 		_animations.back().first->setLoop(loop);
 		return _nextAnimationID++;
 	}
-	return -1;
+	return UINT64_MAX;
 }
 
 void RenderModule::addTransformKeyFrame(const animationID& animationID, const float& timePos, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float>& scale)
