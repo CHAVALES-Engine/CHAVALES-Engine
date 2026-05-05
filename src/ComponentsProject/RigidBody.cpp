@@ -160,7 +160,7 @@ void RigidBody::update(uint64_t dt)
 		transform->setGlobalPosition(getPosition());
 		transform->setGlobalRotation(getRotation());
 	}
-	else
+	else if(isKinematic || !useGravity)
 	{
 		setPosition(transform->getGlobalPosition());
 		setRotation(transform->getGlobalRotation());
