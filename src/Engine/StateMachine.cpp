@@ -48,7 +48,7 @@ void StateMachine::gameLoop()
 			if (_deltaTime >= core::Clock::FRAME_RATE)
 			{
 				_currentScene.ptr->fixedUpdate();
-				/*Engine::instance()->fixedUpdate(core::Clock::FRAME_RATE);*/
+				Engine::instance()->fixedUpdate(core::Clock::FRAME_RATE);
 				startTime = core::Clock::getNow();
 			}
 

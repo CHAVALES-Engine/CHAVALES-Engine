@@ -864,7 +864,6 @@ void Engine::update(float dt)
 {
 	if (_physicsModule)
 	{
-		_physicsModule->fixedUpdate(dt);
 		auto physicsShapes = _physicsModule->GetRenderData();
 
 		if ((_renderModule != nullptr) && _gizmos)
@@ -878,6 +877,7 @@ void Engine::update(float dt)
 
 void Engine::fixedUpdate(float dt)
 {
-		
+	if (_physicsModule)
+		_physicsModule->fixedUpdate(dt);
 }
 
