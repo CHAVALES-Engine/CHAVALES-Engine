@@ -64,7 +64,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);ENGINE</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)src\Engine\;$(SolutionDir)src\ComponentsProject\;$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)dependencies\;$(SolutionDir)dependencies\lua\;$(SolutionDir)dependencies\sol\;$(SolutionDir)src\Core-Defs\;$(SolutionDir)src\Core-Utils\;$(SolutionDir)dependencies\lua\src\</AdditionalIncludeDirectories>
@@ -87,7 +87,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);ENGINE</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)src\Engine\;$(SolutionDir)src\ComponentsProject\;$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)dependencies\;$(SolutionDir)dependencies\lua\;$(SolutionDir)dependencies\sol\;$(SolutionDir)src\Core-Defs\;$(SolutionDir)src\Core-Utils\;$(SolutionDir)dependencies\lua\src\</AdditionalIncludeDirectories>
