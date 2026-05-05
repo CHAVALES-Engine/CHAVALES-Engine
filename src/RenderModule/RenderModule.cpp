@@ -1380,7 +1380,7 @@ void RenderModule::setUIButtonTexture(const uiButtonID& buttonID, std::string& t
 	Ogre::TexturePtr tex = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
 	auto [panelID, buttonIndex] = _buttonToPanel[buttonID];
 	_uiPanels[panelID].buttons[buttonIndex].textureFile = textureFile;
-	_uiPanels[panelID].buttons[buttonIndex].textureFile = textureFolder;
+	_uiPanels[panelID].buttons[buttonIndex].textureFolder = textureFolder;
 	_uiPanels[panelID].buttons[buttonIndex].textureID = (ImTextureID)tex->getHandle();
 }
 
@@ -1465,8 +1465,8 @@ void  RenderModule::setUITextureRectTexture(const uiTextureRectID& textureRectID
 	Ogre::TexturePtr tex = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
 	auto [panelID, textureRectIndex] = _textureToPanel[textureRectID];
 	_uiPanels[panelID].textureRects[textureRectIndex].textureFile = textureFile;
-	_uiPanels[panelID].textureRects[textureRectIndex].textureFile = textureFolder;
-	_uiPanels[panelID].buttons[textureRectIndex].textureID = (ImTextureID)tex->getHandle();
+	_uiPanels[panelID].textureRects[textureRectIndex].textureFolder = textureFolder;
+	_uiPanels[panelID].textureRects[textureRectIndex].textureID = (ImTextureID)tex->getHandle();
 
 }
 
