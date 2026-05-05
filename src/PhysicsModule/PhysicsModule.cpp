@@ -118,7 +118,7 @@ bool PhysicsModule::Init()
 
 	gScene->setVisualizationParameter(PxVisualizationParameter::eCOLLISION_SHAPES, 1.0f);
 	gScene->setVisualizationParameter(PxVisualizationParameter::eACTOR_AXES, 1.0f);
-	gScene->setGravity(gScene->getGravity() * 10);
+	gScene->setGravity(gScene->getGravity() * 100.0f);
 	raycast = Raycast(gScene);
 	return gPhysics != nullptr;
 }
