@@ -1585,41 +1585,36 @@ void RenderModule::renderUI()
 			const ImVec2 aux = { _uiTransforms[tID].dimension.getX(), _uiTransforms[tID].dimension.getY() };
 			ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(button.textColor.getRed() * 255, button.textColor.getGreen() * 255, button.textColor.getBlue() * 255, button.textColor.getAlpha() * button.opacity * 255));
 			ImGui::PushStyleColor(ImGuiCol_Button, IM_COL32(button.bgColor.getRed() * 255, button.bgColor.getGreen() * 255, button.bgColor.getBlue() * 255, button.bgColor.getAlpha() * button.opacity * 255));
-			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, IM_COL32(button.hvColor.getRed() * 255, button.hvColor.getGreen() * 255, button.hvColor.getBlue() * 255, button.hvColor.getAlpha() * button.opacity * 255));
-			ImGui::PushStyleColor(ImGuiCol_ButtonActive, IM_COL32(button.psColor.getRed() * 255, button.psColor.getGreen() * 255, button.psColor.getBlue() * 255, button.psColor.getAlpha() * button.opacity * 255));
+			bool click = false;
 			if (button.buttonImage) 
 			{
 				std::string idButton = button.textureFile + "_" + button.entity.toString();
 				ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
-				if (ImGui::ImageButton(idButton.c_str(), (ImTextureID)(uintptr_t)button.textureID, aux))
-				{
-					Debug::out("[RENDERMODULE] Button clicked");
-
-					if (!button.disable && button.onClick)
-					{
-						button.onClick();
-					}	
-				}
+				click = ImGui::ImageButton(idButton.c_str(), (ImTextureID)(uintptr_t)button.textureID, aux);
 				ImGui::PopStyleVar();
 			}
 			else 
 			{
 				ImGui::PushFont(button.font);
-				
 				std::string textID = button.text + "##" + button.entity.toString();
-				if (ImGui::Button(textID.c_str(), aux))
-				{
-					Debug::out("[RENDERMODULE] Button clickedd");
-
-					if (!button.disable && button.onClick)
-					{
-						button.onClick();
-					}
-				}
+				click = ImGui::Button(textID.c_str(), aux);
 				ImGui::PopFont();
 			}
-			ImGui::PopStyleColor(4);
+			bool hover = ImGui::IsItemHovered();
+			bool active = ImGui::IsItemActive();
+			ImVec2 min = ImGui::GetItemRectMin();
+			ImVec2 max = ImGui::GetItemRectMax();
+			if (active) {
+				drawList->AddRectFilled(min, max, IM_COL32(button.psColor.getRed() * 255, button.psColor.getGreen() * 255, button.psColor.getBlue() * 255, button.psColor.getAlpha() * button.opacity * 255));
+			}
+			else if (hover) {
+				drawList->AddRectFilled(min, max, IM_COL32(button.hvColor.getRed() * 255, button.hvColor.getGreen() * 255, button.hvColor.getBlue() * 255, button.hvColor.getAlpha() * button.opacity * 255));
 
+			}
+			if (click && !button.disable && button.onClick) {
+				button.onClick();
+			}
+			ImGui::PopStyleColor(2);
 			ImGui::PopStyleVar();
 		}
 		splitter.Merge(drawList);
