@@ -47,7 +47,7 @@ void UITextureRect::awake()
 
 
 	uiPanelID  panelID = panel->getPanelID();
-	_textureRectID = Engine::instance()->addUITextureRect(panelID,getEntity()->getEntityID(), _textureName);
+	_textureRectID = Engine::instance()->addUITextureRect(panelID,getEntity()->getEntityID(), _textureName, _opacity);
 }
 
 void UITextureRect::setTexture(const std::string& texture)

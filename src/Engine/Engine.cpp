@@ -463,8 +463,10 @@ void Engine::setUIButtonText(const uiButtonID& buttonID, const std::string& text
 void Engine::setUIButtonVisible(const uiButtonID& buttonID, bool& visible) {
 	_renderModule->setUIButtonVisible(buttonID, visible);
 }
-void  Engine::setUIButtonTexture(const uiButtonID& buttonID, const std::string& texture) {
-	_renderModule->setUIButtonTexture(buttonID, texture);
+void Engine::setUIButtonTexture(const uiButtonID& buttonID, std::string& textureName)
+{
+	auto texture = getAssetSourceFolder(textureName);
+	return _renderModule->setUIButtonTexture(buttonID, texture.second, texture.first);
 }
 void  Engine::setUIButtonOpacity(const uiButtonID& buttonID, float& opacity) {
 	_renderModule->setUIButtonOpacity(buttonID, opacity);
@@ -491,16 +493,17 @@ void Engine::setUIButtonDisable(const uiButtonID& buttonID, bool disable) {
 void Engine::setUIButtonCallback(const uiButtonID& id, std::function<void()> callback) {
 	_renderModule->setUIButtonCallback(id, callback);
 }
-uiTextureRectID Engine::addUITextureRect(const uiPanelID& panelID, const entityID& entityID, const std::string& textureName) {
+uiTextureRectID Engine::addUITextureRect(const uiPanelID& panelID, const entityID& entityID, const std::string& textureName, float& opacity) {
 	auto texture = getAssetSourceFolder(textureName);
-	return _renderModule->addUITextureRect(panelID, entityID, texture.second, texture.first);
+	return _renderModule->addUITextureRect(panelID, entityID, texture.second, texture.first, opacity);
 }
 void Engine::deleteUITextureRect(const uiTextureRectID& id)
 {
 	_renderModule->deleteUITextureRect(id);
 }
-void Engine::setUITextureRectTexture(const uiTextureRectID& textureRectID, const std::string& texture) {
-	_renderModule->setUITextureRectTexture(textureRectID, texture);
+void Engine::setUITextureRectTexture(const uiTextureRectID& textureRectID, std::string& textureName) {
+	auto texture = getAssetSourceFolder(textureName);
+	_renderModule->setUITextureRectTexture(textureRectID, texture.second,texture.first);
 }
 void Engine::setUITextureRectVisible(const uiTextureRectID& textureRectID, bool& visible) {
 	_renderModule->setUITextureRectVisible(textureRectID, visible);

@@ -446,7 +446,7 @@ public:
 	/*
 	* @brief Establecer textura del boton.
 	*/
-	void setUIButtonTexture(const uiButtonID& buttonID, const std::string& texture);
+	void  setUIButtonTexture(const uiButtonID& buttonID, std::string& textureName);
 	/*
 	* @brief Establecer la opacidad  del boton
 	*/
@@ -481,7 +481,7 @@ public:
 	/*
 	* @brief Anadir textureRect al panel.
 	*/
-	uiTextureRectID addUITextureRect(const uiPanelID& panelID, const entityID& entityID, const std::string& textureName);
+	uiTextureRectID addUITextureRect(const uiPanelID& panelID, const entityID& entityID, const std::string& textureName,float& opacity);
 	/*
 	* @brief borrar textureRect de UI.
 	*/
@@ -489,7 +489,7 @@ public:
 	/*
 	* @brief Establecer textura del textureRect.
 	*/
-	void setUITextureRectTexture(const uiTextureRectID& id, const std::string& texture);
+	void setUITextureRectTexture(const uiTextureRectID& textureRectID, std::string& textureName);
 
 	/*
 	* @brief Establecer visibilidad del textureRect.

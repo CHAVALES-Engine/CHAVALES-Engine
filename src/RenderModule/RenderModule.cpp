@@ -1375,10 +1375,13 @@ void RenderModule::setUIButtonText(const uiButtonID& buttonID, const std::string
 	_uiPanels[panelID].buttons[buttonIndex].text = text;
 }
 
-void RenderModule::setUIButtonTexture(const uiButtonID& buttonID, const std::string& texture) 
+void RenderModule::setUIButtonTexture(const uiButtonID& buttonID, std::string& textureFolder, std::string& textureFile)
 {
+	Ogre::TexturePtr tex = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
 	auto [panelID, buttonIndex] = _buttonToPanel[buttonID];
-	_uiPanels[panelID].buttons[buttonIndex].textureFile = texture;
+	_uiPanels[panelID].buttons[buttonIndex].textureFile = textureFile;
+	_uiPanels[panelID].buttons[buttonIndex].textureFile = textureFolder;
+	_uiPanels[panelID].buttons[buttonIndex].textureID = (ImTextureID)tex->getHandle();
 }
 
 void RenderModule::setUIButtonOpacity(const uiButtonID& buttonID, float& opacity) 
@@ -1423,7 +1426,7 @@ void RenderModule::setUIButtonCallback(const uiButtonID& buttonID, std::function
 	_uiPanels[panelID].buttons[buttonIndex].onClick = callback;
 }
 
-uiTextureRectID RenderModule::addUITextureRect(const uiPanelID& panelID, const entityID& entityID, const std::string& textureFolder, const std::string& textureFile)
+uiTextureRectID RenderModule::addUITextureRect(const uiPanelID& panelID, const entityID& entityID, const std::string& textureFolder, const std::string& textureFile, float& opacity)
 {
 	addUITransform(entityID);
 	UITextureRectData tex;
@@ -1431,6 +1434,7 @@ uiTextureRectID RenderModule::addUITextureRect(const uiPanelID& panelID, const e
 	tex.textureFolder = textureFolder;
 	tex.textureFile = textureFile;
 	tex.visible = true;
+	tex.opacity = opacity;
 
 	if (!_rgm->resourceGroupExists(textureFolder))
 	{
@@ -1456,10 +1460,14 @@ void RenderModule::deleteUITextureRect(const uiTextureRectID& id) {
 	textureRect.alive = false;
 }
 
-void  RenderModule::setUITextureRectTexture(const uiTextureRectID& textureRectID, const std::string& texture) 
+void  RenderModule::setUITextureRectTexture(const uiTextureRectID& textureRectID, std::string& textureFolder, std::string& textureFile)
 {
+	Ogre::TexturePtr tex = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
 	auto [panelID, textureRectIndex] = _textureToPanel[textureRectID];
-	_uiPanels[panelID].textureRects[textureRectIndex].textureFile = texture;
+	_uiPanels[panelID].textureRects[textureRectIndex].textureFile = textureFile;
+	_uiPanels[panelID].textureRects[textureRectIndex].textureFile = textureFolder;
+	_uiPanels[panelID].buttons[textureRectIndex].textureID = (ImTextureID)tex->getHandle();
+
 }
 
 void RenderModule::setUITextureRectVisible(const uiTextureRectID& textureRectID, bool& visible) 
@@ -1578,7 +1586,6 @@ void RenderModule::renderUI()
 			ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(button.textColor.getRed() * 255, button.textColor.getGreen() * 255, button.textColor.getBlue() * 255, button.textColor.getAlpha() * button.opacity * 255));
 			ImGui::PushStyleColor(ImGuiCol_Button, IM_COL32(button.bgColor.getRed() * 255, button.bgColor.getGreen() * 255, button.bgColor.getBlue() * 255, button.bgColor.getAlpha() * button.opacity * 255));
 			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, IM_COL32(button.hvColor.getRed() * 255, button.hvColor.getGreen() * 255, button.hvColor.getBlue() * 255, button.hvColor.getAlpha() * button.opacity * 255));
-			float irew = button.psColor.getAlpha() * button.opacity * 255;
 			ImGui::PushStyleColor(ImGuiCol_ButtonActive, IM_COL32(button.psColor.getRed() * 255, button.psColor.getGreen() * 255, button.psColor.getBlue() * 255, button.psColor.getAlpha() * button.opacity * 255));
 			if (button.buttonImage) 
 			{
