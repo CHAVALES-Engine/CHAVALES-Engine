@@ -1587,8 +1587,10 @@ void RenderModule::renderUI()
 		if (!panel.visible || !panel.alive) continue;
 
 		int tID = getTransformUI(panel.entity);
-		ImGui::SetNextWindowPos(ImVec2(0, 0));
-		ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
+		const ImVec2 auxDim = { _uiTransforms[tID].dimension.getX(), _uiTransforms[tID].dimension.getY() };
+		const ImVec2 auxPos = { _uiTransforms[tID].position.getX(),  _uiTransforms[tID].position.getY() };
+		ImGui::SetNextWindowPos(ImVec2(auxPos));
+		ImGui::SetNextWindowSize(ImVec2(auxDim));
 		ImGui::Begin(panel.title.c_str(), nullptr, ImGuiWindowFlags_NoTitleBar |ImGuiWindowFlags_NoScrollWithMouse|ImGuiWindowFlags_NoScrollbar| ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoMove);
 
 		ImDrawList* drawList = ImGui::GetWindowDrawList();
