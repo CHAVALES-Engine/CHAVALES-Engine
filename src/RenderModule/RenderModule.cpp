@@ -122,6 +122,8 @@ bool RenderModule::Init(SDL_Window* sdlWindow, const HWND handle, const int widt
 		_nextModelID = 0;
 		_nextAnimationID = 0;
 		_nextLightID = 0;
+		_nextParticleGenID = 0;
+		_nextSkydomeID = 0;
 
 		//Se crea una camara auxiliar para crear el viewport. En el momento que se cree una camara manualmente esta pasara automaticamente a ser la activa.
 		_mainCameraID = ChavalesGUID::generate();
@@ -1174,7 +1176,7 @@ void RenderModule::setSkydome(const std::string& textureFolder, const std::strin
 		_resourceGroups.insert(textureFolder);
 	}
 
-	std::string matName = "SkydomeMat_" + std::to_string(_nextParticleGenID);
+	std::string matName = "SkydomeMat_" + std::to_string(_nextSkydomeID++);
 
 	Ogre::MaterialPtr mat = Ogre::MaterialManager::getSingleton().create(matName, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 	_createdMaterials.push_back(matName);
