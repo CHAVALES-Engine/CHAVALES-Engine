@@ -556,6 +556,10 @@ public:
 	*/
 	bool pauseChannel(int chID, bool pause);
 	/*
+	* @brief Devuelve si un canal está pausado
+	*/
+	bool isPaused(int chID);
+	/*
 	* @brief Configura el milisegundo de inicio y de final del audio que se reproduciran
 	*/
 	bool setDelay(int chID, double start, double end, bool stopChannel);

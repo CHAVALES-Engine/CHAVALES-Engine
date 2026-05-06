@@ -41,6 +41,16 @@ bool AudioModule::init()
 void AudioModule::update()
 {
 	_system->update();
+	for (auto it = _channelSound.begin(); it != _channelSound.end(); )
+	{
+		bool playing = false;
+		it->second->isPlaying(&playing);
+
+		if (!playing)
+			it = _channelSound.erase(it);
+		else
+			++it;
+	}
 }
 
 void AudioModule::shutdown()
@@ -200,7 +210,6 @@ bool AudioModule::stopPlaying(int chID)
 		return false;
 	}
 	auto res = itChFound->second->stop();
-	_channelSound.erase(itChFound);
 	if (res == FMOD_OK) return true;
 	else {
 		Debug::error("[stopPlaying] Unexpected Error: Couldn't stop the channel with this id: " + to_string(chID));
@@ -216,12 +225,27 @@ bool AudioModule::pauseChannel(int chID, bool pause)
 		Debug::error("[pauseChannel] Channel not found: Couldn't find channel, there isn't an existing channel with this id: " + to_string(chID));
 		return false;
 	}
-	bool isPlaying;
-	itChFound->second->isPlaying(&isPlaying);
 	auto res =  itChFound->second->setPaused(pause);
-	if (res == FMOD_OK || !isPlaying) return true;
+	if (res == FMOD_OK) return true;
 	else {
 		Debug::error("[pauseChannel] Unexpected Error: Couldn't pause/resume the channel with this id: " + to_string(chID));
+		return false;
+	}
+}
+
+bool AudioModule::isPaused(int chID)
+{
+	auto itChFound = _channelSound.find(chID);
+	if (itChFound == _channelSound.end())
+	{
+		Debug::error("[isPaused] Channel not found: Couldn't find channel, there isn't an existing channel with this id: " + to_string(chID));
+		return false;
+	}
+	bool paused = true;
+	auto res = itChFound->second->getPaused(&paused);
+	if (res == FMOD_OK) return paused;
+	else {
+		Debug::error("[isPaused] Unexpected Error: Couldn't get the paused state of the channel with this id: " + to_string(chID));
 		return false;
 	}
 }
@@ -239,7 +263,7 @@ void AudioModule::muteEverything()
 {
 	for (auto it = _channelSound.begin(); it != _channelSound.end(); ++it) {
 		bool isPlaying = false;
-		it->second->isPlaying(&isPlaying);
+		it->second->getPaused(&isPlaying);
 		if (isPlaying) {
 			it->second->setPaused(true);
 		}
@@ -256,8 +280,8 @@ void AudioModule::unMuteEverything()
 {
 	for (auto it = _channelSound.begin(); it != _channelSound.end(); ++it) {
 		bool isPlaying = false;
-		it->second->isPlaying(&isPlaying);
-		if (!isPlaying) {
+		it->second->getPaused(&isPlaying);
+		if (isPlaying) {
 			it->second->setPaused(false);
 		}
 	}
@@ -314,7 +338,6 @@ bool AudioModule::isChannelPlaying(int chID)
 
 	if (itChFound == _channelSound.end())
 	{
-		Debug::error("[isChannelPlaying] Channel not found: Couldn't find channel, there isn't an existing channel with this id: " + to_string(chID));
 		return false;
 	}
 

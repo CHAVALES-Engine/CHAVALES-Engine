@@ -87,8 +87,6 @@ private:
 	*/
 	int _channelID;
 
-	int _protectedID;
-
 	bool isPlaying;
 
 public:
@@ -142,11 +140,16 @@ public:
 	/*
 	* @brief Detiene por completo el sonido
 	*/
-	void stopSound() const;
+	void stopSound();
 	/*
 	* @brief Pausea (true) o reanuda (false) el canal
 	*/
 	void pauseSound(bool pause) const;
+	/*
+	* @brief Devuelve si está pausado
+	*/
+	bool isPaused() const;
+
 	/*
 	* @brief Establece, en milisegundos, el principio y el fin que se reproduce del audio
 	* stopChannel sirve para indicar si se quiere detener el audio al llegar a end

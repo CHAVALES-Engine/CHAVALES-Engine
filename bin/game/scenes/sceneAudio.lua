@@ -1,5 +1,7 @@
 -- Escena de prueba para audio
 scene = { -- entidades en escena
+	gizmos = true,
+    entities = {
    -- ENTIDAD 1
    camera = { -- nombre de la entidad
 		ddol = false, -- dont destroy on loads
@@ -35,18 +37,19 @@ scene = { -- entidades en escena
 				scale = Vector3.new(1.0),
 				},
 			ModelRenderer = {
-				file = "gizmo",
+				file = "mesh/gizmo.fbx",
 				["number of textures"] = 0
 			},
 			AudioSource = {
-				soundID = "lifeUp",
-				is3D = true,
-				loop = true,
-				isStream = false,
-				playOnReady = true,
-				soundVolume = 1.0,
-				minRadius = 150.0,
-				maxRadius = 200.0
+				soundPath = "sfx/smb_1-up.wav",
+                    soundID = "vidaExtra1",
+                    is3D = true,
+                    loop = true,
+                    isStream = false,
+                    playOnReady = true,
+                    soundVolume = 2.0,
+                    minRadius = 150.0,
+                    maxRadius = 1000.0
  			}
 		}
    },
@@ -68,4 +71,5 @@ scene = { -- entidades en escena
 			}
 		}
   	}
+}
 }

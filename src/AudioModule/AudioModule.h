@@ -86,9 +86,15 @@ public:
 	/// Method to pause a sound
 	/// </summary>
 	/// <param name="chID">ID of the sound we are looking</param>
-	/// <param name="pause">True: it is paused, Flase: it is active</param>
+	/// <param name="pause">True: it is paused, False: it is active</param>
 	/// <returns>Return if it has been paused</returns>
 	bool pauseChannel(int chID, bool pause);
+
+	/// <summary>
+	/// Method to get if a sound is paused
+	/// </summary>
+	bool isPaused(int chID);
+
 
 	/// <summary>
 	/// Updates de parameters of FMOD audio listener
@@ -131,7 +137,7 @@ public:
 	bool setMinMaxRadius(int chID, float min, float max);
 
 	/// <summary>
-	/// Method to observe if the channel is playing 
+	/// Method to observe if the channel is playing. Returns false only if it has stopped
 	/// </summary>
 	/// <param name="chID">Id of the desire channel</param>
 	/// <returns></returns>

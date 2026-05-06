@@ -111,7 +111,6 @@ void Engine::renderFrame()
 
 void Engine::cleanScene()
 {
-	_audioModule->stopEverything();
 	_physicsModule->ReloadPhysics();
 	_renderModule->cleanScene(false);
 }
@@ -548,6 +547,10 @@ bool Engine::stopPlaying(int chID)
 bool Engine::pauseChannel(int chID, bool pause)
 {
 	return _audioModule->pauseChannel(chID, pause);
+}
+bool Engine::isPaused(int chID)
+{
+	return _audioModule->isPaused(chID);
 }
 bool Engine::setSourcePosition(int chID, core::Vector3<> pos, core::Vector3<> vel)
 {
