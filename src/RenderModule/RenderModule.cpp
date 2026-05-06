@@ -433,7 +433,7 @@ void RenderModule::setUITransformDimension(const UITransformID& id, const core::
 
 void RenderModule::setUITransformPos(const UITransformID& id, const core::Vector2<float>& pos) {
 	if (id != UINT64_MAX && id < _uiTransforms.size()) {
-		_uiTransforms[id].position = { std::max(0.0f,pos.getX()), std::max(0.0f,pos.getY()) };
+		_uiTransforms[id].position = pos;
 	}
 }
 

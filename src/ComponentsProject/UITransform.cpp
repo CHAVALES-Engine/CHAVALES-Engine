@@ -98,6 +98,10 @@ bool UITransform::init(const Properties& p)
 			t->setParent(this);
 	}
 	_UItransformID = Engine::instance()->addUITransform(getEntity()->getEntityID(),getPosition(), getZBuffer(),getDimension(), getRotation());
+	Engine::instance()->setUITransformPos(_UItransformID, getPosition());
+	Engine::instance()->setUITransformDimension(_UItransformID, getDimension());
+	Engine::instance()->setUITransformRotation(_UItransformID, getRotation());
+	Engine::instance()->setUITransformZBuffer(_UItransformID, getZBuffer());
 
 	return true;
 }
