@@ -32,7 +32,16 @@ namespace core
 			for (auto s : _subscribers)
 			{
 				if (s)
-					s(args...);
+				{
+					try
+					{
+						s(args...);
+					}
+					catch (const std::exception& e)
+					{
+						Debug::error("Error en subscriber: ", e.what());
+					}
+				}
 			}
 			//for (int i = 0; i < _subscribers.size(); i++)
 			//{
@@ -53,16 +62,12 @@ namespace core
 
 		bool unsubscribre(int id)
 		{
-			int ini = _subscribers.size();
-
-			_subscribers.erase(_subscribers.begin() + id);
-
-			if (_subscribers.size() >= ini)
+			if (id < 0 || id >= static_cast<int>(_subscribers.size()))
 			{
-				Debug::error("Mensage con id:", id, " no se ha eliminado.");
+				Debug::error("Mensage con ID invalido: ", id);
 				return false;
 			}
-			Debug::out("Mensage con id:", id, " eliminado.");
+			_subscribers.erase(_subscribers.begin() + id);
 			return true;
 		}
 
