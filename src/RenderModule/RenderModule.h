@@ -44,6 +44,7 @@ using animationID = uint64_t;
 using subMeshID = uint64_t;
 using lightID = uint64_t;
 using particleGenID = uint64_t;
+using skydomeID = uint64_t;
 using uiPanelID = uint64_t;
 using uiLabelID = uint64_t;
 using uiButtonID = uint64_t;
@@ -689,6 +690,8 @@ private:
     animationID _nextAnimationID;
     lightID _nextLightID;
     particleGenID _nextParticleGenID;
+	skydomeID _nextSkydomeID;
+
     uiPanelID _nextPanelID;
     uiLabelID _nextLabelID;
     uiButtonID _nextButtonID;

@@ -391,7 +391,7 @@ void Engine::setParticleGenPartColor(const particleGenID& id, const core::Color&
 void Engine::setSkydome(const std::string& textureName, const float& curvature, const float& tiling, const float& distance, const bool& drawFirst)
 {
 	auto skydome = getAssetSourceFolder(textureName);
-	_renderModule->setSkydome(skydome.second, textureName, curvature, tiling, distance, drawFirst);
+	_renderModule->setSkydome(skydome.second, skydome.first, curvature, tiling, distance, drawFirst);
 }
 
 void Engine::setSkydomeNull()
