@@ -9,6 +9,8 @@ struct PhysXComponent
 {
 	PxRigidActor* actor = nullptr;
 	std::vector<PxShape*> shapes;
+	bool lockX = false, lockY = false, lockZ = false;
+	bool lockAngX = false, lockAngY = false, lockAngZ = false;
 };
 
 PxDefaultAllocator gAllocator;
@@ -388,6 +390,9 @@ void PhysicsModule::BlockAxes(uint32_t id, bool x, bool y, bool z)
 	if (it == physicsMap.end()) return;
 	PxRigidDynamic* body = it->second.actor->is<PxRigidDynamic>();
 	if (!body) return;
+	it->second.lockX = x;
+	it->second.lockY = y;
+	it->second.lockZ = z;
 	body->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_LINEAR_X, x);
 	body->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_LINEAR_Y, y);
 	body->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_LINEAR_Z, z);
@@ -399,6 +404,9 @@ void PhysicsModule::BlockAngles(uint32_t id, bool x, bool y, bool z)
 	if (it == physicsMap.end()) return;
 	PxRigidDynamic* body = it->second.actor->is<PxRigidDynamic>();
 	if (!body) return;
+	it->second.lockAngX = x;
+	it->second.lockAngY = y;
+	it->second.lockAngZ = z;
 	body->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_ANGULAR_X, x);
 	body->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y, y);
 	body->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z, z);
@@ -488,6 +496,26 @@ void PhysicsModule::fixedUpdate(float dt)
 
 	gScene->simulate(dt / 1000.0f);
 	gScene->fetchResults(true);
+	// Reaplica los lock flags despues de la simulacion
+	// Esto previene que PhysX ignore los locks durante calculos de colisiones
+	for (auto& [id, component] : physicsMap) {
+		PxRigidDynamic* body = component.actor->is<PxRigidDynamic>();
+		if (!body) continue;
+		// Reaplica locks lineales
+		if (component.lockX || component.lockY || component.lockZ)
+		{
+			body->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_LINEAR_X, component.lockX);
+			body->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_LINEAR_Y, component.lockY);
+			body->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_LINEAR_Z, component.lockZ);
+		}
+		// Reaplica locks angulares
+		if (component.lockAngX || component.lockAngY || component.lockAngZ)
+		{
+			body->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_ANGULAR_X, component.lockAngX);
+			body->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y, component.lockAngY);
+			body->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z, component.lockAngZ);
+		}
+	}
 }
 
 void PhysicsModule::onTrigger(PxTriggerPair* pairs, PxU32 count) {

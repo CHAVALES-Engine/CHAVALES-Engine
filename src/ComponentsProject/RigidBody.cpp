@@ -124,10 +124,16 @@ bool RigidBody::init(const Properties& p)
 	{
 		setVelocity(getProperty<core::Vector3<>>(p, "velocity"));
 		setLinearDamping(getProperty<float>(p, "damping"));
-		std::vector<bool> blockAxis(3, false); // valor por defecto
-		setProperty(p, "blockAxes", blockAxis, false);
-		std::vector<bool> blockAngles(3, false); // valor por defecto
-		setProperty(p, "blockAxes", blockAngles, false);
+		std::vector<bool> blockAxs(3, false);
+		setProperty(p, "blockAxes", blockAxs, false);
+		if (blockAxs.size() >= 3) {
+			blockAxes(blockAxs[0], blockAxs[1], blockAxs[2]);
+		}
+		std::vector<bool> blockAngs(3, false);
+		setProperty(p, "blockAxes", blockAngs, false);
+		if (blockAngs.size() >= 3) {
+			blockAngles(blockAngs[0], blockAngs[1], blockAngs[2]);
+		}
 	}
 	return true;
 }

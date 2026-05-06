@@ -62,7 +62,7 @@ scene = { -- entidades en escena
                     position = Vector3.new(0, 300, 0),
                     velocity = Vector3.new(0, 1000, 0),
                     damping = 0.0,
-                    blockAxes = {true}
+                    blockAxes = {false, true, false}
                 },
                 Collider = {
                     type = "CAPSULE",
