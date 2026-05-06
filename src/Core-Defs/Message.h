@@ -29,11 +29,16 @@ namespace core
 		*/
 		void emit(Args... args)
 		{
-			for (int i = 0; i < _subscribers.size(); i++)
+			for (auto s : _subscribers)
 			{
-				//Debug::out("EJECUTANDO SUBSCRIBER");
-				_subscribers[i](args...);
+				if (s)
+					s(args...);
 			}
+			//for (int i = 0; i < _subscribers.size(); i++)
+			//{
+			//	//Debug::out("EJECUTANDO SUBSCRIBER");
+			//	_subscribers[i](args...);
+			//}
 		}
 		/**
 		* @brief Suscribe un puntero a funcion al mensaje.
