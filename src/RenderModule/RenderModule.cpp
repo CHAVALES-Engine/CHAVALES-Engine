@@ -1416,9 +1416,15 @@ void RenderModule::setUIButtonText(const uiButtonID& buttonID, const std::string
 
 void RenderModule::setUIButtonTexture(const uiButtonID& buttonID, std::string& textureFolder, std::string& textureFile)
 {
-	if (textureFile.empty()) {
-		Debug::error("[UIButton] TextureFile vacio");
+	if (textureFile.empty() || textureFolder.empty()) {
+		Debug::error("[UIButton] TextureFile/textureFolder vacio");
 		return;
+	}
+	if (!_rgm->resourceGroupExists(textureFolder))
+	{
+		_rgm->addResourceLocation(textureFolder, "FileSystem", textureFolder);
+		_rgm->loadResourceGroup(textureFolder);
+		_resourceGroups.insert(textureFolder);
 	}
 	if (!Ogre::ResourceGroupManager::getSingleton().resourceExists(textureFolder, textureFile))
 	{
@@ -1522,9 +1528,15 @@ void RenderModule::deleteUITextureRect(const uiTextureRectID& id) {
 
 void  RenderModule::setUITextureRectTexture(const uiTextureRectID& textureRectID, std::string& textureFolder, std::string& textureFile)
 {
-	if (textureFile.empty()) {
-		Debug::error("[UITextureRect] TextureFile vacio");
+	if (textureFile.empty() || textureFolder.empty()) {
+		Debug::error("[UITextureRect] TextureFile/textureFolder vacio");
 		return;
+	}
+	if (!_rgm->resourceGroupExists(textureFolder))
+	{
+		_rgm->addResourceLocation(textureFolder, "FileSystem", textureFolder);
+		_rgm->loadResourceGroup(textureFolder);
+		_resourceGroups.insert(textureFolder);
 	}
 	if (!Ogre::ResourceGroupManager::getSingleton().resourceExists(textureFolder, textureFile))
 	{
