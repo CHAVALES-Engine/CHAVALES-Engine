@@ -257,6 +257,7 @@ void RenderModule::cleanScene(const bool& end)
 
 	_engineNodes.clear();
 	_nextTransformID = 0;
+	_nextSkydomeID = 0;
 
 	Ogre::MaterialManager& matMgr = Ogre::MaterialManager::getSingleton();
 
