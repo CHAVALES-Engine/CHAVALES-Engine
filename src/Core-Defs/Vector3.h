@@ -167,7 +167,7 @@ namespace core
 		 *
 		 * @param v - vector a sumar.
 		 */
-		inline Vector3 operator+(const Vector3& v)
+		inline Vector3 operator+(const Vector3& v) const
 		{
 			return Vector3(_x + v._x, _y + v._y, _z + v._z);
 		}
@@ -182,7 +182,7 @@ namespace core
 		 *
 		 * @param v - vector a restar.
 		 */
-		inline Vector3 operator-(const Vector3& v)
+		inline Vector3 operator-(const Vector3& v) const
 		{
 			return Vector3(_x - v._x, _y - v._y, _z - v._z);
 		}
@@ -197,7 +197,7 @@ namespace core
 		 *
 		 * @param v - vector a multiplicar.
 		 */
-		inline T operator*(const Vector3& v)
+		inline T operator*(const Vector3& v) const
 		{
 			return _x * v.getX() + _y * v.getY() + _z * v.getZ();
 		}
@@ -212,7 +212,7 @@ namespace core
 		 *
 		 * @param a - escalar a multiplicar.
 		 */
-		inline Vector3 operator*(T a)
+		inline Vector3 operator*(T a) const
 		{
 			return Vector3(_x * a, _y * a, _z * a);
 		}
@@ -222,9 +222,14 @@ namespace core
 		 *
 		 * @param a - escalar por el que dividir.
 		 */
-		inline Vector3 operator/(T a)
+		inline Vector3 operator/(T a) const
 		{
 			return Vector3(_x / a, _y / a, _z / a);
+		}
+
+		inline Vector3 operator-() const
+		{
+			return Vector3(-_x, -_y, -_z);
 		}
 
 		inline Vector3& operator/=(const T& a)
@@ -237,7 +242,7 @@ namespace core
 		 *
 		 * @param v - vector a comparar.
 		 */
-		inline bool operator==(const Vector3& v)
+		inline bool operator==(const Vector3& v) const
 		{
 			return (_x == v._x) && (_y == v._y) && (_z == v._z);
 		}
@@ -247,7 +252,7 @@ namespace core
 		 *
 		 * @param v - vector a comparar.
 		 */
-		inline bool operator!=(const Vector3& v)
+		inline bool operator!=(const Vector3& v) const
 		{
 			return !operator==(v);
 		}
@@ -269,7 +274,7 @@ namespace core
 		/**
 		 * @brief Devuelve el modulo del vector.
 		 */
-		inline T magnitude()
+		inline T magnitude() const
 		{
 			return sqrt(pow(_x, 2) + pow(_y, 2) + pow(_z, 2));
 		}
@@ -277,7 +282,7 @@ namespace core
 		/**
 		 * @brief Devuelve el vector normalizado.
 		 */
-		inline Vector3 normalized()
+		inline Vector3 normalized() const
 		{
 			float mag = magnitude();
 			if (mag > 1e-6f) return *this / mag;
@@ -307,6 +312,12 @@ namespace core
 	{
 		os << "(" << v.getX() << ", " << v.getY() << ", " << v.getZ() << ")";
 		return os;
+	}
+
+	template <typename T>
+	inline Vector3<T> operator*(T a, const Vector3<T>& v)
+	{
+		return v * a;
 	}
 
 	inline static const Vector3<> UP = Vector3<>(0, 1, 0);
