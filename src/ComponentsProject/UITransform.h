@@ -56,6 +56,7 @@ public:
 	void setZbuffer(int zBuff);
 
 	core::Vector2<> getPosition() const;
+	core::Vector2<> getGlobalPosition() const;
 	core::Vector2<> getDimension() const;
 	float getRotation() const;
 	int getZBuffer() const;

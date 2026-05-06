@@ -35,6 +35,11 @@ UITransform::UITransform()
 			return getPosition();
 		}
 		});
+	registerMethod("getGlobalPosition", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			return getGlobalPosition();
+		}
+		});
 	registerMethod("getDimension", [this](const std::vector<std::any>& args) {
 		if (args.size() >= 1) {
 			return getDimension();
@@ -135,6 +140,14 @@ void UITransform::setZbuffer(int zBuff)
 core::Vector2<> UITransform::getPosition() const {
 	return _position;
 }
+
+core::Vector2<> UITransform::getGlobalPosition() const {
+	if (_parent) {
+		return _parent->getGlobalPosition() + _position;
+	}
+	return _position;
+}
+
 core::Vector2<> UITransform::getDimension() const {
 	return _dimension;
 }
