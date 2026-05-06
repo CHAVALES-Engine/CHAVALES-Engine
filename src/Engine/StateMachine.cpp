@@ -70,7 +70,7 @@ void StateMachine::gameLoop()
 	if (_currentScene.ptr != nullptr)
 	{
 		_currentScene.ptr->destroy();
-
+		core::MessagesManager::instance().shutdown();
 		Engine::instance()->cleanScene();  // limpia la escena
 		Engine::instance()->renderFrame(); // renderiza frame vacío
 	}

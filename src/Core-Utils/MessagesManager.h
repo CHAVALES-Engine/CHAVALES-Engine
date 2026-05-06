@@ -93,18 +93,54 @@ namespace core
 			return false;
 
 		}
+		/**
+		* @brief Elimina un mensaje y todos sus subscribers.
+		* Llamar al destruir una escena para limpiar sus callbacks.
+		*/
+		void clearMessage(const std::string& name)
+		{
+			if (_destroyed) return;
+			_messages.erase(name);
+		}
+		/**
+		* @brief DEBE llamarse antes del cierre del engine.
+		* Limpia todos los mensajes y subscribers de forma controlada,
+		* ANTES de que el orden de destruccion de atexit cause crashes.
+		*/
+		void shutdown()
+		{
+			if (_destroyed) return;
+			_destroyed = true;
+			_messages.clear(); // Destruye cada Message<T> mientras sus capturas aun son validas
+		}
+		/**
+		* @brief Consulta si el manager ya fue destruido.
+		*/
+		bool isDestroyed() const { return _destroyed; }
 	private:
 		/**
 		* @brief Constructora por defecto.
 		*/
-		MessagesManager() = default;
+		MessagesManager() : _destroyed(false) {};
 		/**
 		* @brief Destructora por defecto.
 		*/
-		~MessagesManager() = default;
+		~MessagesManager() {
+			// Esto protege contra el crash de atexit si no se ha hecho clear.
+			if (!_destroyed)
+			{
+				_destroyed = true;
+				try { _messages.clear(); }
+				catch (...) {}
+			}
+		};
 		/**
 		* @brief Mapa de Mensajes.
 		*/
 		std::unordered_map<std::string, std::any> _messages;
+		/**
+		 * @brief Marca cuando se ha destruido el MessagesManager.
+		 */
+		bool _destroyed;
 	};
 }
