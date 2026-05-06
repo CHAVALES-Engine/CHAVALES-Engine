@@ -1339,13 +1339,20 @@ uiButtonID RenderModule::addUIImageButton(const uiPanelID& panelID, const entity
 		_rgm->loadResourceGroup(textureFolder);
 		_resourceGroups.insert(textureFolder);
 	}
-	if (!Ogre::ResourceGroupManager::getSingleton().resourceExists(textureFolder, textureFile))
-	{
-		Debug::error("[UIButton] Textura no existe");
-		return UINT64_MAX;
+	if (!textureFile.empty()) {
+		if (Ogre::ResourceGroupManager::getSingleton().resourceExists(textureFolder, textureFile))
+		{
+			Ogre::TexturePtr tex = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
+			button.textureID = (ImTextureID)tex->getHandle();
+		}
+		else {
+			Debug::error("[UIButton] Textura no existe");
+			button.textureID = UINT64_MAX;
+		}
 	}
-	Ogre::TexturePtr tex = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
-	button.textureID = (ImTextureID)tex->getHandle();
+	else {
+		button.textureID = UINT64_MAX;
+	}
 
 	_uiPanels[panelID].buttons.push_back(button);
 
@@ -1409,6 +1416,10 @@ void RenderModule::setUIButtonText(const uiButtonID& buttonID, const std::string
 
 void RenderModule::setUIButtonTexture(const uiButtonID& buttonID, std::string& textureFolder, std::string& textureFile)
 {
+	if (textureFile.empty()) {
+		Debug::error("[UIButton] TextureFile vacio");
+		return;
+	}
 	if (!Ogre::ResourceGroupManager::getSingleton().resourceExists(textureFolder, textureFile))
 	{
 		Debug::error("[UIButton] Textura no existe");
@@ -1479,13 +1490,21 @@ uiTextureRectID RenderModule::addUITextureRect(const uiPanelID& panelID, const e
 		_rgm->loadResourceGroup(textureFolder);
 		_resourceGroups.insert(textureFolder);
 	}
-	if (!Ogre::ResourceGroupManager::getSingleton().resourceExists(textureFolder, textureFile))
-	{
-		Debug::error("[UITextureRect] Textura no existe");
-		return UINT64_MAX;
+	if (!textureFile.empty()) {
+		if (Ogre::ResourceGroupManager::getSingleton().resourceExists(textureFolder, textureFile))
+		{
+			Ogre::TexturePtr texture = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
+			tex.textureID = (ImTextureID)texture->getHandle();
+		}
+		else {
+			Debug::error("[UIButton] Textura no existe");
+			tex.textureID = UINT64_MAX;
+		}
 	}
-	Ogre::TexturePtr texture = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
-	tex.textureID = (ImTextureID)texture->getHandle();
+	else {
+		tex.textureID = UINT64_MAX;
+	}
+	
 	_uiPanels[panelID].textureRects.push_back(tex);
 
 	uiTextureRectID id = _nextTextureRectID++;
@@ -1503,6 +1522,10 @@ void RenderModule::deleteUITextureRect(const uiTextureRectID& id) {
 
 void  RenderModule::setUITextureRectTexture(const uiTextureRectID& textureRectID, std::string& textureFolder, std::string& textureFile)
 {
+	if (textureFile.empty()) {
+		Debug::error("[UITextureRect] TextureFile vacio");
+		return;
+	}
 	if (!Ogre::ResourceGroupManager::getSingleton().resourceExists(textureFolder, textureFile))
 	{
 		Debug::error("[UITextureRect] Textura no existe");
@@ -1513,6 +1536,7 @@ void  RenderModule::setUITextureRectTexture(const uiTextureRectID& textureRectID
 	_uiPanels[panelID].textureRects[textureRectIndex].textureFile = textureFile;
 	_uiPanels[panelID].textureRects[textureRectIndex].textureFolder = textureFolder;
 	_uiPanels[panelID].textureRects[textureRectIndex].textureID = (ImTextureID)tex->getHandle();
+	
 
 }
 
@@ -1598,7 +1622,7 @@ void RenderModule::renderUI()
 
 		for (UITextureRectData& tex : panel.textureRects) 
 		{
-			if (!tex.visible||!tex.alive) 
+			if (!tex.visible||!tex.alive || tex.textureID == UINT64_MAX) 
 			{
 				continue;
 			}
@@ -1634,12 +1658,19 @@ void RenderModule::renderUI()
 			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, IM_COL32(button.hvColor.getRed() * 255, button.hvColor.getGreen() * 255, button.hvColor.getBlue() * 255, button.hvColor.getAlpha() * button.opacity * 255));
 			ImGui::PushStyleColor(ImGuiCol_ButtonActive, IM_COL32(button.psColor.getRed() * 255, button.psColor.getGreen() * 255, button.psColor.getBlue() * 255, button.psColor.getAlpha() * button.opacity * 255));
 			bool click = false;
-			if (button.buttonImage) 
+			if (button.buttonImage ) 
 			{
-				std::string idButton = button.textureFile + "_" + button.entity.toString();
-				ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
-				click = ImGui::ImageButton(idButton.c_str(), (ImTextureID)(uintptr_t)button.textureID, aux);
-				ImGui::PopStyleVar();
+				if (button.textureID != UINT64_MAX) {
+					std::string idButton = button.textureFile + "_" + button.entity.toString();
+					ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
+					click = ImGui::ImageButton(idButton.c_str(), (ImTextureID)(uintptr_t)button.textureID, aux);
+					ImGui::PopStyleVar();
+				}
+				else {
+					std::string idButton = button.textureFile + "_" + button.entity.toString();
+					ImGui::InvisibleButton(idButton.c_str(), ImVec2(1, 1));
+				}
+				
 			}
 			else 
 			{
