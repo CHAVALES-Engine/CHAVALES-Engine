@@ -14,6 +14,7 @@
 #include "GameLoader.h"
 #include "TimeManager.h"
 #include "checkMLNew.h"
+#include "MessagesManager.h"
 
 class GameLoader;
 
@@ -79,11 +80,11 @@ void StateMachine::gameLoop()
 void StateMachine::_addAndSetScene(const sceneName& n)
 {
 	_isPerformingSceneChange = true;
-	std::vector<core::Entity*> persistentEntities;
+	//std::vector<core::Entity*> persistentEntities;
 
 	if (_currentScene.ptr != nullptr) // Esto NO deberia ir antes de saber si se ha cargado la escena o no pero como muchos inits() de componentes que se hacen en loadScene() dependen de IDs que luego se borran en el clearScene() peta -> UIPanel.init() hace addUIPanel() y guarda _panelID despues destruye la escena vieja y llama a cleanScene(), se pierde la referencia y peta
 	{
-		persistentEntities = _currentScene.ptr->getDDOLEntities();
+		/*persistentEntities = _currentScene.ptr->getDDOLEntities();*/
 		_currentScene.ptr->clearScene();
 		Engine::instance()->cleanScene();
 	}
@@ -100,8 +101,8 @@ void StateMachine::_addAndSetScene(const sceneName& n)
 		Debug::out("STATEMACHINE: Entrando a escena ", n);
 
 		// anyade las entidades que sean persistentes de la escena anterior saltandose sus readys
-		for (core::Entity* pe : persistentEntities)
-			_currentScene.ptr->addEntity(pe);
+		/*for (core::Entity* pe : persistentEntities)
+			_currentScene.ptr->addEntity(pe);*/
 		// como son dool no hace falta llamar otra vez awake y ready
 		_currentScene.ptr->addListedEntities();
 

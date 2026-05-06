@@ -36,13 +36,13 @@ namespace core
 		template<typename... Args>
 		bool createMessage(const std::string& name)
 		{
-			if (_messages.find(name) != _messages.end())
+			if (_messages->find(name) != _messages->end())
 			{
 				Debug::warning("Mensaje con nombre: \"", name, "\" ya existe.");
 				return false;
 			}
 
-			_messages.emplace(name, core::Message<Args...>{});
+			_messages->emplace(name, core::Message<Args...>{});
 			Debug::out("Mensaje con nombre: \"", name, "\" creado.");
 			return true;
 		}
@@ -56,8 +56,8 @@ namespace core
 		template<typename... Args>
 		Message<Args...>* getMessage(const std::string& name)
 		{
-			auto it = _messages.find(name);
-			if (it == _messages.end())
+			auto it = _messages->find(name);
+			if (it == _messages->end())
 			{
 				Debug::warning("Mensaje con nombre: \"", name, "\" no existe.");
 				return nullptr;
@@ -76,31 +76,31 @@ namespace core
 		template<typename... Args>
 		bool subscribeInMessage(const std::string& name, std::function < void(Args...) > func)
 		{
-			auto it = _messages.find(name);
-			if (it == _messages.end())
+			auto it = _messages->find(name);
+			if (it == _messages->end())
 			{
 				Debug::warning("Mensaje con nombre: \"", name, "\" no existe se creara uno nuevo.");
 				createMessage(name);
-				it = _messages.find(name);
+				it = _messages->find(name);
 			}
 
 			auto* msg = std::any_cast<core::Message<Args...>>(&it->second);
 			msg->subscribe(func);
 			return true;
-		}
 
+		}
 	private:
 		/**
 		* @brief Constructora por defecto.
 		*/
-		MessagesManager() = default;
+		MessagesManager();
 		/**
 		* @brief Destructora por defecto.
 		*/
-		~MessagesManager() = default;
+		~MessagesManager();
 		/**
 		* @brief Mapa de Mensajes.
 		*/
-		std::unordered_map<std::string, std::any> _messages;
+		std::unordered_map<std::string, std::any>* _messages;
 	};
 }
