@@ -695,7 +695,7 @@ std::string GameLoader::_findSceneFile(const std::string& sceneName, const std::
 //	return s;
 //}
 
-void GameLoader::loadScene(const sceneName& n, std::shared_ptr<core::Scene> s)
+void GameLoader::loadScene(const sceneName& n, std::shared_ptr<core::Scene>& s)
 {
 	std::string root = core::GameConfigurator::instance()._scenesRoot;
 
@@ -703,6 +703,7 @@ void GameLoader::loadScene(const sceneName& n, std::shared_ptr<core::Scene> s)
 		!fs::is_directory(root))
 	{
 		Debug::error("La ruta indicada no es un directorio valido: ", root);
+		s = nullptr;
 		return;
 	}
 
@@ -711,6 +712,7 @@ void GameLoader::loadScene(const sceneName& n, std::shared_ptr<core::Scene> s)
 	if (path.empty())
 	{
 		Debug::error("No se encontro la escena ", n);
+		s = nullptr;
 		return;
 	}
 
@@ -722,6 +724,7 @@ void GameLoader::loadScene(const sceneName& n, std::shared_ptr<core::Scene> s)
 	if (!fs::exists(file))
 	{
 		Debug::error("El archivo de escena no existe: ", file.string());
+		s = nullptr;
 		return;
 	}
 
@@ -734,13 +737,16 @@ void GameLoader::loadScene(const sceneName& n, std::shared_ptr<core::Scene> s)
 	catch (...)
 	{
 		Debug::error("[GAMELOADER] Error critico leyendo escena, borrando memoria creada a partir de ella");
-		s->clearScene();
+		if (s != nullptr)
+			s->clearScene();
+		s = nullptr;
 		return;
 	}
 
 	if (!s)
 	{
 		Debug::error("Error cargando la escena ", n);
+		s = nullptr;
 		return;
 	}
 

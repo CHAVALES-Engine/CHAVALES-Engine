@@ -29,7 +29,7 @@ public:
 	 * @param n - Nombre de la escena a cargar, debe coincidir con el .lua que la define.
 	 */
 	//static std::shared_ptr<core::Scene> loadScene(const sceneName& n);
-	static void loadScene(const sceneName& n, std::shared_ptr<core::Scene> s);
+	static void loadScene(const sceneName& n, std::shared_ptr<core::Scene>& s);
 
 	/**
 	 * @brief Carga un prefab e instancia las entidades.
