@@ -413,7 +413,7 @@ void GameLoader::_loadLua(
 	const std::string& p)
 {
 	sol::state lua;
-	lua.open_libraries(sol::lib::base, sol::lib::io, sol::lib::table, sol::lib::math, sol::lib::os);
+	lua.open_libraries(sol::lib::base, sol::lib::io, sol::lib::table, sol::lib::math, sol::lib::os, sol::lib::string);
 	std::string scenePath = p + n + ".lua";
 	_path = scenePath;
 
