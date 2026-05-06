@@ -14,6 +14,7 @@
 #include "GameLoader.h"
 #include "TimeManager.h"
 #include "checkMLNew.h"
+#include "MessagesManager.h"
 
 class GameLoader;
 

@@ -66,6 +66,19 @@ namespace core
 			return true;
 		}
 
+		void unsubscribeAll()
+		{
+			try
+			{
+				_subscribers.clear();
+			}
+			catch (const std::exception& e)
+			{
+				Debug::error("Error al desuscribir todos los callbacks: ", e.what());
+			}
+		}
+
+		~Message() { unsubscribeAll(); }
 	private:
 
 		/**
