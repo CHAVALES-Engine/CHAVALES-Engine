@@ -125,7 +125,7 @@ void ParticleGen::ready()
 {
 	_particleGenID = Engine::instance()->addParticleGen(getEntity()->getEntityID(), _textureName);
 	Engine::instance()->setParticleGenPartWidth(_particleGenID, _partWidth);
-	Engine::instance()->setParticleGenPartWidth(_particleGenID, _partHeight);
+	Engine::instance()->setParticleGenPartHeight(_particleGenID, _partHeight);
 	Engine::instance()->setParticleGenEmissionRate(_particleGenID, _emissionRate);
 	Engine::instance()->setParticleGenMinVelocity(_particleGenID, _minVelocity);
 	Engine::instance()->setParticleGenMaxVelocity(_particleGenID, _maxVelocity);
