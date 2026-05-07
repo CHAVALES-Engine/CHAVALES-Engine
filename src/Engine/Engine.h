@@ -51,7 +51,7 @@ class ENGINE_API Engine
 {
 	~Engine() = default;
 public:
-	void update(float dt);
+	bool update(uint64_t dt);
 	void fixedUpdate(float dt);
 	/*
 	* @brief Inicializacion del motor
@@ -71,11 +71,6 @@ public:
 	* @brief Lanza el bucle de juego
 	*/
 	void startLoop() const;
-	/*
-	* @brief Metodo que sincroniza los eventos de input.
-	* @return bool - Booleano para saber si se ha cerrado la ventana.
-	*/
-	bool pollEvents() const;
 	/**
 	 * @brief Solicita un cambio de escena a la maquina de estados.
 	 * @param n - path de la escena.

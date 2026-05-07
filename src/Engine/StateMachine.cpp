@@ -37,9 +37,6 @@ void StateMachine::gameLoop()
 	while (!_endGame) // bucle de juego
 	{
 		_processSceneChange();
-		_endGame = Engine::instance()->pollEvents();
-		core::TimerManager::instance().update();
-
 		if (_currentScene.ptr != nullptr)
 		{
 			_deltaTime = core::Clock::calculateDeltaTime(startTime);
@@ -55,13 +52,13 @@ void StateMachine::gameLoop()
 
 			_currentScene.ptr->update(_deltaTime);
 			_currentScene.ptr->lateUpdate(_deltaTime);
-			Engine::instance()->update(_deltaTime);
 			Engine::instance()->renderFrame();
 			// Gestion de creacion y eliminado de entidades en runtime
 			_currentScene.ptr->addListedEntities();
 			_currentScene.ptr->destroyDeadEntities();
 			_processHotLuaReload();
 		}
+		_endGame = Engine::instance()->update(_deltaTime);
 	}
 
 	_isLoopRunning = false;
@@ -70,7 +67,6 @@ void StateMachine::gameLoop()
 	if (_currentScene.ptr != nullptr)
 	{
 		_currentScene.ptr->destroy();
-		core::MessagesManager::instance().shutdown();
 		Engine::instance()->cleanScene();  // limpia la escena
 		Engine::instance()->renderFrame(); // renderiza frame vacío
 	}

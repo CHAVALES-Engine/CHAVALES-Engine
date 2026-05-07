@@ -94,6 +94,15 @@ namespace core
 			return false;
 
 		}
+
+		/**
+		 * @brief Borra los mensajes actuales
+		 */
+		void clearMessages()
+		{
+			for (auto [n, _] : _messages)
+				clearMessage(n);
+		}
 		/**
 		* @brief Elimina un mensaje y todos sus subscribers.
 		* Llamar al destruir una escena para limpiar sus callbacks.

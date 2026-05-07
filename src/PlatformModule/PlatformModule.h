@@ -57,7 +57,7 @@ public:
 	* @brief Actualiza eventos.
 	* @return bool - Booleano para saber si se ha cerrado la ventana.
 	*/
-	bool syncronize();
+	bool pollEvents();
 	/**
 	* @brief Devuelve anchura de la ventana.
 	*/

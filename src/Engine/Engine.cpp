@@ -19,7 +19,9 @@
 #include <iostream>
 #include <checkMLNew.h>
 
+#include "MessagesManager.h"
 #include "ScriptsManager.h"
+#include "TimeManager.h"
 
 using namespace std;
 Engine* Engine::_instance = nullptr;
@@ -60,8 +62,10 @@ void Engine::release()
 		_instance->_resourcesModule = nullptr;
 		delete _instance->_stateMachine;
 		_instance->_stateMachine = nullptr;
-		// desca
+		// Descarga dlls
 		ComponentDLLLoader::instance().unLoadAll();
+		// Cierra sistemas core del motor
+		core::MessagesManager::instance().shutdown();
 		delete _instance;
 		_instance = nullptr;
 	}
@@ -76,11 +80,6 @@ void Engine::startLoop() const
 	_stateMachine->requestSceneChange(core::GameConfigurator::instance()._firstScene); // carga la primera escena
 	if (_stateMachine->getCurrentScnPtr() != nullptr)
 		_stateMachine->gameLoop();
-}
-
-bool Engine::pollEvents() const
-{
-	return _platformModule->syncronize();
 }
 
 void Engine::requestSceneChange(std::string const& n) const
@@ -111,6 +110,7 @@ void Engine::renderFrame()
 
 void Engine::cleanScene()
 {
+	core::MessagesManager::instance().clearMessages();
 	_physicsModule->ReloadPhysics();
 	_renderModule->cleanScene(false);
 }
@@ -877,8 +877,9 @@ bool Engine::_initPriv()
 	return true;
 }
 
-void Engine::update(float dt)
+bool Engine::update(uint64_t dt)
 {
+	core::TimerManager::instance().update();
 	if (_physicsModule)
 	{
 		auto physicsShapes = _physicsModule->GetRenderData();
@@ -890,6 +891,9 @@ void Engine::update(float dt)
 	{
 		_audioModule->update();
 	}
+	if (_platformModule)
+		return _platformModule->pollEvents();
+	return false;
 }
 
 void Engine::fixedUpdate(float dt)
