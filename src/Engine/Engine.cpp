@@ -110,7 +110,6 @@ void Engine::renderFrame()
 
 void Engine::cleanScene()
 {
-	core::MessagesManager::instance().clearMessages();
 	_physicsModule->ReloadPhysics();
 	_renderModule->cleanScene(false);
 }
