@@ -3,6 +3,9 @@
 #include "Entity.h"
 #include "Engine.h"
 #include "checkMLNew.h"
+#include "PluginSDK.h"
+
+REGISTER_COMPONENT(ParticleGen);
 
 ParticleGen::ParticleGen()
 {
@@ -194,9 +197,3 @@ void ParticleGen::setPartColor(const core::Color& color)
 {
 	Engine::instance()->setParticleGenPartColor(_particleGenID, color);
 }
-
-
-
-
-
-
