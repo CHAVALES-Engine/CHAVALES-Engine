@@ -38,7 +38,8 @@ namespace core
 		{
 			if (_messages.find(name) != _messages.end())
 			{
-				Debug::warning("Mensaje con nombre: \"", name, "\" ya existe.");
+				Debug::warning("Mensaje con nombre: \"", name, "\" ya existe. Elimina los suscritos anteriormente.");
+				clearMessage(name);
 				return false;
 			}
 
