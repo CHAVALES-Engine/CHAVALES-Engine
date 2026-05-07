@@ -172,6 +172,30 @@ Transform::Transform()
 		return forward();
 		});
 
+	registerMethod("yaw", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			yaw(std::any_cast<float>(args[0]));
+			return std::any();
+		}
+		return std::any(yaw());
+		});
+
+	registerMethod("pitch", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			pitch(std::any_cast<float>(args[0]));
+			return std::any();
+		}
+		return std::any(pitch());
+		});
+
+	registerMethod("roll", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			roll(std::any_cast<float>(args[0]));
+			return std::any();
+		}
+		return std::any(roll());
+		});
+
 	registerMethod("LookAt", [this](const std::vector<std::any>& args) {
 		if (args.size() >= 1) {
 			LookAt(std::any_cast<core::Vector3<>>(args[0]));
@@ -540,6 +564,36 @@ core::Vector3<> Transform::up() const
 core::Vector3<> Transform::forward() const
 {
 	return (getGlobalRotation() * core::Vector3<>(0, 0, 1)).normalized();
+}
+
+float Transform::yaw() const
+{
+	return getGlobalRotation().toEuler().getY();
+}
+
+void Transform::yaw(float degrees)
+{
+	rotateLocal(core::Vector3<>(0.0f, degrees, 0.0f));
+}
+
+float Transform::pitch() const
+{
+	return getGlobalRotation().toEuler().getX();
+}
+
+void Transform::pitch(float degrees)
+{
+	rotateLocal(core::Vector3<>(degrees, 0.0f, 0.0f));
+}
+
+float Transform::roll() const
+{
+	return getGlobalRotation().toEuler().getZ();
+}
+
+void Transform::roll(float degrees)
+{
+	rotateLocal(core::Vector3<>(0.0f, 0.0f, degrees));
 }
 
 void Transform::LookAt(const core::Vector3<>& target)

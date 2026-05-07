@@ -144,7 +144,7 @@ void Collider::ready()
 	rigidBody = entity->getComponent<RigidBody>();
 
 	if (rigidBody != NULL && rigidBody->getIsKinematic() && !isDynamic) {
-		Debug::warning("[COLLIDER] Collider no puede ser kinematic sin ser dinámico. Corrigiendo a dynamic=true.");
+		Debug::warning("[COLLIDER] Collider no puede ser kinematic sin ser dinamico. Corrigiendo a dynamic=true.");
 		isDynamic = true;
 	}
 
@@ -160,7 +160,7 @@ void Collider::ready()
 		physicsID = rigidBody->getId();
 		if (physicsID == 0)
 		{
-			Debug::warning("[COLLIDER] RigidBody ID no válido aún. Esperando...");
+			Debug::warning("[COLLIDER] RigidBody ID no valido aún. Esperando...");
 			return;
 		}
 

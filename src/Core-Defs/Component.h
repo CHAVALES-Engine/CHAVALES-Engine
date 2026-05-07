@@ -150,7 +150,7 @@ namespace core
 			if (it == props.end())
 			{
 				if (warn)
-					Debug::warning("COMPONENT: No se encontró el parámetro ", key, " en las propiedades del componente ", getName(), ".");
+					Debug::warning("COMPONENT: No se encontró el parametro ", key, " en las propiedades del componente ", getName(), ".");
 				return T(); // devolvemos valor por defecto
 			}
 
@@ -159,7 +159,7 @@ namespace core
 				return *pval;
 
 			if (warn)
-				Debug::error("COMPONENT: No se pudo tipar el parámetro ", key, " en las propiedades del componente ", getName(), ".");
+				Debug::error("COMPONENT: No se pudo tipar el parametro ", key, " en las propiedades del componente ", getName(), ".");
 			return T(); // devolvemos valor por defecto
 		}
 
@@ -185,7 +185,7 @@ namespace core
 			if (it == props.end())
 			{
 				if (warn)
-					Debug::warning("COMPONENT: No se encontró el parámetro ", key, " en las propiedades del componente ", getName(), ".");
+					Debug::warning("COMPONENT: No se encontró el parametro ", key, " en las propiedades del componente ", getName(), ".");
 				// devolvemos valor por defecto
 				return false;
 			}
@@ -197,7 +197,7 @@ namespace core
 				return true;
 			}
 			if (warn)
-				Debug::error("COMPONENT: No se pudo tipar el parámetro ", key, " en las propiedades del componente ", getName(), ".");
+				Debug::error("COMPONENT: No se pudo tipar el parametro ", key, " en las propiedades del componente ", getName(), ".");
 			return false;
 		}
 

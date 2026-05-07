@@ -143,6 +143,22 @@ public:
 	core::Vector3<> forward() const;
 
 	/**
+	 * @return Angulo de yaw (rotacion sobre Y) en grados.
+	 */
+	float yaw() const;
+	void yaw(float degrees);
+	/**
+	 * @return Angulo de pitch (rotacion sobre X) en grados.
+	 */
+	float pitch() const;
+	void pitch(float degrees);
+	/**
+	 * @return Angulo de roll (rotacion sobre Z) en grados.
+	 */
+	float roll() const;
+	void roll(float degrees);
+
+	/**
 	 * @brief Rota el transform para que su eje -forward apunte hacia una posicion global.
 	 * @param target Posicion objetivo en coordenadas globales.
 	 */
