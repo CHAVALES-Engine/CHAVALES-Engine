@@ -865,15 +865,6 @@ bool Engine::_initPriv()
 	// manager de scripts
 	ScriptsManager::instance().init();
 
-	//
-	//#if _DEBUG
-	//	ComponentDLLLoader::instance().load("./game/DLL-Test.dll");
-	//#else
-	//	std::string path = "./game/" + core::GameConfigurator::instance()._gameDLL + ".dll";
-	//	ComponentDLLLoader::instance().load(path);
-	//#endif
-
-
 	return true;
 }
 

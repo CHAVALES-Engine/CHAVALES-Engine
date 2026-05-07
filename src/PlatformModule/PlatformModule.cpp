@@ -80,7 +80,7 @@ SDL_Window* PlatformModule::getSDLWindow()
 	return _window;
 }
 
-bool PlatformModule::syncronize()
+bool PlatformModule::pollEvents()
 {
 	// limpia los ejes relativos
 	auto it = _virtualDevices.find(input::KEYBOARD_ID);
