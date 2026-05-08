@@ -1004,7 +1004,7 @@ void RenderModule::setAmbientLight(const core::Color& color)
 
 particleGenID RenderModule::addParticleGen(const entityID& entityID, const std::string& textureFolder, const std::string& textureFile)
 {
-	addNode(entityID);
+	transformID nodeID = addNode(entityID);
 
 	std::string matName = "ParticleMat_" + std::to_string(_nextParticleGenID);
 
@@ -1040,7 +1040,7 @@ particleGenID RenderModule::addParticleGen(const entityID& entityID, const std::
 
 	ps->setMaterialName(matName);
 	ps->addEmitter("Point");
-	_engineNodes.back().sceneNode->attachObject(ps);
+	_engineNodes[nodeID].sceneNode->attachObject(ps);
 
 	return _nextParticleGenID++;
 }
