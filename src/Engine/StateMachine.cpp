@@ -62,6 +62,7 @@ void StateMachine::gameLoop()
 	}
 
 	_isLoopRunning = false;
+	core::MessagesManager::instance().shutdown();
 
 	// llamar a la destructora de la escena
 	if (_currentScene.ptr != nullptr)
