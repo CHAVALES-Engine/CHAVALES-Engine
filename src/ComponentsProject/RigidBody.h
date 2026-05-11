@@ -1,7 +1,8 @@
 #pragma once
+#include "EngineComponent.h"
 #include "Vector3.h"
-#include "Component.h"
 #include <EngineAPI.h>
+
 
 class Engine;
 
@@ -12,7 +13,7 @@ class Engine;
  * Encapsula propiedades físicas como masa, velocidad, gravedad y damping.
  * Sirve como puente entre el motor y el sistema de físicas.
  */
-class ENGINE_API RigidBody : public core::Component {
+class ENGINE_API RigidBody : public EngineComponent {
 /*
  * +----------+
  * | RIGIDBODY |

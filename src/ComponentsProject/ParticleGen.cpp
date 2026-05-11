@@ -2,8 +2,9 @@
 
 #include "Entity.h"
 #include "Engine.h"
-#include "checkMLNew.h"
 #include "PluginSDK.h"
+#include "RenderModule.h"
+#include "checkMLNew.h"
 
 REGISTER_COMPONENT(ParticleGen);
 
@@ -90,7 +91,7 @@ ParticleGen::ParticleGen()
 
 ParticleGen::~ParticleGen()
 {
-	//Engine::instance()->deleteParticleGen(_particleGenID);
+	//render()->deleteParticleGen(_particleGenID);
 }
 
 bool ParticleGen::init(const Properties& p)
@@ -108,92 +109,93 @@ bool ParticleGen::init(const Properties& p)
 
 void ParticleGen::enable()
 {
-	Engine::instance()->setParticleGenEnabled(_particleGenID, true);
+	render()->setParticleGenEnabled(_particleGenID, true);
 }
 
 void ParticleGen::disable()
 {
-	Engine::instance()->setParticleGenEnabled(_particleGenID, false);
+	render()->setParticleGenEnabled(_particleGenID, false);
 }
 
 void ParticleGen::destroy()
 {
-	Engine::instance()->deleteParticleGen(_particleGenID);
+	render()->deleteParticleGen(_particleGenID);
 }
 
 void ParticleGen::ready()
 {
-	_particleGenID = Engine::instance()->addParticleGen(getEntity()->getEntityID(), _textureName);
-	Engine::instance()->setParticleGenPartWidth(_particleGenID, _partWidth);
-	Engine::instance()->setParticleGenPartHeight(_particleGenID, _partHeight);
-	Engine::instance()->setParticleGenEmissionRate(_particleGenID, _emissionRate);
-	Engine::instance()->setParticleGenMinVelocity(_particleGenID, _minVelocity);
-	Engine::instance()->setParticleGenMaxVelocity(_particleGenID, _maxVelocity);
-	Engine::instance()->setParticleGenDirection(_particleGenID, _direction);
-	Engine::instance()->setParticleGenAngle(_particleGenID, _angle);
+	auto particle = Engine::instance()->getAssetSourceFolder(_textureName);
+	_particleGenID = render()->addParticleGen(getEntity()->getEntityID(), _textureName, particle.first);
+	render()->setParticleGenPartWidth(_particleGenID, _partWidth);
+	render()->setParticleGenPartHeight(_particleGenID, _partHeight);
+	render()->setParticleGenEmissionRate(_particleGenID, _emissionRate);
+	render()->setParticleGenMinVelocity(_particleGenID, _minVelocity);
+	render()->setParticleGenMaxVelocity(_particleGenID, _maxVelocity);
+	render()->setParticleGenDirection(_particleGenID, _direction);
+	render()->setParticleGenAngle(_particleGenID, _angle);
 }
 
 void ParticleGen::setEmitting(const bool& emitting)
 {
-	Engine::instance()->setParticleGenEmitting(_particleGenID, emitting);
+	render()->setParticleGenEmitting(_particleGenID, emitting);
 }
 
 void ParticleGen::setQuota(const float& quota)
 {
-	Engine::instance()->setParticleGenQuota(_particleGenID, quota);
+	render()->setParticleGenQuota(_particleGenID, quota);
 }
 
 void ParticleGen::setEmissionRate(const float& rate)
 {
-	Engine::instance()->setParticleGenEmissionRate(_particleGenID, rate);
+	render()->setParticleGenEmissionRate(_particleGenID, rate);
 }
 
 void ParticleGen::setDuration(const float& duration)
 {
-	Engine::instance()->setParticleGenDuration(_particleGenID, duration);
+	render()->setParticleGenDuration(_particleGenID, duration);
 }
 
 void ParticleGen::setTimeToLive(const float& time)
 {
-	Engine::instance()->setParticleGenTimeToLive(_particleGenID, time);
+	render()->setParticleGenTimeToLive(_particleGenID, time);
 }
 
 void ParticleGen::setVelocity(const float& velocity)
 {
-	Engine::instance()->setParticleGenVelocity(_particleGenID, velocity);
+	render()->setParticleGenVelocity(_particleGenID, velocity);
 }
 
 void ParticleGen::setMinVelocity(const float& velocity)
 {
-	Engine::instance()->setParticleGenMinVelocity(_particleGenID, velocity);
+	render()->setParticleGenMinVelocity(_particleGenID, velocity);
 }
 
 void ParticleGen::setMaxVelocity(const float& velocity)
 {
-	Engine::instance()->setParticleGenMaxVelocity(_particleGenID, velocity);
+	render()->setParticleGenMaxVelocity(_particleGenID, velocity);
 }
 
 void ParticleGen::setDirection(const core::Vector3<float>& direction)
 {
-	Engine::instance()->setParticleGenDirection(_particleGenID, direction);
+	render()->setParticleGenDirection(_particleGenID, direction);
 }
 
 void ParticleGen::setAngle(const float& angle)
 {
-	Engine::instance()->setParticleGenAngle(_particleGenID, angle);
+	render()->setParticleGenAngle(_particleGenID, angle);
 }
 
 void ParticleGen::setPartWidth(const float& width)
 {
-	Engine::instance()->setParticleGenPartWidth(_particleGenID, width);
+	render()->setParticleGenPartWidth(_particleGenID, width);
 }
 
 void ParticleGen::setPartHeight(const float& height)
 {
-	Engine::instance()->setParticleGenPartHeight(_particleGenID, height);
+	render()->setParticleGenPartHeight(_particleGenID, height);
 }
 
 void ParticleGen::setPartColor(const core::Color& color)
 {
-	Engine::instance()->setParticleGenPartColor(_particleGenID, color);
+	render()->setParticleGenPartColor(_particleGenID, color);
 }

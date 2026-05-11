@@ -6,13 +6,14 @@
  *		- lookAt()
  */
 #pragma once
+#include "EngineComponent.h"
 #include <vector>
-#include <Component.h>
 #include <Quaternion.h>
 #include <Vector3.h>
 #include <EngineAPI.h>
 #include <CommonEnums.h>
 #include <Entity.h>
+
 using transformID = uint64_t;
 
 /*
@@ -40,7 +41,7 @@ using transformID = uint64_t;
  *
 */
 ;
-class ENGINE_API Transform : public core::Component
+class ENGINE_API Transform : public EngineComponent
 {
 	transformID _transformID;
 	core::Vector3<> _localPosition;

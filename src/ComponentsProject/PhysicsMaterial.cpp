@@ -3,6 +3,7 @@
 #include "Engine.h"
 #include "Entity.h"
 #include "Collider.h"
+#include "PhysicsModule.h"
 #include "checkMLNew.h"
 
 REGISTER_COMPONENT(PhysicsMaterial);
@@ -42,7 +43,7 @@ bool PhysicsMaterial::init(const Properties& p)
 
 void PhysicsMaterial::ready()
 {
-	_eng = Engine::instance();
+	//_eng = Engine::instance();
 
 	if (staticFriction < 0.0f) staticFriction = 0.0f;
 	if (dynamicFriction < 0.0f) dynamicFriction = 0.0f;
@@ -53,7 +54,7 @@ void PhysicsMaterial::ready()
 	auto collider = entity->getComponent<Collider>();
 	if (!collider) return;
 	physicsShapeID = collider->getId();
-	physicsMaterialID = _eng->createMaterial(
+	physicsMaterialID = physics()->CreateMaterial(
 		physicsShapeID,
 		staticFriction,
 		dynamicFriction,
@@ -67,7 +68,7 @@ void PhysicsMaterial::update(uint64_t dt)
 {
 	if (physicsMaterialID == 0) return;
 
-	_eng->updateMaterial(
+	physics()->UpdateMaterial(
 		physicsMaterialID,
 		staticFriction,
 		dynamicFriction,
@@ -80,8 +81,8 @@ void PhysicsMaterial::update(uint64_t dt)
 void PhysicsMaterial::destroy()
 {
 	Component::destroy();
-	if (_eng != nullptr)
-		_eng->destroyMaterial(physicsMaterialID);
+	//if (_eng != nullptr)
+	physics()->DestroyMaterial(physicsMaterialID);
 }
 
 float PhysicsMaterial::Combine(float a, float b, CombineMode mode)

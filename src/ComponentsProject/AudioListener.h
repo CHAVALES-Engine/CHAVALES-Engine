@@ -1,7 +1,8 @@
 #pragma once
-#include <Component.h>
+#include "EngineComponent.h"
 #include "Vector3.h"
 #include <EngineAPI.h>
+
 
 class Transform;
 
@@ -24,7 +25,7 @@ class Transform;
  * return setProperty(properties, "atributo1", component);
  *
 */
-class ENGINE_API AudioListener : public core::Component
+class ENGINE_API AudioListener : public EngineComponent
 {
 private:
 	std::shared_ptr<Transform> _transform;

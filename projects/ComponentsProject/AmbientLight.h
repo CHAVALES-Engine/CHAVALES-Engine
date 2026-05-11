@@ -3,9 +3,9 @@
  * @brief Componente que permite modificar la luz ambiente de una escena.
  */
 #pragma once
-#include <Component.h>
 #include <Color.h>
 #include <EngineAPI.h>
+#include "Enginecomponent.h"
 
 /*
  * +---------------+
@@ -27,7 +27,7 @@
  *
 */
 ;
-class ENGINE_API AmbientLight : public core::Component
+class ENGINE_API AmbientLight : public EngineComponent
 {
 public:
 	AmbientLight() = default;

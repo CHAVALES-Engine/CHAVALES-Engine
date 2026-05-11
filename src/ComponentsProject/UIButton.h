@@ -5,8 +5,9 @@
 
 
 #pragma once
-#include <Component.h>
+#include "EngineComponent.h"
 #include <EngineAPI.h>
+
 
 using buttonID = uint64_t;
 /*
@@ -31,7 +32,7 @@ using buttonID = uint64_t;
  * return setProperty(properties, "atributo1", component);
  *
 */
-class ENGINE_API UIButton : public core::Component
+class ENGINE_API UIButton : public EngineComponent
 {
 private:
 	buttonID _buttonID;

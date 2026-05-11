@@ -4,8 +4,9 @@
 #include <Engine.h>
 #include <Debug.h>
 #include <PluginSDK.h>
-#include "checkMLNew.h"
+#include "RenderModule.h"
 #include <cmath>
+#include "checkMLNew.h"
 
 REGISTER_COMPONENT(Transform);
 //
@@ -233,7 +234,7 @@ bool Transform::init(const Properties& p)
 	_localScale = getProperty<core::Vector3<>>(p, "scale");
 	_pendingChildren = getProperty<std::vector<std::string>>(p, "children");
 	//pendingChildren.clear();
-	_transformID = Engine::instance()->addTransform(getEntity()->getEntityID(), getGlobalPosition(), getGlobalRotation(), getGlobalScale());
+	_transformID = render()->addNode(getEntity()->getEntityID(), getGlobalPosition(), getGlobalRotation(), getGlobalScale());
 	return true;
 }
 
@@ -261,7 +262,7 @@ void Transform::setGlobalPosition(core::Vector3<> gp)
 	{
 		_localPosition = gp;
 	}
-	Engine::instance()->setTransformPosition(_transformID, gp);
+	render()->setNodePosition(_transformID, gp);
 
 	for (auto& c : _children)
 	{
@@ -272,7 +273,7 @@ void Transform::setGlobalPosition(core::Vector3<> gp)
 void Transform::setLocalPosition(const core::Vector3<>& lp)
 {
 	_localPosition = lp;
-	Engine::instance()->setTransformPosition(_transformID, getGlobalPosition());
+	render()->setNodePosition(_transformID, getGlobalPosition());
 
 	for (auto& c : _children)
 	{
@@ -292,7 +293,7 @@ void Transform::setGlobalRotation(const core::Quaternion<>& gr)
 	{
 		_localRotation = normalized;
 	}
-	Engine::instance()->setTransformRotation(_transformID, normalized);
+	render()->setNodeRotation(_transformID, normalized);
 
 	for (auto& c : _children)
 	{
@@ -303,7 +304,7 @@ void Transform::setGlobalRotation(const core::Quaternion<>& gr)
 void Transform::setLocalRotation(const core::Quaternion<>& lr)
 {
 	_localRotation = lr.normalized();
-	Engine::instance()->setTransformRotation(_transformID, getGlobalRotation());
+	render()->setNodeRotation(_transformID, getGlobalRotation());
 
 	for (auto& c : _children)
 	{
@@ -326,7 +327,7 @@ void Transform::setGlobalScale(const core::Vector3<>& gs)
 	{
 		_localScale = gs;
 	}
-	Engine::instance()->setTransformScale(_transformID, gs);
+	render()->setNodeScale(_transformID, gs);
 
 	for (auto& c : _children)
 	{
@@ -337,7 +338,7 @@ void Transform::setGlobalScale(const core::Vector3<>& gs)
 void Transform::setLocalScale(const core::Vector3<>& ls)
 {
 	_localScale = ls;
-	Engine::instance()->setTransformScale(_transformID, getGlobalScale());
+	render()->setNodeScale(_transformID, getGlobalScale());
 
 	for (auto& c : _children)
 	{
@@ -441,9 +442,9 @@ void Transform::setParent(Transform* t, bool keepWorldMeasures)
 	}
 	else
 	{
-		Engine::instance()->setTransformPosition(_transformID, getGlobalPosition());
-		Engine::instance()->setTransformRotation(_transformID, getGlobalRotation());
-		Engine::instance()->setTransformScale(_transformID, getGlobalScale());
+		render()->setNodePosition(_transformID, getGlobalPosition());
+		render()->setNodeRotation(_transformID, getGlobalRotation());
+		render()->setNodeScale(_transformID, getGlobalScale());
 	}
 }
 
@@ -488,7 +489,7 @@ void Transform::detachChildren()
 void Transform::translate(const core::Vector3<>& t)
 {
 	_localPosition = _localPosition + t; 
-	Engine::instance()->setTransformPosition(_transformID, getGlobalPosition());
+	render()->setNodePosition(_transformID, getGlobalPosition());
 
 	for (auto& c : _children)
 	{
@@ -500,7 +501,7 @@ void Transform::rotateLocal(const core::Quaternion<>& q)
 {
 	//_localRotation = q * _localRotation; 
 	_localRotation = (_localRotation * q).normalized(); 
-	Engine::instance()->setTransformRotation(_transformID, getGlobalRotation());
+	render()->setNodeRotation(_transformID, getGlobalRotation());
 
 	for (auto& c : _children)
 	{
@@ -662,15 +663,15 @@ std::vector<std::shared_ptr<core::Component>> Transform::getComponentsInParents(
 
 void Transform::refreshPostion()
 {
-	Engine::instance()->setTransformPosition(_transformID, getGlobalPosition());
+	render()->setNodePosition(_transformID, getGlobalPosition());
 }
 
 void Transform::refreshRotation()
 {
-	Engine::instance()->setTransformRotation(_transformID, getGlobalRotation());
+	render()->setNodeRotation(_transformID, getGlobalRotation());
 }
 
 void Transform::refreshScale()
 {
-	Engine::instance()->setTransformScale(_transformID, getGlobalScale());
+	render()->setNodeScale(_transformID, getGlobalScale());
 }

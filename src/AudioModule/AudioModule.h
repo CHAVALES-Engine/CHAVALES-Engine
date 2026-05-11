@@ -2,6 +2,7 @@
 #include <unordered_map>
 #include <string>
 #include "Vector3.h"
+#include "EngineAPI.h"
 
 namespace FMOD
 {
@@ -16,7 +17,7 @@ typedef std::unordered_map<int, FMOD::Channel*> ChannelMap;
 
 
 
-class AudioModule
+class ENGINE_API AudioModule
 {
 public:
 

@@ -5,8 +5,9 @@
 
 #include <Debug.h>
 #include <PluginSDK.h>
-#include "checkMLNew.h"
 #include <UITransform.h>
+#include "RenderModule.h"
+#include "checkMLNew.h"
 
 REGISTER_COMPONENT(UIPanel);
 
@@ -30,7 +31,7 @@ bool UIPanel::init(const Properties& p)
         return false;
     }
     _title = getProperty<std::string>(p, "name");
-    _panelID = Engine::instance()->addUIPanel(getEntity()->getEntityID(), _title);
+    _panelID = render()->addUIPanel(getEntity()->getEntityID(), _title);
     return true;
 }
 panelID UIPanel::getPanelID() const
@@ -44,13 +45,13 @@ void UIPanel::ready()
 void UIPanel::setVisible(bool visible)
 {
     if (_panelID == UINT64_MAX)return;
-    Engine::instance()->setUIPanelVisible(_panelID, visible);
+    render()->setUIPanelVisible(_panelID, visible);
 
 }
 
 void UIPanel::destroy()
 {
     if (_panelID == UINT64_MAX)return;
-    Engine::instance()->deleteUIPanel(_panelID);
+    render()->deleteUIPanel(_panelID);
 }
 

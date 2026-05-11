@@ -155,7 +155,7 @@ ComponentID PhysicsModule::CreateRigidBody(core::Vector3<> pos, float mass, bool
 
 	//id del actor del rigidbody
 	ComponentID id = nextID++;
-	physicsMap[id] = { body, {} };
+	physicsMap[id] = new PhysXComponent({ body, {} });
 	actorToID[body] = id;
 
 	return id;
@@ -198,7 +198,7 @@ ComponentID PhysicsModule::CreateBoxShape(core::Vector3<> size, const core::Vect
 
 	gScene->addActor(*actor);
 	ComponentID id = nextID++;
-	physicsMap[id] = { actor, {shape} };
+	physicsMap[id] = new PhysXComponent{ actor, {shape} };
 	actorToID[actor] = id;
 	return id;
 }
@@ -255,7 +255,7 @@ ComponentID PhysicsModule::CreateCapsuleShape(float radius, float height, const 
 
 	gScene->addActor(*actor);
 	ComponentID id = nextID++;
-	physicsMap[id] = { actor, {shape} };
+	physicsMap[id] = new PhysXComponent{ actor, {shape} };
 	actorToID[actor] = id;
 	return id;
 }
@@ -282,34 +282,34 @@ void PhysicsModule::setActorEntity(ComponentID physicsID, core::Entity* entity)
 {
 	auto it = physicsMap.find(physicsID);
 	if (it != physicsMap.end())
-		actorToEntity[it->second.actor] = entity;
+		actorToEntity[it->second->actor] = entity;
 }
 
 void PhysicsModule::SetPhysicsPosition(ComponentID id, const core::Vector3<>& pos)
 {
 	auto it = physicsMap.find(id);
 	if (it == physicsMap.end()) return;
-	auto body = it->second.actor->is<PxRigidDynamic>();
+	auto body = it->second->actor->is<PxRigidDynamic>();
 	if (body->getRigidBodyFlags() & PxRigidBodyFlag::eKINEMATIC)
-		body->setKinematicTarget(PxTransform(pos.getX(), pos.getY(), pos.getZ(), it->second.actor->is<PxRigidDynamic>()->getGlobalPose().q));
+		body->setKinematicTarget(PxTransform(pos.getX(), pos.getY(), pos.getZ(), it->second->actor->is<PxRigidDynamic>()->getGlobalPose().q));
 	else
-		it->second.actor->setGlobalPose(PxTransform(PxVec3(pos.getX(), pos.getY(), pos.getZ())));
+		it->second->actor->setGlobalPose(PxTransform(PxVec3(pos.getX(), pos.getY(), pos.getZ())));
 }
 
 void PhysicsModule::SetPhysicsRotation(ComponentID id, const core::Quaternion<>& rot)
 {
 	auto it = physicsMap.find(id);
 	if (it == physicsMap.end()) return;
-	PxTransform rotation = it->second.actor->getGlobalPose();
+	PxTransform rotation = it->second->actor->getGlobalPose();
 	rotation.q = PxQuat(rot.getX(), rot.getY(), rot.getZ(), rot.getW());
-	it->second.actor->setGlobalPose(rotation);
+	it->second->actor->setGlobalPose(rotation);
 }
 
 core::Vector3<> PhysicsModule::GetPhysicsPosition(uint32_t id)
 {
 	auto it = physicsMap.find(id);
 	if (it == physicsMap.end()) return { 0,0,0 };
-	PxTransform t = it->second.actor->getGlobalPose();
+	PxTransform t = it->second->actor->getGlobalPose();
 	return core::Vector3<>(t.p.x, t.p.y, t.p.z);
 }
 
@@ -317,7 +317,7 @@ core::Quaternion<> PhysicsModule::GetPhysicsRotation(uint32_t id)
 {
 	auto it = physicsMap.find(id);
 	if (it == physicsMap.end()) return { 0,0,0,0 };
-	PxTransform t = it->second.actor->getGlobalPose();
+	PxTransform t = it->second->actor->getGlobalPose();
 	return core::Quaternion<>(t.q.x, t.q.y, t.q.z, t.q.w);
 }
 
@@ -325,7 +325,7 @@ core::Vector3<> PhysicsModule::GetLinearVelocity(uint32_t id)
 {
 	auto it = physicsMap.find(id);
 	if (it == physicsMap.end()) return { 0,0,0 };
-	PxRigidDynamic* body = it->second.actor->is<PxRigidDynamic>();
+	PxRigidDynamic* body = it->second->actor->is<PxRigidDynamic>();
 	if (!body) return { 0,0,0 };
 	PxVec3 vel = body->getLinearVelocity();
 	return core::Vector3<>(vel.x, vel.y, vel.z);
@@ -335,7 +335,7 @@ void PhysicsModule::SetLinearVelocity(uint32_t id, core::Vector3<> vel)
 {
 	auto it = physicsMap.find(id);
 	if (it == physicsMap.end()) return;
-	PxRigidDynamic* body = it->second.actor->is<PxRigidDynamic>();
+	PxRigidDynamic* body = it->second->actor->is<PxRigidDynamic>();
 	if (!body) return;
 	body->setLinearVelocity(PxVec3(vel.getX(), vel.getY(), vel.getZ()));
 }
@@ -344,7 +344,7 @@ void PhysicsModule::AddForce(uint32_t id, core::Vector3<> force, char mode)
 {
 	auto it = physicsMap.find(id);
 	if (it == physicsMap.end()) return;
-	PxRigidDynamic* body = it->second.actor->is<PxRigidDynamic>();
+	PxRigidDynamic* body = it->second->actor->is<PxRigidDynamic>();
 	if (!body) return;
 	switch (mode) {
 	case 'F':
@@ -366,7 +366,7 @@ void PhysicsModule::ClearForce(uint32_t id, char mode)
 {
 	auto it = physicsMap.find(id);
 	if (it == physicsMap.end()) return;
-	PxRigidDynamic* body = it->second.actor->is<PxRigidDynamic>();
+	PxRigidDynamic* body = it->second->actor->is<PxRigidDynamic>();
 	if (!body) return;
 	switch (mode) {
 	case 'F':
@@ -388,11 +388,11 @@ void PhysicsModule::BlockAxes(uint32_t id, bool x, bool y, bool z)
 {
 	auto it = physicsMap.find(id);
 	if (it == physicsMap.end()) return;
-	PxRigidDynamic* body = it->second.actor->is<PxRigidDynamic>();
+	PxRigidDynamic* body = it->second->actor->is<PxRigidDynamic>();
 	if (!body) return;
-	it->second.lockX = x;
-	it->second.lockY = y;
-	it->second.lockZ = z;
+	it->second->lockX = x;
+	it->second->lockY = y;
+	it->second->lockZ = z;
 	body->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_LINEAR_X, x);
 	body->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_LINEAR_Y, y);
 	body->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_LINEAR_Z, z);
@@ -402,11 +402,11 @@ void PhysicsModule::BlockAngles(uint32_t id, bool x, bool y, bool z)
 {
 	auto it = physicsMap.find(id);
 	if (it == physicsMap.end()) return;
-	PxRigidDynamic* body = it->second.actor->is<PxRigidDynamic>();
+	PxRigidDynamic* body = it->second->actor->is<PxRigidDynamic>();
 	if (!body) return;
-	it->second.lockAngX = x;
-	it->second.lockAngY = y;
-	it->second.lockAngZ = z;
+	it->second->lockAngX = x;
+	it->second->lockAngY = y;
+	it->second->lockAngZ = z;
 	body->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_ANGULAR_X, x);
 	body->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y, y);
 	body->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z, z);
@@ -416,7 +416,7 @@ float PhysicsModule::GetMass(uint32_t id)
 {
 	auto it = physicsMap.find(id);
 	if (it == physicsMap.end()) return 0.0f;
-	PxRigidDynamic* body = it->second.actor->is<PxRigidDynamic>();
+	PxRigidDynamic* body = it->second->actor->is<PxRigidDynamic>();
 	if (!body) return 0.0f;
 	return body->getMass();
 }
@@ -425,7 +425,7 @@ void PhysicsModule::SetMass(uint32_t id, float mass)
 {
 	auto it = physicsMap.find(id);
 	if (it == physicsMap.end()) return;
-	PxRigidDynamic* body = it->second.actor->is<PxRigidDynamic>();
+	PxRigidDynamic* body = it->second->actor->is<PxRigidDynamic>();
 	if (!body) return;
 	body->setMass(PxReal(mass));
 }
@@ -434,7 +434,7 @@ float PhysicsModule::GetLinearDamping(uint32_t id)
 {
 	auto it = physicsMap.find(id);
 	if (it == physicsMap.end()) return 0.0f;
-	PxRigidDynamic* body = it->second.actor->is<PxRigidDynamic>();
+	PxRigidDynamic* body = it->second->actor->is<PxRigidDynamic>();
 	if (!body) return 0.0f;
 	return body->getLinearDamping();
 }
@@ -443,7 +443,7 @@ void PhysicsModule::SetLinearDamping(uint32_t id, float damping)
 {
 	auto it = physicsMap.find(id);
 	if (it == physicsMap.end()) return;
-	PxRigidDynamic* body = it->second.actor->is<PxRigidDynamic>();
+	PxRigidDynamic* body = it->second->actor->is<PxRigidDynamic>();
 	if (!body) return;
 	body->setLinearDamping(PxReal(damping));
 }
@@ -467,7 +467,7 @@ uint32_t PhysicsModule::CreateMaterial(ComponentID id, float staticF, float dyna
 	// Aplicar directamente al actor si existe
 	auto actorIt = physicsMap.find(id);
 	if (actorIt != physicsMap.end())
-		for (PxShape* shape : actorIt->second.shapes)
+		for (PxShape* shape : actorIt->second->shapes)
 			if (shape) shape->setMaterials(&mat, 1);
 	return cid;
 }
@@ -479,7 +479,7 @@ void PhysicsModule::UpdateMaterial(uint32_t id, float staticF, float dynamicF, f
 	auto it1 = physicsMap.find(id);
 	if (it1 == physicsMap.end()) return;
 	PxMaterial* mat = it->second;
-	PxShape* shape = it1->second.actor->is<PxShape>();
+	PxShape* shape = it1->second->actor->is<PxShape>();
 	if (!mat) return;
 	mat->setStaticFriction(staticF);
 	mat->setDynamicFriction(dynamicF);
@@ -499,21 +499,21 @@ void PhysicsModule::fixedUpdate(float dt)
 	// Reaplica los lock flags despues de la simulacion
 	// Esto previene que PhysX ignore los locks durante calculos de colisiones
 	for (auto& [id, component] : physicsMap) {
-		PxRigidDynamic* body = component.actor->is<PxRigidDynamic>();
+		PxRigidDynamic* body = component->actor->is<PxRigidDynamic>();
 		if (!body) continue;
 		// Reaplica locks lineales
-		if (component.lockX || component.lockY || component.lockZ)
+		if (component->lockX || component->lockY || component->lockZ)
 		{
-			body->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_LINEAR_X, component.lockX);
-			body->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_LINEAR_Y, component.lockY);
-			body->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_LINEAR_Z, component.lockZ);
+			body->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_LINEAR_X, component->lockX);
+			body->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_LINEAR_Y, component->lockY);
+			body->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_LINEAR_Z, component->lockZ);
 		}
 		// Reaplica locks angulares
-		if (component.lockAngX || component.lockAngY || component.lockAngZ)
+		if (component->lockAngX || component->lockAngY || component->lockAngZ)
 		{
-			body->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_ANGULAR_X, component.lockAngX);
-			body->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y, component.lockAngY);
-			body->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z, component.lockAngZ);
+			body->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_ANGULAR_X, component->lockAngX);
+			body->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_ANGULAR_Y, component->lockAngY);
+			body->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_ANGULAR_Z, component->lockAngZ);
 		}
 	}
 }
@@ -562,7 +562,7 @@ void PhysicsModule::AttachBoxShape(ComponentID bodyID, const core::Vector3<> siz
 	auto it = physicsMap.find(bodyID);
 	if (it == physicsMap.end()) return;
 
-	PxRigidActor* actor = it->second.actor;
+	PxRigidActor* actor = it->second->actor;
 	if (!actor) return;
 
 	PxShape* shape = gPhysics->createShape(PxBoxGeometry(size.getX() * 0.5f, size.getY() * 0.5f, size.getZ() * 0.5f), *defaultMaterial, true);
@@ -592,7 +592,7 @@ void PhysicsModule::AttachBoxShape(ComponentID bodyID, const core::Vector3<> siz
 	{
 		PxRigidBodyExt::setMassAndUpdateInertia(*dyn, dyn->getMass());
 	}
-	it->second.shapes.push_back(shape);
+	it->second->shapes.push_back(shape);
 }
 
 void PhysicsModule::AttachCapsuleShape(ComponentID bodyID, float radius, float height, const core::Vector3<>& center, const core::Quaternion<> rotationLoc, bool isTrigger)
@@ -600,7 +600,7 @@ void PhysicsModule::AttachCapsuleShape(ComponentID bodyID, float radius, float h
 	auto it = physicsMap.find(bodyID);
 	if (it == physicsMap.end()) return;
 
-	PxRigidActor* actor = it->second.actor;
+	PxRigidActor* actor = it->second->actor;
 	if (!actor) return;
 	PxShape* shape;
 	if (height <= 0.0f)//Esfera
@@ -644,14 +644,14 @@ void PhysicsModule::AttachCapsuleShape(ComponentID bodyID, float radius, float h
 	{
 		PxRigidBodyExt::setMassAndUpdateInertia(*dyn, dyn->getMass());
 	}
-	it->second.shapes.push_back(shape);
+	it->second->shapes.push_back(shape);
 }
 
 void PhysicsModule::setPhysicsTransform(ComponentID id, const core::Vector3<>& pos, const core::Quaternion<>& rot)
 {
 	auto it = physicsMap.find(id);
 	if (it == physicsMap.end()) return;
-	PxRigidActor* actor = it->second.actor;
+	PxRigidActor* actor = it->second->actor;
 	if (!actor) return;
 	PxTransform t(PxVec3(pos.getX(), pos.getY(), pos.getZ()), PxQuat(rot.getX(), rot.getY(), rot.getZ(), rot.getW()));
 	actor->setGlobalPose(t);
@@ -702,8 +702,8 @@ void PhysicsModule::DestroyBody(ComponentID id)
 	auto it = physicsMap.find(id);
 	if (it == physicsMap.end()) return;
 
-	PhysXComponent& comp = it->second;
-	PxRigidActor* actor = comp.actor;
+	PhysXComponent* comp = it->second;
+	PxRigidActor* actor = comp->actor;
 	if (!gScene || !actor) return;
 
 	//lo quito de la scene
@@ -711,7 +711,7 @@ void PhysicsModule::DestroyBody(ComponentID id)
 		gScene->removeActor(*actor, true);
 
 	//libero shapes del actor
-	for (PxShape* shape : comp.shapes)
+	for (PxShape* shape : comp->shapes)
 	{
 		if (shape)
 		{
@@ -719,7 +719,7 @@ void PhysicsModule::DestroyBody(ComponentID id)
 			shape->release();
 		}
 	}
-	comp.shapes.clear();
+	comp->shapes.clear();
 
 	actorToEntity.erase(actor);
 	actorToID.erase(actor);
@@ -766,10 +766,10 @@ std::vector<ShapeRenderData> PhysicsModule::GetRenderData()
 
 	for (auto& [id, comp] : physicsMap)
 	{
-		PxRigidActor* actor = comp.actor;
+		PxRigidActor* actor = comp->actor;
 		if (!actor) continue;
 
-		for (PxShape* shape : comp.shapes)
+		for (PxShape* shape : comp->shapes)
 		{
 			if (!shape) continue;
 
@@ -882,9 +882,9 @@ void PhysicsModule::SetActorEnabled(ComponentID id, bool enabled, bool isTrigger
 	auto it = physicsMap.find(id);
 	if (it == physicsMap.end()) return;
 
-	PhysXComponent& comp = it->second;
+	PhysXComponent* comp = it->second;
 
-	for (PxShape* shape : comp.shapes) {
+	for (PxShape* shape : comp->shapes) {
 		if (!shape) continue;
 
 		if (enabled) {

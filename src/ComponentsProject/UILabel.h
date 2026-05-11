@@ -3,9 +3,10 @@
  * @brief Componente que gestiona los letreros de la UI
  */
 #pragma once
-#include <Component.h>
+#include "EngineComponent.h"
 #include <CommonEnums.h>
 #include <EngineAPI.h>
+
 
 using labelID = uint64_t;
 /*
@@ -28,7 +29,7 @@ using labelID = uint64_t;
  * return setProperty(properties, "atributo1", component);
  *
 */
-class ENGINE_API UILabel : public core::Component
+class ENGINE_API UILabel : public EngineComponent
 {
 private:
 	labelID _labelID;

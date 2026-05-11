@@ -3,13 +3,14 @@
  * @brief Componente que gestiona una animacion de transform.
  */
 #pragma once
-#include <Component.h>
+#include "EngineComponent.h"
 #include <vector>
 #include <utility>
 #include <EngineAPI.h>
 
 #include <Vector3.h>
 #include <Quaternion.h>
+
 
 /*
  * +----------+
@@ -55,7 +56,7 @@ struct Animation
 		: id(id), type(type), active(active) {};
 };
 
-class ENGINE_API Animator : public core::Component
+class ENGINE_API Animator : public EngineComponent
 {
 	modelID _modelID;
 	//Cada animacion tiene su nombre y un interruptor que indica su actividad

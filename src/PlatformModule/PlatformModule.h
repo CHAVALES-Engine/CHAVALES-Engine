@@ -8,6 +8,7 @@
 #include <functional>
 #include "InputMapper.h"
 #include "Color.h"
+#include "EngineAPI.h"
 
 // Fordard declarations
 struct SDL_Window;
@@ -24,7 +25,7 @@ namespace input
  *	- Funciones de personalizacion de la ventana.
  *	- Funciones para gestionar el input.
  */
-class PlatformModule
+class ENGINE_API PlatformModule
 {
 
 	using EventCallback = bool(*)(const SDL_Event* event);

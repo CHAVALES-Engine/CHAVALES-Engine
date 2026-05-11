@@ -6,12 +6,13 @@
 #include <filesystem>
 #include <sol.hpp>
 #include "guid.h"
+#include "EngineAPI.h"
 
 struct AssetInfo {
 	ChavalesGUID _id;
 	bool isUpper;
 };
-class ResourcesModule
+class ENGINE_API  ResourcesModule
 {
 public:
 	ResourcesModule();

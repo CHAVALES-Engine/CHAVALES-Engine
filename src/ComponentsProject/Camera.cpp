@@ -1,5 +1,6 @@
 #include "Camera.h"
 
+#include "RenderModule.h"
 #include "Entity.h"
 #include "Engine.h"
 
@@ -7,8 +8,8 @@
 #include <PluginSDK.h>
 
 #include "GameConfigurator.h"
-#include "checkMLNew.h"
 #include "Transform.h"
+#include "checkMLNew.h"
 
 
 REGISTER_COMPONENT(Camera);
@@ -85,43 +86,43 @@ bool Camera::init(const Properties& p)
 
 void Camera::ready()
 {
-	_cameraID = Engine::instance()->addCamera(getEntity()->getEntityID(), _FOVy, _nearClipDistance, _farClipDistance, _focalLength, _bgColor);
+	_cameraID = render()->addCamera(getEntity()->getEntityID(), _FOVy, _nearClipDistance, _farClipDistance, _focalLength, _bgColor);
 }
 
 void Camera::setAsActiveCamera()
 {
-	Engine::instance()->setAsActiveCamera(_cameraID);
+	render()->setAsActiveCamera(_cameraID);
 	Engine::instance()->setViewportBGColor(_bgColor);
 }
 
 void Camera::setFOVy(const float& FOVy)
 {
 	_FOVy = FOVy;
-	Engine::instance()->setCameraFOVy(_cameraID, _FOVy);
+	render()->setCameraFOVy(_cameraID, _FOVy);
 }
 
 void Camera::setNearClipDistance(const float& nearClipDistance)
 {
 	_nearClipDistance = nearClipDistance;
-	Engine::instance()->setCameraNearClipDistance(_cameraID, _nearClipDistance);
+	render()->setCameraNearClipDistance(_cameraID, _nearClipDistance);
 }
 
 void Camera::setFarClipDistance(const float& farClipDistance)
 {
 	_farClipDistance = farClipDistance;
-	Engine::instance()->setCameraFarClipDistance(_cameraID, _farClipDistance);
+	render()->setCameraFarClipDistance(_cameraID, _farClipDistance);
 }
 
 void Camera::setFocalLength(const float& focalLength)
 {
 	_focalLength = focalLength;
-	Engine::instance()->setCameraFocalLength(_cameraID, _focalLength);
+	render()->setCameraFocalLength(_cameraID, _focalLength);
 }
 
 void Camera::setBgColor(const core::Color& bgColor)
 {
 	_bgColor = bgColor;
-	Engine::instance()->setViewportBGColor(_bgColor);
+	render()->setViewportBGColor(_bgColor);
 }
 
 float Camera::getFOVy() const { return _FOVy; }
@@ -204,5 +205,5 @@ core::Vector2<> Camera::worldToScreen(const core::Vector3<>& worldPos, float scr
 
 void Camera::destroy()
 {
-	Engine::instance()->deleteCamera(_cameraID);
+	render()->deleteCamera(_cameraID);
 }

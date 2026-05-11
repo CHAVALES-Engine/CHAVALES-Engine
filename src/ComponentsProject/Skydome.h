@@ -3,8 +3,9 @@
  * @brief Componente que gestiona un skydome.
  */
 #pragma once
-#include <Component.h>
+#include "EngineComponent.h"
 #include <EngineAPI.h>
+
 
 using particleGenID = uint64_t;
 
@@ -31,7 +32,7 @@ using particleGenID = uint64_t;
  * return setProperty(properties, "atributo1", component);
  *
 */
-class ENGINE_API Skydome : public core::Component
+class ENGINE_API Skydome : public EngineComponent
 {
 	bool _enabledOnStart;
 	std::string _textureName;

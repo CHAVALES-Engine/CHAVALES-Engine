@@ -5,11 +5,12 @@
 #include "PhysicsTypes.h"
 #include <unordered_map>
 #include "Raycast.h"
+#include "EngineAPI.h"
 
 struct PhysXComponent;
 
 
-class PhysicsModule : public physx::PxSimulationEventCallback
+class ENGINE_API PhysicsModule : public physx::PxSimulationEventCallback
 {
 public:
 
@@ -242,7 +243,7 @@ private:
 	Raycast raycast;
 	ComponentID nextID = 1;
 	ComponentID nextIDMaterial = 1;
-	std::unordered_map<ComponentID, PhysXComponent> physicsMap;
+	std::unordered_map<ComponentID, PhysXComponent*> physicsMap;
 	std::unordered_map<physx::PxRigidActor*, ComponentID> actorToID;
 	std::unordered_map<physx::PxRigidActor*, core::Entity*> actorToEntity;
 	std::vector<PhysicsEvent> eventQueue;

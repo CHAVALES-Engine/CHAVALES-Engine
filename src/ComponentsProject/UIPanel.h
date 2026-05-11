@@ -4,8 +4,9 @@
  */
 
 #pragma once
-#include <Component.h>
+#include "EngineComponent.h"
 #include <EngineAPI.h>
+
 
 using panelID = uint64_t;
 /*
@@ -26,7 +27,7 @@ using panelID = uint64_t;
  * return setProperty(properties, "atributo1", component);
  *
 */
-class ENGINE_API UIPanel : public core::Component
+class ENGINE_API UIPanel : public EngineComponent
 {
 	
 

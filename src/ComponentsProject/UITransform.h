@@ -3,10 +3,11 @@
  * @brief Componente que representa la posición y dimensiones  de una entidad de UI.
  */
 #pragma once
+#include "EngineComponent.h"
 #include <Vector2.h>
-#include <Component.h>
 #include <Entity.h>
 #include <EngineAPI.h>
+
 
 using UItransformID = uint64_t;
 
@@ -34,7 +35,7 @@ using UItransformID = uint64_t;
   * return setProperty(properties, "atributo1", component);
   *
  */
-class ENGINE_API UITransform : public core::Component
+class ENGINE_API UITransform : public EngineComponent
 {
 	UItransformID _UItransformID;
 	core::Vector2<> _position;

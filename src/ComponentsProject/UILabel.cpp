@@ -5,9 +5,11 @@
 
 #include <Debug.h>
 #include <PluginSDK.h>
-#include "checkMLNew.h"
+#include "RenderModule.h"
 #include <UITransform.h>
 #include <UIPanel.h>
+#include "checkMLNew.h"
+
 
 REGISTER_COMPONENT(UILabel);
 
@@ -89,34 +91,34 @@ void UILabel::awake()
 		_labelID = UINT64_MAX;
 		return;
 	}
-	_labelID = Engine::instance()->addUILabel(panelID, getEntity()->getEntityID(), _text, _opacity, _textColor, _bgColor, _fontSize, _align, _fontName);
+	_labelID = render()->addUILabel(panelID, getEntity()->getEntityID(), _text, _opacity, _textColor, _bgColor, _fontSize, _align, _fontName);
 }
 
 void UILabel::destroy()
 {
 	if (_labelID == UINT64_MAX)return;
-	Engine::instance()->deleteUILabel(_labelID);
+	render()->deleteUILabel(_labelID);
 }
 
 void UILabel::setText(const std::string& text)
 {
 	_text = text;
 	if (_labelID == UINT64_MAX)return;
-	Engine::instance()->setUILabelText(_labelID, _text);
+	render()->setUILabelText(_labelID, _text);
 
 }
 
 void UILabel::setVisible(bool visible)
 {
 	if (_labelID == UINT64_MAX)return;
-	Engine::instance()->setUILabelVisible(_labelID, visible);
+	render()->setUILabelVisible(_labelID, visible);
 }
 
 void UILabel::setOpacity(float opacity)
 {
 	_opacity = opacity;
 	if (_labelID == UINT64_MAX)return;
-	Engine::instance()->setUILabelOpacity(_labelID, _opacity);
+	render()->setUILabelOpacity(_labelID, _opacity);
 
 }
 
@@ -124,13 +126,13 @@ void UILabel::setBackgroudColor(core::Color color)
 {
 	_bgColor = color;
 	if (_labelID == UINT64_MAX)return;
-	Engine::instance()->setUILabelBackGroundColor(_labelID, _bgColor);
+	render()->setUILabelBackGroundColor(_labelID, _bgColor);
 }
 
 void UILabel::setTextColor(core::Color color){
 	_textColor = color;
 	if (_labelID == UINT64_MAX)return;
-	Engine::instance()->setUILabelTextColor(_labelID, _textColor);
+	render()->setUILabelTextColor(_labelID, _textColor);
 
 }
 
@@ -138,6 +140,6 @@ void UILabel::setAlign(TextAlign align)
 {
 	_align = align;
 	if (_labelID == UINT64_MAX)return;
-	Engine::instance()->setUILabelAlign(_labelID, align);
+	render()->setUILabelAlign(_labelID, align);
 }
 

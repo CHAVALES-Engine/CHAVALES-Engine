@@ -1,10 +1,12 @@
 ﻿#include "Collider.h"
 #include "PluginSDK.h"
+#include "PhysicsModule.h"
 #include "Engine.h"
 #include "Entity.h"
 #include "Transform.h"
 #include "RigidBody.h"
 #include "checkMLNew.h"
+
 REGISTER_COMPONENT(Collider);
 
 
@@ -168,10 +170,10 @@ void Collider::ready()
 		switch (shapeType)
 		{
 		case ShapeType::BOX:
-			Engine::instance()->attachBoxShapeToRigidBody(physicsID, size, center, rotation, isTrigger);
+			physics()->AttachBoxShape(physicsID, size, center, rotation, isTrigger);
 			break;
 		case ShapeType::CAPSULE:
-			Engine::instance()->attachCapsuleShapeToRigidBody(physicsID, radius, height, center, rotation, isTrigger);
+			physics()->AttachCapsuleShape(physicsID, radius, height, center, rotation, isTrigger);
 			break;
 		}
 	}
@@ -181,22 +183,22 @@ void Collider::ready()
 		switch (shapeType)
 		{
 		case ShapeType::BOX:
-			physicsID = Engine::instance()->createBoxCollider(size, center, pos, rotGlob, rotation, isDynamic, isTrigger);
+			physicsID = physics()->CreateBoxShape(size, center, pos, rotGlob, rotation, isDynamic, isTrigger);
 			break;
 		case ShapeType::CAPSULE:
-			physicsID = Engine::instance()->createCapsuleCollider(radius, height, center, pos, rotGlob, rotation, isDynamic, isTrigger);
+			physicsID = physics()->CreateCapsuleShape(radius, height, center, pos, rotGlob, rotation, isDynamic, isTrigger);
 			break;
 		}
 	}
 
-	Engine::instance()->registerActorEntity(physicsID, getEntity());
+	physics()->setActorEntity(physicsID, getEntity());
 }
 
 void Collider::update(uint64_t deltaTime)
 {
 	if (!entity || physicsID == 0 || !transform) return;
 
-	for (auto& event : Engine::instance()->consumeEvents(physicsID)) {
+	for (auto& event : physics()->consumeEventsFor(physicsID)) {
 		switch (event.type) {
 		case CollisionType::TriggerEnter: onTriggerEnter(event.otherEntity); break;
 		case CollisionType::TriggerExit: onTriggerExit(event.otherEntity); break;
@@ -209,12 +211,12 @@ void Collider::update(uint64_t deltaTime)
 
 void Collider::enable()
 {
-	Engine::instance()->setActorEnabled(physicsID, true, isTrigger);
+	physics()->SetActorEnabled(physicsID, true, isTrigger);
 }
 
 void Collider::disable()
 {
-	Engine::instance()->setActorEnabled(physicsID, false, isTrigger);
+	physics()->SetActorEnabled(physicsID, false, isTrigger);
 }
 
 void Collider::onTriggerEnter(core::Entity* other)

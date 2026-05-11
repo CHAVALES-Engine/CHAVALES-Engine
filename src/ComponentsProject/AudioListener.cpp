@@ -1,7 +1,8 @@
 #include "AudioListener.h"
-#include "Transform.h"
+#include "AudioModule.h"
 #include "Entity.h"
 #include "Engine.h"
+#include "Transform.h"
 
 #include "PluginSDK.h"
 #include "checkMLNew.h"
@@ -37,5 +38,5 @@ void AudioListener::update(uint64_t deltaTime)
 	if (!_transform) return;
 	core::Vector3<> vel = (_transform->getGlobalPosition() - _lastPos) / deltaTime;
 	_lastPos = _transform->getGlobalPosition();
-	Engine::instance()->setListener(_transform->getGlobalPosition(), _transform->forward(), _transform->up(), vel);
+	audio()->setListener(_transform->getGlobalPosition(), _transform->forward(), _transform->up(), vel);
 }

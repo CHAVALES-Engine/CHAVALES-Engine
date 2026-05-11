@@ -1,11 +1,12 @@
 #pragma once
-#include "Component.h"
+#include "EngineComponent.h"
 #include <EngineAPI.h>
+
 
 class Script;
 
 class ENGINE_API ScriptComponent :
-    public  core::Component
+    public  EngineComponent
 {
 public:
     ScriptComponent();

@@ -1,8 +1,9 @@
 #include "AmbientLight.h"
-#include "Engine.h"
-
 #include <Debug.h>
 #include <PluginSDK.h>
+#include "RenderModule.h"
+#include "Engine.h"
+
 #include "checkMLNew.h"
 
 REGISTER_COMPONENT(AmbientLight);
@@ -20,10 +21,10 @@ bool AmbientLight::init(const Properties& p)
 
 void AmbientLight::setAmbientLight(const core::Color& color)
 {
-	Engine::instance()->setAmbientLight(color);
+	render()->setAmbientLight(color);
 }
 
 void AmbientLight::clearAmbientLight()
 {
-	Engine::instance()->setAmbientLight(core::Color(0.0f, 0.0f, 0.0f, 0.0f));
+	render()->setAmbientLight(core::Color(0.0f, 0.0f, 0.0f, 0.0f));
 }

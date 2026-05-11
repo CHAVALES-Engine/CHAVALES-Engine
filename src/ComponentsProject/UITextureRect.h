@@ -3,9 +3,10 @@
  * @brief Componente que gestiona las texturas de la UI
  */
 #pragma once
-#include <Component.h>
+#include "EngineComponent.h"
 #include <Vector2.h>
 #include <EngineAPI.h>
+
 #pragma once
 using textureRectID = uint64_t;
 /*
@@ -28,7 +29,7 @@ using textureRectID = uint64_t;
  * return setProperty(properties, "atributo1", component);
  *
 */
-class ENGINE_API UITextureRect : public core::Component
+class ENGINE_API UITextureRect : public EngineComponent
 {
 private :
 	textureRectID _textureRectID;

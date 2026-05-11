@@ -3,10 +3,11 @@
  * @brief Componente que gestiona una luz.
  */
 #pragma once
-#include <Component.h>
+#include "EngineComponent.h"
 #include <Vector3.h>
 #include <Color.h>
 #include <EngineAPI.h>
+
 
 
 using lightID = uint64_t;
@@ -34,7 +35,7 @@ using lightID = uint64_t;
  * ...
  *
 */
-class ENGINE_API Light : public core::Component
+class ENGINE_API Light : public EngineComponent
 {
 public:
 	enum class Type { POINT = 0, DIRECTIONAL = 1, SPOT = 2 , RECTLIGHT = 3  };

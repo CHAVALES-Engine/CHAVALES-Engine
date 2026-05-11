@@ -3,11 +3,11 @@
  * @brief Componente que gestiona un modelo.
  */
 #pragma once
-
-#include <Component.h>
+#include "EngineComponent.h"
 #include <EngineAPI.h>
 
 #include <utility>
+
 
 using modelID = uint64_t;
 
@@ -31,7 +31,7 @@ using modelID = uint64_t;
  * ...
  *
 */
-class ENGINE_API ModelRenderer : public core::Component
+class ENGINE_API ModelRenderer : public EngineComponent
 {
 	modelID _modelID;
 	std::string _modelName;
