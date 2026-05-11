@@ -771,11 +771,6 @@ void RenderModule::setTint(const modelID& id, const subMeshID& subID, const core
 	}
 }
 
-core::Color RenderModule::getTint()
-{
-	return entityTint;
-}
-
 void RenderModule::setModelVisible(const modelID& id, const bool& visible)
 {
 	if (id != UINT64_MAX && id < _models.size() && _models[id] != nullptr)

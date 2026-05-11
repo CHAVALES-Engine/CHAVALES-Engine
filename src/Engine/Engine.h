@@ -207,10 +207,6 @@ public:
 	*/
 	void setSubmeshTint(const modelID& id, const core::Color& tint, const int& submesh);
 	/*
-	* @brief Establecer tinte de material.
-	*/
-	core::Color getSubmeshTint();
-	/*
 	* @brief Establecer si el modelo es visible.
 	*/
 	void setModelVisible(const modelID& id, const bool& visible);

@@ -302,11 +302,6 @@ public:
 	void setTint(const modelID& id, const subMeshID& subID, const core::Color& tint);
 
 	/*
-	* @brief Devuelve el tinte de la entidad
-	*/
-	core::Color getTint();
-
-	/*
 	* @brief Establecer si el modelo es visible
 	*/
 	void setModelVisible(const modelID& id, const bool& visible);
