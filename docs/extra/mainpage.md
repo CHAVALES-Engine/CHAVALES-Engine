@@ -62,6 +62,6 @@ La base del motor se divide en los siguientes bloques fundamentales:
 * **Tools:** Conjunto de utilidades para el desarrollo y depuración.
 
 \subpage MotorAPI
-\subpage Modulo_Plataforma
+\subpage Manual
 
 > nota
