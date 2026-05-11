@@ -81,6 +81,11 @@ void ModelRenderer::setTint(const core::Color& tint, const int& submesh)
 	Engine::instance()->setSubmeshTint(_modelID, tint, submesh);
 }
 
+core::Color ModelRenderer::getTint()
+{
+    return Engine::instance()->getSubmeshTint();
+}
+
 void ModelRenderer::setVisible(const bool& visible)
 {
 	Engine::instance()->setModelVisible(_modelID, visible);
