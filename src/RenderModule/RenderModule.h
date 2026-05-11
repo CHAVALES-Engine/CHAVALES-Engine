@@ -20,6 +20,7 @@
 #include "CommonEnums.h"
 #include "guid.h"
 #include "PhysicsTypes.h"
+#include "EngineAPI.h"
 
 namespace Ogre
 {
@@ -120,7 +121,7 @@ struct UIPanelData
 	bool alive = true;
 };
 
-struct UITransform
+struct UITransformData
 {
 	entityID entity;
 	core::Vector2<float> position;
@@ -131,7 +132,7 @@ struct UITransform
 
 union SDL_Event;
 
-class RenderModule
+class ENGINE_API RenderModule
 {
 public:
 	~RenderModule();
@@ -679,7 +680,7 @@ private:
 	std::unordered_map<uiButtonID, std::pair<uiPanelID, int>> _buttonToPanel;
 	std::unordered_map<uiTextureRectID, std::pair<uiPanelID, int>> _textureToPanel;
 	std::unordered_map<std::string, ImFont*> _fonts;
-	std::vector<UITransform> _uiTransforms;
+	std::vector<UITransformData> _uiTransforms;
 	std::vector<std::string> _createdMaterials;
 	TextAlign stringToAlign(const std::string& align);
 

@@ -234,7 +234,7 @@ bool Transform::init(const Properties& p)
 	_localScale = getProperty<core::Vector3<>>(p, "scale");
 	_pendingChildren = getProperty<std::vector<std::string>>(p, "children");
 	//pendingChildren.clear();
-	_transformID = render()->addNode(getEntity()->getEntityID(), getGlobalPosition(), getGlobalRotation(), getGlobalScale());
+	_transformID = render()->addNode(getEntity()->getEntityID(), getGlobalPosition(), getGlobalRotation(), getGlobalScale(), true);
 	return true;
 }
 
