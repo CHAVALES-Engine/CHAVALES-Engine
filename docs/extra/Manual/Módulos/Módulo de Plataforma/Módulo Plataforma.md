@@ -1,3 +1,4 @@
+\page Modulo_Plataforma
 ## Descripción:
 Interfaz de abstracción de la plataforma, Engloba dentro dos módulos importantes como son [[Input]] y [[Ventana]]
 

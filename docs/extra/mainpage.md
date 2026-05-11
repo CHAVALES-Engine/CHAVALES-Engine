@@ -61,4 +61,7 @@ La base del motor se divide en los siguientes bloques fundamentales:
 * **ComponentRegistry:** Registro de componentes dinamico, actualizado con cada carga de DLL.
 * **Tools:** Conjunto de utilidades para el desarrollo y depuración.
 
+\subpage MotorAPI
+\subpage Modulo_Plataforma
+
 > nota
