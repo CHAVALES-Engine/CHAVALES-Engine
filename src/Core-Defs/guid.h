@@ -23,7 +23,7 @@ struct ChavalesGUID
 	 * @param other - guid con la que comparar.
 	 * @return bool - Es igual?
 	 */
-	bool operator==(const ChavalesGUID& other) const {
+	constexpr bool operator==(const ChavalesGUID& other) const {
 		return high == other.high && low == other.low;
 	}
 	/**
@@ -31,7 +31,7 @@ struct ChavalesGUID
 	 * @param other - guid con la que comparar.
 	 * @return bool - Es distinto?
 	 */
-	bool operator!=(const ChavalesGUID& other) const {
+	constexpr bool operator!=(const ChavalesGUID& other) const {
 		return !(*this == other);
 	}
 	/**
@@ -80,14 +80,18 @@ struct ChavalesGUID
 	 * @brief Devuelve una id invalido para comprobar errores e inicializar.
 	 * @return guid - guid invalido { 0, 0}.
 	 */
-	static ChavalesGUID invalid() { return { 0, 0 }; }
+	static constexpr ChavalesGUID invalid() { return { 0, 0 }; }
 	/**
 	 * @brief Devuelve si un guid es valido.
 	 * @return bool - Valido?
 	 */
-	bool isValid() const { return high != 0 || low != 0; }
+	constexpr bool isValid() const { return high != 0 || low != 0; }
 };
 
+inline std::ostream& operator<<(std::ostream& os, const ChavalesGUID& id) {
+	os << id.toString();
+	return os;
+}
 
 namespace std
 {

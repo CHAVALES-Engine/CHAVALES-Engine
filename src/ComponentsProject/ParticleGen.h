@@ -1,11 +1,11 @@
 /*
  * @file
- * @brief Componente que gestiona una camara.
+ * @brief Componente que gestiona un generador de particulas.
  */
 #pragma once
 #include <Component.h>
 #include <Vector3.h>
-#include <Color.h>
+#include <EngineAPI.h>
 
 using particleGenID = uint64_t;
 
@@ -16,11 +16,13 @@ using particleGenID = uint64_t;
  *
  * --- Ejemplo de uso en lua ---
  * ParticleGen = {
- *		FOVy = float,
- *		near clip distance = float,
- *		far clip distance = float,
- *		focal length = float,
- *		background color = Color
+ *		particle width = float,
+ *		particle height = float,
+ *		emission rate = float,
+ *		min velocity = float,
+ *		max velocity = float,
+ *		direction = Vector3.new(float...),
+ *		angle = float
  * }
  *
  * --- Ejemplo de inicializacion ---
@@ -31,11 +33,19 @@ using particleGenID = uint64_t;
  * return setProperty(properties, "atributo1", component);
  *
 */
-class ParticleGen : public core::Component
+class ENGINE_API ParticleGen : public core::Component
 {
 	particleGenID _particleGenID;
 
 	std::string _textureName;
+
+	float _partWidth;
+	float _partHeight;
+	float _emissionRate;
+	float _minVelocity;
+	float _maxVelocity;
+	core::Vector3<float> _direction;
+	float _angle;
 
 public:
 	ParticleGen();
@@ -45,6 +55,7 @@ public:
 	void ready() override;
 	void enable() override;
 	void disable() override;
+	void destroy() override;
 
 	/*
 	* @brief Establecer emision de generador de particulas.

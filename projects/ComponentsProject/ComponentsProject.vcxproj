@@ -19,16 +19,19 @@
     <ClInclude Include="..\..\src\ComponentsProject\CapsuleCollider.h" />
     <ClInclude Include="..\..\src\ComponentsProject\Collider.h" />
     <ClInclude Include="..\..\src\ComponentsProject\Light.h" />
-    <ClInclude Include="..\..\src\ComponentsProject\LuaComponent.h" />
+    <ClInclude Include="..\..\src\ComponentsProject\ScriptComponent.h" />
     <ClInclude Include="..\..\src\ComponentsProject\ModelRenderer.h" />
     <ClInclude Include="..\..\src\ComponentsProject\ParticleGen.h" />
     <ClInclude Include="..\..\src\ComponentsProject\PhysicsMaterial.h" />
     <ClInclude Include="..\..\src\ComponentsProject\RigidBody.h" />
+    <ClInclude Include="..\..\src\ComponentsProject\Skydome.h" />
     <ClInclude Include="..\..\src\ComponentsProject\Transform.h" />
     <ClInclude Include="..\..\src\ComponentsProject\UIButton.h" />
     <ClInclude Include="..\..\src\ComponentsProject\UILabel.h" />
     <ClInclude Include="..\..\src\ComponentsProject\UIPanel.h" />
     <ClInclude Include="..\..\src\ComponentsProject\UITextureRect.h" />
+    <ClInclude Include="..\..\src\ComponentsProject\UITransform.h" />
+    <ClInclude Include="AmbientLight.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\ComponentsProject\Animator.cpp" />
@@ -37,7 +40,7 @@
     <ClCompile Include="..\..\src\ComponentsProject\Camera.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\Collider.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\Light.cpp" />
-    <ClCompile Include="..\..\src\ComponentsProject\LuaComponent.cpp" />
+    <ClCompile Include="..\..\src\ComponentsProject\ScriptComponent.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\ModelRenderer.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\ParticleGen.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\PhysicsMaterial.cpp" />
@@ -47,6 +50,9 @@
     <ClCompile Include="..\..\src\ComponentsProject\UILabel.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\UIPanel.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\UITextureRect.cpp" />
+    <ClCompile Include="..\..\src\ComponentsProject\UITransform.cpp" />
+    <ClCompile Include="AmbientLight.cpp" />
+    <ClCompile Include="Skydome.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core-Defs\Core-Defs.vcxproj">
@@ -106,13 +112,14 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>ENGINE_EXPORTS;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ENGINE_EXPORTS;_DEBUG;_LIB;%(PreprocessorDefinitions);ENGINE</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)src\Engine\;$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)src\Core-Utils\;$(SolutionDir)src\Core-Defs\</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -135,13 +142,14 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>ENGINE_EXPORTS;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ENGINE_EXPORTS;NDEBUG;_LIB;%(PreprocessorDefinitions);ENGINE</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)src\Engine\;$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)src\Core-Utils\;$(SolutionDir)src\Core-Defs\</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>

@@ -6,6 +6,8 @@
 
 #pragma once
 #include <Component.h>
+#include <EngineAPI.h>
+
 using buttonID = uint64_t;
 /*
  * +----------+
@@ -18,7 +20,6 @@ using buttonID = uint64_t;
  *  	text = string
  *		textureFolder = string
  *  	texturePath = string
- *  	dimension = vector2<float>
  *
  * }
  *
@@ -30,26 +31,36 @@ using buttonID = uint64_t;
  * return setProperty(properties, "atributo1", component);
  *
 */
-class UIButton : public core::Component
+class ENGINE_API UIButton : public core::Component
 {
 private:
 	buttonID _buttonID;
 	std::string _text;
-	std::string _panelName;
 	std::string _textureName;
-	core::Vector2<float> _dimension;
 	float _opacity;
+	float _fontSize;
+	std::string _fontName;
+	core::Color _bgColor;
+	core::Color _textColor;
+	core::Color _hoverColor;
+	core::Color _pressColor;
 
 public:
 	UIButton();
 	~UIButton();
 
 	bool init(const Properties& p) override;
+	void awake() override;
+	void destroy() override;
 	void setText(const std::string& text);
 	void setVisible(bool visible);
 	void setTexture(const std::string& texture);
-	void setDimension(core::Vector2<float> dimension);
 	void setOnClick(std::function<void()>callback);
 	void setOpacity(float opacity);
+	void setBackgroudColor(core::Color color);
+	void setTextColor(core::Color color);
+	void setHoverColor(core::Color color);
+	void setPressColor(core::Color color);
+	void disable(bool disable);
 };
 

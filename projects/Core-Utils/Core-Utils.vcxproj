@@ -14,6 +14,8 @@
     <ClCompile Include="..\..\src\Core-Utils\Clock.cpp" />
     <ClCompile Include="..\..\src\Core-Utils\GameConfigurator.cpp" />
     <ClCompile Include="..\..\src\Core-Utils\MessagesManager.cpp" />
+    <ClCompile Include="..\..\src\Core-Utils\Script.cpp" />
+    <ClCompile Include="..\..\src\Core-Utils\ScriptsManager.cpp" />
     <ClCompile Include="..\..\src\Core-Utils\TimeManager.cpp" />
     <ClCompile Include="..\..\src\Core-Utils\Timer.cpp" />
   </ItemGroup>
@@ -22,8 +24,9 @@
     <ClInclude Include="..\..\src\Core-Utils\Crypto.h" />
     <ClInclude Include="..\..\src\Core-Utils\EngineAPI.h" />
     <ClInclude Include="..\..\src\Core-Utils\GameConfigurator.h" />
-    <ClInclude Include="..\..\src\Core-Utils\Message.h" />
     <ClInclude Include="..\..\src\Core-Utils\MessagesManager.h" />
+    <ClInclude Include="..\..\src\Core-Utils\Script.h" />
+    <ClInclude Include="..\..\src\Core-Utils\ScriptsManager.h" />
     <ClInclude Include="..\..\src\Core-Utils\TimeManager.h" />
     <ClInclude Include="..\..\src\Core-Utils\Timer.h" />
   </ItemGroup>
@@ -75,12 +78,12 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions); ENGINE_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions); ENGINE_EXPORTS;ENGINE</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)src\Core-Defs\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)src\Core-Defs\;$(SolutionDir)dependencies\sol\;$(SolutionDir)dependencies\lua\src\;$(SolutionDir)dependencies\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -88,8 +91,8 @@
       </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ImportLibrary>$(SolutionDir)libs\$(ProjectName)\$(TargetName).lib</ImportLibrary>
-      <AdditionalLibraryDirectories>$(SolutionDir)libs\Core-Defs\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Core-Defs_d.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\Core-Defs\;$(SolutionDir)dependencies\lua\libs\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Core-Defs_d.lib;$(CoreLibraryDependencies);%(AdditionalDependencies);LuaBuild.lib</AdditionalDependencies>
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)libs\EngineAPI;$(SolutionDir)libs\Core;</AdditionalLibraryDirectories>
@@ -102,12 +105,12 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions); ENGINE_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions); ENGINE_EXPORTS;ENGINE</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)src\Core-Defs\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)src\Core-Defs\;$(SolutionDir)dependencies\sol\;$(SolutionDir)dependencies\lua\src\;$(SolutionDir)dependencies\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -115,8 +118,8 @@
       </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ImportLibrary>$(SolutionDir)libs\$(ProjectName)\$(TargetName).lib</ImportLibrary>
-      <AdditionalLibraryDirectories>$(SolutionDir)libs\Core-Defs\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Core-Defs_r.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\Core-Defs\;$(SolutionDir)dependencies\lua\libs\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Core-Defs_r.lib;$(CoreLibraryDependencies);%(AdditionalDependencies);LuaBuild.lib</AdditionalDependencies>
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)libs\EngineAPI;</AdditionalLibraryDirectories>

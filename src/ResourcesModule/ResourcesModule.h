@@ -2,42 +2,15 @@
 #include <unordered_map>
 #include <string>
 #include <vector>
+#include <unordered_set>
 #include <filesystem>
 #include <sol.hpp>
+#include "guid.h"
 
-using AssetName = std::string; //To clarify the string
-using FileName = std::string; //To clarify the string
-using FolderName = std::string; //To clarify the string
-
-
-typedef std::unordered_map<AssetName, std::string> Audios;
-typedef std::unordered_map<AssetName, std::pair<FolderName, FileName>> Models;
-typedef std::unordered_map<AssetName, std::pair<FolderName, FileName>> Particles;
-typedef std::unordered_map<AssetName, std::pair<FolderName, FileName>> Textures;
-typedef std::unordered_map<AssetName, std::pair<FolderName, FileName>> Images;
-typedef std::unordered_map<AssetName, std::pair<FolderName, FileName>> Fonts;
-
-
-/*
- * +------------------+
- * | RESOURCES MODULE |
- * +------------------+
- *
- * --- Ejemplo de uso en lua ---
- * assets = {
- *		Mesh = {
- *			metroid = {
- *				sourceFolder = "metroid-floating/source", -> esta es la ruta donde se encuntra el modelo (para particulas y texturas igual)
- *				fileName = "metroid_final.fbx" -> esta es la malla (para particulas y texturas igual)
- *			}
- *		},
- *		Audio = {
- *			lifeUp = "C:/2526-Grupo03-ChavalesEngine/bin/game/scenes/assets/smb_1-up.wav" -> nombre del audio = ruta del audio
- *		}
- * }
-*/
-
-
+struct AssetInfo {
+	ChavalesGUID _id;
+	bool isUpper;
+};
 class ResourcesModule
 {
 public:
@@ -47,111 +20,43 @@ public:
 	bool Init();
 
 	/// <summary>
-	/// Getter to recive the desire audio
+	/// Method to retrive the path of the desire asset
 	/// </summary>
-	/// <param name="name">Name of the audio</param>
+	/// <param name="assetName">Name of the asset, this name is the real name of the folder + file + the type of extension of the file</param>
 	/// <returns></returns>
-	std::string getAudio(AssetName name);
+	std::pair<std::string, std::string> getAssetSourceFolder(std::string assetName);
 
 	/// <summary>
-	/// Getter to recive the desire mesh
+	/// Method to the render module to retrive all fonts
 	/// </summary>
-	/// <param name="name">Name of the mesh</param>
 	/// <returns></returns>
-	std::pair<FolderName, FileName> getMesh(AssetName name);
+	std::vector<std::pair<std::string, std::string>> getAllFonts();
 
 	/// <summary>
-	/// Getter to recive the desire particle
+	/// Access all assets reserved in the engine
 	/// </summary>
-	/// <param name="name">Name of particle</param>
 	/// <returns></returns>
-	std::pair<FolderName, FileName> getParticle(AssetName name);
-
-	/// <summary>
-	/// Getter to recive the desire texture
-	/// </summary>
-	/// <param name="name">Name of texture</param>
-	/// <returns></returns>
-	std::pair<FolderName, FileName> getTexture(AssetName name);
-
-	//// <summary>
-	/// Getter to recive the desire image
-	/// </summary>
-	/// <param name="name">Name of image</param>
-	/// <returns></returns>
-	std::pair<FolderName, FileName> getImages(AssetName name);
-
-	/// <summary>
-	/// Getter to recive the desire font
-	/// </summary>
-	/// <param name="name">Name of font</param>
-	/// <returns></returns>
-	std::pair<FolderName, FileName> getFonts(AssetName name);
-
-	/// <summary>
-	/// Method to set the Path of the found audio
-	/// </summary>
-	/// <param name="name">Name of the desire asset</param>
-	/// <param name="newRoute">Name of the new path</param>
-	void setAudioSource(AssetName name, FolderName newRoute);
-
-	/// <summary>
-	/// Method to set the Path of the found model
-	/// </summary>
-	/// <param name="name">Name of the desire asset</param>
-	/// <param name="newRoute">Name of the new path</param>
-	void setMeshSource(AssetName name, FolderName newRoute);
-
-	/// <summary>
-	/// Method to set the Path of the found particle
-	/// </summary>
-	/// <param name="name">Name of the desire asset</param>
-	/// <param name="newRoute">Name of the new path</param>
-	void setParticleSource(AssetName name, FolderName newRoute);
-
-	/// <summary>
-	/// Method to set the Path of the found texture
-	/// </summary>
-	/// <param name="name">Name of the desire asset</param>
-	/// <param name="newRoute">Name of the new path</param>
-	void setTextureSource(AssetName name, FolderName newRoute);
-
-	/// <summary>
-	/// Method to set the Path of the found image
-	/// </summary>
-	/// <param name="name">Name of the desire asset</param>
-	/// <param name="newRoute">Name of the new path</param>
-	void setImageSource(AssetName name, FolderName newRoute);
-
-	/// <summary>
-	/// Method to set the Path of the found font
-	/// </summary>
-	/// <param name="name">Name of the desire asset</param>
-	/// <param name="newRoute">Name of the new path</param>
-	void setFontSource(AssetName name, FolderName newRoute);
-
-	std::vector<std::pair<AssetName, FileName>> getAllFonts();
-
+	std::vector<std::pair<std::string, std::string>> getAllAssets();
 private:
 	/// <summary>
-	/// Private method to load all the assets
+	/// Method to go overall the assets folders, it's recursive which means it will travel across the folder unitl it has reserved all the assets of that folder
 	/// </summary>
-	/// <param name="assetsType">A table of the desire asset</param>
-	/// <param name="typeOfAsset">Name of the desire asset</param>
-	/// <param name="asset">Group of all assets</param>
+	/// <param name="sourceName"> Name of the folder where the assets are</param>
 	/// <returns></returns>
-	bool loadInternalAsset(const sol::table& assetsType,const std::string& typeOfAsset);
-	
-	std::pair<FolderName, FileName> loadOgreAsset(const std::string& assetName,std::pair<sol::object, sol::object>& assetType);
-	
-	std::string _luaRoute; // Route of the assets.lua
-	std::string _assetsRoute;
+	bool loadAsset(std::string sourceName); 
 
-	Audios _audioMap; // Map to reserve all audios used in the game
-	Models _modelsMap;  // Map to reserve all models used in the game
-	Particles _particlesMap;  // Map to reserve all particles used in the game
-	Textures _texturesMap;  // Map to reserve all textures used in the game
-	Fonts _fontsMap;
-	Images _imagesMap;
+	/// <summary>
+	/// Method to insert into the maps
+	/// </summary>
+	/// <param name="sourceName">The path of file in the folder of assets</param>
+	/// <returns></returns>
+	bool insertAssetMap(std::string sourceName); 
+
+	std::unordered_map<ChavalesGUID, std::string> _idMaps; //Map of IDs with the path of the associated asset
+	std::unordered_multimap<std::string, AssetInfo> _assetsMaps; //Map of assets sorted by name and with an ID
+
+	std::string typeOfFolder; //String of the folder to identify the type of assset and in which the folder is it
+	std::vector<std::pair<std::string, std::string>> _fontsVector; //Vector to save all fonts, in order to render load them
+
 };
 

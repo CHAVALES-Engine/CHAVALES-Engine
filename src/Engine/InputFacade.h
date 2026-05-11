@@ -58,6 +58,12 @@ public:
 	*/
 	bool isActionPressed(const std::string& actionName, input::DeviceID device = input::ANY_DEVICE) const;
 	/*
+	* @brief Devuelve si se acaba de pulsar una accion
+	* @param actionName - accion a comprobar
+	* @param device - id del dispositivo a comprobar. -1 por defecto => el primero positivo que encuentre.
+	*/
+	bool isActionJustPressed(const std::string& actionName, input::DeviceID device = input::ANY_DEVICE) const;
+	/*
 	* @brief Devuelve si se ha dejado de pulsar una accion
 	* @param actionName - accion a comprobar
 	* @param device - id del dispositivo a comprobar. -1 por defecto => el primero positivo que encuentre.

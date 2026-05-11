@@ -21,6 +21,13 @@ if not exist "%LIBSDIR%" mkdir "%LIBSDIR%"
 if not exist "%DEBUGDIR%" mkdir "%DEBUGDIR%"
 if not exist "%RELEASEDIR%" mkdir "%RELEASEDIR%"
 
+:: Limpiar compilacion anterior
+if exist "%BUILDDIR%" (
+    echo Limpiando compilacion anterior de SDL...
+    rd /s /q "%BUILDDIR%"
+    mkdir "%BUILDDIR%"
+)
+
 pushd "%BUILDDIR%"
 
 echo Configurando SDL3...

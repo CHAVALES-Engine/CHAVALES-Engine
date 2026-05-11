@@ -1,11 +1,11 @@
-/*
+﻿/*
  * @file
  * @brief
  */
 #pragma once
 
 #include <cmath>
-
+#include <ostream>
 namespace core
 {
 	/**
@@ -142,7 +142,7 @@ namespace core
 		 *
 		 * @param v - vector a sumar.
 		 */
-		inline Vector2 operator+(const Vector2& v)
+		inline Vector2 operator+(const Vector2& v) const
 		{
 			return Vector2(_x + v._x, _y + v._y);
 		}
@@ -157,7 +157,7 @@ namespace core
 		 *
 		 * @param v - vector a restar.
 		 */
-		inline Vector2 operator-(const Vector2& v)
+		inline Vector2 operator-(const Vector2& v) const
 		{
 			return Vector2(_x - v._x, _y - v._y);
 		}
@@ -172,7 +172,7 @@ namespace core
 		 *
 		 * @param v - vector a multiplicar.
 		 */
-		inline T operator*(const Vector2& v)
+		inline T operator*(const Vector2& v) const
 		{
 			return _x * v.getX() + _y * v.getY();
 		}
@@ -187,7 +187,7 @@ namespace core
 		 *
 		 * @param a - escalar a multiplicar.
 		 */
-		inline Vector2 operator*(T a)
+		inline Vector2 operator*(T a) const
 		{
 			return Vector2(_x * a, _y * a);
 		}
@@ -197,9 +197,14 @@ namespace core
 		 *
 		 * @param a - escalar por el que dividir.
 		 */
-		inline Vector2 operator/(T a)
+		inline Vector2 operator/(T a) const
 		{
 			return Vector2(_x / a, _y / a);
+		}
+
+		inline Vector2 operator-() const
+		{
+			return Vector2(-_x, -_y);
 		}
 
 		inline Vector2& operator/=(const T& a)
@@ -212,7 +217,7 @@ namespace core
 		 *
 		 * @param v - vector a comparar.
 		 */
-		inline bool operator==(const Vector2& v)
+		inline bool operator==(const Vector2& v) const
 		{
 			return (_x == v._x) && (_y == v._y);
 		}
@@ -222,7 +227,7 @@ namespace core
 		 *
 		 * @param v - vector a comparar.
 		 */
-		inline bool operator!=(const Vector2& v)
+		inline bool operator!=(const Vector2& v) const
 		{
 			return !operator==(v);
 		}
@@ -243,7 +248,7 @@ namespace core
 		/**
 		 * @brief Devuelve el modulo del vector.
 		 */
-		inline T magnitude()
+		inline T magnitude() const
 		{
 			return sqrt(pow(_x, 2) + pow(_y, 2));
 		}
@@ -251,9 +256,11 @@ namespace core
 		/**
 		 * @brief Devuelve el vector normalizado.
 		 */
-		inline Vector2 normalized()
+		inline Vector2 normalized() const
 		{
-			return *this / magnitude();
+			float mag = magnitude();
+			if (mag > 1e-6f) return *this / mag;
+			else return Vector2(0, 0);
 		}
 
 	private:
@@ -273,5 +280,11 @@ namespace core
 	{
 		os << "(" << v.getX() << ", " << v.getY() << ")";
 		return os;
+	}
+
+	template <typename T>
+	inline Vector2<T> operator*(T a, const Vector2<T>& v)
+	{
+		return v * a;
 	}
 }

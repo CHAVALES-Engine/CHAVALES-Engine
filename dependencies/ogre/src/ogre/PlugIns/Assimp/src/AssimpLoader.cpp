@@ -700,10 +700,11 @@ void AssimpLoader::parseAnimation(const aiScene* mScene, int index, aiAnimation*
                     keyframe = track->createNodeKeyFrame(Real(it->first));
 
                     // weirdness with the root bone, But this seems to work
-                    if (mSkeleton->getRootBones()[0]->getName() == boneName)
+                   /* if (mSkeleton->getRootBones()[0]->getName() == boneName)
                     {
                         trans = transCopy - bone->getPosition();
-                    }
+                    }*/
+                    bone->setBindingPose();
 
                     keyframe->setTranslate(trans);
                     keyframe->setRotation(rot);
@@ -812,6 +813,8 @@ void AssimpLoader::createBoneHiearchy(const aiScene* mScene, const aiNode* pNode
         }
         if (parent && child)
         {
+            LogManager::getSingleton().logMessage("Bone hierarchy: " + String(pNode->mParent->mName.data) + " -> " +
+                                                  String(pNode->mName.data));
             parent->addChild(child);
         }
     }

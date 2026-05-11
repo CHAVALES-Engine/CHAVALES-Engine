@@ -12,10 +12,12 @@
 #include "GameConfigurator.h"
 #include <checkMLNew.h>
 
+#include "Engine.h"
+
 namespace fs = std::filesystem;
 
-template<typename T>
-bool GameLoader::isVectorOf(const sol::table& table)
+template <typename T>
+bool GameLoader::_isVectorOf(const sol::table& table)
 {
 	int expectedIndex = 1;
 
@@ -33,8 +35,8 @@ bool GameLoader::isVectorOf(const sol::table& table)
 	return true;
 }
 
-template<typename T>
-std::vector<T> GameLoader::parseVector(const sol::table& table)
+template <typename T>
+std::vector<T> GameLoader::_parseVector(const sol::table& table)
 {
 	std::vector<T> result;
 
@@ -46,7 +48,8 @@ std::vector<T> GameLoader::parseVector(const sol::table& table)
 	return result;
 }
 
-void GameLoader::parseObject(const sol::object& obj, const std::string& clave, Properties& props, const std::string& componentName)
+void GameLoader::_parseObject(const sol::object& obj, const std::string& clave, Properties& props,
+	const std::string& componentName)
 {
 	switch (obj.get_type())
 	{
@@ -76,45 +79,46 @@ void GameLoader::parseObject(const sol::object& obj, const std::string& clave, P
 	{
 		sol::table t = obj;
 
-		if (isVectorOf<int>(t))
+		if (_isVectorOf<int>(t))
 		{
-			props[clave] = parseVector<int>(t);
+			props[clave] = _parseVector<int>(t);
 		}
-		else if (isVectorOf<float>(t))
+		else if (_isVectorOf<float>(t))
 		{
-			props[clave] = parseVector<float>(t);
+			props[clave] = _parseVector<float>(t);
 		}
-		else if (isVectorOf<std::string>(t))
+		else if (_isVectorOf<std::string>(t))
 		{
-			props[clave] = parseVector<std::string>(t);
+			props[clave] = _parseVector<std::string>(t);
 		}
-		else if (isVectorOf<bool>(t))
+		else if (_isVectorOf<bool>(t))
 		{
-			props[clave] = parseVector<bool>(t);
+			props[clave] = _parseVector<bool>(t);
 		}
-		else if (isVectorOf<core::Vector2<>>(t))
+		else if (_isVectorOf<core::Vector2<>>(t))
 		{
-			props[clave] = parseVector<core::Vector2<>>(t);
+			props[clave] = _parseVector<core::Vector2<>>(t);
 		}
-		else if (isVectorOf<core::Vector3<>>(t))
+		else if (_isVectorOf<core::Vector3<>>(t))
 		{
-			props[clave] = parseVector<core::Vector3<>>(t);
+			props[clave] = _parseVector<core::Vector3<>>(t);
 		}
-		else if (isVectorOf<core::Vector4<>>(t))
+		else if (_isVectorOf<core::Vector4<>>(t))
 		{
-			props[clave] = parseVector<core::Vector4<>>(t);
+			props[clave] = _parseVector<core::Vector4<>>(t);
 		}
-		else if (isVectorOf<core::Quaternion<>>(t))
+		else if (_isVectorOf<core::Quaternion<>>(t))
 		{
-			props[clave] = parseVector<core::Quaternion<>>(t);
+			props[clave] = _parseVector<core::Quaternion<>>(t);
 		}
-		else if (isVectorOf<core::Color>(t))
+		else if (_isVectorOf<core::Color>(t))
 		{
-			props[clave] = parseVector<core::Color>(t);
+			props[clave] = _parseVector<core::Color>(t);
 		}
 		else
 		{
-			Debug::error("GAMELOADER: Parametro tabla no compatible en ", clave, " para el componente ", componentName, ".");
+			Debug::error("GAMELOADER: Parametro tabla no compatible en ", clave, " para el componente ",
+				componentName, ".");
 		}
 
 		break;
@@ -128,6 +132,10 @@ void GameLoader::parseObject(const sol::object& obj, const std::string& clave, P
 		else if (obj.is<core::Vector3<>>())
 		{
 			props[clave] = obj.as<core::Vector3<>>();
+		}
+		else if (obj.is<core::Vector3<bool>>())
+		{
+			props[clave] = obj.as<core::Vector3<bool>>();
 		}
 		else if (obj.is<core::Vector4<>>())
 		{
@@ -143,25 +151,27 @@ void GameLoader::parseObject(const sol::object& obj, const std::string& clave, P
 		}
 		else
 		{
-			Debug::error("GAMELOADER: El tipo del parametro de ", clave, " no esta definido para el componente ", componentName,".");
+			Debug::error("GAMELOADER: El tipo del parametro de ", clave, " no esta definido para el componente ",
+				componentName, ".");
 		}
 		break;
 	}
 	default:
 	{
-		Debug::error("GAMELOADER: El tipo del parametro de ", clave, " para el componente ", componentName, " no es valido.");
+		Debug::error("GAMELOADER: El tipo del parametro de ", clave, " para el componente ", componentName,
+			" no es valido.");
 		break;
 	}
 	}
 }
 
-void GameLoader::parseComponent(core::Entity* e, std::pair<sol::object, sol::object>& componenteObj)
+void GameLoader::_parseComponent(core::Entity* e, std::pair<sol::object, sol::object>& componenteObj)
 {
 	// encontramos su nombre e intentamos instanciar un componente con una clase con tal nombre
-	std::string componenteName = componenteObj.first.as<std::string>();
+	auto componenteName = componenteObj.first.as<std::string>();
 	std::shared_ptr<core::Component> component = e->getComponent(componenteName);
 
-	if (component != nullptr)
+	if (component != nullptr && componenteObj.first.is<std::string>())
 	{
 		// si este tipo de componente estaba registrado y se ha creado
 		Properties properties;
@@ -170,13 +180,13 @@ void GameLoader::parseComponent(core::Entity* e, std::pair<sol::object, sol::obj
 		for (auto& p : propertiesTable)
 		{
 			// nombre del parametro
-			std::string nombreParametro = p.first.as<std::string>();
+			auto nombreParametro = p.first.as<std::string>();
 
 			// declarar variant
 			auto objetoParametro = p.second;
 
 			// traducir objeto a propiedad
-			parseObject(objetoParametro, nombreParametro, properties, componenteName);
+			_parseObject(objetoParametro, nombreParametro, properties, componenteName);
 		}
 
 		// --- a este nivel va el init:
@@ -190,8 +200,9 @@ void GameLoader::parseComponent(core::Entity* e, std::pair<sol::object, sol::obj
 		else
 		{
 			// --- quita el componente a la entidad
-			e->removeComponent(componenteName);
-			Debug::warning("GAMELOADER: Error al cargar componente ", componenteName, ": no se pudo inicializar correctamente.");
+			//e->removeComponent(componenteName);
+			Debug::warning("GAMELOADER: Error al cargar componente ", componenteName,
+				": no se pudo inicializar correctamente.");
 		}
 	}
 	else
@@ -201,10 +212,10 @@ void GameLoader::parseComponent(core::Entity* e, std::pair<sol::object, sol::obj
 	}
 }
 
-void GameLoader::instanceEntity(core::Entity* e, std::pair<sol::object, sol::object>& entidadObj)
+void GameLoader::_instanceEntity(core::Entity* e, const std::pair<sol::object, sol::object>& entidadObj)
 {
 	// nombre de la entidad
-	std::string entidadName = entidadObj.first.as<std::string>();
+	auto entidadName = entidadObj.first.as<std::string>();
 	Debug::out("GAMELOADER: Cargando entidad ", entidadName, ".");
 
 	// crea la entidad
@@ -226,42 +237,59 @@ void GameLoader::instanceEntity(core::Entity* e, std::pair<sol::object, sol::obj
 	}
 	else
 	{
-		Debug::warning("GAMELOADER: No se ha leido el atributo DontDestroyOnLoad de la entidad ", e->getName(), ", cargado a false por defecto.");
+		Debug::warning("GAMELOADER: No se ha leido el atributo DontDestroyOnLoad de la entidad ", e->getName(),
+			", cargado a false por defecto.");
 	}
 
 	// dentro de la entidad, accedo a la tabla de componentes
-	sol::table componentes = partes["components"];
+	sol::object object = partes["components"];
+	if (object.get_type() != sol::type::table)
+	{
+		Debug::error("GAMELOADER: 'components' no existe o no es una tabla en la entidad ", entidadName,
+			", creando entidad vacia.");
+		return;
+	}
+	sol::table componentes = object;
 
 	for (auto& componenteObj : componentes)
 	{
 		// --- instancia cada componente de la tabla de componentes de la entidad
-		std::string componenteName = componenteObj.first.as<std::string>();
+		auto componenteName = componenteObj.first.as<std::string>();
 		std::shared_ptr<core::Component> component = ComponentRegister::instance().create(componenteName);
 		// anyade el componente a la entidad si existe el componente
-		if (component != nullptr){
+		if (component != nullptr)
+		{
 			component->setName(componenteName);
 			e->addComponent(std::move(component)); // anyade sin inicializar
 		}
 		else
-			Debug::warning("GAMELOADER: Componente ", componenteName, " no registrado.");
+			Debug::warning("GAMELOADER: No existe el componente ", componenteName,
+				" en ningun registro, no se cargara el componente en ", entidadName, ".");
 	}
 }
 
-void GameLoader::initializeEntity(core::Entity* e, std::pair<sol::object, sol::object>& entidadObj)
+void GameLoader::_initializeEntity(core::Entity* e, const std::pair<sol::object, sol::object>& entidadObj)
 {
 	// dentro de la entidad, accedo a la tabla de componentes
 	sol::table partes = entidadObj.second;
-	sol::table componentes = partes["components"];
+	sol::object object = partes["components"];
+	if (object.get_type() != sol::type::table)
+	{
+		Debug::error("GAMELOADER: 'components' no existe o no es una tabla en la entidad ", e->getName(),
+			", creando entidad vacia.");
+		return;
+	}
+	sol::table componentes = object;
 
 	for (auto& componenteObj : componentes)
 	{
 		// --- para cada componente de la tabla de componentes de la entidad
-		parseComponent(e, componenteObj);
+		_parseComponent(e, componenteObj);
 	}
 	Debug::out("GAMELOADER: Entidad ", e->getName(), " cargada.");
 }
 
-void GameLoader::defineUserTypes(sol::state& lua)
+void GameLoader::_defineUserTypes(sol::state& lua)
 {
 	lua.new_usertype<core::Vector2<>>(
 		"Vector2",
@@ -312,86 +340,291 @@ void GameLoader::defineUserTypes(sol::state& lua)
 		"a", &core::Color::getAlpha);
 }
 
-void GameLoader::loadLua(
+bool GameLoader::_defineFunc(sol::state& lua, const std::string& fp, const std::string& sp, sol::table& st)
+{
+	sol::load_result script = lua.load_file(fp);
+
+	if (!script.valid())
+	{
+		sol::error err = script;
+		Debug::error("GAMELOADER: Error cargando el script de carga de prefabs", err.what());
+		return false;
+	}
+
+	sol::protected_function func = script;
+	bool finished = false;
+
+	try
+	{
+		sol::protected_function_result result = func(sp);
+
+		if (result.valid())
+		{
+			//Debug::out("Resultado de func() valido");
+
+			if (result.get_type() == sol::type::table)
+			{
+				//Debug::warning("Resultado de func() SI es una tabla");
+				st = result;
+				finished = true;
+			}
+			else
+			{
+				Debug::error("GAMELOADER: Resultado de luaFunc NO es una tabla");
+			}
+		}
+		else
+		{
+			sol::error err = result;
+			Debug::error("GAMELOADER: Resultado de luaFunc invalido: ", err.what());
+		}
+	}
+	catch (const sol::error& e)
+	{
+		// si no lo consigue saca error
+		Debug::error("GAMELOADER: Error al ejecutar");
+		Debug::error("Lua exception: ", e.what());
+	}
+
+	return finished;
+}
+
+bool GameLoader::_injectPrefabFunc(sol::state& lua, const std::string& fp)
+{
+	try
+	{
+		sol::load_result script = lua.load_file(fp);
+		sol::protected_function func = script;
+		sol::table luaFunc = func();
+		lua["loadPrefab"] = luaFunc["loadPrefab"];
+	}
+	catch (const sol::error& e)
+	{
+		Debug::error("GAMELOADER: Error inyectando funciones desde ", fp);
+		Debug::error("Lua exception: ", e.what());
+		return false;
+	}
+	return true;
+}
+
+void GameLoader::_loadLua(
 	std::shared_ptr<core::Scene>& s,
 	const sceneName& n,
 	const std::string& p)
 {
 	sol::state lua;
-	lua.open_libraries(sol::lib::base);
-	std::string path = p + n + ".lua";
-	_path = path;
+	lua.open_libraries(sol::lib::base, sol::lib::io, sol::lib::table, sol::lib::math, sol::lib::os, sol::lib::string);
+	std::string scenePath = p + n + ".lua";
+	_path = scenePath;
 
-	defineUserTypes(lua);
+	_defineUserTypes(lua);
+
+	std::string funcPath = p + "luaFunc.lua";
+	//bool luaObtained = _defineFunc(lua, funcPath, scenePath, wateredScene);
+	_injectPrefabFunc(lua, funcPath);
 
 	try
 	{
 		// intenta leer archivo
-		lua.safe_script_file(path);
+		lua.safe_script_file(scenePath);
 	}
 	catch (const sol::error& e)
 	{
 		// si no lo consigue saca error
-		Debug::error("GAMELOADER: Error cargando escena: ", path);
+		Debug::error("GAMELOADER: Error abriendo escena: ", scenePath);
 		Debug::error("Lua exception: ", e.what());
 		s = nullptr;
 		return;
 	}
 
 	// --- lectura lua
-	sol::table scene = lua["scene"];
+	// - Escena
+	sol::object object = lua["scene"];
+	if (!object.valid() || object.get_type() != sol::type::table)
+	{
+		Debug::error("GAMELOADER: 'scene' no existe o no es una tabla en ", scenePath);
+		s = nullptr;
+		return;
+	}
+	sol::table scene = object;
 	Debug::out("GAMELOADER: Cargando escena ", n, ".");
 
-	for (auto& entidadObj : scene)
+	// - Ajustes escena
+	// Gizmos
+	// dentro de la entidad, accedo al dontdestroyonload
+	sol::object gizmos = scene["gizmos"];
+
+	if (gizmos.valid() && gizmos.is<bool>())
+	{
+		bool _gizmos_B = gizmos.as<bool>();
+		std::string _gizmos_S;
+
+		Engine::instance()->setGizmos(_gizmos_B);
+
+		_gizmos_B ? _gizmos_S = "true" : _gizmos_S = "false";
+		Debug::out("GAMELOADER: Render de gizmos inicializado a ", _gizmos_S, ".");
+	}
+	else
+	{
+		Debug::warning(
+			"GAMELOADER: No se ha leido la configuracion de render de gizmos, inicializado a false por defecto.");
+	}
+
+	// - Traduccion de entidades
+	object = scene["entities"];
+	if (!object.valid() || object.get_type() != sol::type::table)
+	{
+		Debug::error("GAMELOADER: 'entities' no existe o no es una tabla en ", scenePath);
+		s = nullptr;
+		return;
+	}
+	sol::table entities = object;
+
+	for (auto& entidadObj : entities)
 	{
 		// --- para cada entidad leida
 		core::Entity* e = new core::Entity();
-
-		instanceEntity(e, entidadObj);
-
-		// --- a este nivel se llamaria al awake:
-		// metodo de logica de un componente sin garantizar que el resto de componentes y entidades esten inicializados
-		//for (auto& c : e->getComponents())
-		//{
-		//	//c->awake();
-		//}
-
-		// --- mete la entidad en la escena
+		_instanceEntity(e, entidadObj);
+		// --- lista la entidad para anyadir en la escena
 		s->addEntity(e);
 	}
+	// Mete en la escena las entidades
+	s->addListedEntities();
 
-	for (auto& entidadObj : scene)
+	for (auto& entidadObj : entities)
 	{
 		// --- para cada entidad leida
 		std::string name = entidadObj.first.as<std::string>();
 		core::Entity* e = s->findEntityByName(name);
 		if (!e) continue;
 		// inicializamos los componentes
-		initializeEntity(e, entidadObj);
+		_initializeEntity(e, entidadObj);
 	}
-
-	// --- a este nivel se llama al ready:
-	// garantizamos que en el ready el resto de entidades y sus componentes estan inicializados
-	s->ready();
-
+	// statemachine controla esto, ya no hace falta
+	//s->awake();
 	Debug::out("GAMELOADER: Escena ", n, " cargada.");
 }
 
-std::shared_ptr<core::Scene> GameLoader::loadScene(const sceneName& n)
+core::Entity* GameLoader::_loadLua(const std::shared_ptr<core::Scene>& s, const std::string& p)
 {
-	std::shared_ptr<core::Scene> s = std::make_shared<core::Scene>(n);
+	sol::state lua;
+	lua.open_libraries(sol::lib::base, sol::lib::io);
+	// tipos de usuario
+	_defineUserTypes(lua);
 
-#if _DEBUG
-	loadLua(s, n, "./game/scenes/");
-#else
-	loadLua(s, n, core::GameConfigurator::instance()._scenesRoot);
-#endif
+	std::string path = p + ".lua";
+	Debug::warning("GAMELOADER: cargando prefab: ", path);
 
-	_firstReload = true;
-	return s;
+	/*std::string pathFunc = p + "luaFunc.lua";
+	defineFunc(lua, pathFunc);*/
+
+	try
+	{
+		// intenta leer archivo
+		// - Prefab
+		sol::object object = lua.safe_script_file(path);
+		if (!object.valid() || object.get_type() != sol::type::table)
+		{
+			Debug::error("GAMELOADER: 'prefab' no existe o no es una tabla en ", path);
+			return nullptr;
+		}
+		// ESTO POR SI UN PREFAB TIENE MAS DE UNA ENTIDAD
+
+		//// - Lee las entradas de la tabla de lua para meterla en la escena y a sus hijos.
+		sol::table table = object;
+		//for (auto& table : entities)	{
+		//	// --- para cada entidad leida
+		//	core::Entity* e = new core::Entity();
+		//	instanceEntity(e, table);
+		//	// --- mete la entidad en la escena
+		//	s->addEntity(e);
+		//}
+		//for (auto& table : entities)	{
+		//	std::string name = table.first.as<std::string>();
+		//	core::Entity* e = s->findEntityByName(name);
+		//	if (!e) continue;
+		//	initializeEntity(e, table);
+		//}
+		//s->ready();
+
+		//Debug::out("GAMELOADER: Prefab ", p, " cargado.");
+
+		// Prefab de 1 entidad.
+		auto e = new core::Entity();
+		std::string prefabName = p.substr(p.find_last_of("/\\") + 1);
+		Debug::out("GAMELOADER: Configurando entidad ", prefabName, ".");
+		e->setName(prefabName);
+
+		// DDOL
+		sol::object ddol = table["ddol"];
+		if (ddol.is<bool>())
+		{
+			bool ddolValue = ddol.as<bool>();
+			e->setDontDestroyOnLoad(ddolValue);
+			Debug::out("GAMELOADER: DontDestroyOnLoad = ", (ddolValue ? "true" : "false"));
+		}
+		else
+		{
+			Debug::warning("GAMELOADER: DontDestroyOnLoad no especificado, usando false.");
+		}
+
+		// Componentes
+		sol::object componentsObj = table["components"];
+		if (!componentsObj.valid() || componentsObj.get_type() != sol::type::table)
+		{
+			Debug::error("GAMELOADER: 'components' no existe en ", prefabName);
+			return nullptr;
+		}
+
+		sol::table componentes = componentsObj;
+		for (auto& kv : componentes)
+		{
+			// Filtrar solo claves string
+			if (!kv.first.is<std::string>())
+				continue;
+
+			auto componenteName = kv.first.as<std::string>();
+			std::shared_ptr<core::Component> component = ComponentRegister::instance().create(componenteName);
+
+			if (component != nullptr)
+			{
+				component->setName(componenteName);
+				e->addComponent(std::move(component));
+			}
+			else
+			{
+				Debug::warning("GAMELOADER: Componente ", componenteName, " no registrado.");
+			}
+		}
+
+
+		s->addEntity(e);
+		s->addListedEntities();
+
+		// inicializacion de componentes.
+		for (auto& kv : componentes)
+		{
+			if (!kv.first.is<std::string>())
+				continue;
+
+			_parseComponent(e, kv);
+		}
+
+		e->awake();
+		e->ready();
+
+		return e;
+	}
+	catch (const sol::error& e)
+	{
+		// si no lo consigue saca error
+		Debug::error("GAMELOADER: Error abriendo escena: ", path);
+		Debug::error("Lua exception: ", e.what());
+		return nullptr;
+	}
 }
 
-std::string GameLoader::findSceneFile(const std::string& sceneName, const std::string& root)
+std::string GameLoader::_findSceneFile(const std::string& sceneName, const std::string& root)
 {
 	std::string target = sceneName + ".lua";
 
@@ -409,47 +642,120 @@ std::string GameLoader::findSceneFile(const std::string& sceneName, const std::s
 	return "";
 }
 
-std::shared_ptr<core::Scene> GameLoader::loadSceneFromSearch(const std::string& sceneName)
+//std::shared_ptr<core::Scene> GameLoader::loadScene(const sceneName& n)
+//{
+//	std::string root = core::GameConfigurator::instance()._scenesRoot;
+//
+//	if (!fs::exists(root) ||
+//		!fs::is_directory(root))
+//	{
+//		Debug::error("La ruta indicada no es un directorio valido: ", root);
+//		return nullptr;
+//	}
+//
+//	std::string path = _findSceneFile(n, root);
+//
+//	if (path.empty())
+//	{
+//		Debug::error("No se encontro la escena ", n);
+//		return nullptr;
+//	}
+//
+//	Debug::out("Escena encontrada en ", path);
+//
+//	std::filesystem::path dir(path);
+//	std::filesystem::path file = dir / (n + ".lua");
+//
+//	if (!fs::exists(file))
+//	{
+//		Debug::error("El archivo de escena no existe: ", file.string());
+//		return nullptr;
+//	}
+//
+//	auto s = std::make_shared<core::Scene>(n);
+//
+//	try
+//	{
+//		_loadLua(s, n, root);
+//	}
+//	catch (...)
+//	{
+//		Debug::error("[GAMELOADER] Error critico leyendo escena, borrando memoria creada a partir de ella");
+//		s->clearScene();
+//		return nullptr;
+//	}
+//
+//	if (!s)
+//	{
+//		Debug::error("Error cargando la escena ", n);
+//		return nullptr;
+//	}
+//
+//	_firstReload = true;
+//	return s;
+//}
+
+void GameLoader::loadScene(const sceneName& n, std::shared_ptr<core::Scene>& s)
 {
 	std::string root = core::GameConfigurator::instance()._scenesRoot;
 
-	if (!fs::exists(root) || 
+	if (!fs::exists(root) ||
 		!fs::is_directory(root))
 	{
 		Debug::error("La ruta indicada no es un directorio valido: ", root);
-		return nullptr;
+		s = nullptr;
+		return;
 	}
 
-	std::string path = findSceneFile(sceneName, root);
+	std::string path = _findSceneFile(n, root);
 
 	if (path.empty())
 	{
-		Debug::error("No se encontro la escena ", sceneName);
-		return nullptr;
+		Debug::error("No se encontro la escena ", n);
+		s = nullptr;
+		return;
 	}
 
 	Debug::out("Escena encontrada en ", path);
 
 	std::filesystem::path dir(path);
-	std::filesystem::path file = dir / (sceneName + ".lua");
+	std::filesystem::path file = dir / (n + ".lua");
 
 	if (!fs::exists(file))
 	{
 		Debug::error("El archivo de escena no existe: ", file.string());
-		return nullptr;
+		s = nullptr;
+		return;
 	}
 
-	std::shared_ptr<core::Scene> scene = std::make_shared<core::Scene>(sceneName);
+	s->setName(n);
 
-	loadLua(scene, sceneName, dir.string() + "/");
-
-	if (!scene)
+	try
 	{
-		Debug::error("Error cargando la escena ", sceneName);
-		return nullptr;
+		_loadLua(s, n, root);
+	}
+	catch (...)
+	{
+		Debug::error("[GAMELOADER] Error critico leyendo escena, borrando memoria creada a partir de ella");
+		if (s != nullptr)
+			s->clearScene();
+		s = nullptr;
+		return;
 	}
 
-	return scene;
+	if (!s)
+	{
+		Debug::error("Error cargando la escena ", n);
+		s = nullptr;
+		return;
+	}
+
+	_firstReload = true;
+}
+
+core::Entity* GameLoader::loadPrefab(const std::string& n)
+{
+	return _loadLua(Engine::instance()->getScene(), n);
 }
 
 bool GameLoader::reloadLua()

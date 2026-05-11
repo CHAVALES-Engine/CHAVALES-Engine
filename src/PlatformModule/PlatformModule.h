@@ -49,10 +49,15 @@ public:
 	*/
 	HWND getWindowHandle() const;
 	/**
+	* @brief Devuelve la ventana de SDL.
+	* @return SDL_Window - ventana
+	*/
+	SDL_Window* getSDLWindow();
+	/**
 	* @brief Actualiza eventos.
 	* @return bool - Booleano para saber si se ha cerrado la ventana.
 	*/
-	bool syncronize();
+	bool pollEvents();
 	/**
 	* @brief Devuelve anchura de la ventana.
 	*/
@@ -109,6 +114,12 @@ public:
 	 * @param device - id del dispositivo a comprobar. ANY_DEVICE por defecto => si se ha pulsado en cualquier dispositivo.
 	 */
 	bool isActionPressed(const std::string& actionName, input::DeviceID device = input::ANY_DEVICE) const;
+	/*
+	 * @brief Devuelve si se ha pulsado una accion
+	 * @param actionName - accion a comprobar
+	 * @param device - id del dispositivo a comprobar. ANY_DEVICE por defecto => si se ha pulsado en cualquier dispositivo.
+	 */
+	bool isActionJustPressed(const std::string& actionName, input::DeviceID device = input::ANY_DEVICE) const;
 	/*
 	 * @brief Devuelve si se ha dejado de pulsar una accion
 	 * @param actionName - accion a comprobar

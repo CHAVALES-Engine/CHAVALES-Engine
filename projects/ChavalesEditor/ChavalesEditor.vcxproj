@@ -80,7 +80,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);ENGINE</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)src\Engine;$(SolutionDir)src\ComponentsProject;$(SolutionDir)dependencies\SDL\src\SDL3\include\$(SolutionDir)src\$(ProjectName);$(SolutionDir)dependencies;$(SolutionDir)dependencies\lua;$(SolutionDir)dependencies\sol;$(SolutionDir)src\Core-Defs;$(SolutionDir)src\Core-Utils;$(SolutionDir)dependencies\lua\src\;$(SolutionDir)dependencies\SDL\src\SDL3\include\;$(SolutionDir)src\$(ProjectName)\imgui\;$(SolutionDir)src\$(ProjectName)\imgui\backends\</AdditionalIncludeDirectories>
@@ -89,7 +89,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)libs\;$(SolutionDir)dependencies\;$(SolutionDir)dependencies\lua\libs\$(Configuration)\;$(SolutionDir)dependencies\lua\src\;$(SolutionDir)dependencies\fmod\lib\x64\;$(SolutionDir)dependencies\SDL\libs\$(Configuration)\;$(SolutionDir)bin\;$(SolutionDir)libs\RenderModule\;$(SolutionDir)libs\Core-Utils\;$(SolutionDir)libs\Core-Defs\;$(SolutionDir)libs\Engine\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Engine_d.lib;LuaBuild.lib;fmodL_vc.lib;fmodstudio_vc.lib;opengl32.lib;Core-Defs_d.lib;Core-Utils_d.lib;SDL3-static.lib;Version.lib;Winmm.lib;Imm32.lib;Setupapi.lib;User32.lib;Gdi32.lib;Shell32.lib;Ole32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Engine_d.lib;LuaBuild.lib;fmodL_vc.lib;opengl32.lib;Core-Defs_d.lib;Core-Utils_d.lib;SDL3-static.lib;Version.lib;Winmm.lib;Imm32.lib;Setupapi.lib;User32.lib;Gdi32.lib;Shell32.lib;Ole32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ProjectReference>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
@@ -101,7 +101,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);ENGINE</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)src\Engine;$(SolutionDir)src\ComponentsProject;$(SolutionDir)dependencies\SDL\src\SDL3\include\$(SolutionDir)src\$(ProjectName);$(SolutionDir)dependencies;$(SolutionDir)dependencies\lua;$(SolutionDir)dependencies\sol;$(SolutionDir)src\Core-Defs;$(SolutionDir)src\Core-Utils;$(SolutionDir)dependencies\lua\src\;$(SolutionDir)dependencies\SDL\src\SDL3\include\;$(SolutionDir)src\$(ProjectName)\imgui\;$(SolutionDir)src\$(ProjectName)\imgui\backends\</AdditionalIncludeDirectories>
@@ -110,7 +110,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)libs\;$(SolutionDir)dependencies\;$(SolutionDir)dependencies\lua\libs\$(Configuration)\;$(SolutionDir)dependencies\lua\src\;$(SolutionDir)dependencies\fmod\lib\x64\;$(SolutionDir)dependencies\SDL\libs\$(Configuration)\;$(SolutionDir)bin\;$(SolutionDir)libs\RenderModule\;$(SolutionDir)libs\Core-Defs\;$(SolutionDir)libs\Core-Utils\;$(SolutionDir)libs\Engine\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Engine_r.lib;LuaBuild.lib;fmod_vc.lib;fmodstudio_vc.lib;opengl32.lib;Core-Defs_r.lib;Core-Utils_r.lib;SDL3-static.lib;Version.lib;Winmm.lib;Imm32.lib;Setupapi.lib;User32.lib;Gdi32.lib;Shell32.lib;Ole32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Engine_r.lib;LuaBuild.lib;fmod_vc.lib;opengl32.lib;Core-Defs_r.lib;Core-Utils_r.lib;SDL3-static.lib;Version.lib;Winmm.lib;Imm32.lib;Setupapi.lib;User32.lib;Gdi32.lib;Shell32.lib;Ole32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

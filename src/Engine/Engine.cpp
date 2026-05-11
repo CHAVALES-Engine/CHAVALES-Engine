@@ -13,11 +13,15 @@
 #include "ComponentDLLLoader.h"
 #include "GameConfigurator.h"
 #include "StateMachine.h"
-#include "InputFacade.h"
-#include "ResourcesFacade.h"
+#include "GameLoader.h"
 
+#include "InputFacade.h"
 #include <iostream>
 #include <checkMLNew.h>
+
+#include "MessagesManager.h"
+#include "ScriptsManager.h"
+#include "TimeManager.h"
 
 using namespace std;
 Engine* Engine::_instance = nullptr;
@@ -38,22 +42,30 @@ void Engine::release()
 {
 	if (_instance) {
 		delete _instance->_platformModule;
+		_instance->_platformModule = nullptr;
 		delete _instance->_input;
+		_instance->_input = nullptr;
 
 		delete _instance->_audioModule;
+		_instance->_audioModule = nullptr;
 		delete _instance->_physicsModule;
+		_instance->_physicsModule = nullptr;
 		try {
 			delete _instance->_renderModule;
+			_instance->_renderModule = nullptr;
 		}
 		catch (exception e)
 		{
 			Debug::error(e.what());
 		}
 		delete _instance->_resourcesModule;
-		delete _instance->_resources;
+		_instance->_resourcesModule = nullptr;
 		delete _instance->_stateMachine;
-		// desca
+		_instance->_stateMachine = nullptr;
+		// Descarga dlls
 		ComponentDLLLoader::instance().unLoadAll();
+		// Cierra sistemas core del motor
+		core::MessagesManager::instance().shutdown();
 		delete _instance;
 		_instance = nullptr;
 	}
@@ -65,18 +77,30 @@ void Engine::startLoop() const
 {
 	if (!_stateMachine) return;
 	// Bucle de juego
-	_stateMachine->addAndSetScene(core::GameConfigurator::instance()._firstScene); // carga la primera escena
-	_stateMachine->gameLoop();
+	_stateMachine->requestSceneChange(core::GameConfigurator::instance()._firstScene); // carga la primera escena
+	if (_stateMachine->getCurrentScnPtr() != nullptr)
+		_stateMachine->gameLoop();
 }
 
-bool Engine::pollEvents() const
+void Engine::requestSceneChange(std::string const& n) const
 {
-	return _platformModule->syncronize();
+	_stateMachine->requestSceneChange(n);
 }
 
-const void Engine::addAndSetScene(std::string n) const
+void Engine::quitGame() const
 {
-	_stateMachine->addAndSetScene(n);
+	_stateMachine->endGame();
+}
+
+core::Entity* Engine::instantiatePrefab(std::string const& pref) const
+{
+	// Leer la escena prefab y parsear a lista de entidades
+	return GameLoader::loadPrefab(core::GameConfigurator::instance()._root + pref);
+}
+
+std::shared_ptr<core::Scene> Engine::getScene() const
+{
+	return _stateMachine->getCurrentScnPtr();
 }
 
 void Engine::renderFrame()
@@ -86,6 +110,7 @@ void Engine::renderFrame()
 
 void Engine::cleanScene()
 {
+	_physicsModule->ReloadPhysics();
 	_renderModule->cleanScene(false);
 }
 
@@ -94,9 +119,9 @@ void Engine::setViewportBGColor(core::Color color)
 	_renderModule->setViewportBGColor(color);
 }
 
-transformID Engine::addTransform(const entityID& entityID, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float>& scale, const TransformType type)
+transformID Engine::addTransform(const entityID& entityID, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float>& scale)
 {
-	return _renderModule->addNode(entityID, pos, rot, scale, true, type);
+	return _renderModule->addNode(entityID, pos, rot, scale, true);
 }
 
 void Engine::setTransformPosition(const transformID& id, const core::Vector3<float>& pos)
@@ -112,6 +137,31 @@ void Engine::setTransformRotation(const transformID& id, const core::Quaternion<
 void Engine::setTransformScale(const transformID& id, const core::Vector3<float>& scale)
 {
 	_renderModule->setNodeScale(id, scale);
+}
+
+UITransformID Engine::addUITransform(const entityID& entityID, const core::Vector2<float>& pos, const int& zBuffer, const core::Vector2<float>& dimension, const float& rotation)
+{
+	return _renderModule->addUITransform(entityID, pos, zBuffer, dimension, rotation);
+}
+
+void Engine::setUITransformDimension(const UITransformID& id, const core::Vector2<float>& dim)
+{
+	return _renderModule->setUITransformDimension(id, dim);
+}
+
+void Engine::setUITransformPos(const UITransformID& id, const core::Vector2<float>& pos)
+{
+	return _renderModule->setUITransformPos(id, pos);
+}
+
+void Engine::setUITransformRotation(const UITransformID& id, const float& r)
+{
+	return _renderModule->setUITransformRotation(id, r);
+}
+
+void Engine::setUITransformZBuffer(const UITransformID& id, const int& zBuff)
+{
+	return _renderModule->setUITransformZBuffer(id, zBuff);
 }
 
 cameraID Engine::addCamera(const entityID& entityID, const float& FOVy, const float& nearClipDistance, const float& farClipDistance, const float& focalLength, const core::Color& bgColor)
@@ -151,8 +201,8 @@ void Engine::setCameraFocalLength(const cameraID& id, const float& focalLength)
 
 modelID Engine::addModel(const entityID& entityID, const std::string& modelName)
 {
-	auto model = _resourcesModule->getMesh(modelName);
-	return _renderModule->addModel(entityID, model.first, model.second);
+	auto model = _resourcesModule->getAssetSourceFolder(modelName);
+	return _renderModule->addModel(entityID, model.second, model.first);
 }
 
 void Engine::deleteModel(const modelID& id)
@@ -162,8 +212,8 @@ void Engine::deleteModel(const modelID& id)
 
 void Engine::setSubmeshDiffuse(const modelID& id, const std::string& textureName, const int& submesh)
 {
-	auto texture = _resourcesModule->getTexture(textureName);
-	_renderModule->setDiffuse(id, submesh, texture.first, texture.second);
+	auto texture = getAssetSourceFolder(textureName);
+	_renderModule->setDiffuse(id, submesh, texture.second, texture.first);
 }
 
 void Engine::setSubmeshTint(const modelID& id, const core::Color& tint, const int& submesh)
@@ -174,11 +224,6 @@ void Engine::setSubmeshTint(const modelID& id, const core::Color& tint, const in
 void Engine::setModelVisible(const modelID& id, const bool& visible)
 {
 	_renderModule->setModelVisible(id, visible);
-}
-
-void Engine::addAnimator(const entityID& entityID, modelID& modelID)
-{
-	_renderModule->addAnimator(entityID, modelID);
 }
 
 animationID Engine::registerSkeletonAnim(const modelID& modelID, const std::string& animationName, const bool& loop)
@@ -209,6 +254,11 @@ void Engine::setAnimEnabled(const animationID& animationID, const bool& active)
 void Engine::setAnimTimePos(const animationID& animationID, const float& timePos)
 {
 	_renderModule->setAnimTimePos(animationID, timePos);
+}
+
+void Engine::setAnimSpeed(const animationID& animationID, const float& speed)
+{
+	_renderModule->setAnimSpeed(animationID, speed);
 }
 
 void Engine::updateAnimation(const animationID& animationID, const uint64_t& deltaTime)
@@ -251,10 +301,15 @@ void Engine::setLightSpotRange(const lightID& id, const float& inner, const floa
 	_renderModule->setLightSpotRange(id, inner, outer, falloff);
 }
 
+void Engine::setAmbientLight(const core::Color& color)
+{
+	_renderModule->setAmbientLight(color);
+}
+
 particleGenID Engine::addParticleGen(const entityID& entityID, const std::string& textureName)
 {
-	auto particle = _resourcesModule->getParticle(textureName);
-	return _renderModule->addParticleGen(entityID, particle.first, particle.second);
+	auto particle = getAssetSourceFolder(textureName);
+	return _renderModule->addParticleGen(entityID, particle.second, particle.first);
 }
 
 void Engine::deleteParticleGen(const particleGenID& id)
@@ -332,6 +387,17 @@ void Engine::setParticleGenPartColor(const particleGenID& id, const core::Color&
 	_renderModule->setParticleGenPartColor(id, color);
 }
 
+void Engine::setSkydome(const std::string& textureName, const float& curvature, const float& tiling, const float& distance, const bool& drawFirst)
+{
+	auto skydome = getAssetSourceFolder(textureName);
+	_renderModule->setSkydome(skydome.second, skydome.first, curvature, tiling, distance, drawFirst);
+}
+
+void Engine::setSkydomeNull()
+{
+	_renderModule->setSkydomeNull();
+}
+
 uiPanelID Engine::addUIPanel(const entityID& entityID, const std::string& title)
 {
 	return _renderModule->addUIPanel(entityID, title);
@@ -341,8 +407,17 @@ void Engine::setUIPanelVisible(const uiPanelID& id, bool visible)
 {
 	_renderModule->setUIPanelVisible(id, visible);
 }
-uiLabelID  Engine::addUILabel(const std::string& panelName, const entityID& entityID, const std::string& text, const  float opacity, const  core::Vector2<float> size, const core::Color textColor, const core::Color bgColor, const float fontSize, const TextAlign textAlign, const std::string fontName) {
-	return _renderModule->addUILabel(panelName, entityID, text, opacity, size, textColor, bgColor, fontSize, textAlign, fontName);
+void Engine::deleteUIPanel(const uiPanelID& id)
+{
+	_renderModule->deleteUIPanel(id);
+}
+uiLabelID  Engine::addUILabel(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const  float opacity, const core::Color textColor, const core::Color bgColor, const float fontSize, const TextAlign textAlign, const std::string fontName) {
+
+	return _renderModule->addUILabel(panelID, entityID, text, opacity, textColor, bgColor, fontSize, textAlign, fontName);
+}
+void Engine::deleteUILabel(const uiLabelID& id)
+{
+	_renderModule->deleteUILabel(id);
 }
 void  Engine::setUILabelText(const uiLabelID& uiLabelID, const std::string& text) {
 	_renderModule->setUILabelText(uiLabelID, text);
@@ -354,89 +429,106 @@ void Engine::setUILabelOpacity(const uiLabelID& labelID, float opacity) {
 	_renderModule->setUILabelOpacity(labelID, opacity);
 
 }
-void Engine::setUILabelDimension(const uiLabelID& labelID, core::Vector2<float> dimension)
-{
-	_renderModule->setUILabelDimension(labelID, dimension);
-
-}
-void  Engine::setUILabelTextColor(const uiLabelID labelID, core::Color color) {
+void  Engine::setUILabelTextColor(const uiLabelID& labelID, core::Color color) {
 	_renderModule->setUILabelTextColor(labelID, color);
 }
-void  Engine::setUILabelBackGroundColor(const uiLabelID labelID, core::Color color) {
+void  Engine::setUILabelBackGroundColor(const uiLabelID& labelID, core::Color color) {
 	_renderModule->setUILabelBackGroundColor(labelID, color);
 }
-void  Engine::setUILabelAlign(const uiLabelID labelID, const std::string& align) {
+void  Engine::setUILabelAlign(const uiLabelID& labelID, const TextAlign& align) {
 	_renderModule->setUILabelAlign(labelID, align);
 }
-//void Engine::setUILabelFont(const uiLabelID id, ImFont* font){}
 
-uiButtonID  Engine::addUIButton(const std::string& panelName, const entityID& entityID, const std::string& text, core::Vector2<float> size) {
-	return _renderModule->addUIButton(panelName, entityID, text, size);
+uiButtonID  Engine::addUIButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const float& fontSize, const std::string& fontName, const core::Color& bgColor, const core::Color& txColor, const core::Color& hvColor, const core::Color& psColor, const float& opacity) {
+	return _renderModule->addUIButton(panelID, entityID, text, fontSize, fontName, bgColor, txColor, hvColor, psColor, opacity);
 
 }
 
-uiButtonID Engine::addUIImageButton(const std::string& panelName, const entityID& entityID, const std::string& text, const std::string& textureName, core::Vector2<float> size) {
+void Engine::deleteUIButton(const uiButtonID& id)
+{
+	_renderModule->deleteUIButton(id);
 
-	auto texture = _resourcesModule->getImages(textureName);
+}
 
-	return _renderModule->addUIImageButton(panelName, entityID, text, texture.first, texture.second, size);
+uiButtonID Engine::addUIImageButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const std::string& textureName, const core::Color& bgColor, const core::Color& hvColor, const core::Color& psColor, const float& opacity) {
+
+	auto texture = getAssetSourceFolder(textureName);
+
+	return _renderModule->addUIImageButton(panelID, entityID, text, texture.second, texture.first, bgColor, hvColor, psColor, opacity);
 }
 void Engine::setUIButtonText(const uiButtonID& buttonID, const std::string& text) {
 	_renderModule->setUIButtonText(buttonID, text);
 }
-void Engine::setUIButtonVisible(const uiButtonID& buttonID, bool visible) {
+void Engine::setUIButtonVisible(const uiButtonID& buttonID, bool& visible) {
 	_renderModule->setUIButtonVisible(buttonID, visible);
 }
-void  Engine::setUIButtonTexture(const uiButtonID& buttonID, const std::string& texture) {
-	_renderModule->setUIButtonTexture(buttonID, texture);
+void Engine::setUIButtonTexture(const uiButtonID& buttonID, std::string& textureName)
+{
+	auto texture = getAssetSourceFolder(textureName);
+	return _renderModule->setUIButtonTexture(buttonID, texture.second, texture.first);
 }
-void Engine::setUIButtonDimension(const uiButtonID& buttonID, core::Vector2<float> dimension) {
-	_renderModule->setUIButtonDimension(buttonID, dimension);
-}
-void  Engine::setUIButtonOpacity(const uiButtonID& buttonID, float opacity) {
+void  Engine::setUIButtonOpacity(const uiButtonID& buttonID, float& opacity) {
 	_renderModule->setUIButtonOpacity(buttonID, opacity);
-
+}
+void Engine::setUIButtonBackgroundColor(const uiButtonID& buttonID, core::Color& bgColor)
+{
+	_renderModule->setUIButtonBackgroundColor(buttonID, bgColor);
+}
+void Engine::setUIButtonTextColor(const uiButtonID& buttonID, core::Color& txColor)
+{
+	_renderModule->setUIButtonTextColor(buttonID, txColor);
+}
+void Engine::setUIButtonHoverColor(const uiButtonID& buttonID, core::Color& hvColor)
+{
+	_renderModule->setUIButtonHoverColor(buttonID, hvColor);
+}
+void Engine::setUIButtonPressColor(const uiButtonID& buttonID, core::Color& psColor)
+{
+	_renderModule->setUIButtonPressColor(buttonID, psColor);
+}
+void Engine::setUIButtonDisable(const uiButtonID& buttonID, bool disable) {
+	_renderModule->setUIButtonDisable(buttonID, disable);
 }
 void Engine::setUIButtonCallback(const uiButtonID& id, std::function<void()> callback) {
 	_renderModule->setUIButtonCallback(id, callback);
 }
-uiTextureRectID Engine::addUITextureRect(const std::string& panelName, const entityID& entityID, const std::string& textureName, core::Vector2<float> size) {
-	auto texture = _resourcesModule->getImages(textureName);
-	return _renderModule->addUITextureRect(panelName, entityID, texture.first, texture.second, size);
+uiTextureRectID Engine::addUITextureRect(const uiPanelID& panelID, const entityID& entityID, const std::string& textureName, float& opacity) {
+	auto texture = getAssetSourceFolder(textureName);
+	return _renderModule->addUITextureRect(panelID, entityID, texture.second, texture.first, opacity);
 }
-void Engine::setUITextureRectTexture(const uiTextureRectID& textureRectID, const std::string& texture) {
-	_renderModule->setUITextureRectTexture(textureRectID, texture);
+void Engine::deleteUITextureRect(const uiTextureRectID& id)
+{
+	_renderModule->deleteUITextureRect(id);
 }
-void Engine::setUITextureRectDimension(const uiTextureRectID& textureRectID, core::Vector2<float> dimension) {
-	_renderModule->setUITextureRectDimension(textureRectID, dimension);
+void Engine::setUITextureRectTexture(const uiTextureRectID& textureRectID, std::string& textureName) {
+	auto texture = getAssetSourceFolder(textureName);
+	_renderModule->setUITextureRectTexture(textureRectID, texture.second,texture.first);
 }
-void Engine::setUITextureRectVisible(const uiTextureRectID& textureRectID, bool visible) {
+void Engine::setUITextureRectVisible(const uiTextureRectID& textureRectID, bool& visible) {
 	_renderModule->setUITextureRectVisible(textureRectID, visible);
 }
-void Engine::setUITextureRectOpacity(const uiTextureRectID& textureRectID, float opacity) {
+void Engine::setUITextureRectOpacity(const uiTextureRectID& textureRectID, float& opacity) {
 	_renderModule->setUITextureRectOpacity(textureRectID, opacity);
 
 }
 
 
-void Engine::loadSound(std::string path, std::string id, bool soundStream, bool soundLooping, bool sound3D)
+bool Engine::loadSound(std::string path, std::string id, bool soundStream, bool soundLooping, bool sound3D)
 {
-	_audioModule->loadSound(path, id, soundStream, soundLooping, sound3D);
+	return _audioModule->loadSound(path, id, soundStream, soundLooping, sound3D);
 }
-
-void Engine::unloadSound(std::string id)
+bool Engine::unloadSound(std::string id)
 {
-	_audioModule->unloadSound(id);
+	return _audioModule->unloadSound(id);
 }
 int Engine::playSound(std::string id, float soundVolume, int looping, const core::Vector3<> vec3, const core::Vector3<> vel3)
 {
 	return _audioModule->playSound(id, soundVolume, looping, vec3, vel3);
 }
-void Engine::setChannelVolume(int chID, float newVolume)
+bool Engine::setChannelVolume(int chID, float newVolume)
 {
-	_audioModule->setChannelVolume(chID, newVolume);
+	return _audioModule->setChannelVolume(chID, newVolume);
 }
-
 int Engine::getLooping(int chID) const
 {
 	int looping = 0;
@@ -451,24 +543,26 @@ bool Engine::stopPlaying(int chID)
 {
 	return _audioModule->stopPlaying(chID);
 }
-
 bool Engine::pauseChannel(int chID, bool pause)
 {
 	return _audioModule->pauseChannel(chID, pause);
 }
-
-void Engine::setSourcePosition(int chID, core::Vector3<> pos, core::Vector3<> vel)
+bool Engine::isPaused(int chID)
 {
-	_audioModule->setAudioPos(chID, pos, vel);
+	return _audioModule->isPaused(chID);
 }
-void Engine::setMinMaxRadius(int chID, float min, float max)
+bool Engine::setSourcePosition(int chID, core::Vector3<> pos, core::Vector3<> vel)
 {
-	_audioModule->setMinMaxRadius(chID, min, max);
+	return _audioModule->setAudioPos(chID, pos, vel);
+}
+bool Engine::setMinMaxRadius(int chID, float min, float max)
+{
+	return _audioModule->setMinMaxRadius(chID, min, max);
 }
 
-void Engine::setDelay(int chID, double start, double end, bool stopChannel)
+bool Engine::setDelay(int chID, double start, double end, bool stopChannel)
 {
-	_audioModule->setDelay(chID, start, end, stopChannel);
+	return _audioModule->setDelay(chID, start, end, stopChannel);
 }
 
 bool Engine::isChannelPlaying(int chID)
@@ -476,9 +570,27 @@ bool Engine::isChannelPlaying(int chID)
 	return _audioModule->isChannelPlaying(chID);
 }
 
-void Engine::setLooping(int chID, int typeOfLooping)
+void  Engine::muteEverything()
 {
-	_audioModule->setLooping(chID, typeOfLooping);
+	_audioModule->muteEverything();
+}
+void  Engine::stopEverything()
+{
+	_audioModule->stopEverything();
+}
+void  Engine::unMuteEverything()
+{
+	_audioModule->unMuteEverything();
+}
+
+void Engine::registerActorEntity(ComponentID physicsID, core::Entity* entity)
+{
+	_physicsModule->setActorEntity(physicsID, entity);
+}
+
+bool Engine::setLooping(int chID, int typeOfLooping)
+{
+	return _audioModule->setLooping(chID, typeOfLooping);
 }
 
 float Engine::getVolume(int chID)
@@ -490,9 +602,9 @@ float Engine::getVolume(int chID)
 
 #pragma region Physics
 
-uint32_t Engine::createBoxCollider(const core::Vector3<>& size, const core::Vector3<>& pos, bool isDynamic, bool isTrigger)
+uint32_t Engine::createBoxCollider(const core::Vector3<>& size, const core::Vector3<>& center, const core::Vector3<>& pos, const core::Quaternion<> rotGlob, const core::Quaternion<> rotationLoc, bool isDynamic, bool isTrigger)
 {
-	return _physicsModule->CreateBoxShape(size, pos, isDynamic, isTrigger);
+	return _physicsModule->CreateBoxShape(size, center, pos, rotGlob, rotationLoc, isDynamic, isTrigger);
 }
 
 void Engine::setPhysicsPosition(uint32_t id, const core::Vector3<>& pos)
@@ -500,15 +612,25 @@ void Engine::setPhysicsPosition(uint32_t id, const core::Vector3<>& pos)
 	_physicsModule->SetPhysicsPosition(id, pos);
 }
 
+void Engine::setPhysicsRotation(uint32_t id, const core::Quaternion<>& rot)
+{
+	_physicsModule->SetPhysicsRotation(id, rot);
+}
+
 core::Vector3<> Engine::getPhysicsPosition(uint32_t id)
 {
 	return _physicsModule->GetPhysicsPosition(id);
 }
 
-uint32_t Engine::createCapsuleCollider(float radius, float height, const core::Vector3<>& center, const core::Vector3<>& worldPos, bool isDynamic, bool isTrigger)
+core::Quaternion<> Engine::getPhysicsRotation(uint32_t id)
+{
+	return _physicsModule->GetPhysicsRotation(id);
+}
+
+uint32_t Engine::createCapsuleCollider(float radius, float height, const core::Vector3<>& center, const core::Vector3<>& worldPos, const core::Quaternion<> rotGlob, const core::Quaternion<> rotationLoc, bool isDynamic, bool isTrigger)
 {
 	if (!_physicsModule) return 0;
-	return _physicsModule->CreateCapsuleShape(radius, height, center, worldPos, isDynamic, isTrigger);
+	return _physicsModule->CreateCapsuleShape(radius, height, center, worldPos, rotGlob, rotationLoc, isDynamic, isTrigger);
 }
 
 std::vector<PhysicsEvent> Engine::getPhysicsEvents(ComponentID id)
@@ -521,17 +643,17 @@ void Engine::clearPhysicsEvents()
 	_physicsModule->clearEvents();
 }
 ///
-ComponentID Engine::attachBoxShapeToRigidBody(ComponentID bodyID, const core::Vector3<> size, const core::Vector3<>& center, bool isTrigger)
+ComponentID Engine::attachBoxShapeToRigidBody(ComponentID bodyID, const core::Vector3<> size, const core::Vector3<>& center, const core::Quaternion<> rotation, bool isTrigger)
 {
 	if (!_physicsModule) return 0;
-	_physicsModule->AttachBoxShape(bodyID, size, center, isTrigger);
+	_physicsModule->AttachBoxShape(bodyID, size, center, rotation, isTrigger);
 	return bodyID; //devuelve el ID del RigidBody al que se unio
 }
 
-ComponentID Engine::attachCapsuleShapeToRigidBody(ComponentID bodyID, float radius, float height, const core::Vector3<>& center, bool isTrigger)
+ComponentID Engine::attachCapsuleShapeToRigidBody(ComponentID bodyID, float radius, float height, const core::Vector3<>& center, const core::Quaternion<> rotation, bool isTrigger)
 {
 	if (!_physicsModule) return 0;
-	_physicsModule->AttachCapsuleShape(bodyID, radius, height, center, isTrigger);
+	_physicsModule->AttachCapsuleShape(bodyID, radius, height, center, rotation, isTrigger);
 	return bodyID;
 }
 
@@ -540,6 +662,11 @@ void Engine::setPhysicsTransform(ComponentID id, const core::Vector3<>& pos, con
 	if (!_physicsModule) return;
 
 	_physicsModule->setPhysicsTransform(id, pos, rot);
+}
+
+std::vector<PhysicsEvent> Engine::consumeEvents(ComponentID id)
+{
+	return _physicsModule->consumeEventsFor(id);
 }
 
 ///
@@ -589,9 +716,19 @@ void Engine::clearForce(uint32_t id, char mode)
 	_physicsModule->ClearForce(id, mode);
 }
 
-uint32_t Engine::createMaterial(float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine)
+void Engine::blockAxes(uint32_t id, bool x, bool y, bool z)
 {
-	return _physicsModule->CreateMaterial(staticF, dynamicF, restitution, frictionCombine, bounceCombine);
+	_physicsModule->BlockAxes(id, x, y, z);
+}
+
+void Engine::blockAngles(uint32_t id, bool x, bool y, bool z)
+{
+	_physicsModule->BlockAngles(id, x, y, z);
+}
+
+uint32_t Engine::createMaterial(ComponentID id, float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine)
+{
+	return _physicsModule->CreateMaterial(id, staticF, dynamicF, restitution, frictionCombine, bounceCombine);
 }
 
 void Engine::updateMaterial(uint32_t id, float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine)
@@ -599,23 +736,56 @@ void Engine::updateMaterial(uint32_t id, float staticF, float dynamicF, float re
 	_physicsModule->UpdateMaterial(id, staticF, dynamicF, restitution, frictionCombine, bounceCombine);
 }
 
+void Engine::destroyMaterial(uint32_t id)
+{
+	if (_physicsModule == nullptr) return;
+	_physicsModule->DestroyMaterial(id);
+}
+
 bool Engine::rayCast(const core::Vector3<>& origin,
 	const core::Vector3<>& direction,
-	float maxDistance)
+	float maxDistance,
+	RayInfo& rayInfo) const
 {
 	return _physicsModule->rayCast({ origin.getX(), origin.getY(), origin.getZ() },
 		{ direction.getX(), direction.getY(), direction.getZ() },
-		maxDistance);
+		maxDistance, rayInfo);
 }
-#pragma endregion
-
-#pragma region Resources
-
-ResourcesFacade* Engine::resources() const
+std::vector<ShapeRenderData> Engine::GetPhysicsRenderData()
 {
-	return _resources;
+	if (!_physicsModule) return {};
+	return _physicsModule->GetRenderData();
 }
 
+void Engine::SetGravity(const core::Vector3<>& gravity) const
+{
+	_physicsModule->SetGravity(gravity);
+}
+
+void Engine::setGizmos(bool gizmos)
+{
+	_gizmos = gizmos;
+}
+void Engine::deletePhysicsComponent(ComponentID id)
+{
+	_physicsModule->DestroyBody(id);
+}
+void Engine::deletePhysicsMaterial(ComponentID id)
+{
+	_physicsModule->DestroyMaterial(id);
+}
+void Engine::setActorEnabled(ComponentID id, bool enabled, bool isTrigger)
+{
+	_physicsModule->SetActorEnabled(id, enabled, isTrigger);
+}
+std::pair<std::string, std::string> Engine::getAssetSourceFolder(std::string assetName)
+{
+	return _resourcesModule->getAssetSourceFolder(assetName);
+}
+std::vector<std::pair<std::string, std::string>> Engine::getAllAssets()
+{
+	return _resourcesModule->getAllAssets();
+}
 #pragma endregion
 
 //------Metodo de PlatformModule:
@@ -665,12 +835,11 @@ bool Engine::_initPriv()
 		_resourcesModule = nullptr;
 		return false;
 	}
-	_resources = new ResourcesFacade(_resourcesModule);
 
 	_input = new InputFacade(_platformModule);
 	//Render
 	_renderModule = new RenderModule();
-	if (!_renderModule->Init(_platformModule->getWindowHandle(), _platformModule->getWindowWidth(), _platformModule->getWindowHeight(), _resourcesModule->getAllFonts())) {
+	if (!_renderModule->Init(_platformModule->getSDLWindow(), _platformModule->getWindowHandle(), _platformModule->getWindowWidth(), _platformModule->getWindowHeight(), _resourcesModule->getAllFonts())) {
 		delete _renderModule;
 		_renderModule = nullptr;
 		return false;
@@ -678,7 +847,7 @@ bool Engine::_initPriv()
 	_platformModule->registerEventObserver(_renderModule->getImguiInputCallback());
 	//Audio
 	_audioModule = new AudioModule();
-	if (!_audioModule->Init()) {
+	if (!_audioModule->init()) {
 		delete _audioModule;
 		_audioModule = nullptr;
 		return false;
@@ -692,29 +861,34 @@ bool Engine::_initPriv()
 	}
 
 	_stateMachine = new StateMachine();
-
-	//
-	//#if _DEBUG
-	//	ComponentDLLLoader::instance().load("./game/DLL-Test.dll");
-	//#else
-	//	std::string path = "./game/" + core::GameConfigurator::instance()._gameDLL + ".dll";
-	//	ComponentDLLLoader::instance().load(path);
-	//#endif
-
+	// manager de scripts
+	ScriptsManager::instance().init();
 
 	return true;
 }
 
-void Engine::update(float dt)
+bool Engine::update(uint64_t dt)
 {
+	core::TimerManager::instance().update();
 	if (_physicsModule)
 	{
-		_physicsModule->Update(dt);
+		auto physicsShapes = _physicsModule->GetRenderData();
+
+		if ((_renderModule != nullptr) && _gizmos)
+			_renderModule->RenderPhysics(physicsShapes);//debbug colliders
 	}
 	if (_audioModule)
 	{
-		_audioModule->Update();
-
+		_audioModule->update();
 	}
+	if (_platformModule)
+		return _platformModule->pollEvents();
+	return false;
+}
+
+void Engine::fixedUpdate(float dt)
+{
+	if (_physicsModule)
+		_physicsModule->fixedUpdate(dt);
 }
 

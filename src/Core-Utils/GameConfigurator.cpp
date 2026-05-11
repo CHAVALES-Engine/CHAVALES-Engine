@@ -9,47 +9,95 @@ core::GameConfigurator& core::GameConfigurator::instance()
 
 toml::table core::GameConfigurator::Serialize()
 {
-	return toml::table{ {
-		{ "game", toml::table{{
-			{ "first_scene", _firstScene },
-			{ "game_dll", _gameDLL }
-		}}},
-		{ "window", toml::table{{
-			{ "window_name", _windowName },
-			{ "icon_root", _iconRoot },
+	return toml::table{
+		{ "root", _root },
+		{
 
-			{ "clear_color_r", _clearColor.getRed() },
-			{ "clear_color_g", _clearColor.getGreen() },
-			{ "clear_color_b", _clearColor.getBlue() },
-
-			{ "window_width", _windowWidth },
-			{ "window_height",_windowHeight }
-		}}}
-	} };
+			"game", toml::table{
+				{ "first_scene", _firstScene },
+				{ "game_dll", _gameDLL },
+				{ "scenes_root", _scenesRoot }
+			}
+		},
+		{
+			"window", toml::table{
+				{ "window_name", _windowName },
+				{ "icon_root", _iconRoot },
+				{ "width", _windowWidth },
+				{ "height", _windowHeight },
+				{
+					"clear_color", toml::table{
+						{ "r", _clearColor.getRed() },
+						{ "g", _clearColor.getGreen() },
+						{ "b", _clearColor.getBlue() },
+						{ "a", _clearColor.getAlpha() }
+					}
+				}
+			}
+		},
+		{
+			"assets", toml::table{
+				{ "assets_root", _assetsRoot },
+			}
+		} };
 }
 
 void core::GameConfigurator::Deserialize(const toml::table& data)
 {
-	_firstScene = data["game"]["first_scene"].value_or("");
-	_gameDLL = data["game"]["game_dll"].value_or("");
+	_root = GetValue<std::string>(data, "root", _root);
 
-	_windowName = data["window"]["window_name"].value_or("");
-	_iconRoot = data["window"]["icon_root"].value_or("");
+	// Game settings
+	if (data.contains("game"))
+	{
+		auto& gameTable = *data["game"].as_table();
+		_firstScene = GetValue<std::string>(gameTable, "first_scene", _firstScene);
+		_gameDLL = GetValue<std::string>(gameTable, "game_dll", _gameDLL);
+		_scenesRoot = GetValue<std::string>(gameTable, "scenes_root", _scenesRoot);
+	}
 
-	float r = data["window"]["clear_color_r"].as_floating_point()->get();
-	float g = data["window"]["clear_color_g"].as_floating_point()->get();
-	float b = data["window"]["clear_color_b"].as_floating_point()->get();
+	// Window settings
+	if (data.contains("window"))
+	{
+		auto& windowTable = *data["window"].as_table();
+		_windowName = GetValue<std::string>(windowTable, "window_name", _windowName);
+		_iconRoot = GetValue<std::string>(windowTable, "icon_root", _iconRoot);
+		_windowWidth = GetValue<int>(windowTable, "width", _windowWidth);
+		_windowHeight = GetValue<int>(windowTable, "height", _windowHeight);
 
-	_clearColor = { r,g,b,1.0f };
+		// Clear color
+		if (windowTable.contains("clear_color"))
+		{
+			auto& colorTable = *windowTable["clear_color"].as_table();
+			float r = GetValue<float>(colorTable, "r", _clearColor.getRed());
+			float g = GetValue<float>(colorTable, "g", _clearColor.getGreen());
+			float b = GetValue<float>(colorTable, "b", _clearColor.getBlue());
+			float a = GetValue<float>(colorTable, "a", _clearColor.getAlpha());
+			_clearColor = core::Color(r, g, b, a);
+		}
+	}
 
-	_windowWidth = data["window"]["window_width"].as_integer()->get();
-	_windowHeight = data["window"]["window_height"].as_integer()->get();
+	// Assets
+	if (data.contains("assets"))
+	{
+		auto& assetsTable = *data["assets"].as_table();
+		_assetsRoot = GetValue<std::string>(assetsTable, "assets_root", _assetsRoot);
+	}
+
+	Debug::out("GAME CONFIGURATOR: Configuración cargada correctamente.");
 }
 
 void core::GameConfigurator::SaveToFile(const std::string& path)
 {
 	std::ofstream file(path);
+	if (!file.is_open())
+	{
+		Debug::error("GAME CONFIGURATOR: No se pudo abrir archivo para guardar: ", path);
+		return;
+	}
+
 	file << Serialize();
+	file.close();
+	Debug::out("GAME CONFIGURATOR: Configuración guardada en ", path);
 }
 
 bool core::GameConfigurator::LoadFromFile(const std::string& path)

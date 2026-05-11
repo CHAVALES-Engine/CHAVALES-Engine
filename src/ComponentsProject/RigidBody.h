@@ -1,6 +1,7 @@
 #pragma once
-#include "../../src/Core-Defs/Vector3.h"
-#include "../../src/Core-Defs/Component.h"
+#include "Vector3.h"
+#include "Component.h"
+#include <EngineAPI.h>
 
 class Engine;
 
@@ -11,7 +12,7 @@ class Engine;
  * Encapsula propiedades físicas como masa, velocidad, gravedad y damping.
  * Sirve como puente entre el motor y el sistema de físicas.
  */
-class RigidBody : public core::Component {
+class ENGINE_API RigidBody : public core::Component {
 /*
  * +----------+
  * | RIGIDBODY |
@@ -25,13 +26,15 @@ class RigidBody : public core::Component {
  *			position = Vector3.new(0, 0, -10),     
  *			velocity = Vector3.new(0, 200, 0),   
  *			damping = 0.0
+ *			blockAxes = { false, false, true },
+ *			blockAngles = { false, false, true }
  *		}
 */
 public:
 	/**
 	 * @brief Referencia al engine principal
 	 */
-	Engine* _eng = nullptr;
+	//Engine* _eng = nullptr;
 
 	/**
 	 * @brief Valor de gravedad aplicado manualmente (si procede)
@@ -52,6 +55,8 @@ public:
 	 * @brief Indica si el cuerpo es cinemático (no afectado por fuerzas)
 	 */
 	bool isKinematic;
+
+	RigidBody();
 
 	/**
 	 * @brief Inicialización del componente con propiedades
@@ -80,6 +85,11 @@ public:
 	core::Vector3<> getPosition();
 
 	/**
+	 * @brief Obtiene la rotación actual del rigidbody
+	 */
+	core::Quaternion<> getRotation();
+
+	/**
 	 * @brief Obtiene la masa del objeto
 	 */
 	float getMass();
@@ -93,6 +103,11 @@ public:
 	 * @brief Establece la posición del rigidbody
 	 */
 	void setPosition(core::Vector3<> pos);
+
+	/**
+	 * @brief Establece la rotación del rigidbody
+	 */
+	void setRotation(core::Quaternion<> rot);
 
 	/**
 	 * @brief Establece la masa del objeto
@@ -121,6 +136,22 @@ public:
 	 * @param mode Tipo de fuerza a limpiar
 	 */
 	void ClearForce(char mode);
+
+	/**
+	 * @brief Bloquea ejes
+	 * @param x bloquea x
+	 * @param y bloquea y
+	 * @param z bloquea z
+	 */
+	void blockAxes(bool x, bool y, bool z);
+
+	/**
+	 * @brief Bloquea rotacion
+	 * @param x bloquea x
+	 * @param y bloquea y
+	 * @param z bloquea z
+	 */
+	void blockAngles(bool x, bool y, bool z);
 
 	/**
 	 * @brief Obtiene el ID físico del objeto

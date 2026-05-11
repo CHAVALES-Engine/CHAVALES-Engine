@@ -7,45 +7,83 @@
 #include <PluginSDK.h>
 #include "UIButton.h"
 #include "checkMLNew.h"
+#include <UITransform.h>
+#include <UIPanel.h>
 
 REGISTER_COMPONENT(UITextureRect);
 
 UITextureRect::UITextureRect()
 {
+	registerMethod("setVisible", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			setVisible(std::any_cast<bool>(args[0]));
+		}
+		});
+	registerMethod("setOpacity", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			setOpacity(std::any_cast<float>(args[0]));
+		}
+		});
+	registerMethod("setTexture", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			setTexture(std::any_cast<std::string>(args[0]));
+		}
+		});
 }
 
-UITextureRect::~UITextureRect()
-{
-}
+UITextureRect::~UITextureRect(){}
 
 bool UITextureRect::init(const Properties& p)
 {
 	_textureName = getProperty<std::string>(p, "textureName");
-	_panelName = getProperty<std::string>(p, "panelName");
-	_dimension = getProperty<core::Vector2<float>>(p, "dimension");
 	_opacity = getProperty<float>(p, "opacity");
 
-	_textureRectID = Engine::instance()->addUITextureRect(_panelName, getEntity()->getEntityID(), _textureName, _dimension);
 	return true;
+}
+
+void UITextureRect::awake()
+{
+	auto uiT = getEntity()->getComponent<UITransform>();
+	if (!uiT) {
+		Debug::error("[UITextureRect] - No transform, no se crea UITextureRect");
+		_textureRectID = UINT64_MAX;
+		return;
+	}
+	auto panel = uiT->getComponentInParents<UIPanel>();
+	if (!panel) {
+		Debug::error("[UITextureRect] - No UIPanel en padres, no se crea UITextureRect");
+		_textureRectID = UINT64_MAX;
+		return;
+	}
+	uiPanelID  panelID = panel->getPanelID();
+	if (panelID == UINT64_MAX) {
+		Debug::error("[UITextureRect] - panelID, no se crea UITextureRect");
+		_textureRectID = UINT64_MAX;
+		return;
+	}
+	_textureRectID = Engine::instance()->addUITextureRect(panelID,getEntity()->getEntityID(), _textureName, _opacity);
 }
 
 void UITextureRect::setTexture(const std::string& texture)
 {
 	_textureName = texture;
+	if (_textureRectID == UINT64_MAX)return;
 	Engine::instance()->setUITextureRectTexture(_textureRectID, _textureName);
 }
-void UITextureRect::setDimension(core::Vector2<float> dimension)
-{
-	_dimension = dimension;
-	Engine::instance()->setUITextureRectDimension(_textureRectID, _dimension);
-}
-void UITextureRect::setVisible(bool visible) {
-	Engine::instance()->setUITextureRectVisible(_textureRectID, visible);
 
+void UITextureRect::setVisible(bool visible) {
+	if (_textureRectID == UINT64_MAX)return;
+	Engine::instance()->setUITextureRectVisible(_textureRectID, visible);
 }
 void UITextureRect::setOpacity(float opacity)
 {
 	_opacity = opacity;
+	if (_textureRectID == UINT64_MAX)return;
 	Engine::instance()->setUITextureRectOpacity(_textureRectID, opacity);
+}
 
+void UITextureRect::destroy()
+{
+	if (_textureRectID == UINT64_MAX)return;
+	Engine::instance()->deleteUITextureRect(_textureRectID);
 }

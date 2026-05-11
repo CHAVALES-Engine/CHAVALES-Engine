@@ -19,7 +19,7 @@ PlatformModule::PlatformModule() :
 	_window(nullptr), _windowHandle(nullptr)
 {
 	_inputMapper = new input::InputMapper();
-	
+
 }
 
 PlatformModule::~PlatformModule()
@@ -40,7 +40,7 @@ bool PlatformModule::Init()
 {
 	// Inicializacion de SDL
 	if (!SDL_Init(SDL_INIT_EVENTS | SDL_INIT_VIDEO | SDL_INIT_GAMEPAD)) {
-		Debug::error("SDL Couldn't be initialized.");
+		Debug::error("[Paltform] SDL Could not be initialized.");
 		return false;
 	}
 	// Creacion de ventana
@@ -49,7 +49,7 @@ bool PlatformModule::Init()
 		core::GameConfigurator::instance()._windowHeight,
 		SDL_WINDOW_RESIZABLE)) == nullptr)
 	{
-		Debug::error("SDL Couldn't be Created.");
+		Debug::error("[Platform]SDL Could not be created.");
 		return false;
 	}
 
@@ -75,7 +75,12 @@ HWND PlatformModule::getWindowHandle() const
 	return _windowHandle;
 }
 
-bool PlatformModule::syncronize()
+SDL_Window* PlatformModule::getSDLWindow()
+{
+	return _window;
+}
+
+bool PlatformModule::pollEvents()
 {
 	// limpia los ejes relativos
 	auto it = _virtualDevices.find(input::KEYBOARD_ID);
@@ -163,7 +168,6 @@ bool PlatformModule::isKeyPressed(input::InputEvent inputEvent, input::DeviceID 
 	for (const auto& [id, vd] : _virtualDevices)
 		if (func(vd))
 		{
-			//Debug::out("Tecla: ", toString(inputEvent), " pressed");
 			return true;
 		}
 	return false;
@@ -195,7 +199,6 @@ bool PlatformModule::isJustPressed(input::InputEvent inputEvent, input::DeviceID
 	for (const auto& [id, vd] : _virtualDevices)
 		if (func(vd))
 		{
-			//Debug::out("Tecla: ", toString(inputEvent), " pressed");
 			return true;
 		}
 	return false;
@@ -208,9 +211,9 @@ bool PlatformModule::isKeyReleased(input::InputEvent inputEvent, input::DeviceID
 	// "func" es la funcion escogida segun el tipo de dato de inputEvent.
 	auto func = [&](const input::VirtualDevice* vd) -> bool {
 		return std::visit(input::overloaded{
-			[&](input::Key k) {return vd->isPressed(k); },
-			[&](input::GamepadButton b) {return vd->isPressed(b); },
-			[&](input::MouseButton b) {return vd->isPressed(b); },
+			[&](input::Key k) {return vd->isReleased(k); },
+			[&](input::GamepadButton b) {return vd->isReleased(b); },
+			[&](input::MouseButton b) {return vd->isReleased(b); },
 			[](auto&& inputEvent) { Debug::error("[Input] inputEvent not allowed ", toString(inputEvent)); return false; }
 			}, inputEvent);
 		};
@@ -226,7 +229,6 @@ bool PlatformModule::isKeyReleased(input::InputEvent inputEvent, input::DeviceID
 	for (const auto& [id, vd] : _virtualDevices)
 		if (func(vd))
 		{
-			//Debug::out("Tecla: ", toString(inputEvent), " pressed");
 			return true;
 		}
 	return false;
@@ -255,7 +257,7 @@ float PlatformModule::getAxis(input::InputEvent inputEvent, input::DeviceID devi
 		float value = func(vd);
 		if (abs(value) > abs(maxVal)) maxVal = value;
 	}
-	//Debug::out("Tecla: ", toString(inputEvent), " pressed");
+
 	return maxVal;
 }
 
@@ -263,6 +265,15 @@ bool PlatformModule::isActionPressed(const std::string& actionName, input::Devic
 {
 	for (input::InputEvent event : _inputMapper->getInputEvents(actionName, device)) {
 		if (isKeyPressed(event, device))
+			return true;
+	}
+	return false;
+}
+
+bool PlatformModule::isActionJustPressed(const std::string& actionName, input::DeviceID device) const
+{
+	for (input::InputEvent event : _inputMapper->getInputEvents(actionName, device)) {
+		if (isJustPressed(event, device))
 			return true;
 	}
 	return false;
@@ -618,7 +629,7 @@ void PlatformModule::_processEvent(const SDL_Event& event)
 	case SDL_EVENT_GAMEPAD_ADDED: {
 		uint32_t id = event.gdevice.which;
 		SDL_Gamepad* gamepad = SDL_OpenGamepad(id);
-		Debug::warning("New Gamepad: ", id);
+		Debug::warning("[Platform] New Gamepad with id: ", id);
 		if (gamepad) {
 			_devicesID[id] = gamepad;
 			input::VirtualDevice* virtualDevice = new input::VirtualDevice();

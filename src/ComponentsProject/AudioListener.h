@@ -1,6 +1,7 @@
 #pragma once
 #include <Component.h>
 #include "Vector3.h"
+#include <EngineAPI.h>
 
 class Transform;
 
@@ -23,10 +24,10 @@ class Transform;
  * return setProperty(properties, "atributo1", component);
  *
 */
-class AudioListener : public core::Component
+class ENGINE_API AudioListener : public core::Component
 {
 private:
-	Transform* _transform;
+	std::shared_ptr<Transform> _transform;
 	core::Vector3<> _lastPos;
 
 public:
@@ -35,6 +36,9 @@ public:
 
 	bool init(const Properties& p) override;
 	virtual void ready() override;
+	/*
+	* @brief En cada frame se actualiza la posición del Listener y su velocidad
+	*/
 	virtual void update(uint64_t deltaTime) override;
 };
 

@@ -101,6 +101,8 @@ bool ComponentDLLLoader::loadAll(const std::string& path) {
 	// Limpiar _hot residuales del arranque anterior
 	for (const auto& entry : std::filesystem::directory_iterator(path))
 	{
+		if (!std::filesystem::exists(entry.path()))
+			continue;
 		if (entry.path().extension() == ".dll" &&
 			entry.path().stem().string().find("_hot") != std::string::npos)
 		{

@@ -39,9 +39,6 @@
     <ClCompile Include="..\..\src\Engine\Engine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Engine\ResourcesFacade.cpp">
-      <Filter>Source Files\Facades</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Engine\StateMachine.h">
@@ -61,9 +58,6 @@
     </ClInclude>
     <ClInclude Include="..\..\src\Engine\Engine.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Engine\ResourcesFacade.h">
-      <Filter>Header Files\Facades</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

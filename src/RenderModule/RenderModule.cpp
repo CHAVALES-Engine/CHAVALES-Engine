@@ -25,6 +25,7 @@
 #include <OgreGpuProgramManager.h>
 #include <OgreRTShaderSystem.h>
 #include <OgreShaderGenerator.h>
+#include <OgreParticleFXPlugin.h>
 #include <OgreParticleSystem.h>
 #include <OgreParticleEmitter.h>
 #include <OgreLogManager.h>
@@ -34,18 +35,17 @@
 #include <OgreOverlaySystem.h>
 #include <imgui.h>
 #include <imgui_impl_sdl3.h>
-#include <imgui_impl_sdl3.cpp>
 #include <assimp/postprocess.h>
 #include <OgreGL3PlusTexture.h>
 #include <guid.h>
-#include <imgui_impl_sdl3.h>
-
 #include "GameConfigurator.h"
 #include <checkMLNew.h>
+#include <Vector2.h>
 
 static Ogre::Root* _root = nullptr;
 static Ogre::GL3PlusPlugin* _gl3Plugin = nullptr;
 static Ogre::AssimpPlugin* _assimpPlugin = nullptr;
+static Ogre::ParticleFXPlugin* _particlePlugin = nullptr;
 static Ogre::OverlaySystem* _overlaySystem = nullptr;
 static Ogre::RenderWindow* _window = nullptr;
 static Ogre::SceneManager* _sceneMgr = nullptr;
@@ -60,38 +60,15 @@ static Ogre::STBIImageCodec* _pngCodec;
 static Ogre::STBIImageCodec* _tgaCodec;
 static Ogre::STBIImageCodec* _bmpCodec;
 
-/*void ImGuiManager::AddElement(UIElement element)
-{
-	_uiElements.push_back(element);
-}
-    _uiElements.push_back(element);
-}*/
-
-/*void ImGuiManager::Clear()
-{
-    _uiElements.clear();
-}*/
-
-/*void ImGuiManager::Draw()
-{
-    _overlay->NewFrame();
-   // ImGui::ShowDemoWindow();
-    for (auto e : _uiElements) {
-        e();
-    }
-    ImDrawData* draw_data = ImGui::GetDrawData();
-    if (!draw_data || draw_data->CmdListsCount == 0)
-        std::cout << "No draw commands generated\n";
-    else
-        std::cout << "Draw commands generated: " << draw_data->CmdListsCount << "\n";
-}*/
+static Ogre::ManualObject* _debugDraw = nullptr;
+static Ogre::SceneNode* _debugNode = nullptr;
 
 RenderModule::~RenderModule()
 {
 	shutdown();
 }
 
-bool RenderModule::Init(const HWND handle, const int width, const int height,const std::vector<std::pair<FontName, FontPath>> fonts)
+bool RenderModule::Init(SDL_Window* sdlWindow, const HWND handle, const int width, const int height, const std::vector<std::pair<FontName, FontPath>> fonts)
 {
 	try
 	{
@@ -102,6 +79,9 @@ bool RenderModule::Init(const HWND handle, const int width, const int height,con
 
 		_assimpPlugin = new Ogre::AssimpPlugin();
 		_root->installPlugin(_assimpPlugin);
+
+		_particlePlugin = new Ogre::ParticleFXPlugin();
+		_root->installPlugin(_particlePlugin);
 
 		_jpgCodec = new Ogre::STBIImageCodec("jpg");
 		_jpegCodec = new Ogre::STBIImageCodec("jpeg");
@@ -142,6 +122,8 @@ bool RenderModule::Init(const HWND handle, const int width, const int height,con
 		_nextModelID = 0;
 		_nextAnimationID = 0;
 		_nextLightID = 0;
+		_nextParticleGenID = 0;
+		_nextSkydomeID = 0;
 
 		//Se crea una camara auxiliar para crear el viewport. En el momento que se cree una camara manualmente esta pasara automaticamente a ser la activa.
 		_mainCameraID = ChavalesGUID::generate();
@@ -160,8 +142,11 @@ bool RenderModule::Init(const HWND handle, const int width, const int height,con
 		Ogre::MaterialManager::getSingleton().setActiveScheme(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME);
 		_vp->setMaterialScheme(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME);
 
-		ImGui::CreateContext();
-		ImGui::SetCurrentContext(ImGui::GetCurrentContext());
+		_overlaySystem = new Ogre::OverlaySystem();
+		_sceneMgr->addRenderQueueListener(_overlaySystem);
+		_overlay = new Ogre::ImGuiOverlay();
+		if (ImGui_ImplSDL3_InitForOther(sdlWindow))
+			_imguiSDLInitialized = true;
 		ImGuiIO& io = ImGui::GetIO();
 		_fonts["default"] = io.Fonts->AddFontDefault();
 		for (auto font : fonts) {
@@ -180,12 +165,7 @@ bool RenderModule::Init(const HWND handle, const int width, const int height,con
 			(float)_vp->getActualWidth(),
 			(float)_vp->getActualHeight()
 		);
-		_overlaySystem = new Ogre::OverlaySystem();
-		_sceneMgr->addRenderQueueListener(_overlaySystem);
 
-		ImGui_ImplSDL3_InitForOther(nullptr);
-
-		_overlay = new Ogre::ImGuiOverlay();
 		Ogre::OverlayManager::getSingleton().addOverlay(_overlay);
 		_overlay->show();
 
@@ -196,20 +176,55 @@ bool RenderModule::Init(const HWND handle, const int width, const int height,con
 
 		_vp->setOverlaysEnabled(true);
 
+		Ogre::MaterialManager& matMgr = Ogre::MaterialManager::getSingleton();
+
+		//---------------debug colliders--------------
+		std::string debugMatName = "Debug/PhysicsLines";
+		//compruebo si existe por si acaso
+		
+		Ogre::MaterialPtr mat = matMgr.getByName(debugMatName);
+		if (!mat)
+		{
+			mat = matMgr.create(debugMatName, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+
+			mat->setReceiveShadows(false);
+			mat->setDepthCheckEnabled(true);
+			mat->setDepthWriteEnabled(false);
+
+			Ogre::Pass* pass = mat->getTechnique(0)->getPass(0);
+			pass->setLightingEnabled(false);
+
+			//para el color
+			pass->setVertexColourTracking(Ogre::TVC_DIFFUSE);
+			pass->setDepthCheckEnabled(false);//ignora si hay objetos delante
+			pass->setDepthWriteEnabled(false);
+			pass->setLightingEnabled(false);
+			pass->setSceneBlending(Ogre::SBT_TRANSPARENT_ALPHA);
+			pass->setLineWidth(3.0f);//grosor linea
+			mat->load();
+
+			_shaderGen->createShaderBasedTechnique(*mat, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
+			_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, mat->getName(), mat->getGroup());
+		}
+		_debugDraw = _sceneMgr->createManualObject("DebugDraw");
+		_debugDraw->setDynamic(true);
+		_debugDraw->setRenderQueueGroup(Ogre::RENDER_QUEUE_OVERLAY);
+		_debugDraw->setBoundingBox(Ogre::AxisAlignedBox::BOX_INFINITE);
+		_debugNode = _sceneMgr->getRootSceneNode()->createChildSceneNode();
+		_debugNode->attachObject(_debugDraw);
+		//---------------------------------------------------------
+
 		return true;
 	}
-	catch (...)
+	catch (const std::exception& e)
 	{
-		std::cerr << "Error iniciando OGRE" << std::endl;
+		std::cerr << "Error iniciando OGRE: " << e.what() << std::endl;
 		return false;
 	}
 }
 
 void RenderModule::renderFrame()
 {
-	// if (_ui)
-	 //    _ui->Draw();
-
 	renderUI();
 	_root->renderOneFrame();
 }
@@ -231,58 +246,33 @@ void RenderModule::cleanScene(const bool& end)
 	//Limpiar modelos
 	cleanModels();
 
-	//Limpiar luces
-	cleanLights();
+	//Limpiar particulas
+	cleanParticleGens();
 
-	//Limpiar camaras
-	cleanCameras();
+	//Limpiar UI
+	cleanUI();
 
-	//Limpiar nodos
-	/*for (const EngineNode& engineNode : _engineNodes)
-	{
-		Ogre::SceneNode* sceneNode = engineNode.sceneNode;
-		if (sceneNode != nullptr)
-		{
-			_sceneMgr->destroySceneNode(sceneNode);
-		}
-	}*/
-	// limpia toda la escena de Ogre de golpe
-	_sceneMgr->clearScene();
+	//limpiar debug
+	cleanDebug();
+
 	_engineNodes.clear();
 	_nextTransformID = 0;
-	_nextUITransformID = 0;
-	_uiPanels.clear();
-	_labelToPanel.clear();
-	_buttonToPanel.clear();
-	_textureToPanel.clear();
-	// Esto filtra los grupos que se borran para que no se borren los grupos basicos de ogre y que no pete
-	/*static const std::vector<std::string> internalGroups = {"Scene", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, Ogre::ResourceGroupManager::INTERNAL_RESOURCE_GROUP_NAME, Ogre::ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME};
+	_nextSkydomeID = 0;
 
+	Ogre::MaterialManager& matMgr = Ogre::MaterialManager::getSingleton();
 
-	Ogre::StringVector groups = _rgm->getResourceGroups();
-
-	for (const std::string& groupName : groups)
+	for (auto& m : _createdMaterials)
 	{
-		bool isInternal = false;
-		for (const auto& ig : internalGroups)
-			if (groupName == ig) { isInternal = true; break; }
-
-		if (!isInternal)
+		if (matMgr.resourceExists(m))
 		{
-			// Liberar modelos y textruas
-			_rgm->unloadResourceGroup(groupName);
-
-			// Limpiar lista
-			_rgm->clearResourceGroup(groupName);
-
-			// Borrar grupo
-			_rgm->destroyResourceGroup(groupName);
+			matMgr.remove(m);
 		}
-	}*/
+	}
 
 	//Si se va a crear una escena nueva dejamos una camara de seguridad. Volvemos a anadir rtss a imgui.
 	if (!end)
 	{
+		_sceneMgr->setAmbientLight(Ogre::ColourValue(0.0f, 0.0f, 0.0f));
 		addCamera(_mainCameraID, 45.0f, 0.1f, 1000.0f, 1.0f, { 0.0f, 0.0f, 0.0f, 1.0f });
 		//Limpiamos solo recursos del juego
 		for (auto resourceGroup : _resourceGroups)
@@ -294,9 +284,19 @@ void RenderModule::cleanScene(const bool& end)
 			_rgm->clearResourceGroup(resourceGroup);
 		}
 		_resourceGroups.clear();
+
+		//recreacion de debug draw
+		_debugDraw = _sceneMgr->createManualObject("DebugDraw");
+		_debugDraw->setDynamic(true);
+		_debugDraw->setRenderQueueGroup(Ogre::RENDER_QUEUE_OVERLAY);
+		_debugDraw->setBoundingBox(Ogre::AxisAlignedBox::BOX_INFINITE);
+
+		_debugNode = _sceneMgr->getRootSceneNode()->createChildSceneNode();
+		_debugNode->attachObject(_debugDraw);
 	}
 	else
 	{
+		_sceneMgr->clearScene();
 		Ogre::StringVector groups = _rgm->getResourceGroups();
 		for (const std::string& groupName : groups)
 		{
@@ -317,52 +317,29 @@ RenderModule::EventCallback RenderModule::getImguiInputCallback()
 	return ImGui_ImplSDL3_ProcessEvent;
 }
 
-transformID RenderModule::addNode(const entityID& entityID, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float> scale, const bool& fromTransform,const TransformType type)
+transformID RenderModule::addNode(const entityID& entityID, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float> scale, const bool& fromTransform)
 {
-	if (type == TransformType::WORLD) {
-		for (int i = 0; i < (int)_engineNodes.size(); i++)
+	for (int i = 0; i < (int)_engineNodes.size(); i++)
+	{
+		if (_engineNodes[i].nodeID == entityID)
 		{
-			if (_engineNodes[i].nodeID == entityID)
+			if (fromTransform)
 			{
-				if (fromTransform)
-				{
-					_engineNodes[i].sceneNode->setPosition(Ogre::Vector3(pos.getX(), pos.getY(), pos.getZ()));
-					_engineNodes[i].sceneNode->setOrientation(Ogre::Quaternion(rot.getW(), rot.getX(), rot.getY(), rot.getZ()));
-					_engineNodes[i].sceneNode->setScale(Ogre::Vector3(scale.getX(), scale.getY(), scale.getZ()));
-				}
-				return i; //Ya existe
+				_engineNodes[i].sceneNode->setPosition(Ogre::Vector3(pos.getX(), pos.getY(), pos.getZ()));
+				_engineNodes[i].sceneNode->setOrientation(Ogre::Quaternion(rot.getW(), rot.getX(), rot.getY(), rot.getZ()));
+				_engineNodes[i].sceneNode->setScale(Ogre::Vector3(scale.getX(), scale.getY(), scale.getZ()));
 			}
+			return i; //Ya existe
 		}
-
-		// Crear nuevo nodo
-		EngineNode& aux = _engineNodes.emplace_back(_sceneMgr->getRootSceneNode()->createChildSceneNode(), entityID);
-		aux.sceneNode->setPosition(Ogre::Vector3(pos.getX(), pos.getY(), pos.getZ()));
-		aux.sceneNode->setOrientation(Ogre::Quaternion(rot.getW(), rot.getX(), rot.getY(), rot.getZ()));
-		aux.sceneNode->setScale(Ogre::Vector3(scale.getX(), scale.getY(), scale.getZ()));
-		return _nextTransformID++;
 	}
-	else {
-		for (int i = 0; i < (int)_uiTransforms.size(); i++) {
-			if (_uiTransforms[i].entity == entityID)
-			{
-				if (fromTransform)
-				{
-					_uiTransforms[i].position = { pos.getX(), pos.getY() };
-				}
-				return i; //Ya existe
-			}
-		}
-		UITransform uiT;
-		uiT.entity = entityID;
-		uiT.position = { pos.getX(), pos.getY() };
-		_uiTransforms.push_back(uiT);
-		return _nextUITransformID++;
-	}
-}
 
-transformID RenderModule::addNode(const entityID& entityID, const TransformType type)
-{
-	return addNode(entityID, core::Vector3<float>(0.0f, 0.0f, 0.0f), core::Quaternion<float>(0.0f, 0.0f, 0.0f, 1.0f), core::Vector3<float>(1.0f, 1.0f, 1.0f), false, type);
+	// Crear nuevo nodo
+	EngineNode& aux = _engineNodes.emplace_back(_sceneMgr->getRootSceneNode()->createChildSceneNode(), entityID);
+	aux.sceneNode->setPosition(Ogre::Vector3(pos.getX(), pos.getY(), pos.getZ()));
+	aux.sceneNode->setOrientation(Ogre::Quaternion(rot.getW(), rot.getX(), rot.getY(), rot.getZ()));
+	aux.sceneNode->setScale(Ogre::Vector3(scale.getX(), scale.getY(), scale.getZ()));
+	return _nextTransformID++;
+
 }
 
 transformID RenderModule::getNode(const entityID& entityID)
@@ -371,12 +348,12 @@ transformID RenderModule::getNode(const entityID& entityID)
 	{
 		if (_engineNodes[i].nodeID == entityID) return i;
 	}
-	return -1;
+	return UINT64_MAX;
 }
 
 core::Vector3<float> RenderModule::getNodePosition(const transformID& id)
 {
-	if (id >= 0 && id < _engineNodes.size() && _engineNodes[id].sceneNode != nullptr)
+	if (id != UINT64_MAX && id < _engineNodes.size() && _engineNodes[id].sceneNode != nullptr)
 	{
 		Ogre::Vector3 pos = _engineNodes[id].sceneNode->getPosition();
 		return core::Vector3<float>(pos.x, pos.y, pos.z);
@@ -386,7 +363,7 @@ core::Vector3<float> RenderModule::getNodePosition(const transformID& id)
 
 void RenderModule::setNodePosition(const transformID& id, const core::Vector3<float>& pos)
 {
-	if (id >= 0 && id < _engineNodes.size() && _engineNodes[id].sceneNode != nullptr)
+	if (id != UINT64_MAX && id < _engineNodes.size() && _engineNodes[id].sceneNode != nullptr)
 	{
 		_engineNodes[id].sceneNode->setPosition(pos.getX(), pos.getY(), pos.getZ());
 	}
@@ -394,7 +371,7 @@ void RenderModule::setNodePosition(const transformID& id, const core::Vector3<fl
 
 core::Quaternion<float> RenderModule::getNodeRotation(const transformID& id)
 {
-	if (id >= 0 && id < _engineNodes.size() && _engineNodes[id].sceneNode != nullptr)
+	if (id != UINT64_MAX && id < _engineNodes.size() && _engineNodes[id].sceneNode != nullptr)
 	{
 		Ogre::Quaternion rot = _engineNodes[id].sceneNode->getOrientation();
 		return core::Quaternion<float>(rot.x, rot.y, rot.z, rot.w);
@@ -404,7 +381,7 @@ core::Quaternion<float> RenderModule::getNodeRotation(const transformID& id)
 
 void RenderModule::setNodeRotation(const transformID& id, const core::Quaternion<float>& rot)
 {
-	if (id >= 0 && id < _engineNodes.size() && _engineNodes[id].sceneNode != nullptr)
+	if (id != UINT64_MAX && id < _engineNodes.size() && _engineNodes[id].sceneNode != nullptr)
 	{
 		_engineNodes[id].sceneNode->setOrientation(rot.getW(), rot.getX(), rot.getY(), rot.getZ());
 	}
@@ -412,7 +389,7 @@ void RenderModule::setNodeRotation(const transformID& id, const core::Quaternion
 
 core::Vector3<float> RenderModule::getNodeScale(const transformID& id)
 {
-	if (id >= 0 && id < _engineNodes.size() && _engineNodes[id].sceneNode != nullptr)
+	if (id != UINT64_MAX && id < _engineNodes.size() && _engineNodes[id].sceneNode != nullptr)
 	{
 		Ogre::Vector3 pos = _engineNodes[id].sceneNode->getScale();
 		return core::Vector3<float>(pos.x, pos.y, pos.z);
@@ -422,34 +399,65 @@ core::Vector3<float> RenderModule::getNodeScale(const transformID& id)
 
 void RenderModule::setNodeScale(const transformID& id, const core::Vector3<float>& scale)
 {
-	if (id >= 0 && id < _engineNodes.size() && _engineNodes[id].sceneNode != nullptr)
+	if (id != UINT64_MAX && id < _engineNodes.size() && _engineNodes[id].sceneNode != nullptr)
 	{
 		_engineNodes[id].sceneNode->setScale(scale.getX(), scale.getY(), scale.getZ());
 	}
 }
+UITransformID RenderModule::addUITransform(const entityID& entityID, const core::Vector2<float>& pos, const int& zBuffer, const core::Vector2<float>& dimension, const float& rotation)
+{
+	if (zBuffer < 0 || zBuffer >32) {
+		Debug::error("zBuffer fuera de rango [0-32]");
+		return -1;
+	}
+	for (int i = 0; i < (int)_uiTransforms.size(); i++)
+	{
+		if (_uiTransforms[i].entity == entityID)
+		{
+			return i; //Ya existe
+		}
+	}
+	
+	UITransform uiT;
+	uiT.entity = entityID;
+	uiT.position = pos;
+	uiT.dimension = dimension;
+	uiT.rotation = rotation;
+	uiT.zBuffer = zBuffer;
+	_uiTransforms.emplace_back(uiT);
+	return _uiTransforms.size() - 1;
+}
 
+void RenderModule::setUITransformDimension(const UITransformID& id, const core::Vector2<float>& dim) {
+	if (id != UINT64_MAX && id < _uiTransforms.size()) {
+		_uiTransforms[id].dimension = { std::max(0.1f,dim.getX()), std::max(0.1f,dim.getY()) };
+	}
+}
+
+void RenderModule::setUITransformPos(const UITransformID& id, const core::Vector2<float>& pos) {
+	if (id != UINT64_MAX && id < _uiTransforms.size()) {
+		_uiTransforms[id].position = pos;
+	}
+}
+
+void RenderModule::setUITransformRotation(const UITransformID& id, const float& r) {
+	if (id != UINT64_MAX && id < _uiTransforms.size()) {
+		_uiTransforms[id].rotation = r;
+	}
+}
+
+void RenderModule::setUITransformZBuffer(const UITransformID& id, const int& zBuff) {
+	if (id != UINT64_MAX && id < _uiTransforms.size()) {
+		_uiTransforms[id].zBuffer = zBuff;
+	}
+}
 UITransformID RenderModule::getTransformUI(const entityID& entityID)
 {
 	for (int i = _uiTransforms.size() - 1; i >= 0; i--) {
 		if (_uiTransforms[i].entity == entityID) return i;
 
 	}
-	return -1;
-}
-
-core::Vector2<float> RenderModule::getUIPosition(const transformID& id)
-{
-	if (id >= 0 && id < _uiTransforms.size()) {
-		return _uiTransforms[id].position;
-	}
-	return core::Vector2<float>(0,0);
-}
-
-void RenderModule::setUIPosition(const transformID& id, const core::Vector2<float>& pos)
-{
-	if (id >= 0 && id < _uiTransforms.size()) {
-		 _uiTransforms[id].position = pos;
-	}
+	return UINT64_MAX;
 }
 
 void RenderModule::setViewportBGColor(core::Color color)
@@ -460,8 +468,9 @@ void RenderModule::setViewportBGColor(core::Color color)
 cameraID RenderModule::addCamera(const entityID& entityID, const float& FOVy, const float& nearClipDistance, const float& farClipDistance, const float& focalLength, const core::Color& bgColor)
 {
 	//Si no existe un nodo con este entityID lo creamos
-	transformID nodeID = addNode(entityID, TransformType::WORLD);
+	transformID nodeID = addNode(entityID);
 	Ogre::Camera* camera = _cameras.emplace_back(_sceneMgr->createCamera("camera" + entityID.toString()));
+	cameraID createdCameraID = _cameras.size() - 1;
 	camera->setAutoAspectRatio(true);
 	_engineNodes[nodeID].sceneNode->attachObject(camera);
 
@@ -471,31 +480,37 @@ cameraID RenderModule::addCamera(const entityID& entityID, const float& FOVy, co
 	camera->setFocalLength(focalLength);
 
 	//Si es la main camera auxiliar o es la primera camara manual se convierte automaticamente en la activa
-	if (_nextCameraID <= 1)
+	if (_vp == nullptr || _vp->getCamera() == nullptr || (_cameras.size() == 2 && entityID != _mainCameraID))
 	{
-		setAsActiveCamera(_nextCameraID);
+		setAsActiveCamera(createdCameraID);
 		_vp->setBackgroundColour(Ogre::ColourValue(bgColor.getRed(), bgColor.getGreen(), bgColor.getBlue()));
 	}
-	return _nextCameraID++;
+
+	_nextCameraID = _cameras.size();
+	return createdCameraID;
 }
 
 void RenderModule::deleteCamera(const cameraID& id)
 {
-	if (id >= 0 && id < _cameras.size() && _cameras[id] != nullptr)
+	if (id != UINT64_MAX && id < _cameras.size() && _cameras[id] != nullptr)
 	{
 		Ogre::Camera* cam = _cameras[id];
+		_cameras[id] = nullptr;
 		//Desvinculamos del viewport en caso de actividad
 		if (_vp->getCamera() == cam) _vp->setCamera(nullptr);
 		Ogre::SceneNode* parent = cam->getParentSceneNode();
 		if (parent) parent->detachObject(cam);
 		_sceneMgr->destroyCamera(cam);
-		_cameras.erase(_cameras.begin() + id);
+		_nextCameraID = _cameras.size();
+
+		if (_vp != nullptr && _vp->getCamera() == nullptr && !_cameras.empty())
+			_vp->setCamera(_cameras[0]);
 	}
 }
 
 void RenderModule::setAsActiveCamera(const cameraID& id)
 {
-	if (id >= 0 && id < _cameras.size() && _cameras[id] != nullptr)
+	if (id != UINT64_MAX && id < _cameras.size() && _cameras[id] != nullptr)
 	{
 		if (_vp == nullptr)
 		{
@@ -510,8 +525,10 @@ void RenderModule::setAsActiveCamera(const cameraID& id)
 
 void RenderModule::cleanCameras()
 {
-	for (Ogre::Camera* cam : _cameras)
+	while (!_cameras.empty())
 	{
+		Ogre::Camera* cam = _cameras.back();
+		_cameras.pop_back();
 		if (cam != nullptr)
 		{
 			Ogre::SceneNode* parent = cam->getParentSceneNode();
@@ -529,27 +546,27 @@ void RenderModule::cleanCameras()
 
 void RenderModule::setCameraFOVy(const cameraID& id, const float& FOVy)
 {
-	if (id >= 0 && id < _cameras.size() && _cameras[id] != nullptr) _cameras[id]->setFOVy(Ogre::Radian(FOVy));
+	if (id != UINT64_MAX && id < _cameras.size() && _cameras[id] != nullptr) _cameras[id]->setFOVy(Ogre::Radian(FOVy));
 }
 
 void RenderModule::setCameraNearClipDistance(const cameraID& id, const float& nearClipDistance)
 {
-	if (id >= 0 && id < _cameras.size() && _cameras[id] != nullptr) _cameras[id]->setNearClipDistance(nearClipDistance);
+	if (id != UINT64_MAX && id < _cameras.size() && _cameras[id] != nullptr) _cameras[id]->setNearClipDistance(nearClipDistance);
 }
 
 void RenderModule::setCameraFarClipDistance(const cameraID& id, const float& farClipDistance)
 {
-	if (id >= 0 && id < _cameras.size() && _cameras[id] != nullptr) _cameras[id]->setFarClipDistance(farClipDistance);
+	if (id != UINT64_MAX && id < _cameras.size() && _cameras[id] != nullptr) _cameras[id]->setFarClipDistance(farClipDistance);
 }
 
 void RenderModule::setCameraFocalLength(const cameraID& id, const float& focalLength)
 {
-	if (id >= 0 && id < _cameras.size() && _cameras[id] != nullptr) _cameras[id]->setFocalLength(focalLength);
+	if (id != UINT64_MAX && id < _cameras.size() && _cameras[id] != nullptr) _cameras[id]->setFocalLength(focalLength);
 }
 
 modelID RenderModule::addModel(const entityID& entityID, const std::string& modelFolder, const std::string& modelFile)
 {
-	transformID nodeID = addNode(entityID, TransformType::WORLD);
+	transformID nodeID = addNode(entityID);
 
 	if (!_rgm->resourceGroupExists(modelFolder))
 	{
@@ -564,16 +581,38 @@ modelID RenderModule::addModel(const entityID& entityID, const std::string& mode
 	{
 		Ogre::SubEntity* sub = model->getSubEntity(i);
 		Ogre::MaterialPtr mat = sub->getMaterial();
+		Ogre::MaterialManager& matMgr = Ogre::MaterialManager::getSingleton();
 
-		mat->load();
+		Ogre::String baseMatName = "BaseMatChavales_" + std::to_string(_nextModelID) + "_" + std::to_string(i);
+		Ogre::MaterialPtr baseMat = matMgr.getByName(baseMatName);
+		if (!baseMat)
+		{
+			// Obtener BaseWhite
+			Ogre::MaterialPtr baseWhite = matMgr.getByName("BaseWhite");
 
-		// Generar tecnica RTSS sobre el material ya cargado
-		_shaderGen->createShaderBasedTechnique(*mat, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
+			if (!baseWhite)
+			{
+				Debug::error("[RenderModule] BaseWhite not found");
+			}
+			else
+			{
+				baseMat = baseWhite->clone(baseMatName);
+				baseMat->load();
 
-		_shaderGen->invalidateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, mat->getName(), mat->getGroup());
+				// RTSS
+				_shaderGen->createShaderBasedTechnique(*baseMat, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
 
-		if (!_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, mat->getName()))
-			Debug::error("[RenderModule] validateMaterial");
+				_shaderGen->invalidateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, baseMat->getName(), baseMat->getGroup());
+
+				if (!_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, baseMat->getName()))
+				{
+					Debug::error("[RenderModule] BaseMat validateMaterial");
+				}
+			}
+		}
+
+		_createdMaterials.push_back(baseMatName);
+		sub->setMaterial(Ogre::MaterialManager::getSingleton().getByName(baseMatName));
 	}
 
 	return _nextModelID++;
@@ -581,60 +620,84 @@ modelID RenderModule::addModel(const entityID& entityID, const std::string& mode
 
 void RenderModule::deleteModel(const modelID& id)
 {
-	if (id >= 0 && id < _models.size() && _models[id] != nullptr)
+	if (id != UINT64_MAX && id < _models.size() && _models[id] != nullptr)
 	{
 		Ogre::Entity* model = _models[id];
+		_models[id] = nullptr;
+
+		Ogre::SceneNode* parent = model->getParentSceneNode();
+
+		Ogre::MaterialManager& matMgr = Ogre::MaterialManager::getSingleton();
+
 		for (unsigned int i = 0; i < model->getNumSubEntities(); ++i)
 		{
 			Ogre::SubEntity* sub = model->getSubEntity(i);
 			Ogre::MaterialPtr mat = sub->getMaterial();
 
-			if (mat != nullptr)
+			if (mat)
 			{
+				Ogre::String matName = mat->getName();
+
 				for (unsigned short t = 0; t < mat->getNumTechniques(); ++t)
 				{
 					Ogre::Technique* tech = mat->getTechnique(t);
-
 					if (tech)
 					{
 						_shaderGen->removeShaderBasedTechnique(tech, Ogre::MaterialManager::DEFAULT_SCHEME_NAME);
 					}
 				}
+				if (matMgr.resourceExists(matName))
+				{
+					matMgr.remove(matName);
+				}
 			}
 		}
 
-		Ogre::SceneNode* parent = model->getParentSceneNode();
-		parent->detachObject(model);
+		if (parent)
+			parent->detachObject(model);
+
 		_sceneMgr->destroyEntity(model);
-		_models.erase(_models.begin() + id);
 	}
 }
 
 void RenderModule::cleanModels()
 {
-	for (Ogre::Entity* model : _models)
+	// itera al reves para evitar problemas de 
+	// que intente eliminarse algo ya eliminado
+	while (!_models.empty())
 	{
+		Ogre::Entity* model = _models.back();
+		_models.pop_back(); // Elimina de la lista mientras iteras
 		if (model != nullptr)
 		{
+			Ogre::SceneNode* parent = model->getParentSceneNode();
+
+			Ogre::MaterialManager& matMgr = Ogre::MaterialManager::getSingleton();
+
 			for (unsigned int i = 0; i < model->getNumSubEntities(); ++i)
 			{
 				Ogre::SubEntity* sub = model->getSubEntity(i);
 				Ogre::MaterialPtr mat = sub->getMaterial();
 
-				if (mat != nullptr)
+				if (mat)
 				{
+					Ogre::String matName = mat->getName();
+
 					for (unsigned short t = 0; t < mat->getNumTechniques(); ++t)
 					{
 						Ogre::Technique* tech = mat->getTechnique(t);
-
 						if (tech)
 						{
 							_shaderGen->removeShaderBasedTechnique(tech, Ogre::MaterialManager::DEFAULT_SCHEME_NAME);
 						}
 					}
+					if (matMgr.resourceExists(matName))
+					{
+						matMgr.remove(matName);
+					}
 				}
 			}
-			Ogre::SceneNode* parent = model->getParentSceneNode();
+
 			if (parent)
 				parent->detachObject(model);
 
@@ -642,13 +705,12 @@ void RenderModule::cleanModels()
 		}
 	}
 
-	_models.clear();
 	_nextModelID = 0;
 }
 
 void RenderModule::setDiffuse(const modelID& id, const subMeshID& subID, const std::string& textureFolder, const std::string& textureFile)
 {
-	if (id >= 0 && id < _models.size() && _models[id] != nullptr)
+	if (id != UINT64_MAX && id < _models.size() && _models[id] != nullptr)
 	{
 		Ogre::Entity* model = _models[id];
 		Ogre::SubEntity* sub = model->getSubEntity(subID);
@@ -679,13 +741,12 @@ void RenderModule::setDiffuse(const modelID& id, const subMeshID& subID, const s
 
 void RenderModule::setTint(const modelID& id, const subMeshID& subID, const core::Color& tint)
 {
-	if (id >= 0 && id < _models.size() && _models[id] != nullptr)
+	if (id != UINT64_MAX && id < _models.size() && _models[id] != nullptr)
 	{
 		Ogre::Entity* model = _models[id];
 		Ogre::SubEntity* sub = model->getSubEntity(subID);
 
 		Ogre::MaterialPtr mat = sub->getMaterial();
-		sub->setMaterial(mat);
 
 		if (mat->getNumTechniques() == 0)
 			mat->createTechnique();
@@ -698,93 +759,73 @@ void RenderModule::setTint(const modelID& id, const subMeshID& subID, const core
 		pass->setDepthWriteEnabled(false);
 
 		pass->setDiffuse(tint.getRed(), tint.getGreen(), tint.getBlue(), tint.getAlpha());
+
+		mat->reload();
+		sub->setMaterial(mat);
+
+		_shaderGen->invalidateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, mat->getName(), mat->getGroup());
+
+		_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, mat->getName());
 	}
 }
 
 void RenderModule::setModelVisible(const modelID& id, const bool& visible)
 {
-	if (id >= 0 && id < _models.size() && _models[id] != nullptr)
+	if (id != UINT64_MAX && id < _models.size() && _models[id] != nullptr)
 	{
 		Ogre::Entity* model = _models[id];
 		Ogre::SceneNode* node = model->getParentSceneNode();
 		if (node)
 			node->setVisible(visible, false);
 	}
-
-}
-
-void RenderModule::addAnimator(const entityID& entityID, modelID& modelID)
-{
-	transformID nodeID = addNode(entityID, TransformType::WORLD);
-	modelID = -1;
-	auto& node = _engineNodes[nodeID].sceneNode;
-	for (unsigned int i = 0; i < node->numAttachedObjects(); ++i)
-	{
-		Ogre::MovableObject* obj = node->getAttachedObject(i);
-		Ogre::Entity* ent = dynamic_cast<Ogre::Entity*>(obj);
-		if (ent)
-		{
-			modelID = _nextModelID - 1;
-			return;
-		}
-	}
 }
 
 void RenderModule::cleanAnimations()
 {
-	for (Ogre::AnimationState* state : _animations)
+	for (auto& anim : _sceneAnims)
 	{
-		if (state != nullptr)
-		{
-			Ogre::String name = state->getAnimationName();
-			state->setEnabled(false);
-
-			//Destruir solo si es transform animation. Las de esqueleto se borran junto a la entidad.
-			if (_sceneMgr->hasAnimation(name))
-			{
-				_sceneMgr->destroyAnimationState(name);
-				_sceneMgr->destroyAnimation(name);
-			}
-		}
+		_sceneMgr->destroyAnimationState(anim);
+		_sceneMgr->destroyAnimation(anim);
 	}
-
+	_sceneAnims.clear();
 	_animations.clear();
 	_nextAnimationID = 0;
 }
 
 animationID RenderModule::registerSkeletonAnim(const modelID& modelID, const std::string& animationName, const bool& loop)
 {
-	if (modelID >= 0 && modelID < _models.size() && _models[modelID] != nullptr)
+	if (modelID != UINT64_MAX && modelID < _models.size() && _models[modelID] != nullptr)
 	{
-		auto anim = _animations.emplace_back(_models[modelID]->getAnimationState(animationName));
-		if (anim == nullptr)
-			return -1;
-		_animations.back()->setLoop(loop);
+		auto anim = _animations.emplace_back(std::make_pair(_models[modelID]->getAnimationState(animationName), 1.0f));
+		if (anim.first == nullptr)
+			return UINT64_MAX;
+		_animations.back().first->setLoop(loop);
 		return _nextAnimationID++;
 	}
-	return -1;
+	return UINT64_MAX;
 }
 
 animationID RenderModule::createTransformAnimation(const entityID& entityID, const std::string& animationName, const bool& loop, const float& totalDuration)
 {
 	transformID nodeID = getNode(entityID);
-	if (nodeID != -1 && _engineNodes[nodeID].sceneNode != nullptr)
+	if (nodeID != UINT64_MAX && _engineNodes[nodeID].sceneNode != nullptr)
 	{
 		Ogre::Animation* animation = _sceneMgr->createAnimation(animationName + std::to_string(_nextAnimationID), totalDuration);
+		_sceneAnims.push_back(animationName + std::to_string(_nextAnimationID));
 		animation->setInterpolationMode(Ogre::Animation::IM_LINEAR);
 		animation->createNodeTrack(0, _engineNodes[nodeID].sceneNode);
-		_animations.emplace_back(_sceneMgr->createAnimationState(animationName + std::to_string(_nextAnimationID)));
-		_animations.back()->setLoop(loop);
+		_animations.emplace_back(std::make_pair(_sceneMgr->createAnimationState(animationName + std::to_string(_nextAnimationID)), 1.0f));
+		_animations.back().first->setLoop(loop);
 		return _nextAnimationID++;
 	}
-	return -1;
+	return UINT64_MAX;
 }
 
 void RenderModule::addTransformKeyFrame(const animationID& animationID, const float& timePos, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float>& scale)
 {
-	if (animationID >= 0 && animationID < _animations.size() && _animations[animationID] != nullptr)
+	if (animationID != UINT64_MAX && animationID < _animations.size() && _animations[animationID].first != nullptr)
 	{
-		Ogre::Animation* anim = _sceneMgr->getAnimation(_animations[animationID]->getAnimationName());
+		Ogre::Animation* anim = _sceneMgr->getAnimation(_animations[animationID].first->getAnimationName());
 
 		Ogre::NodeAnimationTrack* track = anim->getNodeTrack(0);
 
@@ -797,9 +838,9 @@ void RenderModule::addTransformKeyFrame(const animationID& animationID, const fl
 
 void RenderModule::addTransformKeyFrame(const animationID& animationID, const float& timePos, const core::Vector3<float>& pos, const float& rot, const int& axis, const core::Vector3<float>& scale)
 {
-	if (animationID >= 0 && animationID < _animations.size() && _animations[animationID] != nullptr)
+	if (animationID != UINT64_MAX && animationID < _animations.size() && _animations[animationID].first != nullptr)
 	{
-		Ogre::Animation* anim = _sceneMgr->getAnimation(_animations[animationID]->getAnimationName());
+		Ogre::Animation* anim = _sceneMgr->getAnimation(_animations[animationID].first->getAnimationName());
 
 		Ogre::NodeAnimationTrack* track = anim->getNodeTrack(0);
 
@@ -825,41 +866,51 @@ void RenderModule::addTransformKeyFrame(const animationID& animationID, const fl
 
 void RenderModule::setAnimEnabled(const animationID& animationID, const bool& active)
 {
-	if (animationID >= 0 && animationID < _animations.size() && _animations[animationID] != nullptr)
+	if (animationID != UINT64_MAX && animationID < _animations.size() && _animations[animationID].first != nullptr)
 	{
-		_animations[animationID]->setEnabled(active);
+		_animations[animationID].first->setEnabled(active);
 	}
 }
 
 void RenderModule::setAnimTimePos(const animationID& animationID, const float& timePos)
 {
-	if (animationID >= 0 && animationID < _animations.size() && _animations[animationID] != nullptr)
+	if (animationID != UINT64_MAX && animationID < _animations.size() && _animations[animationID].first != nullptr)
 	{
-		_animations[animationID]->setTimePosition(timePos);
+		_animations[animationID].first->setTimePosition(timePos);
+	}
+}
+
+void RenderModule::setAnimSpeed(const animationID& animationID, const float& speed)
+{
+	if (animationID != UINT64_MAX && animationID < _animations.size() && _animations[animationID].first != nullptr)
+	{
+		_animations[animationID].second = speed;
 	}
 }
 
 void RenderModule::updateAnimation(const animationID& animationID, const uint64_t& deltaTime)
 {
-	if (animationID >= 0 && animationID < _animations.size() && _animations[animationID] != nullptr)
+	if (animationID != UINT64_MAX && animationID < _animations.size() && _animations[animationID].first != nullptr)
 	{
-		_animations[animationID]->addTime((float)deltaTime / 1000.0f);
+		auto& anim = _animations[animationID];
+		anim.first->addTime(((float)deltaTime / 1000.0f) * anim.second);
 	}
 }
 
-lightID RenderModule::addLight(const entityID& entityID, const int& type, const core::Color& color, const float& intensity) {
+lightID RenderModule::addLight(const entityID& entityID, const int& type, const core::Color& color, const float& intensity) 
+{
 	//Si no existe un nodo con este entityID lo creamos
-	transformID nodeID = addNode(entityID, TransformType::WORLD);
+	transformID nodeID = addNode(entityID);
 
 	Ogre::Light* light = _sceneMgr->createLight("light" + std::to_string(_nextLightID));
 
-	switch (type) {
+	switch (type)
+	{
 	case 0: light->setType(Ogre::Light::LT_POINT); break;
 	case 1: light->setType(Ogre::Light::LT_DIRECTIONAL); break;
 	case 2: light->setType(Ogre::Light::LT_SPOTLIGHT); break;
 	case 3: light->setType(Ogre::Light::LT_RECTLIGHT); break;
 	}
-
 	light->setDiffuseColour(color.getRed(), color.getGreen(), color.getBlue());
 	light->setSpecularColour(color.getRed(), color.getGreen(), color.getBlue());
 
@@ -871,24 +922,30 @@ lightID RenderModule::addLight(const entityID& entityID, const int& type, const 
 
 	return _nextLightID++;
 }
-void  RenderModule::deleteLight(const lightID& id) {
-	if (id >= 0 && id < _lights.size() && _lights[id] != nullptr)
+
+void  RenderModule::deleteLight(const lightID& id) 
+{
+	if (id != UINT64_MAX && id < _lights.size() && _lights[id] != nullptr)
 	{
 		Ogre::Light* light = _lights[id];
+		_lights[id] = nullptr;
 		Ogre::SceneNode* parent = light->getParentSceneNode();
 		if (parent) parent->detachObject(light);
 		_sceneMgr->destroyLight(light);
-		_lights.erase(_lights.begin() + id);
 	}
 }
 
-void RenderModule::setLightActive(const lightID& id, const bool& active) {
-	if (id >= 0 && id < _lights.size() && _lights[id] != nullptr) _lights[id]->setVisible(active);
+void RenderModule::setLightActive(const lightID& id, const bool& active) 
+{
+	if (id != UINT64_MAX && id < _lights.size() && _lights[id] != nullptr) _lights[id]->setVisible(active);
 }
 
-void RenderModule::cleanLights() {
-	for (Ogre::Light* light : _lights)
+void RenderModule::cleanLights() 
+{
+	while (!_lights.empty())
 	{
+		Ogre::Light* light = _lights.back();
+		_lights.pop_back();
 		if (light != nullptr)
 		{
 			Ogre::SceneNode* parent = light->getParentSceneNode();
@@ -902,39 +959,57 @@ void RenderModule::cleanLights() {
 	_nextLightID = 0;
 }
 
-void RenderModule::setLightType(const lightID& id, const int& type) {
-	if (id >= 0 && id < _lights.size() && _lights[id] != nullptr)
+void RenderModule::setLightType(const lightID& id, const int& type) 
+{
+	if (id != UINT64_MAX && id < _lights.size() && _lights[id] != nullptr)
 	{
 		Ogre::Light* light = _lights[id];
-		switch (type) {
-		case 0: light->setType(Ogre::Light::LT_POINT); break;
-		case 1: light->setType(Ogre::Light::LT_DIRECTIONAL); break;
-		case 2: light->setType(Ogre::Light::LT_SPOTLIGHT); break;
-		case 3: light->setType(Ogre::Light::LT_RECTLIGHT); break;
+		switch (type) 
+		{
+			case 0: 
+				light->setType(Ogre::Light::LT_POINT); 
+				break;
+			case 1: 
+				light->setType(Ogre::Light::LT_DIRECTIONAL); 
+				break;
+			case 2: 
+				light->setType(Ogre::Light::LT_SPOTLIGHT); 
+				break;
+			case 3: 
+				light->setType(Ogre::Light::LT_RECTLIGHT); 
+				break;
 		}
 	}
 }
 
-void RenderModule::setLightColor(const lightID& id, const core::Color& color) {
-	if (id >= 0 && id < _lights.size() && _lights[id] != nullptr) _lights[id]->setDiffuseColour(color.getRed(), color.getGreen(), color.getBlue());
+void RenderModule::setLightColor(const lightID& id, const core::Color& color)
+{
+	if (id != UINT64_MAX && id < _lights.size() && _lights[id] != nullptr) _lights[id]->setDiffuseColour(color.getRed(), color.getGreen(), color.getBlue());
 }
 
-void RenderModule::setLightIntensity(const lightID& id, const float& intensity) {
-	if (id >= 0 && id < _lights.size() && _lights[id] != nullptr) _lights[id]->setPowerScale(intensity);
+void RenderModule::setLightIntensity(const lightID& id, const float& intensity) 
+{
+	if (id != UINT64_MAX && id < _lights.size() && _lights[id] != nullptr) _lights[id]->setPowerScale(intensity);
 }
 
-void RenderModule::setLightSpotRange(const lightID& id, const float& inner, const float& outer, const float& falloff) {
-	if (id >= 0 && id < _lights.size() && _lights[id] != nullptr) _lights[id]->setSpotlightRange(Ogre::Degree(inner), Ogre::Degree(outer), falloff);
+void RenderModule::setLightSpotRange(const lightID& id, const float& inner, const float& outer, const float& falloff) 
+{
+	if (id != UINT64_MAX && id < _lights.size() && _lights[id] != nullptr) _lights[id]->setSpotlightRange(Ogre::Degree(inner), Ogre::Degree(outer), falloff);
+}
+
+void RenderModule::setAmbientLight(const core::Color& color)
+{
+	_sceneMgr->setAmbientLight(Ogre::ColourValue(color.getRed(), color.getGreen(), color.getBlue()));
 }
 
 particleGenID RenderModule::addParticleGen(const entityID& entityID, const std::string& textureFolder, const std::string& textureFile)
 {
-	addNode(entityID, TransformType::WORLD);
+	transformID nodeID = addNode(entityID);
 
 	std::string matName = "ParticleMat_" + std::to_string(_nextParticleGenID);
 
 	Ogre::MaterialPtr mat = Ogre::MaterialManager::getSingleton().create(matName, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-
+	_createdMaterials.push_back(matName);
 	mat->setReceiveShadows(false);
 
 	Ogre::Pass* pass = mat->getTechnique(0)->getPass(0);
@@ -965,31 +1040,36 @@ particleGenID RenderModule::addParticleGen(const entityID& entityID, const std::
 
 	ps->setMaterialName(matName);
 	ps->addEmitter("Point");
-	_engineNodes.back().sceneNode->attachObject(ps);
+	_engineNodes[nodeID].sceneNode->attachObject(ps);
 
 	return _nextParticleGenID++;
 }
 
 void RenderModule::deleteParticleGen(const particleGenID& id)
 {
-	if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+	if (id != UINT64_MAX && id < _particleGens.size() && _particleGens[id] != nullptr)
 	{
 		Ogre::ParticleSystem* ps = _particleGens[id];
-
+		Ogre::String mn = ps->getMaterialName();
 		Ogre::SceneNode* parent = ps->getParentSceneNode();
 		if (parent)
 			parent->detachObject(ps);
 
 		_sceneMgr->destroyParticleSystem(ps);
 
-		_particleGens.erase(_particleGens.begin() + id);
+		_particleGens[id] = nullptr;
+
+		if (!mn.empty())
+			Ogre::MaterialManager::getSingleton().remove(mn);
 	}
 }
 
 void RenderModule::cleanParticleGens()
 {
-	for (Ogre::ParticleSystem* ps : _particleGens)
+	while (!_particleGens.empty())
 	{
+		Ogre::ParticleSystem* ps = _particleGens.back();
+		_particleGens.pop_back();
 		if (ps != nullptr)
 		{
 			Ogre::SceneNode* parent = ps->getParentSceneNode();
@@ -1006,91 +1086,135 @@ void RenderModule::cleanParticleGens()
 
 void RenderModule::setParticleGenEnabled(const particleGenID& id, const bool& enabled)
 {
-	if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+	if (id != UINT64_MAX && id < _particleGens.size() && _particleGens[id] != nullptr)
 		_particleGens[id]->getEmitter(0)->setEnabled(enabled);
 }
 
 void RenderModule::setParticleGenEmitting(const particleGenID& id, const bool& emitting)
 {
-	if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+	if (id != UINT64_MAX && id < _particleGens.size() && _particleGens[id] != nullptr)
 		_particleGens[id]->getEmitter(0)->setEnabled(emitting);
 }
 
 void RenderModule::setParticleGenQuota(const particleGenID& id, const float& quota)
 {
-	if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+	if (id != UINT64_MAX && id < _particleGens.size() && _particleGens[id] != nullptr)
 		_particleGens[id]->setParticleQuota(static_cast<size_t>(quota));
 }
 
 void RenderModule::setParticleGenEmissionRate(const particleGenID& id, const float& rate)
 {
-	if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+	if (id != UINT64_MAX && id < _particleGens.size() && _particleGens[id] != nullptr)
 		_particleGens[id]->getEmitter(0)->setEmissionRate(rate);
 }
 
 void RenderModule::setParticleGenDuration(const particleGenID& id, const float& duration)
 {
-	if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+	if (id != UINT64_MAX && id < _particleGens.size() && _particleGens[id] != nullptr)
 		_particleGens[id]->getEmitter(0)->setDuration(duration);
 }
 
 void RenderModule::setParticleGenTimeToLive(const particleGenID& id, const float& time)
 {
-	if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+	if (id != UINT64_MAX && id < _particleGens.size() && _particleGens[id] != nullptr)
 		_particleGens[id]->getEmitter(0)->setTimeToLive(time);
 }
 
 void RenderModule::setParticleGenVelocity(const particleGenID& id, const float& velocity)
 {
-	if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+	if (id != UINT64_MAX && id < _particleGens.size() && _particleGens[id] != nullptr)
 		_particleGens[id]->getEmitter(0)->setParticleVelocity(velocity);
 }
 
 void RenderModule::setParticleGenMinVelocity(const particleGenID& id, const float& velocity)
 {
-	if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+	if (id != UINT64_MAX && id < _particleGens.size() && _particleGens[id] != nullptr)
 		_particleGens[id]->getEmitter(0)->setMinParticleVelocity(velocity);
 }
 
 void RenderModule::setParticleGenMaxVelocity(const particleGenID& id, const float& velocity)
 {
-	if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+	if (id != UINT64_MAX && id < _particleGens.size() && _particleGens[id] != nullptr)
 		_particleGens[id]->getEmitter(0)->setMaxParticleVelocity(velocity);
 }
 
 void RenderModule::setParticleGenDirection(const particleGenID& id, const core::Vector3<float>& direction)
 {
-	if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
-		_particleGens[id]->getEmitter(0)->setDirection(Ogre::Vector3(direction.getX(), direction.getY(), direction.getZ())
-		);
+	if (id != UINT64_MAX && id < _particleGens.size() && _particleGens[id] != nullptr)
+		_particleGens[id]->getEmitter(0)->setDirection(Ogre::Vector3(direction.getX(), direction.getY(), direction.getZ()));
 }
 
 void RenderModule::setParticleGenAngle(const particleGenID& id, const float& angle)
 {
-	if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+	if (id != UINT64_MAX && id < _particleGens.size() && _particleGens[id] != nullptr)
 		_particleGens[id]->getEmitter(0)->setAngle(Ogre::Degree(angle));
 }
 
 void RenderModule::setParticleGenPartWidth(const particleGenID& id, const float& width)
 {
-	if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+	if (id != UINT64_MAX && id < _particleGens.size() && _particleGens[id] != nullptr)
 		_particleGens[id]->setDefaultWidth(width);
 }
 
 void RenderModule::setParticleGenPartHeight(const particleGenID& id, const float& height)
 {
-	if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+	if (id != UINT64_MAX && id < _particleGens.size() && _particleGens[id] != nullptr)
 		_particleGens[id]->setDefaultHeight(height);
 }
 
 void RenderModule::setParticleGenPartColor(const particleGenID& id, const core::Color& color)
 {
-	if (id >= 0 && id < _particleGens.size() && _particleGens[id] != nullptr)
+	if (id != UINT64_MAX && id < _particleGens.size() && _particleGens[id] != nullptr)
 		_particleGens[id]->getEmitter(0)->setColour(Ogre::ColourValue(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()));
 }
 
-uiPanelID RenderModule::addUIPanel(const entityID& entityID, const std::string& title) {
+void RenderModule::setSkydome(const std::string& textureFolder, const std::string& textureFile, const float& curvature, const float& tiling, const float& distance, const bool& drawFirst)
+{
+	if (!Ogre::ResourceGroupManager::getSingleton().resourceGroupExists(textureFolder))
+	{
+		Ogre::ResourceGroupManager::getSingleton().addResourceLocation(textureFolder, "FileSystem", textureFolder);
+		Ogre::ResourceGroupManager::getSingleton().loadResourceGroup(textureFolder);
+		_resourceGroups.insert(textureFolder);
+	}
 
+	std::string matName = "SkydomeMat_" + std::to_string(_nextSkydomeID++);
+
+	Ogre::MaterialPtr mat = Ogre::MaterialManager::getSingleton().create(matName, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+	_createdMaterials.push_back(matName);
+	Ogre::Pass* pass = mat->getTechnique(0)->getPass(0);
+	pass->setLightingEnabled(false);
+	pass->setDepthWriteEnabled(false);
+
+	if (!_rgm->resourceGroupExists(textureFolder))
+	{
+		_rgm->addResourceLocation(textureFolder, "FileSystem", textureFolder);
+		_rgm->loadResourceGroup(textureFolder);
+		_resourceGroups.insert(textureFolder);
+	}
+
+	Ogre::TexturePtr text = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
+
+	Ogre::TextureUnitState* tus = pass->createTextureUnitState();
+	tus->setTexture(text);
+	tus->setColourOperation(Ogre::LBO_MODULATE);
+
+	mat->load();
+
+	//Asignar RTSS
+	_shaderGen->createShaderBasedTechnique(*mat, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
+	_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, mat->getName());
+
+	_sceneMgr->setSkyDome(true, matName, curvature, tiling, distance, drawFirst);
+}
+
+void RenderModule::setSkydomeNull()
+{
+	_sceneMgr->setSkyDome(false, "");
+}
+
+uiPanelID RenderModule::addUIPanel(const entityID& entityID, const std::string& title) 
+{
+	addUITransform(entityID);
 	UIPanelData panel;
 	panel.entity = entityID;
 	panel.title = title;
@@ -1101,21 +1225,37 @@ uiPanelID RenderModule::addUIPanel(const entityID& entityID, const std::string& 
 	return _nextPanelID++;
 }
 
-void RenderModule::setUIPanelVisible(const uiPanelID& id, bool visible) {
+void RenderModule::setUIPanelVisible(const uiPanelID& id, bool visible) 
+{
 	_uiPanels[id].visible = visible;
+}
+void  RenderModule::deleteUIPanel(const uiPanelID& id) {
+	auto& panel = _uiPanels[id];
+	panel.alive = false;
+	panel.visible = false;
 
+	for (auto& button : panel.buttons) {
+		button.alive = false;
+		button.onClick = nullptr;
+	}
+	for (auto& label : panel.labels) {
+		label.alive = false;
+	}
+	for (auto& texRect : panel.textureRects) {
+		texRect.alive = false;
+	}
 }
 
-uiLabelID RenderModule::addUILabel(const std::string& panelName, const entityID& entityID, const std::string& text,const  float opacity,const  core::Vector2<float> size, const core::Color textColor,const core::Color bgColor,const float fontSize,const TextAlign textAlign, const std::string fontName) {
-	addNode(entityID, TransformType::UI);
 
-	uiPanelID panelID = getOrSetPanel(panelName);
+uiLabelID RenderModule::addUILabel(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const  float opacity, const core::Color textColor, const core::Color bgColor, const float fontSize, const TextAlign textAlign, const std::string fontName) 
+{
+	addUITransform(entityID);
+	
 	UILabelData label;
 	label.entity = entityID;
 	label.text = text;
 	label.visible = true;
 	label.opacity = opacity;
-	label.size = size;
 	label.textColor = textColor;
 	label.bgColor = bgColor;
 	label.fontSize = fontSize;
@@ -1123,15 +1263,14 @@ uiLabelID RenderModule::addUILabel(const std::string& panelName, const entityID&
 
 	std::string auxFontName = fontName + "_" + std::to_string((int)fontSize);
 	auto it = _fonts.find(auxFontName);
-	if (it != _fonts.end()) {
+	if (it != _fonts.end()) 
+	{
 		label.font = it->second;
 	}
-	else {
+	else 
+	{
 		label.font = _fonts["default"];
 	}
-	//ImFont* fontAux = io.Fonts->AddFontFromFileTTF((fontFolder + fontFile).c_str(), fontSize);
-	//io.Fonts->Build();
-	//label.font = fontAux;
 	_uiPanels[panelID].labels.push_back(label);
 
 	uiLabelID id = _nextLabelID++;
@@ -1139,57 +1278,62 @@ uiLabelID RenderModule::addUILabel(const std::string& panelName, const entityID&
 	_labelToPanel[id] = { panelID, labelIndex };
 	return id;
 }
+void RenderModule::deleteUILabel(const uiLabelID& id) {
+	auto [panelID, labelIndex] = _labelToPanel[id];
+	auto& label = _uiPanels[panelID].labels[labelIndex];
+	label.alive = false;
+}
 
-void RenderModule::setUILabelVisible(const uiLabelID& labelID, bool visible) {
+void RenderModule::setUILabelVisible(const uiLabelID& labelID, bool visible) 
+{
 	auto [panelID, labelIndex] = _labelToPanel[labelID];
 	_uiPanels[panelID].labels[labelIndex].visible = visible;
 }
 
-void RenderModule::setUILabelText(const uiLabelID& labelID, const std::string& text) {
+void RenderModule::setUILabelText(const uiLabelID& labelID, const std::string& text) 
+{
 	auto [panelID, labelIndex] = _labelToPanel[labelID];
 	_uiPanels[panelID].labels[labelIndex].text = text;
 }
-void  RenderModule::setUILabelOpacity(const uiLabelID& labelID, float opacity) {
+
+void RenderModule::setUILabelOpacity(const uiLabelID& labelID, float opacity) 
+{
 	auto [panelID, labelIndex] = _labelToPanel[labelID];
 	_uiPanels[panelID].labels[labelIndex].opacity = opacity;
 }
 
-void RenderModule::setUILabelDimension(const uiLabelID& labelID, core::Vector2<float> dimension) {
-	auto [panelID, labelIndex] = _labelToPanel[labelID];
-	_uiPanels[panelID].labels[labelIndex].size = dimension;
-}
-
-void RenderModule::setUILabelTextColor(const uiLabelID labelID, core::Color color) {
+void RenderModule::setUILabelTextColor(const uiLabelID& labelID, core::Color color) 
+{
 	auto [panelID, labelIndex] = _labelToPanel[labelID];
 	_uiPanels[panelID].labels[labelIndex].textColor = color;
 }
 
-void RenderModule::setUILabelBackGroundColor(const uiLabelID labelID, core::Color color) {
+void RenderModule::setUILabelBackGroundColor(const uiLabelID& labelID, core::Color color) 
+{
 	auto [panelID, labelIndex] = _labelToPanel[labelID];
 	_uiPanels[panelID].labels[labelIndex].bgColor = color;
 }
 
-void RenderModule::setUILabelAlign(const uiLabelID labelID, const std::string& align) {
+void RenderModule::setUILabelAlign(const uiLabelID& labelID, const TextAlign& align) 
+{
 	auto [panelID, labelIndex] = _labelToPanel[labelID];
-	_uiPanels[panelID].labels[labelIndex].align = stringToAlign(align);
+	_uiPanels[panelID].labels[labelIndex].align = align;
 }
 
-//void RenderModule::setUILabelFont(const uiLabelID id, ImFont* font) {
-//
-//}
-
-uiButtonID RenderModule::addUIImageButton(const std::string& panelName, const entityID& entityID, const std::string& text, const std::string& textureFolder, const std::string& textureFile, core::Vector2<float> size)
+uiButtonID RenderModule::addUIImageButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const std::string& textureFolder, const std::string& textureFile, const core::Color& bgColor, const core::Color& hvColor, const core::Color& psColor, const float& opacity)
 {
-	addNode(entityID, TransformType::UI);
-
-	uiPanelID panelID = getOrSetPanel(panelName);
+	addUITransform(entityID);
+	
 	UIButtonData button;
 	button.entity = entityID;
 	button.text = text;
 	button.visible = true;
-	button.size = size;
-	button.textureFolder= textureFolder;
+	button.textureFolder = textureFolder;
 	button.textureFile = textureFile;
+	button.hvColor = hvColor;
+	button.psColor = psColor;
+	button.opacity = opacity;
+	button.bgColor = bgColor;
 
 	button.buttonImage = true;
 	if (!_rgm->resourceGroupExists(textureFolder))
@@ -1198,10 +1342,21 @@ uiButtonID RenderModule::addUIImageButton(const std::string& panelName, const en
 		_rgm->loadResourceGroup(textureFolder);
 		_resourceGroups.insert(textureFolder);
 	}
+	if (!textureFile.empty()) {
+		if (Ogre::ResourceGroupManager::getSingleton().resourceExists(textureFolder, textureFile))
+		{
+			Ogre::TexturePtr tex = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
+			button.textureID = (ImTextureID)tex->getHandle();
+		}
+		else {
+			Debug::error("[UIButton] Textura no existe");
+			button.textureID = UINT64_MAX;
+		}
+	}
+	else {
+		button.textureID = UINT64_MAX;
+	}
 
-	Ogre::TexturePtr tex = Ogre::TextureManager::getSingleton().load(textureFile,textureFolder,Ogre::TEX_TYPE_2D,0);
-	button.textureID = (ImTextureID)tex->getHandle();
-		
 	_uiPanels[panelID].buttons.push_back(button);
 
 	uiButtonID id = _nextButtonID++;
@@ -1209,17 +1364,33 @@ uiButtonID RenderModule::addUIImageButton(const std::string& panelName, const en
 	_buttonToPanel[id] = { panelID, buttonIndex };
 	return id;
 }
-uiButtonID RenderModule::addUIButton(const std::string& panelName, const entityID& entityID, const std::string& text, core::Vector2<float> size) {
-	addNode(entityID, TransformType::UI);
 
-	uiPanelID panelID = getOrSetPanel(panelName);
+uiButtonID RenderModule::addUIButton(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const float& fontSize, const std::string& fontName, const core::Color& bgColor, const core::Color& txColor, const core::Color& hvColor, const core::Color& psColor,  const float& opacity)
+{
+	addUITransform(entityID);
+	
 	UIButtonData button;
 	button.entity = entityID;
 	button.text = text;
 	button.visible = true;
-	button.size = size;
 	button.buttonImage = false;
+	button.textColor = txColor;
+	button.hvColor = hvColor;
+	button.bgColor = bgColor;
+	button.psColor = psColor;
+	button.opacity = opacity;
+	
+	std::string auxFontName = fontName + "_" + std::to_string((int)fontSize);
+	auto it = _fonts.find(auxFontName);
 
+	if (it != _fonts.end()) 
+	{
+		button.font = it->second;
+	}
+	else 
+		{
+		button.font = _fonts["default"];
+	}
 	_uiPanels[panelID].buttons.push_back(button);
 
 	uiButtonID id = _nextButtonID++;
@@ -1227,8 +1398,14 @@ uiButtonID RenderModule::addUIButton(const std::string& panelName, const entityI
 	_buttonToPanel[id] = { panelID, buttonIndex };
 	return id;
 }
+void RenderModule::deleteUIButton(const uiButtonID& id) {
+	auto [panelID, buttonIndex] = _buttonToPanel[id];
+	auto& button = _uiPanels[panelID].buttons[buttonIndex];
+	button.alive = false;
+	button.onClick = nullptr;
+}
 
-void RenderModule::setUIButtonVisible(const uiButtonID& buttonID, bool visible)
+void RenderModule::setUIButtonVisible(const uiButtonID& buttonID, bool& visible)
 {
 	auto [panelID, buttonIndex] = _buttonToPanel[buttonID];
 	_uiPanels[panelID].buttons[buttonIndex].visible = visible;
@@ -1240,19 +1417,64 @@ void RenderModule::setUIButtonText(const uiButtonID& buttonID, const std::string
 	_uiPanels[panelID].buttons[buttonIndex].text = text;
 }
 
-void  RenderModule::setUIButtonTexture(const uiButtonID& buttonID, const std::string& texture) {
+void RenderModule::setUIButtonTexture(const uiButtonID& buttonID, std::string& textureFolder, std::string& textureFile)
+{
+	if (textureFile.empty() || textureFolder.empty()) {
+		Debug::error("[UIButton] TextureFile/textureFolder vacio");
+		return;
+	}
+	if (!_rgm->resourceGroupExists(textureFolder))
+	{
+		_rgm->addResourceLocation(textureFolder, "FileSystem", textureFolder);
+		_rgm->loadResourceGroup(textureFolder);
+		_resourceGroups.insert(textureFolder);
+	}
+	if (!Ogre::ResourceGroupManager::getSingleton().resourceExists(textureFolder, textureFile))
+	{
+		Debug::error("[UIButton] Textura no existe");
+		return;
+	}
+	Ogre::TexturePtr tex = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
 	auto [panelID, buttonIndex] = _buttonToPanel[buttonID];
-	_uiPanels[panelID].buttons[buttonIndex].textureFile = texture;
+	_uiPanels[panelID].buttons[buttonIndex].textureFile = textureFile;
+	_uiPanels[panelID].buttons[buttonIndex].textureFolder = textureFolder;
+	_uiPanels[panelID].buttons[buttonIndex].textureID = (ImTextureID)tex->getHandle();
 }
 
-void  RenderModule::setUIButtonDimension(const uiButtonID& buttonID, core::Vector2<float> dimension) {
-	auto [panelID, buttonIndex] = _buttonToPanel[buttonID];
-	_uiPanels[panelID].buttons[buttonIndex].size = dimension;
-}
-
-void  RenderModule::setUIButtonOpacity(const uiButtonID& buttonID, float opacity) {
+void RenderModule::setUIButtonOpacity(const uiButtonID& buttonID, float& opacity) 
+{
 	auto [panelID, buttonIndex] = _buttonToPanel[buttonID];
 	_uiPanels[panelID].buttons[buttonIndex].opacity = opacity;
+}
+
+void RenderModule::setUIButtonBackgroundColor(const uiButtonID& buttonID, core::Color& bgColor) 
+{
+	auto [panelID, buttonIndex] = _buttonToPanel[buttonID];
+	_uiPanels[panelID].buttons[buttonIndex].bgColor = bgColor;
+}
+
+void RenderModule::setUIButtonTextColor(const uiButtonID& buttonID, core::Color& txColor) 
+{
+	auto [panelID, buttonIndex] = _buttonToPanel[buttonID];
+	_uiPanels[panelID].buttons[buttonIndex].textColor = txColor;
+}
+
+void  RenderModule::setUIButtonHoverColor(const uiButtonID& buttonID, core::Color& hvColor) 
+{
+	auto [panelID, buttonIndex] = _buttonToPanel[buttonID];
+	_uiPanels[panelID].buttons[buttonIndex].hvColor = hvColor;
+}
+
+void  RenderModule::setUIButtonPressColor(const uiButtonID& buttonID, core::Color& psColor) 
+{
+	auto [panelID, buttonIndex] = _buttonToPanel[buttonID];
+	_uiPanels[panelID].buttons[buttonIndex].psColor = psColor;
+}
+
+void RenderModule::setUIButtonDisable(const uiButtonID& buttonID, bool disable)
+{
+	auto [panelID, buttonIndex] = _buttonToPanel[buttonID];
+	_uiPanels[panelID].buttons[buttonIndex].disable = disable;
 }
 
 void RenderModule::setUIButtonCallback(const uiButtonID& buttonID, std::function<void()> callback)
@@ -1261,16 +1483,15 @@ void RenderModule::setUIButtonCallback(const uiButtonID& buttonID, std::function
 	_uiPanels[panelID].buttons[buttonIndex].onClick = callback;
 }
 
-uiTextureRectID RenderModule::addUITextureRect(const std::string& panelName, const entityID& entityID, const std::string& textureFolder, const std::string& textureFile, core::Vector2<float> size) 
+uiTextureRectID RenderModule::addUITextureRect(const uiPanelID& panelID, const entityID& entityID, const std::string& textureFolder, const std::string& textureFile, float& opacity)
 {
-	addNode(entityID, TransformType::UI);
-	uiPanelID panelID = getOrSetPanel(panelName);
+	addUITransform(entityID);
 	UITextureRectData tex;
 	tex.entity = entityID;
 	tex.textureFolder = textureFolder;
 	tex.textureFile = textureFile;
 	tex.visible = true;
-	tex.size = size;
+	tex.opacity = opacity;
 
 	if (!_rgm->resourceGroupExists(textureFolder))
 	{
@@ -1278,8 +1499,21 @@ uiTextureRectID RenderModule::addUITextureRect(const std::string& panelName, con
 		_rgm->loadResourceGroup(textureFolder);
 		_resourceGroups.insert(textureFolder);
 	}
-	Ogre::TexturePtr texture = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
-	tex.textureID = (ImTextureID)texture->getHandle();
+	if (!textureFile.empty()) {
+		if (Ogre::ResourceGroupManager::getSingleton().resourceExists(textureFolder, textureFile))
+		{
+			Ogre::TexturePtr texture = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
+			tex.textureID = (ImTextureID)texture->getHandle();
+		}
+		else {
+			Debug::error("[UIButton] Textura no existe");
+			tex.textureID = UINT64_MAX;
+		}
+	}
+	else {
+		tex.textureID = UINT64_MAX;
+	}
+	
 	_uiPanels[panelID].textureRects.push_back(tex);
 
 	uiTextureRectID id = _nextTextureRectID++;
@@ -1287,22 +1521,48 @@ uiTextureRectID RenderModule::addUITextureRect(const std::string& panelName, con
 
 	_textureToPanel[id] = { panelID, index };
 
-	return id;	
+	return id;
+}
+void RenderModule::deleteUITextureRect(const uiTextureRectID& id) {
+	auto [panelID, textureRectIndex] = _textureToPanel[id];
+	auto& textureRect = _uiPanels[panelID].textureRects[textureRectIndex];
+	textureRect.alive = false;
 }
 
-void  RenderModule::setUITextureRectTexture(const uiTextureRectID& textureRectID, const std::string& texture) {
+void  RenderModule::setUITextureRectTexture(const uiTextureRectID& textureRectID, std::string& textureFolder, std::string& textureFile)
+{
+	if (textureFile.empty() || textureFolder.empty()) {
+		Debug::error("[UITextureRect] TextureFile/textureFolder vacio");
+		return;
+	}
+	if (!_rgm->resourceGroupExists(textureFolder))
+	{
+		_rgm->addResourceLocation(textureFolder, "FileSystem", textureFolder);
+		_rgm->loadResourceGroup(textureFolder);
+		_resourceGroups.insert(textureFolder);
+	}
+	if (!Ogre::ResourceGroupManager::getSingleton().resourceExists(textureFolder, textureFile))
+	{
+		Debug::error("[UITextureRect] Textura no existe");
+		return;
+	}
+	Ogre::TexturePtr tex = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
 	auto [panelID, textureRectIndex] = _textureToPanel[textureRectID];
-	_uiPanels[panelID].textureRects[textureRectIndex].textureFile = texture;
+	_uiPanels[panelID].textureRects[textureRectIndex].textureFile = textureFile;
+	_uiPanels[panelID].textureRects[textureRectIndex].textureFolder = textureFolder;
+	_uiPanels[panelID].textureRects[textureRectIndex].textureID = (ImTextureID)tex->getHandle();
+	
+
 }
-void  RenderModule::setUITextureRectDimension(const uiTextureRectID& textureRectID, core::Vector2<float> dimension) {
-	auto [panelID, textureRectIndex] = _textureToPanel[textureRectID];
-	_uiPanels[panelID].textureRects[textureRectIndex].size = dimension;
-}
-void  RenderModule::setUITextureRectVisible(const uiTextureRectID& textureRectID, bool visible) {
+
+void RenderModule::setUITextureRectVisible(const uiTextureRectID& textureRectID, bool& visible) 
+{
 	auto [panelID, textureRectIndex] = _textureToPanel[textureRectID];
 	_uiPanels[panelID].textureRects[textureRectIndex].visible = visible;
 }
-void  RenderModule::setUITextureRectOpacity(const uiTextureRectID& textureRectID, float opacity) {
+
+void RenderModule::setUITextureRectOpacity(const uiTextureRectID& textureRectID, float& opacity) 
+{
 	auto [panelID, textureRectIndex] = _textureToPanel[textureRectID];
 	_uiPanels[panelID].textureRects[textureRectIndex].opacity = opacity;
 }
@@ -1320,149 +1580,406 @@ TextAlign RenderModule::stringToAlign(const std::string& align)
 	}
 }
 
-uiPanelID RenderModule::getOrSetPanel(const std::string& panelName)
+void RenderModule::renderUI() 
 {
-	for (int i = 0; i < _uiPanels.size(); i++) {
-		if (_uiPanels[i].title == panelName) {
-			return i;
-		}
-	}
-	UIPanelData panel;
-	panel.title = panelName;
-	panel.visible = true;
-	_uiPanels.push_back(panel);
-	return _uiPanels.size() -1;
-}
+	ImGui_ImplSDL3_NewFrame();
+	ImGui::NewFrame();
 
-void RenderModule::renderUI() {
-	_overlay->NewFrame();
-	for (UIPanelData& panel : _uiPanels) {
+	for (UIPanelData& panel : _uiPanels) 
+	{
+		if (!panel.visible || !panel.alive) continue;
 
-		if (!panel.visible) {
-			continue;
-		}
-		ImGui::SetNextWindowPos(ImVec2(0, 0));
-		ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
-		ImGui::Begin(panel.title.c_str(), nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoMove);
-		for (UILabelData& label : panel.labels) {
-			if (!label.visible) {
+		int tID = getTransformUI(panel.entity);
+		const ImVec2 auxDim = { _uiTransforms[tID].dimension.getX(), _uiTransforms[tID].dimension.getY() };
+		const ImVec2 auxPos = { _uiTransforms[tID].position.getX(),  _uiTransforms[tID].position.getY() };
+		ImGui::SetNextWindowPos(ImVec2(auxPos));
+		ImGui::SetNextWindowSize(ImVec2(auxDim));
+		ImGui::Begin(panel.title.c_str(), nullptr, ImGuiWindowFlags_NoTitleBar |ImGuiWindowFlags_NoScrollWithMouse|ImGuiWindowFlags_NoScrollbar| ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoMove);
+
+		ImDrawList* drawList = ImGui::GetWindowDrawList();
+		ImDrawListSplitter splitter;
+		splitter.Split(drawList, 32);
+		splitter.SetCurrentChannel(drawList, _uiTransforms[tID].zBuffer);
+
+		for (UILabelData& label : panel.labels) 
+		{
+			if (!label.visible|| !label.alive) 
+			{
 				continue;
 			}
-
-			const ImVec2 aux = { label.size.getX(), label.size.getY() };
 			int tID = getTransformUI(label.entity);
-			core::Vector2<> pos = _uiTransforms[tID].position;
-			const ImVec2 auxPos = { pos.getX(), pos.getY() };
+			splitter.SetCurrentChannel(drawList, _uiTransforms[tID].zBuffer);
+
+			const ImVec2 auxDim = { _uiTransforms[tID].dimension.getX(), _uiTransforms[tID].dimension.getY() };
+			const ImVec2 auxPos = { _uiTransforms[tID].position.getX(),  _uiTransforms[tID].position.getY() };
 			std::string labelName = "label_" + label.entity.toString();
-			ImGui::InvisibleButton(labelName.c_str(), aux);
-			ImDrawList* drawList = ImGui::GetWindowDrawList();
-			float auxOpacity = label.bgColor.getAlpha() * label.opacity;
-			drawList->AddRectFilled(auxPos, ImVec2(auxPos.x + aux.x, auxPos.y + aux.y), IM_COL32(label.bgColor.getRed() * 255, label.bgColor.getGreen() * 255, label.bgColor.getBlue() * 255, auxOpacity * 255));
+			drawList->AddRectFilled(auxPos, ImVec2(auxPos.x + auxDim.x, auxPos.y + auxDim.y), IM_COL32(label.bgColor.getRed() * 255, label.bgColor.getGreen() * 255, label.bgColor.getBlue() * 255, label.bgColor.getAlpha() * label.opacity * 255));
 			ImGui::PushFont(label.font);
 			ImVec2 textSize = ImGui::CalcTextSize(label.text.c_str());
 
 			float posTextX;
-			float posTextY = auxPos.y + (aux.y - textSize.y) * 0.5f;
+			float posTextY = auxPos.y + (auxDim.y - textSize.y) * 0.5f;
 
-			switch (label.align) {
+			switch (label.align) 
+			{
 			case TextAlign::LEFT:
 				posTextX = auxPos.x + 5.0f;
 				break;
 			case TextAlign::CENTER:
-				posTextX = auxPos.x + (aux.x - textSize.x) * 0.5f;
+				posTextX = auxPos.x + (auxDim.x - textSize.x) * 0.5f;
 				break;
 			case TextAlign::RIGHT:
-				posTextX = auxPos.x + aux.x - textSize.x - 5.0f;
+				posTextX = auxPos.x + auxDim.x - textSize.x - 5.0f;
 			}
-			drawList->AddText(ImVec2(posTextX, posTextY), IM_COL32(label.textColor.getRed() * 255, label.textColor.getGreen() * 255, label.textColor.getBlue() * 255, auxOpacity * 255), label.text.c_str());
+
+			drawList->AddText(ImVec2(posTextX, posTextY), IM_COL32(label.textColor.getRed() * 255, label.textColor.getGreen() * 255, label.textColor.getBlue() * 255, label.textColor.getAlpha() * label.opacity * 255), label.text.c_str());
 
 			ImGui::PopFont();
 		}
-		for (UITextureRectData& tex : panel.textureRects) {
-			if (!tex.visible) {
+
+		for (UITextureRectData& tex : panel.textureRects) 
+		{
+			if (!tex.visible||!tex.alive || tex.textureID == UINT64_MAX) 
+			{
 				continue;
 			}
+
 			int tID = getTransformUI(tex.entity);
+			splitter.SetCurrentChannel(drawList, _uiTransforms[tID].zBuffer);
+
 			auto pos = _uiTransforms[tID].position;
 			ImGui::SetCursorPos(ImVec2(pos.getX(), pos.getY()));
 			ImGui::PushStyleVar(ImGuiStyleVar_Alpha, tex.opacity);
 
-			const ImVec2 aux = { tex.size.getX(), tex.size.getY() };
+			const ImVec2 aux = { _uiTransforms[tID].dimension.getX(), _uiTransforms[tID].dimension.getY() };
 			ImGui::Image((ImTextureID)tex.textureID, aux);
 			ImGui::PopStyleVar();
-
 		}
 
-		
-
-		for (UIButtonData& button : panel.buttons) {
-			if (!button.visible) {
+		for (UIButtonData& button : panel.buttons) 
+		{
+			if (!button.visible ||!button.alive) 
+			{
 				continue;
 			}
+
 			int tID = getTransformUI(button.entity);
+			splitter.SetCurrentChannel(drawList, _uiTransforms[tID].zBuffer);
+
 			auto pos = _uiTransforms[tID].position;
 			ImGui::SetCursorPos(ImVec2(pos.getX(), pos.getY()));
 			ImGui::PushStyleVar(ImGuiStyleVar_Alpha, button.opacity);
-			const ImVec2 aux = { button.size.getX(), button.size.getY() };
-
-			if (button.buttonImage) {
-				std::string idButton = button.textureFile + "_" + button.entity.toString();
+			const ImVec2 aux = { _uiTransforms[tID].dimension.getX(), _uiTransforms[tID].dimension.getY() };
+			ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(button.textColor.getRed() * 255, button.textColor.getGreen() * 255, button.textColor.getBlue() * 255, button.textColor.getAlpha() * button.opacity * 255));
+			ImGui::PushStyleColor(ImGuiCol_Button, IM_COL32(button.bgColor.getRed() * 255, button.bgColor.getGreen() * 255, button.bgColor.getBlue() * 255, button.bgColor.getAlpha() * button.opacity * 255));
+			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, IM_COL32(button.hvColor.getRed() * 255, button.hvColor.getGreen() * 255, button.hvColor.getBlue() * 255, button.hvColor.getAlpha() * button.opacity * 255));
+			ImGui::PushStyleColor(ImGuiCol_ButtonActive, IM_COL32(button.psColor.getRed() * 255, button.psColor.getGreen() * 255, button.psColor.getBlue() * 255, button.psColor.getAlpha() * button.opacity * 255));
+			bool click = false;
+			if (button.buttonImage ) 
+			{
+				if (button.textureID != UINT64_MAX) {
+					std::string idButton = button.textureFile + "_" + button.entity.toString();
+					ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
+					click = ImGui::ImageButton(idButton.c_str(), (ImTextureID)(uintptr_t)button.textureID, aux);
+					ImGui::PopStyleVar();
+				}
+				else {
+					std::string idButton = button.textureFile + "_" + button.entity.toString();
+					ImGui::InvisibleButton(idButton.c_str(), ImVec2(1, 1));
+				}
 				
-				if (ImGui::ImageButton(idButton.c_str(), (ImTextureID)(uintptr_t)button.textureID, aux)) {
-					if (button.onClick) {
-						button.onClick();
-					}
-				}
 			}
-			else {
-				if (ImGui::Button(button.text.c_str(),aux)) {
-					if (button.onClick) {
-						button.onClick();
-					}
-				}
+			else 
+			{
+				ImGui::PushFont(button.font);
+				std::string textID = button.text + "##" + button.entity.toString();
+				click = ImGui::Button(textID.c_str(), aux);
+				ImGui::PopFont();
 			}
+			bool hover = ImGui::IsItemHovered();
+			bool active = ImGui::IsItemActive();
+			ImVec2 min = ImGui::GetItemRectMin();
+			ImVec2 max = ImGui::GetItemRectMax();
+			if (active) {
+				drawList->AddRectFilled(min, max, IM_COL32(button.psColor.getRed() * 255, button.psColor.getGreen() * 255, button.psColor.getBlue() * 255, button.psColor.getAlpha() * button.opacity * 255));
+			}
+			else if (hover) {
+				drawList->AddRectFilled(min, max, IM_COL32(button.hvColor.getRed() * 255, button.hvColor.getGreen() * 255, button.hvColor.getBlue() * 255, button.hvColor.getAlpha() * button.opacity * 255));
+
+			}
+			if (click && !button.disable && button.onClick) {
+				button.onClick();
+			}
+			ImGui::PopStyleColor(4);
 			ImGui::PopStyleVar();
 		}
+		splitter.Merge(drawList);
+
 		ImGui::End();
 	}
 	ImGui::Render();
 }
 
+void RenderModule::cleanUI()
+{
+	_nextUITransformID = 0;
+	_nextLabelID = 0;
+	_nextButtonID = 0;
+	_nextTextureRectID = 0;
+	_nextPanelID = 0;
+	while (!_uiPanels.empty())
+	{
+		auto uiT = _uiPanels.back();
+		_uiPanels.pop_back();
+		uiT.labels.clear();
+		uiT.buttons.clear();
+		uiT.textureRects.clear();
+	}
+	_uiTransforms.clear();
+	_uiPanels.clear();
+	_labelToPanel.clear();
+	_buttonToPanel.clear();
+	_textureToPanel.clear();
+}
+
+void RenderModule::cleanDebug()
+{
+	if (_debugDraw)
+	{
+		_debugDraw->clear();
+	}
+
+	if (_debugNode && _debugDraw)
+	{
+		_debugNode->detachObject(_debugDraw);
+		_sceneMgr->destroyManualObject(_debugDraw);
+		_debugDraw = nullptr;
+	}
+
+	if (_debugNode)
+	{
+		_sceneMgr->destroySceneNode(_debugNode);
+		_debugNode = nullptr;
+	}
+}
+
 void RenderModule::shutdown()
 {
+	if (!_root) return;
+
+	if (_imguiSDLInitialized)
+	{
+		ImGui_ImplSDL3_Shutdown();
+		_imguiSDLInitialized = false;
+	}
+
 	if (_sceneMgr && _overlaySystem)
 	{
 		_sceneMgr->removeRenderQueueListener(_overlaySystem);
+		delete _overlaySystem;
+		_overlaySystem = nullptr;
+		_overlay = nullptr;
 	}
 
-	if (_overlay)
+	if (_debugDraw)
 	{
-		Ogre::OverlayManager::getSingleton().destroy(_overlay);
-		_overlay = nullptr;
+		if (_debugNode)
+		{
+			_debugNode->detachObject(_debugDraw);
+		}
+
+		_sceneMgr->destroyManualObject(_debugDraw);
+		_debugDraw = nullptr;
+	}
+
+	if (_debugNode)
+	{
+		_sceneMgr->destroySceneNode(_debugNode);
+		_debugNode = nullptr;
+	}
+
+	if (Ogre::RTShader::ShaderGenerator::getSingletonPtr())
+	{
+		Ogre::RTShader::ShaderGenerator::getSingleton()
+			.removeAllShaderBasedTechniques();
+		if (_sceneMgr)
+			Ogre::RTShader::ShaderGenerator::getSingleton()
+			.removeSceneManager(_sceneMgr);
+		Ogre::RTShader::ShaderGenerator::destroy();
 	}
 
 	cleanScene(true);
 
-	delete _overlaySystem;
-	_overlaySystem = nullptr;
+	if (_jpgCodec) Ogre::Codec::unregisterCodec(_jpgCodec);
+	if (_jpegCodec) Ogre::Codec::unregisterCodec(_jpegCodec);
+	if (_pngCodec) Ogre::Codec::unregisterCodec(_pngCodec);
+	if (_tgaCodec) Ogre::Codec::unregisterCodec(_tgaCodec);
+	if (_bmpCodec) Ogre::Codec::unregisterCodec(_bmpCodec);
+	delete _jpgCodec; _jpgCodec = nullptr;
+	delete _jpegCodec; _jpegCodec = nullptr;
+	delete _pngCodec; _pngCodec = nullptr;
+	delete _tgaCodec; _tgaCodec = nullptr;
+	delete _bmpCodec; _bmpCodec = nullptr;
 
-	Ogre::Codec::unregisterCodec(_jpgCodec);
-	Ogre::Codec::unregisterCodec(_jpegCodec);
-	Ogre::Codec::unregisterCodec(_pngCodec);
-	Ogre::Codec::unregisterCodec(_tgaCodec);
-	Ogre::Codec::unregisterCodec(_bmpCodec);
-	delete _jpgCodec;
-	delete _jpegCodec;
-	delete _pngCodec;
-	delete _tgaCodec;
-	delete _bmpCodec;
+	delete _root; _root = nullptr;
 
-	delete _root;
-
-	delete _gl3Plugin;
-	delete _assimpPlugin;
-
-	_root = nullptr;
 	_window = nullptr;
 	_sceneMgr = nullptr;
+
+	delete _gl3Plugin; _gl3Plugin = nullptr;
+	delete _assimpPlugin; _assimpPlugin = nullptr;
+	delete _particlePlugin; _particlePlugin = nullptr;
+}
+
+void RenderModule::RenderPhysics(const std::vector<ShapeRenderData>& shapes)
+{
+	_debugDraw->clear();
+	_debugDraw->begin("Debug/PhysicsLines", Ogre::RenderOperation::OT_LINE_LIST);
+	Ogre::ColourValue debugColor(1.0f, 0.0f, 0.0f, 0.5f);//rojo
+	_debugDraw->colour(debugColor);
+
+	for (const auto& s : shapes)
+	{
+		switch (s.type)
+		{
+		case ShapeType::BOX:
+			DrawBox(s);
+			break;
+
+		case ShapeType::CAPSULE:
+			if (s.halfHeight <= 0.0f)
+				DrawSphere(s);
+			else
+				DrawCapsule(s);
+			break;
+		}
+	}
+	_debugDraw->end();
+}
+
+void RenderModule::DrawBox(const ShapeRenderData& data)
+{
+	//tam
+	Ogre::Vector3 halfSize(data.size.getX(), data.size.getY(), data.size.getZ());
+	halfSize *= 0.5f;
+	//offset
+	Ogre::Vector3 center(data.position.getX(), data.position.getY(), data.position.getZ());
+	//rot
+	Ogre::Quaternion q(data.rotation.getW(), data.rotation.getX(), data.rotation.getY(), data.rotation.getZ());
+
+	auto transformPoint = [&](const Ogre::Vector3& p)
+		{
+			return center + (q * p);
+		};
+
+	Ogre::Vector3 v[8] = {
+		{-halfSize.x, -halfSize.y, -halfSize.z},
+		{ halfSize.x, -halfSize.y, -halfSize.z},
+		{ halfSize.x, -halfSize.y,  halfSize.z},
+		{-halfSize.x, -halfSize.y,  halfSize.z},
+
+		{-halfSize.x,  halfSize.y, -halfSize.z},
+		{ halfSize.x,  halfSize.y, -halfSize.z},
+		{ halfSize.x,  halfSize.y,  halfSize.z},
+		{-halfSize.x,  halfSize.y,  halfSize.z}
+	};
+
+	auto line = [&](int a, int b) {
+		_debugDraw->position(transformPoint(v[a]));
+		_debugDraw->position(transformPoint(v[b]));
+		};
+
+	//bottom
+	line(0, 1);
+	line(1, 2);
+	line(2, 3);
+	line(3, 0);
+	//top
+	line(4, 5);
+	line(5, 6);
+	line(6, 7);
+	line(7, 4);
+	//lados
+	line(0, 4);
+	line(1, 5);
+	line(2, 6);
+	line(3, 7);
+}
+
+void RenderModule::DrawCapsule(const ShapeRenderData& data)
+{
+	const int segments = 32;
+	const int rings = 4;
+
+	float r = data.radius;
+	float hh = data.halfHeight;
+
+	Ogre::Vector3 center(data.position.getX(), data.position.getY(), data.position.getZ());
+	Ogre::Quaternion q(data.rotation.getW(), data.rotation.getX(), data.rotation.getY(), data.rotation.getZ());
+
+	Ogre::Vector3 U = q * Ogre::Vector3::UNIT_Y;
+	Ogre::Vector3 V = q * Ogre::Vector3::UNIT_Z;
+	Ogre::Vector3 W = q * Ogre::Vector3::UNIT_X;
+
+	auto drawCircle = [&](const Ogre::Vector3& C)
+	{
+		for (int i = 0; i < segments; i++)
+		{
+			float a0 = Ogre::Math::TWO_PI * i / segments;
+			float a1 = Ogre::Math::TWO_PI * (i + 1) / segments;
+
+			Ogre::Vector3 p0 = C + (cos(a0) * U + sin(a0) * V) * r;
+			Ogre::Vector3 p1 = C + (cos(a1) * U + sin(a1) * V) * r;
+
+			_debugDraw->position(p0);
+			_debugDraw->position(p1);
+		}
+	};
+
+	// distribucion de aros por el tronco
+	float totalHeight = 2.0f * hh;
+	float step = totalHeight / rings;
+
+	for (int i = 0; i <= rings; i++)
+	{
+		float y = -hh + step * i;
+		Ogre::Vector3 C = center + W * y;
+		drawCircle(C);
+	}
+
+	// para marcar la altura
+	Ogre::Vector3 bottom(0, data.position.getY() - r - totalHeight * 0.5f, 0);
+	Ogre::Vector3 top(0, data.position.getY() + r + totalHeight * 0.5f, 0);
+	_debugDraw->position(bottom);
+	_debugDraw->position(top);
+}
+
+void RenderModule::DrawSphere(const ShapeRenderData& data)
+{
+	const int segments = 24; // si tira mucho del ordenador poner 16
+	float radius = data.radius;
+	Ogre::Vector3 center(data.position.getX(), data.position.getY(), data.position.getZ());
+	Ogre::Quaternion q(data.rotation.getW(), data.rotation.getX(), data.rotation.getY(), data.rotation.getZ());
+
+	auto drawCircle = [&](Ogre::Vector3 axis1, Ogre::Vector3 axis2) 
+	{
+		for (int i = 0; i < segments; i++)
+		{
+			float a0 = Ogre::Math::TWO_PI * i / segments;
+			float a1 = Ogre::Math::TWO_PI * (i + 1) / segments;
+
+			Ogre::Vector3 p0 = axis1 * cos(a0) * radius + axis2 * sin(a0) * radius;
+			Ogre::Vector3 p1 = axis1 * cos(a1) * radius + axis2 * sin(a1) * radius;
+
+			p0 = center + (q * p0);
+			p1 = center + (q * p1);
+
+			_debugDraw->position(p0);
+			_debugDraw->position(p1);
+		}
+	};
+
+	drawCircle(Ogre::Vector3::UNIT_X, Ogre::Vector3::UNIT_Y);
+	drawCircle(Ogre::Vector3::UNIT_X, Ogre::Vector3::UNIT_Z);
+	drawCircle(Ogre::Vector3::UNIT_Y, Ogre::Vector3::UNIT_Z);
 }

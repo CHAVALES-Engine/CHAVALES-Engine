@@ -105,7 +105,6 @@ namespace core
 
 		/**
 		* @brief Invierte el quaternion
-		* @return Quaternion invertido
 		*/
 		inline void inverse() {
 			float len = length();

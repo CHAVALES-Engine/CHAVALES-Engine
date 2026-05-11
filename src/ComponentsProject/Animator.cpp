@@ -1,12 +1,59 @@
 #include "Animator.h"
-
+#include "PluginSDK.h"
 #include "Entity.h"
 #include "Engine.h"
+#include "ModelRenderer.h"
 #include "checkMLNew.h"
+
+REGISTER_COMPONENT(Animator);
 
 Animator::Animator()
 {
+	registerMethod("registerSkeletonAnim", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 2) {
+			registerSkeletonAnim(std::any_cast<std::string>(args[0]), std::any_cast<bool>(args[1]));
+		}
+		});
 
+	registerMethod("createTransformAnimation", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 3) {
+			createTransformAnimation(std::any_cast<std::string>(args[0]), std::any_cast<bool>(args[1]), std::any_cast<float>(args[2]));
+		}
+		});
+
+	registerMethod("addTransformKeyFrame", [this](const std::vector<std::any>& args) {
+		if (args.size() == 5) {
+			addTransformKeyFrame(
+				std::any_cast<std::string>(args[0]),
+				std::any_cast<float>(args[1]),
+				std::any_cast<core::Vector3<float>>(args[2]),
+				std::any_cast<core::Quaternion<float>>(args[3]),
+				std::any_cast<core::Vector3<float>>(args[4])
+			);
+		}
+		else if (args.size() >= 6) {
+			addTransformKeyFrame(
+				std::any_cast<std::string>(args[0]),
+				std::any_cast<float>(args[1]),
+				std::any_cast<core::Vector3<float>>(args[2]),
+				std::any_cast<float>(args[3]),
+				std::any_cast<Axis>(args[4]),
+				std::any_cast<core::Vector3<float>>(args[5])
+			);
+		}
+		});
+
+	registerMethod("setAnimEnabled", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 2) {
+			setAnimEnabled(std::any_cast<std::string>(args[0]), std::any_cast<bool>(args[1]));
+		}
+		});
+
+	registerMethod("setAnimTimePos", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 2) {
+			setAnimTimePos(std::any_cast<std::string>(args[0]), std::any_cast<float>(args[1]));
+		}
+		});
 }
 
 Animator::~Animator()
@@ -14,10 +61,9 @@ Animator::~Animator()
 
 }
 
-bool Animator::init(const Properties& p)
+void Animator::ready()
 {
-	Engine::instance()->addAnimator(getEntity()->getEntityID(), _modelID);
-	return true;
+
 }
 
 void Animator::update(uint64_t deltaTime)
@@ -29,6 +75,12 @@ void Animator::update(uint64_t deltaTime)
 			Engine::instance()->updateAnimation(animation.second.id, deltaTime);
 		}
 	}
+}
+
+void Animator::registerAnimator()
+{
+	std::shared_ptr<ModelRenderer> model = getEntity()->getComponent<ModelRenderer>();
+	_modelID = model != nullptr ? model->getModelID() : UINT64_MAX;
 }
 
 bool Animator::registerSkeletonAnim(const std::string& animationName, const bool& loop)
@@ -85,6 +137,7 @@ void Animator::setAnimEnabled(const std::string& animationName, const bool& acti
 	if (aux != _animations.end())
 	{
 		Engine::instance()->setAnimEnabled(aux->second.id, active);
+		aux->second.active = active;
 	}
 }
 
@@ -93,7 +146,16 @@ void Animator::setAnimTimePos(const std::string& animationName, const float& tim
 	auto aux = _animations.find(animationName);
 	if (aux != _animations.end())
 	{
-		Engine::instance()->setAnimEnabled(aux->second.id, timePos);
+		Engine::instance()->setAnimTimePos(aux->second.id, timePos);
+	}
+}
+
+void Animator::setAnimSpeed(const std::string& animationName, const float& speed)
+{
+	auto aux = _animations.find(animationName);
+	if (aux != _animations.end())
+	{
+		Engine::instance()->setAnimSpeed(aux->second.id, speed);
 	}
 }
 

@@ -5,9 +5,11 @@
  * TODO: MESSAGES
  */
 #pragma once
+#include <any>
 #include <memory>
 #include <functional>
 #include <cstdint>
+#include <optional>
 #include <variant>
 #include <string>
 #include <unordered_map>
@@ -22,26 +24,26 @@ namespace core
 	 * +-----------+
 	 * | COMPONENT |
 	 * +-----------+
-	 * 
+	 *
 	 * --- Ejemplo de uso en lua ---
 	 * Component = {
 	 *		-- ejemplo de tipo basico/tipos del proyecto
 	 *		atributo1 = tipo,
 	 *		-- ejemplo de TAD vector
-	 *		atributo2 = 
+	 *		atributo2 =
 	 *		{
 	 *			tipo,
 	 *			tipo
 	 *		}
 	 * }
-	 * 
+	 *
 	 * --- Ejemplo de inicializacion ---
 	 * En bool init(const Properties& p):
 	 *		# Ej1, asignacion:
 	 * component = getProperty<tipo>(properties, "atributo1");
-	 *		# Ej2, setter: 
+	 *		# Ej2, setter:
 	 * return setProperty(properties, "atributo1", component);
-	 * 
+	 *
 	*/
 
 	class Component
@@ -81,10 +83,15 @@ namespace core
 		/**
 		* @brief Metodo que inicializa las variables del componente tras ser creado
 		*/
-		virtual bool init(const Properties& p) { return true;  } 
+		virtual bool init(const Properties& p) { return true; }
 
 		/**
-		* @brief Comportamiento cuando la escena comienza y ya se han inicializado el resto de entidades
+		* @brief Comportamiento cuando todos los componentes de una entidad se han inicializado pero el resto de entidades no tienen por que estar inicializadas
+		*/
+		virtual void awake() {}
+
+		/**
+		* @brief Comportamiento cuando la escena comienza y ya se han inicializado y despertado el resto de entidades
 		*/
 		virtual void ready() {} // analogo al start en unity
 
@@ -102,6 +109,11 @@ namespace core
 		* @brief Comportamiento en cada actualizaci�n por frame
 		*/
 		virtual void update(uint64_t deltaTime) {}
+
+		/**
+		* @brief Comportamiento en cada actualizaci�n por frame despues de update
+		*/
+		virtual void lateUpdate(uint64_t deltaTime) {}
 
 		///**
 		//* @brief Comportamiento de renderizado del componente
@@ -122,13 +134,14 @@ namespace core
 		* @brief Obtiene una propiedad tipada del conjunto de propiedades
 		* @param props Propiedades del componente
 		* @param key Clave de la propiedad
+		* @param warn Si mostrar por consola errores o no
 		* @return Valor de la propiedad o el valor por defecto del tipo
 		*/
 		template <typename T>
 		inline T getProperty(
 			const Properties& props,
-			const std::string& key
-			//const T& param = T()
+			const std::string& key,
+			bool warn = true
 		)
 		{
 			auto it = props.find(key);
@@ -136,7 +149,8 @@ namespace core
 			// --- comprobamos si la clave existe
 			if (it == props.end())
 			{
-				Debug::warning("COMPONENT: No se encontró el parámetro ", key, " en las propiedades del componente ", getName(),".");
+				if (warn)
+					Debug::warning("COMPONENT: No se encontró el parametro ", key, " en las propiedades del componente ", getName(), ".");
 				return T(); // devolvemos valor por defecto
 			}
 
@@ -144,7 +158,8 @@ namespace core
 			if (const T* pval = std::get_if<T>(&it->second))
 				return *pval;
 
-			Debug::error("COMPONENT: No se pudo tipar el parámetro ", key, " en las propiedades del componente ", getName(), ".");
+			if (warn)
+				Debug::error("COMPONENT: No se pudo tipar el parametro ", key, " en las propiedades del componente ", getName(), ".");
 			return T(); // devolvemos valor por defecto
 		}
 
@@ -153,13 +168,15 @@ namespace core
 		* @param props Propiedades del componente
 		* @param key Clave de la propiedad
 		* @param param Variable donde se almacenara el valor
+		* @param warn Si mostrar por consola errores o no
 		* @return true si la propiedad existe y tiene el tipo esperado
 		*/
 		template <typename T>
 		inline bool setProperty(
 			const Properties& props,
 			const std::string& key,
-			T& param
+			T& param,
+			bool warn = true
 		)
 		{
 			auto it = props.find(key);
@@ -167,7 +184,8 @@ namespace core
 			// --- comprobamos si la clave existe
 			if (it == props.end())
 			{
-				Debug::warning("COMPONENT: No se encontró el parámetro ", key, " en las propiedades del componente ", getName(), ".");
+				if (warn)
+					Debug::warning("COMPONENT: No se encontró el parametro ", key, " en las propiedades del componente ", getName(), ".");
 				// devolvemos valor por defecto
 				return false;
 			}
@@ -178,11 +196,69 @@ namespace core
 				param = *pval;
 				return true;
 			}
-			Debug::error("COMPONENT: No se pudo tipar el parámetro ", key, " en las propiedades del componente ", getName(), ".");
+			if (warn)
+				Debug::error("COMPONENT: No se pudo tipar el parametro ", key, " en las propiedades del componente ", getName(), ".");
 			return false;
 		}
 
+		/**
+		 * @brief Llamar un método registrado
+		 * @tparam T - Tipo de retorno (void si no devuelve nada)
+		 * @param method - nombre del método
+		 * @param args - argumentos
+		 * @return std::optional<T> si T != void, bool si T == void
+		 */
+		template<typename T = void>
+		auto call(const std::string& method, const std::vector<std::any>& args = {}) const
+		{
+			auto it = _methods.find(method);
+			if (it == _methods.end()) {
+				Debug::warning("COMPONENT: Metodo no encontrado: ", method);
+				if constexpr (std::is_void_v<T>)
+					return false;
+				else
+					return std::optional<T>(std::nullopt);
+			}
+			try {
+				std::any result = it->second(args);
+				if constexpr (std::is_void_v<T>) return true;
+				else {
+					// Metodo que devuelve algo - devuelve std::optional<T>
+					try {
+						return std::optional<T>(std::any_cast<T>(result));
+					}
+					catch (const std::bad_any_cast&) {
+						Debug::error("COMPONENT: No se pudo hacer el anycast en: ", method);
+						return std::optional<T>(std::nullopt);
+					}
+				}
+			}
+			catch (const std::exception& e) {
+				Debug::error("COMPONENT: Excepcion en: ", method);
+				if constexpr (std::is_void_v<T>) return false; // Devuelve void
+				else return std::optional<T>(std::nullopt);	// Devuelve algo
+			}
+		}
 	protected:
+		/**
+		 * @brief Registra un metodo
+		 */
+		template<typename Func>
+		void registerMethod(const std::string& name, Func&& f)
+		{
+			_methods[name] = [f = std::forward<Func>(f)](const std::vector<std::any>& args) -> std::any {
+				using ReturnType = std::invoke_result_t<Func, const std::vector<std::any>&>;
+				if constexpr (std::is_void_v<ReturnType>) {
+					// Metodos que devuelven void
+					f(args);
+					return std::any();
+				}
+				else // Metodos que devuelven algo
+					return std::any(f(args));
+				};
+		}
+
+		std::unordered_map<std::string, std::function<std::any(const std::vector<std::any>&)>> _methods;
 		std::string _name;
 		Entity* entity;
 		bool enabled;

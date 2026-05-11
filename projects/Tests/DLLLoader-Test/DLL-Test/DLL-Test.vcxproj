@@ -68,7 +68,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\Test\DLLLoader-Test\$(ProjectName)\;$(SolutionDir)src\Engine\;$(SolutionDir)src\Core-Defs\;$(SolutionDir)src\Core-Utils\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\Test\DLLLoader-Test\$(ProjectName)\;$(SolutionDir)src\Engine\;$(SolutionDir)src\Core-Defs\;$(SolutionDir)src\Core-Utils\;$(SolutionDir)src\ComponentsProject\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -89,7 +89,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\Test\DLLLoader-Test\$(ProjectName)\;$(SolutionDir)src\Engine\;$(SolutionDir)src\Core-Defs\;$(SolutionDir)src\Core-Utils\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\Test\DLLLoader-Test\$(ProjectName)\;$(SolutionDir)src\Engine\;$(SolutionDir)src\Core-Defs\;$(SolutionDir)src\Core-Utils\;$(SolutionDir)src\ComponentsProject\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

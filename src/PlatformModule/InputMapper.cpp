@@ -10,22 +10,21 @@ void input::InputMapper::addEventToAction(const std::string& actionName, InputEv
 {
 	if (!hasAction(actionName))
 	{
-		//PAIGRO??? Esto es mas informativo que otra cosa preguntar si la gente lo quiere o no.
-		Debug::warning("Action named \"", actionName, "\" does not exists so it will be created.");
+		Debug::warning("[Input] Action named \"", actionName, "\" does not exists so it will be created.");
 	}
 
 
 	// Si el evento ya esta no metemos nada.
 	if (_entryIsInMap(actionName, { id, inputEvent }))
 	{
-		Debug::error("Event named \"", actionName, "\" alredy exists so it is not added again.");
+		Debug::error("[Input] Event named \"", actionName, "\" alredy exists so it is not added again.");
 		return;
 	}
 
 
 	// Metemos el evento y si es necesario la accion tambien.
 	_mapper[actionName].push_back({ id, inputEvent });
-	Debug::out("Event added to action named \"", actionName, "\" in device ", id, ".");
+	Debug::out("[Input] Event added to action named \"", actionName, "\" in device ", id, ".");
 }
 
 void input::InputMapper::removeEvent(const std::string& actionName, InputEvent inputEvent, DeviceID id)
@@ -33,7 +32,7 @@ void input::InputMapper::removeEvent(const std::string& actionName, InputEvent i
 	// Si no existe la accion no se puede eliminar nada.
 	if (!hasAction(actionName))
 	{
-		Debug::error("Action named \"", actionName, "\" does not exists so it can not removed event.");
+		Debug::error("[Input] Action named \"", actionName, "\" does not exists so it can not removed event.");
 		return;
 	}
 
@@ -51,13 +50,13 @@ void input::InputMapper::removeEvent(const std::string& actionName, InputEvent i
 	auto position = std::find(_mapper[actionName].begin(), _mapper[actionName].end(), aux);
 	if (position == _mapper[actionName].end())
 	{
-		Debug::error("Action named \"", actionName, "\" does not contain event so it can not be removed.");
+		Debug::error("[Input] Action named \"", actionName, "\" does not contain event so it can not be removed.");
 		return;
 	}
 
 	// Eliminamos el evento.
 	_mapper[actionName].erase(position);
-	Debug::out("Event removed from action called \"", actionName, "\".");
+	Debug::out("[Input] Event removed from action called \"", actionName, "\".");
 
 
 	// Si la accion se ha quedado vacia la eliminamos.
@@ -69,12 +68,12 @@ void input::InputMapper::removeEvents(const std::string& actionName)
 	// Si no existe la accion no se puede eliminar nada.
 	if (!hasAction(actionName))
 	{
-		Debug::error("Action named \"", actionName, "\" does not exists so it can not removed its events.");
+		Debug::error("[Input] Action named \"", actionName, "\" does not exists so it can not removed its events.");
 		return;
 	}
 
 	_mapper.erase(actionName); // Eliminamos toda la accion => se elimina todo lo de dentro tambien.
-	Debug::out("All events from \"", actionName, "\" deleted.");
+	Debug::out("[Input] All events from \"", actionName, "\" deleted.");
 }
 
 void input::InputMapper::removeEventsFromID(const std::string& actionName, DeviceID id)
@@ -82,7 +81,7 @@ void input::InputMapper::removeEventsFromID(const std::string& actionName, Devic
 	// Si no existe la accion no se puede eliminar nada.
 	if (!hasAction(actionName))
 	{
-		Debug::error("Action named \"", actionName, "\" does not exists so it can not removed its events.");
+		Debug::error("[Input] Action named \"", actionName, "\" does not exists so it can not removed its events.");
 		return;
 	}
 
@@ -104,7 +103,7 @@ void input::InputMapper::removeEventsFromID(const std::string& actionName, Devic
 			action.end(),
 			[id](const InputMappperEntry& entry) { return entry.first == id; }),
 		action.end());
-	Debug::out("Events with id ", id, " removed from action named \"", actionName, "\".");
+	Debug::out("[Input] Events with id ", id, " removed from action named \"", actionName, "\".");
 
 	// Si la accion se ha quedado vacia la eliminamos.
 	if (_mapper[actionName].empty()) _removeAction(actionName);
@@ -115,7 +114,7 @@ std::vector<input::InputEvent> input::InputMapper::getInputEvents(const std::str
 	// Si no existe la accion no se puede devolver nada.
 	if (!hasAction(actionName))
 	{
-		Debug::error("Action named \"", actionName, "\" does not exists so its events can not be returned.");
+		Debug::error("[Input] Action named \"", actionName, "\" does not exists so its events can not be returned.");
 		return {};
 	}
 
@@ -158,12 +157,12 @@ void input::InputMapper::_removeAction(const std::string& actionName)
 {
 	if (_mapper.find(actionName) == _mapper.end())
 	{
-		Debug::error("Action named \"", actionName, "\" does not exists so it can not be removed.");
+		Debug::error("[Input] Action named \"", actionName, "\" does not exists so it can not be removed.");
 		return;
 	}
 
 	_mapper.erase(actionName);
-	Debug::out("Action named \"", actionName, "\" removed.");
+	Debug::out("[Input] Action named \"", actionName, "\" removed.");
 }
 
 bool input::InputMapper::_entryIsInMap(const std::string& actionName, InputMappperEntry entry)

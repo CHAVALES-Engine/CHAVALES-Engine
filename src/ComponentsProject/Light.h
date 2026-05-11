@@ -6,6 +6,7 @@
 #include <Component.h>
 #include <Vector3.h>
 #include <Color.h>
+#include <EngineAPI.h>
 
 
 using lightID = uint64_t;
@@ -17,7 +18,12 @@ using lightID = uint64_t;
  *
  * --- Ejemplo de uso en lua ---
  * Light = {
- *		...
+ *		type = int
+ *		color = Color.new(float...),
+ *		intensity = float,
+ *		inner = float,
+ *		outer = float,
+ *		fallof = float
  * }
  *
  * --- Ejemplo de inicializacion ---
@@ -28,13 +34,14 @@ using lightID = uint64_t;
  * ...
  *
 */
-class Light : public core::Component
+class ENGINE_API Light : public core::Component
 {
 public:
 	enum class Type { POINT = 0, DIRECTIONAL = 1, SPOT = 2 , RECTLIGHT = 3  };
 
 private:
 	lightID _lightID;
+	int _typeInt;
 	Type _type;
 	core::Color _color;
 	float _intensity;
@@ -48,11 +55,12 @@ public:
 	~Light();
 
 	bool init(const Properties& p) override;
-	void setType(Type type);
+	void ready() override;
+	void setType(const Type& type);
 	void setColor(const core::Color& color);
-	void setIntensity(float intensity);
+	void setIntensity(const float& intensity);
 	void setDirection(const core::Vector3<float>& dir);
-	void setSpotRange(float inner, float outer, float falloff);
+	void setSpotRange(const float& inner, const float& outer, const float& falloff);
 
 	Type getType() const;
 	core::Color getColor() const;

@@ -1,15 +1,17 @@
-#pragma once
+﻿#pragma once
 #include <Component.h>
 #include <PluginSDK.h>
+
+#include "AudioSource.h"
+#include "Camera.h"
 #include "Debug.h"
 #include "Engine.h"
 #include "Entity.h"
 #include "InputFacade.h"
 #include "Scene.h"
 #include "TimeManager.h"
-#include "../../../ComponentsProject/Transform.h"
-
-class AudioSource;
+#include "Collider.h"
+#include "Transform.h"
 
 class ComponentTest : public core::Component
 {
@@ -25,7 +27,9 @@ class ComponentTest : public core::Component
 	std::vector<core::Vector4<>> vec2;
 	std::vector<core::Color> vec3;
 	std::vector<core::Quaternion<>> vec4;
-	Transform* _transform = nullptr;
+	std::shared_ptr<Component> _transform = nullptr;
+	core::Entity* _esfera = nullptr;
+
 	bool init(const Properties& p) override
 	{
 		// ejemplos de inicializacion:
@@ -40,6 +44,23 @@ class ComponentTest : public core::Component
 		//setProperty(p, "vec4", vec4);
 		setProperty(p, "device", device);
 		return setProperty(p, "velocity", velocity);
+	}
+
+	void awake() override
+	{
+		Engine::input()->addEventToAction("left", input::KEY_A, device);
+		Engine::input()->addEventToAction("left", input::BUTTON_GP_LEFT, device);
+		Engine::input()->addEventToAction("right", input::KEY_D, device);
+		Engine::input()->addEventToAction("right", input::BUTTON_GP_RIGHT, device);
+		Engine::input()->addEventToAction("front", input::KEY_W, device);
+		Engine::input()->addEventToAction("front", input::BUTTON_GP_UP, device);
+		Engine::input()->addEventToAction("back", input::KEY_S, device);
+		Engine::input()->addEventToAction("back", input::BUTTON_GP_DOWN, device);
+
+		Engine::input()->addEventToAction("lock_h", input::GAMEPAD_AXIS_RIGHT_X, device);
+		Engine::input()->addEventToAction("lock_h", input::MOUSE_AXIS_REL_X, device);
+		Engine::input()->addEventToAction("lock_v", input::GAMEPAD_AXIS_RIGHT_Y, device);
+		Engine::input()->addEventToAction("lock_v", input::MOUSE_AXIS_REL_Y, device);
 	}
 
 	void ready() override
@@ -59,69 +80,155 @@ class ComponentTest : public core::Component
 		//	Debug::out(s);
 		/*Debug::out("Hola :-) Mi vida es ", health);
 		Debug::out("test ", test);*/
-		_transform = getEntity()->getComponent<Transform>();
+		_transform = getEntity()->getComponent("Transform");
 		// bloquea el cursor
 		Engine::instance()->input()->setRelativeMouseMode(false);
-		_transform->lockRotationZ(true);
-		Engine::input()->addEventToAction("left", input::KEY_A, device);
-		Engine::input()->addEventToAction("left", input::BUTTON_GP_LEFT, device);
-		Engine::input()->addEventToAction("right", input::KEY_D, device);
-		Engine::input()->addEventToAction("right", input::BUTTON_GP_RIGHT, device);
-		Engine::input()->addEventToAction("front", input::KEY_W, device);
-		Engine::input()->addEventToAction("front", input::BUTTON_GP_UP, device);
-		Engine::input()->addEventToAction("back", input::KEY_S, device);
-		Engine::input()->addEventToAction("back", input::BUTTON_GP_DOWN, device);
-
-		Engine::input()->addEventToAction("lock_h", input::GAMEPAD_AXIS_RIGHT_X, device);
-		Engine::input()->addEventToAction("lock_h", input::MOUSE_AXIS_REL_X, device);
-		Engine::input()->addEventToAction("lock_v", input::GAMEPAD_AXIS_RIGHT_Y, device);
-		Engine::input()->addEventToAction("lock_v", input::MOUSE_AXIS_REL_Y, device);
-	}
-
-	void update(uint64_t deltaTime) override
-	{
-
-		if (!Engine::input()->isDeviceConnected(device)) return;
-
-		float speed = velocity * (float)deltaTime / 1000.0f;
-		float mouseSensitivity = velocity / 100.0f;
-
-		if (Engine::input()->isKeyReleased(input::KEY_K))
-			entity->getScene()->findEntityByName("cube2")->destroy();
-
-		// --- Movimiento WASD
-		if (Engine::input()->isActionPressed("front", device))
-			_transform->translate(_transform->forward() * -speed);
-		if (Engine::input()->isActionPressed("back", device))
-			_transform->translate(_transform->forward() * speed);
-		if (Engine::input()->isActionPressed("left", device))
-			_transform->translate(_transform->right() * -speed);
-		if (Engine::input()->isActionPressed("right", device))
-			_transform->translate(_transform->right() * speed);
-
-		// --- Rotacion con raton
-		if (Engine::input()->isJustPressed(input::KEY_CTRL))
-			moveCamera = !moveCamera;
-		//Debug::out(Engine::input()->getAxis(input::MOUSE_AXIS_REL_X), "/", Engine::input()->getAxis(input::MOUSE_AXIS_REL_Y));
-		if (moveCamera)
+		if (_transform)
 		{
-			// bloquea el cursor
-			Engine::input()->setRelativeMouseMode(true);
-			float mouseX = Engine::input()->getActionAxis("lock_h", device);
-			float mouseY = Engine::input()->getActionAxis("lock_v", device);
-
-			if (mouseX != 0)
-				_transform->rotateGlobal(core::Vector3<>(0, -mouseX * mouseSensitivity, 0));
-			if (mouseY != 0)
-				_transform->rotateLocal(core::Vector3<>(-mouseY * mouseSensitivity, 0, 0));
-		}
-		else
-		{
-			// bloquea el cursor
-			Engine::input()->setRelativeMouseMode(false);
+			_transform->call("lockRotationZ", { true });
+			_transform->call("LookAt", { core::Vector3<>(0, 150, 0) });
 		}
 
+		_esfera = getEntity()->getScene()->findEntityByName("esfera");
+		if (!_esfera) {
+			Debug::error("[ComponentTest] No encontrada la esfera");
+			return;
+		}
+
+		auto col_esfera = _esfera->getComponent<Collider>();
+		if (!col_esfera) {
+			Debug::error("[ComponentTest] La esfera no tiene Collider");
+			return;
+		}
+
+		col_esfera->_onCollisionEnter.subscribe([](core::Entity* other) {
+			Debug::out("SPHERE");
+			});
+
+		core::Entity* cube = getEntity()->getScene()->findEntityByName("cube");
+		if (!cube) {
+			Debug::error("[ComponentTest] No encontrado el cube");
+			return;
+		}
+
+		auto col_cube = cube->getComponent<Collider>();
+		if (!col_cube) {
+			Debug::error("[ComponentTest] El cube no tiene Collider");
+			return;
+		}
+
+		col_cube->_onCollisionEnter.subscribe([](core::Entity* other) {
+			Debug::out("CUBE");
+			});
+		/*
+		call("subscribeOnCollisionEnter",
+			{
+		);*/
+
 	}
+
+	void update(uint64_t deltaTime) override {
+		{
+
+			if (!Engine::input()->isDeviceConnected(device)) return;
+
+			float speed = velocity * (float)deltaTime / 1000.0f;
+			float mouseSensitivity = velocity / 100.0f;
+
+			if (Engine::input()->isJustPressed(input::KEY_K)) {
+				//entity->getScene()->findEntityByName("cube2")->destroy();
+				entity->getScene()->findEntityByName("esfera")->getComponent<AudioSource>()->playSound();
+				if (std::shared_ptr<Camera> camera = getEntity()->getScene()->
+					findEntityByName("camera")->getComponent<Camera>())
+				{
+					float mouseX = Engine::input()->getAxis(input::MOUSE_AXIS_X);
+					float mouseY = Engine::input()->getAxis(input::MOUSE_AXIS_Y);
+					/*float mouseX = 0;
+					float mouseY =0;*/
+					core::Vector2 mousePos(mouseX, mouseY);
+					core::Vector3<> rayDir;
+
+					core::Vector3<> rayOrigin = camera->screenToWorld(mousePos,
+						Engine::instance()->getWindowWidth(),
+						Engine::instance()->getWindowHeight(),
+						rayDir);
+
+					//Debug::out("Mouse: " + std::to_string(mouseX) + ", " + std::to_string(mouseY));
+					//Debug::out("Window: " + std::to_string(Engine::instance()->getWindowWidth()) + ", " + std::to_string(Engine::instance()->getWindowHeight()));
+					//Debug::out("RayOrigin: " + std::to_string(rayOrigin.getX()) + ", " + std::to_string(rayOrigin.getY()) + ", " + std::to_string(rayOrigin.getZ()));
+					//Debug::out("RayDir: " + std::to_string(rayDir.getX()) + ", " + std::to_string(rayDir.getY()) + ", " + std::to_string(rayDir.getZ()));
+					//Debug::out("FOVy: " + std::to_string(camera->getFOVy()));
+					//Debug::out("Near: " + std::to_string(camera->getNearClipDistance()));
+
+					RayInfo rayInfo;
+					if (Engine::instance()->rayCast(rayOrigin, rayDir, 10000.0f, rayInfo))
+					{
+						Debug::out("HitPos: " + std::to_string(rayInfo.hitPos.getX()) + ", " + std::to_string(rayInfo.hitPos.getY()) + ", " + std::to_string(rayInfo.hitPos.getZ()));
+						core::Entity* e = Engine::instance()->instantiatePrefab("prefabs/testPoint");
+						e->getComponent<Transform>()->setGlobalPosition(rayInfo.hitPos);
+					}
+					else
+					{
+						Debug::out("NO HIT");
+					}
+				}
+			}
+			if (Engine::input()->isJustPressed(input::KEY_O)) {
+				auto sphere = Engine::instance()->getScene()->findEntityByName("esfera");
+				if (sphere)
+				{
+					auto rb = sphere->getComponent("RigidBody");
+
+					if (rb)
+					{
+						rb->call("AddForce", { core::Vector3<>(0, 100, 0),'I' });
+					}
+				}
+			}
+			// --- Movimiento WASD
+			if (!_transform)
+				_transform = getEntity()->getComponent("Transform");
+
+			if (!_transform) return;
+			auto forward = _transform->call<core::Vector3<>>("forward");
+			auto right = _transform->call<core::Vector3<>>("right");
+
+			if (Engine::input()->isActionPressed("front", device))
+				_transform->call("translate", { forward.value() * -speed });
+			if (Engine::input()->isActionPressed("back", device))
+				_transform->call("translate", { forward.value() * speed });
+			if (Engine::input()->isActionPressed("left", device))
+				_transform->call("translate", { right.value() * -speed });
+			if (Engine::input()->isActionPressed("right", device))
+				_transform->call("translate", { right.value() * speed });
+
+			// --- Rotacion con raton
+			if (Engine::input()->isJustPressed(input::KEY_CTRL))
+				moveCamera = !moveCamera;
+			//Debug::out(Engine::input()->getAxis(input::MOUSE_AXIS_REL_X), "/", Engine::input()->getAxis(input::MOUSE_AXIS_REL_Y));
+			if (moveCamera)
+			{
+				// bloquea el cursor
+				Engine::input()->setRelativeMouseMode(true);
+				float mouseX = Engine::input()->getActionAxis("lock_h", device);
+				float mouseY = Engine::input()->getActionAxis("lock_v", device);
+
+				if (mouseX != 0)
+					_transform->call("rotateGlobal", { core::Vector3<>(0, -mouseX * mouseSensitivity, 0) });
+				if (mouseY != 0)
+					_transform->call("rotateLocal", { core::Vector3<>(-mouseY * mouseSensitivity, 0, 0) });
+			}
+			else
+			{
+				// bloquea el cursor
+				Engine::input()->setRelativeMouseMode(false);
+			}
+			if (_esfera != nullptr)
+			{
+				//_transform->LookAt(_esfera->getComponent<Transform>()->getGlobalPosition());
+			}
+		}
+	};
 
 	void fixedUpdate() override
 	{
@@ -176,7 +283,7 @@ public:
 	{
 		Debug::out("CAMBIO DE ESCENA");
 
-		Engine::instance()->addAndSetScene("scene2");
+		Engine::instance()->requestSceneChange("scene2");
 	}
 
 	void fixedUpdate() override
@@ -192,3 +299,47 @@ public:
 };
 
 REGISTER_COMPONENT(TimerChangescene);
+
+class InitialTest : public core::Component
+{
+	void ready() override
+	{
+		Debug::out("READY INITIAL");
+	}
+
+	void update(uint64_t deltaTime) override
+	{
+	}
+};
+
+REGISTER_COMPONENT(InitialTest);
+
+class ChangeTest : public core::Component
+{
+	void ready() override
+	{
+		Debug::out("READY CHANGE");
+		//Engine::instance()->requestSceneChange("scene_prueba");
+	}
+
+	void update(uint64_t deltaTime) override
+	{
+	}
+};
+
+REGISTER_COMPONENT(ChangeTest);
+
+class PersistentTest : public core::Component
+{
+	void ready() override
+	{
+		Debug::out("READY PERSISTENT");
+	}
+
+	void update(uint64_t deltaTime) override
+	{
+		//Debug::out("UPDATE PERSISTENT");
+	}
+};
+
+REGISTER_COMPONENT(PersistentTest);

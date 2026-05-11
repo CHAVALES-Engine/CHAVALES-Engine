@@ -72,6 +72,13 @@ namespace PluginSDK {
 // la variable estatica se llama como la clase que le pases, 
 // y crea una entrada en el registro local con su mismo nombre
 
+// @brief MAcro de exportacion de componentes para poder usarlos directamente desde otras dlls
+#ifdef PLUGIN_EXPORTS
+#define PLUGIN_API __declspec(dllexport)	// exportando desde engine
+#else
+#define PLUGIN_API __declspec(dllimport)	// consumiendo desde fuera
+#endif
+
 // Indica al linker que getPluginComponent, aunque no esta siendo usado en nuestro proyecto, debe ser incluido en el .obj
 #pragma comment(linker, "/INCLUDE:getPluginComponents")
 /*

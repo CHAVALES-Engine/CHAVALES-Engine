@@ -18,28 +18,10 @@
     <ClInclude Include="..\..\src\Core-Defs\checkML.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Core-Defs\Color.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Core-Defs\Component.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\Core-Defs\Debug.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Core-Defs\ec.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Core-Defs\Defs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\Core-Defs\IndexPQ.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Core-Defs\Entity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Core-Defs\InputDefs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Core-Defs\Maths.h">
@@ -48,27 +30,53 @@
     <ClInclude Include="..\..\src\Core-Defs\PluginSDK.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Core-Defs\Quaternion.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Core-Defs\Scene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Core-Defs\Vector2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Core-Defs\Vector3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Core-Defs\Vector4.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Core-Defs\guid.h" />
-    <ClInclude Include="..\..\src\Core-Defs\CommonEnums.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\Core-Defs\PhysicsTypes.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Core-Defs\guid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Core-Defs\checkMLNew.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Core-Defs\Message.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Core-Defs\Component.h">
+      <Filter>Header Files\EC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Core-Defs\CommonEnums.h">
+      <Filter>Header Files\EC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Core-Defs\ec.h">
+      <Filter>Header Files\EC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Core-Defs\Scene.h">
+      <Filter>Header Files\EC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Core-Defs\Entity.h">
+      <Filter>Header Files\EC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Core-Defs\Vector4.h">
+      <Filter>Header Files\Basics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Core-Defs\Quaternion.h">
+      <Filter>Header Files\Basics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Core-Defs\Vector2.h">
+      <Filter>Header Files\Basics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Core-Defs\Vector3.h">
+      <Filter>Header Files\Basics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Core-Defs\Color.h">
+      <Filter>Header Files\Basics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Core-Defs\Defs.h">
+      <Filter>Header Files\Basics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Core-Defs\InputDefs.h">
+      <Filter>Header Files\Basics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -80,6 +88,12 @@
     </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{43ed32b2-14bd-40b5-ab4f-2c18869572e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\EC">
+      <UniqueIdentifier>{7647be24-0e44-4117-9a4e-cf5c27493854}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Basics">
+      <UniqueIdentifier>{27cb5ad0-b71d-474a-9001-50f7d7007312}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

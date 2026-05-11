@@ -18,10 +18,11 @@ namespace core
 
 	class Entity
 	{
+		friend Scene;
+		virtual ~Entity(); // Destroys the entity
 	public:
 		Entity();
 		Entity(std::string);
-		virtual ~Entity(); // Destroys the entity
 
 		// prohibimos copia
 		Entity(const Entity&) = delete;
@@ -34,26 +35,31 @@ namespace core
 		void setDontDestroyOnLoad(bool ddol);
 		void setScene(Scene* s);
 		void setEntityID(entityID id);
-		void setGroupId(grpId_t id);
+		//void setGroupId(grpId_t id); // deberiamos usar esto para matrices de colisiones fisicas en algun momento
 		void setName(const std::string& n);
 
 		// --- GETTERS
 		bool isAlive() const;
 		bool isVisible() const;
 		bool isEnabled() const;
-		bool getDontDestoroyOnLoad() const;
+		bool getDontDestroyOnLoad() const;
 		Scene* getScene() const;
 		entityID getEntityID() const;
-		grpId_t getGroupId() const;
-		//bool inGroup(grpId_t id) const;
+		//grpId_t getGroupId() const; // deberiamos usar esto para matrices de colisiones fisicas en algun momento
 		const std::string& getName() const;
 		const std::vector<std::shared_ptr<Component>>& getComponents() const; 
+		size_t getComponentCount() const;
 
+#pragma region LIFECYCLE
 		// --- LIFECYLE
 		/**
 		* @brief Inicializa la entidad
 		*/
 		//void init(const Properties& p);
+		/**
+		* @brief Ejecuta la fase de despertar de la entidad y sus componentes
+		*/
+		void awake();
 		/**
 		* @brief Ejecuta la fase de arranque de la entidad y sus componentes
 		*/
@@ -71,6 +77,10 @@ namespace core
 		*/
 		void update(uint64_t dT);
 		/**
+		* @brief Ejecuta la actualizacion por frame despues de update
+		*/
+		void lateUpdate(uint64_t dT);
+		/**
 		* @brief Renderiza la entidad
 		*/
 		//void render() const;
@@ -82,8 +92,11 @@ namespace core
 		* @brief Destruye la entidad y sus componentes
 		*/
 		void destroy();
+		bool isInitialized() const { return _initialized; }
+		void setInitialized(bool i) { _initialized = i; }
+#pragma endregion
 
-		// --- EC
+#pragma region COMPONENTS
 		/**
 		* @brief Agrega un componente ya creado a la entidad
 		* O(n) 
@@ -106,77 +119,69 @@ namespace core
 
 			c->setEntity(this);
 			c->enable();
-			c->ready();
+			//c->ready();
 			T* c_ref = c.get();
 			components.push_back(std::move(c));
 			return c_ref;
 		}
 
+		/**
+		* @brief Elimina todos los componentes
+		* O(n)
+		*/
+		void removeComponents();
 
 		/**
-		* @brief Elimina el primer componente del tipo indicado
+		* @brief Elimina todos los componentes del tipo indicado
 		* O(n)
 		*/
 		template <typename T>
 		void removeComponent()
 		{
-			for (auto it = components.begin(); it != components.end(); ++it)
+			for (auto it = components.begin(); it != components.end(); )
 			{
-				if (it->get() != nullptr)
+				auto* c = it->get();
+
+				if (c != nullptr && dynamic_cast<T*>(c))
 				{
-					(*it)->disable();
-					(*it)->destroy();
-					components.erase(it);
-					return;
+					c->disable();
+					c->destroy();
+					it = components.erase(it);
+				}
+				else
+				{
+					++it;
 				}
 			}
 		}
+
+		/**
+		* @brief Elimina todos los componentes del nombre
+		* O(n)
+		*/
+		void removeComponent(const std::string& name);
 
 		/**
 		* @brief Obtiene el primer componente del tipo indicado
 		* O(n)
 		*/
 		template <typename T>
-		T* getComponent()
+		std::shared_ptr<T> getComponent()
 		{
 			for (std::shared_ptr<Component>& c : components)
 			{
-				if (T* ptr = dynamic_cast<T*>(c.get()))
+				if (std::shared_ptr<T> ptr = std::dynamic_pointer_cast<T>(c))
 					return ptr;
 			}
 			return nullptr;
 		}
+
 		/**
 		* @brief Obtiene el primer componente con el nombre indicado
 		* O(n)
 		*/
 		std::shared_ptr<Component> getComponent(const std::string& name) const;
 
-
-		/**
-		* @brief Elimina todos los componentes
-		* O(n)
-		*/
-		void removeComponents()
-		{
-			if (!components.empty())
-			{
-				for (auto c : components)
-				{
-					if (c != nullptr)
-					{
-						c.reset();
-					}
-				}
-
-				components.clear();
-			}
-		}
-		/**
-		* @brief Elimina todos los componentes del nombre
-		* O(n)
-		*/
-		void removeComponent(const std::string& name);
 		/**
 		* @brief Obtiene todos los componentes del mismo tipo indicado
 		* O(n)
@@ -187,7 +192,7 @@ namespace core
 			std::vector<T*> cmp; 
 			for (std::shared_ptr<Component>& c : components)
 			{
-				if (T* ptr = dynamic_cast<T*>(c.get()))
+				if (T* ptr = dynamic_cast<T*>(c))
 					cmp.push_back(ptr);
 			}
 			if (cmp.empty())
@@ -210,15 +215,17 @@ namespace core
 			}
 			return false;
 		}
+#pragma endregion
 
 	protected:
 		std::vector<std::shared_ptr<Component>> components;
 		bool alive;
 		bool visible;
 		bool enabled;
+		bool _initialized = false;
 		Scene* scene;
 		entityID entityID;
-		grpId_t groupId;
+		//grpId_t groupId; // para colisiones
 		std::string name;
 		bool dontDestroyOnLoad;
 	};

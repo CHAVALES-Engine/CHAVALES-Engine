@@ -7,6 +7,7 @@
 #include <cstdint>
 #include <string>
 #include <unordered_map>
+#include <vector>
 
 #include "guid.h"
 
@@ -38,20 +39,26 @@ namespace core
 		 * @brief Parte del ciclo de escena. Se llama cuando esta se habilita.
 		 *
 		 */
-		virtual void onEnable();
+		void onEnable();
 		//virtual void init();
+
+		/**
+		 * @brief Parte del ciclo de escena. Se llama cuando todas las entidades y componentes ya se han inicializado.
+		 *
+		 */
+		void awake();
 
 		/**
 		 * @brief Parte del ciclo de escena. Se llama despues de la inicializacion.
 		 *
 		 */
-		virtual void ready();
+		void ready();
 
 		/**
 		 * @brief Parte del ciclo de escena. Se llama una vez cada intervalo fijo de tiempo.
 		 *
 		 */
-		virtual void fixedUpdate();
+		void fixedUpdate();
 
 		/**
 		 * @brief Parte del ciclo de escena. Se llama una vez cada frame.
@@ -59,20 +66,27 @@ namespace core
 		 * @param dT - deltaTime.
 		 *
 		 */
-		virtual void update(uint64_t dT);
-		//virtual void render();
+		void update(uint64_t dT);
+		
+		/**
+		 * @brief Parte del ciclo de escena. Se llama una vez cada frame despues de update.
+		 *
+		 * @param dT - deltaTime.
+		 *
+		 */
+		void lateUpdate(uint64_t dT);
 
 		/**
 		 * @brief Parte del ciclo de escena. Se llama cuando esta se deshabilita.
 		 *
 		 */
-		virtual void onDisable();
+		void onDisable();
 
 		/**
 		 * @brief Parte del ciclo de escena. Se llama cuando esta se destruye.
 		 *
 		 */
-		virtual void onDestroy();
+		void destroy();
 
 		/**
 		 * @brief Parte del ciclo de escena. Se llama cuando se carga una escena nueva.
@@ -81,11 +95,32 @@ namespace core
 		void clearScene();
 
 		/**
-		 * @brief Inserta una nueva entidad en el vector de entidades.
+		 * @brief Extrae las entidades marcadas como DontDestroyOnLoad de la escena.
+		 */
+		std::vector<Entity*> getDDOLEntities();
+
+		/**
+		 * @brief Marca una entidad para insertar.
 		 *
 		 * @param e - entidad a insertar.
 		 */
 		void addEntity(core::Entity* e);
+		/**
+		 * @brief Marca una entidad a eliminar.
+		 *
+		 * @param e - entidad a eliminar.
+		 */
+		void destroyEntity(core::Entity* e);
+
+		/**
+		 * @brief Elimina las entidades marcadas.
+		 */
+		void destroyDeadEntities();
+
+		/**
+		 * @brief Anyade las entidades marcadas.
+		 */
+		void addListedEntities();
 
 		/**
 		 * @brief Devuelve el mapa de entidades de la escena.
@@ -107,16 +142,38 @@ namespace core
 		{
 			return _name;
 		}
+		/**
+		 * @brief Settea el nombre de la escena.
+		 *
+		 */
+		inline void setName(sceneName n)
+		{
+			_name = n;
+		}
 
 	private:
 		sceneName _name;
 		bool _active = false;
-
+		/**
+		 * @brief Anyade entidad al mapa.
+		 * @param e 
+		 */
+		void _addEntity(core::Entity* e);
 		/**
 		 * @brief Unordered map de entidades en la escena actualmente.
 		 *
 		 */
 		std::unordered_map<entityID, core::Entity*> _entities;
+		/**
+		 * @brief Vector de entidades en la escena a eliminar.
+		 *
+		 */
+		std::vector<entityID> _entitiesToDelete;
+		/**
+		 * @brief Vector de entidades en la escena a anyadir.
+		 *
+		 */
+		std::vector<core::Entity*> _entitiesToAdd;
 		/**
 		 * @brief Unordered map de nombres de entidades y su guid para buscar rapidamente.
 		 *

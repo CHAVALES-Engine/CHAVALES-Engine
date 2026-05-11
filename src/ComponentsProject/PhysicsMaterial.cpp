@@ -1,6 +1,8 @@
 ﻿#include "PhysicsMaterial.h"
 #include "PluginSDK.h"
 #include "Engine.h"
+#include "Entity.h"
+#include "Collider.h"
 #include "checkMLNew.h"
 
 REGISTER_COMPONENT(PhysicsMaterial);
@@ -46,8 +48,13 @@ void PhysicsMaterial::ready()
 	if (dynamicFriction < 0.0f) dynamicFriction = 0.0f;
 	if (restitution < 0.0f) restitution = 0.0f;
 	if (restitution > 1.0f) restitution = 1.0f;
+	if (!entity) return;
 
+	auto collider = entity->getComponent<Collider>();
+	if (!collider) return;
+	physicsShapeID = collider->getId();
 	physicsMaterialID = _eng->createMaterial(
+		physicsShapeID,
 		staticFriction,
 		dynamicFriction,
 		restitution,
@@ -68,6 +75,13 @@ void PhysicsMaterial::update(uint64_t dt)
 		static_cast<int>(frictionCombine),
 		static_cast<int>(bounceCombine)
 	);
+}
+
+void PhysicsMaterial::destroy()
+{
+	Component::destroy();
+	if (_eng != nullptr)
+		_eng->destroyMaterial(physicsMaterialID);
 }
 
 float PhysicsMaterial::Combine(float a, float b, CombineMode mode)

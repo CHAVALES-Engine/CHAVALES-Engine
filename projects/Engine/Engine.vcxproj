@@ -58,7 +58,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions); ENGINE_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions); ENGINE_EXPORTS;ENGINE</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -71,8 +71,8 @@
       <SubSystem>
       </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)libs\Core-Defs\;$(SolutionDir)libs\Core-Utils\;$(SolutionDir)libs\PhysicsModule\;$(SolutionDir)libs\PlatformModule\;$(SolutionDir)libs\ResourcesModule\;$(SolutionDir)libs\RenderModule\;$(SolutionDir)libs\AudioModule\;$(SolutionDir)dependencies\;$(SolutionDir)dependencies\lua\libs\$(Configuration)\;$(SolutionDir)dependencies\lua\src\;$(SolutionDir)dependencies\fmod\lib\x64\;$(SolutionDir)bin\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Core-Defs_d.lib;Core-Utils_d.lib;PhysicsModule_d.lib;PlatformModule_d.lib;ResourcesModule_d.lib;RenderModule_d.lib;AudioModule_d.lib;LuaBuild.lib;fmodL_vc.lib;fmodstudio_vc.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\Core-Defs\;$(SolutionDir)libs\Core-Utils\;$(SolutionDir)libs\PhysicsModule\;$(SolutionDir)libs\PlatformModule\;$(SolutionDir)libs\ResourcesModule\;$(SolutionDir)libs\RenderModule\;$(SolutionDir)libs\AudioModule\;$(SolutionDir)dependencies\;$(SolutionDir)dependencies\lua\libs\$(Configuration)\;$(SolutionDir)dependencies\lua\src\;$(SolutionDir)dependencies\fmod\lib\x64\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Core-Defs_d.lib;Core-Utils_d.lib;PhysicsModule_d.lib;PlatformModule_d.lib;ResourcesModule_d.lib;RenderModule_d.lib;AudioModule_d.lib;LuaBuild.lib;fmodL_vc.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>$(SolutionDir)libs\$(ProjectName)\$(TargetName).lib</ImportLibrary>
     </Link>
     <Lib>
@@ -88,7 +88,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions); ENGINE_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions); ENGINE_EXPORTS;ENGINE</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -102,7 +102,7 @@
       </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)libs\Core-Defs\;$(SolutionDir)libs\Core-Utils\;$(SolutionDir)libs\PhysicsModule\;$(SolutionDir)libs\PlatformModule\;$(SolutionDir)libs\ResourcesModule\;$(SolutionDir)libs\RenderModule\;$(SolutionDir)libs\AudioModule\;$(SolutionDir)dependencies\lua\libs\$(Configuration)\;$(SolutionDir)dependencies\lua\src\;$(SolutionDir)dependencies\fmod\lib\x64\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Core-Defs_r.lib;Core-Utils_r.lib;PhysicsModule_r.lib;PlatformModule_r.lib;ResourcesModule_r.lib;RenderModule_r.lib;AudioModule_r.lib;LuaBuild.lib;fmod_vc.lib;fmodstudio_vc.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Core-Defs_r.lib;Core-Utils_r.lib;PhysicsModule_r.lib;PlatformModule_r.lib;ResourcesModule_r.lib;RenderModule_r.lib;AudioModule_r.lib;LuaBuild.lib;fmod_vc.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>$(SolutionDir)libs\$(ProjectName)\$(TargetName).lib</ImportLibrary>
     </Link>
     <Lib>
@@ -116,7 +116,6 @@
     <ClCompile Include="..\..\src\Engine\Engine.cpp" />
     <ClCompile Include="..\..\src\Engine\GameLoader.cpp" />
     <ClCompile Include="..\..\src\Engine\InputFacade.cpp" />
-    <ClCompile Include="..\..\src\Engine\ResourcesFacade.cpp" />
     <ClCompile Include="..\..\src\Engine\StateMachine.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -125,7 +124,6 @@
     <ClInclude Include="..\..\src\Engine\Engine.h" />
     <ClInclude Include="..\..\src\Engine\GameLoader.h" />
     <ClInclude Include="..\..\src\Engine\InputFacade.h" />
-    <ClInclude Include="..\..\src\Engine\ResourcesFacade.h" />
     <ClInclude Include="..\..\src\Engine\StateMachine.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

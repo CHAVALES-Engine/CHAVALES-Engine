@@ -53,7 +53,7 @@ scene = { -- entidades en escena
 				},
 			},
 			AudioSource = {
-				soundID = "lifeUp",
+				soundID = "smb_1-up.wav",
 				mute = false,
 				is3D = true,
 				loop = true,

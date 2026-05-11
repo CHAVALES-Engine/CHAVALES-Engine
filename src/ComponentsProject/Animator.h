@@ -6,6 +6,7 @@
 #include <Component.h>
 #include <vector>
 #include <utility>
+#include <EngineAPI.h>
 
 #include <Vector3.h>
 #include <Quaternion.h>
@@ -16,12 +17,8 @@
  * +----------+
  *
  * --- Ejemplo de uso en lua ---
- * TransformAnimation = {
- *		FOVy = float,
- *		near clip distance = float,
- *		far clip distance = float,
- *		focal length = float,
- *		background color = Color
+ * Animator = {
+ *		...
  * }
  *
  * --- Ejemplo de inicializacion ---
@@ -58,7 +55,7 @@ struct Animation
 		: id(id), type(type), active(active) {};
 };
 
-class Animator : public core::Component
+class ENGINE_API Animator : public core::Component
 {
 	modelID _modelID;
 	//Cada animacion tiene su nombre y un interruptor que indica su actividad
@@ -68,9 +65,13 @@ public:
 	Animator();
 	~Animator();
 
-	bool init(const Properties& p) override;
+	void ready() override;
 	void update(uint64_t deltaTime) override;
 
+	/*
+	* @brief Registrar animator. Llamar en ready.
+	*/
+	void registerAnimator();
 	/*
 	* @brief Establecer loop de animacion de esqueleto. Devuelve true si se ha encontrado la animacion.
 	*/
@@ -97,4 +98,8 @@ public:
 	* @brief Reanudar animacíon a partir de cierto instante de tiempo.
 	*/
 	void setAnimTimePos(const std::string& animationName, const float& timePos);
+	/*
+	* @brief Ajustar velocidad de animacion.
+	*/
+	void setAnimSpeed(const std::string& animationName, const float& speed);
 };

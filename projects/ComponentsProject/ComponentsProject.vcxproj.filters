@@ -66,7 +66,16 @@
     <ClInclude Include="..\..\src\ComponentsProject\PhysicsMaterial.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\ComponentsProject\LuaComponent.h">
+    <ClInclude Include="..\..\src\ComponentsProject\ScriptComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ComponentsProject\Skydome.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ComponentsProject\UITransform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AmbientLight.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -116,7 +125,16 @@
     <ClCompile Include="..\..\src\ComponentsProject\RigidBody.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\ComponentsProject\LuaComponent.cpp">
+    <ClCompile Include="..\..\src\ComponentsProject\ScriptComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Skydome.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ComponentsProject\UITransform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AmbientLight.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

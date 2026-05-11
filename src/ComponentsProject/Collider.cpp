@@ -8,10 +8,86 @@
 REGISTER_COMPONENT(Collider);
 
 
+Collider::Collider()
+{
+	// Getters
+	registerMethod("getCenter", [this](const std::vector<std::any>& args) {
+		return getCenter();
+		});
+
+	registerMethod("getIsTrigger", [this](const std::vector<std::any>& args) {
+		return getIsTrigger();
+		});
+
+	registerMethod("getSize", [this](const std::vector<std::any>& args) {
+		return getSize();
+		});
+
+	registerMethod("getRotation", [this](const std::vector<std::any>& args) {
+		return getRotation();
+		});
+
+	registerMethod("getId", [this](const std::vector<std::any>& args) {
+		return getId();
+		});
+
+	// Metodos de colision
+	registerMethod("onTriggerEnter", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			onTriggerEnter(std::any_cast<core::Entity*>(args[0]));
+		}
+		});
+
+	registerMethod("onTriggerExit", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			onTriggerExit(std::any_cast<core::Entity*>(args[0]));
+		}
+		});
+
+	registerMethod("onCollisionEnter", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			onCollisionEnter(std::any_cast<core::Entity*>(args[0]));
+		}
+		});
+
+	registerMethod("onCollisionExit", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			onCollisionExit(std::any_cast<core::Entity*>(args[0]));
+		}
+		});
+
+	// callbacks
+	registerMethod("subscribeOnTriggerEnter", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			auto func = std::any_cast<std::function<void(core::Entity*)>>(args[0]);
+			_onTriggerEnter.subscribe(func);
+		}
+		});
+
+	registerMethod("subscribeOnTriggerExit", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			auto func = std::any_cast<std::function<void(core::Entity*)>>(args[0]);
+			_onTriggerExit.subscribe(func);
+		}
+		});
+
+	registerMethod("subscribeOnCollisionEnter", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			auto func = std::any_cast<std::function<void(core::Entity*)>>(args[0]);
+			_onCollisionEnter.subscribe(std::any_cast<std::function<void(core::Entity*)>>(args[0]));
+		}
+		});
+
+	registerMethod("subscribeOnCollisionExit", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			auto func = std::any_cast<std::function<void(core::Entity*)>>(args[0]);
+			_onCollisionExit.subscribe(func);
+		}
+		});
+}
+
 bool Collider::init(const Properties& p)
 {
-	_eng = Engine::instance();
-
 	//Default
 	radius = 0.5f;
 	height = 0.0f;
@@ -36,9 +112,15 @@ bool Collider::init(const Properties& p)
 		Debug::error("[COLLIDER] TIPO INCOMPATIBLE!!");
 	}
 
+	//ROTATION
+	/*rotation = getProperty<core::Quaternion<>>(p, "rotation");*/
+	core::Vector3<> r;
+	setProperty(p, "rotation", r);
+	core::Quaternion<float> q;
+	rotation = q.fromEuler(r);
 	//DYNAMIC
 	isDynamic = getProperty<bool>(p, "dynamic");
-	
+
 	//TRIGGER
 	isTrigger = getProperty<bool>(p, "trigger");
 
@@ -57,11 +139,12 @@ void Collider::ready()
 	if (!transform) return;
 
 	core::Vector3<> pos = transform->getGlobalPosition();
+	core::Quaternion<> rotGlob = transform->getGlobalRotation();
 
 	rigidBody = entity->getComponent<RigidBody>();
 
 	if (rigidBody != NULL && rigidBody->getIsKinematic() && !isDynamic) {
-		Debug::warning("[COLLIDER] Collider no puede ser kinematic sin ser dinámico. Corrigiendo a dynamic=true.");
+		Debug::warning("[COLLIDER] Collider no puede ser kinematic sin ser dinamico. Corrigiendo a dynamic=true.");
 		isDynamic = true;
 	}
 
@@ -77,18 +160,18 @@ void Collider::ready()
 		physicsID = rigidBody->getId();
 		if (physicsID == 0)
 		{
-			Debug::warning("[COLLIDER] RigidBody ID no válido aún. Esperando...");
+			Debug::warning("[COLLIDER] RigidBody ID no valido aún. Esperando...");
 			return;
 		}
-		
+
 
 		switch (shapeType)
 		{
 		case ShapeType::BOX:
-			_eng->attachBoxShapeToRigidBody(physicsID, size, center, isTrigger);
+			Engine::instance()->attachBoxShapeToRigidBody(physicsID, size, center, rotation, isTrigger);
 			break;
 		case ShapeType::CAPSULE:
-			_eng->attachCapsuleShapeToRigidBody(physicsID, radius, height, center, isTrigger);
+			Engine::instance()->attachCapsuleShapeToRigidBody(physicsID, radius, height, center, rotation, isTrigger);
 			break;
 		}
 	}
@@ -98,45 +181,65 @@ void Collider::ready()
 		switch (shapeType)
 		{
 		case ShapeType::BOX:
-			physicsID = _eng->createBoxCollider(size, pos + center, isDynamic, isTrigger);
+			physicsID = Engine::instance()->createBoxCollider(size, center, pos, rotGlob, rotation, isDynamic, isTrigger);
 			break;
 		case ShapeType::CAPSULE:
-			physicsID = _eng->createCapsuleCollider(radius, height, center, pos + center, isDynamic, isTrigger);
+			physicsID = Engine::instance()->createCapsuleCollider(radius, height, center, pos, rotGlob, rotation, isDynamic, isTrigger);
 			break;
 		}
 	}
+
+	Engine::instance()->registerActorEntity(physicsID, getEntity());
 }
 
 void Collider::update(uint64_t deltaTime)
 {
 	if (!entity || physicsID == 0 || !transform) return;
 
-	for (auto& event : _eng->getPhysicsEvents(physicsID)) {
+	for (auto& event : Engine::instance()->consumeEvents(physicsID)) {
 		switch (event.type) {
-		case CollisionType::TriggerEnter: onTriggerEnter(event.b); break;
-		case CollisionType::TriggerExit: onTriggerExit(event.b); break;
-		case CollisionType::CollisionEnter: onCollisionEnter(event.b); break;
-		case CollisionType::CollisionExit: onCollisionExit(event.b); break;
+		case CollisionType::TriggerEnter: onTriggerEnter(event.otherEntity); break;
+		case CollisionType::TriggerExit: onTriggerExit(event.otherEntity); break;
+		case CollisionType::CollisionEnter: onCollisionEnter(event.otherEntity); break;
+		case CollisionType::CollisionExit: onCollisionExit(event.otherEntity); break;
 		}
 	}
-	_eng->clearPhysicsEvents();
+	//Engine::instance()->clearPhysicsEvents();
 }
 
+void Collider::enable()
+{
+	Engine::instance()->setActorEnabled(physicsID, true, isTrigger);
+}
 
-void Collider::onTriggerEnter(ComponentID other) 
+void Collider::disable()
+{
+	Engine::instance()->setActorEnabled(physicsID, false, isTrigger);
+}
+
+void Collider::onTriggerEnter(core::Entity* other)
 {
 	Debug::out("[TRIGGER] Trigger enter");
+	_onTriggerEnter.emit(other);
+	hasTriggered = true;
 }
 
-void Collider::onTriggerExit(ComponentID other) 
+void Collider::onTriggerExit(core::Entity* other)
 {
 	Debug::out("[TRIGGER] Trigger exit");
+	_onTriggerExit.emit(other);
+	hasTriggered = false;
 }
 
-void Collider::onCollisionEnter(ComponentID other) {
+void Collider::onCollisionEnter(core::Entity* other) {
 	Debug::out("[COLLIDER] Collision enter");
+	_onCollisionEnter.emit(other);
+	hasCollided = true;
 }
 
-void Collider::onCollisionExit(ComponentID other) {
+void Collider::onCollisionExit(core::Entity* other) {
 	Debug::out("[COLLIDER] Collision exit");
+	_onCollisionExit.emit(other);
+	hasCollided = false;
 }
+

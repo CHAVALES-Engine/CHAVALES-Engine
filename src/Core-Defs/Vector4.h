@@ -185,7 +185,7 @@ namespace core
 		 *
 		 * @param v - vector a sumar.
 		 */
-		inline Vector4 operator+(const Vector4& v)
+		inline Vector4 operator+(const Vector4& v) const
 		{
 			return Vector4(_x + v._x, _y + v._y, _z + v._z, _w + v._w);
 		}
@@ -200,7 +200,7 @@ namespace core
 		 *
 		 * @param v - vector a restar.
 		 */
-		inline Vector4 operator-(const Vector4& v)
+		inline Vector4 operator-(const Vector4& v) const
 		{
 			return Vector4(_x - v._x, _y - v._y, _z - v._z, _w - v._w);
 		}
@@ -215,7 +215,7 @@ namespace core
 		 *
 		 * @param v - vector a multiplicar.
 		 */
-		inline T operator*(const Vector4& v)
+		inline T operator*(const Vector4& v) const
 		{
 			return _x * v.getX() + _y * v.getY() + _z * v.getZ() + _w * v.getW();
 		}
@@ -230,7 +230,7 @@ namespace core
 		 *
 		 * @param a - escalar a multiplicar.
 		 */
-		inline Vector4 operator*(T a)
+		inline Vector4 operator*(T a) const
 		{
 			return Vector4(_x * a, _y * a, _z * a, _w * a);
 		}
@@ -240,9 +240,14 @@ namespace core
 		 *
 		 * @param a - escalar por el que dividir.
 		 */
-		inline Vector4 operator/(T a)
+		inline Vector4 operator/(T a) const
 		{
 			return Vector4(_x / a, _y / a, _z / a, _w / a);
+		}
+
+		inline Vector4 operator-() const
+		{
+			return Vector4(-_x, -_y, -_z, -_w);
 		}
 
 		inline Vector4& operator/=(const T& a)
@@ -255,7 +260,7 @@ namespace core
 		 *
 		 * @param v - vector a comparar.
 		 */
-		inline bool operator==(const Vector4& v)
+		inline bool operator==(const Vector4& v) const
 		{
 			return (_x == v._x) && (_y == v._y) && (_z == v._z) && (_w == v._w);
 		}
@@ -265,7 +270,7 @@ namespace core
 		 *
 		 * @param v - vector a comparar.
 		 */
-		inline bool operator!=(const Vector4& v)
+		inline bool operator!=(const Vector4& v) const
 		{
 			return !operator==(v);
 		}
@@ -288,7 +293,7 @@ namespace core
 		/**
 		 * @brief Devuelve el modulo del vector.
 		 */
-		inline T magnitude()
+		inline T magnitude() const
 		{
 			return sqrt(pow(_x, 2) + pow(_y, 2) + pow(_z, 2) + pow(_w, 2));
 		}
@@ -296,9 +301,11 @@ namespace core
 		/**
 		 * @brief Devuelve el vector normalizado.
 		 */
-		inline Vector4 normalized()
+		inline Vector4 normalized() const
 		{
-			return *this / magnitude();
+			float mag = magnitude();
+			if (mag > 1e-6f) return *this / mag;
+			else return Vector4(0, 0, 0, 0);
 		}
 
 	private:
@@ -328,5 +335,11 @@ namespace core
 	{
 		os << "(" << v.getX() << ", " << v.getY() << ", " << v.getZ() << ", " << v.getW() << ")";
 		return os;
+	}
+
+	template <typename T>
+	inline Vector4<T> operator*(T a, const Vector4<T>& v)
+	{
+		return v * a;
 	}
 }
