@@ -61,7 +61,7 @@ struct EngineNode
 	EngineNode(Ogre::SceneNode* node, entityID id) : sceneNode(node), nodeID(id) {}
 };
 
-struct UILabelData 
+struct UILabelData
 {
 	entityID entity;
 	std::string text;
@@ -75,7 +75,7 @@ struct UILabelData
 	bool alive = true;
 };
 
-struct UIButtonData 
+struct UIButtonData
 {
 	entityID entity;
 	std::string text;
@@ -96,7 +96,7 @@ struct UIButtonData
 	bool disable = false;
 };
 
-struct UITextureRectData 
+struct UITextureRectData
 {
 	entityID entity;
 	std::string textureFolder;
@@ -108,7 +108,7 @@ struct UITextureRectData
 	bool alive = true;
 };
 
-struct UIPanelData 
+struct UIPanelData
 {
 	entityID entity;
 	std::string title;
@@ -135,7 +135,7 @@ class RenderModule
 {
 public:
 	~RenderModule();
-	bool Init( SDL_Window* sdlWindow,const HWND handle, const int width, const int height, const std::vector<std::pair<FontName, FontPath>> fonts);
+	bool Init(SDL_Window* sdlWindow, const HWND handle, const int width, const int height, const std::vector<std::pair<FontName, FontPath>> fonts);
 
 	/*
 	* @brief Renderizar frame.
@@ -211,17 +211,17 @@ public:
 	* @brief Establecer rotacion del nodo.
 	*/
 	void setUITransformRotation(const UITransformID& id, const float& pos);
-	
+
 	/*
 	* @brief Establecer zBuffer del nodo.
 	*/
 	void setUITransformZBuffer(const UITransformID& id, const int& pos);
-	 
+
 	/*
 	* @brief Getter de nodoUI. Devuelve -1 si no existe.
 	*/
 	UITransformID getTransformUI(const entityID& entityID);
-	
+
 	/*
 	* @brief Leer posicion del componente de la UI.
 	*/
@@ -302,6 +302,11 @@ public:
 	void setTint(const modelID& id, const subMeshID& subID, const core::Color& tint);
 
 	/*
+	* @brief Devuelve el tinte de la entidad
+	*/
+	core::Color getTint();
+
+	/*
 	* @brief Establecer si el modelo es visible
 	*/
 	void setModelVisible(const modelID& id, const bool& visible);
@@ -326,14 +331,14 @@ public:
 	* @brief Anadir keyframe a animacion de transform.
 	*/
 	void addTransformKeyFrame(const animationID& animationID,
-		const float& timePos, const core::Vector3<float>& pos, 
+		const float& timePos, const core::Vector3<float>& pos,
 		const core::Quaternion<float>& rot, const core::Vector3<float>& scale);
 
 	/*
 	* @brief Anadir keyframe a animacion de transform con rotacion sencilla.
 	*/
 	void addTransformKeyFrame(const animationID& animationID,
-		const float& timePos, const core::Vector3<float>& pos, 
+		const float& timePos, const core::Vector3<float>& pos,
 		const float& rot, const int& axis, const core::Vector3<float>& scale);
 
 	/*
@@ -488,16 +493,16 @@ public:
 	*/
 	void setParticleGenPartColor(const particleGenID& id, const core::Color& color);
 
-    // --- Metodos skydome
-    /*
-    * @brief Establecer skydome
-    */
-    void setSkydome(const std::string& textureFolder, const std::string& textureFile, const float& curvature, const float& tiling, const float& distance, const bool& drawFirst);
+	// --- Metodos skydome
+	/*
+	* @brief Establecer skydome
+	*/
+	void setSkydome(const std::string& textureFolder, const std::string& textureFile, const float& curvature, const float& tiling, const float& distance, const bool& drawFirst);
 
-    /*
-    * @brief Quitar skydome
-    */
-    void setSkydomeNull();
+	/*
+	* @brief Quitar skydome
+	*/
+	void setSkydomeNull();
 
 	// --- Metodos UI
 	/*
@@ -683,21 +688,21 @@ private:
 	std::vector<std::string> _createdMaterials;
 	TextAlign stringToAlign(const std::string& align);
 
-    transformID _nextTransformID;
-    UITransformID _nextUITransformID;
-    cameraID _nextCameraID;
-    modelID _nextModelID;
-    animationID _nextAnimationID;
-    lightID _nextLightID;
-    particleGenID _nextParticleGenID;
+	transformID _nextTransformID;
+	UITransformID _nextUITransformID;
+	cameraID _nextCameraID;
+	modelID _nextModelID;
+	animationID _nextAnimationID;
+	lightID _nextLightID;
+	particleGenID _nextParticleGenID;
 	skydomeID _nextSkydomeID;
 
-    uiPanelID _nextPanelID;
-    uiLabelID _nextLabelID;
-    uiButtonID _nextButtonID;
-    uiTextureRectID _nextTextureRectID;
-    Ogre::ImGuiOverlay* _overlay;
-    std::unordered_set<std::string> _resourceGroups;
-
+	uiPanelID _nextPanelID;
+	uiLabelID _nextLabelID;
+	uiButtonID _nextButtonID;
+	uiTextureRectID _nextTextureRectID;
+	Ogre::ImGuiOverlay* _overlay;
+	std::unordered_set<std::string> _resourceGroups;
+	core::Color entityTint = core::WHITE;
 	bool _imguiSDLInitialized = false;
 };
