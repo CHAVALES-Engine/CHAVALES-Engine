@@ -417,8 +417,8 @@ UITransformID RenderModule::addUITransform(const entityID& entityID, const core:
 			return i; //Ya existe
 		}
 	}
-
-	UITransform uiT;
+	
+	UITransformData uiT;
 	uiT.entity = entityID;
 	uiT.position = pos;
 	uiT.dimension = dimension;
