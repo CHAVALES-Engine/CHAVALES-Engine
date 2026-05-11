@@ -117,6 +117,9 @@
     <ClCompile Include="..\..\src\Engine\GameLoader.cpp" />
     <ClCompile Include="..\..\src\Engine\InputFacade.cpp" />
     <ClCompile Include="..\..\src\Engine\StateMachine.cpp" />
+    <ClCompile Include="GraphicsFacade.cpp" />
+    <ClCompile Include="PhysicsFacade.cpp" />
+    <ClCompile Include="UIFacade.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Engine\ComponentRegister.h" />
@@ -125,6 +128,9 @@
     <ClInclude Include="..\..\src\Engine\GameLoader.h" />
     <ClInclude Include="..\..\src\Engine\InputFacade.h" />
     <ClInclude Include="..\..\src\Engine\StateMachine.h" />
+    <ClInclude Include="GraphicsFacade.h" />
+    <ClInclude Include="PhysicsFacade.h" />
+    <ClInclude Include="UIFacade.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
