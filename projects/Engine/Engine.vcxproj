@@ -111,26 +111,30 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\Engine\AudioFacade.cpp" />
     <ClCompile Include="..\..\src\Engine\ComponentRegister.cpp" />
     <ClCompile Include="..\..\src\Engine\ComponentDLLLoader.cpp" />
     <ClCompile Include="..\..\src\Engine\Engine.cpp" />
+    <ClCompile Include="..\..\src\Engine\EngineComponent.cpp" />
     <ClCompile Include="..\..\src\Engine\GameLoader.cpp" />
     <ClCompile Include="..\..\src\Engine\InputFacade.cpp" />
+    <ClCompile Include="..\..\src\Engine\PhysicsFacade.cpp" />
+    <ClCompile Include="..\..\src\Engine\RenderFacade.cpp" />
     <ClCompile Include="..\..\src\Engine\StateMachine.cpp" />
-    <ClCompile Include="GraphicsFacade.cpp" />
-    <ClCompile Include="PhysicsFacade.cpp" />
-    <ClCompile Include="UIFacade.cpp" />
+    <ClCompile Include="..\..\src\Engine\UIFacade.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\src\Engine\AudioFacade.h" />
     <ClInclude Include="..\..\src\Engine\ComponentRegister.h" />
     <ClInclude Include="..\..\src\Engine\ComponentDLLLoader.h" />
     <ClInclude Include="..\..\src\Engine\Engine.h" />
+    <ClInclude Include="..\..\src\Engine\EngineComponent.h" />
     <ClInclude Include="..\..\src\Engine\GameLoader.h" />
     <ClInclude Include="..\..\src\Engine\InputFacade.h" />
+    <ClInclude Include="..\..\src\Engine\PhysicsFacade.h" />
+    <ClInclude Include="..\..\src\Engine\RenderFacade.h" />
     <ClInclude Include="..\..\src\Engine\StateMachine.h" />
-    <ClInclude Include="GraphicsFacade.h" />
-    <ClInclude Include="PhysicsFacade.h" />
-    <ClInclude Include="UIFacade.h" />
+    <ClInclude Include="..\..\src\Engine\UIFacade.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
