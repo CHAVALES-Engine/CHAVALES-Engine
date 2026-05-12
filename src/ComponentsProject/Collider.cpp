@@ -191,7 +191,7 @@ bool Collider::init(const Properties& p)
 
 void Collider::ready()
 {
-	disable();
+
 }
 
 void Collider::update(uint64_t deltaTime)
