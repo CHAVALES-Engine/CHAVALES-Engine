@@ -129,16 +129,10 @@ bool Collider::init(const Properties& p)
 	//CENTER
 	setProperty(p, "center", center);
 
-	return true;
-}
-
-void Collider::ready()
-{
-
-	if (!entity) return;
+	if (!entity) return false;
 
 	transform = entity->getComponent<Transform>();
-	if (!transform) return;
+	if (!transform) return false;
 
 	core::Vector3<> pos = transform->getGlobalPosition();
 	core::Quaternion<> rotGlob = transform->getGlobalRotation();
@@ -155,7 +149,7 @@ void Collider::ready()
 		if (rigidBody == NULL)
 		{
 			Debug::warning("[COLLIDER] Collider no puede ser dinamico sin rigidbody.");
-			return;
+			return false;
 		}
 
 		//coger el id
@@ -163,7 +157,7 @@ void Collider::ready()
 		if (physicsID == 0)
 		{
 			Debug::warning("[COLLIDER] RigidBody ID no valido aún. Esperando...");
-			return;
+			return false;
 		}
 
 
@@ -190,8 +184,14 @@ void Collider::ready()
 			break;
 		}
 	}
-
 	physics()->setActorEntity(physicsID, getEntity());
+
+
+	return true;
+}
+
+void Collider::ready()
+{
 }
 
 void Collider::update(uint64_t deltaTime)
