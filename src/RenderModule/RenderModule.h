@@ -303,6 +303,11 @@ public:
 	void setTint(const modelID& id, const subMeshID& subID, const core::Color& tint);
 
 	/*
+	* @brief Devuelve el tinte del material.
+	*/
+	core::Color getTint(const modelID& id, const subMeshID& subID);
+
+	/*
 	* @brief Establecer si el modelo es visible
 	*/
 	void setModelVisible(const modelID& id, const bool& visible);
@@ -699,6 +704,5 @@ private:
 	uiTextureRectID _nextTextureRectID;
 	Ogre::ImGuiOverlay* _overlay;
 	std::unordered_set<std::string> _resourceGroups;
-	core::Color entityTint = core::WHITE;
 	bool _imguiSDLInitialized = false;
 };
