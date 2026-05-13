@@ -6,10 +6,6 @@
 #include "EngineAPI.h"
 #include "Color.h"
 
-namespace core
-{
-	class EngineComponent;
-}
 
 class Engine;
 class PlatformModule;
@@ -25,7 +21,6 @@ private:
 	 * @brief Clases amigas.
 	 */
 	friend Engine;
-	friend core::EngineComponent;
 	/**
 	 * @brief Referencia al modulo que envuelve.
 	 */
