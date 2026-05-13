@@ -48,15 +48,6 @@ void Engine::release()
 	// facades
 	delete _instance->_input;
 	_instance->_input = nullptr;
-	//delete _instance->_render;
-	//_instance->_render = nullptr;
-	//delete _instance->_ui;
-	//_instance->_ui = nullptr;
-	//delete _instance->_physics;
-	//_instance->_physics = nullptr;
-	//delete _instance->_audio;
-	//_instance->_audio = nullptr;
-	// cierre de modulos
 	delete _instance->_platformModule;
 	_instance->_platformModule = nullptr;
 	delete _instance->_audioModule;
@@ -263,13 +254,6 @@ bool Engine::_initPriv()
 
 	return true;
 }
-
-Engine::~Engine()
-{
-	if (_instance)
-		release();
-}
-
 bool Engine::update(uint64_t dt) const
 {
 	core::TimerManager::instance().update();

@@ -59,10 +59,10 @@ scene = { -- entidades en escena
                     useGravity = true,
                     isKinematic = false,
                     mass = 1.0,
-                    position = Vector3.new(0, 300, 0),
-                    velocity = Vector3.new(0, 1000, 0),
+                    position = Vector3.new(0, 30, 0),
+                    velocity = Vector3.new(0, -100, 0),
                     damping = 0.0,
-                    blockAxes = {false, true, false}
+                    blockAxes = {false, false, false}
                 },
                 Collider = {
                     type = "CAPSULE",
@@ -75,9 +75,9 @@ scene = { -- entidades en escena
                 PhysicsMaterial = {
                     staticFriction = 0.5,
                     dynamicFriction = 0.5,
-                    restitution = 0.0,
+                    restitution = 1.50,
                     frictionCombine = 1,
-                    bounceCombine = 1
+                    bounceCombine = 1.0
                 },
                 AudioSource = {
                     soundPath = "sfx/smb_1-up.wav",
@@ -121,7 +121,10 @@ scene = { -- entidades en escena
             ddol = false,
             components = {
                 UITransform = {
-                    position = Vector2.new(900, 10),
+                    position = Vector2.new(0, 0),
+                    dimension = Vector2.new(1280, 720),
+                    zBuffer = 0,
+                    -- position = Vector2.new(900, 10),
                     children = {"LabelUI", "ButtonUI", "ButtonUI2"}
 
                 },

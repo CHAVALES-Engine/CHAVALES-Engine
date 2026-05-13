@@ -43,7 +43,8 @@ using entityID = ChavalesGUID;
 
 class ENGINE_API Engine
 {
-	~Engine();
+	Engine() = default;
+	~Engine() = default;
 public:
 	bool update(uint64_t dt) const;
 	void fixedUpdate(float dt) const;

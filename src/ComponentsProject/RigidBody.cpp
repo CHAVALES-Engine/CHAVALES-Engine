@@ -119,9 +119,9 @@ bool RigidBody::init(const Properties& p)
 
 	useGravity = getProperty<bool>(p, "useGravity");
 	isKinematic = getProperty<bool>(p, "isKinematic");
-	physicsID = physics()->CreateRigidBody(getPosition(), getMass(), useGravity, isKinematic);
 	setMass(getProperty<float>(p, "mass"));
 	setPosition(getProperty<core::Vector3<>>(p, "position"));
+	physicsID = physics()->CreateRigidBody(getPosition(), getMass(), useGravity, isKinematic);
 	if (!isKinematic)
 	{
 		setVelocity(getProperty<core::Vector3<>>(p, "velocity"));
@@ -132,7 +132,7 @@ bool RigidBody::init(const Properties& p)
 			blockAxes(blockAxs[0], blockAxs[1], blockAxs[2]);
 		}
 		std::vector<bool> blockAngs(3, false);
-		setProperty(p, "blockAxes", blockAngs, false);
+		setProperty(p, "blockAngles", blockAngs, false);
 		if (blockAngs.size() >= 3) {
 			blockAngles(blockAngs[0], blockAngs[1], blockAngs[2]);
 		}
