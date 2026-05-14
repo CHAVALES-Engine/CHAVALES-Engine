@@ -1,5 +1,6 @@
 ﻿#include "Light.h"
 
+#include "RenderModule.h"
 #include "Engine.h"
 #include "Entity.h"
 
@@ -62,7 +63,6 @@ Light::Light() : _type(Type::POINT), _color(1, 1, 1, 1), _intensity(1.0f), _inne
 
 Light::~Light()
 {
-	//Engine::instance()->deleteLight(_lightID);
 }
 bool Light::init(const Properties& p)
 {
@@ -78,7 +78,7 @@ bool Light::init(const Properties& p)
 }
 void Light::ready()
 {
-	_lightID = Engine::instance()->addLight(getEntity()->getEntityID(), _typeInt, _color, _intensity);
+	_lightID = render()->addLight(getEntity()->getEntityID(), _typeInt, _color, _intensity);
 }
 void Light::setType(const Type& type)
 {
@@ -126,5 +126,5 @@ float Light::getFallOff() const {
 
 void Light::destroy()
 {
-	Engine::instance()->deleteLight(_lightID);
+	render()->deleteLight(_lightID);
 }

@@ -13,6 +13,7 @@
 using sceneName = std::string;
 
 /**
+ * @file
  * @brief GameLoader.
  *
  *		Clase que implementa la integracion y carga de escenas con Lua.
@@ -28,13 +29,11 @@ public:
 	 *
 	 * @param n - Nombre de la escena a cargar, debe coincidir con el .lua que la define.
 	 */
-	//static std::shared_ptr<core::Scene> loadScene(const sceneName& n);
 	static void loadScene(const sceneName& n, std::shared_ptr<core::Scene>& s);
 
 	/**
 	 * @brief Carga un prefab e instancia las entidades.
 	 * @param n - path del prefab a cargar.
-	 * @return 
 	 */
 	static core::Entity* loadPrefab(std::string const& n);
 
@@ -90,11 +89,10 @@ private:
 	static bool _defineFunc(sol::state& lua, const std::string& fp, const std::string& sp, sol::table& st);
 
 	/**
-	 * @brief Funcion que injecta en el estado de lua las funcion loadPrefab.
-
+	 * @brief Funcion que inyecta en el estado de lua las funcion loadPrefab.
 	 * @param lua - Estado de lua.
 	 * @param fp - Ruta al archivo lua de funciones.
-	 * @returns Si el lua se ha podido ejecutar correctamente y se ha inyectado la función.
+	 * @returns Si el lua se ha podido ejecutar correctamente y se ha inyectado la funcion.
 	 */
 	static bool _injectPrefabFunc(sol::state& lua, const std::string& fp);
 
@@ -107,7 +105,7 @@ private:
 
 	/**
 	 * Carga un archivo de lua y lo mete en la escena activa.
-	 * @param s - Escena a la que anyadir.
+	 * @param s - Escena a la que anadir.
 	 * @param p - path del fichero a cargar.
 	 */
 	static core::Entity* _loadLua(const std::shared_ptr<core::Scene>& s, std::string const& p);

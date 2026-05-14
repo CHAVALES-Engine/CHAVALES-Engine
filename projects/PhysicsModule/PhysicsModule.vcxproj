@@ -102,7 +102,6 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\PhysicsModule\framework.h" />
     <ClInclude Include="..\..\src\PhysicsModule\PhysicsModule.h" />
     <ClInclude Include="..\..\src\PhysicsModule\Raycast.h" />
     <ClInclude Include="SphereCollider.h" />

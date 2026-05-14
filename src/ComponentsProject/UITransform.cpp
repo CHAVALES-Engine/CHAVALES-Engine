@@ -3,8 +3,8 @@
 #include <Engine.h>
 #include <Debug.h>
 #include <PluginSDK.h>
+#include "RenderModule.h"
 #include "checkMLNew.h"
-
 
 REGISTER_COMPONENT(UITransform);
 
@@ -102,39 +102,37 @@ bool UITransform::init(const Properties& p)
 		if (std::shared_ptr<UITransform> t = e->getComponent<UITransform>())
 			t->setParent(this);
 	}
-	_UItransformID = Engine::instance()->addUITransform(getEntity()->getEntityID(),getPosition(), getZBuffer(),getDimension(), getRotation());
-	Engine::instance()->setUITransformPos(_UItransformID, getPosition());
-	Engine::instance()->setUITransformDimension(_UItransformID, getDimension());
-	Engine::instance()->setUITransformRotation(_UItransformID, getRotation());
-	Engine::instance()->setUITransformZBuffer(_UItransformID, getZBuffer());
+	_UItransformID = render()->addUITransform(getEntity()->getEntityID(),getPosition(), getZBuffer(),getDimension(), getRotation());
+	render()->setUITransformPos(_UItransformID, getPosition());
+	render()->setUITransformDimension(_UItransformID, getDimension());
+	render()->setUITransformRotation(_UItransformID, getRotation());
+	render()->setUITransformZBuffer(_UItransformID, getZBuffer());
 
 	return true;
 }
 
-
-
 void UITransform::setPosition(const core::Vector2<>& pos)
 {
 	_position = pos;
-	Engine::instance()->setUITransformPos(_UItransformID, getPosition());
+	render()->setUITransformPos(_UItransformID, getPosition());
 }
 
 void UITransform::setDimension(const core::Vector2<>& dim)
 {
 	_dimension = dim;
-	Engine::instance()->setUITransformDimension(_UItransformID, dim);
+	render()->setUITransformDimension(_UItransformID, dim);
 }
 
 void UITransform::setRotation(float r)
 {
 	_rotation = r;
-	Engine::instance()->setUITransformRotation(_UItransformID, r);
+	render()->setUITransformRotation(_UItransformID, r);
 }
 
 void UITransform::setZbuffer(int zBuff)
 {
 	_zBuffer = zBuff;
-	Engine::instance()->setUITransformZBuffer(_UItransformID, zBuff);
+	render()->setUITransformZBuffer(_UItransformID, zBuff);
 }
 
 core::Vector2<> UITransform::getPosition() const {

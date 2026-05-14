@@ -1,6 +1,9 @@
+/**
+ * @file
+ * @brief
+ */
+
 #pragma once
-
-
 #ifdef ENGINE_EXPORTS
 #define ENGINE_API __declspec(dllexport)	// exportando desde engine
 #else

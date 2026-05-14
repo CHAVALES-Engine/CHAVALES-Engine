@@ -1,7 +1,8 @@
 #include "Animator.h"
-#include "PluginSDK.h"
-#include "Entity.h"
 #include "Engine.h"
+#include "PluginSDK.h"
+#include "RenderModule.h"
+#include "Entity.h"
 #include "ModelRenderer.h"
 #include "checkMLNew.h"
 
@@ -72,7 +73,7 @@ void Animator::update(uint64_t deltaTime)
 	{
 		if (animation.second.active)
 		{
-			Engine::instance()->updateAnimation(animation.second.id, deltaTime);
+			render()->updateAnimation(animation.second.id, deltaTime);
 		}
 	}
 }
@@ -85,7 +86,7 @@ void Animator::registerAnimator()
 
 bool Animator::registerSkeletonAnim(const std::string& animationName, const bool& loop)
 {
-	animationID id = Engine::instance()->registerSkeletonAnim(_modelID, animationName, loop);
+	animationID id = render()->registerSkeletonAnim(_modelID, animationName, loop);
 	if (id != -1)
 	{
 		_animations.emplace(animationName, Animation(id, skeletal));
@@ -96,7 +97,7 @@ bool Animator::registerSkeletonAnim(const std::string& animationName, const bool
 
 void Animator::createTransformAnimation(const std::string& animationName, const bool& loop, const float& totalDuration)
 {
-	animationID id = Engine::instance()->createTransformAnimation(getEntity()->getEntityID(), animationName, loop, totalDuration);
+	animationID id = render()->createTransformAnimation(getEntity()->getEntityID(), animationName, loop, totalDuration);
 	_animations.emplace(animationName, Animation(id, transform));
 }
 
@@ -105,7 +106,7 @@ void Animator::addTransformKeyFrame(const std::string& animationName, const floa
 	auto aux = _animations.find(animationName);
 	if (aux != _animations.end())
 	{
-		Engine::instance()->addTransformKeyFrame(aux->second.id, timePos, pos, rot, scale);
+		render()->addTransformKeyFrame(aux->second.id, timePos, pos, rot, scale);
 	}
 }
 
@@ -127,7 +128,7 @@ void Animator::addTransformKeyFrame(const std::string& animationName, const floa
 			axisToInt = 2;
 			break;
 		}
-		Engine::instance()->addTransformKeyFrame(aux->second.id, timePos, pos, rot, axisToInt, scale);
+		render()->addTransformKeyFrame(aux->second.id, timePos, pos, rot, axisToInt, scale);
 	}
 }
 
@@ -136,7 +137,7 @@ void Animator::setAnimEnabled(const std::string& animationName, const bool& acti
 	auto aux = _animations.find(animationName);
 	if (aux != _animations.end())
 	{
-		Engine::instance()->setAnimEnabled(aux->second.id, active);
+		render()->setAnimEnabled(aux->second.id, active);
 		aux->second.active = active;
 	}
 }
@@ -146,7 +147,7 @@ void Animator::setAnimTimePos(const std::string& animationName, const float& tim
 	auto aux = _animations.find(animationName);
 	if (aux != _animations.end())
 	{
-		Engine::instance()->setAnimTimePos(aux->second.id, timePos);
+		render()->setAnimTimePos(aux->second.id, timePos);
 	}
 }
 
@@ -155,8 +156,6 @@ void Animator::setAnimSpeed(const std::string& animationName, const float& speed
 	auto aux = _animations.find(animationName);
 	if (aux != _animations.end())
 	{
-		Engine::instance()->setAnimSpeed(aux->second.id, speed);
+		render()->setAnimSpeed(aux->second.id, speed);
 	}
 }
-
-

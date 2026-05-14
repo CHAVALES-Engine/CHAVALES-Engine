@@ -1,8 +1,7 @@
 #pragma once
 /**
 * @file MessagesManager
-* @brief Clase manejadora de Mensajes.
-*		TODO: Descripcion de los mensajes
+* @brief Clase de manejo de Mensajes.
 */
 
 #include "Message.h"

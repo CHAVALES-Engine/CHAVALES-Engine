@@ -6,12 +6,25 @@
 #include "EngineAPI.h"
 #include "Color.h"
 
+
 class Engine;
 class PlatformModule;
-
+/**
+ * @brief API publica para input del motor.
+ * Expone solo los metodos seguros para componentes.
+ * Para metodos internos, ver PlatformModule.
+ */
 class ENGINE_API InputFacade
 {
 private:
+	/**
+	 * @brief Clases amigas.
+	 */
+	friend Engine;
+	/**
+	 * @brief Referencia al modulo que envuelve.
+	 */
+	PlatformModule* _platform = nullptr;
 	InputFacade(PlatformModule* platform);
 public:
 	//------Raw input:
@@ -199,15 +212,4 @@ public:
 	* @return bool - Devuelve true si esta mapeada.
 	*/
 	bool hasAction(const std::string& actionName) const;
-
-private:
-	
-	/**
-	 * @brief Engine es clase amiga.
-	 */
-	friend Engine;
-	/**
-	 * @brief Referencia al modulo que envuelve.
-	 */
-	PlatformModule* _platform = nullptr;
 };

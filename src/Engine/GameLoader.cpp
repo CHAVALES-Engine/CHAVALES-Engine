@@ -200,7 +200,6 @@ void GameLoader::_parseComponent(core::Entity* e, std::pair<sol::object, sol::ob
 		else
 		{
 			// --- quita el componente a la entidad
-			//e->removeComponent(componenteName);
 			Debug::warning("GAMELOADER: Error al cargar componente ", componenteName,
 				": no se pudo inicializar correctamente.");
 		}
@@ -256,7 +255,7 @@ void GameLoader::_instanceEntity(core::Entity* e, const std::pair<sol::object, s
 		// --- instancia cada componente de la tabla de componentes de la entidad
 		auto componenteName = componenteObj.first.as<std::string>();
 		std::shared_ptr<core::Component> component = ComponentRegister::instance().create(componenteName);
-		// anyade el componente a la entidad si existe el componente
+		// anade el componente a la entidad si existe el componente
 		if (component != nullptr)
 		{
 			component->setName(componenteName);
@@ -360,11 +359,8 @@ bool GameLoader::_defineFunc(sol::state& lua, const std::string& fp, const std::
 
 		if (result.valid())
 		{
-			//Debug::out("Resultado de func() valido");
-
 			if (result.get_type() == sol::type::table)
 			{
-				//Debug::warning("Resultado de func() SI es una tabla");
 				st = result;
 				finished = true;
 			}
@@ -420,7 +416,7 @@ void GameLoader::_loadLua(
 	_defineUserTypes(lua);
 
 	std::string funcPath = p + "luaFunc.lua";
-	//bool luaObtained = _defineFunc(lua, funcPath, scenePath, wateredScene);
+
 	_injectPrefabFunc(lua, funcPath);
 
 	try
@@ -500,8 +496,6 @@ void GameLoader::_loadLua(
 		// inicializamos los componentes
 		_initializeEntity(e, entidadObj);
 	}
-	// statemachine controla esto, ya no hace falta
-	//s->awake();
 	Debug::out("GAMELOADER: Escena ", n, " cargada.");
 }
 
@@ -515,9 +509,6 @@ core::Entity* GameLoader::_loadLua(const std::shared_ptr<core::Scene>& s, const 
 	std::string path = p + ".lua";
 	Debug::warning("GAMELOADER: cargando prefab: ", path);
 
-	/*std::string pathFunc = p + "luaFunc.lua";
-	defineFunc(lua, pathFunc);*/
-
 	try
 	{
 		// intenta leer archivo
@@ -528,26 +519,10 @@ core::Entity* GameLoader::_loadLua(const std::shared_ptr<core::Scene>& s, const 
 			Debug::error("GAMELOADER: 'prefab' no existe o no es una tabla en ", path);
 			return nullptr;
 		}
-		// ESTO POR SI UN PREFAB TIENE MAS DE UNA ENTIDAD
+		// POR SI UN PREFAB TIENE MAS DE UNA ENTIDAD
 
 		//// - Lee las entradas de la tabla de lua para meterla en la escena y a sus hijos.
 		sol::table table = object;
-		//for (auto& table : entities)	{
-		//	// --- para cada entidad leida
-		//	core::Entity* e = new core::Entity();
-		//	instanceEntity(e, table);
-		//	// --- mete la entidad en la escena
-		//	s->addEntity(e);
-		//}
-		//for (auto& table : entities)	{
-		//	std::string name = table.first.as<std::string>();
-		//	core::Entity* e = s->findEntityByName(name);
-		//	if (!e) continue;
-		//	initializeEntity(e, table);
-		//}
-		//s->ready();
-
-		//Debug::out("GAMELOADER: Prefab ", p, " cargado.");
 
 		// Prefab de 1 entidad.
 		auto e = new core::Entity();
@@ -641,59 +616,6 @@ std::string GameLoader::_findSceneFile(const std::string& sceneName, const std::
 
 	return "";
 }
-
-//std::shared_ptr<core::Scene> GameLoader::loadScene(const sceneName& n)
-//{
-//	std::string root = core::GameConfigurator::instance()._scenesRoot;
-//
-//	if (!fs::exists(root) ||
-//		!fs::is_directory(root))
-//	{
-//		Debug::error("La ruta indicada no es un directorio valido: ", root);
-//		return nullptr;
-//	}
-//
-//	std::string path = _findSceneFile(n, root);
-//
-//	if (path.empty())
-//	{
-//		Debug::error("No se encontro la escena ", n);
-//		return nullptr;
-//	}
-//
-//	Debug::out("Escena encontrada en ", path);
-//
-//	std::filesystem::path dir(path);
-//	std::filesystem::path file = dir / (n + ".lua");
-//
-//	if (!fs::exists(file))
-//	{
-//		Debug::error("El archivo de escena no existe: ", file.string());
-//		return nullptr;
-//	}
-//
-//	auto s = std::make_shared<core::Scene>(n);
-//
-//	try
-//	{
-//		_loadLua(s, n, root);
-//	}
-//	catch (...)
-//	{
-//		Debug::error("[GAMELOADER] Error critico leyendo escena, borrando memoria creada a partir de ella");
-//		s->clearScene();
-//		return nullptr;
-//	}
-//
-//	if (!s)
-//	{
-//		Debug::error("Error cargando la escena ", n);
-//		return nullptr;
-//	}
-//
-//	_firstReload = true;
-//	return s;
-//}
 
 void GameLoader::loadScene(const sceneName& n, std::shared_ptr<core::Scene>& s)
 {

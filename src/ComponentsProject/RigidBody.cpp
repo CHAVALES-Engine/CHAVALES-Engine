@@ -3,6 +3,7 @@
 #include "Entity.h"
 #include "Engine.h"
 #include "Transform.h"
+#include "PhysicsModule.h"
 #include "checkMLNew.h"
 
 REGISTER_COMPONENT(RigidBody);
@@ -113,13 +114,11 @@ RigidBody::RigidBody()
 
 bool RigidBody::init(const Properties& p)
 {
-	//_eng = Engine::instance();
-
 	useGravity = getProperty<bool>(p, "useGravity");
 	isKinematic = getProperty<bool>(p, "isKinematic");
-	physicsID = Engine::instance()->createRigidBody(getPosition(), getMass(), useGravity, isKinematic);
 	setMass(getProperty<float>(p, "mass"));
 	setPosition(getProperty<core::Vector3<>>(p, "position"));
+	physicsID = physics()->CreateRigidBody(getPosition(), getMass(), useGravity, isKinematic);
 	if (!isKinematic)
 	{
 		setVelocity(getProperty<core::Vector3<>>(p, "velocity"));
@@ -130,7 +129,7 @@ bool RigidBody::init(const Properties& p)
 			blockAxes(blockAxs[0], blockAxs[1], blockAxs[2]);
 		}
 		std::vector<bool> blockAngs(3, false);
-		setProperty(p, "blockAxes", blockAngs, false);
+		setProperty(p, "blockAngles", blockAngs, false);
 		if (blockAngs.size() >= 3) {
 			blockAngles(blockAngs[0], blockAngs[1], blockAngs[2]);
 		}
@@ -150,7 +149,7 @@ void RigidBody::ready()
 	if (getMass() <= 0.0f)
 		setMass(1.0f);
 	if (!isKinematic)
-		Engine::instance()->setLinearVelocity(physicsID, getVelocity());
+		physics()->SetLinearVelocity(physicsID, getVelocity());
 
 }
 
@@ -174,67 +173,66 @@ void RigidBody::update(uint64_t dt)
 }
 
 core::Vector3<> RigidBody::getVelocity() {
-	return Engine::instance()->getLinearVelocity(physicsID);
+	return physics()->GetLinearVelocity(physicsID);
 }
 
 core::Vector3<> RigidBody::getPosition() {
-	return Engine::instance()->getPhysicsPosition(physicsID);
+	return physics()->GetPhysicsPosition(physicsID);
 }
 
 core::Quaternion<> RigidBody::getRotation()
 {
-	return Engine::instance()->getPhysicsRotation(physicsID);
+	return physics()->GetPhysicsRotation(physicsID);
 }
 
 float RigidBody::getMass()
 {
-	return Engine::instance()->getMass(physicsID);
+	return physics()->GetMass(physicsID);
 }
 
 void RigidBody::setVelocity(core::Vector3<> vel) {
-	Engine::instance()->setLinearVelocity(physicsID, vel);
+	physics()->SetLinearVelocity(physicsID, vel);
 }
 
 void RigidBody::setPosition(core::Vector3<> pos) {
-	Engine::instance()->setPhysicsPosition(physicsID, pos);
+	physics()->SetPhysicsPosition(physicsID, pos);
 }
 
 void RigidBody::setRotation(core::Quaternion<> rot)
 {
-	Engine::instance()->setPhysicsRotation(physicsID, rot);
+	physics()->SetPhysicsRotation(physicsID, rot);
 }
 
 void RigidBody::setMass(float mass)
 {
-	Engine::instance()->setMass(physicsID, mass);
+	physics()->SetMass(physicsID, mass);
 }
 
 void RigidBody::setLinearDamping(float damping)
 {
-	Engine::instance()->setLinearDamping(physicsID, damping);
+	physics()->SetLinearDamping(physicsID, damping);
 }
 
 float RigidBody::getLinearDamping()
 {
-	return Engine::instance()->getLinearDamping(physicsID);
+	return physics()->GetLinearDamping(physicsID);
 }
 
 void RigidBody::AddForce(core::Vector3<> force, char mode) {
-	Engine::instance()->addForce(physicsID, force, mode);
+	physics()->AddForce(physicsID, force, mode);
 }
 
 void RigidBody::ClearForce(char mode)
 {
-	Engine::instance()->clearForce(physicsID, mode);
+	physics()->ClearForce(physicsID, mode);
 }
 
 void RigidBody::blockAxes(bool x, bool y, bool z)
 {
-	Engine::instance()->blockAxes(physicsID, x, y, z);
+	physics()->BlockAxes(physicsID, x, y, z);
 }
 
 void RigidBody::blockAngles(bool x, bool y, bool z)
 {
-	Engine::instance()->blockAngles(physicsID, x, y, z);
+	physics()->BlockAngles(physicsID, x, y, z);
 }
-

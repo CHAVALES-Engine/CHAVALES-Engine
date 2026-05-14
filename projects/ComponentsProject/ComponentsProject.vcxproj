@@ -118,7 +118,7 @@
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\Engine\;$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)src\Core-Utils\;$(SolutionDir)src\Core-Defs\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\RenderModule\;$(SolutionDir)src\AudioModule\;$(SolutionDir)src\PhysicsModule\;$(SolutionDir)src\ResourcesModule\;$(SolutionDir)src\PlatformModule\;$(SolutionDir)src\Engine\;$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)src\Core-Utils\;$(SolutionDir)src\Core-Defs\</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>false</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -148,7 +148,7 @@
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\Engine\;$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)src\Core-Utils\;$(SolutionDir)src\Core-Defs\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\RenderModule\;$(SolutionDir)src\AudioModule\;$(SolutionDir)src\PhysicsModule\;$(SolutionDir)src\ResourcesModule\;$(SolutionDir)src\PlatformModule\;$(SolutionDir)src\Engine\;$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)src\Core-Utils\;$(SolutionDir)src\Core-Defs\</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>false</MultiProcessorCompilation>
     </ClCompile>
     <Link>

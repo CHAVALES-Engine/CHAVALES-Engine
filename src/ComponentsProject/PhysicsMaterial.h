@@ -1,18 +1,22 @@
+/**
+ * @file
+ * @brief
+ */
+
 #pragma once
-#include <algorithm>
-#include "Component.h"
+#include "EngineComponent.h"
 #include <EngineAPI.h>
 
 class Engine;
 
 /**
  * @class PhysicsMaterial
- * @brief Define las propiedades físicas de un material en colisiones.
+ * @brief Define las propiedades fisicas de un material en colisiones.
  *
- * Controla fricción (estática y dinámica) y rebote (restitution),
- * así como cómo se combinan estos valores entre dos materiales.
+ * Controla friccion (estatica y dinamica) y rebote (restitution),
+ * asi como como se combinan estos valores entre dos materiales.
  */
-class ENGINE_API PhysicsMaterial : public core::Component
+class ENGINE_API PhysicsMaterial : public EngineComponent
 {
 /*
  * +-----------------+
@@ -31,7 +35,7 @@ class ENGINE_API PhysicsMaterial : public core::Component
 public:
 
 	/**
-	 * @brief Modos de combinación entre dos materiales
+	 * @brief Modos de combinacion entre dos materiales
 	 */
 	enum class CombineMode {
 		Av,   // Promedio
@@ -41,37 +45,32 @@ public:
 	};
 
 	/**
-	 * @brief Fricción estática (resistencia inicial al movimiento)
+	 * @brief Friccion estatica (resistencia inicial al movimiento)
 	 */
 	float staticFriction = 0.6f;
 
 	/**
-	 * @brief Fricción dinámica (resistencia en movimiento)
+	 * @brief Friccion dinamica (resistencia en movimiento)
 	 */
 	float dynamicFriction = 0.6f;
 
 	/**
-	 * @brief Restitución (rebote, 0 = sin rebote, 1 = rebote perfecto)
+	 * @brief Restitucion (rebote, 0 = sin rebote, 1 = rebote perfecto)
 	 */
 	float restitution = 0.0f;
 
 	/**
-	 * @brief Modo de combinación de fricción entre materiales
+	 * @brief Modo de combinacion de friccion entre materiales
 	 */
 	CombineMode frictionCombine = CombineMode::Av;
 
 	/**
-	 * @brief Modo de combinación del rebote
+	 * @brief Modo de combinacion del rebote
 	 */
 	CombineMode bounceCombine = CombineMode::Av;
 
 	/**
-	 * @brief Referencia al engine
-	 */
-	Engine* _eng = nullptr;
-
-	/**
-	 * @brief ID del material en el sistema de físicas
+	 * @brief ID del material en el sistema de fisicas
 	 */
 	uint32_t physicsMaterialID = 0;
 	uint32_t physicsShapeID = 0;
@@ -79,7 +78,7 @@ public:
 	PhysicsMaterial();
 
 	/**
-	 * @brief Constructor con parámetros físicos
+	 * @brief Constructor con parametros fisicos
 	 */
 	PhysicsMaterial(float staticF, float dynamicF, float rest,
 		CombineMode frictionMode = CombineMode::Av,
@@ -88,34 +87,34 @@ public:
 	bool init(const Properties& p) override;
 
 	/**
-	 * @brief Llamado cuando el material está listo
+	 * @brief Llamado cuando el material esta listo
 	 */
 	virtual void ready() override;
 
 	/**
-	 * @brief Actualización por frame (normalmente innecesaria en materiales)
+	 * @brief Actualizacion por frame (normalmente innecesaria en materiales)
 	 */
 	virtual void update(uint64_t dt) override;
 
 	void destroy() override;
 
 	/**
-	 * @brief Combina dos valores según el modo especificado
+	 * @brief Combina dos valores segun el modo especificado
 	 */
 	static float Combine(float a, float b, CombineMode mode);
 
 	/**
-	 * @brief Calcula fricción dinámica combinada entre dos materiales
+	 * @brief Calcula friccion dinamica combinada entre dos materiales
 	 */
 	static float ComputeDynamicFriction(const PhysicsMaterial& a, const PhysicsMaterial& b);
 
 	/**
-	 * @brief Calcula fricción estática combinada entre dos materiales
+	 * @brief Calcula friccion estatica combinada entre dos materiales
 	 */
 	static float ComputeStaticFriction(const PhysicsMaterial& a, const PhysicsMaterial& b);
 
 	/**
-	 * @brief Calcula restitución combinada entre dos materiales
+	 * @brief Calcula restitucion combinada entre dos materiales
 	 */
 	static float ComputeRestitution(const PhysicsMaterial& a, const PhysicsMaterial& b);
 };

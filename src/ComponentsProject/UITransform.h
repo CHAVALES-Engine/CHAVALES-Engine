@@ -1,12 +1,13 @@
-﻿/*
+﻿/**
  * @file
  * @brief Componente que representa la posición y dimensiones  de una entidad de UI.
  */
 #pragma once
+#include "EngineComponent.h"
 #include <Vector2.h>
-#include <Component.h>
 #include <Entity.h>
 #include <EngineAPI.h>
+
 
 using UItransformID = uint64_t;
 
@@ -25,7 +26,6 @@ using UItransformID = uint64_t;
   *			}
   * }
   *
-  *
   * --- Ejemplo de inicializacion ---
   * En bool init(const Properties& p):
   *		# Ej1, asignacion:
@@ -34,7 +34,7 @@ using UItransformID = uint64_t;
   * return setProperty(properties, "atributo1", component);
   *
  */
-class ENGINE_API UITransform : public core::Component
+class ENGINE_API UITransform : public EngineComponent
 {
 	UItransformID _UItransformID;
 	core::Vector2<> _position;
@@ -47,7 +47,6 @@ class ENGINE_API UITransform : public core::Component
 
 public:
 	UITransform();
-	//~UITransform();
 	bool init(const Properties& p) override;
 
 	void setPosition(const core::Vector2<>& pos);
@@ -70,7 +69,6 @@ public:
 	std::shared_ptr<Component> getComponentInParents(const std::string& name) const;
 	std::vector<std::shared_ptr<Component>> getComponentsInParents(const std::string& name) const;
 
-
 	template <typename T>
 	std::shared_ptr<T> getComponentInParents() const
 	{
@@ -89,4 +87,3 @@ public:
 		return nullptr;
 	}
 };
-

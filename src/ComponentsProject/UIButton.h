@@ -1,11 +1,10 @@
-﻿/*
+﻿/**
  * @file
  * @brief Componente que gestiona los botones de la UI
  */
 
-
 #pragma once
-#include <Component.h>
+#include "EngineComponent.h"
 #include <EngineAPI.h>
 
 using buttonID = uint64_t;
@@ -31,7 +30,7 @@ using buttonID = uint64_t;
  * return setProperty(properties, "atributo1", component);
  *
 */
-class ENGINE_API UIButton : public core::Component
+class ENGINE_API UIButton : public EngineComponent
 {
 private:
 	buttonID _buttonID;
@@ -63,4 +62,3 @@ public:
 	void setPressColor(core::Color color);
 	void disable(bool disable);
 };
-

@@ -102,7 +102,6 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\RenderModule\framework.h" />
     <ClInclude Include="..\..\src\RenderModule\RenderModule.h" />
   </ItemGroup>
   <ItemGroup>

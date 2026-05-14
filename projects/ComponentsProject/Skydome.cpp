@@ -1,6 +1,8 @@
 #include "Skydome.h"
 #include "PluginSDK.h"
 #include "Engine.h"
+#include "RenderModule.h"
+#include "checkMLNew.h"
 
 REGISTER_COMPONENT(Skydome);
 
@@ -46,14 +48,11 @@ void Skydome::disable()
 
 void Skydome::setSkydome()
 {
-	Engine::instance()->setSkydome(_textureName, _curvature, _tiling, _distance, _drawFirst);
+	auto skydome = Engine::instance()->getAssetSourceFolder(_textureName);
+	render()->setSkydome(skydome.second, skydome.first, _curvature, _tiling, _distance, _drawFirst);
 }
 
 void Skydome::setSkydomeNull()
 {
-	Engine::instance()->setSkydomeNull();
+	render()->setSkydomeNull();
 }
-
-
-
-

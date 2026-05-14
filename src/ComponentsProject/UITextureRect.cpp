@@ -6,9 +6,11 @@
 #include <Debug.h>
 #include <PluginSDK.h>
 #include "UIButton.h"
-#include "checkMLNew.h"
 #include <UITransform.h>
 #include <UIPanel.h>
+#include "RenderModule.h"
+
+#include "checkMLNew.h"
 
 REGISTER_COMPONENT(UITextureRect);
 
@@ -61,29 +63,31 @@ void UITextureRect::awake()
 		_textureRectID = UINT64_MAX;
 		return;
 	}
-	_textureRectID = Engine::instance()->addUITextureRect(panelID,getEntity()->getEntityID(), _textureName, _opacity);
+	auto texture = Engine::instance()->getAssetSourceFolder(_textureName);
+	_textureRectID = render()->addUITextureRect(panelID,getEntity()->getEntityID(), texture.second, texture.first, _opacity);
 }
 
 void UITextureRect::setTexture(const std::string& texture)
 {
 	_textureName = texture;
 	if (_textureRectID == UINT64_MAX)return;
-	Engine::instance()->setUITextureRectTexture(_textureRectID, _textureName);
+	auto text = Engine::instance()->getAssetSourceFolder(_textureName);
+	render()->setUITextureRectTexture(_textureRectID, text.second, text.first);
 }
 
 void UITextureRect::setVisible(bool visible) {
 	if (_textureRectID == UINT64_MAX)return;
-	Engine::instance()->setUITextureRectVisible(_textureRectID, visible);
+	render()->setUITextureRectVisible(_textureRectID, visible);
 }
 void UITextureRect::setOpacity(float opacity)
 {
 	_opacity = opacity;
 	if (_textureRectID == UINT64_MAX)return;
-	Engine::instance()->setUITextureRectOpacity(_textureRectID, opacity);
+	render()->setUITextureRectOpacity(_textureRectID, opacity);
 }
 
 void UITextureRect::destroy()
 {
 	if (_textureRectID == UINT64_MAX)return;
-	Engine::instance()->deleteUITextureRect(_textureRectID);
+	render()->deleteUITextureRect(_textureRectID);
 }

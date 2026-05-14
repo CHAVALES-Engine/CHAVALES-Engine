@@ -1,18 +1,16 @@
-﻿/*
+﻿/**
  * @file
  * @brief Componente que representa la posición, escala y rotación de una entidad.
- * TODO:
- *		- eventos? (e.g. onPositionChanged, onRotationChanged...?)s
- *		- lookAt()
  */
 #pragma once
+#include "EngineComponent.h"
 #include <vector>
-#include <Component.h>
 #include <Quaternion.h>
 #include <Vector3.h>
 #include <EngineAPI.h>
 #include <CommonEnums.h>
 #include <Entity.h>
+
 using transformID = uint64_t;
 
 /*
@@ -40,7 +38,7 @@ using transformID = uint64_t;
  *
 */
 ;
-class ENGINE_API Transform : public core::Component
+class ENGINE_API Transform : public EngineComponent
 {
 	transformID _transformID;
 	core::Vector3<> _localPosition;
@@ -56,10 +54,8 @@ class ENGINE_API Transform : public core::Component
 	/**
 	 * @brief Lista de nombres de entidades a anyadir como hijos (Solo se usa en la inicializacion de componentes).
 	 */
-	//std::vector<std::string> _pendingChildren;
 public:
 	Transform();
-	//~Transform() ;
 
 	bool init(const Properties& p) override;
 
@@ -218,10 +214,6 @@ public:
 		}
 		return result;
 	}
-
-	// TODO?
-	//Transform* getChildByName(std::string);
-	//Transform* getChildByID(size_t);
 
 	/**
 	 * @brief Ajusta posicion al nuevo contexto.

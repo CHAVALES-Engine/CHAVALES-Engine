@@ -1,22 +1,28 @@
+/**
+ * @file
+ * @brief
+ */
+
+
 #pragma once
+#include "EngineComponent.h"
 #include "Vector3.h"
-#include "Component.h"
 #include <EngineAPI.h>
 
 class Engine;
 
 /**
  * @class RigidBody
- * @brief Componente físico que representa un cuerpo rígido dentro del motor.
+ * @brief Componente fisico que representa un cuerpo rigido dentro del motor.
  *
- * Encapsula propiedades físicas como masa, velocidad, gravedad y damping.
- * Sirve como puente entre el motor y el sistema de físicas.
+ * Encapsula propiedades fisicas como masa, velocidad, gravedad y damping.
+ * Sirve como puente entre el motor y el sistema de fisicas.
  */
-class ENGINE_API RigidBody : public core::Component {
+class ENGINE_API RigidBody : public EngineComponent {
 /*
- * +----------+
+ * +-----------+
  * | RIGIDBODY |
- * +----------+
+ * +-----------+
  *
  * --- Ejemplo de uso en lua ---
  *		RigidBody = {
@@ -154,13 +160,13 @@ public:
 	void blockAngles(bool x, bool y, bool z);
 
 	/**
-	 * @brief Obtiene el ID físico del objeto
+	 * @brief Obtiene el ID fisico del objeto
 	 */
-	uint32_t getId() { return physicsID; };
+	uint32_t getId() { return physicsID; }
 
 	/**
-	 * @brief Indica si es cinemático
+	 * @brief Indica si es cinematico
 	 */
-	bool getIsKinematic() { return isKinematic; };
+	bool getIsKinematic() { return isKinematic; }
 
 };

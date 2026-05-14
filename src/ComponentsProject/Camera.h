@@ -1,9 +1,9 @@
-/*
+/**
  * @file
  * @brief Componente que gestiona una camara.
  */
 #pragma once
-#include <Component.h>
+#include "EngineComponent.h"
 #include <Color.h>
 #include <EngineAPI.h>
 
@@ -33,7 +33,7 @@ using cameraID = uint64_t;
  * return setProperty(properties, "atributo1", component);
  *
 */
-class ENGINE_API Camera : public core::Component
+class ENGINE_API Camera : public EngineComponent
 {
 	cameraID _cameraID;
 
@@ -96,4 +96,3 @@ public:
 	) const;
 	void destroy() override;
 };
-

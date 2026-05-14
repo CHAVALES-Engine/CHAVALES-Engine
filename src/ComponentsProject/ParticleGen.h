@@ -1,9 +1,9 @@
-/*
+/**
  * @file
  * @brief Componente que gestiona un generador de particulas.
  */
 #pragma once
-#include <Component.h>
+#include "EngineComponent.h"
 #include <Vector3.h>
 #include <EngineAPI.h>
 
@@ -33,7 +33,7 @@ using particleGenID = uint64_t;
  * return setProperty(properties, "atributo1", component);
  *
 */
-class ENGINE_API ParticleGen : public core::Component
+class ENGINE_API ParticleGen : public EngineComponent
 {
 	particleGenID _particleGenID;
 

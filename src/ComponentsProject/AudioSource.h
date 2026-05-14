@@ -1,10 +1,15 @@
+/**
+ * @file
+ * @brief
+ */
+
+
 #pragma once
-#include <Component.h>
+#include "EngineComponent.h"
 #include <Vector3.h>
 #include <vector>
 #include <unordered_set>
 #include <EngineAPI.h>
-
 
 class Transform;
 
@@ -34,7 +39,7 @@ class Transform;
  *
 */
 
-class ENGINE_API AudioSource : public core::Component
+class ENGINE_API AudioSource : public EngineComponent
 {
 private:
 	/*
@@ -177,7 +182,4 @@ public:
 	* @brief En 3D, devuelve el radio maximo del sonido
 	*/
 	float getMaxRadius() const;
-private:
-
 };
-

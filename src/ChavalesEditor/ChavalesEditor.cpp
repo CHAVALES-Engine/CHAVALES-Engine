@@ -265,16 +265,6 @@ bool ChavalesEditor::runEditor()
                 width = core::GameConfigurator::instance()._windowWidth;
                 height = core::GameConfigurator::instance()._windowHeight;
             }
-            else
-            {
-                //strcpy_s(str1, sizeof str1, "");
-                //strcpy_s(str4, sizeof str4, "");
-                //strcpy_s(str5, sizeof str5, "");
-                //strcpy_s(str6, sizeof str6, "");
-                //clear_color = ImVec4(0.118, 0.118, 0.118, 1.0);
-                //width = 1920;
-                //height = 1080;
-            }
             ImGui::SameLine(); HelpMarker("Se usara la ultima configuracion guardada en el archivo de configuracion .toml");
 
             ImGui::TextLinkOpenURL("Documentacion ChavalesEngine", "https://proyecto3-fdi-ucm.github.io/2526-Grupo03-ChavalesEngine/");
