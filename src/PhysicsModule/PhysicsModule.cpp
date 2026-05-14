@@ -774,7 +774,7 @@ std::vector<ShapeRenderData> PhysicsModule::GetRenderData()
 			if (!shape) continue;
 
 			PxShapeFlags flags = shape->getFlags();
-			//si ambos est�n descativados es que el collider esta disabled
+			//si ambos estan descativados es que el collider esta disabled
 			if (!(flags & PxShapeFlag::eSIMULATION_SHAPE) && !(flags & PxShapeFlag::eTRIGGER_SHAPE))
 			{
 				continue;//no renderiza

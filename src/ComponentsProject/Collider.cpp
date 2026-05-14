@@ -9,7 +9,6 @@
 
 REGISTER_COMPONENT(Collider);
 
-
 Collider::Collider()
 {
 	// Getters
@@ -255,6 +254,6 @@ bool Collider::createPhysics() {
 
 	physicsCreated = true;
 
-	physics()->SetActorEnabled(physicsID, desiredEnabled, isTrigger);//por si se crea enel update y deberia estar desactivado
+	physics()->SetActorEnabled(physicsID, desiredEnabled, isTrigger);
 	return true;
 }

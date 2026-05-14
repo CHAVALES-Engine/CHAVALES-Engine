@@ -43,8 +43,6 @@ bool PhysicsMaterial::init(const Properties& p)
 
 void PhysicsMaterial::ready()
 {
-	//_eng = Engine::instance();
-
 	if (staticFriction < 0.0f) staticFriction = 0.0f;
 	if (dynamicFriction < 0.0f) dynamicFriction = 0.0f;
 	if (restitution < 0.0f) restitution = 0.0f;
@@ -81,7 +79,6 @@ void PhysicsMaterial::update(uint64_t dt)
 void PhysicsMaterial::destroy()
 {
 	Component::destroy();
-	//if (_eng != nullptr)
 	physics()->DestroyMaterial(physicsMaterialID);
 }
 

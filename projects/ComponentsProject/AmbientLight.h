@@ -1,4 +1,4 @@
-/*
+/**
  * @file
  * @brief Componente que permite modificar la luz ambiente de una escena.
  */

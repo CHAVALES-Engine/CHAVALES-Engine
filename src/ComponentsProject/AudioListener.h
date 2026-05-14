@@ -1,8 +1,12 @@
+/**
+ * @file
+ * @brief
+ */
+
 #pragma once
 #include "EngineComponent.h"
 #include "Vector3.h"
 #include <EngineAPI.h>
-
 
 class Transform;
 
@@ -15,7 +19,7 @@ class Transform;
  * AudioListener = {
  *		
  * }
- * (Este componente no requiere de ningún parámetro)
+ * (Este componente no requiere de ningun parametro)
  *
  * --- Ejemplo de inicializacion ---
  * En bool init(const Properties& p):
@@ -38,8 +42,7 @@ public:
 	bool init(const Properties& p) override;
 	virtual void ready() override;
 	/*
-	* @brief En cada frame se actualiza la posición del Listener y su velocidad
+	* @brief En cada frame se actualiza la posicion del Listener y su velocidad
 	*/
 	virtual void update(uint64_t deltaTime) override;
 };
-

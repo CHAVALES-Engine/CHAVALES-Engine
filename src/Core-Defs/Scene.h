@@ -1,4 +1,4 @@
-/*
+/**
  * @file
  * @brief
  */
@@ -15,7 +15,6 @@ namespace core
 {
 	class Entity;
 	using sceneName = std::string;
-	//using sceneID = uint64_t;
 	using entityID = ChavalesGUID;
 
 	/**

@@ -36,13 +36,9 @@ void ScriptsManager::init() const
 void ScriptsManager::registerBindings() const
 {
 	auto& lua = pImpl->lua;
-	// Funcion de exportacion de parametros
-	//lua["Export"] = lua.create_table();
-
-	//lua["Export"] = [](const std::string& name, )
 
 	// TODO: exponer API api del motor
-	// pImpl->lua.new_usertype<Transform>("Transform", ...);
+
 	// registro de nuestra funciones debug
 	lua["Debug"] = lua.create_table();
 	lua["Debug"]["out"] = [](const std::string& msg) {

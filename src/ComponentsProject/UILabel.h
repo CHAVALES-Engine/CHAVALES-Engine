@@ -1,4 +1,4 @@
-﻿/*
+﻿/**
  * @file
  * @brief Componente que gestiona los letreros de la UI
  */
@@ -54,4 +54,3 @@ public:
 	void setTextColor(core::Color color);
 	void setAlign(TextAlign align);
 };
-

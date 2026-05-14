@@ -1,3 +1,8 @@
+/**
+ * @file
+ * @brief
+ */
+
 #pragma once
 #include <string>
 #include "ScriptsManager.h"

@@ -33,7 +33,6 @@ bool ComponentDLLLoader::load(const std::string& path)
 	// Entrada libreria a cargar.
 	LoadedLibrary entry;
 	entry.path = path;
-	//Debug::out("Checking if library [", path, "] already exists");
 	// Comprobamos duplicados.
 	for (const auto& l : _libraries) {
 		if (l.path == path) {
@@ -139,7 +138,6 @@ bool ComponentDLLLoader::loadAll(const std::string& path) {
 	return true;
 }
 
-
 void ComponentDLLLoader::unLoadAll()
 {
 	for (auto& library : _libraries) {
@@ -215,7 +213,6 @@ bool ComponentDLLLoader::_unload(LoadedLibrary& library)
 
 void ComponentDLLLoader::_reload(LoadedLibrary& library)
 {
-	
 	// Descarga y recarga de libreria.
 	std::string	path = library.path;
 	if (!unload(path)) {

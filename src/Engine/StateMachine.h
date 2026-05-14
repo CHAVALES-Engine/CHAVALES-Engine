@@ -1,6 +1,6 @@
-/*
+/**
  * @file
- * @brief
+ * @brief Maquina de estados de la aplicacion, gestiona la escena actual y el bucle principal.
  */
 #pragma once
 #include <memory>

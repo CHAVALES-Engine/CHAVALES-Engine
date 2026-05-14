@@ -1,4 +1,4 @@
-/*
+/**
  * @file
  * @brief Componente que gestiona una camara.
  */
@@ -96,4 +96,3 @@ public:
 	) const;
 	void destroy() override;
 };
-

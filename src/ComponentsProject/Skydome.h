@@ -1,11 +1,10 @@
-/*
+/**
  * @file
  * @brief Componente que gestiona un skydome.
  */
 #pragma once
 #include "EngineComponent.h"
 #include <EngineAPI.h>
-
 
 using particleGenID = uint64_t;
 

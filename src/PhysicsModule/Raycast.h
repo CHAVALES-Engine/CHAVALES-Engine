@@ -1,3 +1,7 @@
+/**
+* @file
+*/
+
 #pragma once
 
 #include "../../dependencies/PhysX/physx/include/PxPhysicsAPI.h"
@@ -6,10 +10,10 @@ using namespace physx;
 
 /**
  * @class Raycast
- * @brief Encapsula operaciones de raycast dentro de la escena física.
+ * @brief Encapsula operaciones de raycast dentro de la escena fisica.
  *
  * Permite lanzar rayos en la escena (PhysX) para detectar colisiones,
- * impactos y obtener información del objeto golpeado.
+ * impactos y obtener informacion del objeto golpeado.
  */
 class Raycast
 {
@@ -23,17 +27,17 @@ private:
 public:
 
 	/**
-	 * @brief Constructor que recibe la escena física
+	 * @brief Constructor que recibe la escena fisica
 	 */
 	Raycast(PxScene* sceneRef);
 	/**
 	 * @brief Constructor predeterminado
 	 */
-	Raycast() {};
+	Raycast() {}
 	/**
 	 * @brief Destructor predeterminado
 	 */
-	~Raycast() {};
+	~Raycast() {}
 
 	/**
 	 * @brief Lanza un rayo en la escena

@@ -7,7 +7,6 @@
 #include <Debug.h>
 #include "checkMLNew.h"
 
-
 REGISTER_COMPONENT(AudioSource);
 
 AudioSource::AudioSource() : _tr(nullptr), _lastPosition(0.0f, 0.0f, 0.0f), _path(), _id(), _is3D(false), _loop(false),

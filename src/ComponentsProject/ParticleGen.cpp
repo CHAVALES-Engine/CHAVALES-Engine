@@ -91,7 +91,6 @@ ParticleGen::ParticleGen()
 
 ParticleGen::~ParticleGen()
 {
-	//render()->deleteParticleGen(_particleGenID);
 }
 
 bool ParticleGen::init(const Properties& p)

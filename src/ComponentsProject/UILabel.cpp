@@ -10,7 +10,6 @@
 #include <UIPanel.h>
 #include "checkMLNew.h"
 
-
 REGISTER_COMPONENT(UILabel);
 
 UILabel::UILabel() : _text("Label")
@@ -142,4 +141,3 @@ void UILabel::setAlign(TextAlign align)
 	if (_labelID == UINT64_MAX)return;
 	render()->setUILabelAlign(_labelID, align);
 }
-

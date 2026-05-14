@@ -69,7 +69,6 @@ UIButton::UIButton() : _text("Button")
 
 UIButton::~UIButton()
 {
-	//render()->deleteUIButton(_buttonID);
 }
 bool UIButton::init(const Properties& p)
 {

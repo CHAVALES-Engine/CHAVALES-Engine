@@ -1,5 +1,8 @@
+/**
+* @file
+*/
+
 #pragma once
-// TODO: This is an example of a library function
 #include "Vector3.h"
 #include "Quaternion.h"
 #include "PhysicsTypes.h"
@@ -9,11 +12,9 @@
 
 struct PhysXComponent;
 
-
 class ENGINE_API PhysicsModule : public physx::PxSimulationEventCallback
 {
 public:
-
 	/*
 	* @brief Constructor del módulo de físicas
 	*/
@@ -77,12 +78,12 @@ public:
 	 */
 	void setActorEntity(ComponentID physicsID, core::Entity* entity);
 	/*
-	* Setea la posición de un componente en physx
+	* Setea la posicion de un componente en physx
 	* @param id del componente y la posición a poner
 	*/
 	void SetPhysicsPosition(ComponentID id, const core::Vector3<>& pos);
 	/*
-	* Setea la rotación de un componente en physx
+	* Setea la rotacion de un componente en physx
 	* @param id del componente y la rot a poner
 	*/
 	void SetPhysicsRotation(ComponentID id, const core::Quaternion<>& pos);
@@ -90,7 +91,7 @@ public:
 	//rigidbody
 	/*
 	* @brief Crea un rigidbody en la escena
-	* @param posición inicial, masa, uso de gravedad, si es cinemático
+	* @param posicion inicial, masa, uso de gravedad, si es cinematico
 	*/
 	uint32_t CreateRigidBody(core::Vector3<> pos, float mass, bool useGravity, bool isKinematic);
 
@@ -170,7 +171,7 @@ public:
 	*/
 	void AttachCapsuleShape(ComponentID bodyID, float radius, float height, const core::Vector3<>& center, const core::Quaternion<> rotationLoc, bool isTrigger);
 	/*
-	* Setea el transform de físicas
+	* Setea el transform de fisicas
 	* @param id del componente, posicion, rotacion
 	*/
 	void setPhysicsTransform(ComponentID id, const core::Vector3<>& pos, const core::Quaternion<>& rot);
@@ -196,16 +197,16 @@ public:
 	* @param gravedad en Vector3
 	*/
 	void SetGravity(core::Vector3<> gravity);
-	//MAYERIALES
+	//MATERIALES
 	/*
-	* @brief Crea un material físico
-	* @param fricción estática, fricción dinámica, restitución y modos de combinación
+	* @brief Crea un material fisico
+	* @param friccion estatica, friccion dinamica, restitucion y modos de combinacion
 	*/
 	uint32_t CreateMaterial(ComponentID id, float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine);
 
 	/*
-	* @brief Actualiza un material físico existente
-	* @param id del material y nuevos parámetros
+	* @brief Actualiza un material fisico existente
+	* @param id del material y nuevos parametros
 	*/
 	void UpdateMaterial(uint32_t id, float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine);
 
@@ -223,7 +224,7 @@ public:
 	*/
 	void ClearScene();
 
-	//DEBBUG
+	//DEBUG
 	/*
 	* Devuelve un struct con los datos de las shapes
 	*/

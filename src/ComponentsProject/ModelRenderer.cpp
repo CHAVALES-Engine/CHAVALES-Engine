@@ -39,7 +39,6 @@ ModelRenderer::ModelRenderer()
 
 ModelRenderer::~ModelRenderer()
 {
-	//Engine::instance()->deleteModel(_modelID);
 }
 
 bool ModelRenderer::init(const Properties& p)
@@ -115,5 +114,3 @@ void ModelRenderer::destroy()
 {
 	render()->deleteModel(_modelID);
 }
-
-

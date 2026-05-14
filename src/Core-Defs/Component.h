@@ -2,7 +2,6 @@
  * @file Component
  * @brief Clase base abstracta para todos los componentes del sistema EC
  *
- * TODO: MESSAGES
  */
 #pragma once
 #include <any>

@@ -14,8 +14,6 @@ namespace core {
 	{
 		Debug::out("SCENE: Destruyendo escena '", _name, "'. Limpiando contenedores.");
 		destroy();
-		/*_entities.clear();
-		_entitiesNames.clear();*/
 	}
 
 	void core::Scene::onEnable()
@@ -35,18 +33,6 @@ namespace core {
 		}
 	}
 
-	//void core::Scene::init()
-	//{
-	//	if (!_entities.empty())
-
-	//	{
-	//		for (auto e : _entities)
-	//		{
-	//			e->init();
-	//		}
-	//	}
-	//}
-
 	void core::Scene::awake()
 	{
 		Debug::out("SCENE: Llamando a awake() en escena '", _name, "'.");
@@ -55,18 +41,6 @@ namespace core {
 			return;
 		}
 
-		/*std::vector<entityID> guids;
-		for (const auto& [guid, _] : _entities)
-			guids.push_back(guid);
-
-		for (const auto& guid : guids)
-		{
-			auto it = _entities.find(guid);
-			if (it != _entities.end() && it->second)
-				it->second->awake();
-			else if (it != _entities.end())
-				Debug::error("SCENE: awake() - Entidad con GUID ", guid, " es nula.");
-		}*/
 		for (auto [guid, ent] : _entities)
 		{
 			if (ent && ent->isAlive() && !ent->isInitialized())
@@ -79,16 +53,6 @@ namespace core {
 		Debug::out("SCENE: Llamando a ready() en escena '", _name, "'.");
 		if (_entities.empty()) return;
 
-		/*std::vector<entityID> guids;
-		for (const auto& [guid, _] : _entities)
-			guids.push_back(guid);
-
-		for (const auto& guid : guids)
-		{
-			auto it = _entities.find(guid);
-			if (it != _entities.end() && it->second)
-				it->second->ready();
-		}*/
 		for (auto [guid, ent] : _entities)
 		{
 			if (ent && ent->isAlive() && !ent->isInitialized())
@@ -100,42 +64,17 @@ namespace core {
 	void core::Scene::fixedUpdate()
 	{
 		if (_entities.empty()) return;
-		// Copiar los guids para iterar de forma segura
-		// pos si se anyade o quitan entidades en runtime
-		/*std::vector<entityID> guids;
-		for (const auto& [guid, _] : _entities)
-			guids.push_back(guid);
-
-		for (auto& guid : guids)
-		{
-			auto it = _entities.find(guid);
-			if (it != _entities.end() && it->second)
-				it->second->fixedUpdate();
-		}*/
 		for (auto [guid, ent] : _entities)
 		{
 			if (ent && ent->isAlive())
 				ent->fixedUpdate();
 		}
-
 	}
 
 	void core::Scene::update(uint64_t dT)
 	{
 		if (_entities.empty()) return;
 
-		// Copiar los guids para iterar de forma segura
-		// pos si se anyade o quitan entidades en runtime
-		/*std::vector<entityID> guids;
-		for (const auto& [guid, _] : _entities)
-			guids.push_back(guid);
-
-		for (auto& guid : guids)
-		{
-			auto it = _entities.find(guid);
-			if (it != _entities.end() && it->second)
-				it->second->update(dT);
-		}*/
 		for (auto [guid, ent] : _entities)
 		{
 			if (ent && ent->isAlive())
@@ -146,30 +85,12 @@ namespace core {
 	void core::Scene::lateUpdate(uint64_t dT)
 	{
 		if (_entities.empty()) return;
-
-		//// Copiar los guids para iterar de forma segura
-		//// pos si se anyade o quitan entidades en runtime
-		//std::vector<entityID> guids;
-		//for (const auto& [guid, _] : _entities)
-		//	guids.push_back(guid);
-
 		for (auto [guid, ent] : _entities)
 		{
 			if (ent && ent->isAlive())
 				ent->lateUpdate(dT);
 		}
 	}
-
-	//void core::Scene::render()
-	//{
-	//	if (!_entities.empty())
-	//	{
-	//		for (auto e : _entities)
-	//		{
-	//			e->render();
-	//		}
-	//	}
-	//}
 
 	void core::Scene::onDisable()
 	{
@@ -315,7 +236,6 @@ namespace core {
 		// iterar hasta encontrar un nombre valido.
 		while (_entitiesNames.find(finalName) != _entitiesNames.end())
 		{
-			//Debug::warning("SCENE: Nombre duplicado. ", finalName);
 			finalName = originalName + "_" + std::to_string(counter);
 			counter++;
 		}
@@ -323,7 +243,6 @@ namespace core {
 		if (finalName != originalName)
 		{
 			e->setName(finalName);
-			//Debug::warning("SCENE: Nombre duplicado. Renombrado de '", originalName, "' a '", finalName, "'");
 		}
 
 		_entities[guid] = e;

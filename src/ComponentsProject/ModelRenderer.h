@@ -1,4 +1,4 @@
-/*
+/**
  * @file
  * @brief Componente que gestiona un modelo.
  */
@@ -7,7 +7,6 @@
 #include <EngineAPI.h>
 
 #include <utility>
-
 
 using modelID = uint64_t;
 
@@ -54,4 +53,3 @@ public:
 	void disable() override;
 	void destroy() override;
 };
-

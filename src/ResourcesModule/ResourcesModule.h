@@ -1,3 +1,8 @@
+/**
+ * @file
+ * @brief Define las funciones del Modulo de Recursos
+ */
+
 #pragma once
 #include <unordered_map>
 #include <string>
@@ -20,44 +25,38 @@ public:
 
 	bool Init();
 
-	/// <summary>
-	/// Method to retrive the path of the desire asset
-	/// </summary>
-	/// <param name="assetName">Name of the asset, this name is the real name of the folder + file + the type of extension of the file</param>
-	/// <returns></returns>
+	/**
+	 * @brief Metodo para sacar la ruta del asset deseado.
+	 * @param assetName - Nombre del asset: nombre de la carpeta + archivo + extension del archivo
+	 */
 	std::pair<std::string, std::string> getAssetSourceFolder(std::string assetName);
 
-	/// <summary>
-	/// Method to the render module to retrive all fonts
-	/// </summary>
-	/// <returns></returns>
+	/**
+	 * @brief Metodo para el RenderModule para sacar todas las fuentes.
+	 */
 	std::vector<std::pair<std::string, std::string>> getAllFonts();
 
-	/// <summary>
-	/// Access all assets reserved in the engine
-	/// </summary>
-	/// <returns></returns>
+	/**
+	 * @brief Metodo para acceder a todos los assets almacenados en el motor.
+	 */
 	std::vector<std::pair<std::string, std::string>> getAllAssets();
+
 private:
-	/// <summary>
-	/// Method to go overall the assets folders, it's recursive which means it will travel across the folder unitl it has reserved all the assets of that folder
-	/// </summary>
-	/// <param name="sourceName"> Name of the folder where the assets are</param>
-	/// <returns></returns>
+	/**
+	 * @brief Metodo para recorrer todas las carpetas de recursos, es recursivo.
+	 * @param sourceName - Nombre de la carpeta de assets
+	 */
 	bool loadAsset(std::string sourceName); 
 
-	/// <summary>
-	/// Method to insert into the maps
-	/// </summary>
-	/// <param name="sourceName">The path of file in the folder of assets</param>
-	/// <returns></returns>
+	/**
+	 * @brief Metodo para insertar en el mapa de assets.
+	 * @param sourceName - Nombre de la carpeta de assets
+	 */
 	bool insertAssetMap(std::string sourceName); 
 
-	std::unordered_map<ChavalesGUID, std::string> _idMaps; //Map of IDs with the path of the associated asset
-	std::unordered_multimap<std::string, AssetInfo> _assetsMaps; //Map of assets sorted by name and with an ID
+	std::unordered_map<ChavalesGUID, std::string> _idMaps; // Mapa de ID-path del asset
+	std::unordered_multimap<std::string, AssetInfo> _assetsMaps; // Mapa de assets nombre-ID
 
-	std::string typeOfFolder; //String of the folder to identify the type of assset and in which the folder is it
-	std::vector<std::pair<std::string, std::string>> _fontsVector; //Vector to save all fonts, in order to render load them
-
+	std::string typeOfFolder; // String de la carpeta segun el tipo de asset
+	std::vector<std::pair<std::string, std::string>> _fontsVector; // Vector para guardar todas las fuentes
 };
-

@@ -1,12 +1,15 @@
+/**
+ * @file
+ * @brief
+ */
+
 #pragma once
 #include "EngineComponent.h"
 #include <EngineAPI.h>
 
-
 class Script;
 
-class ENGINE_API ScriptComponent :
-    public  EngineComponent
+class ENGINE_API ScriptComponent : public EngineComponent
 {
 public:
     ScriptComponent();
@@ -23,4 +26,3 @@ public:
 private:
     std::unique_ptr<Script> _script;
 };
-

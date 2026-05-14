@@ -1,6 +1,6 @@
 ﻿#pragma once
-/*
- * @file PlatformModule.h
+/**
+ * @file
  * @brief Define las funciones del Modulo de Render
  */
 

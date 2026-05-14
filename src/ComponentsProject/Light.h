@@ -1,4 +1,4 @@
-﻿/*
+﻿/**
  * @file
  * @brief Componente que gestiona una luz.
  */
@@ -7,8 +7,6 @@
 #include <Vector3.h>
 #include <Color.h>
 #include <EngineAPI.h>
-
-
 
 using lightID = uint64_t;
 
@@ -73,4 +71,3 @@ public:
 	
 	void destroy() override;
 };
-

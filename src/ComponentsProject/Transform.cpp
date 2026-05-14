@@ -9,16 +9,6 @@
 #include "checkMLNew.h"
 
 REGISTER_COMPONENT(Transform);
-//
-//Transform::Transform() :
-//	_localPosition(),
-//	_localRotation(),
-//	_localScale(1),
-//	_parent(nullptr),
-//	_children() {
-//};
-//
-//Transform::~Transform() {}
 
 Transform::Transform()
 {
@@ -240,11 +230,9 @@ bool Transform::init(const Properties& p)
 
 void Transform::ready()
 {
-	//Debug::out("[TRANSFORM] ", getEntity()->getName(), " tiene ", _children.size(), " hijo", (_children.size() != 1 ? "s" : ""));
 	for (const std::string& childName : _pendingChildren) {
 		core::Entity* childEntity = getEntity()->getScene()->findEntityByName(childName);
 		if (!childEntity)
-			//Debug::warning("Transform: hijo no encontrado: ", childName);
 			continue;
 		if (std::shared_ptr<Transform> childTransform = childEntity->getComponent<Transform>())
 			childTransform->setParent(this);
@@ -499,7 +487,6 @@ void Transform::translate(const core::Vector3<>& t)
 
 void Transform::rotateLocal(const core::Quaternion<>& q)
 {
-	//_localRotation = q * _localRotation; 
 	_localRotation = (_localRotation * q).normalized(); 
 	render()->setNodeRotation(_transformID, getGlobalRotation());
 
@@ -511,15 +498,10 @@ void Transform::rotateLocal(const core::Quaternion<>& q)
 
 void Transform::rotateLocal(const core::Vector3<>& v)
 {
-	//if (_lockRotX) v.setX(0);
-	//if (_lockRotY) v.setY(0);
-	//if (_lockRotZ) v.setZ(0);
-
 	// esto hay que cambiarlo para que fromEuler sea estatico
 	core::Quaternion<> q = core::Quaternion<>().fromEuler(v);
 
 	rotateLocal(q);
-	//_localRotation.rotateLocal(v);
 
 	for (auto& c : _children)
 	{
@@ -539,10 +521,6 @@ void Transform::rotateGlobal(const core::Quaternion<>& q)
 
 void Transform::rotateGlobal(const core::Vector3<>& v)
 {
-	//if (_lockRotX) v.setX(0);
-	//if (_lockRotY) v.setY(0);
-	//if (_lockRotZ) v.setZ(0);
-
 	core::Quaternion<> q = core::Quaternion<>().fromEuler(v);
 	rotateGlobal(q);
 
@@ -599,7 +577,6 @@ void Transform::roll(float degrees)
 
 void Transform::LookAt(const core::Vector3<>& target)
 {
-	// LAS CAMARAS DE OGRE MIRAN POR EL -Z !!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	core::Vector3<> currentPosition = getGlobalPosition();
 	core::Vector3<> direction = getGlobalPosition() - target;
 

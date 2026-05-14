@@ -7,15 +7,15 @@
 #endif // _WIN64
 #include <EngineAPI.h>
 
-// fordward declarations.
 class Engine;
 
 /**
+* @file
 * @brief La clase ComponentDLLLoader es la encargada de cargar dlls de componentes y buscar la funcion exportadora
 *		del registro local de componentes de cada dll, para pasarselos al registro global del motor.
 *		Es una clase singleton para ser facilmente accesible por aquello que la necesite.
 *		
-*		> Actualmente este dllloader es solo usable en windows
+*		(!) Actualmente este dllloader es solo usable en Windows.
 */
 class ENGINE_API ComponentDLLLoader
 {
@@ -122,4 +122,3 @@ private:
 	 */
 	friend Engine;
 };
-

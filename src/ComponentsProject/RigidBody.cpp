@@ -6,7 +6,6 @@
 #include "PhysicsModule.h"
 #include "checkMLNew.h"
 
-
 REGISTER_COMPONENT(RigidBody);
 
 RigidBody::RigidBody()
@@ -115,8 +114,6 @@ RigidBody::RigidBody()
 
 bool RigidBody::init(const Properties& p)
 {
-	//_eng = Engine::instance();
-
 	useGravity = getProperty<bool>(p, "useGravity");
 	isKinematic = getProperty<bool>(p, "isKinematic");
 	setMass(getProperty<float>(p, "mass"));
@@ -239,4 +236,3 @@ void RigidBody::blockAngles(bool x, bool y, bool z)
 {
 	physics()->BlockAngles(physicsID, x, y, z);
 }
-

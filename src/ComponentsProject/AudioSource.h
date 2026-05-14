@@ -1,11 +1,15 @@
+/**
+ * @file
+ * @brief
+ */
+
+
 #pragma once
 #include "EngineComponent.h"
 #include <Vector3.h>
 #include <vector>
 #include <unordered_set>
 #include <EngineAPI.h>
-
-
 
 class Transform;
 
@@ -178,7 +182,4 @@ public:
 	* @brief En 3D, devuelve el radio maximo del sonido
 	*/
 	float getMaxRadius() const;
-private:
-
 };
-

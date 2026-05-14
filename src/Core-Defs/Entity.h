@@ -1,7 +1,8 @@
 /**
- * @file Entity
+ * @file
  * @brief Clase contenedora de componentes que representa una entidad en escena
  */
+
 #pragma once
 #include <memory>
 #include <vector>

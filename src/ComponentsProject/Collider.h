@@ -1,3 +1,8 @@
+/**
+ * @file
+ * @brief
+ */
+
 #pragma once
 #include  "EngineComponent.h"
 #include "CommonEnums.h"
@@ -48,12 +53,12 @@ protected:
 	 */
 	bool isTrigger = false;
 	/**
-	 * @brief Si es dinámico o estático
+	 * @brief Si es dinamico o estático
 	 */
 	bool isDynamic = false;
 
 	/**
-	 * @brief Tamaño del collider si es box
+	 * @brief Tamano del collider si es box
 	 */
 	core::Vector3<> size = { 1,1,1 };
 	/**
@@ -78,7 +83,7 @@ protected:
 	 */
 	std::shared_ptr<Transform> transform;
 	/**
-	 * @brief RigidBody al que está unido en caso de no ser null
+	 * @brief RigidBody al que esta unido en caso de no ser null
 	 */
 	std::shared_ptr<RigidBody> rigidBody = nullptr;
 	/**
@@ -93,7 +98,7 @@ public:
 	core::Message<core::Entity*> _onCollisionEnter;
 	core::Message<core::Entity*> _onCollisionExit;
 	/**
-	 * @brief Constructora vacía
+	 * @brief Constructora vacia
 	 */
 	Collider();
 	/**
@@ -102,61 +107,61 @@ public:
 	~Collider() = default;
 
 	/**
-	 * @brief Inicialización del componente con propiedades
-	 * @param Properties
+	 * @brief Inicializacion del componente con propiedades.
+	 * @param p - properties
 	 */
 	bool init(const Properties& p) override;
 	/**
-	 * @brief Llamado cuando el objeto está listo
+	 * @brief Llamado cuando el objeto esta listo.
 	 */
 	void ready() override;
 	/**
-	 * @brief Actualización por frame
-	 * @param deltaTime Tiempo entre frames (normalmente en ms)
+	 * @brief Actualizacion por frame
+	 * @param deltaTime Tiempo entre frames (normalmente en ms).
 	 */
 	void update(uint64_t deltaTime) override;
 	/**
-	* @brief Activa collider
+	* @brief Activa collider.
 	*/
 	void enable() override;
 	/**
-	 * @brief Desactiva collider
+	 * @brief Desactiva collider.
 	 */
 	void disable() override;
 	/**
-	 * @brief Detección de solapamiento entre colliders donde al menos uno es trigger
-	 * @param core::Entity other, otro collider contra el que choca
+	 * @brief Deteccion de solapamiento entre colliders donde al menos uno es trigger.
+	 * @param core::Entity other, otro collider contra el que choca.
 	 */
 	void onTriggerEnter(core::Entity* other);
 	/**
-	 * @brief Detección de salida de solapamiento entre colliders donde al menos uno es trigger
-	 * @param core::Entity other, otro collider contra el que había chocado
+	 * @brief Deteccion de salida de solapamiento entre colliders donde al menos uno es trigger.
+	 * @param core::Entity other, otro collider contra el que había chocado.
 	 */
 	void onTriggerExit(core::Entity* other);
 	/**
-	 * @brief Detección de choque entre colliders donde ninguno es trigger
-	 * @param core::Entity other, otro collider contra el que choca
+	 * @brief Deteccion de choque entre colliders donde ninguno es trigger.
+	 * @param core::Entity other, otro collider contra el que choca.
 	 */
 	void onCollisionEnter(core::Entity* other);
 	/**
-	 * @brief Detección de salida de choque entre colliders donde ninguno es trigger
-	 * @param ComponentId other, otro collider contra el que había chocado
+	 * @brief Deteccion de salida de choque entre colliders donde ninguno es trigger.
+	 * @param ComponentId other, otro collider contra el que había chocado.
 	 */
 	void onCollisionExit(core::Entity* other);
 	/**
-	 * @brief Crea collider fisico
+	 * @brief Crea collider fisico.
 	 */
 	bool createPhysics();
 	/**
-	 * @brief Getter de la posición del collider respecto al transform de la entidad (posicion local)
+	 * @brief Getter de la posicion del collider respecto al transform de la entidad (posicion local).
 	 */
 	const core::Vector3<>& getCenter() const { return center; }
 	/**
-	 * @brief Obtiene el ID físico del objeto
+	 * @brief Obtiene el ID fisico del objeto
 	 */
-	uint32_t getId() { return physicsID; };
+	uint32_t getId() { return physicsID; }
 	/**
-	 * @brief Obtine el tamaño del collider
+	 * @brief Obtine el tamano del collider.
 	 */
 	core::Vector3<> getSize() {
 		switch (shapeType)
@@ -170,16 +175,15 @@ public:
 		}
 	};
 	/**
-	 * @brief Devuelve la rotacion local del collider
+	 * @brief Devuelve la rotacion local del collider.
 	 */
-	core::Quaternion<> getRotation() { return rotation; };
+	core::Quaternion<> getRotation() { return rotation; }
 	/**
-	 * @brief Devuelve si es trigger
+	 * @brief Devuelve si es trigger.
 	 */
-	bool getIsTrigger() { return isTrigger; };
+	bool getIsTrigger() { return isTrigger; }
 
 
 	bool physicsCreated = false;
 	bool  desiredEnabled = true;
-
 };
