@@ -144,6 +144,10 @@ public:
 	 */
 	void onCollisionExit(core::Entity* other);
 	/**
+	 * @brief Crea collider fisico
+	 */
+	bool createPhysics();
+	/**
 	 * @brief Getter de la posición del collider respecto al transform de la entidad (posicion local)
 	 */
 	const core::Vector3<>& getCenter() const { return center; }
@@ -175,7 +179,7 @@ public:
 	bool getIsTrigger() { return isTrigger; };
 
 
-	bool hasCollided = false;
-	bool hasTriggered = false;
+	bool physicsCreated = false;
+	bool  desiredEnabled = true;
 
 };

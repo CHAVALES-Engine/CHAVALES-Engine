@@ -115,11 +115,11 @@ bool Collider::init(const Properties& p)
 	}
 
 	//ROTATION
-	/*rotation = getProperty<core::Quaternion<>>(p, "rotation");*/
 	core::Vector3<> r;
 	setProperty(p, "rotation", r);
 	core::Quaternion<float> q;
 	rotation = q.fromEuler(r);
+
 	//DYNAMIC
 	isDynamic = getProperty<bool>(p, "dynamic");
 
@@ -128,6 +128,73 @@ bool Collider::init(const Properties& p)
 
 	//CENTER
 	setProperty(p, "center", center);
+
+	return true;
+}
+
+void Collider::ready()
+{
+	createPhysics();
+}
+
+void Collider::update(uint64_t deltaTime)
+{
+
+	if (!physicsCreated) {
+		createPhysics();
+		return;
+	}
+
+	if (!entity || physicsID == 0 || !transform) return;
+
+	for (auto& event : physics()->consumeEventsFor(physicsID)) {
+		switch (event.type) {
+		case CollisionType::TriggerEnter: onTriggerEnter(event.otherEntity); break;
+		case CollisionType::TriggerExit: onTriggerExit(event.otherEntity); break;
+		case CollisionType::CollisionEnter: onCollisionEnter(event.otherEntity); break;
+		case CollisionType::CollisionExit: onCollisionExit(event.otherEntity); break;
+		}
+	}
+}
+
+void Collider::enable()
+{
+	desiredEnabled = true;
+	if (physicsCreated)
+		physics()->SetActorEnabled(physicsID, true, isTrigger);
+}
+
+void Collider::disable()
+{
+	desiredEnabled = false;
+	if (physicsCreated)
+		physics()->SetActorEnabled(physicsID, false, isTrigger);
+}
+
+void Collider::onTriggerEnter(core::Entity* other)
+{
+	Debug::out("[TRIGGER] Trigger enter");
+	_onTriggerEnter.emit(other);
+}
+
+void Collider::onTriggerExit(core::Entity* other)
+{
+	Debug::out("[TRIGGER] Trigger exit");
+	_onTriggerExit.emit(other);
+}
+
+void Collider::onCollisionEnter(core::Entity* other) {
+	Debug::out("[COLLIDER] Collision enter");
+	_onCollisionEnter.emit(other);
+}
+
+void Collider::onCollisionExit(core::Entity* other) {
+	Debug::out("[COLLIDER] Collision exit");
+	_onCollisionExit.emit(other);
+
+}
+
+bool Collider::createPhysics() {
 
 	if (!entity) return false;
 
@@ -156,7 +223,7 @@ bool Collider::init(const Properties& p)
 		physicsID = rigidBody->getId();
 		if (physicsID == 0)
 		{
-			Debug::warning("[COLLIDER] RigidBody ID no valido aún. Esperando...");
+			Debug::warning("[COLLIDER] RigidBody ID no valido aún.");
 			return false;
 		}
 
@@ -186,62 +253,8 @@ bool Collider::init(const Properties& p)
 	}
 	physics()->setActorEntity(physicsID, getEntity());
 
+	physicsCreated = true;
 
+	physics()->SetActorEnabled(physicsID, desiredEnabled, isTrigger);//por si se crea enel update y deberia estar desactivado
 	return true;
 }
-
-void Collider::ready()
-{
-}
-
-void Collider::update(uint64_t deltaTime)
-{
-	if (!entity || physicsID == 0 || !transform) return;
-
-	for (auto& event : physics()->consumeEventsFor(physicsID)) {
-		switch (event.type) {
-		case CollisionType::TriggerEnter: onTriggerEnter(event.otherEntity); break;
-		case CollisionType::TriggerExit: onTriggerExit(event.otherEntity); break;
-		case CollisionType::CollisionEnter: onCollisionEnter(event.otherEntity); break;
-		case CollisionType::CollisionExit: onCollisionExit(event.otherEntity); break;
-		}
-	}
-	//Engine::instance()->clearPhysicsEvents();
-}
-
-void Collider::enable()
-{
-	physics()->SetActorEnabled(physicsID, true, isTrigger);
-}
-
-void Collider::disable()
-{
-	physics()->SetActorEnabled(physicsID, false, isTrigger);
-}
-
-void Collider::onTriggerEnter(core::Entity* other)
-{
-	Debug::out("[TRIGGER] Trigger enter");
-	_onTriggerEnter.emit(other);
-	hasTriggered = true;
-}
-
-void Collider::onTriggerExit(core::Entity* other)
-{
-	Debug::out("[TRIGGER] Trigger exit");
-	_onTriggerExit.emit(other);
-	hasTriggered = false;
-}
-
-void Collider::onCollisionEnter(core::Entity* other) {
-	Debug::out("[COLLIDER] Collision enter");
-	_onCollisionEnter.emit(other);
-	hasCollided = true;
-}
-
-void Collider::onCollisionExit(core::Entity* other) {
-	Debug::out("[COLLIDER] Collision exit");
-	_onCollisionExit.emit(other);
-	hasCollided = false;
-}
-
