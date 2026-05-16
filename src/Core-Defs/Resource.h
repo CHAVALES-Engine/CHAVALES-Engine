@@ -9,31 +9,23 @@ namespace core
 	public:
 		enum state { UNLOAD, LOADING, LOAD, ERROR };
 		//enum Type { MESH, TEXTURE, FONT, SOUND, NONE };
-		Resource(const std::string & id, const std::string & path, void* unloadfunc) : 
-		_id(id), _path(path), _refCounter(0), _state(state::UNLOAD), _ptr(nullptr), _unloadFuncPtr() {}
+		Resource(const std::string & id, const std::string & path) : 
+		_id(id), _path(path), _refCounter(0), _state(UNLOAD), _ptr(nullptr){}
 		virtual ~Resource() = 0;
 		// @brief carga el recurso  => a implementar por las clases especificas.
 		// @return bool - Cargado correctamente.
 		virtual bool load() = 0;
 		// @brief descarga el recurso  => a implementar por las clases especificas.
 		// @return bool - Descargado correctamente.
-		virtual bool unLoad() {
-			if (_unloadFuncPtr()) {
-				_state = state::UNLOAD;
-				_ptr = nullptr;
-				return true;
-			}
-			_state = state::ERROR;
-			return false;
-		};
+		virtual bool unLoad() = 0;
 		// @brief anyade una referencia al contador
 		void addReference() {
-			if (_state == state::UNLOAD || _state == state::ERROR || !_ptr) return;
+			if (_state == UNLOAD || _state == ERROR || !_ptr) return;
 			_refCounter++;
 		};
 		void removeReference()
 		{
-			if (_state == state::UNLOAD || _state == state::ERROR || !_ptr) return;
+			if (_state == UNLOAD || _state == ERROR || !_ptr) return;
 			_refCounter--;
 			if (_refCounter <= 0)
 				unLoad();
@@ -52,6 +44,5 @@ namespace core
 		state _state;		  // Estado del puntero.
 		//Type _type = NONE;    // Tipo de recurso.
 		void* _ptr;			  // Puntero al propio recurso.
-		void* _unloadFuncPtr; // Puntero a la funcion de descarga del recurso.
 	};
 }

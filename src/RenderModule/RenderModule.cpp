@@ -760,14 +760,35 @@ void RenderModule::setTint(const modelID& id, const subMeshID& subID, const core
 
 		pass->setDiffuse(tint.getRed(), tint.getGreen(), tint.getBlue(), tint.getAlpha());
 
-		entityTint = tint;
-
 		mat->reload();
 		sub->setMaterial(mat);
 
 		_shaderGen->invalidateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, mat->getName(), mat->getGroup());
 
 		_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, mat->getName());
+	}
+}
+
+core::Color RenderModule::getTint(const modelID& id, const subMeshID& subID)
+{
+	if (id != UINT64_MAX && id < _models.size() && _models[id] != nullptr)
+	{
+		Ogre::Entity* model = _models[id];
+		Ogre::SubEntity* sub = model->getSubEntity(subID);
+
+		Ogre::MaterialPtr mat = sub->getMaterial();
+
+		if (mat->getNumTechniques() > 0)
+		{
+			Ogre::Technique* tech = mat->getTechnique(0);
+			if (tech->getNumPasses() > 0)
+			{
+				Ogre::Pass* pass = tech->getPass(0);
+				Ogre::ColourValue color = pass->getDiffuse();
+				return core::Color(color.r, color.g, color.b, color.a);;
+			}
+		}
+		return core::Color(1.0f, 1.0f, 1.0f, 1.0f);
 	}
 }
 
