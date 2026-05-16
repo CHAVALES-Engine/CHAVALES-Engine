@@ -74,9 +74,9 @@ PhysicsModule::~PhysicsModule()
 	if (gPvd) { gPvd->release(); gPvd = nullptr; }
 	PxCloseExtensions();
 	if (gFoundation) { gFoundation->release(); gFoundation = nullptr; }
-	for (auto& [i, comp] : physicsMap) {
-		delete comp;
-	}
+	/*for (auto& [id, mat] : materialMap) {
+		if (mat) mat->release();
+	}*/
 
 	physicsMap.clear();
 	materialMap.clear();
@@ -159,7 +159,7 @@ ComponentID PhysicsModule::CreateRigidBody(core::Vector3<> pos, float mass, bool
 
 	//id del actor del rigidbody
 	ComponentID id = nextID++;
-	physicsMap[id] = new PhysXComponent({ body, {} });
+	physicsMap[id] = new PhysXComponent{ body, {} };
 	actorToID[body] = id;
 
 	return id;
@@ -702,36 +702,29 @@ void PhysicsModule::onContact(const PxContactPairHeader& pairHeader,
 
 void PhysicsModule::DestroyBody(ComponentID id)
 {
-
 	auto it = physicsMap.find(id);
 	if (it == physicsMap.end()) return;
 
 	PhysXComponent* comp = it->second;
 	PxRigidActor* actor = comp->actor;
-	if (!gScene || !actor) return;
 
-	//lo quito de la scene
-	if (gScene)
+	if (gScene && actor) {
 		gScene->removeActor(*actor, true);
 
-	//libero shapes del actor
-	for (PxShape* shape : comp->shapes)
-	{
-		if (shape)
-		{
-			actor->detachShape(*shape);
-			shape->release();
+		for (PxShape* shape : comp->shapes) {
+			if (shape) {
+				actor->detachShape(*shape);
+				shape->release();
+			}
 		}
+		comp->shapes.clear();
+
+		actorToEntity.erase(actor);
+		actorToID.erase(actor);
+		actor->release();
 	}
-	comp->shapes.clear();
 
-	actorToEntity.erase(actor);
-	actorToID.erase(actor);
-	actor->release();//libero al actor
-
-	if (actorToID.find(actor) == actorToID.end())
-		return;
-	//borro mapas
+	delete comp;
 	physicsMap.erase(it);
 }
 
@@ -748,8 +741,7 @@ void PhysicsModule::DestroyMaterial(uint32_t id)
 
 void PhysicsModule::ClearScene()
 {
-
-	if (!gScene) return;
+	//if (!gScene) return;
 
 	std::vector<ComponentID> ids;
 	for (auto& [id, _] : physicsMap)
@@ -834,7 +826,8 @@ std::vector<ShapeRenderData> PhysicsModule::GetRenderData()
 
 void PhysicsModule::ReloadPhysics()
 {
-	physicsMap.clear();
+	//physicsMap.clear();
+	ClearScene();
 	actorToID.clear();
 	actorToEntity.clear();
 	eventQueue.clear();

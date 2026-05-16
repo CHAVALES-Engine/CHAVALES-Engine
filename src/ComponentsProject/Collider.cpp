@@ -146,7 +146,8 @@ void Collider::update(uint64_t deltaTime)
 
 	if (!entity || physicsID == 0 || !transform) return;
 
-	for (auto& event : physics()->consumeEventsFor(physicsID)) {
+	std::vector<PhysicsEvent> events = physics()->consumeEventsFor(physicsID);
+	for (auto& event : events) {
 		switch (event.type) {
 		case CollisionType::TriggerEnter: onTriggerEnter(event.otherEntity); break;
 		case CollisionType::TriggerExit: onTriggerExit(event.otherEntity); break;
