@@ -366,13 +366,13 @@ bool GameLoader::_defineFunc(sol::state& lua, const std::string& fp, const std::
 			}
 			else
 			{
-				Debug::error("GAMELOADER: Resultado de luaFunc NO es una tabla");
+				Debug::error("GAMELOADER: Resultado de ", _luaFuncFile, " NO es una tabla");
 			}
 		}
 		else
 		{
 			sol::error err = result;
-			Debug::error("GAMELOADER: Resultado de luaFunc invalido: ", err.what());
+			Debug::error("GAMELOADER: Resultado de ", _luaFuncFile, " invalido: ", err.what());
 		}
 	}
 	catch (const sol::error& e)
@@ -385,7 +385,7 @@ bool GameLoader::_defineFunc(sol::state& lua, const std::string& fp, const std::
 	return finished;
 }
 
-bool GameLoader::_injectPrefabFunc(sol::state& lua, const std::string& fp)
+bool GameLoader::_injectFunctions(sol::state& lua, const std::string& fp)
 {
 	try
 	{
@@ -393,6 +393,15 @@ bool GameLoader::_injectPrefabFunc(sol::state& lua, const std::string& fp)
 		sol::protected_function func = script;
 		sol::table luaFunc = func();
 		lua["loadPrefab"] = luaFunc["loadPrefab"];
+
+		lua["Debug"] = lua.create_table();
+		lua["Debug"]["isRelease"] = []() {
+#ifdef _DEBUG
+			return false;
+#else
+			return true;
+#endif
+			};
 	}
 	catch (const sol::error& e)
 	{
@@ -415,9 +424,7 @@ void GameLoader::_loadLua(
 
 	_defineUserTypes(lua);
 
-	std::string funcPath = p + "luaFunc.lua";
-
-	_injectPrefabFunc(lua, funcPath);
+	_injectFunctions(lua, _luaFuncFile);
 
 	try
 	{
@@ -499,12 +506,16 @@ void GameLoader::_loadLua(
 	Debug::out("GAMELOADER: Escena ", n, " cargada.");
 }
 
-core::Entity* GameLoader::_loadLua(const std::shared_ptr<core::Scene>& s, const std::string& p)
+core::Entity* GameLoader::_loadLua(
+	const std::shared_ptr<core::Scene>& s,
+	const std::string& p)
 {
 	sol::state lua;
 	lua.open_libraries(sol::lib::base, sol::lib::io);
 	// tipos de usuario
 	_defineUserTypes(lua);
+	// funciones de lua por parte del motor
+	_injectFunctions(lua, _luaFuncFile);
 
 	std::string path = p + ".lua";
 	Debug::warning("GAMELOADER: cargando prefab: ", path);

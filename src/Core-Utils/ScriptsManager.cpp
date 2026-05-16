@@ -50,6 +50,13 @@ void ScriptsManager::registerBindings() const
 	lua["Debug"]["error"] = [](const std::string& msg) {
 		Debug::error("[Lua] ", msg);
 		};
+	lua["Debug"]["isRelease"] = []() {
+#ifdef _DEBUG
+		return false;
+#else
+		return true;
+#endif
+		};
 }
 
 ScriptHandle ScriptsManager::loadScript(const std::string& path) const

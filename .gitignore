@@ -449,3 +449,5 @@ FodyWeavers.xsd
 
 # subir la configuracion
 #!**/[Bb]in/*.toml
+# subir las funciones de lua
+!**/[Bb]in/**.lua

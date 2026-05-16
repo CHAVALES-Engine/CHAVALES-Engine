@@ -94,12 +94,14 @@ private:
 	 * @param fp - Ruta al archivo lua de funciones.
 	 * @returns Si el lua se ha podido ejecutar correctamente y se ha inyectado la funcion.
 	 */
-	static bool _injectPrefabFunc(sol::state& lua, const std::string& fp);
+	static bool _injectFunctions(sol::state& lua, const std::string& fp);
 
 	/**
-	 * @brief Para definir tipos de clases propias que poder traducir desde lua.
+	 * @brief Carga una escena entera desde lua.
 	 *
 	 * @param lua - Estado de lua donde definir los tipos.
+	 * @param n - Nombre de la escena
+	 * @param n - Ruta a la escena
 	 */
 	static void _loadLua(std::shared_ptr<core::Scene>& s, const sceneName& n, const std::string& p);
 
@@ -135,6 +137,7 @@ private:
 	static std::vector<T> _parseVector(const sol::table& table);
 
 	static inline std::string _path = "";
+	static inline std::string _luaFuncFile = "luaFunc.lua";
 	static inline std::filesystem::file_time_type _lastTime;
 	static inline uintmax_t _lastSize;
 
