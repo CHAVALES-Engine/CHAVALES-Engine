@@ -124,8 +124,8 @@ public:
 	void setGizmos(bool gizmos);
 
 	// ---------- RESOURCES
-	std::pair<std::string, std::string> getAssetSourceFolder(const std::string& assetName);
-	std::vector<std::pair<std::string, std::string>> getAllAssets();
+	std::pair<std::string, std::string> getAssetSourceFolder(const std::string& assetName) const;
+	std::vector<std::pair<std::string, std::string>> getAllAssets() const;
 
 	// ---------- PLATFORM
 	/**

@@ -133,7 +133,7 @@ void PlatformModule::setMouseSensitivity(float sensitivity = 10.0)
 	_mouseSensitivity = sensitivity;
 }
 
-bool PlatformModule::isDeviceConnected(input::DeviceID device)
+bool PlatformModule::isDeviceConnected(input::DeviceID device) const
 {
 	bool connected = false;
 	auto it = _virtualDevices.find(device);

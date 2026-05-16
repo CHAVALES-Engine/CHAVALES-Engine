@@ -136,7 +136,7 @@ class ENGINE_API RenderModule
 {
 public:
 	~RenderModule();
-	bool Init(SDL_Window* sdlWindow, const HWND handle, const int width, const int height, const std::vector<std::pair<FontName, FontPath>> fonts);
+	bool Init(SDL_Window* sdlWindow, const HWND handle, const int width, const int height, const std::vector<std::pair<FontName, FontPath>>& fonts);
 
 	/*
 	* @brief Renderizar frame.

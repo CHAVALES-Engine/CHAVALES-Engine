@@ -145,7 +145,7 @@ namespace core {
 		_entitiesNames.clear();
 	}
 
-	std::vector<Entity*> core::Scene::getDDOLEntities()
+	std::vector<Entity*> core::Scene::getDDOLEntities() const
 	{
 		std::vector<Entity*> persistentEntities;
 
@@ -200,7 +200,7 @@ namespace core {
 		_entitiesToAdd.clear();
 	}
 
-	std::unordered_map<ChavalesGUID, core::Entity*> core::Scene::getEntities() const
+	const std::unordered_map<ChavalesGUID, core::Entity*>& core::Scene::getEntities() const
 	{
 		return _entities;
 	}

@@ -94,7 +94,7 @@ public:
 	 * @brief Si el canal esta pausado.
 	 * @param chID - ID del canal.
 	 */
-	bool isPaused(int chID);
+	bool isPaused(int chID) const;
 
 	/**
 	 * @brief Actualiza los parametros del audio listener de FMOD.
@@ -140,7 +140,7 @@ public:
 	 * @brief Metodo para comprobar si el canal se esta reproduciendo. Devuelve falso solo si se ha detenido.
 	 * @param chID - ID del canal.
 	 */
-	bool isChannelPlaying(int chID);
+	bool isChannelPlaying(int chID) const;
 
 	/**
 	 * @brief Establece un tiempo de inicio (y/o parada)
@@ -158,13 +158,13 @@ public:
 	 * @param chID - ID del canal.
 	 * @param volume - volumen.
 	 */
-	bool getVolume(int chID, float& volume);
+	bool getVolume(int chID, float& volume) const;
 
 	/**
 	 * @brief Comprueba validez del canal.
 	 * @param chID - ID del canal.
 	 */
-	bool isValidChannel(int chID);
+	bool isValidChannel(int chID) const;
 
 private:
 	FMOD::System* _system = nullptr;

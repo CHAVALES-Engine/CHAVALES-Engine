@@ -96,7 +96,7 @@ namespace core
 		/**
 		 * @brief Extrae las entidades marcadas como DontDestroyOnLoad de la escena.
 		 */
-		std::vector<Entity*> getDDOLEntities();
+		std::vector<Entity*> getDDOLEntities() const;
 
 		/**
 		 * @brief Marca una entidad para insertar.
@@ -125,7 +125,7 @@ namespace core
 		 * @brief Devuelve el mapa de entidades de la escena.
 		 *
 		 */
-		std::unordered_map<entityID, core::Entity*> getEntities() const;
+		const std::unordered_map<entityID, core::Entity*>& getEntities() const;
 
 		/**
 		 * @brief Busca una entidad a partir de su nombre.
@@ -137,7 +137,7 @@ namespace core
 		 * @brief Devuelve el nombre de la escena.
 		 *
 		 */
-		inline sceneName getName()
+		inline const sceneName& getName() const
 		{
 			return _name;
 		}
@@ -145,7 +145,7 @@ namespace core
 		 * @brief Settea el nombre de la escena.
 		 *
 		 */
-		inline void setName(sceneName n)
+		inline void setName(const sceneName& n)
 		{
 			_name = n;
 		}

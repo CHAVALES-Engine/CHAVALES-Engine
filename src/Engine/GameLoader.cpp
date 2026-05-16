@@ -39,6 +39,7 @@ template <typename T>
 std::vector<T> GameLoader::_parseVector(const sol::table& table)
 {
 	std::vector<T> result;
+	result.reserve(table.size());
 
 	for (auto& kv : table)
 	{

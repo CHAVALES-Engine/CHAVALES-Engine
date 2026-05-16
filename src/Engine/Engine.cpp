@@ -147,11 +147,11 @@ void Engine::setGizmos(bool gizmos)
 	_gizmos = gizmos;
 }
 
-std::pair<std::string, std::string> Engine::getAssetSourceFolder(const std::string& assetName) 
+std::pair<std::string, std::string> Engine::getAssetSourceFolder(const std::string& assetName) const
 {
 	return _resourcesModule->getAssetSourceFolder(assetName);
 }
-std::vector<std::pair<std::string, std::string>> Engine::getAllAssets()
+std::vector<std::pair<std::string, std::string>> Engine::getAllAssets() const
 {
 	return _resourcesModule->getAllAssets();
 }

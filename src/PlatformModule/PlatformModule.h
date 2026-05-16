@@ -84,7 +84,7 @@ public:
 	 * @param device - id del dispositivo a comprobar.
 	 * @return bool - True o false si esta conectado o no.
 	 */
-	bool isDeviceConnected(input::DeviceID device);
+	bool isDeviceConnected(input::DeviceID device) const;
 
 	/**
 	 * @brief Devuelve si una tecla esta pulsada

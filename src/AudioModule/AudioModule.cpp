@@ -240,7 +240,7 @@ bool AudioModule::pauseChannel(int chID, bool pause)
 	}
 }
 
-bool AudioModule::isPaused(int chID)
+bool AudioModule::isPaused(int chID) const
 {
 	auto itChFound = _channelSound.find(chID);
 	if (itChFound == _channelSound.end())
@@ -339,7 +339,7 @@ bool AudioModule::setMinMaxRadius(int chID, float min, float max)
 	}
 }
 
-bool AudioModule::isChannelPlaying(int chID)
+bool AudioModule::isChannelPlaying(int chID) const
 {
 	auto itChFound = _channelSound.find(chID);
 
@@ -373,7 +373,7 @@ bool AudioModule::setDelay(int chID, double start, double end, bool stopChannel)
 	}
 }
 
-bool AudioModule::getVolume(int chID, float& volume)
+bool AudioModule::getVolume(int chID, float& volume) const
 {
 	auto itChFound = _channelSound.find(chID);
 
@@ -390,7 +390,7 @@ bool AudioModule::getVolume(int chID, float& volume)
 	}
 }
 
-bool AudioModule::isValidChannel(int chID)
+bool AudioModule::isValidChannel(int chID) const
 {
 	return _channelSound.find(chID) != _channelSound.end();
 }
