@@ -74,7 +74,11 @@ PhysicsModule::~PhysicsModule()
 	if (gPvd) { gPvd->release(); gPvd = nullptr; }
 	PxCloseExtensions();
 	if (gFoundation) { gFoundation->release(); gFoundation = nullptr; }
+	for (auto& [i, comp] : physicsMap) {
+		delete comp;
+	}
 
+	physicsMap.clear();
 	materialMap.clear();
 }
 
