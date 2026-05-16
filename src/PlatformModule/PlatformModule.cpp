@@ -338,7 +338,7 @@ void PlatformModule::setWindowSize(int w, int h)
 	SDL_SetWindowSize(_window, w, h);
 }
 
-bool PlatformModule::setIcon(std::string path)
+bool PlatformModule::setIcon(const std::string& path)
 {
 	if (_icon != nullptr)
 	{
@@ -363,7 +363,7 @@ bool PlatformModule::setIcon(std::string path)
 	return true;
 }
 
-void PlatformModule::setWindowName(std::string name)
+void PlatformModule::setWindowName(const std::string& name)
 {
 	SDL_SetWindowTitle(_window, name.c_str());
 }

@@ -81,7 +81,7 @@ void AudioModule::shutdown()
 	_system = nullptr;
 }
 
-bool AudioModule::loadSound(string path, string id, bool soundStream, bool soundLooping, bool sound3D)
+bool AudioModule::loadSound(const string& path, const string& id, bool soundStream, bool soundLooping, bool sound3D)
 {
 	auto itSoundFound = _soundMap.find(id);
 	if (itSoundFound == _soundMap.end())
@@ -119,7 +119,7 @@ bool AudioModule::loadSound(string path, string id, bool soundStream, bool sound
 	return true;
 }
 
-bool AudioModule::unloadSound(std::string id)
+bool AudioModule::unloadSound(const std::string& id)
 {
 	auto itSoundFound = _soundMap.find(id);
 	if (itSoundFound == _soundMap.end())
@@ -132,7 +132,7 @@ bool AudioModule::unloadSound(std::string id)
 	return true;
 }
 
-int AudioModule::playSound(std::string id, float soundVolume, int looping, const core::Vector3<> pos3, const core::Vector3<> vel3)
+int AudioModule::playSound(const std::string& id, float soundVolume, int looping, const core::Vector3<>& pos3, const core::Vector3<>& vel3)
 {
 	int nextChID = _nextChannelID++;
 	auto itSoundFound = _soundMap.find(id);

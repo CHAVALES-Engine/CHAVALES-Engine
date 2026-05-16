@@ -1270,7 +1270,7 @@ void  RenderModule::deleteUIPanel(const uiPanelID& id) {
 }
 
 
-uiLabelID RenderModule::addUILabel(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const  float opacity, const core::Color textColor, const core::Color bgColor, const float fontSize, const TextAlign textAlign, const std::string fontName)
+uiLabelID RenderModule::addUILabel(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const  float opacity, const core::Color textColor, const core::Color bgColor, const float fontSize, const TextAlign textAlign, const std::string& fontName)
 {
 	addUITransform(entityID);
 
@@ -1440,7 +1440,7 @@ void RenderModule::setUIButtonText(const uiButtonID& buttonID, const std::string
 	_uiPanels[panelID].buttons[buttonIndex].text = text;
 }
 
-void RenderModule::setUIButtonTexture(const uiButtonID& buttonID, std::string& textureFolder, std::string& textureFile)
+void RenderModule::setUIButtonTexture(const uiButtonID& buttonID, const std::string& textureFolder, const std::string& textureFile)
 {
 	if (textureFile.empty() || textureFolder.empty()) {
 		Debug::error("[UIButton] TextureFile/textureFolder vacio");
@@ -1552,7 +1552,7 @@ void RenderModule::deleteUITextureRect(const uiTextureRectID& id) {
 	textureRect.alive = false;
 }
 
-void  RenderModule::setUITextureRectTexture(const uiTextureRectID& textureRectID, std::string& textureFolder, std::string& textureFile)
+void  RenderModule::setUITextureRectTexture(const uiTextureRectID& textureRectID, const std::string& textureFolder, const std::string& textureFile)
 {
 	if (textureFile.empty() || textureFolder.empty()) {
 		Debug::error("[UITextureRect] TextureFile/textureFolder vacio");

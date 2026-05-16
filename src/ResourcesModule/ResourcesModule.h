@@ -29,7 +29,7 @@ public:
 	 * @brief Metodo para sacar la ruta del asset deseado.
 	 * @param assetName - Nombre del asset: nombre de la carpeta + archivo + extension del archivo
 	 */
-	std::pair<std::string, std::string> getAssetSourceFolder(std::string assetName);
+	std::pair<std::string, std::string> getAssetSourceFolder(const std::string& assetName);
 
 	/**
 	 * @brief Metodo para el RenderModule para sacar todas las fuentes.
@@ -46,13 +46,13 @@ private:
 	 * @brief Metodo para recorrer todas las carpetas de recursos, es recursivo.
 	 * @param sourceName - Nombre de la carpeta de assets
 	 */
-	bool loadAsset(std::string sourceName); 
+	bool loadAsset(const std::string& sourceName); 
 
 	/**
 	 * @brief Metodo para insertar en el mapa de assets.
 	 * @param sourceName - Nombre de la carpeta de assets
 	 */
-	bool insertAssetMap(std::string sourceName); 
+	bool insertAssetMap(const std::string& sourceName); 
 
 	std::unordered_map<ChavalesGUID, std::string> _idMaps; // Mapa de ID-path del asset
 	std::unordered_multimap<std::string, AssetInfo> _assetsMaps; // Mapa de assets nombre-ID

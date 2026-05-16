@@ -92,12 +92,12 @@ void InputFacade::setWindowSize(int w, int h)
 	_platform->setWindowSize(w, h);
 }
 
-bool InputFacade::setIcon(std::string path)
+bool InputFacade::setIcon(const std::string& path)
 {
 	return _platform->setIcon(path);
 }
 
-void InputFacade::setWindowName(std::string name)
+void InputFacade::setWindowName(const std::string& name)
 {
 	_platform->setWindowName(name);
 }

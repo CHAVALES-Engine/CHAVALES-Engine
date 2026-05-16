@@ -36,13 +36,13 @@ public:
 	 * @param soundLooping - Si debe ciclar infinitamente.
 	 * @param sound3D - Si el audio es 3D.
 	 */
-	bool loadSound(std::string path, std::string id, bool soundStream = true, bool soundLooping = false, bool sound3D = true);
+	bool loadSound(const std::string& path, const std::string& id, bool soundStream = true, bool soundLooping = false, bool sound3D = true);
 
 	/**
 	 * @brief Retira un audio.
 	 * @param id - ID del audio.
 	 */
-	bool unloadSound(std::string id);
+	bool unloadSound(const std::string& id);
 
 	/**
 	 * @brief Busca un sonido, si lo encuentra lo asocia a un canal. Luego comienza a reproducirlo. El metodo devuelve el canal.
@@ -52,7 +52,7 @@ public:
 	 * @param pos3 -
 	 * @param vel3 -
 	 */
-	int playSound(std::string id, float soundVolume, int looping = 0, const core::Vector3<> pos3 = { 0.0f, 0.0f,0.0f }, const core::Vector3<> vel3 = { 0.0f,0.0f,0.0f });
+	int playSound(const std::string& id, float soundVolume, int looping = 0, const core::Vector3<>& pos3 = { 0.0f, 0.0f,0.0f }, const core::Vector3<>& vel3 = { 0.0f,0.0f,0.0f });
 
 	/**
 	 * @brief Metodo para establecer un volumen a un canal.

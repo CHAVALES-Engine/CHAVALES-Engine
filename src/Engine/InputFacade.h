@@ -125,12 +125,12 @@ public:
 	* @param path - Ruta del icono.
 	* @return bool - si se ha podido cambiar.
 	*/
-	bool setIcon(std::string path);
+	bool setIcon(const std::string& path);
 	/**
 	* @brief Cambia el tamanyo de la ventana.
 	* @param name - Nombre de la ventana.
 	*/
-	void setWindowName(std::string name);
+	void setWindowName(const std::string& name);
 	/**
 	* @brief Vibra el mando con los parametros dados.
 	* Si ANY_DEVICE hace vibrar a todos.

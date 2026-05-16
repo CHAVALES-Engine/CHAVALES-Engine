@@ -13,7 +13,7 @@ ResourcesModule::~ResourcesModule()
 
 }
 
-bool ResourcesModule::loadAsset(std::string sourceName)
+bool ResourcesModule::loadAsset(const std::string& sourceName)
 {
 	for (const auto& entry : std::filesystem::directory_iterator(sourceName)) 
 	{
@@ -38,7 +38,7 @@ bool ResourcesModule::loadAsset(std::string sourceName)
 	return true;
 }
 
-bool ResourcesModule::insertAssetMap(std::string sourceName)
+bool ResourcesModule::insertAssetMap(const std::string& sourceName)
 {
 	std::string nombreAsset = std::filesystem::path(sourceName).filename().string();
 	std::string nombreCarpeta = std::filesystem::path(sourceName).parent_path().string();
@@ -75,7 +75,7 @@ bool ResourcesModule::Init()
 	return true;
 }
 
-std::pair<std::string, std::string> ResourcesModule::getAssetSourceFolder(std::string assetName)
+std::pair<std::string, std::string> ResourcesModule::getAssetSourceFolder(const std::string& assetName)
 {
 	std::string parentPath = std::filesystem::path(assetName).parent_path().string() + "/";
 	std::string comprobante = std::filesystem::path(assetName).filename().string();

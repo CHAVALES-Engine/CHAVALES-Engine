@@ -522,7 +522,7 @@ public:
 	/*
 	 * @brief Añadir un letrero al panel
 	 */
-	uiLabelID addUILabel(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const  float opacity, const core::Color textColor, const core::Color bgColor, const float fontSize, const TextAlign textAlign, const std::string fontName);
+	uiLabelID addUILabel(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const  float opacity, const core::Color textColor, const core::Color bgColor, const float fontSize, const TextAlign textAlign, const std::string& fontName);
 	/*
 	* @brief borrar label de UI.
 	*/
@@ -583,7 +583,7 @@ public:
 	/*
 	* @brief Establecer la textura del boton
 	*/
-	void  setUIButtonTexture(const uiButtonID& buttonID, std::string& textureFolder, std::string& textureFile);
+	void  setUIButtonTexture(const uiButtonID& buttonID, const std::string& textureFolder, const std::string& textureFile);
 
 	/*
 	* @brief Establecer la opacidad  del boton
@@ -629,7 +629,7 @@ public:
 	/*
 	* @brief Establecer la textura del textureRect
 	*/
-	void setUITextureRectTexture(const uiTextureRectID& textureRectID, std::string& textureFolder, std::string& textureFile);
+	void setUITextureRectTexture(const uiTextureRectID& textureRectID, const std::string& textureFolder, const std::string& textureFile);
 
 	/*
 	* @brief Establecer si el textureRect es visible
