@@ -41,7 +41,6 @@ class Transform;
 
 class ENGINE_API AudioSource : public EngineComponent
 {
-private:
 	/*
 	* @brief Referencia al Tranform de la entidad para el audio 3D
 	*/
@@ -49,7 +48,7 @@ private:
 	/*
 	* @brief Vector que guarda la última posición regristrada para el cálculo de velocidad
 	*/
-	core::Vector3<float> _lastPosition;
+	core::Vector3<> _lastPosition;
 	/*
 	* @brief Ruta de donde se encuentre el sonido
 	*/
@@ -102,23 +101,23 @@ public:
 	/*
 	* @brief Se carga el sonido con los parámetros configurados y, si tiene activado _playOnReady empieza a reproducirlo
 	*/
-	virtual void ready() override;
+	void ready() override;
 	/*
 	* @brief En cada frame se actualiza la posición del Source y su velocidad si este es 3D
 	*/
-	virtual void update(uint64_t deltaTime) override;
+	void update(uint64_t deltaTime) override;
 	/*
 	* @brief Al desactivar el componente se pausa el audio
 	*/
-	virtual void disable() override;
+	void disable() override;
 	/*
 	* @brief Al destruir el componente se detiene el audio
 	*/
-	virtual void destroy() override;
+	void destroy() override;
 	/*
 	* @brief Al activar el componente se reanuda el audio
 	*/
-	virtual void enable() override;
+	void enable() override;
 
 	/*
 	* @brief Configura el modo loop del audio (-1 = indef, 0 = one time, 1 = loop once)
@@ -163,7 +162,7 @@ public:
 	/*
 	* @brief Devuelve el ID del sonido
 	*/
-	std::string getSoundName() const;
+	const std::string& getSoundName() const;
 	/*
 	* @brief En 3D, configura el radio Minimo del la esfera de sonido
 	*/

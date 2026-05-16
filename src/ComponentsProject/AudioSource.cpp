@@ -202,7 +202,7 @@ void AudioSource::setDelay(double start, double end, bool stopChannel) const
 	audio()->setDelay(_channelID, start, end, stopChannel);
 }
 
-std::string AudioSource::getSoundName() const
+const std::string& AudioSource::getSoundName() const
 {
 	return _id;
 }

@@ -85,7 +85,7 @@ void ModelRenderer::setTint(const core::Color& tint, const int& submesh)
 	render()->setTint(_modelID, submesh, tint);
 }
 
-core::Color ModelRenderer::getTint(const int& submesh)
+core::Color ModelRenderer::getTint(const int& submesh) const
 {
 	return render()->getTint(_modelID, submesh);
 }
@@ -95,7 +95,7 @@ void ModelRenderer::setVisible(const bool& visible)
 	render()->setModelVisible(_modelID, visible);
 }
 
-modelID ModelRenderer::getModelID()
+modelID ModelRenderer::getModelID() const
 {
 	return _modelID;
 }
