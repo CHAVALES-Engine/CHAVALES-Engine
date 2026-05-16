@@ -192,9 +192,7 @@ void GameLoader::_parseComponent(core::Entity* e, std::pair<sol::object, sol::ob
 
 		// --- a este nivel va el init:
 		// inicializacion de los parametros de un componente a traves de los datos de lua
-		bool init = component->init(properties);
-
-		if (init)
+		if (component->init(properties))
 		{
 			Debug::out("GAMELOADER: Componente ", componenteName, " cargado para la entidad ", e->getName(), ".");
 		}
@@ -391,10 +389,35 @@ bool GameLoader::_injectFunctions(sol::state& lua, const std::string& fp)
 	try
 	{
 		sol::load_result script = lua.load_file(fp);
-		sol::protected_function func = script;
-		sol::table luaFunc = func();
-		lua["loadPrefab"] = luaFunc["loadPrefab"];
+		if (!script.valid())
+		{
+			sol::error err = script;
+			Debug::error("GAMELOADER: Error leyendo funciones de Lua desde ", fp, ": ", err.what());
+			return false;
+		}
 
+		sol::protected_function func = script;
+		sol::protected_function_result result = func();
+		if (!result.valid())
+		{
+			sol::error err = result;
+			Debug::error("GAMELOADER: Error ejecutando funciones de Lua desde ", fp, ": ", err.what());
+			return false;
+		}
+		if (result.get_type() != sol::type::table)
+		{
+			Debug::error("GAMELOADER: ", fp, " no devolvio una tabla.");
+			return false;
+		}
+		sol::table luaFunc = result;
+		if (!luaFunc["loadPrefab"].valid())
+		{
+			Debug::error("GAMELOADER: ", fp, " no define loadPrefab.");
+			return false;
+		}
+		lua["loadPrefab"] = luaFunc["loadPrefab"]; // molaria que iterase por todas las funciones definidas en luaFunc y se anyadiesen solas...
+
+		// funciones de debug/release
 		lua["Debug"] = lua.create_table();
 		lua["Debug"]["isRelease"] = []() {
 #ifdef _DEBUG
@@ -408,6 +431,11 @@ bool GameLoader::_injectFunctions(sol::state& lua, const std::string& fp)
 	{
 		Debug::error("GAMELOADER: Error inyectando funciones desde ", fp);
 		Debug::error("Lua exception: ", e.what());
+		return false;
+	}
+	catch (...)
+	{
+		Debug::error("GAMELOADER: Excepcion desconocida inyectando funciones desde ", fp);
 		return false;
 	}
 	return true;
@@ -425,7 +453,12 @@ void GameLoader::_loadLua(
 
 	_defineUserTypes(lua);
 
-	_injectFunctions(lua, _luaFuncFile);
+	if (!_injectFunctions(lua, _luaFuncFile))
+	{
+		Debug::error("GAMELOADER: No se pudieron inyectar las funciones de Lua en el motor.");
+		s = nullptr;
+		return;
+	}
 
 	try
 	{
@@ -441,70 +474,80 @@ void GameLoader::_loadLua(
 		return;
 	}
 
-	// --- lectura lua
-	// - Escena
-	sol::object object = lua["scene"];
-	if (!object.valid() || object.get_type() != sol::type::table)
+	try
 	{
-		Debug::error("GAMELOADER: 'scene' no existe o no es una tabla en ", scenePath);
+		// --- lectura lua
+		// - Escena
+		sol::object object = lua["scene"];
+		if (!object.valid() || object.get_type() != sol::type::table)
+		{
+			Debug::error("GAMELOADER: 'scene' no existe o no es una tabla en ", scenePath);
+			s = nullptr;
+			return;
+		}
+		sol::table scene = object;
+		Debug::out("GAMELOADER: Cargando escena ", n, ".");
+
+		// - Ajustes escena
+		sol::object gizmos = scene["gizmos"];
+
+		if (gizmos.valid() && gizmos.is<bool>())
+		{
+			bool _gizmos_B = gizmos.as<bool>();
+			std::string _gizmos_S;
+
+			Engine::instance()->setGizmos(_gizmos_B);
+
+			_gizmos_B ? _gizmos_S = "true" : _gizmos_S = "false";
+			Debug::out("GAMELOADER: Render de gizmos inicializado a ", _gizmos_S, ".");
+		}
+		else
+		{
+			Debug::warning(
+				"GAMELOADER: No se ha leido la configuracion de render de gizmos, inicializado a false por defecto.");
+		}
+
+		// - Traduccion de entidades
+		object = scene["entities"];
+		if (!object.valid() || object.get_type() != sol::type::table)
+		{
+			Debug::error("GAMELOADER: 'entities' no existe o no es una tabla en ", scenePath);
+			s = nullptr;
+			return;
+		}
+		sol::table entities = object;
+
+		for (auto& entidadObj : entities)
+		{
+			core::Entity* e = new core::Entity();
+			_instanceEntity(e, entidadObj);
+			s->addEntity(e);
+		}
+		s->addListedEntities();
+
+		for (auto& entidadObj : entities)
+		{
+			std::string name = entidadObj.first.as<std::string>();
+			core::Entity* e = s->findEntityByName(name);
+			if (!e) continue;
+			_initializeEntity(e, entidadObj);
+		}
+		Debug::out("GAMELOADER: Escena ", n, " cargada.");
+	}
+	catch (const sol::error& e)
+	{
+		// si no lo consigue saca error
+		Debug::error("GAMELOADER: Error abriendo escena: ", p);
+		Debug::error("Lua exception: ", e.what());
+		if (s != nullptr) s->clearScene();
 		s = nullptr;
-		return;
 	}
-	sol::table scene = object;
-	Debug::out("GAMELOADER: Cargando escena ", n, ".");
-
-	// - Ajustes escena
-	// Gizmos
-	// dentro de la entidad, accedo al dontdestroyonload
-	sol::object gizmos = scene["gizmos"];
-
-	if (gizmos.valid() && gizmos.is<bool>())
+	catch (...)
 	{
-		bool _gizmos_B = gizmos.as<bool>();
-		std::string _gizmos_S;
-
-		Engine::instance()->setGizmos(_gizmos_B);
-
-		_gizmos_B ? _gizmos_S = "true" : _gizmos_S = "false";
-		Debug::out("GAMELOADER: Render de gizmos inicializado a ", _gizmos_S, ".");
-	}
-	else
-	{
-		Debug::warning(
-			"GAMELOADER: No se ha leido la configuracion de render de gizmos, inicializado a false por defecto.");
-	}
-
-	// - Traduccion de entidades
-	object = scene["entities"];
-	if (!object.valid() || object.get_type() != sol::type::table)
-	{
-		Debug::error("GAMELOADER: 'entities' no existe o no es una tabla en ", scenePath);
+		Debug::error("GAMELOADER: Excepcion desconocida durante parseo de escena ", n);
+		if (s != nullptr) s->clearScene();
 		s = nullptr;
-		return;
 	}
-	sol::table entities = object;
-
-	for (auto& entidadObj : entities)
-	{
-		// --- para cada entidad leida
-		core::Entity* e = new core::Entity();
-		_instanceEntity(e, entidadObj);
-		// --- lista la entidad para anyadir en la escena
-		s->addEntity(e);
-	}
-	// Mete en la escena las entidades
-	s->addListedEntities();
-
-	for (auto& entidadObj : entities)
-	{
-		// --- para cada entidad leida
-		std::string name = entidadObj.first.as<std::string>();
-		core::Entity* e = s->findEntityByName(name);
-		if (!e) continue;
-		// inicializamos los componentes
-		_initializeEntity(e, entidadObj);
-	}
-	Debug::out("GAMELOADER: Escena ", n, " cargada.");
 }
 
 core::Entity* GameLoader::_loadLua(
@@ -516,7 +559,11 @@ core::Entity* GameLoader::_loadLua(
 	// tipos de usuario
 	_defineUserTypes(lua);
 	// funciones de lua por parte del motor
-	_injectFunctions(lua, _luaFuncFile);
+	if (!_injectFunctions(lua, _luaFuncFile))
+	{
+		Debug::error("GAMELOADER: No se pudieron inyectar las funciones de Lua en el motor.");
+		return nullptr;
+	}
 
 	std::string path = p + ".lua";
 	Debug::warning("GAMELOADER: cargando prefab: ", path);
@@ -607,6 +654,11 @@ core::Entity* GameLoader::_loadLua(
 		// si no lo consigue saca error
 		Debug::error("GAMELOADER: Error abriendo escena: ", path);
 		Debug::error("Lua exception: ", e.what());
+		return nullptr;
+	}
+	catch (...)
+	{
+		Debug::error("GAMELOADER: Excepcion desconocida cargando prefab ", path);
 		return nullptr;
 	}
 }
