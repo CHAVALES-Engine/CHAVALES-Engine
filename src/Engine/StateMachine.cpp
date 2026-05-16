@@ -58,7 +58,7 @@ void StateMachine::gameLoop()
 			_currentScene.ptr->destroyDeadEntities();
 			_processHotLuaReload();
 		}
-		_endGame = Engine::instance()->update(_deltaTime);
+		_endGame = _endGame || Engine::instance()->update(_deltaTime) ;
 	}
 
 	_isLoopRunning = false;
