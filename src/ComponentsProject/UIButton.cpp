@@ -118,6 +118,7 @@ void UIButton::destroy()
 {
 	if (_buttonID == UINT64_MAX)return;
 	render()->deleteUIButton(_buttonID);
+	_buttonID = UINT64_MAX;
 }
 
 void UIButton::setText(const std::string& text) {

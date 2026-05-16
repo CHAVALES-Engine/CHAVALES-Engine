@@ -97,6 +97,7 @@ void UILabel::destroy()
 {
 	if (_labelID == UINT64_MAX)return;
 	render()->deleteUILabel(_labelID);
+	_labelID = UINT64_MAX;
 }
 
 void UILabel::setText(const std::string& text)

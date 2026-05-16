@@ -31,6 +31,11 @@ bool AudioModule::init()
 	if (result != FMOD_OK)
 	{
 		Debug::error("FMOD error: Couldn't initialize system");
+		if (_system)
+		{
+			_system->release();
+			_system = nullptr;
+		}
 		return false;
 	}
 	_system->set3DSettings(1.0f, 1.0f, 1.0f);
@@ -56,6 +61,8 @@ void AudioModule::update()
 void AudioModule::shutdown()
 {
 	//Destructora
+	if (_system == nullptr)
+		return;
 
 	for (auto& s : _soundMap)
 	{
