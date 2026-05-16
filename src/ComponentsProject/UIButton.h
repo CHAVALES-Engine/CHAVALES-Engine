@@ -56,9 +56,9 @@ public:
 	void setTexture(const std::string& texture);
 	void setOnClick(std::function<void()>callback);
 	void setOpacity(float opacity);
-	void setBackgroudColor(core::Color color);
-	void setTextColor(core::Color color);
-	void setHoverColor(core::Color color);
-	void setPressColor(core::Color color);
+	void setBackgroudColor(const core::Color& color);
+	void setTextColor(const core::Color& color);
+	void setHoverColor(const core::Color& color);
+	void setPressColor(const core::Color& color);
 	void disable(bool disable);
 };

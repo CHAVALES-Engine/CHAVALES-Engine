@@ -402,7 +402,7 @@ void PlatformModule::setGamepadVibration(input::DeviceID id, float lowFreq, floa
 	}
 }
 
-void PlatformModule::setGamepadColor(input::DeviceID id, core::Color color)
+void PlatformModule::setGamepadColor(input::DeviceID id, const core::Color& color)
 {
 	// Clampeamos los valores dados a entre 0.0 y 1.0 y los convertimos a la unidad que pide SDL.
 	uint8_t clampR = static_cast<uint8_t>(std::clamp(color.getRed(), 0.0f, 1.0f) * (std::numeric_limits<uint8_t>::max)());

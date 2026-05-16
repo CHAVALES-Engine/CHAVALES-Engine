@@ -317,7 +317,7 @@ RenderModule::EventCallback RenderModule::getImguiInputCallback()
 	return ImGui_ImplSDL3_ProcessEvent;
 }
 
-transformID RenderModule::addNode(const entityID& entityID, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float> scale, const bool& fromTransform)
+transformID RenderModule::addNode(const entityID& entityID, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float>& scale, const bool& fromTransform)
 {
 	for (int i = 0; i < (int)_engineNodes.size(); i++)
 	{
@@ -460,7 +460,7 @@ UITransformID RenderModule::getTransformUI(const entityID& entityID)
 	return UINT64_MAX;
 }
 
-void RenderModule::setViewportBGColor(core::Color color)
+void RenderModule::setViewportBGColor(const core::Color& color)
 {
 	_vp->setBackgroundColour(Ogre::ColourValue(color.getRed(), color.getGreen(), color.getBlue()));
 }
@@ -1270,7 +1270,7 @@ void  RenderModule::deleteUIPanel(const uiPanelID& id) {
 }
 
 
-uiLabelID RenderModule::addUILabel(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const  float opacity, const core::Color textColor, const core::Color bgColor, const float fontSize, const TextAlign textAlign, const std::string& fontName)
+uiLabelID RenderModule::addUILabel(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const  float opacity, const core::Color& textColor, const core::Color& bgColor, const float fontSize, const TextAlign textAlign, const std::string& fontName)
 {
 	addUITransform(entityID);
 
@@ -1325,13 +1325,13 @@ void RenderModule::setUILabelOpacity(const uiLabelID& labelID, float opacity)
 	_uiPanels[panelID].labels[labelIndex].opacity = opacity;
 }
 
-void RenderModule::setUILabelTextColor(const uiLabelID& labelID, core::Color color)
+void RenderModule::setUILabelTextColor(const uiLabelID& labelID, const core::Color& color)
 {
 	auto [panelID, labelIndex] = _labelToPanel[labelID];
 	_uiPanels[panelID].labels[labelIndex].textColor = color;
 }
 
-void RenderModule::setUILabelBackGroundColor(const uiLabelID& labelID, core::Color color)
+void RenderModule::setUILabelBackGroundColor(const uiLabelID& labelID, const core::Color& color)
 {
 	auto [panelID, labelIndex] = _labelToPanel[labelID];
 	_uiPanels[panelID].labels[labelIndex].bgColor = color;

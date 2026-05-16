@@ -145,22 +145,22 @@ void UIButton::setOpacity(float opacity)
 	if (_buttonID == UINT64_MAX)return;
 	render()->setUIButtonOpacity(_buttonID, opacity);
 }
-void UIButton::setBackgroudColor(core::Color color) {
+void UIButton::setBackgroudColor(const core::Color& color) {
 	_bgColor = color;
 	if (_buttonID == UINT64_MAX)return;
 	render()->setUIButtonBackgroundColor(_buttonID, _bgColor);
 }
-void UIButton::setTextColor(core::Color color) {
+void UIButton::setTextColor(const core::Color& color) {
 	_textColor = color;
 	if (_buttonID == UINT64_MAX)return;
 	render()->setUIButtonTextColor(_buttonID, _textColor);
 }
-void UIButton::setHoverColor(core::Color color) {
+void UIButton::setHoverColor(const core::Color& color) {
 	_hoverColor = color;
 	if (_buttonID == UINT64_MAX)return;
 	render()->setUIButtonHoverColor(_buttonID, _hoverColor);
 }
-void UIButton::setPressColor(core::Color color) {
+void UIButton::setPressColor(const core::Color& color) {
 	_pressColor = color;
 	if (_buttonID == UINT64_MAX)return;
 	render()->setUIButtonPressColor(_buttonID, _pressColor);

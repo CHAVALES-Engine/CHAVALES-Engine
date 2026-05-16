@@ -108,7 +108,7 @@ public:
 	/*
 	* @brief Cambiar color de fondo.
 	*/
-	void setViewportBGColor(core::Color color);
+	void setViewportBGColor(const core::Color& color);
 
 	// ---------- PHYSICS
 	bool rayCast(const core::Vector3<>& origin,
@@ -124,7 +124,7 @@ public:
 	void setGizmos(bool gizmos);
 
 	// ---------- RESOURCES
-	std::pair<std::string, std::string> getAssetSourceFolder(std::string assetName);
+	std::pair<std::string, std::string> getAssetSourceFolder(const std::string& assetName);
 	std::vector<std::pair<std::string, std::string>> getAllAssets();
 
 	// ---------- PLATFORM

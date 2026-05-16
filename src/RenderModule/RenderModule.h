@@ -155,7 +155,7 @@ public:
 	/*
 	* @brief Anadir nodo.
 	*/
-	transformID addNode(const entityID& entityID, const core::Vector3<float>& pos = core::Vector3<float>(0.0f, 0.0f, 0.0f), const core::Quaternion<float>& rot = core::Quaternion<float>(0.0f, 0.0f, 0.0f, 1.0f), const core::Vector3<float> scale = core::Vector3<float>(1.0f, 1.0f, 1.0f), const bool& fromTransform = false);
+	transformID addNode(const entityID& entityID, const core::Vector3<float>& pos = core::Vector3<float>(0.0f, 0.0f, 0.0f), const core::Quaternion<float>& rot = core::Quaternion<float>(0.0f, 0.0f, 0.0f, 1.0f), const core::Vector3<float>& scale = core::Vector3<float>(1.0f, 1.0f, 1.0f), const bool& fromTransform = false);
 
 	/*
 	* @brief Getter de nodo. Devuelve -1 si no existe.
@@ -232,7 +232,7 @@ public:
 	/*
 	* @brief Cambiar color de fondo.
 	*/
-	void setViewportBGColor(core::Color color);
+	void setViewportBGColor(const core::Color& color);
 
 	// --- Metodos camaras
 	/*
@@ -522,7 +522,7 @@ public:
 	/*
 	 * @brief Añadir un letrero al panel
 	 */
-	uiLabelID addUILabel(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const  float opacity, const core::Color textColor, const core::Color bgColor, const float fontSize, const TextAlign textAlign, const std::string& fontName);
+	uiLabelID addUILabel(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const  float opacity, const core::Color& textColor, const core::Color& bgColor, const float fontSize, const TextAlign textAlign, const std::string& fontName);
 	/*
 	* @brief borrar label de UI.
 	*/
@@ -545,12 +545,12 @@ public:
 	/*
 	* @brief Establecer el color del texto del letrero
 	*/
-	void setUILabelTextColor(const uiLabelID& labelID, core::Color color);
+	void setUILabelTextColor(const uiLabelID& labelID, const core::Color& color);
 
 	/*
 	 * @brief Establecer el color del fondo del letrero
 	*/
-	void setUILabelBackGroundColor(const uiLabelID& labelID, core::Color color);
+	void setUILabelBackGroundColor(const uiLabelID& labelID, const core::Color& color);
 
 	/*
 	* @brief Establecer el alineado del letrero

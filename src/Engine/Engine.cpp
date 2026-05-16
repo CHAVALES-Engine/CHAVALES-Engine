@@ -118,7 +118,7 @@ void Engine::cleanScene()
 	_renderModule->cleanScene(false);
 }
 
-void Engine::setViewportBGColor(core::Color color)
+void Engine::setViewportBGColor(const core::Color& color)
 {
 	_renderModule->setViewportBGColor(color);
 }
@@ -147,7 +147,7 @@ void Engine::setGizmos(bool gizmos)
 	_gizmos = gizmos;
 }
 
-std::pair<std::string, std::string> Engine::getAssetSourceFolder(std::string assetName)
+std::pair<std::string, std::string> Engine::getAssetSourceFolder(const std::string& assetName) 
 {
 	return _resourcesModule->getAssetSourceFolder(assetName);
 }

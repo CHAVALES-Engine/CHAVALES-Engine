@@ -107,7 +107,7 @@ void InputFacade::setGamepadVibration(input::DeviceID id, float lowFreq, float h
 	_platform->setGamepadVibration(id, lowFreq, highFreq, dur);
 }
 
-void InputFacade::setGamepadColor(input::DeviceID id, core::Color color)
+void InputFacade::setGamepadColor(input::DeviceID id, const core::Color& color)
 {
 	_platform->setGamepadColor(id, color);
 }

@@ -257,7 +257,7 @@ bool AudioModule::isPaused(int chID)
 	}
 }
 
-void AudioModule::setListener(core::Vector3<> pos, core::Vector3<> forward, core::Vector3<> up, core::Vector3<> vel)
+void AudioModule::setListener(const core::Vector3<>& pos, const core::Vector3<>& forward, const core::Vector3<>& up, const core::Vector3<>& vel)
 {
 	FMOD_VECTOR _pos = { pos.getX(), pos.getY(), pos.getZ() };
 	FMOD_VECTOR _vel = { vel.getX(), vel.getY(), vel.getZ() };
@@ -294,7 +294,7 @@ void AudioModule::unMuteEverything()
 	}
 }
 
-bool AudioModule::setAudioPos(int chID, core::Vector3<> pos, core::Vector3<> vel)
+bool AudioModule::setAudioPos(int chID, const core::Vector3<>& pos, const core::Vector3<>& vel)
 {
 	auto itCH = _channelSound.find(chID);
 	if (itCH == _channelSound.end())

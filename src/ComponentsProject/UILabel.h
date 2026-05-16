@@ -50,7 +50,7 @@ public:
 	void setText(const std::string& text);
 	void setVisible(bool visible);
 	void setOpacity(float opacity);
-	void setBackgroudColor(core::Color color);
-	void setTextColor(core::Color color);
+	void setBackgroudColor(const core::Color& color);
+	void setTextColor(const core::Color& color);
 	void setAlign(TextAlign align);
 };

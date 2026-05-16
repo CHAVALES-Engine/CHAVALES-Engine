@@ -239,7 +239,7 @@ void Transform::ready()
 	}
 }
 
-void Transform::setGlobalPosition(core::Vector3<> gp)
+void Transform::setGlobalPosition(const core::Vector3<>& gp)
 {
 	if (_parent != nullptr)
 	{

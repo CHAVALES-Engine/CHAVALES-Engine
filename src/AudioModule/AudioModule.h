@@ -103,7 +103,7 @@ public:
 	 * @param up - vector up del listener.
 	 * @param vel - velocidad del audio listener, para el efecto Doppler.
 	 */
-	void setListener(core::Vector3<> pos, core::Vector3<> forward, core::Vector3<> up, core::Vector3<> vel = { 0.0,0.0,0.0 });
+	void setListener(const core::Vector3<>& pos, const core::Vector3<>& forward, const core::Vector3<>& up, const core::Vector3<>& vel = { 0.0,0.0,0.0 });
 
 	/**
 	 * @brief Silencia todos los canales.
@@ -126,7 +126,7 @@ public:
 	 * @param pos - nueva posicion del sonido.
 	 * @param vel - nueva velocidad de propagacion del sonido.
 	 */
-	bool setAudioPos(int chID, core::Vector3<> pos, core::Vector3<> vel);
+	bool setAudioPos(int chID, const core::Vector3<>& pos, const core::Vector3<>& vel);
 
 	/**
 	 * @brief Metodo para determinar el radio mínimo y máximo de un audio 3D.

@@ -145,7 +145,7 @@ public:
 	* Si ANY_DEVICE cambia el de todos.
 	* @param color - Color para poner.
 	*/
-	void setGamepadColor(input::DeviceID id, core::Color color);
+	void setGamepadColor(input::DeviceID id, const core::Color& color);
 	/**
 	* @brief Cambia el color del mando.
 	* Si ANY_DEVICE cambia el de todos.

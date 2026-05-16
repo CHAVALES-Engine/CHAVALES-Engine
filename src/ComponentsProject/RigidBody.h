@@ -48,7 +48,7 @@ public:
 	float gravVal = 0;
 
 	/**
-	 * @brief ID interno del objeto en el sistema de físicas
+	 * @brief ID interno del objeto en el sistema de fï¿½sicas
 	 */
 	unsigned int physicsID;
 
@@ -58,24 +58,24 @@ public:
 	bool useGravity = true;
 
 	/**
-	 * @brief Indica si el cuerpo es cinemático (no afectado por fuerzas)
+	 * @brief Indica si el cuerpo es cinemï¿½tico (no afectado por fuerzas)
 	 */
 	bool isKinematic;
 
 	RigidBody();
 
 	/**
-	 * @brief Inicialización del componente con propiedades
+	 * @brief Inicializaciï¿½n del componente con propiedades
 	 */
 	bool init(const Properties& p) override;
 
 	/**
-	 * @brief Llamado cuando el objeto está listo
+	 * @brief Llamado cuando el objeto estï¿½ listo
 	 */
 	virtual void ready() override;
 
 	/**
-	 * @brief Actualización por frame
+	 * @brief Actualizaciï¿½n por frame
 	 * @param deltaTime Tiempo entre frames (normalmente en ms)
 	 */
 	virtual void update(uint64_t deltaTime) override;
@@ -83,37 +83,37 @@ public:
 	/**
 	 * @brief Obtiene la velocidad actual del rigidbody
 	 */
-	core::Vector3<> getVelocity();
+	core::Vector3<> getVelocity() const;
 
 	/**
-	 * @brief Obtiene la posición actual del rigidbody
+	 * @brief Obtiene la posiciï¿½n actual del rigidbody
 	 */
-	core::Vector3<> getPosition();
+	core::Vector3<> getPosition() const;
 
 	/**
-	 * @brief Obtiene la rotación actual del rigidbody
+	 * @brief Obtiene la rotaciï¿½n actual del rigidbody
 	 */
-	core::Quaternion<> getRotation();
+	core::Quaternion<> getRotation() const;
 
 	/**
 	 * @brief Obtiene la masa del objeto
 	 */
-	float getMass();
+	float getMass() const;
 
 	/**
 	 * @brief Establece la velocidad del rigidbody
 	 */
-	void setVelocity(core::Vector3<> vel);
+	void setVelocity(const core::Vector3<>& vel);
 
 	/**
-	 * @brief Establece la posición del rigidbody
+	 * @brief Establece la posiciï¿½n del rigidbody
 	 */
-	void setPosition(core::Vector3<> pos);
+	void setPosition(const core::Vector3<>& pos);
 
 	/**
-	 * @brief Establece la rotación del rigidbody
+	 * @brief Establece la rotaciï¿½n del rigidbody
 	 */
-	void setRotation(core::Quaternion<> rot);
+	void setRotation(const core::Quaternion<>& rot);
 
 	/**
 	 * @brief Establece la masa del objeto
@@ -128,14 +128,14 @@ public:
 	/**
 	 * @brief Obtiene el damping lineal
 	 */
-	float getLinearDamping();
+	float getLinearDamping() const;
 
 	/**
 	 * @brief Aplica una fuerza al rigidbody
 	 * @param force Vector de fuerza
 	 * @param mode Tipo de fuerza (impulso, fuerza continua, etc.)
 	 */
-	void AddForce(core::Vector3<> force, char mode);
+	void AddForce(const core::Vector3<>& force, char mode);
 
 	/**
 	 * @brief Limpia fuerzas aplicadas
@@ -162,11 +162,11 @@ public:
 	/**
 	 * @brief Obtiene el ID fisico del objeto
 	 */
-	uint32_t getId() { return physicsID; }
+	uint32_t getId() const { return physicsID; }
 
 	/**
 	 * @brief Indica si es cinematico
 	 */
-	bool getIsKinematic() { return isKinematic; }
+	bool getIsKinematic() const { return isKinematic; }
 
 };
