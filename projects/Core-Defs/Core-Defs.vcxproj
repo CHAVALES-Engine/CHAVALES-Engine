@@ -98,6 +98,7 @@
     <ClCompile Include="..\..\src\Core-Defs\Component.cpp" />
     <ClCompile Include="..\..\src\Core-Defs\Entity.cpp" />
     <ClCompile Include="..\..\src\Core-Defs\PluginSDK.cpp" />
+    <ClCompile Include="..\..\src\Core-Defs\Resource.cpp" />
     <ClCompile Include="..\..\src\Core-Defs\Scene.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -118,6 +119,7 @@
     <ClInclude Include="..\..\src\Core-Defs\PhysicsTypes.h" />
     <ClInclude Include="..\..\src\Core-Defs\PluginSDK.h" />
     <ClInclude Include="..\..\src\Core-Defs\Quaternion.h" />
+    <ClInclude Include="..\..\src\Core-Defs\Resource.h" />
     <ClInclude Include="..\..\src\Core-Defs\Scene.h" />
     <ClInclude Include="..\..\src\Core-Defs\Vector2.h" />
     <ClInclude Include="..\..\src\Core-Defs\Vector3.h" />

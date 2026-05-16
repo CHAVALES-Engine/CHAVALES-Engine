@@ -13,6 +13,7 @@
     <ClCompile Include="..\..\src\Core-Defs\Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Core-Defs\Resource.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Core-Defs\checkML.h">
@@ -78,6 +79,7 @@
     <ClInclude Include="..\..\src\Core-Defs\InputDefs.h">
       <Filter>Header Files\Basics</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\Core-Defs\Resource.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
