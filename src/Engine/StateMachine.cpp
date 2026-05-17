@@ -56,8 +56,8 @@ void StateMachine::gameLoop()
 			// Gestion de creacion y eliminado de entidades en runtime
 			_currentScene.ptr->addListedEntities();
 			_currentScene.ptr->destroyDeadEntities();
-			_processHotLuaReload();
 		}
+		_processHotLuaReload();
 		_endGame = _endGame || Engine::instance()->update(_deltaTime) ;
 	}
 
@@ -105,7 +105,6 @@ void StateMachine::_addAndSetScene(const sceneName& n)
 		_currentScene.ptr->ready();
 
 		// setea nueva escena actual
-		_currentScene.ptr = _currentScene.ptr;
 		_currentScene.name = n;
 	}
 	else
@@ -128,6 +127,7 @@ void StateMachine::requestSceneChange(const sceneName& sn)
 
 	Debug::out("STATEMACHINE: Cambio de escena a ", sn);
 	_addAndSetScene(sn);
+	if (!_currentScene.ptr) Engine::instance()->quitGame();
 }
 
 void StateMachine::_processSceneChange()
@@ -138,6 +138,7 @@ void StateMachine::_processSceneChange()
 	_hasPendingSceneChange = false;
 	_pendingSceneName.clear();
 	_addAndSetScene(nextScene);
+	if (!_currentScene.ptr) Engine::instance()->quitGame();
 }
 
 void StateMachine::_processHotLuaReload()
