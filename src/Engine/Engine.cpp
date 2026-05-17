@@ -116,6 +116,7 @@ void Engine::cleanScene()
 {
 	_physicsModule->ReloadPhysics();
 	_renderModule->cleanScene(false);
+	_audioModule->stopEverything();
 }
 
 void Engine::setViewportBGColor(const core::Color& color)
