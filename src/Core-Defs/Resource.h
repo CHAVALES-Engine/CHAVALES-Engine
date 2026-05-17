@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include "Debug.h"
 
 namespace core
 {
@@ -7,42 +8,54 @@ namespace core
 	class Resource
 	{
 	public:
-		enum state { UNLOAD, LOADING, LOAD, ERROR };
-		//enum Type { MESH, TEXTURE, FONT, SOUND, NONE };
-		Resource(const std::string & id, const std::string & path) : 
-		_id(id), _path(path), _refCounter(0), _state(UNLOAD), _ptr(nullptr){}
+		enum state { UNLOADED, LOADING, LOADED, ERROR };
+		enum Type { MESH, TEXTURE, FONT, SOUND, NONE };
+		Resource(const std::string& id, const std::string& path, Type type) :
+			_id(id), _path(path), _refCounter(0), _state(UNLOADED), _type(type) {
+		}
 		virtual ~Resource() = 0;
 		// @brief carga el recurso  => a implementar por las clases especificas.
 		// @return bool - Cargado correctamente.
 		virtual bool load() = 0;
 		// @brief descarga el recurso  => a implementar por las clases especificas.
 		// @return bool - Descargado correctamente.
-		virtual bool unLoad() = 0;
+		virtual bool unLoad()
+		{
+			if (!isValid()) return false;
+			if (_refCounter > 0) {
+				Debug::warning("No se puede descargar ", _id, ": ", _refCounter, " entidades lo usan");
+				return false;
+			}
+			return true;
+		};
 		// @brief anyade una referencia al contador
 		void addReference() {
-			if (_state == UNLOAD || _state == ERROR || !_ptr) return;
+			if (!isValid()) return;
 			_refCounter++;
 		};
 		void removeReference()
 		{
-			if (_state == UNLOAD || _state == ERROR || !_ptr) return;
+			if (!isValid()) return;
 			_refCounter--;
 			if (_refCounter <= 0)
 				unLoad();
 		};
 		int getCounter() const { return _refCounter; }
 		state getState() const { return _state; }
-		//Type getType() const { return _type; }
+		Type getType() const { return _type; }
+		bool isValid() const {
+			return (_state == LOADED || _state == LOADING) && _type != NONE;
+		}
 	protected:
 		// @brief Settea el puntero al recurso.
 		// @param ptr - Puntero al recurso.
-		void _setPtr(void* ptr) { _ptr = ptr; }
+		//void _setPtr(void* ptr) { _ptr = ptr; }
 
 		std::string _id;	  // ID / Nombre del recurso.
 		std::string _path;	  // Path al reccurso.
 		int _refCounter;	  // Contador de referencias a este recurso.
 		state _state;		  // Estado del puntero.
-		//Type _type = NONE;    // Tipo de recurso.
-		void* _ptr;			  // Puntero al propio recurso.
+		Type _type;    // Tipo de recurso.
+		//void* _ptr;			  // Puntero al propio recurso.
 	};
 }

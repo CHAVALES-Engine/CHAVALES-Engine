@@ -1,18 +1,19 @@
 #include "MeshResource.h"
 #include "Debug.h"
-#include "Ogre.h"
 
-MeshResource::MeshResource()
-{
+MeshResource::MeshResource(const std::string& id, const std::string& path) :
+	Resource(id, path, MESH) {
 }
 
 bool MeshResource::load()
 {
-	if (_state != UNLOAD && _path.empty()) return false;
+	if (_state != UNLOADED && _path.empty()) return false;
 
 	try {
-		_ptr = Ogre::MeshManager::load(_id, _path);
-		_state = UNLOAD;
+		// Carga el recurso
+		_meshPtr = Ogre::MeshManager::getSingletonPtr()->load(
+			_path, "General");
+		_state = UNLOADED;
 		return true;
 	}
 	catch (std::exception e) {
@@ -24,11 +25,15 @@ bool MeshResource::load()
 
 bool MeshResource::unLoad()
 {
+	// El metodo padre funciona como programacion defensiva.
+	if (!Resource::unLoad()) return false;
 	try {
-		if (_ptr) {
-			Ogre::MeshManager::unload(_id, _path);
-			_ptr = nullptr;
-			_state = UNLOAD;
+		if (_meshPtr) {
+			// Descargamos mesh de ogre.
+			Ogre::MeshManager::getSingleton().unload(_path);
+			// Limpiamos el recurso.
+			_meshPtr.reset();
+			_state = UNLOADED;
 			return true;
 		}
 	}
@@ -36,22 +41,10 @@ bool MeshResource::unLoad()
 		Debug::error(e.what());
 	}
 
-	_ptr = nullptr;
-	_state = ERROR;
 	return false;
 }
 
 Ogre::MeshPtr MeshResource::getMeshPtr() const
 {
-	try
-	{
-		if (_ptr && _state == LOAD)
-		{
-
-		}
-	}
-	catch (std::exception e) {
-		Debug::error(e.what());
-	}
-	return nullptr;
+	return _meshPtr;
 }
