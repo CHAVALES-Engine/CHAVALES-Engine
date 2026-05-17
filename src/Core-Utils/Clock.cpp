@@ -1,4 +1,4 @@
-﻿#include "Clock.h"
+#include "Clock.h"
 #include "checkMLNew.h"
 
 void core::Clock::setDeltaTime(uint64_t dt)

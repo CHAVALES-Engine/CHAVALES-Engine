@@ -1,4 +1,4 @@
-﻿#include "RenderModule.h"
+#include "RenderModule.h"
 
 #include <OgreRoot.h>
 #include <OgreRenderWindow.h>

@@ -1,4 +1,4 @@
-﻿#include "Light.h"
+#include "Light.h"
 
 #include "RenderModule.h"
 #include "Engine.h"

@@ -1,11 +1,11 @@
 /**
  * @file
  * @class Quaternion
- * @brief Representa una rotaciÛn en 3D mediante quaternions.
+ * @brief Representa una rotaci√≥n en 3D mediante quaternions.
  *
- * Contiene operaciones b·sicas como normalizaciÛn, inversa, producto,
- * conversiÛn a Euler, interpolaciones (Lerp, Slerp) y creaciÛn a partir de
- * ·ngulo y eje.
+ * Contiene operaciones b√°sicas como normalizaci√≥n, inversa, producto,
+ * conversi√≥n a Euler, interpolaciones (Lerp, Slerp) y creaci√≥n a partir de
+ * √°ngulo y eje.
  */
 #pragma once
 #include "Vector3.h"
@@ -55,10 +55,10 @@ namespace core
 		}
 
 		/**
-		* @brief Crea un quaternion a partir de un ·ngulo y un eje.
-		* @param angle ¡ngulo en grados
-		* @param axis Eje de rotaciÛn (Vector3) que ser· normalizado
-		* @return Quaternion que representa la rotaciÛn
+		* @brief Crea un quaternion a partir de un √°ngulo y un eje.
+		* @param angle √Ångulo en grados
+		* @param axis Eje de rotaci√≥n (Vector3) que ser√° normalizado
+		* @return Quaternion que representa la rotaci√≥n
 		*/
 		inline Quaternion angleAxis(float angle, Vector3<> axis) {
 			float angleRad = angle * M_PI / 180.0f;//grados a radianes
@@ -89,7 +89,7 @@ namespace core
 		inline Quaternion normalized() const {
 			float len = length();
 			if (len <= 0.000001f)
-				return Quaternion(); // identidad si est· roto
+				return Quaternion(); // identidad si est√° roto
 
 			return Quaternion(_x / len, _y / len,
 				_z / len,
@@ -182,8 +182,8 @@ namespace core
 		}
 
 		/**
-		* @brief Aplica una rotaciÛn definida por ·ngulos Euler al quaternion actual.
-		* @param v Vector3 con los ·ngulos de rotaciÛn en grados (x=roll, y=pitch, z=yaw)
+		* @brief Aplica una rotaci√≥n definida por √°ngulos Euler al quaternion actual.
+		* @param v Vector3 con los √°ngulos de rotaci√≥n en grados (x=roll, y=pitch, z=yaw)
 		*/
 		inline void rotate(Vector3<> v) {
 			//cada comp a un quaternion
@@ -196,8 +196,8 @@ namespace core
 		}
 
 		/**
-		* @brief Convierte el quaternion a ·ngulos Euler en grados.
-		* @return Vector3 con los ·ngulos Euler (x=roll, y=pitch, z=yaw)
+		* @brief Convierte el quaternion a √°ngulos Euler en grados.
+		* @return Vector3 con los √°ngulos Euler (x=roll, y=pitch, z=yaw)
 		*/
 		inline Vector3<> toEuler() {
 			Vector3<> euler;
@@ -256,7 +256,7 @@ namespace core
 		/**
 		* @brief Multiplica dos quaternions combinando sus rotaciones.
 		* @param q Quaternion a multiplicar
-		* @return Quaternion resultante de la multiplicaciÛn
+		* @return Quaternion resultante de la multiplicaci√≥n
 		*/
 		inline Quaternion operator*(const Quaternion& q) const {//multiplicacion
 			return Quaternion(
@@ -281,7 +281,7 @@ namespace core
 		/**
 		* @brief Multiplica quaternion por numero.
 		* @param a float a multiplicar
-		* @return Quaternion resultante de la multiplicaciÛn
+		* @return Quaternion resultante de la multiplicaci√≥n
 		*/
 		inline Quaternion operator*(float a) const {//multiplicacion por numero
 			return Quaternion(
@@ -307,9 +307,9 @@ namespace core
 		}
 
 		/**
-		 * @brief transforma un vector representante de una rotaciÛn Euler a quaternion
-		 * @param v - vector que representa ·ngulos de rotaciÛn tal que: (roll, pitch, yaw)
-		 * @return Quaternion representante de la rotaciÛn del vector
+		 * @brief transforma un vector representante de una rotaci√≥n Euler a quaternion
+		 * @param v - vector que representa √°ngulos de rotaci√≥n tal que: (roll, pitch, yaw)
+		 * @return Quaternion representante de la rotaci√≥n del vector
 		 */
 		inline Quaternion fromEuler(const Vector3<>& v)
 		{

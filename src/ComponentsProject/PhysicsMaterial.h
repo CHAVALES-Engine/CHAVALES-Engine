@@ -39,9 +39,9 @@ public:
 	 */
 	enum class CombineMode {
 		Av,   // Promedio
-		Min,  // Mínimo
-		Max,  // Máximo
-		Mult  // Multiplicación
+		Min,  // MÃ­nimo
+		Max,  // MÃ¡ximo
+		Mult  // MultiplicaciÃ³n
 	};
 
 	/**

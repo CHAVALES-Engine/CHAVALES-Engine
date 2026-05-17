@@ -48,7 +48,7 @@ public:
 	float gravVal = 0;
 
 	/**
-	 * @brief ID interno del objeto en el sistema de f�sicas
+	 * @brief ID interno del objeto en el sistema de físicas
 	 */
 	unsigned int physicsID;
 
@@ -58,24 +58,24 @@ public:
 	bool useGravity = true;
 
 	/**
-	 * @brief Indica si el cuerpo es cinem�tico (no afectado por fuerzas)
+	 * @brief Indica si el cuerpo es cinemático (no afectado por fuerzas)
 	 */
 	bool isKinematic;
 
 	RigidBody();
 
 	/**
-	 * @brief Inicializaci�n del componente con propiedades
+	 * @brief Inicialización del componente con propiedades
 	 */
 	bool init(const Properties& p) override;
 
 	/**
-	 * @brief Llamado cuando el objeto est� listo
+	 * @brief Llamado cuando el objeto está listo
 	 */
 	virtual void ready() override;
 
 	/**
-	 * @brief Actualizaci�n por frame
+	 * @brief Actualización por frame
 	 * @param deltaTime Tiempo entre frames (normalmente en ms)
 	 */
 	virtual void update(uint64_t deltaTime) override;
@@ -86,12 +86,12 @@ public:
 	core::Vector3<> getVelocity() const;
 
 	/**
-	 * @brief Obtiene la posici�n actual del rigidbody
+	 * @brief Obtiene la posición actual del rigidbody
 	 */
 	core::Vector3<> getPosition() const;
 
 	/**
-	 * @brief Obtiene la rotaci�n actual del rigidbody
+	 * @brief Obtiene la rotación actual del rigidbody
 	 */
 	core::Quaternion<> getRotation() const;
 
@@ -106,12 +106,12 @@ public:
 	void setVelocity(const core::Vector3<>& vel);
 
 	/**
-	 * @brief Establece la posici�n del rigidbody
+	 * @brief Establece la posición del rigidbody
 	 */
 	void setPosition(const core::Vector3<>& pos);
 
 	/**
-	 * @brief Establece la rotaci�n del rigidbody
+	 * @brief Establece la rotación del rigidbody
 	 */
 	void setRotation(const core::Quaternion<>& rot);
 

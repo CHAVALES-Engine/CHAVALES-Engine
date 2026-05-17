@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 /**
  * @file
  * @brief Define las funciones del Modulo de Render

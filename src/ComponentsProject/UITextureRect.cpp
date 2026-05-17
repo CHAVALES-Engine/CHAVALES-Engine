@@ -1,4 +1,4 @@
-﻿#include "UITextureRect.h"
+#include "UITextureRect.h"
 #include "Entity.h"
 
 #include "Engine.h"

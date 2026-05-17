@@ -1,4 +1,4 @@
-﻿#include "PlatformModule.h"
+#include "PlatformModule.h"
 
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_gamepad.h>

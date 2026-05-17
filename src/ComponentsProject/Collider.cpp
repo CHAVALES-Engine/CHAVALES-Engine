@@ -1,4 +1,4 @@
-﻿#include "Collider.h"
+#include "Collider.h"
 #include "PluginSDK.h"
 #include "PhysicsModule.h"
 #include "Engine.h"

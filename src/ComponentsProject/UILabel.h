@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file
  * @brief Componente que gestiona los letreros de la UI
  */

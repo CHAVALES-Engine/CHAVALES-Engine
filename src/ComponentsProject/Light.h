@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file
  * @brief Componente que gestiona una luz.
  */

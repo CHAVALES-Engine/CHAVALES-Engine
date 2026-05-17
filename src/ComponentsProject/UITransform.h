@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file
  * @brief Componente que representa la posición y dimensiones  de una entidad de UI.
  */

@@ -1,4 +1,4 @@
-﻿#include "UITransform.h"
+#include "UITransform.h"
 #include "Scene.h"
 #include <Engine.h>
 #include <Debug.h>

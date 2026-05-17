@@ -1,4 +1,4 @@
-﻿#include "StateMachine.h"
+#include "StateMachine.h"
 
 #include <chrono>
 #include <stdexcept>
@@ -148,5 +148,12 @@ void StateMachine::_processHotLuaReload()
 		Debug::warning("Reloading scene [", _currentScene.name, "]");
 
 		_addAndSetScene(_currentScene.name);
+
+		if (!_currentScene.ptr)
+		{
+			Debug::warning("[HOT RELOADING] No se recargó bien la escena.");
+			Engine::instance()->cleanScene();
+			Engine::instance()->renderFrame();
+		}
 	}
 }

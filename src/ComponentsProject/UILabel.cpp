@@ -1,4 +1,4 @@
-﻿#include "UILabel.h"
+#include "UILabel.h"
 
 #include "Entity.h"
 #include "Engine.h"
