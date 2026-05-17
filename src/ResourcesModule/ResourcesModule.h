@@ -95,7 +95,12 @@ private:
 	bool _isFontFile(const std::string& path) const;
 	core::Resource::Type _getResourceType(const std::string& filePath) const;
 
-
+	/**
+	 * Normaliza un path cambiando \ -> / y poniendo el path en minusculas
+	 * @param path 
+	 * @return 
+	 */
+	static std::string _normalizePath(const std::string& path);
 	//std::string typeOfFolder; // String de la carpeta segun el tipo de asset
 	std::vector<std::pair<std::string, std::string>> _fontsVector; // Vector para guardar todas las fuentes
 

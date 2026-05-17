@@ -15,7 +15,8 @@ bool ResourcesModule::Init()
 
 std::string ResourcesModule::getAssetPath(const std::string& relativePath) const
 {
-	std::string fullPath = core::GameConfigurator::instance()._assetsRoot + relativePath;
+	std::string fullPath = _normalizePath(
+		core::GameConfigurator::instance()._assetsRoot + relativePath);
 
 	auto it = _pathToGuid.find(fullPath);
 	if (it != _pathToGuid.end()) {
@@ -49,7 +50,8 @@ core::ResourcePtr ResourcesModule::getOrLoadAsset(const std::string& relativePat
 
 ChavalesGUID ResourcesModule::getResourceId(const std::string& path) const
 {
-	std::string fullPath = core::GameConfigurator::instance()._assetsRoot + path;
+	std::string fullPath = _normalizePath(
+		core::GameConfigurator::instance()._assetsRoot + path);
 
 	auto it = _pathToGuid.find(fullPath);
 	if (it != _pathToGuid.end())
@@ -126,7 +128,8 @@ bool ResourcesModule::_loadAsset(const std::string& sourceName)
 		}
 		else
 		{
-			if (!_addResource(entry.path().string()))
+			std::string normalizedPath = entry.path().generic_string();
+			if (!_addResource(normalizedPath))
 				return false;
 		}
 	}
@@ -148,7 +151,9 @@ bool ResourcesModule::_addResource(const std::string& sourcePath)
 	ChavalesGUID aux = ChavalesGUID::generate();
 
 	// Mapeos bidireccionales
-	_pathToGuid[sourcePath] = aux;
+	std::string normalizedPath = _normalizePath(sourcePath);
+	_pathToGuid[normalizedPath] = aux;
+	_resources[aux] = std::make_shared<core::Resource>(nombreAsset, normalizedPath);
 	_resources[aux] = std::make_shared<core::Resource>(nombreAsset, sourcePath);  // Ruta completa al archivo
 
 	// vector especial para fonts.
@@ -202,4 +207,11 @@ core::Resource::Type ResourcesModule::_getResourceType(const std::string& filePa
 		return core::Resource::Type::SOUND;
 
 	return core::Resource::Type::NONE;
+}
+
+std::string ResourcesModule::_normalizePath(const std::string& path)
+{
+	std::string normalized = std::filesystem::path(path).generic_string();
+	std::transform(normalized.begin(), normalized.end(), normalized.begin(), ::tolower);
+	return normalized;
 }
