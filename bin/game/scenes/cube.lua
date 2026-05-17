@@ -26,14 +26,14 @@ prefab = {
             trigger = false,
             center = Vector3.new(0,0,0)
         }
-        -- ,
-        -- PhysicsMaterial = {
-        --     staticFriction = 0.0,
-        --     dynamicFriction = 0.0,
-        --     restitution = 0.1,
-        --     frictionCombine = 2,
-        --     bounceCombine = 2
-        -- }
+        ,
+        PhysicsMaterial = {
+            staticFriction = 0.0,
+            dynamicFriction = 0.0,
+            restitution = 0.1,
+            frictionCombine = 2,
+            bounceCombine = 2
+        }
     }
 }
 
