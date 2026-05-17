@@ -2,6 +2,8 @@
 #include "PluginSDK.h"
 #include "Engine.h"
 #include "RenderModule.h"
+#include "ResourcesModule.h"
+#include <filesystem>
 #include "checkMLNew.h"
 
 REGISTER_COMPONENT(Skydome);
@@ -48,8 +50,16 @@ void Skydome::disable()
 
 void Skydome::setSkydome()
 {
-	auto skydome = Engine::instance()->getAssetSourceFolder(_textureName);
-	render()->setSkydome(skydome.second, skydome.first, _curvature, _tiling, _distance, _drawFirst);
+	std::string skydomePath = resources()->getAssetPath(_textureName);
+	if (skydomePath.empty()) {
+		Debug::error("[Skydome] Textura no encontrada: ", _textureName);
+		return;
+	}
+
+	std::string textureFolder = std::filesystem::path(skydomePath).parent_path().string() + "/";
+	std::string textureFilename = std::filesystem::path(skydomePath).filename().string();
+
+	render()->setSkydome(textureFolder, textureFilename, _curvature, _tiling, _distance, _drawFirst);
 }
 
 void Skydome::setSkydomeNull()

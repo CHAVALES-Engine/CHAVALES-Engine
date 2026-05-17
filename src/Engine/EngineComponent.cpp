@@ -20,3 +20,8 @@ PhysicsModule* EngineComponent::physics() const
 {
 	return Engine::_instance->_physicsModule;
 }
+
+ResourcesModule* EngineComponent::resources() const
+{
+	return Engine::_instance->_resourcesModule;
+}

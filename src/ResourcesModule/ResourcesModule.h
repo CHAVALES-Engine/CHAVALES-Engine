@@ -34,7 +34,7 @@ public:
 	 */
 	std::string getAssetPath(const std::string& relativePath) const;
 	/**
-	 * @brief Devuelve un puntero al recurso cargado.
+	 * @brief Devuelve un puntero al recurso cargado, si no estaba cargado lo carga.
 	 * @param relativePath - ruta relativa a la carpeta assets.
 	 * @return core::ResourcePtr - sharedPtr del recurso.
 	 */    

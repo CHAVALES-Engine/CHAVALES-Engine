@@ -4,6 +4,8 @@
 #include "Engine.h"
 #include "PluginSDK.h"
 #include "RenderModule.h"
+#include "ResourcesModule.h"
+#include <filesystem>
 #include "checkMLNew.h"
 
 REGISTER_COMPONENT(ParticleGen);
@@ -123,8 +125,16 @@ void ParticleGen::destroy()
 
 void ParticleGen::ready()
 {
-	auto particle = Engine::instance()->getAssetSourceFolder(_textureName);
-	_particleGenID = render()->addParticleGen(getEntity()->getEntityID(), _textureName, particle.first);
+	std::string particleTextPath = resources()->getAssetPath(_textureName);
+	if (particleTextPath.empty()) {
+		Debug::error("[ParticleGen] Textura no encontrada: ", _textureName);
+	}
+	else
+	{
+		std::string textureFolder = std::filesystem::path(particleTextPath).parent_path().string() + "/";
+		std::string textureFilename = std::filesystem::path(particleTextPath).filename().string();
+		_particleGenID = render()->addParticleGen(getEntity()->getEntityID(), textureFolder, textureFilename);
+	}
 	render()->setParticleGenPartWidth(_particleGenID, _partWidth);
 	render()->setParticleGenPartHeight(_particleGenID, _partHeight);
 	render()->setParticleGenEmissionRate(_particleGenID, _emissionRate);
