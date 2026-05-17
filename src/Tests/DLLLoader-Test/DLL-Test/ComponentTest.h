@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <Component.h>
 #include <PluginSDK.h>
 
@@ -305,6 +305,7 @@ class InitialTest : public core::Component
 	void ready() override
 	{
 		Debug::out("READY INITIAL");
+		Engine::instance()->requestSceneChange("scene_base");
 	}
 
 	void update(uint64_t deltaTime) override
