@@ -52,6 +52,26 @@ scene = { -- entidades en escena
                     maxRadius = 1000.0
  			}
 		}
+   }, cube1 = {
+		ddol = false,
+		components = {
+			Transform = {
+				position = Vector3.new(0,0,100),
+				rotation = Quaternion.new(),
+				scale = Vector3.new(1.0),
+				},
+			AudioSource = {
+				soundPath = "sfx/smb_1-up.wav",
+                    soundID = "vidaExtra1",
+                    is3D = true,
+                    loop = true,
+                    isStream = false,
+                    playOnReady = true,
+                    soundVolume = 2.0,
+                    minRadius = 150.0,
+                    maxRadius = 1000.0
+ 			}
+		}
    },
    light = {
 		ddol = false,

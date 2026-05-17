@@ -211,13 +211,16 @@ bool AudioModule::setLooping(int chID, int typeOfLooping)
 bool AudioModule::stopPlaying(int chID)
 {
 	auto itChFound = _channelSound.find(chID);
+	
+	bool playing = false;
+	itChFound->second->isPlaying(&playing);
+	if (!playing) return false;
 	if (itChFound == _channelSound.end())
 	{
 		Debug::error("[AudioModule]: Canal no encontrado, ID: ", to_string(chID));
 		return false;
 	}
 	auto res = itChFound->second->stop();
-	_channelSound.erase(itChFound);
 	if (res == FMOD_OK) return true;
 	else {
 		Debug::error("[AudioModule]: No se pudo parar el canal con ID: ", to_string(chID));
@@ -279,8 +282,9 @@ void AudioModule::muteEverything()
 }
 void AudioModule::stopEverything()
 {
-	for (auto it = _channelSound.begin(); it != _channelSound.end(); ++it) {
+	for (auto it = _channelSound.begin(); it != _channelSound.end(); ) {
 		stopPlaying(it->first);
+		it = _channelSound.erase(it);
 	}
 	_nextChannelID = 0;
 }
