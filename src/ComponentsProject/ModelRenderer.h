@@ -1,4 +1,4 @@
-/*
+/**
  * @file
  * @brief Componente que gestiona un modelo.
  */
@@ -7,7 +7,6 @@
 #include <EngineAPI.h>
 
 #include <utility>
-
 
 using modelID = uint64_t;
 
@@ -46,10 +45,11 @@ public:
 
 	void setDiffuse(const std::string& textureName, const int& submesh = 0);
 	void setTint(const core::Color& tint, const int& submesh = 0);
+	core::Color getTint(const int& submesh = 0) const;
+
 	void setVisible(const bool& visible);
-	modelID getModelID();
+	modelID getModelID() const;
 	void enable() override;
 	void disable() override;
 	void destroy() override;
 };
-

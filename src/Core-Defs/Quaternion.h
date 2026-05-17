@@ -1,4 +1,5 @@
 /**
+ * @file
  * @class Quaternion
  * @brief Representa una rotación en 3D mediante quaternions.
  *

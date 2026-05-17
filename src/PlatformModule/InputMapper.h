@@ -1,3 +1,7 @@
+/**
+* @file
+*/
+
 #pragma once
 #include <string>
 #include <unordered_map>
@@ -6,7 +10,6 @@
 #include "InputDefs.h"
 
 class PlatformModule;
-
 
 namespace input
 {

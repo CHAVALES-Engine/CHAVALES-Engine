@@ -118,7 +118,7 @@ void Engine::cleanScene()
 	_renderModule->cleanScene(false);
 }
 
-void Engine::setViewportBGColor(core::Color color)
+void Engine::setViewportBGColor(const core::Color& color)
 {
 	_renderModule->setViewportBGColor(color);
 }
@@ -147,17 +147,16 @@ void Engine::setGizmos(bool gizmos)
 	_gizmos = gizmos;
 }
 
-std::pair<std::string, std::string> Engine::getAssetSourceFolder(std::string assetName)
+std::pair<std::string, std::string> Engine::getAssetSourceFolder(const std::string& assetName) const
 {
 	return _resourcesModule->getAssetSourceFolder(assetName);
 }
-std::vector<std::pair<std::string, std::string>> Engine::getAllAssets()
+std::vector<std::pair<std::string, std::string>> Engine::getAllAssets() const
 {
 	return _resourcesModule->getAllAssets();
 }
 #pragma endregion
 
-//------Metodo de PlatformModule:
 int Engine::getWindowWidth() const
 {
 	return _platformModule->getWindowWidth();
@@ -168,33 +167,12 @@ int Engine::getWindowHeight() const
 	return _platformModule->getWindowHeight();
 }
 
-//const InputFacade* Engine::input() const
-//{
-//	return _instance->_input;
-//}
-//
-//const RenderFacade* Engine::render() const
-//{
-//	return _instance->_render;
-//}
-//
-//const UIFacade* Engine::ui() const
-//{
-//	return _instance->_ui;
-//}
-//
-//const PhysicsFacade* Engine::physics() const
-//{
-//	return _instance->_physics;
-//}
-
-
 bool Engine::_initPriv()
 {
 	// Abre archivo .log
 	Debug::open();
 
-	//cargamos dlls
+	// Carga de dlls
 	if (!ComponentDLLLoader::instance().loadAll(DLLs_PATH))
 		return false;
 #if _DEBUG
@@ -205,21 +183,21 @@ bool Engine::_initPriv()
 	if (!ComponentDLLLoader::instance().load(basecompPath))
 		return false;
 
-	//Platform
+	// Platform
 	_platformModule = new PlatformModule();
 	if (!_platformModule->Init()) {
 		delete _platformModule;
 		_platformModule = nullptr;
 		return false;
 	}
-	//Resources
+	// Resources
 	_resourcesModule = new ResourcesModule();
 	if (!_resourcesModule->Init()) {
 		delete _resourcesModule;
 		_resourcesModule = nullptr;
 		return false;
 	}
-	//Render
+	// Render
 	_renderModule = new RenderModule();
 	if (!_renderModule->Init(_platformModule->getSDLWindow(), _platformModule->getWindowHandle(), _platformModule->getWindowWidth(), _platformModule->getWindowHeight(), _resourcesModule->getAllFonts())) {
 		delete _renderModule;
@@ -227,33 +205,30 @@ bool Engine::_initPriv()
 		return false;
 	}
 	_platformModule->registerEventObserver(_renderModule->getImguiInputCallback());
-	//Audio
+	// Audio
 	_audioModule = new AudioModule();
 	if (!_audioModule->init()) {
 		delete _audioModule;
 		_audioModule = nullptr;
 		return false;
 	}
-	//Fisicas
+	// Fisicas
 	_physicsModule = new PhysicsModule();
 	if (!_physicsModule->Init()) {
 		delete _physicsModule;
 		_physicsModule = nullptr;
 		return false;
 	}
-	// facades publicas
+	// Facades publicas
 	_input = new InputFacade(_platformModule);
-	//_render = new RenderFacade(_renderModule);
-	//_ui = new UIFacade(_renderModule);
-	//_physics = new PhysicsFacade(_physicsModule);
-	//_audio = new AudioFacade(_audioModule);
 
 	_stateMachine = new StateMachine();
-	// manager de scripts
+	// Manager de scripts
 	ScriptsManager::instance().init();
 
 	return true;
 }
+
 bool Engine::update(uint64_t dt) const
 {
 	core::TimerManager::instance().update();
@@ -262,7 +237,7 @@ bool Engine::update(uint64_t dt) const
 		auto physicsShapes = _physicsModule->GetRenderData();
 
 		if ((_renderModule != nullptr) && _gizmos)
-			_renderModule->RenderPhysics(physicsShapes);//debbug colliders
+			_renderModule->RenderPhysics(physicsShapes);//debug colliders
 	}
 	if (_audioModule)
 	{
@@ -273,9 +248,8 @@ bool Engine::update(uint64_t dt) const
 	return false;
 }
 
-void Engine::fixedUpdate(float dt)const
+void Engine::fixedUpdate(float dt) const
 {
 	if (_physicsModule)
 		_physicsModule->fixedUpdate(dt);
 }
-

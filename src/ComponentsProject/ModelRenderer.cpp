@@ -39,7 +39,6 @@ ModelRenderer::ModelRenderer()
 
 ModelRenderer::~ModelRenderer()
 {
-	//Engine::instance()->deleteModel(_modelID);
 }
 
 bool ModelRenderer::init(const Properties& p)
@@ -86,12 +85,17 @@ void ModelRenderer::setTint(const core::Color& tint, const int& submesh)
 	render()->setTint(_modelID, submesh, tint);
 }
 
+core::Color ModelRenderer::getTint(const int& submesh) const
+{
+	return render()->getTint(_modelID, submesh);
+}
+
 void ModelRenderer::setVisible(const bool& visible)
 {
 	render()->setModelVisible(_modelID, visible);
 }
 
-modelID ModelRenderer::getModelID()
+modelID ModelRenderer::getModelID() const
 {
 	return _modelID;
 }
@@ -110,5 +114,3 @@ void ModelRenderer::destroy()
 {
 	render()->deleteModel(_modelID);
 }
-
-

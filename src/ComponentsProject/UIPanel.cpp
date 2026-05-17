@@ -51,7 +51,7 @@ void UIPanel::setVisible(bool visible)
 
 void UIPanel::destroy()
 {
-    if (_panelID == UINT64_MAX)return;
-    render()->deleteUIPanel(_panelID);
+	if (_panelID == UINT64_MAX)return;
+	render()->deleteUIPanel(_panelID);
+	_panelID = UINT64_MAX;
 }
-

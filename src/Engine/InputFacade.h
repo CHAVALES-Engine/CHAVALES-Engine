@@ -6,10 +6,6 @@
 #include "EngineAPI.h"
 #include "Color.h"
 
-namespace core
-{
-	class EngineComponent;
-}
 
 class Engine;
 class PlatformModule;
@@ -25,7 +21,6 @@ private:
 	 * @brief Clases amigas.
 	 */
 	friend Engine;
-	friend core::EngineComponent;
 	/**
 	 * @brief Referencia al modulo que envuelve.
 	 */
@@ -130,12 +125,12 @@ public:
 	* @param path - Ruta del icono.
 	* @return bool - si se ha podido cambiar.
 	*/
-	bool setIcon(std::string path);
+	bool setIcon(const std::string& path);
 	/**
 	* @brief Cambia el tamanyo de la ventana.
 	* @param name - Nombre de la ventana.
 	*/
-	void setWindowName(std::string name);
+	void setWindowName(const std::string& name);
 	/**
 	* @brief Vibra el mando con los parametros dados.
 	* Si ANY_DEVICE hace vibrar a todos.
@@ -150,7 +145,7 @@ public:
 	* Si ANY_DEVICE cambia el de todos.
 	* @param color - Color para poner.
 	*/
-	void setGamepadColor(input::DeviceID id, core::Color color);
+	void setGamepadColor(input::DeviceID id, const core::Color& color);
 	/**
 	* @brief Cambia el color del mando.
 	* Si ANY_DEVICE cambia el de todos.

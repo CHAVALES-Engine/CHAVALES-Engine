@@ -66,18 +66,18 @@ scene = { -- entidades en escena
                 },
                 Collider = {
                     type = "CAPSULE",
-                    shape = Vector3.new(50, 0, 0),
+                    shape = Vector3.new(100, 0, 0),
                     rotation = Vector3.new(),
                     dynamic = true,
                     trigger = false,
                     center = Vector3.new(0, 0, 0)
                 },
                 PhysicsMaterial = {
-                    staticFriction = 0.5,
+                    staticFriction = 0,
                     dynamicFriction = 0.5,
-                    restitution = 1.50,
-                    frictionCombine = 1,
-                    bounceCombine = 1.0
+                    restitution = 1.0,
+                    frictionCombine = 2,
+                    bounceCombine = 2
                 },
                 AudioSource = {
                     soundPath = "sfx/smb_1-up.wav",

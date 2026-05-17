@@ -1,5 +1,8 @@
-﻿#pragma once
+﻿/**
+* @file
+*/
 
+#pragma once
 
 #include <string>
 #include <unordered_map>
@@ -27,7 +30,6 @@ namespace input
  */
 class ENGINE_API PlatformModule
 {
-
 	using EventCallback = bool(*)(const SDL_Event* event);
 public:
 	/**
@@ -82,21 +84,23 @@ public:
 	 * @param device - id del dispositivo a comprobar.
 	 * @return bool - True o false si esta conectado o no.
 	 */
-	bool isDeviceConnected(input::DeviceID device);
-	/*
+	bool isDeviceConnected(input::DeviceID device) const;
+
+	/**
 	 * @brief Devuelve si una tecla esta pulsada
 	 * @param inputEvent - InputEvent a comprobar
 	 * @param device - id del dispositivo a comprobar. ANY_DEVICE por defecto => si se ha pulsado en cualquier dispositivo.
 	 */
 	bool isKeyPressed(input::InputEvent inputEvent, input::DeviceID device = input::ANY_DEVICE) const;
+
 	/**
 	* @brief Devuelve si una tecla se acaba de pulsar.
 	* @param key - Tecla a comprobar.
 	* @returns bool - Estado de la tecla.
 	*/
 	bool isJustPressed(input::InputEvent inputEvent, input::DeviceID device = input::ANY_DEVICE) const;
+
 	/**
-	/*
 	 * @brief Devuelve si se ha dejado de pulsar una tecla
 	 * @param inputEvent - InputEvent a comprobar
 	 * @param device - id del dispositivo a comprobar. ANY_DEVICE por defecto => si se ha dejado de pulsar en cualquier dispositivo.
@@ -169,12 +173,12 @@ public:
 	* @param path - Ruta del icono.
 	* @return bool - si se ha podido cambiar.
 	*/
-	bool setIcon(std::string path);
+	bool setIcon(const std::string& path);
 	/**
 	* @brief Cambia el tamanyo de la ventana.
 	* @param name - Nombre de la ventana.
 	*/
-	void setWindowName(std::string name);
+	void setWindowName(const std::string& name);
 	/**
 	* @brief Registra una funcion para llamarla en el syncronice().
 	* @param callback - Funcion a registrar.
@@ -194,7 +198,7 @@ public:
 	* Si ANY_DEVICE cambia el de todos.
 	* @param color - Color para poner.
 	*/
-	void setGamepadColor(input::DeviceID id, core::Color color);
+	void setGamepadColor(input::DeviceID id, const core::Color& color);
 	/**
 	* @brief Cambia el color del mando.
 	* Si ANY_DEVICE cambia el de todos.

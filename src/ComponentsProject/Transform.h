@@ -1,9 +1,6 @@
-﻿/*
+﻿/**
  * @file
  * @brief Componente que representa la posición, escala y rotación de una entidad.
- * TODO:
- *		- eventos? (e.g. onPositionChanged, onRotationChanged...?)s
- *		- lookAt()
  */
 #pragma once
 #include "EngineComponent.h"
@@ -57,16 +54,14 @@ class ENGINE_API Transform : public EngineComponent
 	/**
 	 * @brief Lista de nombres de entidades a anyadir como hijos (Solo se usa en la inicializacion de componentes).
 	 */
-	//std::vector<std::string> _pendingChildren;
 public:
 	Transform();
-	//~Transform() ;
 
 	bool init(const Properties& p) override;
 
 	void ready() override;
 
-	void setGlobalPosition(core::Vector3<> gp);
+	void setGlobalPosition(const core::Vector3<>& gp);
 	void setLocalPosition(const core::Vector3<>& lp);
 
 	void setGlobalRotation(const core::Quaternion<>& gr);
@@ -219,10 +214,6 @@ public:
 		}
 		return result;
 	}
-
-	// TODO?
-	//Transform* getChildByName(std::string);
-	//Transform* getChildByID(size_t);
 
 	/**
 	 * @brief Ajusta posicion al nuevo contexto.

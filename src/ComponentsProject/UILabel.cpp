@@ -10,7 +10,6 @@
 #include <UIPanel.h>
 #include "checkMLNew.h"
 
-
 REGISTER_COMPONENT(UILabel);
 
 UILabel::UILabel() : _text("Label")
@@ -98,6 +97,7 @@ void UILabel::destroy()
 {
 	if (_labelID == UINT64_MAX)return;
 	render()->deleteUILabel(_labelID);
+	_labelID = UINT64_MAX;
 }
 
 void UILabel::setText(const std::string& text)
@@ -122,14 +122,14 @@ void UILabel::setOpacity(float opacity)
 
 }
 
-void UILabel::setBackgroudColor(core::Color color)
+void UILabel::setBackgroudColor(const core::Color& color)
 {
 	_bgColor = color;
 	if (_labelID == UINT64_MAX)return;
 	render()->setUILabelBackGroundColor(_labelID, _bgColor);
 }
 
-void UILabel::setTextColor(core::Color color){
+void UILabel::setTextColor(const core::Color& color){
 	_textColor = color;
 	if (_labelID == UINT64_MAX)return;
 	render()->setUILabelTextColor(_labelID, _textColor);
@@ -142,4 +142,3 @@ void UILabel::setAlign(TextAlign align)
 	if (_labelID == UINT64_MAX)return;
 	render()->setUILabelAlign(_labelID, align);
 }
-

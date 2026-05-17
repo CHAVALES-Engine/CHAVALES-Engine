@@ -1,4 +1,4 @@
-/*
+/**
  * @file
  * @brief Componente que gestiona un generador de particulas.
  */
@@ -6,7 +6,6 @@
 #include "EngineComponent.h"
 #include <Vector3.h>
 #include <EngineAPI.h>
-
 
 using particleGenID = uint64_t;
 

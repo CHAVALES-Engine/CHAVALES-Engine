@@ -31,6 +31,11 @@ bool AudioModule::init()
 	if (result != FMOD_OK)
 	{
 		Debug::error("FMOD error: Couldn't initialize system");
+		if (_system)
+		{
+			_system->release();
+			_system = nullptr;
+		}
 		return false;
 	}
 	_system->set3DSettings(1.0f, 1.0f, 1.0f);
@@ -56,6 +61,8 @@ void AudioModule::update()
 void AudioModule::shutdown()
 {
 	//Destructora
+	if (_system == nullptr)
+		return;
 
 	for (auto& s : _soundMap)
 	{
@@ -74,7 +81,7 @@ void AudioModule::shutdown()
 	_system = nullptr;
 }
 
-bool AudioModule::loadSound(string path, string id, bool soundStream, bool soundLooping, bool sound3D)
+bool AudioModule::loadSound(const string& path, const string& id, bool soundStream, bool soundLooping, bool sound3D)
 {
 	auto itSoundFound = _soundMap.find(id);
 	if (itSoundFound == _soundMap.end())
@@ -112,7 +119,7 @@ bool AudioModule::loadSound(string path, string id, bool soundStream, bool sound
 	return true;
 }
 
-bool AudioModule::unloadSound(std::string id)
+bool AudioModule::unloadSound(const std::string& id)
 {
 	auto itSoundFound = _soundMap.find(id);
 	if (itSoundFound == _soundMap.end())
@@ -125,7 +132,7 @@ bool AudioModule::unloadSound(std::string id)
 	return true;
 }
 
-int AudioModule::playSound(std::string id, float soundVolume, int looping, const core::Vector3<> pos3, const core::Vector3<> vel3)
+int AudioModule::playSound(const std::string& id, float soundVolume, int looping, const core::Vector3<>& pos3, const core::Vector3<>& vel3)
 {
 	int nextChID = _nextChannelID++;
 	auto itSoundFound = _soundMap.find(id);
@@ -233,7 +240,7 @@ bool AudioModule::pauseChannel(int chID, bool pause)
 	}
 }
 
-bool AudioModule::isPaused(int chID)
+bool AudioModule::isPaused(int chID) const
 {
 	auto itChFound = _channelSound.find(chID);
 	if (itChFound == _channelSound.end())
@@ -250,7 +257,7 @@ bool AudioModule::isPaused(int chID)
 	}
 }
 
-void AudioModule::setListener(core::Vector3<> pos, core::Vector3<> forward, core::Vector3<> up, core::Vector3<> vel)
+void AudioModule::setListener(const core::Vector3<>& pos, const core::Vector3<>& forward, const core::Vector3<>& up, const core::Vector3<>& vel)
 {
 	FMOD_VECTOR _pos = { pos.getX(), pos.getY(), pos.getZ() };
 	FMOD_VECTOR _vel = { vel.getX(), vel.getY(), vel.getZ() };
@@ -287,7 +294,7 @@ void AudioModule::unMuteEverything()
 	}
 }
 
-bool AudioModule::setAudioPos(int chID, core::Vector3<> pos, core::Vector3<> vel)
+bool AudioModule::setAudioPos(int chID, const core::Vector3<>& pos, const core::Vector3<>& vel)
 {
 	auto itCH = _channelSound.find(chID);
 	if (itCH == _channelSound.end())
@@ -332,7 +339,7 @@ bool AudioModule::setMinMaxRadius(int chID, float min, float max)
 	}
 }
 
-bool AudioModule::isChannelPlaying(int chID)
+bool AudioModule::isChannelPlaying(int chID) const
 {
 	auto itChFound = _channelSound.find(chID);
 
@@ -366,7 +373,7 @@ bool AudioModule::setDelay(int chID, double start, double end, bool stopChannel)
 	}
 }
 
-bool AudioModule::getVolume(int chID, float& volume)
+bool AudioModule::getVolume(int chID, float& volume) const
 {
 	auto itChFound = _channelSound.find(chID);
 
@@ -383,7 +390,7 @@ bool AudioModule::getVolume(int chID, float& volume)
 	}
 }
 
-bool AudioModule::isValidChannel(int chID)
+bool AudioModule::isValidChannel(int chID) const
 {
 	return _channelSound.find(chID) != _channelSound.end();
 }

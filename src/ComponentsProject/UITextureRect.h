@@ -1,7 +1,8 @@
-﻿/*
+﻿/**
  * @file
  * @brief Componente que gestiona las texturas de la UI
  */
+
 #pragma once
 #include "EngineComponent.h"
 #include <Vector2.h>
@@ -29,6 +30,7 @@ using textureRectID = uint64_t;
  * return setProperty(properties, "atributo1", component);
  *
 */
+
 class ENGINE_API UITextureRect : public EngineComponent
 {
 private :
@@ -46,6 +48,4 @@ public:
 	void setVisible(bool visible);
 	void setOpacity(float opacity);
 	void destroy() override;
-
 };
-

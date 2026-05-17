@@ -3,12 +3,9 @@
 
 void core::TimerManager::update()
 {
-
-	//Debug::out("TIMER UPDATE SIZE: ", _timers.size() );
 	while (!_timers.empty())
 	{
 		Timer t = _timers.top().prioridad;
-		//Debug::warning("Update timer: ", t.id(), " - ", t.timeLeftMS());
 
 		if (t.timeLeftMS() > 0) break;
 
@@ -16,7 +13,6 @@ void core::TimerManager::update()
 		t.executeFunc();
 		_timers.pop();
 	}
-
 }
 
 core::Timer core::TimerManager::createTimer(double_t duration, std::function<void()> func)
@@ -42,7 +38,6 @@ core::Timer core::TimerManager::createTimer(double_t duration, std::function<voi
 	Debug::warning("Timer: ", id, " created, duration: ", duration, "s");
 
 	return t;
-	//return std::shared_ptr<Timer>(std::move(t));
 }
 
 bool core::TimerManager::pauseTimer(Timer& timer)

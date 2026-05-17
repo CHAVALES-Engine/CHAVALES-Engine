@@ -1,12 +1,11 @@
-﻿/*
+﻿/**
  * @file
- * @brief Componente que gestiona un panel donde se añadiran los diferentes elementos de UI
+ * @brief Componente que gestiona un panel donde se anadiran los diferentes elementos de UI
  */
 
 #pragma once
 #include "EngineComponent.h"
 #include <EngineAPI.h>
-
 
 using panelID = uint64_t;
 /*
@@ -29,13 +28,11 @@ using panelID = uint64_t;
 */
 class ENGINE_API UIPanel : public EngineComponent
 {
-	
-
 private:
 	panelID _panelID;
 	std::string _title;
-public:
 
+public:
 	UIPanel();
 	~UIPanel();
 	void ready() override;
@@ -44,4 +41,3 @@ public:
 	void setVisible (bool visible);
 	void destroy() override;
 };
-

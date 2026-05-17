@@ -56,9 +56,9 @@ void StateMachine::gameLoop()
 			// Gestion de creacion y eliminado de entidades en runtime
 			_currentScene.ptr->addListedEntities();
 			_currentScene.ptr->destroyDeadEntities();
-			_processHotLuaReload();
 		}
-		_endGame = Engine::instance()->update(_deltaTime);
+		_processHotLuaReload();
+		_endGame = _endGame || Engine::instance()->update(_deltaTime) ;
 	}
 
 	_isLoopRunning = false;
@@ -81,7 +81,6 @@ void StateMachine::_addAndSetScene(const sceneName& n)
 
 	if (_currentScene.ptr != nullptr) // Esto NO deberia ir antes de saber si se ha cargado la escena o no pero como muchos inits() de componentes que se hacen en loadScene() dependen de IDs que luego se borran en el clearScene() peta -> UIPanel.init() hace addUIPanel() y guarda _panelID despues destruye la escena vieja y llama a cleanScene(), se pierde la referencia y peta
 	{
-		/*persistentEntities = _currentScene.ptr->getDDOLEntities();*/
 		_currentScene.ptr->clearScene();
 		Engine::instance()->cleanScene();
 	}
@@ -97,10 +96,7 @@ void StateMachine::_addAndSetScene(const sceneName& n)
 	{
 		Debug::out("STATEMACHINE: Entrando a escena ", n);
 
-		// anyade las entidades que sean persistentes de la escena anterior saltandose sus readys
-		/*for (core::Entity* pe : persistentEntities)
-			_currentScene.ptr->addEntity(pe);*/
-		// como son dool no hace falta llamar otra vez awake y ready
+		// anade las entidades que sean persistentes de la escena anterior saltandose sus readys
 		_currentScene.ptr->addListedEntities();
 
 		// --- a este nivel se llama al ready:
@@ -109,7 +105,6 @@ void StateMachine::_addAndSetScene(const sceneName& n)
 		_currentScene.ptr->ready();
 
 		// setea nueva escena actual
-		_currentScene.ptr = _currentScene.ptr;
 		_currentScene.name = n;
 	}
 	else
@@ -132,6 +127,7 @@ void StateMachine::requestSceneChange(const sceneName& sn)
 
 	Debug::out("STATEMACHINE: Cambio de escena a ", sn);
 	_addAndSetScene(sn);
+	if (!_currentScene.ptr) Engine::instance()->quitGame();
 }
 
 void StateMachine::_processSceneChange()
@@ -142,6 +138,7 @@ void StateMachine::_processSceneChange()
 	_hasPendingSceneChange = false;
 	_pendingSceneName.clear();
 	_addAndSetScene(nextScene);
+	if (!_currentScene.ptr) Engine::instance()->quitGame();
 }
 
 void StateMachine::_processHotLuaReload()
@@ -149,21 +146,6 @@ void StateMachine::_processHotLuaReload()
 	if (GameLoader::reloadLua() || ComponentDLLLoader::instance().checkReload()) // si es necesario recargar...
 	{
 		Debug::warning("Reloading scene [", _currentScene.name, "]");
-
-		//limpia logica
-		//_currentScene.ptr->destroy(); // elimina escena
-		//_currentScene.ptr->clearScene();
-		////limpia render
-		//Engine::instance()->cleanScene();  // limpia la escena
-		//scenePtr s = std::move(GameLoader::loadScene(_currentScene.name)); // vuelve a cargar
-		//_currentScene.ptr = s;
-
-		//if (_currentScene.ptr != nullptr)
-		//{
-		//	// --- a este nivel se llama al ready:
-		//	// garantizamos que en el ready el resto de entidades y sus componentes estan inicializados 
-		//	_currentScene.ptr->ready();
-		//}
 
 		_addAndSetScene(_currentScene.name);
 	}

@@ -1,3 +1,7 @@
+/**
+ * @file
+*/
+
 #pragma once
 
 #include <iostream>
@@ -170,21 +174,21 @@ private:
 	static void _write(Mode mode, const char* color, const char* type, const char* end, Args&&... args)
 	{
 #ifdef _DEBUG
-#ifndef ENGINE
 		if (mode == Mode::CONS || mode == Mode::BOTH)
 		{
 			std::cout << color << type;
 			(std::cout << ... << args);
 			std::cout << "\033[0m" << end;
+			std::cout.flush();
 		}
-#endif // ENGINE_EXPORTS
-#endif // DEBUG
+#endif
 
 		if (_file.is_open() && (mode == Mode::FILE || mode == Mode::BOTH))
 		{
 			_file << type;
 			(_file << ... << args);
 			_file << '\n';
+			_file.flush();
 		}
 	}
 

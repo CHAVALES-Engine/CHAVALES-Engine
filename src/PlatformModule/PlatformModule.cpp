@@ -14,7 +14,6 @@
 #include "GameConfigurator.h"
 #include <checkMLNew.h>
 
-
 PlatformModule::PlatformModule() :
 	_window(nullptr), _windowHandle(nullptr)
 {
@@ -134,7 +133,7 @@ void PlatformModule::setMouseSensitivity(float sensitivity = 10.0)
 	_mouseSensitivity = sensitivity;
 }
 
-bool PlatformModule::isDeviceConnected(input::DeviceID device)
+bool PlatformModule::isDeviceConnected(input::DeviceID device) const
 {
 	bool connected = false;
 	auto it = _virtualDevices.find(device);
@@ -339,7 +338,7 @@ void PlatformModule::setWindowSize(int w, int h)
 	SDL_SetWindowSize(_window, w, h);
 }
 
-bool PlatformModule::setIcon(std::string path)
+bool PlatformModule::setIcon(const std::string& path)
 {
 	if (_icon != nullptr)
 	{
@@ -364,7 +363,7 @@ bool PlatformModule::setIcon(std::string path)
 	return true;
 }
 
-void PlatformModule::setWindowName(std::string name)
+void PlatformModule::setWindowName(const std::string& name)
 {
 	SDL_SetWindowTitle(_window, name.c_str());
 }
@@ -403,7 +402,7 @@ void PlatformModule::setGamepadVibration(input::DeviceID id, float lowFreq, floa
 	}
 }
 
-void PlatformModule::setGamepadColor(input::DeviceID id, core::Color color)
+void PlatformModule::setGamepadColor(input::DeviceID id, const core::Color& color)
 {
 	// Clampeamos los valores dados a entre 0.0 y 1.0 y los convertimos a la unidad que pide SDL.
 	uint8_t clampR = static_cast<uint8_t>(std::clamp(color.getRed(), 0.0f, 1.0f) * (std::numeric_limits<uint8_t>::max)());

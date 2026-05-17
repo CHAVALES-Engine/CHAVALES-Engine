@@ -7,7 +7,8 @@ class RenderModule;
 class AudioModule;
 class PhysicsModule;
 
-/**
+/** 
+ * @file
  * @brief Clase componente para componentes internos,
  * Permite el acceso a los metodos privados de los que no debe disponer un componente de usuario final
  */
@@ -19,4 +20,3 @@ protected:
 	AudioModule* audio()const;
 	PhysicsModule* physics() const;
 };
-

@@ -1,5 +1,8 @@
+ï»¿/**
+* @file
+*/
+
 #pragma once
-// TODO: This is an example of a library function
 #include "Vector3.h"
 #include "Quaternion.h"
 #include "PhysicsTypes.h"
@@ -9,18 +12,16 @@
 
 struct PhysXComponent;
 
-
 class ENGINE_API PhysicsModule : public physx::PxSimulationEventCallback
 {
 public:
-
 	/*
-	* @brief Constructor del módulo de físicas
+	* @brief Constructor del mÃ³dulo de fÃ­sicas
 	*/
 	PhysicsModule();
 
 	/*
-	* @brief Destructor del módulo de físicas
+	* @brief Destructor del mÃ³dulo de fÃ­sicas
 	*/
 	virtual ~PhysicsModule();
 
@@ -34,7 +35,7 @@ public:
 	*/
 	core::Vector3<> GetPhysicsPosition(ComponentID id);
 	/*
-	* @brief Devuelve la rotación en la escena de physx del componente pasado
+	* @brief Devuelve la rotaciÃ³n en la escena de physx del componente pasado
 	* @param id del componente
 	*/
 	core::Quaternion<> GetPhysicsRotation(ComponentID id);
@@ -46,21 +47,21 @@ public:
 
 	/*
 	* @brief Lanza un raycast en la escena
-	* @param origen, direccion y distancia máxima
+	* @param origen, direccion y distancia mÃ¡xima
 	*/
 	bool rayCast(const PxVec3& origin, const PxVec3& direction, float maxDistance, RayInfo& rayInfo);
 
 	//COLLIDERS
 	/*
 	* @brief Crea un collider con forma de caja
-	* @param tamano, posición local, posición global, rotacion global, rotacion local, bool isTrigger, bool isDynamic
+	* @param tamano, posiciÃ³n local, posiciÃ³n global, rotacion global, rotacion local, bool isTrigger, bool isDynamic
 	*/
-	ComponentID  CreateBoxShape(core::Vector3<> dimension, const core::Vector3<>& center, core::Vector3<> pos, const core::Quaternion<> rot, const core::Quaternion<> rotationLoc, bool isDynamic, bool isTrigger);
+	ComponentID  CreateBoxShape(const core::Vector3<>& dimension, const core::Vector3<>& center, const core::Vector3<>& pos, const core::Quaternion<>& rot, const core::Quaternion<>& rotationLoc, bool isDynamic, bool isTrigger);
 	/*
-	* @brief Crea un collider con forma de cápsula/esfera
-	* @param radio, altura, posición local, posición global, rotacion global, rotacion local, bool isTrigger, bool isDynamic
+	* @brief Crea un collider con forma de cÃ¡psula/esfera
+	* @param radio, altura, posiciÃ³n local, posiciÃ³n global, rotacion global, rotacion local, bool isTrigger, bool isDynamic
 	*/
-	ComponentID CreateCapsuleShape(float radius, float height, const core::Vector3<>& center, const core::Vector3<>& worldPos, const core::Quaternion<> rot, const core::Quaternion<> rotationLoc, bool isDynamic, bool isTrigger);
+	ComponentID CreateCapsuleShape(float radius, float height, const core::Vector3<>& center, const core::Vector3<>& worldPos, const core::Quaternion<>& rot, const core::Quaternion<>& rotationLoc, bool isDynamic, bool isTrigger);
 	/*
 	* @brief Devuelve los eventos que recibe un componente
 	* @param id del componente
@@ -77,12 +78,12 @@ public:
 	 */
 	void setActorEntity(ComponentID physicsID, core::Entity* entity);
 	/*
-	* Setea la posición de un componente en physx
-	* @param id del componente y la posición a poner
+	* Setea la posicion de un componente en physx
+	* @param id del componente y la posiciÃ³n a poner
 	*/
 	void SetPhysicsPosition(ComponentID id, const core::Vector3<>& pos);
 	/*
-	* Setea la rotación de un componente en physx
+	* Setea la rotacion de un componente en physx
 	* @param id del componente y la rot a poner
 	*/
 	void SetPhysicsRotation(ComponentID id, const core::Quaternion<>& pos);
@@ -90,9 +91,9 @@ public:
 	//rigidbody
 	/*
 	* @brief Crea un rigidbody en la escena
-	* @param posición inicial, masa, uso de gravedad, si es cinemático
+	* @param posicion inicial, masa, uso de gravedad, si es cinematico
 	*/
-	uint32_t CreateRigidBody(core::Vector3<> pos, float mass, bool useGravity, bool isKinematic);
+	uint32_t CreateRigidBody(const core::Vector3<>& pos, float mass, bool useGravity, bool isKinematic);
 
 	/*
 	* @brief Obtiene la velocidad lineal de un rigidbody
@@ -104,13 +105,13 @@ public:
 	* @brief Setea la velocidad lineal de un rigidbody
 	* @param id del rigidbody y nueva velocidad
 	*/
-	void SetLinearVelocity(uint32_t id, core::Vector3<> vel);
+	void SetLinearVelocity(uint32_t id, const core::Vector3<>& vel);
 
 	/*
 	* @brief Aplica una fuerza a un rigidbody
 	* @param id del rigidbody, fuerza y modo
 	*/
-	void AddForce(uint32_t id, core::Vector3<> force, char mode);
+	void AddForce(uint32_t id, const core::Vector3<>& force, char mode);
 
 	/*
 	* @brief Limpia fuerzas aplicadas a un rigidbody
@@ -163,14 +164,14 @@ public:
 	* Une una box shape a un actor que viene de un rigidbody
 	* @param id del rigidbody al que se une, tam, pos local, rot local, bool isTrigger
 	*/
-	void AttachBoxShape(ComponentID bodyID, const core::Vector3<> size, const core::Vector3<>& center, const core::Quaternion<> rotationLoc, bool isTrigger);
+	void AttachBoxShape(ComponentID bodyID, const core::Vector3<>& size, const core::Vector3<>& center, const core::Quaternion<>& rotationLoc, bool isTrigger);
 	/*
 	* Une una capsuele/sphere shape a un actor que viene de un rigidbody
 	* @param id del rigidbody al que se une, radio, altura, pos local, rot local, bool isTrigger
 	*/
-	void AttachCapsuleShape(ComponentID bodyID, float radius, float height, const core::Vector3<>& center, const core::Quaternion<> rotationLoc, bool isTrigger);
+	void AttachCapsuleShape(ComponentID bodyID, float radius, float height, const core::Vector3<>& center, const core::Quaternion<>& rotationLoc, bool isTrigger);
 	/*
-	* Setea el transform de físicas
+	* Setea el transform de fisicas
 	* @param id del componente, posicion, rotacion
 	*/
 	void setPhysicsTransform(ComponentID id, const core::Vector3<>& pos, const core::Quaternion<>& rot);
@@ -195,17 +196,17 @@ public:
 	* @brief Setea la gravedad de la escena
 	* @param gravedad en Vector3
 	*/
-	void SetGravity(core::Vector3<> gravity);
-	//MAYERIALES
+	void SetGravity(const core::Vector3<>& gravity);
+	//MATERIALES
 	/*
-	* @brief Crea un material físico
-	* @param fricción estática, fricción dinámica, restitución y modos de combinación
+	* @brief Crea un material fisico
+	* @param friccion estatica, friccion dinamica, restitucion y modos de combinacion
 	*/
 	uint32_t CreateMaterial(ComponentID id, float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine);
 
 	/*
-	* @brief Actualiza un material físico existente
-	* @param id del material y nuevos parámetros
+	* @brief Actualiza un material fisico existente
+	* @param id del material y nuevos parametros
 	*/
 	void UpdateMaterial(uint32_t id, float staticF, float dynamicF, float restitution, int frictionCombine, int bounceCombine);
 
@@ -223,7 +224,7 @@ public:
 	*/
 	void ClearScene();
 
-	//DEBBUG
+	//DEBUG
 	/*
 	* Devuelve un struct con los datos de las shapes
 	*/

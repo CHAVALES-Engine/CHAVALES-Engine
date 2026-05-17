@@ -13,14 +13,12 @@ void input::InputMapper::addEventToAction(const std::string& actionName, InputEv
 		Debug::warning("[Input] Action named \"", actionName, "\" does not exists so it will be created.");
 	}
 
-
 	// Si el evento ya esta no metemos nada.
 	if (_entryIsInMap(actionName, { id, inputEvent }))
 	{
 		Debug::error("[Input] Event named \"", actionName, "\" alredy exists so it is not added again.");
 		return;
 	}
-
 
 	// Metemos el evento y si es necesario la accion tambien.
 	_mapper[actionName].push_back({ id, inputEvent });
@@ -36,14 +34,12 @@ void input::InputMapper::removeEvent(const std::string& actionName, InputEvent i
 		return;
 	}
 
-
 	// Si es id por defecto eliminamos todos los eventos de ese tipo de esa accion.
 	if (id == ANY_DEVICE)
 	{
 		_removeEvents(actionName, inputEvent);
 		return;
 	}
-
 
 	// Buscamos el evento y su id asociada, si no esta no se puede eliminar nada.
 	InputMappperEntry aux = { id, inputEvent };
@@ -57,7 +53,6 @@ void input::InputMapper::removeEvent(const std::string& actionName, InputEvent i
 	// Eliminamos el evento.
 	_mapper[actionName].erase(position);
 	Debug::out("[Input] Event removed from action called \"", actionName, "\".");
-
 
 	// Si la accion se ha quedado vacia la eliminamos.
 	if (_mapper[actionName].empty()) _removeAction(actionName);
@@ -92,7 +87,6 @@ void input::InputMapper::removeEventsFromID(const std::string& actionName, Devic
 		return;
 	}
 
-
 	std::vector<InputMappperEntry>& action = _mapper[actionName]; // Vector con id-IE de la accion.
 
 	// erase-remove_if idiom. Elimina en un rango los elementos recolocados por remove_if (no elimina solo mueve al final y devuelve el it al inicio de esa 
@@ -117,7 +111,6 @@ std::vector<input::InputEvent> input::InputMapper::getInputEvents(const std::str
 		Debug::error("[Input] Action named \"", actionName, "\" does not exists so its events can not be returned.");
 		return {};
 	}
-
 
 	std::vector<InputMappperEntry>& action = _mapper[actionName]; // Vector con id-IE de la accion.
 	std::vector<InputEvent> events; // Vector de eventos a devolver.
@@ -151,7 +144,6 @@ bool input::InputMapper::hasAction(const std::string& actionName) const
 {
 	return (_mapper.find(actionName) != _mapper.end());
 }
-
 
 void input::InputMapper::_removeAction(const std::string& actionName)
 {

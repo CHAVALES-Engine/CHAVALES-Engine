@@ -63,7 +63,6 @@ Light::Light() : _type(Type::POINT), _color(1, 1, 1, 1), _intensity(1.0f), _inne
 
 Light::~Light()
 {
-	//Engine::instance()->deleteLight(_lightID);
 }
 bool Light::init(const Properties& p)
 {

@@ -12,15 +12,15 @@ private:
 	ResourcesFacade(ResourcesModule* rM);
 public:
 
-	std::string getAudioByName(const std::string& name);
+	std::string getAudioByName(const std::string& name) const;
 
-	std::pair<std::string, std::string> getModelByName(const std::string& name);
-	std::pair<std::string, std::string> getTextureByName(const std::string& name);
-	std::pair<std::string, std::string> getParticleByName(const std::string& name);
-	std::pair<std::string, std::string> getImageByName(const std::string& name);
-	std::pair<std::string, std::string> getFontByName(const std::string& name);
+	std::pair<std::string, std::string> getModelByName(const std::string& name) const;
+	std::pair<std::string, std::string> getTextureByName(const std::string& name) const;
+	std::pair<std::string, std::string> getParticleByName(const std::string& name) const;
+	std::pair<std::string, std::string> getImageByName(const std::string& name) const;
+	std::pair<std::string, std::string> getFontByName(const std::string& name) const;
 
-	std::vector<std::pair<std::string, std::string>> getAllFonts();
+	std::vector<std::pair<std::string, std::string>> getAllFonts() const;
 private:
 
 	friend Engine;

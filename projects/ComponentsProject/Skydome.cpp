@@ -56,7 +56,3 @@ void Skydome::setSkydomeNull()
 {
 	render()->setSkydomeNull();
 }
-
-
-
-

@@ -6,7 +6,6 @@
 #include "RenderModule.h"
 #include "checkMLNew.h"
 
-
 REGISTER_COMPONENT(UITransform);
 
 UITransform::UITransform()
@@ -111,8 +110,6 @@ bool UITransform::init(const Properties& p)
 
 	return true;
 }
-
-
 
 void UITransform::setPosition(const core::Vector2<>& pos)
 {

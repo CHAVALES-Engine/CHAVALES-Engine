@@ -13,6 +13,7 @@
 using sceneName = std::string;
 
 /**
+ * @file
  * @brief GameLoader.
  *
  *		Clase que implementa la integracion y carga de escenas con Lua.
@@ -28,13 +29,11 @@ public:
 	 *
 	 * @param n - Nombre de la escena a cargar, debe coincidir con el .lua que la define.
 	 */
-	//static std::shared_ptr<core::Scene> loadScene(const sceneName& n);
 	static void loadScene(const sceneName& n, std::shared_ptr<core::Scene>& s);
 
 	/**
 	 * @brief Carga un prefab e instancia las entidades.
 	 * @param n - path del prefab a cargar.
-	 * @return 
 	 */
 	static core::Entity* loadPrefab(std::string const& n);
 
@@ -79,35 +78,25 @@ private:
 	static void _defineUserTypes(sol::state& lua);
 
 	/**
-	 * @brief Funcion que ejecuta un lua a nivel de motor para hidratar los prefabs de una escena.
-	 
+	 * @brief Funcion que inyecta en el estado de lua las funcion loadPrefab.
 	 * @param lua - Estado de lua.
 	 * @param fp - Ruta al archivo lua de funciones.
-	 * @param sp - Ruta a la escena a hidratar.
-	 * @param st - Tabla sol resultante de la ejecucion de lua al hidratar los prefabs.
-	 * @returns Si el lua se ha podido ejecutar correctamente y ha devuelto una tabla valida.
+	 * @returns Si el lua se ha podido ejecutar correctamente y se ha inyectado la funcion.
 	 */
-	static bool _defineFunc(sol::state& lua, const std::string& fp, const std::string& sp, sol::table& st);
+	static bool _injectFunctions(sol::state& lua, const std::string& fp);
 
 	/**
-	 * @brief Funcion que injecta en el estado de lua las funcion loadPrefab.
-
-	 * @param lua - Estado de lua.
-	 * @param fp - Ruta al archivo lua de funciones.
-	 * @returns Si el lua se ha podido ejecutar correctamente y se ha inyectado la función.
-	 */
-	static bool _injectPrefabFunc(sol::state& lua, const std::string& fp);
-
-	/**
-	 * @brief Para definir tipos de clases propias que poder traducir desde lua.
+	 * @brief Carga una escena entera desde lua.
 	 *
 	 * @param lua - Estado de lua donde definir los tipos.
+	 * @param n - Nombre de la escena
+	 * @param n - Ruta a la escena
 	 */
 	static void _loadLua(std::shared_ptr<core::Scene>& s, const sceneName& n, const std::string& p);
 
 	/**
 	 * Carga un archivo de lua y lo mete en la escena activa.
-	 * @param s - Escena a la que anyadir.
+	 * @param s - Escena a la que anadir.
 	 * @param p - path del fichero a cargar.
 	 */
 	static core::Entity* _loadLua(const std::shared_ptr<core::Scene>& s, std::string const& p);
@@ -137,6 +126,7 @@ private:
 	static std::vector<T> _parseVector(const sol::table& table);
 
 	static inline std::string _path = "";
+	static inline std::string _luaFuncFile = "luaFunc.lua";
 	static inline std::filesystem::file_time_type _lastTime;
 	static inline uintmax_t _lastSize;
 

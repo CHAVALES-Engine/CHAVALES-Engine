@@ -36,12 +36,10 @@ void ScriptComponent::enable()
 
 void ScriptComponent::fixedUpdate()
 {
-	//_script->executeFunction("fixedUpdate");
 }
 
 void ScriptComponent::update(uint64_t deltaTime)
 {
-	//_script->executeFunction("update", { (int)deltaTime });
 }
 
 void ScriptComponent::disable()

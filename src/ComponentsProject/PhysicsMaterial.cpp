@@ -10,23 +10,7 @@ REGISTER_COMPONENT(PhysicsMaterial);
 
 PhysicsMaterial::PhysicsMaterial()
 {
-	staticFriction = 0.6f;
-	dynamicFriction = 0.6f;
-	restitution = 0.0f;
 
-	frictionCombine = CombineMode::Av;
-	bounceCombine = CombineMode::Av;
-}
-
-PhysicsMaterial::PhysicsMaterial(float staticF, float dynamicF, float rest,
-	CombineMode frictionMode, CombineMode bounceMode)
-{
-	staticFriction = staticF;
-	dynamicFriction = dynamicF;
-	restitution = rest;
-
-	frictionCombine = frictionMode;
-	bounceCombine = bounceMode;
 }
 
 bool PhysicsMaterial::init(const Properties& p)
@@ -43,8 +27,6 @@ bool PhysicsMaterial::init(const Properties& p)
 
 void PhysicsMaterial::ready()
 {
-	//_eng = Engine::instance();
-
 	if (staticFriction < 0.0f) staticFriction = 0.0f;
 	if (dynamicFriction < 0.0f) dynamicFriction = 0.0f;
 	if (restitution < 0.0f) restitution = 0.0f;
@@ -81,7 +63,6 @@ void PhysicsMaterial::update(uint64_t dt)
 void PhysicsMaterial::destroy()
 {
 	Component::destroy();
-	//if (_eng != nullptr)
 	physics()->DestroyMaterial(physicsMaterialID);
 }
 

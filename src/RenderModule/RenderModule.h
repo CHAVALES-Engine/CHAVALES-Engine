@@ -1,6 +1,6 @@
 ﻿#pragma once
-/*
- * @file PlatformModule.h
+/**
+ * @file
  * @brief Define las funciones del Modulo de Render
  */
 
@@ -136,7 +136,7 @@ class ENGINE_API RenderModule
 {
 public:
 	~RenderModule();
-	bool Init(SDL_Window* sdlWindow, const HWND handle, const int width, const int height, const std::vector<std::pair<FontName, FontPath>> fonts);
+	bool Init(SDL_Window* sdlWindow, const HWND handle, const int width, const int height, const std::vector<std::pair<FontName, FontPath>>& fonts);
 
 	/*
 	* @brief Renderizar frame.
@@ -155,7 +155,7 @@ public:
 	/*
 	* @brief Anadir nodo.
 	*/
-	transformID addNode(const entityID& entityID, const core::Vector3<float>& pos = core::Vector3<float>(0.0f, 0.0f, 0.0f), const core::Quaternion<float>& rot = core::Quaternion<float>(0.0f, 0.0f, 0.0f, 1.0f), const core::Vector3<float> scale = core::Vector3<float>(1.0f, 1.0f, 1.0f), const bool& fromTransform = false);
+	transformID addNode(const entityID& entityID, const core::Vector3<float>& pos = core::Vector3<float>(0.0f, 0.0f, 0.0f), const core::Quaternion<float>& rot = core::Quaternion<float>(0.0f, 0.0f, 0.0f, 1.0f), const core::Vector3<float>& scale = core::Vector3<float>(1.0f, 1.0f, 1.0f), const bool& fromTransform = false);
 
 	/*
 	* @brief Getter de nodo. Devuelve -1 si no existe.
@@ -232,7 +232,7 @@ public:
 	/*
 	* @brief Cambiar color de fondo.
 	*/
-	void setViewportBGColor(core::Color color);
+	void setViewportBGColor(const core::Color& color);
 
 	// --- Metodos camaras
 	/*
@@ -301,6 +301,11 @@ public:
 	* @brief Tintar la textura del material. Incluye canal alpha para transparencia.
 	*/
 	void setTint(const modelID& id, const subMeshID& subID, const core::Color& tint);
+
+	/*
+	* @brief Devuelve el tinte del material.
+	*/
+	core::Color getTint(const modelID& id, const subMeshID& subID);
 
 	/*
 	* @brief Establecer si el modelo es visible
@@ -517,7 +522,7 @@ public:
 	/*
 	 * @brief Añadir un letrero al panel
 	 */
-	uiLabelID addUILabel(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const  float opacity, const core::Color textColor, const core::Color bgColor, const float fontSize, const TextAlign textAlign, const std::string fontName);
+	uiLabelID addUILabel(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const  float opacity, const core::Color& textColor, const core::Color& bgColor, const float fontSize, const TextAlign textAlign, const std::string& fontName);
 	/*
 	* @brief borrar label de UI.
 	*/
@@ -540,12 +545,12 @@ public:
 	/*
 	* @brief Establecer el color del texto del letrero
 	*/
-	void setUILabelTextColor(const uiLabelID& labelID, core::Color color);
+	void setUILabelTextColor(const uiLabelID& labelID, const core::Color& color);
 
 	/*
 	 * @brief Establecer el color del fondo del letrero
 	*/
-	void setUILabelBackGroundColor(const uiLabelID& labelID, core::Color color);
+	void setUILabelBackGroundColor(const uiLabelID& labelID, const core::Color& color);
 
 	/*
 	* @brief Establecer el alineado del letrero
@@ -578,7 +583,7 @@ public:
 	/*
 	* @brief Establecer la textura del boton
 	*/
-	void  setUIButtonTexture(const uiButtonID& buttonID, std::string& textureFolder, std::string& textureFile);
+	void  setUIButtonTexture(const uiButtonID& buttonID, const std::string& textureFolder, const std::string& textureFile);
 
 	/*
 	* @brief Establecer la opacidad  del boton
@@ -624,7 +629,7 @@ public:
 	/*
 	* @brief Establecer la textura del textureRect
 	*/
-	void setUITextureRectTexture(const uiTextureRectID& textureRectID, std::string& textureFolder, std::string& textureFile);
+	void setUITextureRectTexture(const uiTextureRectID& textureRectID, const std::string& textureFolder, const std::string& textureFile);
 
 	/*
 	* @brief Establecer si el textureRect es visible
@@ -699,6 +704,5 @@ private:
 	uiTextureRectID _nextTextureRectID;
 	Ogre::ImGuiOverlay* _overlay;
 	std::unordered_set<std::string> _resourceGroups;
-	core::Color entityTint = core::WHITE;
 	bool _imguiSDLInitialized = false;
 };

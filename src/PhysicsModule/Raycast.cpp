@@ -1,16 +1,18 @@
 ﻿#include "Raycast.h"
 #include "checkMLNew.h"
 
-Raycast::Raycast(PxScene* sceneRef)
+#include "PxPhysicsAPI.h"
+
+Raycast::Raycast(physx::PxScene* sceneRef)
 {
 	scene = sceneRef;
 }
 
 bool Raycast::Cast(
-	const PxVec3& origin,
-	const PxVec3& direction,
+	const physx::PxVec3& origin,
+	const physx::PxVec3& direction,
 	float maxDistance,
-	PxRaycastBuffer& hitInfo
+	physx::PxRaycastBuffer& hitInfo
 )
 {
 	return scene->raycast(

@@ -1,11 +1,13 @@
+/**
+* @file
+*/
+
 #pragma once
 #include <string>
 
 #include "InputDefs.h"
 
 class PlatformModule;
-
-
 namespace input
 {
 	/**

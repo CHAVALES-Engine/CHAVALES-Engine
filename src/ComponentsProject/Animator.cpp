@@ -159,5 +159,3 @@ void Animator::setAnimSpeed(const std::string& animationName, const float& speed
 		render()->setAnimSpeed(aux->second.id, speed);
 	}
 }
-
-

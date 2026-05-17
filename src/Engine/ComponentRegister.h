@@ -1,7 +1,7 @@
 ﻿#pragma once
 /**
-* @file ComponentsLoader
-* @brief ComponentsRegister contains methods to instantiate dll components.
+* @file
+* @brief ComponentsRegister engloba metodos para el registro de componentes dll.
 */
 #include <functional>
 #include <memory>

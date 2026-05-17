@@ -1,4 +1,8 @@
-﻿#pragma once
+﻿/**
+ * @file
+*/
+
+#pragma once
 enum class  TransformType {
 	WORLD,
 	UI

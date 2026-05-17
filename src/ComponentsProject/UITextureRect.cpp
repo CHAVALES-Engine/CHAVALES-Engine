@@ -90,4 +90,5 @@ void UITextureRect::destroy()
 {
 	if (_textureRectID == UINT64_MAX)return;
 	render()->deleteUITextureRect(_textureRectID);
+	_textureRectID = UINT64_MAX;
 }
