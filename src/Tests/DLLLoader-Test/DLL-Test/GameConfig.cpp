@@ -9,7 +9,8 @@ void configureGame()
 	// configuracion desde dll
 	core::GameConfigurator::instance()._configType = "DLL";
 	core::GameConfigurator::instance()._scenesRoot = "game/scenes/";
-	core::GameConfigurator::instance()._firstScene = "initial_scene";
+	core::GameConfigurator::instance()._firstScene = "scene_base";
+	//core::GameConfigurator::instance()._firstScene = "initial_scene";
 	core::GameConfigurator::instance()._assetsRoot = "game/assets/";
 	core::GameConfigurator::instance()._gameDLL = "DLL-Test";
 	core::GameConfigurator::instance()._clearColor = core::Color(0.2, 0.5, 0.75, 1.0);
