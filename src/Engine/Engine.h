@@ -126,6 +126,7 @@ public:
 	// ---------- RESOURCES
 	std::pair<std::string, std::string> getAssetSourceFolder(const std::string& assetName) const;
 	std::vector<std::pair<std::string, std::string>> getAllAssets() const;
+	bool preload(const std::string& path);
 
 	// ---------- PLATFORM
 	/**

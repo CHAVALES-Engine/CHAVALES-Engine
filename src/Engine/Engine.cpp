@@ -155,6 +155,11 @@ std::vector<std::pair<std::string, std::string>> Engine::getAllAssets() const
 {
 	return _resourcesModule->getAllAssets();
 }
+
+bool Engine::preload(const std::string& path)
+{
+	return _resourcesModule->preload(path);
+}
 #pragma endregion
 
 int Engine::getWindowWidth() const

@@ -4,32 +4,28 @@
 #include <filesystem>
 #include "checkMLNew.h"
 
-ResourcesModule::ResourcesModule()
-{
-}
-
 ResourcesModule::~ResourcesModule()
 {
 
 }
 
-bool ResourcesModule::loadAsset(const std::string& sourceName)
+bool ResourcesModule::_loadAsset(const std::string& sourceName)
 {
-	for (const auto& entry : std::filesystem::directory_iterator(sourceName)) 
+	for (const auto& entry : std::filesystem::directory_iterator(sourceName))
 	{
-		if (entry.is_directory()) 
+		if (entry.is_directory())
 		{
 			std::string previousType = typeOfFolder;
 
 			typeOfFolder = entry.path().filename().string();
-			if (!loadAsset(sourceName + typeOfFolder + "/")) {
+			if (!_loadAsset(sourceName + typeOfFolder + "/")) {
 				return false;
 			}
 			typeOfFolder = previousType;
 		}
-		else 
+		else
 		{
-			if (!insertAssetMap(entry.path().string())) {
+			if (!_insertAssetMap(entry.path().string())) {
 				return false;
 			}
 		}
@@ -38,7 +34,7 @@ bool ResourcesModule::loadAsset(const std::string& sourceName)
 	return true;
 }
 
-bool ResourcesModule::insertAssetMap(const std::string& sourceName)
+bool ResourcesModule::_insertAssetMap(const std::string& sourceName)
 {
 	std::string nombreAsset = std::filesystem::path(sourceName).filename().string();
 	std::string nombreCarpeta = std::filesystem::path(sourceName).parent_path().string();
@@ -62,17 +58,40 @@ bool ResourcesModule::insertAssetMap(const std::string& sourceName)
 		return false;
 	}
 
-	
+
 	_assetsMaps.insert({ typeOfFolder + "/" + nombreAsset,{aux,mayus} });
 	return true;
-} 
+}
+
+bool ResourcesModule::_isMeshFile(const std::string& path) const
+{
+	std::string ext = std::filesystem::path(path).extension().string();
+	// Convertir a minusculas para comparar
+	std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
+
+	return ext == ".mesh" || ext == ".fbx";
+}
+
+bool ResourcesModule::_isTextureFile(const std::string& path) const
+{
+	std::string ext = std::filesystem::path(path).extension().string();
+	// Convertir a minusculas para comparar
+	std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
+
+	return ext == ".png" || ext == ".jpg" || ext == ".jpeg";
+}
 
 bool ResourcesModule::Init()
 {
-	if (!loadAsset(core::GameConfigurator::instance()._assetsRoot)) {
+	if (!_loadAsset(core::GameConfigurator::instance()._assetsRoot)) {
 		return false;
 	}
 	return true;
+}
+
+bool ResourcesModule::preloadAllAssets()
+{
+
 }
 
 std::pair<std::string, std::string> ResourcesModule::getAssetSourceFolder(const std::string& assetName)
@@ -86,15 +105,15 @@ std::pair<std::string, std::string> ResourcesModule::getAssetSourceFolder(const 
 	}
 
 	auto it = _assetsMaps.find(parentPath + aux);
-	
+
 	if (it == _assetsMaps.end())
 	{
-		Debug::error("[ResourcesModule] Name of the asset NOT FOUND, searched name: ",assetName);
-		return { "", ""};
+		Debug::error("[ResourcesModule] Name of the asset NOT FOUND, searched name: ", assetName);
+		return { "", "" };
 	}
 
 	std::string realPath = std::filesystem::path(it->first).filename().string();
-	ChavalesGUID id = it->second._id; 
+	ChavalesGUID id = it->second._id;
 
 	if (it->second.isUpper) {
 		realPath[0] = std::toupper(realPath[0]);
@@ -110,12 +129,33 @@ std::vector<std::pair<std::string, std::string>> ResourcesModule::getAllFonts()
 std::vector<std::pair<std::string, std::string>> ResourcesModule::getAllAssets()
 {
 	std::vector<std::pair<std::string, std::string>> auxiliar;
-	for (auto i = _assetsMaps.begin(); i != _assetsMaps.end();++i) {
+	for (auto i = _assetsMaps.begin(); i != _assetsMaps.end(); ++i) {
 
 		auto id = _idMaps.find(i->second._id);
 		std::string ruta = id->second;
 		auxiliar.push_back({ i->first,ruta });
 	}
 	return auxiliar;
+}
+
+void ResourcesModule::addFactory(core::Resource::Type type,
+	std::function<core::ResourcePtr(const std::string&, const std::string&)> fact)
+{
+	_factories[type] = fact;
+}
+
+bool ResourcesModule::preload(const std::string& path)
+{
+	std::filesystem::path p(path);
+	if (p.empty()) return false;
+	// Conseguir la id.
+	std::string id = p.parent_path().filename().string() + "/" + p.filename().string();
+	// Comprueba que no este ya cargado.
+	if (_resources.find(id) != _resources.end()) return false;
+	// Crea el recurso dependiendo del archivo.
+	if (_isMeshFile(path))
+		_resources[id] = _factories[core::Resource::Type::MESH](id, path);
+	// resto de tipos
+	return true;
 }
 

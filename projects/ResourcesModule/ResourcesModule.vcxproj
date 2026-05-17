@@ -11,9 +11,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\src\ResourcesModule\ResourceFactory.h" />
     <ClInclude Include="..\..\src\ResourcesModule\ResourcesModule.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\ResourcesModule\ResourceFactory.cpp" />
     <ClCompile Include="..\..\src\ResourcesModule\ResourcesModule.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

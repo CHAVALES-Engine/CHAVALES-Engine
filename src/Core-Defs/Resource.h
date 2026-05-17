@@ -62,4 +62,5 @@ namespace core
 		Type _type;    // Tipo de recurso.
 		//void* _ptr;			  // Puntero al propio recurso.
 	};
+	using ResourcePtr = std::shared_ptr<Resource>;
 }
