@@ -38,7 +38,7 @@ bool PlatformModule::Init()
 {
 	// Inicializacion de SDL
 	if (!SDL_Init(SDL_INIT_EVENTS | SDL_INIT_VIDEO | SDL_INIT_GAMEPAD)) {
-		Debug::error("[Paltform] SDL Could not be initialized.");
+		Debug::error("[Paltform] SDL No se ha podido inicializar.");
 		return false;
 	}
 	// Creacion de ventana
@@ -47,7 +47,7 @@ bool PlatformModule::Init()
 		core::GameConfigurator::instance()._windowHeight,
 		SDL_WINDOW_RESIZABLE)) == nullptr)
 	{
-		Debug::error("[Platform]SDL Could not be created.");
+		Debug::error("[Platform] SDL No se ha podido crear.");
 		return false;
 	}
 
@@ -151,14 +151,14 @@ bool PlatformModule::isKeyPressed(input::InputEvent inputEvent, input::DeviceID 
 			[&](input::Key k) { return vd->isPressed(k); },
 			[&](input::GamepadButton b) { return vd->isPressed(b); },
 			[&](input::MouseButton b) { return vd->isPressed(b); },
-			[](auto&&) { Debug::error("[Input] inputEvent not allowed"); return false; }
+			[](auto&&) { Debug::error("[Input] inputEvent no permitido"); return false; }
 			}, inputEvent); // Le pasamos ya el InputEvent para no tener que gestionarlo luego.
 		};
 	// Si el device es uno concreto llama a su funcion.
 	if (device != input::ANY_DEVICE) {
 		auto it = _virtualDevices.find(device);
 		if (it != _virtualDevices.end()) return func(it->second);
-		Debug::error("[Input] device: ", device, " not found");
+		Debug::error("[Input] device: ", device, " no encontrado");
 		return false;
 	}
 
@@ -182,14 +182,14 @@ bool PlatformModule::isJustPressed(input::InputEvent inputEvent, input::DeviceID
 			[&](input::Key k) { return vd->isJustPressed(k); },
 			[&](input::GamepadButton b) { return vd->isJustPressed(b); },
 			[&](input::MouseButton b) { return vd->isJustPressed(b); },
-			[](auto&& inputEvent) { Debug::error("[Input] inputEvent not allowed ", toString(inputEvent)); return false; }
+			[](auto&& inputEvent) { Debug::error("[Input] inputEvent no permitido ", toString(inputEvent)); return false; }
 			}, inputEvent); // Le pasamos ya el InputEvent para no tener que gestionarlo luego.
 		};
 	// Si el device es uno concreto llama a su funcion.
 	if (device != input::ANY_DEVICE) {
 		auto it = _virtualDevices.find(device);
 		if (it != _virtualDevices.end()) return func(it->second);
-		Debug::error("[Input] device: ", device, " not found");
+		Debug::error("[Input] device: ", device, " no encontrado");
 		return false;
 	}
 
@@ -212,7 +212,7 @@ bool PlatformModule::isKeyReleased(input::InputEvent inputEvent, input::DeviceID
 			[&](input::Key k) {return vd->isReleased(k); },
 			[&](input::GamepadButton b) {return vd->isReleased(b); },
 			[&](input::MouseButton b) {return vd->isReleased(b); },
-			[](auto&& inputEvent) { Debug::error("[Input] inputEvent not permitido ", toString(inputEvent)); return false; }
+			[](auto&& inputEvent) { Debug::error("[Input] inputEvent no permitido ", toString(inputEvent)); return false; }
 			}, inputEvent);
 		};
 	// Si el device es uno concreto llama a su funcion.
@@ -220,7 +220,7 @@ bool PlatformModule::isKeyReleased(input::InputEvent inputEvent, input::DeviceID
 	{
 		auto it = _virtualDevices.find(device);
 		if (it != _virtualDevices.end()) return func(it->second);
-		Debug::error("[Input] device: ", device, " not encontrado.");
+		Debug::error("[Input] device: ", device, " no encontrado.");
 		return false;
 	}
 	// ANY_DEVICE - early exit en cuanto algun device tenga la tecla pulsada.
@@ -238,7 +238,7 @@ float PlatformModule::getAxis(input::InputEvent inputEvent, input::DeviceID devi
 		return std::visit(input::overloaded{
 			[&](input::MouseAxis a) {return vd->getAxis(a); },
 			[&](input::GamepadAxis a) {return vd->getAxis(a); },
-			[](auto&& inputEvent) { Debug::error("[Input] inputEvent not permitido ", toString(inputEvent)); return 0.0f; }
+			[](auto&& inputEvent) { Debug::error("[Input] inputEvent no permitido ", toString(inputEvent)); return 0.0f; }
 			}, inputEvent);
 		};
 	// Si el device es uno concreto llama a su funcion.
@@ -246,7 +246,7 @@ float PlatformModule::getAxis(input::InputEvent inputEvent, input::DeviceID devi
 	{
 		auto it = _virtualDevices.find(device);
 		if (it != _virtualDevices.end()) return func(it->second);
-		Debug::error("[Input] device: ", device, " not encontrado");
+		Debug::error("[Input] device: ", device, " no encontrado");
 		return 0.0f;
 	}
 	// ANY_DEVICE - Coge el mayor input de todos los device.

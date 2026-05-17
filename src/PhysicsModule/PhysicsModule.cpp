@@ -104,7 +104,7 @@ bool PhysicsModule::Init()
 
 	PxSceneDesc sceneDesc(scale);
 	//PxSceneDesc sceneDesc(gPhysics->getTolerancesScale());
-	sceneDesc.gravity = PxVec3(0.0f, -9.81f, 0.0f);
+	sceneDesc.gravity = _defaultGravity;
 	dispatcher = PxDefaultCpuDispatcherCreate(2);
 
 	sceneDesc.flags |= PxSceneFlag::eENABLE_ACTIVE_ACTORS;
@@ -125,7 +125,7 @@ bool PhysicsModule::Init()
 
 	gScene->setVisualizationParameter(PxVisualizationParameter::eCOLLISION_SHAPES, 1.0f);
 	gScene->setVisualizationParameter(PxVisualizationParameter::eACTOR_AXES, 1.0f);
-	gScene->setGravity(gScene->getGravity() * 100.0f);
+	gScene->setGravity(gScene->getGravity());
 	_raycast = Raycast(gScene);
 	return gPhysics != nullptr;
 }
@@ -841,7 +841,7 @@ void PhysicsModule::ReloadPhysics()
 
 	//nueva igual
 	PxSceneDesc sceneDesc(gPhysics->getTolerancesScale());
-	sceneDesc.gravity = PxVec3(0.0f, -9.81f, 0.0f);
+	sceneDesc.gravity = _defaultGravity;
 
 	if (!dispatcher)
 		dispatcher = PxDefaultCpuDispatcherCreate(2);
