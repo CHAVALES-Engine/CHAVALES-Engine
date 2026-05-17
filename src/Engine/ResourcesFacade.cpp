@@ -1,4 +1,4 @@
-﻿#include "ResourcesFacade.h"
+#include "ResourcesFacade.h"
 #include <ResourcesModule.h>
 #include "checkMLNew.h"
 

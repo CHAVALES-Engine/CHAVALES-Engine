@@ -1,0 +1,6 @@
+root = true
+
+[*.{h,hpp,c,cpp,cc,cxx,inl,ipp,ixx,lua,md,txt,toml,json,yml,yaml,ini,cmake,bat,ps1,sln,vcxproj,vcxproj.filters,props,targets,xml}]
+charset = utf-8
+end_of_line = crlf
+insert_final_newline = false

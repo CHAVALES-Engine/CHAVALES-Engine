@@ -59,14 +59,14 @@ scene = { -- entidades en escena
                     useGravity = true,
                     isKinematic = false,
                     mass = 1.0,
-                    position = Vector3.new(0, 30, 0),
+                    position = Vector3.new(0, 300, 0),
                     velocity = Vector3.new(0, -100, 0),
                     damping = 0.0,
                     blockAxes = {false, false, false}
                 },
                 Collider = {
                     type = "CAPSULE",
-                    shape = Vector3.new(100, 0, 0),
+                    shape = Vector3.new(50, 0, 0),
                     rotation = Vector3.new(),
                     dynamic = true,
                     trigger = false,
@@ -123,7 +123,7 @@ scene = { -- entidades en escena
                 UITransform = {
                     position = Vector2.new(0, 0),
                     dimension = Vector2.new(1280, 720),
-                    zBuffer = 0,
+                    dLayer = 0,
                     -- position = Vector2.new(900, 10),
                     children = {"LabelUI", "ButtonUI", "ButtonUI2"}
 
@@ -139,7 +139,7 @@ scene = { -- entidades en escena
                 UITransform = {
                     position = Vector2.new(100, 60),
                     dimension = Vector2.new(200, 200),
-                    zBuffer = 0
+                    dLayer = 0
 
                 },
                 UIButton = {
@@ -156,8 +156,8 @@ scene = { -- entidades en escena
             components = {
                 UITransform = {
                     position = Vector2.new(600, 60),
-                    dimension = Vector2.new(200, 200),
-                    zBuffer = 0
+                    dimension = Vector2.new(500, 200),
+                    dLayer = 0
 
                 },
                 UILabel = {

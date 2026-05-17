@@ -1,4 +1,4 @@
-﻿#include "ScriptComponent.h"
+#include "ScriptComponent.h"
 #include "Script.h"
 #include "PluginSDK.h"
 #include "Clock.h"

@@ -22,10 +22,11 @@ prefab = {
             type = "BOX",
             shape = Vector3.new(400, 100, 400),
             rotation = Vector3.new(0, 0, 0),--poner los grados que quieras que rote en el eje que quieres que rote
-            dynamic = false,
+            dynamic = true,
             trigger = false,
             center = Vector3.new(0,0,0)
-        },
+        }
+        ,
         PhysicsMaterial = {
             staticFriction = 0.0,
             dynamicFriction = 0.0,

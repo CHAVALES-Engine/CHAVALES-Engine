@@ -53,7 +53,7 @@ protected:
 	 */
 	bool isTrigger = false;
 	/**
-	 * @brief Si es dinamico o est·tico
+	 * @brief Si es dinamico o est√°tico
 	 */
 	bool isDynamic = false;
 
@@ -62,7 +62,7 @@ protected:
 	 */
 	core::Vector3<> size = { 1,1,1 };
 	/**
-	 * @brief TamaÒo del collider si es capsule
+	 * @brief Tama√±o del collider si es capsule
 	 */
 	int radius, height;
 	/**
@@ -135,7 +135,7 @@ public:
 	void onTriggerEnter(core::Entity* other);
 	/**
 	 * @brief Deteccion de salida de solapamiento entre colliders donde al menos uno es trigger.
-	 * @param core::Entity other, otro collider contra el que habÌa chocado.
+	 * @param core::Entity other, otro collider contra el que hab√≠a chocado.
 	 */
 	void onTriggerExit(core::Entity* other);
 	/**
@@ -145,7 +145,7 @@ public:
 	void onCollisionEnter(core::Entity* other);
 	/**
 	 * @brief Deteccion de salida de choque entre colliders donde ninguno es trigger.
-	 * @param ComponentId other, otro collider contra el que habÌa chocado.
+	 * @param ComponentId other, otro collider contra el que hab√≠a chocado.
 	 */
 	void onCollisionExit(core::Entity* other);
 	/**

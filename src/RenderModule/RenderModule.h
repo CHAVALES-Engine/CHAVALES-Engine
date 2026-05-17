@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 /**
  * @file
  * @brief Define las funciones del Modulo de Render
@@ -67,11 +67,11 @@ struct UILabelData
 	entityID entity;
 	std::string text;
 	bool visible;
-	float opacity = 1.0f;
-	core::Color textColor = core::Color(1, 1, 1, 1);
-	core::Color bgColor = core::Color(0, 0, 0, 0);
-	float fontSize = 16.0f;
-	TextAlign align = TextAlign::LEFT;
+	float opacity;
+	core::Color textColor;
+	core::Color bgColor;
+	float fontSize;
+	TextAlign align;
 	ImFont* font;
 	bool alive = true;
 };
@@ -85,14 +85,14 @@ struct UIButtonData
 	std::string textureFile;
 	ImTextureID textureID;
 	bool buttonImage;
-	float opacity = 1.0f;
+	float opacity;
 	std::function<void()> onClick;
 	ImFont* font;
-	float fontSize = 16.0f;
-	core::Color textColor = core::Color(1, 1, 1, 1);
-	core::Color bgColor = core::Color(0, 0, 0, 1);
-	core::Color hvColor = core::Color(0, 0, 0, 1);
-	core::Color psColor = core::Color(0, 0, 0, 1);
+	float fontSize;
+	core::Color textColor;
+	core::Color bgColor;
+	core::Color hvColor;
+	core::Color psColor;
 	bool alive = true;
 	bool disable = false;
 };
@@ -103,7 +103,7 @@ struct UITextureRectData
 	std::string textureFolder;
 	std::string textureFile;
 	bool visible;
-	float opacity = 1.0f;
+	float opacity;
 
 	ImTextureID textureID;
 	bool alive = true;
@@ -126,8 +126,8 @@ struct UITransformData
 	entityID entity;
 	core::Vector2<float> position;
 	core::Vector2<float> dimension;
-	float rotation = 0.0f;
-	int zBuffer = 0;
+	float rotation;
+	int depthLayer;
 };
 
 union SDL_Event;
@@ -196,7 +196,7 @@ public:
 	/*
 	* @brief Anadir nodoUI
 	*/
-	UITransformID addUITransform(const entityID& entityID, const core::Vector2<float>& pos = core::Vector2<float>(1.0f, 0.0f), const int& zBuffer = 0, const core::Vector2<float>& dimension = core::Vector2<float>(0.0f, 0.0f), const float& rotation = 0.0f);
+	UITransformID addUITransform(const entityID& entityID, const core::Vector2<float>& pos = core::Vector2<float>(1.0f, 0.0f), const int& dLayer = 0, const core::Vector2<float>& dimension = core::Vector2<float>(0.0f, 0.0f), const float& rotation = 0.0f);
 
 	/*
 	* @brief Establecer posicion del nodo.
@@ -214,9 +214,9 @@ public:
 	void setUITransformRotation(const UITransformID& id, const float& pos);
 
 	/*
-	* @brief Establecer zBuffer del nodo.
+	* @brief Establecer depth layer del nodo.
 	*/
-	void setUITransformZBuffer(const UITransformID& id, const int& pos);
+	void setUITransformDepthLayer(const UITransformID& id, const int& pos);
 
 	/*
 	* @brief Getter de nodoUI. Devuelve -1 si no existe.

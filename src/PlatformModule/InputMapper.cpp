@@ -1,4 +1,4 @@
-﻿#include "InputMapper.h"
+#include "InputMapper.h"
 
 #include <algorithm>
 #include <vector>

@@ -1,4 +1,4 @@
-﻿#include "UIPanel.h"
+#include "UIPanel.h"
 
 #include "Entity.h"
 #include "Engine.h"

@@ -1,4 +1,4 @@
-﻿#include "MessagesManager.h"
+#include "MessagesManager.h"
 #include "checkMLNew.h"
 
 
