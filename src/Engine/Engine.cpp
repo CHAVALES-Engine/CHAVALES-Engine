@@ -16,10 +16,6 @@
 #include "GameLoader.h"
 
 #include "InputFacade.h"
-#include "RenderFacade.h"
-#include "UIFacade.h"
-#include "PhysicsFacade.h"
-#include "AudioFacade.h"
 #include <checkMLNew.h>
 
 #include "MessagesManager.h"
