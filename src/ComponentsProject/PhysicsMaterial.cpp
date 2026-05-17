@@ -10,23 +10,7 @@ REGISTER_COMPONENT(PhysicsMaterial);
 
 PhysicsMaterial::PhysicsMaterial()
 {
-	staticFriction = 0.6f;
-	dynamicFriction = 0.6f;
-	restitution = 0.0f;
 
-	frictionCombine = CombineMode::Max;
-	bounceCombine = CombineMode::Max;
-}
-
-PhysicsMaterial::PhysicsMaterial(float staticF, float dynamicF, float rest,
-	CombineMode frictionMode, CombineMode bounceMode)
-{
-	staticFriction = staticF;
-	dynamicFriction = dynamicF;
-	restitution = rest;
-
-	frictionCombine = frictionMode;
-	bounceCombine = bounceMode;
 }
 
 bool PhysicsMaterial::init(const Properties& p)

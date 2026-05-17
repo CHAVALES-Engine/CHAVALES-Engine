@@ -75,9 +75,9 @@ scene = { -- entidades en escena
                 PhysicsMaterial = {
                     staticFriction = 0,
                     dynamicFriction = 0.5,
-                    restitution = 5,
+                    restitution = 0.5,
                     frictionCombine = 2,
-                    bounceCombine = 1.0
+                    bounceCombine = 2
                 },
                 AudioSource = {
                     soundPath = "sfx/smb_1-up.wav",

@@ -77,13 +77,6 @@ public:
 	
 	PhysicsMaterial();
 
-	/**
-	 * @brief Constructor con parametros fisicos
-	 */
-	PhysicsMaterial(float staticF, float dynamicF, float rest,
-		CombineMode frictionMode = CombineMode::Max,
-		CombineMode bounceMode = CombineMode::Max);
-
 	bool init(const Properties& p) override;
 
 	/**

@@ -20,18 +20,18 @@ prefab = {
         },
         Collider = {
             type = "BOX",
-            shape = Vector3.new(400, 100, 400),      
+            shape = Vector3.new(400, 100, 400),
             rotation = Vector3.new(0, 0, 0),--poner los grados que quieras que rote en el eje que quieres que rote
             dynamic = false,
             trigger = false,
-            center = Vector3.new(0,0,0)    
+            center = Vector3.new(0,0,0)
         },
         PhysicsMaterial = {
             staticFriction = 0.0,
             dynamicFriction = 0.0,
-            restitution = 5,
+            restitution = 1.0,
             frictionCombine = 2,
-            bounceCombine = 1
+            bounceCombine = 2
         }
     }
 }
