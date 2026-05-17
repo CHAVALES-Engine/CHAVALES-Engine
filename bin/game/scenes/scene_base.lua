@@ -123,7 +123,7 @@ scene = { -- entidades en escena
                 UITransform = {
                     position = Vector2.new(0, 0),
                     dimension = Vector2.new(1280, 720),
-                    zBuffer = 0,
+                    dLayer = 0,
                     -- position = Vector2.new(900, 10),
                     children = {"LabelUI", "ButtonUI", "ButtonUI2"}
 
@@ -139,7 +139,7 @@ scene = { -- entidades en escena
                 UITransform = {
                     position = Vector2.new(100, 60),
                     dimension = Vector2.new(200, 200),
-                    zBuffer = 0
+                    dLayer = 0
 
                 },
                 UIButton = {
@@ -156,8 +156,8 @@ scene = { -- entidades en escena
             components = {
                 UITransform = {
                     position = Vector2.new(600, 60),
-                    dimension = Vector2.new(200, 200),
-                    zBuffer = 0
+                    dimension = Vector2.new(500, 200),
+                    dLayer = 0
 
                 },
                 UILabel = {

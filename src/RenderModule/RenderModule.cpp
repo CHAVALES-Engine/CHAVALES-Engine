@@ -404,10 +404,10 @@ void RenderModule::setNodeScale(const transformID& id, const core::Vector3<float
 		_engineNodes[id].sceneNode->setScale(scale.getX(), scale.getY(), scale.getZ());
 	}
 }
-UITransformID RenderModule::addUITransform(const entityID& entityID, const core::Vector2<float>& pos, const int& zBuffer, const core::Vector2<float>& dimension, const float& rotation)
+UITransformID RenderModule::addUITransform(const entityID& entityID, const core::Vector2<float>& pos, const int& dLayer, const core::Vector2<float>& dimension, const float& rotation)
 {
-	if (zBuffer < 0 || zBuffer >32) {
-		Debug::error("zBuffer fuera de rango [0-32]");
+	if (dLayer < 0 || dLayer > 32) {
+		Debug::error("depth layer fuera de rango [0-32]");
 		return -1;
 	}
 	for (int i = 0; i < (int)_uiTransforms.size(); i++)
@@ -423,7 +423,7 @@ UITransformID RenderModule::addUITransform(const entityID& entityID, const core:
 	uiT.position = pos;
 	uiT.dimension = dimension;
 	uiT.rotation = rotation;
-	uiT.zBuffer = zBuffer;
+	uiT.depthLayer = dLayer;
 	_uiTransforms.emplace_back(uiT);
 	return _uiTransforms.size() - 1;
 }
@@ -446,9 +446,9 @@ void RenderModule::setUITransformRotation(const UITransformID& id, const float& 
 	}
 }
 
-void RenderModule::setUITransformZBuffer(const UITransformID& id, const int& zBuff) {
+void RenderModule::setUITransformDepthLayer(const UITransformID& id, const int& dLayer) {
 	if (id != UINT64_MAX && id < _uiTransforms.size()) {
-		_uiTransforms[id].zBuffer = zBuff;
+		_uiTransforms[id].depthLayer = dLayer;
 	}
 }
 UITransformID RenderModule::getTransformUI(const entityID& entityID)
@@ -592,7 +592,7 @@ modelID RenderModule::addModel(const entityID& entityID, const std::string& mode
 
 			if (!baseWhite)
 			{
-				Debug::error("[RenderModule] BaseWhite not found");
+				Debug::error("[RenderModule] BaseWhite no encontrado");
 			}
 			else
 			{
@@ -1301,7 +1301,9 @@ uiLabelID RenderModule::addUILabel(const uiPanelID& panelID, const entityID& ent
 	_labelToPanel[id] = { panelID, labelIndex };
 	return id;
 }
-void RenderModule::deleteUILabel(const uiLabelID& id) {
+
+void RenderModule::deleteUILabel(const uiLabelID& id) 
+{
 	auto [panelID, labelIndex] = _labelToPanel[id];
 	auto& label = _uiPanels[panelID].labels[labelIndex];
 	label.alive = false;
@@ -1421,6 +1423,7 @@ uiButtonID RenderModule::addUIButton(const uiPanelID& panelID, const entityID& e
 	_buttonToPanel[id] = { panelID, buttonIndex };
 	return id;
 }
+
 void RenderModule::deleteUIButton(const uiButtonID& id) {
 	auto [panelID, buttonIndex] = _buttonToPanel[id];
 	auto& button = _uiPanels[panelID].buttons[buttonIndex];
@@ -1546,6 +1549,7 @@ uiTextureRectID RenderModule::addUITextureRect(const uiPanelID& panelID, const e
 
 	return id;
 }
+
 void RenderModule::deleteUITextureRect(const uiTextureRectID& id) {
 	auto [panelID, textureRectIndex] = _textureToPanel[id];
 	auto& textureRect = _uiPanels[panelID].textureRects[textureRectIndex];
@@ -1574,8 +1578,6 @@ void  RenderModule::setUITextureRectTexture(const uiTextureRectID& textureRectID
 	_uiPanels[panelID].textureRects[textureRectIndex].textureFile = textureFile;
 	_uiPanels[panelID].textureRects[textureRectIndex].textureFolder = textureFolder;
 	_uiPanels[panelID].textureRects[textureRectIndex].textureID = (ImTextureID)tex->getHandle();
-
-
 }
 
 void RenderModule::setUITextureRectVisible(const uiTextureRectID& textureRectID, bool& visible)
@@ -1622,7 +1624,7 @@ void RenderModule::renderUI()
 		ImDrawList* drawList = ImGui::GetWindowDrawList();
 		ImDrawListSplitter splitter;
 		splitter.Split(drawList, 32);
-		splitter.SetCurrentChannel(drawList, _uiTransforms[tID].zBuffer);
+		splitter.SetCurrentChannel(drawList, _uiTransforms[tID].depthLayer);
 
 		for (UILabelData& label : panel.labels)
 		{
@@ -1631,7 +1633,7 @@ void RenderModule::renderUI()
 				continue;
 			}
 			int tID = getTransformUI(label.entity);
-			splitter.SetCurrentChannel(drawList, _uiTransforms[tID].zBuffer);
+			splitter.SetCurrentChannel(drawList, _uiTransforms[tID].depthLayer);
 
 			const ImVec2 auxDim = { _uiTransforms[tID].dimension.getX(), _uiTransforms[tID].dimension.getY() };
 			const ImVec2 auxPos = { _uiTransforms[tID].position.getX(),  _uiTransforms[tID].position.getY() };
@@ -1668,7 +1670,7 @@ void RenderModule::renderUI()
 			}
 
 			int tID = getTransformUI(tex.entity);
-			splitter.SetCurrentChannel(drawList, _uiTransforms[tID].zBuffer);
+			splitter.SetCurrentChannel(drawList, _uiTransforms[tID].depthLayer);
 
 			auto pos = _uiTransforms[tID].position;
 			ImGui::SetCursorPos(ImVec2(pos.getX(), pos.getY()));
@@ -1687,7 +1689,7 @@ void RenderModule::renderUI()
 			}
 
 			int tID = getTransformUI(button.entity);
-			splitter.SetCurrentChannel(drawList, _uiTransforms[tID].zBuffer);
+			splitter.SetCurrentChannel(drawList, _uiTransforms[tID].depthLayer);
 
 			auto pos = _uiTransforms[tID].position;
 			ImGui::SetCursorPos(ImVec2(pos.getX(), pos.getY()));
@@ -1710,7 +1712,6 @@ void RenderModule::renderUI()
 					std::string idButton = button.textureFile + "_" + button.entity.toString();
 					ImGui::InvisibleButton(idButton.c_str(), ImVec2(1, 1));
 				}
-
 			}
 			else
 			{

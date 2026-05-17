@@ -39,7 +39,7 @@ class ENGINE_API UITransform : public EngineComponent
 	UItransformID _UItransformID;
 	core::Vector2<> _position;
 	core::Vector2<> _dimension;
-	int _zBuffer;
+	int _dLayer;
 	float _rotation;
 
 	UITransform* _parent = nullptr;
@@ -52,13 +52,13 @@ public:
 	void setPosition(const core::Vector2<>& pos);
 	void setDimension(const core::Vector2<>& dim);
 	void setRotation(float r);
-	void setZbuffer(int zBuff);
+	void setDepthLayer(int dLayer);
 
 	core::Vector2<> getPosition() const;
 	core::Vector2<> getGlobalPosition() const;
 	core::Vector2<> getDimension() const;
 	float getRotation() const;
-	int getZBuffer() const;
+	int getDepthLayer() const;
 
 	void setParent(UITransform* t);
 	UITransform* getParent() const;

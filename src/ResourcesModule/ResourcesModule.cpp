@@ -89,7 +89,7 @@ std::pair<std::string, std::string> ResourcesModule::getAssetSourceFolder(const 
 	
 	if (it == _assetsMaps.end())
 	{
-		Debug::error("[ResourcesModule] Name of the asset NOT FOUND, searched name: ",assetName);
+		Debug::error("[ResourcesModule] Nombre de asset ", assetName, " NO ENCONTRADO");
 		return { "", ""};
 	}
 
@@ -118,4 +118,3 @@ std::vector<std::pair<std::string, std::string>> ResourcesModule::getAllAssets()
 	}
 	return auxiliar;
 }
-
