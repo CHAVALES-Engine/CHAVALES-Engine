@@ -62,12 +62,12 @@ public:
 	/**
 	 * @brief Modo de combinacion de friccion entre materiales
 	 */
-	CombineMode frictionCombine = CombineMode::Av;
+	CombineMode frictionCombine = CombineMode::Max;
 
 	/**
 	 * @brief Modo de combinacion del rebote
 	 */
-	CombineMode bounceCombine = CombineMode::Av;
+	CombineMode bounceCombine = CombineMode::Max;
 
 	/**
 	 * @brief ID del material en el sistema de fisicas
@@ -81,8 +81,8 @@ public:
 	 * @brief Constructor con parametros fisicos
 	 */
 	PhysicsMaterial(float staticF, float dynamicF, float rest,
-		CombineMode frictionMode = CombineMode::Av,
-		CombineMode bounceMode = CombineMode::Av);
+		CombineMode frictionMode = CombineMode::Max,
+		CombineMode bounceMode = CombineMode::Max);
 
 	bool init(const Properties& p) override;
 

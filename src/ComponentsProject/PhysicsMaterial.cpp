@@ -14,8 +14,8 @@ PhysicsMaterial::PhysicsMaterial()
 	dynamicFriction = 0.6f;
 	restitution = 0.0f;
 
-	frictionCombine = CombineMode::Av;
-	bounceCombine = CombineMode::Av;
+	frictionCombine = CombineMode::Max;
+	bounceCombine = CombineMode::Max;
 }
 
 PhysicsMaterial::PhysicsMaterial(float staticF, float dynamicF, float rest,

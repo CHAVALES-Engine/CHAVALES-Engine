@@ -29,7 +29,7 @@ prefab = {
         PhysicsMaterial = {
             staticFriction = 0.0,
             dynamicFriction = 0.0,
-            restitution = 0.8,
+            restitution = 5,
             frictionCombine = 2,
             bounceCombine = 1
         }

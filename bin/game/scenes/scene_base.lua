@@ -73,10 +73,10 @@ scene = { -- entidades en escena
                     center = Vector3.new(0, 0, 0)
                 },
                 PhysicsMaterial = {
-                    staticFriction = 0.5,
+                    staticFriction = 0,
                     dynamicFriction = 0.5,
-                    restitution = 1.50,
-                    frictionCombine = 1,
+                    restitution = 5,
+                    frictionCombine = 2,
                     bounceCombine = 1.0
                 },
                 AudioSource = {

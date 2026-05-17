@@ -248,7 +248,7 @@ bool Engine::update(uint64_t dt) const
 	return false;
 }
 
-void Engine::fixedUpdate(float dt)const
+void Engine::fixedUpdate(float dt) const
 {
 	if (_physicsModule)
 		_physicsModule->fixedUpdate(dt);

@@ -65,7 +65,6 @@ PhysicsModule::PhysicsModule() {}
 
 PhysicsModule::~PhysicsModule()
 {
-
 	ClearScene();
 	if (gScene) { gScene->release(); gScene = nullptr; }
 	if (dispatcher) { dispatcher->release(); dispatcher = nullptr; }
@@ -74,9 +73,6 @@ PhysicsModule::~PhysicsModule()
 	if (gPvd) { gPvd->release(); gPvd = nullptr; }
 	PxCloseExtensions();
 	if (gFoundation) { gFoundation->release(); gFoundation = nullptr; }
-	/*for (auto& [id, mat] : materialMap) {
-		if (mat) mat->release();
-	}*/
 
 	physicsMap.clear();
 	materialMap.clear();
@@ -93,7 +89,9 @@ bool PhysicsModule::Init()
 		if (pvdTransport)
 			gPvd->connect(*pvdTransport, PxPvdInstrumentationFlag::eALL);
 	}
+
 	PxTolerancesScale scale;
+	scale.speed = 1000;
 	gPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *gFoundation, scale, true, gPvd);
 	PxInitExtensions(*gPhysics, gPvd);
 
@@ -102,7 +100,7 @@ bool PhysicsModule::Init()
 	ComponentID defaultMatID = nextIDMaterial++;
 	materialMap[defaultMatID] = defaultMaterial;
 
-	PxSceneDesc sceneDesc(gPhysics->getTolerancesScale());
+	PxSceneDesc sceneDesc(scale);
 	sceneDesc.gravity = PxVec3(0.0f, -9.81f, 0.0f);
 	dispatcher = PxDefaultCpuDispatcherCreate(2);
 
@@ -741,8 +739,6 @@ void PhysicsModule::DestroyMaterial(uint32_t id)
 
 void PhysicsModule::ClearScene()
 {
-	//if (!gScene) return;
-
 	std::vector<ComponentID> ids;
 	for (auto& [id, _] : physicsMap)
 		ids.push_back(id);
@@ -754,6 +750,8 @@ void PhysicsModule::ClearScene()
 	actorToEntity.clear();
 	actorToID.clear();
 	eventQueue.clear();
+
+	materialMap.clear();
 }
 
 std::vector<ShapeRenderData> PhysicsModule::GetRenderData()
@@ -826,7 +824,6 @@ std::vector<ShapeRenderData> PhysicsModule::GetRenderData()
 
 void PhysicsModule::ReloadPhysics()
 {
-	//physicsMap.clear();
 	ClearScene();
 	actorToID.clear();
 	actorToEntity.clear();
@@ -870,7 +867,6 @@ void PhysicsModule::ReloadPhysics()
 
 	//reasigno
 	raycast = Raycast(gScene);
-
 }
 
 
@@ -912,7 +908,7 @@ std::vector<PhysicsEvent> PhysicsModule::consumeEventsFor(ComponentID id)
 
 	for (auto& e : eventQueue)
 	{
-		if (e.a == id)// || e.b == id)
+		if (e.a == id)
 			result.push_back(e);
 		else
 			remaining.push_back(e);
