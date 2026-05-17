@@ -52,6 +52,8 @@ static PxFilterFlags CustomFilterShader(
 		pairFlags |= PxPairFlag::eNOTIFY_TOUCH_FOUND;
 		pairFlags |= PxPairFlag::eNOTIFY_TOUCH_LOST;
 		pairFlags |= PxPairFlag::eDETECT_DISCRETE_CONTACT;
+		pairFlags = PxPairFlag::eDETECT_CCD_CONTACT;
+		pairFlags |= PxPairFlag::eSOLVE_CONTACT;
 		return PxFilterFlag::eDEFAULT;
 	}
 
