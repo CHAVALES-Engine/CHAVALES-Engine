@@ -98,7 +98,6 @@
     <ClCompile Include="..\..\src\Core-Defs\Component.cpp" />
     <ClCompile Include="..\..\src\Core-Defs\Entity.cpp" />
     <ClCompile Include="..\..\src\Core-Defs\PluginSDK.cpp" />
-    <ClCompile Include="..\..\src\Core-Defs\Resource.cpp" />
     <ClCompile Include="..\..\src\Core-Defs\Scene.cpp" />
   </ItemGroup>
   <ItemGroup>

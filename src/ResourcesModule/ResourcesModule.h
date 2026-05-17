@@ -57,7 +57,7 @@ public:
 	 * @brief Funcion que precarga recursos.
 	 * @return bool - Si se ha precargado correctamente.
 	 */
-	bool preload(const std::string& path);
+	bool preload(const std::string& id);
 
 private:
 	/**

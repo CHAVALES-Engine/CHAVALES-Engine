@@ -13,8 +13,11 @@
 #include "Collider.h"
 #include "Transform.h"
 
+PRELOAD_RESOURCE("assets/mesh/girl.fbx");
+
 class ComponentTest : public core::Component
 {
+public:
 	int velocity = 0;
 	int device;
 	bool moveCamera = true;

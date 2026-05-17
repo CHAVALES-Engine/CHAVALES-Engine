@@ -7,7 +7,7 @@ MeshResource::MeshResource(const std::string& id, const std::string& path) :
 
 bool MeshResource::load()
 {
-	if (_state != UNLOADED || _path.empty()) return false;
+	if (_state != UNLOADED || _path.empty() || !Resource::load()) return false;
 
 	try {
 		// Carga el recurso
@@ -18,6 +18,7 @@ bool MeshResource::load()
 	}
 	catch (std::exception e) {
 		Debug::error(e.what());
+		_state = LOAD_ERROR;
 	}
 
 	return true;

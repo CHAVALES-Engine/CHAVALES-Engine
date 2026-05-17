@@ -43,6 +43,20 @@ scene = { -- entidades en escena
                 PersistentTest = {}
             }
         },
+        girl = {
+            ddol = false,
+            components = {
+                Transform = {
+                    position = Vector3.new(0, 300, 0),
+                    rotation = Quaternion.new(),
+                    scale = Vector3.new(0.5)
+                },
+                ModelRenderer = {
+                    file = "mesh/girl.fbx",
+                    ["number of textures"] = 0
+                }
+            }
+        },
         esfera = {
             ddol = false,
             components = {

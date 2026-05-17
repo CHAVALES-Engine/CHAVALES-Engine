@@ -6,6 +6,7 @@
 
 #include "GameConfigurator.h"
 #include "checkMLNew.h"
+#include "Engine.h"
 
 ComponentDLLLoader::~ComponentDLLLoader()
 {
@@ -21,6 +22,7 @@ ComponentDLLLoader& ComponentDLLLoader::instance()
 // Definimos la funcion que exporta componentes y viene de la dll
 // con nombre GetComponentFn usando un puntero a una funcion.
 using GetComponentsFn = const core::ComponentDescriptor* (*)(size_t&);
+using GetResourcesFn = const std::string* (*)(size_t&);
 bool ComponentDLLLoader::load(const std::string& path)
 {
 	// Comprueba si existe el fichero
@@ -55,6 +57,7 @@ bool ComponentDLLLoader::load(const std::string& path)
 		return false;
 	}
 
+	// ==== CONFIGURACION DEL JUEGO ====
 	// Si no se especifica si cargar de argumentos o de toml, se busca la funcion configuradora en la dll
 	if (core::GameConfigurator::instance()._configType.empty())
 	{
@@ -64,16 +67,33 @@ bool ComponentDLLLoader::load(const std::string& path)
 		if (confFunc) confFunc();
 	}
 
+	// ==== PRECARGA DE RECURSOS ====
+	// Obtenemos la direccion de memoria de la funcion exportada "getPluginPreloadResources".
+	GetResourcesFn getResources = (GetResourcesFn)GetProcAddress(entry.handle, "getPluginPreloadResources");
+	// Si no se ha devuelto nada lanzamos error y salimos.
+	if (!getResources) {
+		Debug::error("COMPONENT DLL LOADER: La funcion de exportacion de resources \"getPluginPreloadResources\" no encontrada en  ", entry.path);
+		FreeLibrary(entry.handle);
+		return false;
+	}
+	// Cogemos los paths de los recursos marcados en la dll.
+	size_t count = 0;
+	const std::string* resPaths = getResources(count);
+	// Precargamos los recursos
+	for (size_t i = 0; i < count; ++i) 
+		Engine::instance()->preload(resPaths[i]);
+
+	// ==== COMPONENTES ====
 	// Obtenemos la direccion de memoria de la funcion exportada "getPluginComponents".
 	GetComponentsFn getComponents = (GetComponentsFn)GetProcAddress(entry.handle, "getPluginComponents");
 	// Si no se ha devuelto nada lanzamos error y salimos.
 	if (!getComponents) {
-		Debug::error("COMPONENT DLL LOADER: The export components function \"getPluginComponents not\" found in ", entry.path);
+		Debug::error("COMPONENT DLL LOADER: La funcion de exportacion de componentes \"getPluginComponents\" no encontrada en ", entry.path);
 		FreeLibrary(entry.handle);
 		return false;
 	}
 	// Cogemos los componentDescriptor de todos los componentes en la dll.
-	size_t count = 0;
+	count = 0;
 	const core::ComponentDescriptor* descriptors = getComponents(count);
 	Debug::out("COMPONENT DLL LOADER: Registering ", std::to_string(count), " components on [", entry.path, "]");
 	// Registramos los componentes cargados en el registro del engine,

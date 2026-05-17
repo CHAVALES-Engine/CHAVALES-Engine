@@ -91,7 +91,7 @@ bool ResourcesModule::Init()
 
 bool ResourcesModule::preloadAllAssets()
 {
-
+	return false;
 }
 
 std::pair<std::string, std::string> ResourcesModule::getAssetSourceFolder(const std::string& assetName)

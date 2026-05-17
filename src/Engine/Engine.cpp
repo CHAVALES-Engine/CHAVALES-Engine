@@ -134,7 +134,7 @@ bool Engine::rayCast(const core::Vector3<>& origin, const core::Vector3<>& direc
 std::vector<ShapeRenderData> Engine::GetPhysicsRenderData()
 {
 	if (!_physicsModule) return {};
-		return _physicsModule->GetRenderData();
+	return _physicsModule->GetRenderData();
 }
 
 void Engine::SetGravity(const core::Vector3<>& gravity) const
@@ -195,13 +195,6 @@ bool Engine::_initPriv()
 		_platformModule = nullptr;
 		return false;
 	}
-	// Resources
-	_resourcesModule = new ResourcesModule();
-	if (!_resourcesModule->Init()) {
-		delete _resourcesModule;
-		_resourcesModule = nullptr;
-		return false;
-	}
 	// Render
 	_renderModule = new RenderModule();
 	if (!_renderModule->Init(_platformModule->getSDLWindow(), _platformModule->getWindowHandle(), _platformModule->getWindowWidth(), _platformModule->getWindowHeight(), _resourcesModule->getAllFonts())) {
@@ -224,6 +217,18 @@ bool Engine::_initPriv()
 		_physicsModule = nullptr;
 		return false;
 	}
+	// Resources
+	_resourcesModule = new ResourcesModule();
+	if (!_resourcesModule->Init()) {
+		delete _resourcesModule;
+		_resourcesModule = nullptr;
+		return false;
+	}
+	_resourcesModule->addFactory(core::Resource::Type::MESH,
+		[this](const std::string& id, const std::string& path)
+		{
+			return _renderModule->preloadMesh(id, path);
+		});
 	// Facades publicas
 	_input = new InputFacade(_platformModule);
 
