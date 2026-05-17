@@ -52,7 +52,7 @@ static PxFilterFlags CustomFilterShader(
 		pairFlags |= PxPairFlag::eNOTIFY_TOUCH_FOUND;
 		pairFlags |= PxPairFlag::eNOTIFY_TOUCH_LOST;
 		pairFlags |= PxPairFlag::eDETECT_DISCRETE_CONTACT;
-		pairFlags = PxPairFlag::eDETECT_CCD_CONTACT;
+		//pairFlags = PxPairFlag::eDETECT_CCD_CONTACT;
 		pairFlags |= PxPairFlag::eSOLVE_CONTACT;
 		return PxFilterFlag::eDEFAULT;
 	}
@@ -93,7 +93,7 @@ bool PhysicsModule::Init()
 	}
 
 	PxTolerancesScale scale;
-	//scale.speed = 1000;
+	scale.speed = 1000;
 	gPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *gFoundation, scale, true, gPvd);
 	PxInitExtensions(*gPhysics, gPvd);
 
@@ -102,8 +102,8 @@ bool PhysicsModule::Init()
 	ComponentID defaultMatID = nextIDMaterial++;
 	materialMap[defaultMatID] = defaultMaterial;
 
-	//PxSceneDesc sceneDesc(scale);
-	PxSceneDesc sceneDesc(gPhysics->getTolerancesScale());
+	PxSceneDesc sceneDesc(scale);
+	//PxSceneDesc sceneDesc(gPhysics->getTolerancesScale());
 	sceneDesc.gravity = PxVec3(0.0f, -9.81f, 0.0f);
 	dispatcher = PxDefaultCpuDispatcherCreate(2);
 
@@ -469,7 +469,7 @@ uint32_t PhysicsModule::CreateMaterial(ComponentID id, float staticF, float dyna
 	//usa tus propios ids
 	ComponentID cid = nextIDMaterial++;
 	materialMap[cid] = mat;
-	// Aplicar directamente al actor si existe
+
 	auto actorIt = physicsMap.find(id);
 	if (actorIt != physicsMap.end())
 		for (PxShape* shape : actorIt->second->shapes)
@@ -501,19 +501,18 @@ void PhysicsModule::fixedUpdate(float dt)
 
 	gScene->simulate(dt / 1000.0f);
 	gScene->fetchResults(true);
-	// Reaplica los lock flags despues de la simulacion
-	// Esto previene que PhysX ignore los locks durante calculos de colisiones
+
 	for (auto& [id, component] : physicsMap) {
 		PxRigidDynamic* body = component->actor->is<PxRigidDynamic>();
 		if (!body) continue;
-		// Reaplica locks lineales
+	
 		if (component->lockX || component->lockY || component->lockZ)
 		{
 			body->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_LINEAR_X, component->lockX);
 			body->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_LINEAR_Y, component->lockY);
 			body->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_LINEAR_Z, component->lockZ);
 		}
-		// Reaplica locks angulares
+
 		if (component->lockAngX || component->lockAngY || component->lockAngZ)
 		{
 			body->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_ANGULAR_X, component->lockAngX);
@@ -754,7 +753,7 @@ void PhysicsModule::ClearScene()
 	actorToID.clear();
 	eventQueue.clear();
 
-	//materialMap.clear();
+	materialMap.clear();
 }
 
 std::vector<ShapeRenderData> PhysicsModule::GetRenderData()

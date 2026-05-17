@@ -47,7 +47,7 @@ scene = { -- entidades en escena
             ddol = false,
             components = {
                 Transform = {
-                    position = Vector3.new(0, 300, 0),
+                    position = Vector3.new(0, 5, 0),
                     rotation = Quaternion.new(),
                     scale = Vector3.new(0.5)
                 },
@@ -56,10 +56,10 @@ scene = { -- entidades en escena
                     ["number of textures"] = 0
                 },
                 RigidBody = {
-                    useGravity = true,
-                    isKinematic = false,
+                    useGravity = false,
+                    isKinematic = true,
                     mass = 1.0,
-                    position = Vector3.new(0, 30, 0),
+                    position = Vector3.new(0, 5, 0),
                     velocity = Vector3.new(0, -100, 0),
                     damping = 0.0,
                     blockAxes = {false, false, false}
@@ -72,13 +72,13 @@ scene = { -- entidades en escena
                     trigger = false,
                     center = Vector3.new(0, 0, 0)
                 },
-                PhysicsMaterial = {
-                    staticFriction = 0,
-                    dynamicFriction = 0.5,
-                    restitution = 1.0,
-                    frictionCombine = 2,
-                    bounceCombine = 2
-                },
+                -- PhysicsMaterial = {
+                --     staticFriction = 0,
+                --     dynamicFriction = 0.5,
+                --     restitution = 1.0,
+                --     frictionCombine = 2,
+                --     bounceCombine = 2
+                -- },
                 AudioSource = {
                     soundPath = "sfx/smb_1-up.wav",
                     soundID = "vidaExtra1",
