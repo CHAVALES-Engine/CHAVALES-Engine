@@ -66,7 +66,7 @@ scene = { -- entidades en escena
                 },
                 Collider = {
                     type = "CAPSULE",
-                    shape = Vector3.new(100, 0, 0),
+                    shape = Vector3.new(50, 0, 0),
                     rotation = Vector3.new(),
                     dynamic = true,
                     trigger = false,

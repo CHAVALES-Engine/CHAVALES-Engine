@@ -93,7 +93,7 @@ bool PhysicsModule::Init()
 	}
 
 	PxTolerancesScale scale;
-	scale.speed = 1000;
+	//scale.speed = 1000;
 	gPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *gFoundation, scale, true, gPvd);
 	PxInitExtensions(*gPhysics, gPvd);
 
@@ -102,7 +102,8 @@ bool PhysicsModule::Init()
 	ComponentID defaultMatID = nextIDMaterial++;
 	materialMap[defaultMatID] = defaultMaterial;
 
-	PxSceneDesc sceneDesc(scale);
+	//PxSceneDesc sceneDesc(scale);
+	PxSceneDesc sceneDesc(gPhysics->getTolerancesScale());
 	sceneDesc.gravity = PxVec3(0.0f, -9.81f, 0.0f);
 	dispatcher = PxDefaultCpuDispatcherCreate(2);
 
@@ -753,7 +754,7 @@ void PhysicsModule::ClearScene()
 	actorToID.clear();
 	eventQueue.clear();
 
-	materialMap.clear();
+	//materialMap.clear();
 }
 
 std::vector<ShapeRenderData> PhysicsModule::GetRenderData()
