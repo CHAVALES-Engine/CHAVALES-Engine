@@ -7,13 +7,13 @@ MeshResource::MeshResource(const std::string& id, const std::string& path) :
 
 bool MeshResource::load()
 {
-	if (_state != UNLOADED && _path.empty()) return false;
+	if (_state != UNLOADED || _path.empty()) return false;
 
 	try {
 		// Carga el recurso
 		_meshPtr = Ogre::MeshManager::getSingletonPtr()->load(
-			_path, "General");
-		_state = UNLOADED;
+			_path,"General");
+		_state = LOADED;
 		return true;
 	}
 	catch (std::exception e) {

@@ -42,6 +42,8 @@
 #include <checkMLNew.h>
 #include <Vector2.h>
 
+#include "MeshResource.h"
+
 static Ogre::Root* _root = nullptr;
 static Ogre::GL3PlusPlugin* _gl3Plugin = nullptr;
 static Ogre::AssimpPlugin* _assimpPlugin = nullptr;
@@ -221,6 +223,38 @@ bool RenderModule::Init(SDL_Window* sdlWindow, const HWND handle, const int widt
 		std::cerr << "Error iniciando OGRE: " << e.what() << std::endl;
 		return false;
 	}
+}
+
+std::shared_ptr<core::Resource> RenderModule::preloadMesh(const std::string& id, const std::string& path)
+{
+	// Verificar si ya esta cargado
+	if (Ogre::MeshManager::getSingleton().resourceExists(path)) {
+		Debug::warning("[RenderModule] Mesh ya cargada: " + path);
+		return nullptr;
+	}
+	// Crea y carga el recurso.
+	std::shared_ptr<MeshResource> res = std::make_shared<MeshResource>(id, path);
+	res->load();
+	if (res->isValid())
+		return res;
+	// devuelve invalido
+	return nullptr;
+}
+
+std::shared_ptr<core::Resource>  RenderModule::preloadTexture(const std::string& id, const std::string& path)
+{
+	// Verificar si ya esta cargado
+	if (Ogre::MeshManager::getSingleton().resourceExists(path)) {
+		Debug::warning("[RenderModule] Mesh ya cargada: " + path);
+		return nullptr;
+	}
+	// Crea y carga el recurso.
+	std::shared_ptr<MeshResource> res = std::make_shared<MeshResource>(id, path);
+	res->load();
+	if (res->isValid())
+		return res;
+	// devuelve invalido
+	return nullptr;
 }
 
 void RenderModule::renderFrame()
@@ -417,7 +451,7 @@ UITransformID RenderModule::addUITransform(const entityID& entityID, const core:
 			return i; //Ya existe
 		}
 	}
-	
+
 	UITransformData uiT;
 	uiT.entity = entityID;
 	uiT.position = pos;

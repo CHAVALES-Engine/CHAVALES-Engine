@@ -13,10 +13,10 @@ namespace core
 		Resource(const std::string& id, const std::string& path, Type type) :
 			_id(id), _path(path), _refCounter(0), _state(UNLOADED), _type(type) {
 		}
-		virtual ~Resource() = 0;
+		virtual ~Resource();
 		// @brief carga el recurso  => a implementar por las clases especificas.
 		// @return bool - Cargado correctamente.
-		virtual bool load() = 0;
+		virtual bool load();
 		// @brief descarga el recurso  => a implementar por las clases especificas.
 		// @return bool - Descargado correctamente.
 		virtual bool unLoad()
@@ -45,6 +45,10 @@ namespace core
 		Type getType() const { return _type; }
 		bool isValid() const {
 			return (_state == LOADED || _state == LOADING) && _type != NONE;
+		}
+		static Resource getInvalid()
+		{
+			return { "", "", NONE };
 		}
 	protected:
 		// @brief Settea el puntero al recurso.

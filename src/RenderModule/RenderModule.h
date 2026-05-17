@@ -21,6 +21,7 @@
 #include "guid.h"
 #include "PhysicsTypes.h"
 #include "EngineAPI.h"
+#include "Resource.h"
 
 namespace Ogre
 {
@@ -136,7 +137,24 @@ class ENGINE_API RenderModule
 {
 public:
 	~RenderModule();
+	/**
+	 * @brief Inicializacion del render module
+	 * @param sdlWindow 
+	 * @param handle 
+	 * @param width 
+	 * @param height 
+	 * @param fonts 
+	 * @param preloadAllResources - Si se deben precargar todos los recursos de todas las carpetas.
+	 * @return bool - Si se ha inicializado correctamente.
+	 */
 	bool Init(SDL_Window* sdlWindow, const HWND handle, const int width, const int height, const std::vector<std::pair<FontName, FontPath>>& fonts);
+
+	/**
+	 * @brief Metodos de precarga de recursos.
+	 * @param path - path a los recursos.
+	 */
+	static std::shared_ptr<core::Resource> preloadMesh(const std::string& id, const std::string& path);
+	static std::shared_ptr<core::Resource> preloadTexture(const std::string& id, const std::string& path);
 
 	/*
 	* @brief Renderizar frame.
