@@ -217,6 +217,7 @@ bool AudioModule::stopPlaying(int chID)
 		return false;
 	}
 	auto res = itChFound->second->stop();
+	_channelSound.erase(itChFound);
 	if (res == FMOD_OK) return true;
 	else {
 		Debug::error("[AudioModule]: No se pudo parar el canal con ID: ", to_string(chID));
@@ -281,6 +282,7 @@ void AudioModule::stopEverything()
 	for (auto it = _channelSound.begin(); it != _channelSound.end(); ++it) {
 		stopPlaying(it->first);
 	}
+	_nextChannelID = 0;
 }
 
 void AudioModule::unMuteEverything()
