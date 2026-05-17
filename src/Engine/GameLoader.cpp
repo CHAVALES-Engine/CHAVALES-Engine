@@ -338,52 +338,6 @@ void GameLoader::_defineUserTypes(sol::state& lua)
 		"a", &core::Color::getAlpha);
 }
 
-bool GameLoader::_defineFunc(sol::state& lua, const std::string& fp, const std::string& sp, sol::table& st)
-{
-	sol::load_result script = lua.load_file(fp);
-
-	if (!script.valid())
-	{
-		sol::error err = script;
-		Debug::error("GAMELOADER: Error cargando el script de carga de prefabs", err.what());
-		return false;
-	}
-
-	sol::protected_function func = script;
-	bool finished = false;
-
-	try
-	{
-		sol::protected_function_result result = func(sp);
-
-		if (result.valid())
-		{
-			if (result.get_type() == sol::type::table)
-			{
-				st = result;
-				finished = true;
-			}
-			else
-			{
-				Debug::error("GAMELOADER: Resultado de ", _luaFuncFile, " NO es una tabla");
-			}
-		}
-		else
-		{
-			sol::error err = result;
-			Debug::error("GAMELOADER: Resultado de ", _luaFuncFile, " invalido: ", err.what());
-		}
-	}
-	catch (const sol::error& e)
-	{
-		// si no lo consigue saca error
-		Debug::error("GAMELOADER: Error al ejecutar");
-		Debug::error("Lua exception: ", e.what());
-	}
-
-	return finished;
-}
-
 bool GameLoader::_injectFunctions(sol::state& lua, const std::string& fp)
 {
 	try
@@ -470,6 +424,12 @@ void GameLoader::_loadLua(
 		// si no lo consigue saca error
 		Debug::error("GAMELOADER: Error abriendo escena: ", scenePath);
 		Debug::error("Lua exception: ", e.what());
+		s = nullptr;
+		return;
+	}
+	catch (...)
+	{
+		Debug::error("GAMELOADER: Error desconocido abriendo escena: ", scenePath);
 		s = nullptr;
 		return;
 	}
@@ -720,6 +680,15 @@ void GameLoader::loadScene(const sceneName& n, std::shared_ptr<core::Scene>& s)
 	{
 		_loadLua(s, n, root);
 	}
+	catch (const sol::error& e)
+	{
+		// si no lo consigue saca error
+		Debug::error("GAMELOADER: Error abriendo escena: ", path);
+		Debug::error("Lua exception: ", e.what());
+		if (s != nullptr)
+			s->clearScene();
+		s = nullptr;
+	}
 	catch (...)
 	{
 		Debug::error("[GAMELOADER] Error critico leyendo escena, borrando memoria creada a partir de ella");
@@ -776,6 +745,13 @@ bool GameLoader::reloadLua()
 	// si lo borras a mitad que limpie la memoria de esa escena y que vuelva a 
 	// preguntar que escena quieres cargar a continuacion, dando margen de recuperar la escena
 	// por si la has borrado sin querer
+	catch (const sol::error& e)
+	{
+		// si no lo consigue saca error
+		Debug::error("GAMELOADER: Error abriendo escena.");
+		Debug::error("Lua exception: ", e.what());
+		return false;
+	}
 	catch (...)
 	{
 		Debug::error("GAMELOADER: Error de hot reloading");
