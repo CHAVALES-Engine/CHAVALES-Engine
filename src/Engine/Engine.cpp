@@ -231,6 +231,7 @@ bool Engine::_initPriv()
 			return _renderModule->preloadMesh(id, path);
 		});
 	ComponentDLLLoader::instance().preloadResources();
+	preloadAll();
 	// Facades publicas
 	_input = new InputFacade(_platformModule);
 

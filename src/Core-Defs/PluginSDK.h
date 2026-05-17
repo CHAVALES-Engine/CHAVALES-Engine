@@ -154,6 +154,10 @@ const core::ComponentDescriptor* getPluginComponents(size_t& count);
 
 
 // ======= RESOURCES =======
+// Macro que concatena dos valores
+#define _PRELOAD_CONCAT(a, b) a##b
+// Macro que expande counter primero y concatena con un prefijo
+#define _PRELOAD_NAME(prefix, counter) _PRELOAD_CONCAT(prefix, counter)
 /*
 * @brief Macro para registrar un resource en el registro local.
 * @param PATH - ruta del archivo.
@@ -162,7 +166,7 @@ const core::ComponentDescriptor* getPluginComponents(size_t& count);
 *	PRELOAD_RESOURCE("textures/player_diffuse.png")
 */
 #define PRELOAD_RESOURCE(PATH) \
-	inline static PluginSDK::AutoRegisterResource resource_##__COUNTER__(PATH);
+	inline static PluginSDK::AutoRegisterResource _PRELOAD_NAME(resource_, __COUNTER__)(PATH);
 
 // Indica al linker que getPluginPreloadAssets, aunque no esta siendo usado en nuestro proyecto, debe ser incluido en el .obj
 #pragma comment(linker, "/INCLUDE:getPluginPreloadResources")

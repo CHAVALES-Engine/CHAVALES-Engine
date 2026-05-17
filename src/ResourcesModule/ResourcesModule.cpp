@@ -87,8 +87,9 @@ bool ResourcesModule::preload(const std::string& path)
 	ChavalesGUID id = getResourceId(path);
 
 	if (!id.isValid()) return false;
-	// Comprueba que no este ya cargado.
-	if (_resources.find(id) != _resources.end()) return false;
+	// Comprueba que no este ya cargado y sea valido.
+	auto it = _resources.find(id);
+	if ( it != _resources.end() && it->second->isValid()) return false;
 	// Crea el recurso dependiendo del archivo.
 	if (_isMeshFile(fullPath))
 	{

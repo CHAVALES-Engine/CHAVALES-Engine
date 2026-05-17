@@ -2,7 +2,7 @@
 scene = { -- entidades en escena
     gizmos = true,
     entities = {
-        --cube = loadPrefab("game/scenes/cube.lua"),
+        -- cube = loadPrefab("game/scenes/cube.lua"),
         -- ENTIDAD 1
         camera = { -- nombre de la entidad
             ddol = false, -- dont destroy on loads
@@ -21,20 +21,18 @@ scene = { -- entidades en escena
                     farPlane = 10000.0,
                     ["focal length"] = 60.0
                     -- ["background color"] = Color.new(0.5,0.5,0.5,1)
+                },
+                ComponentTest = {
+                    velocity = 100
                 }
+                --  ,
+                --  ChangeTest = {},
+                --  AudioListener = {},
+                --  ScriptComponent = {
+                --      script = "./game/assets/scripts/luaComponentTest.lua"
+                --  }
             }
         },
-        --         ,
-        --         ComponentTest = {
-        --             velocity = 100
-        --         },
-        --         ChangeTest = {},
-        --         AudioListener = {},
-        --         ScriptComponent = {
-        --             script = "./game/assets/scripts/luaComponentTest.lua"
-        --         }
-        --     }
-        -- },
         -- gameManager = {
         --     ddol = true,
         --     components = {
@@ -56,6 +54,34 @@ scene = { -- entidades en escena
                 },
                 ModelRenderer = {
                     file = "mesh/girl.fbx",
+                    ["number of textures"] = 0
+                }
+            }
+        },
+        arena = {
+            ddol = false,
+            components = {
+                Transform = {
+                    position = Vector3.new(0, 0, 0),
+                    rotation = Quaternion.new(),
+                    scale = Vector3.new(0.5)
+                },
+                ModelRenderer = {
+                    file = "mesh/arena.fbx",
+                    ["number of textures"] = 0
+                }
+            }
+        },
+        arena2 = {
+            ddol = false,
+            components = {
+                Transform = {
+                    position = Vector3.new(0, 0, 0),
+                    rotation = Quaternion.new(),
+                    scale = Vector3.new(0.5)
+                },
+                ModelRenderer = {
+                    file = "mesh/arena2.fbx",
                     ["number of textures"] = 0
                 }
             }

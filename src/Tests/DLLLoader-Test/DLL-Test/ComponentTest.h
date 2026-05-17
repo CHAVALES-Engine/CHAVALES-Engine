@@ -13,7 +13,9 @@
 #include "Collider.h"
 #include "Transform.h"
 
-PRELOAD_RESOURCE("assets/mesh/girl.fbx");
+PRELOAD_RESOURCE("mesh/girl.fbx");
+PRELOAD_RESOURCE("mesh/arena2.fbx");
+PRELOAD_RESOURCE("mesh/arena.fbx");
 
 class ComponentTest : public core::Component
 {
@@ -137,7 +139,10 @@ public:
 
 			float speed = velocity * (float)deltaTime / 1000.0f;
 			float mouseSensitivity = velocity / 100.0f;
-
+			if (Input()->isJustPressed(input::KEY_R))
+			{
+				Engine::instance()->requestSceneChange("scene_base");
+			}
 			if (Input()->isJustPressed(input::KEY_K)) {
 				//entity->getScene()->findEntityByName("cube2")->destroy();
 				entity->getScene()->findEntityByName("esfera")->getComponent<AudioSource>()->playSound();
