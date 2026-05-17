@@ -153,8 +153,8 @@ public:
 	 * @brief Metodos de precarga de recursos.
 	 * @param path - path a los recursos.
 	 */
-	static std::shared_ptr<core::Resource> preloadMesh(const std::string& id, const std::string& path);
-	static std::shared_ptr<core::Resource> preloadTexture(const std::string& id, const std::string& path);
+	std::shared_ptr<core::Resource> preloadMesh(const std::string& id, const std::string& path);
+	std::shared_ptr<core::Resource> preloadTexture(const std::string& id, const std::string& path);
 
 	/*
 	* @brief Renderizar frame.
@@ -722,5 +722,6 @@ private:
 	uiTextureRectID _nextTextureRectID;
 	Ogre::ImGuiOverlay* _overlay;
 	std::unordered_set<std::string> _resourceGroups;
+	std::unordered_set<std::string> _preloadedGroups;
 	bool _imguiSDLInitialized = false;
 };

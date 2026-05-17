@@ -1,5 +1,6 @@
-#include "MeshResource.h"
+﻿#include "MeshResource.h"
 #include "Debug.h"
+#include <filesystem>
 
 MeshResource::MeshResource(const std::string& id, const std::string& path) :
 	Resource(id, path, MESH) {
@@ -10,14 +11,23 @@ bool MeshResource::load()
 	if (_state != UNLOADED || _path.empty() || !Resource::load()) return false;
 
 	try {
-		// Carga el recurso
-		_meshPtr = Ogre::MeshManager::getSingletonPtr()->load(
-			_path,"General");
+		_meshPtr = Ogre::MeshManager::getSingleton().getByName(_id, _path);
+		if (!_meshPtr)
+			_meshPtr = Ogre::MeshManager::getSingleton().getByName(_id);
+		if (!_meshPtr) {
+			try {
+				_meshPtr = Ogre::MeshManager::getSingleton().load(_id, _path);
+			}
+			catch (const std::exception& e) {
+				Debug::error("[RenderModule] Error precargando ", _id, ": ", e.what());
+				return false;
+			}
+		}
 		_state = LOADED;
 		return true;
 	}
 	catch (std::exception e) {
-		Debug::error(e.what());
+		Debug::error("[MeshResource] Error cargando ", _path, ": ", e.what());
 		_state = LOAD_ERROR;
 	}
 
@@ -48,4 +58,8 @@ bool MeshResource::unLoad()
 Ogre::MeshPtr MeshResource::getMeshPtr() const
 {
 	return _meshPtr;
+}
+void MeshResource::setMeshPtr(Ogre::MeshPtr ptr)
+{
+	_meshPtr = ptr;
 }

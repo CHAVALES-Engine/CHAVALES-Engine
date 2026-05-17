@@ -12,39 +12,48 @@
 #include "EngineAPI.h"
 #include "Resource.h"
 
-struct AssetInfo {
-	ChavalesGUID _id;
-	bool isUpper;
-};
+//struct AssetInfo {
+//	ChavalesGUID _id;
+//	bool isUpper;
+//};
 class ENGINE_API  ResourcesModule
 {
 public:
 	ResourcesModule() = default;
-	~ResourcesModule();
+	~ResourcesModule() = default;
 
+	/**
+	 * @brief Inicializa el modulo y recorre las carpetas guardando las rutas a los assets.
+	 * @return bool - Si se ha inicializado correctamente.
+	 */
 	bool Init();
-
 	/**
-	 * @brief Precarga todos los assets encontrados
-	 * @return 
+	 * @brief Devuelve la ruta completa al recurso.
+	 * @param relativePath - ruta desde la carpeta de assets.
+	 * @return std::String - ruta completa.
 	 */
-	bool preloadAllAssets();
-
+	std::string getAssetPath(const std::string& relativePath) const;
 	/**
-	 * @brief Metodo para sacar la ruta del asset deseado.
-	 * @param assetName - Nombre del asset: nombre de la carpeta + archivo + extension del archivo
+	 * @brief Devuelve un puntero al recurso cargado.
+	 * @param relativePath - ruta relativa a la carpeta assets.
+	 * @return core::ResourcePtr - sharedPtr del recurso.
+	 */    
+	core::ResourcePtr getOrLoadAsset(const std::string& relativePath);
+	/**
+	 * Obtener ID desde nombre de asset.
+	 * @param assetName - nombre del asset.
+	 * @return ChavalesGUID - guid del asset.
 	 */
-	std::pair<std::string, std::string> getAssetSourceFolder(const std::string& assetName);
-
+	ChavalesGUID getResourceId(const std::string& path) const;
 	/**
 	 * @brief Metodo para el RenderModule para sacar todas las fuentes.
 	 */
-	std::vector<std::pair<std::string, std::string>> getAllFonts();
+	std::vector<std::pair<std::string, std::string>> getAllFonts() const;
 
 	/**
 	 * @brief Metodo para acceder a todos los assets almacenados en el motor.
 	 */
-	std::vector<std::pair<std::string, std::string>> getAllAssets();
+	/*std::vector<std::pair<std::string, std::string>> getAllAssets();*/
 
 	/**
 	 * @brief Funcion que anyade un metodo factory para un tipo de recurso marcado.
@@ -57,20 +66,23 @@ public:
 	 * @brief Funcion que precarga recursos.
 	 * @return bool - Si se ha precargado correctamente.
 	 */
-	bool preload(const std::string& id);
-
+	bool preload(const std::string& path);
+	/**
+	 * @brief Precarga todos los assets encontrados
+	 * @return bool - Si se han precargado correctamente.
+	 */
+	bool preloadAllAssets();
 private:
 	/**
 	 * @brief Metodo para recorrer todas las carpetas de recursos, es recursivo.
 	 * @param sourceName - Nombre de la carpeta de assets
 	 */
-	bool _loadAsset(const std::string& sourceName); 
-
+	bool _loadAsset(const std::string& sourceName);
 	/**
 	 * @brief Metodo para insertar en el mapa de assets.
-	 * @param sourceName - Nombre de la carpeta de assets
+	 * @param sourcePath - Nombre de la carpeta de assets
 	 */
-	bool _insertAssetMap(const std::string& sourceName);
+	bool _addResource(const std::string& sourcePath);
 
 	/**
 	 * @brief Funciones que comprueban el tipo de recurso segun la extension
@@ -79,15 +91,21 @@ private:
 	 */
 	bool _isMeshFile(const std::string& path) const;
 	bool _isTextureFile(const std::string& path) const;
+	bool _isSoundFile(const std::string& path) const;
+	bool _isFontFile(const std::string& path) const;
+	core::Resource::Type _getResourceType(const std::string& filePath) const;
 
-	std::unordered_map<ChavalesGUID, std::string> _idMaps; // Mapa de ID-path del asset
-	std::unordered_multimap<std::string, AssetInfo> _assetsMaps; // Mapa de assets nombre-ID
 
-	std::string typeOfFolder; // String de la carpeta segun el tipo de asset
+	//std::string typeOfFolder; // String de la carpeta segun el tipo de asset
 	std::vector<std::pair<std::string, std::string>> _fontsVector; // Vector para guardar todas las fuentes
 
+	// Rutas
+	//std::unordered_map<ChavalesGUID, std::string> _guidPath; // Mapa de ID-path del asset
+	std::unordered_map<std::string, ChavalesGUID> _pathToGuid; // Mapa de path - ID del asset
+	//std::unordered_map<std::string, ChavalesGUID> _nameGuid; // Mapa de Key-ID del asset
+	//std::unordered_map<std::string, AssetInfo> _assetsMaps; // Mapa de assets nombre-ID
 	// Funciones constructoras de recursos.
 	std::unordered_map<core::Resource::Type, std::function<core::ResourcePtr(const std::string&, const std::string&)>> _factories;
 	// Mapas de recursos precargados.
-	std::unordered_map<std::string, core::ResourcePtr> _resources;
+	std::unordered_map<ChavalesGUID, core::ResourcePtr> _resources;
 };

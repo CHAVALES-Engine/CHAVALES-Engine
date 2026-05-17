@@ -147,18 +147,19 @@ void Engine::setGizmos(bool gizmos)
 	_gizmos = gizmos;
 }
 
-std::pair<std::string, std::string> Engine::getAssetSourceFolder(const std::string& assetName) const
+std::string Engine::getAssetSourceFolder(const std::string& assetName) const
 {
-	return _resourcesModule->getAssetSourceFolder(assetName);
-}
-std::vector<std::pair<std::string, std::string>> Engine::getAllAssets() const
-{
-	return _resourcesModule->getAllAssets();
+	return _resourcesModule->getAssetPath(assetName);
 }
 
 bool Engine::preload(const std::string& path)
 {
 	return _resourcesModule->preload(path);
+}
+
+bool Engine::preloadAll()
+{
+	return _resourcesModule->preloadAllAssets();
 }
 #pragma endregion
 
@@ -187,7 +188,13 @@ bool Engine::_initPriv()
 #endif
 	if (!ComponentDLLLoader::instance().load(basecompPath))
 		return false;
-
+	// Resources
+	_resourcesModule = new ResourcesModule();
+	if (!_resourcesModule->Init()) {
+		delete _resourcesModule;
+		_resourcesModule = nullptr;
+		return false;
+	}
 	// Platform
 	_platformModule = new PlatformModule();
 	if (!_platformModule->Init()) {
@@ -217,18 +224,13 @@ bool Engine::_initPriv()
 		_physicsModule = nullptr;
 		return false;
 	}
-	// Resources
-	_resourcesModule = new ResourcesModule();
-	if (!_resourcesModule->Init()) {
-		delete _resourcesModule;
-		_resourcesModule = nullptr;
-		return false;
-	}
+	// Precarga de recursos
 	_resourcesModule->addFactory(core::Resource::Type::MESH,
 		[this](const std::string& id, const std::string& path)
 		{
 			return _renderModule->preloadMesh(id, path);
 		});
+	ComponentDLLLoader::instance().preloadResources();
 	// Facades publicas
 	_input = new InputFacade(_platformModule);
 

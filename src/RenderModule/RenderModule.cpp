@@ -40,6 +40,7 @@
 #include <guid.h>
 #include "GameConfigurator.h"
 #include <checkMLNew.h>
+#include <filesystem>
 #include <Vector2.h>
 
 #include "MeshResource.h"
@@ -227,13 +228,25 @@ bool RenderModule::Init(SDL_Window* sdlWindow, const HWND handle, const int widt
 
 std::shared_ptr<core::Resource> RenderModule::preloadMesh(const std::string& id, const std::string& path)
 {
+
+	std::string meshName = std::filesystem::path(path).filename().string();
+	std::string folder = std::filesystem::path(path).parent_path().string() + "/";
 	// Verificar si ya esta cargado
-	if (Ogre::MeshManager::getSingleton().resourceExists(path)) {
-		Debug::warning("[RenderModule] Mesh ya cargada: " + path);
+	if (Ogre::MeshManager::getSingleton().resourceExists(meshName)) {
+		Debug::warning("[RenderModule] Mesh ya cargada: ", meshName);
 		return nullptr;
 	}
+	// Copiado de addModel
+	if (!Ogre::MeshManager::getSingleton().resourceExists(meshName)
+		&& !_rgm->resourceGroupExists(folder))
+	{
+		_rgm->addResourceLocation(folder, "FileSystem", folder);
+		_rgm->loadResourceGroup(folder);
+		_preloadedGroups.insert(folder);
+	}
+
 	// Crea y carga el recurso.
-	std::shared_ptr<MeshResource> res = std::make_shared<MeshResource>(id, path);
+	auto res = std::make_shared<MeshResource>(meshName, folder);
 	res->load();
 	if (res->isValid())
 		return res;
@@ -311,6 +324,10 @@ void RenderModule::cleanScene(const bool& end)
 		//Limpiamos solo recursos del juego
 		for (auto resourceGroup : _resourceGroups)
 		{
+			// Si es un grupo precargado no lo libera.
+			if (_preloadedGroups.find(resourceGroup) != _preloadedGroups.end())
+				continue;
+
 			// Liberar modelos y textruas
 			_rgm->unloadResourceGroup(resourceGroup);
 
@@ -343,6 +360,8 @@ void RenderModule::cleanScene(const bool& end)
 			// Borrar grupo
 			_rgm->destroyResourceGroup(groupName);
 		}
+		_resourceGroups.clear();
+		_preloadedGroups.clear();
 	}
 }
 
@@ -602,13 +621,17 @@ modelID RenderModule::addModel(const entityID& entityID, const std::string& mode
 {
 	transformID nodeID = addNode(entityID);
 
-	if (!_rgm->resourceGroupExists(modelFolder))
+	// si el recurso no esta cargado y el grupo no existe lo registra
+	if (!Ogre::MeshManager::getSingleton().resourceExists(modelFile) && !_rgm->resourceGroupExists(modelFolder))
 	{
 		_rgm->addResourceLocation(modelFolder, "FileSystem", modelFolder);
 		_rgm->loadResourceGroup(modelFolder);
 		_resourceGroups.insert(modelFolder);
 	}
-	Ogre::Entity* model = _models.emplace_back(_sceneMgr->createEntity(modelFile + std::to_string(_nextModelID), modelFile));
+
+	Ogre::Entity* model = _models.emplace_back(
+		_sceneMgr->createEntity(modelFile + std::to_string(_nextModelID), modelFile));
+
 	_engineNodes[nodeID].sceneNode->attachObject(model);
 
 	for (unsigned int i = 0; i < model->getNumSubEntities(); ++i)

@@ -10,7 +10,7 @@ namespace core
 	public:
 		enum state { UNLOADED, LOADING, LOADED, LOAD_ERROR};
 		enum Type { MESH, TEXTURE, FONT, SOUND, NONE };
-		Resource(const std::string& id, const std::string& path, Type type) :
+		Resource(const std::string& id, const std::string& path, Type type = NONE) :
 			_id(id), _path(path), _refCounter(0), _state(UNLOADED), _type(type) {
 		}
 		// @brief carga el recurso  => a implementar por las clases especificas.

@@ -4,9 +4,115 @@
 #include <filesystem>
 #include "checkMLNew.h"
 
-ResourcesModule::~ResourcesModule()
-{
 
+bool ResourcesModule::Init()
+{
+	if (!_loadAsset(core::GameConfigurator::instance()._assetsRoot)) {
+		return false;
+	}
+	return true;
+}
+
+std::string ResourcesModule::getAssetPath(const std::string& relativePath) const
+{
+	std::string fullPath = core::GameConfigurator::instance()._assetsRoot + relativePath;
+
+	auto it = _pathToGuid.find(fullPath);
+	if (it != _pathToGuid.end()) {
+		return fullPath;
+	}
+
+	Debug::error("[ResourcesModule] Ruta no encontrada: ", relativePath);
+	return "";
+}
+
+core::ResourcePtr ResourcesModule::getOrLoadAsset(const std::string& relativePath)
+{
+	std::string fullPath = core::GameConfigurator::instance()._assetsRoot + relativePath;
+	ChavalesGUID id = getResourceId(relativePath);
+
+	if (!id.isValid()) return nullptr;
+
+	// Si ya esta cargado, devolverlo
+	auto it = _resources.find(id);
+	if (it != _resources.end() && it->second) {
+		return it->second;
+	}
+
+	// Si no, precargarlo
+	if (!preload(relativePath)) {
+		return nullptr;
+	}
+
+	return _resources[id];
+}
+
+ChavalesGUID ResourcesModule::getResourceId(const std::string& path) const
+{
+	std::string fullPath = core::GameConfigurator::instance()._assetsRoot + path;
+
+	auto it = _pathToGuid.find(fullPath);
+	if (it != _pathToGuid.end())
+		return it->second;
+
+	Debug::error("[ResourcesModule] Recurso no encontrado: ", path);
+	return ChavalesGUID::invalid();
+}
+
+std::vector<std::pair<std::string, std::string>> ResourcesModule::getAllFonts() const
+{
+	return _fontsVector;
+}
+
+void ResourcesModule::addFactory(core::Resource::Type type,
+	std::function<core::ResourcePtr(const std::string&, const std::string&)> fact)
+{
+	if (!fact) {
+		Debug::error("[ResourcesModule] Factory nula para tipo: ", static_cast<int>(type));
+		return;
+	}
+
+	if (_factories.find(type) != _factories.end()) {
+		Debug::warning("[ResourcesModule] Factory sobrescrita para tipo: ", static_cast<int>(type));
+	}
+
+	_factories[type] = std::move(fact);
+}
+
+bool ResourcesModule::preload(const std::string& path)
+{
+	std::string fullPath = core::GameConfigurator::instance()._assetsRoot + path;
+	ChavalesGUID id = getResourceId(path);
+
+	if (!id.isValid()) return false;
+	// Comprueba que no este ya cargado.
+	if (_resources.find(id) != _resources.end()) return false;
+	// Crea el recurso dependiendo del archivo.
+	if (_isMeshFile(fullPath))
+	{
+		_resources[id] = _factories[core::Resource::Type::MESH](id.toString(), fullPath);
+	}
+	else if (_isTextureFile(fullPath))
+	{
+		_resources[id] = _factories[core::Resource::Type::TEXTURE](id.toString(), fullPath);
+	}
+	else if (_isSoundFile(fullPath))
+	{
+		//_resources[id] = _factories[core::Resource::Type::TEXTURE](id.toString(), fullPath); TODO
+	}
+	else if (_isFontFile(fullPath))
+	{
+		//_resources[id] = _factories[core::Resource::Type::TEXTURE](id.toString(), fullPath); TODO
+	}
+
+	return true;
+}
+
+bool ResourcesModule::preloadAllAssets()
+{
+	for (auto [path, _] : _pathToGuid)
+		if (!preload(path)) return false;
+	return true;
 }
 
 bool ResourcesModule::_loadAsset(const std::string& sourceName)
@@ -15,51 +121,40 @@ bool ResourcesModule::_loadAsset(const std::string& sourceName)
 	{
 		if (entry.is_directory())
 		{
-			std::string previousType = typeOfFolder;
-
-			typeOfFolder = entry.path().filename().string();
-			if (!_loadAsset(sourceName + typeOfFolder + "/")) {
+			if (!_loadAsset(entry.path().string()))
 				return false;
-			}
-			typeOfFolder = previousType;
 		}
 		else
 		{
-			if (!_insertAssetMap(entry.path().string())) {
+			if (!_addResource(entry.path().string()))
 				return false;
-			}
 		}
 	}
-	typeOfFolder = "";
 	return true;
 }
 
-bool ResourcesModule::_insertAssetMap(const std::string& sourceName)
+bool ResourcesModule::_addResource(const std::string& sourcePath)
 {
-	std::string nombreAsset = std::filesystem::path(sourceName).filename().string();
-	std::string nombreCarpeta = std::filesystem::path(sourceName).parent_path().string();
+	auto p = std::filesystem::path(sourcePath);
+	std::string nombreAsset = p.filename().string();
 
+	// Comprobamos que sea un ficher de un tipo conocido.
+	core::Resource::Type type = _getResourceType(sourcePath);
+	if (type == core::Resource::Type::NONE) {
+		return true; // Skip archivos no soportados
+	}
+
+	// Crear guid
 	ChavalesGUID aux = ChavalesGUID::generate();
-	_idMaps[aux] = nombreCarpeta + "/";
 
-	if (typeOfFolder == "fonts") {
-		_fontsVector.push_back({ typeOfFolder + "/" + nombreAsset,sourceName });
+	// Mapeos bidireccionales
+	_pathToGuid[sourcePath] = aux;
+	_resources[aux] = std::make_shared<core::Resource>(nombreAsset, sourcePath);  // Ruta completa al archivo
+
+	// vector especial para fonts.
+	if (_isFontFile(sourcePath)) {
+		_fontsVector.push_back({ p.parent_path().filename().string() + "/" + nombreAsset,sourcePath });
 	}
-
-	bool mayus = false;
-	if (std::isupper(nombreAsset[0])) {
-		mayus = true;
-	}
-	nombreAsset[0] = std::tolower(nombreAsset[0]);
-
-	auto it = _assetsMaps.find(typeOfFolder + "/" + nombreAsset);
-	if (it != _assetsMaps.end()) {
-		Debug::error("[ResourcesModule] Asset con NOMBRE EXISTENTE");
-		return false;
-	}
-
-
-	_assetsMaps.insert({ typeOfFolder + "/" + nombreAsset,{aux,mayus} });
 	return true;
 }
 
@@ -81,81 +176,30 @@ bool ResourcesModule::_isTextureFile(const std::string& path) const
 	return ext == ".png" || ext == ".jpg" || ext == ".jpeg";
 }
 
-bool ResourcesModule::Init()
+bool ResourcesModule::_isSoundFile(const std::string& path) const
 {
-	if (!_loadAsset(core::GameConfigurator::instance()._assetsRoot)) {
-		return false;
-	}
-	return true;
+	std::string ext = std::filesystem::path(path).extension().string();
+	std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
+	return ext == ".wav" || ext == ".mp3" || ext == ".ogg" || ext == ".flac";
 }
 
-bool ResourcesModule::preloadAllAssets()
+bool ResourcesModule::_isFontFile(const std::string& path) const
 {
-	return false;
+	std::string ext = std::filesystem::path(path).extension().string();
+	std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
+	return ext == ".ttf" || ext == ".otf";
 }
 
-std::pair<std::string, std::string> ResourcesModule::getAssetSourceFolder(const std::string& assetName)
+core::Resource::Type ResourcesModule::_getResourceType(const std::string& filePath) const
 {
-	std::string parentPath = std::filesystem::path(assetName).parent_path().string() + "/";
-	std::string comprobante = std::filesystem::path(assetName).filename().string();
+	if (_isMeshFile(filePath))
+		return core::Resource::Type::MESH;
+	else if (_isTextureFile(filePath))
+		return core::Resource::Type::TEXTURE;
+	else if (_isFontFile(filePath))
+		return core::Resource::Type::FONT;
+	else if (_isSoundFile(filePath))
+		return core::Resource::Type::SOUND;
 
-	std::string aux = comprobante;
-	if (std::isupper(aux[0])) {
-		aux[0] = std::tolower(aux[0]);
-	}
-
-	auto it = _assetsMaps.find(parentPath + aux);
-
-	if (it == _assetsMaps.end())
-	{
-		Debug::error("[ResourcesModule] Name of the asset NOT FOUND, searched name: ", assetName);
-		return { "", "" };
-	}
-
-	std::string realPath = std::filesystem::path(it->first).filename().string();
-	ChavalesGUID id = it->second._id;
-
-	if (it->second.isUpper) {
-		realPath[0] = std::toupper(realPath[0]);
-	}
-	return  { realPath,_idMaps[id] };
+	return core::Resource::Type::NONE;
 }
-
-std::vector<std::pair<std::string, std::string>> ResourcesModule::getAllFonts()
-{
-	return _fontsVector;
-}
-
-std::vector<std::pair<std::string, std::string>> ResourcesModule::getAllAssets()
-{
-	std::vector<std::pair<std::string, std::string>> auxiliar;
-	for (auto i = _assetsMaps.begin(); i != _assetsMaps.end(); ++i) {
-
-		auto id = _idMaps.find(i->second._id);
-		std::string ruta = id->second;
-		auxiliar.push_back({ i->first,ruta });
-	}
-	return auxiliar;
-}
-
-void ResourcesModule::addFactory(core::Resource::Type type,
-	std::function<core::ResourcePtr(const std::string&, const std::string&)> fact)
-{
-	_factories[type] = fact;
-}
-
-bool ResourcesModule::preload(const std::string& path)
-{
-	std::filesystem::path p(path);
-	if (p.empty()) return false;
-	// Conseguir la id.
-	std::string id = p.parent_path().filename().string() + "/" + p.filename().string();
-	// Comprueba que no este ya cargado.
-	if (_resources.find(id) != _resources.end()) return false;
-	// Crea el recurso dependiendo del archivo.
-	if (_isMeshFile(path))
-		_resources[id] = _factories[core::Resource::Type::MESH](id, path);
-	// resto de tipos
-	return true;
-}
-

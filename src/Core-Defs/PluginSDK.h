@@ -165,7 +165,7 @@ const core::ComponentDescriptor* getPluginComponents(size_t& count);
 	inline static PluginSDK::AutoRegisterResource resource_##__COUNTER__(PATH);
 
 // Indica al linker que getPluginPreloadAssets, aunque no esta siendo usado en nuestro proyecto, debe ser incluido en el .obj
-#pragma comment(linker, "/INCLUDE:getPluginPreloadAssets")
+#pragma comment(linker, "/INCLUDE:getPluginPreloadResources")
 	/*
 	* @brief
 	*	Funcion de C exportada para acceder a los preloadAssets registrados por el singleton

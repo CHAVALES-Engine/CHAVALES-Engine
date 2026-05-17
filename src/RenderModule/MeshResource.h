@@ -12,5 +12,6 @@ public:
 	bool load() override;
 	bool unLoad() override;
 	Ogre::MeshPtr getMeshPtr() const;
+	void setMeshPtr(Ogre::MeshPtr ptr);
 };
 
