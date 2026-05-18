@@ -641,9 +641,16 @@ void RenderModule::deleteModel(const modelID& id)
 				for (unsigned short t = 0; t < mat->getNumTechniques(); ++t)
 				{
 					Ogre::Technique* tech = mat->getTechnique(t);
-					if (tech)
+					if (_shaderGen && tech)
 					{
-						_shaderGen->removeShaderBasedTechnique(tech, Ogre::MaterialManager::DEFAULT_SCHEME_NAME);
+						try
+						{
+							_shaderGen->removeShaderBasedTechnique(tech, Ogre::MaterialManager::DEFAULT_SCHEME_NAME);
+						}
+						catch (...)
+						{
+							Debug::error("[RENDER MODULE]: Error borrando ShaderBasedTechnique.");
+						}
 					}
 				}
 				if (matMgr.resourceExists(matName))
@@ -686,9 +693,16 @@ void RenderModule::cleanModels()
 					for (unsigned short t = 0; t < mat->getNumTechniques(); ++t)
 					{
 						Ogre::Technique* tech = mat->getTechnique(t);
-						if (tech)
+						if (_shaderGen && tech)
 						{
-							_shaderGen->removeShaderBasedTechnique(tech, Ogre::MaterialManager::DEFAULT_SCHEME_NAME);
+							try
+							{
+								_shaderGen->removeShaderBasedTechnique(tech, Ogre::MaterialManager::DEFAULT_SCHEME_NAME);
+							}
+							catch (...)
+							{
+								Debug::error("[RENDER MODULE]: Error borrando ShaderBasedTechnique.");
+							}
 						}
 					}
 					if (matMgr.resourceExists(matName))
