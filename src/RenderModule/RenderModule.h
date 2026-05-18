@@ -254,6 +254,10 @@ public:
 	* @brief Cambiar color de fondo.
 	*/
 	void setViewportBGColor(const core::Color& color);
+	/*
+	* @brief Escala el viewport al tamaño actual de la ventana manteniendo aspect ratio, se adapta a fullscreen
+	*/
+	void scaleViewportToWindow();
 
 	// --- Metodos camaras
 	/*
@@ -693,6 +697,8 @@ public:
 	void shutdown();
 
 private:
+	void _calculateViewportRect(float windowWidth, float windowHeight, float& vpLeft, float& vpTop, float& vpWidth, float& vpHeight) const;
+
 	std::vector<EngineNode> _engineNodes;
 	std::vector<Ogre::Camera*> _cameras;
 	std::vector<Ogre::Entity*> _models;

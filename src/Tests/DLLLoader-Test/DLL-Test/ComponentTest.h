@@ -337,6 +337,7 @@ public:
 	void ready() override
 	{
 		Debug::out("READY CHANGE");
+		Engine::instance()->setFullscreen(true);
 	}
 
 	void update(uint64_t deltaTime) override
