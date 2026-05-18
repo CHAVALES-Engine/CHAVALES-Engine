@@ -472,8 +472,10 @@ uint32_t PhysicsModule::CreateMaterial(ComponentID id, float staticF, float dyna
 	// Aplicar directamente al actor si existe
 	auto actorIt = _physicsMap.find(id);
 	if (actorIt != _physicsMap.end())
+	{
 		for (PxShape* shape : actorIt->second->shapes)
 			if (shape) shape->setMaterials(&mat, 1);
+	}
 	return cid;
 }
 
@@ -491,6 +493,7 @@ void PhysicsModule::UpdateMaterial(uint32_t id, float staticF, float dynamicF, f
 	mat->setRestitution(restitution);
 	mat->setFrictionCombineMode(ToPxCombine(frictionCombine));
 	mat->setRestitutionCombineMode(ToPxCombine(bounceCombine));
+
 	if (!shape) return;
 	shape->setMaterials(&mat, 1);
 }
@@ -506,7 +509,7 @@ void PhysicsModule::fixedUpdate(float dt)
 	for (auto& [id, component] : _physicsMap) {
 		PxRigidDynamic* body = component->actor->is<PxRigidDynamic>();
 		if (!body) continue;
-	
+
 		if (component->lockX || component->lockY || component->lockZ)
 		{
 			body->setRigidDynamicLockFlag(PxRigidDynamicLockFlag::eLOCK_LINEAR_X, component->lockX);
@@ -618,7 +621,7 @@ void PhysicsModule::AttachCapsuleShape(ComponentID bodyID, float radius, float h
 		halfHeight = std::max(0.0f, halfHeight);
 		shape = gPhysics->createShape(PxCapsuleGeometry(radius, halfHeight), *defaultMaterial, true);
 	}
-	if (shape == NULL) return;
+	if (!shape) return;
 
 	//rotadas en el eje Y para que se vean verticales
 	PxQuat baseRot(PxHalfPi, PxVec3(0, 0, 1));

@@ -60,7 +60,7 @@ scene = { -- entidades en escena
                     isKinematic = false,
                     mass = 1.0,
                     position = Vector3.new(0, 300, 0),
-                    velocity = Vector3.new(0, -100, 0),
+                    velocity = Vector3.new(0, 500, 0),
                     damping = 0.0,
                     blockAxes = {false, false, false}
                 },
@@ -73,10 +73,10 @@ scene = { -- entidades en escena
                     center = Vector3.new(0, 0, 0)
                 },
                 PhysicsMaterial = {
-                    staticFriction = 0,
-                    dynamicFriction = 0.5,
-                    restitution = 1.0,
-                    frictionCombine = 2,
+                    staticFriction = 0.5,
+                    dynamicFriction = 0.9,
+                    restitution = 0.7,
+                    frictionCombine = 0,
                     bounceCombine = 2
                 },
                 AudioSource = {

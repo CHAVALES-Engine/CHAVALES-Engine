@@ -131,7 +131,7 @@ bool Collider::init(const Properties& p)
 	return true;
 }
 
-void Collider::ready()
+void Collider::awake()
 {
 	createPhysics();
 }

@@ -114,7 +114,7 @@ public:
 	/**
 	 * @brief Llamado cuando el objeto esta listo.
 	 */
-	void ready() override;
+	void awake() override;
 	/**
 	 * @brief Actualizacion por frame
 	 * @param deltaTime Tiempo entre frames (normalmente en ms).
