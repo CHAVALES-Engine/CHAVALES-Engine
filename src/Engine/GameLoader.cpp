@@ -395,7 +395,7 @@ bool GameLoader::_injectFunctions(sol::state& lua, const std::string& fp)
 	return true;
 }
 
-void GameLoader::_loadLua(
+void GameLoader::_loadScene(
 	std::shared_ptr<core::Scene>& s,
 	const sceneName& n,
 	const std::string& p)
@@ -510,10 +510,16 @@ void GameLoader::_loadLua(
 	}
 }
 
-core::Entity* GameLoader::_loadLua(
+core::Entity* GameLoader::_loadPrefab(
 	const std::shared_ptr<core::Scene>& s,
 	const std::string& p)
 {
+	if (!s)
+	{
+		Debug::error("GAMELOADER: No hay escena activa al cargar prefab ", p);
+		return nullptr;
+	}
+
 	sol::state lua;
 	lua.open_libraries(sol::lib::base, sol::lib::io);
 	// tipos de usuario
@@ -527,6 +533,17 @@ core::Entity* GameLoader::_loadLua(
 
 	std::string path = p + ".lua";
 	Debug::warning("GAMELOADER: cargando prefab: ", path);
+
+	if (!fs::exists(path))
+	{
+		Debug::error("GAMELOADER: Prefab no encontrado: ", path);
+		return nullptr;
+	}
+	if (!fs::is_regular_file(path))
+	{
+		Debug::error("GAMELOADER: La ruta del prefab no es un archivo valido: ", path);
+		return nullptr;
+	}
 
 	try
 	{
@@ -679,7 +696,7 @@ void GameLoader::loadScene(const sceneName& n, std::shared_ptr<core::Scene>& s)
 
 	try
 	{
-		_loadLua(s, n, root);
+		_loadScene(s, n, root);
 	}
 	catch (const sol::error& e)
 	{
@@ -711,7 +728,7 @@ void GameLoader::loadScene(const sceneName& n, std::shared_ptr<core::Scene>& s)
 
 core::Entity* GameLoader::loadPrefab(const std::string& n)
 {
-	return _loadLua(Engine::instance()->getScene(), n);
+	return _loadPrefab(Engine::instance()->getScene(), n);
 }
 
 bool GameLoader::reloadLua()
