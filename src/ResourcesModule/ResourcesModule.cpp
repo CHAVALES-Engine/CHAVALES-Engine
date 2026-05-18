@@ -22,16 +22,12 @@ bool ResourcesModule::Init()
 	return true;
 }
 
-std::string ResourcesModule::getAssetPath(const std::string& relativePath) const
+std::string ResourcesModule::getAssetPath(const std::string& relativePath)
 {
-	std::string fullPath = _normalizePath(
-		core::GameConfigurator::instance()._assetsRoot + relativePath);
+	core::ResourcePtr ptr = getOrLoadAsset(relativePath);
 
-	auto it = _pathToGuid.find(fullPath);
-	if (it != _pathToGuid.end()) {
-		return fullPath;
-	}
-
+	if (ptr->isValid())
+		return ptr->getPath();
 	Debug::error("[ResourcesModule] Ruta no encontrada: ", relativePath);
 	return "";
 }
@@ -97,7 +93,7 @@ bool ResourcesModule::load(const std::string& path, bool preload)
 	if (!id.isValid()) return false;
 	// Comprueba que no este ya cargado y sea valido.
 	auto it = _resources.find(id);
-	if ( it != _resources.end() && it->second->isValid()) return false;
+	if (it != _resources.end() && it->second->isValid()) return false;
 	// Crea el recurso dependiendo del archivo.
 	if (_isMeshFile(fullPath))
 	{

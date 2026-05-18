@@ -802,7 +802,9 @@ void RenderModule::setDiffuse(const modelID& id, const subMeshID& subID, const s
 		{
 			_rgm->addResourceLocation(textureFolder, "FileSystem", textureFolder);
 			_rgm->loadResourceGroup(textureFolder);
-			_resourceGroups.insert(textureFolder);
+			// Solo meter a _resourceGroups si no es precargado
+			if (_preloadedGroups.find(textureFolder) == _preloadedGroups.end())
+				_resourceGroups.insert(textureFolder);
 		}
 		Ogre::TexturePtr text = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
 
@@ -1434,22 +1436,30 @@ uiButtonID RenderModule::addUIImageButton(const uiPanelID& panelID, const entity
 	button.bgColor = bgColor;
 
 	button.buttonImage = true;
-	if (!_rgm->resourceGroupExists(textureFolder))
+	/*if (!_rgm->resourceGroupExists(textureFolder))
 	{
 		_rgm->addResourceLocation(textureFolder, "FileSystem", textureFolder);
 		_rgm->loadResourceGroup(textureFolder);
 		_resourceGroups.insert(textureFolder);
-	}
+	}*/
 	if (!textureFile.empty()) {
-		if (Ogre::ResourceGroupManager::getSingleton().resourceExists(textureFolder, textureFile))
-		{
-			Ogre::TexturePtr tex = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
-			button.textureID = (ImTextureID)tex->getHandle();
+		// Obtener la textura ya cargada
+		Ogre::TexturePtr tex = Ogre::TextureManager::getSingleton().getByName(textureFile, textureFolder);
+
+		// Si no existe, registrar grupo y cargar
+		if (!tex) {
+			if (!_rgm->resourceGroupExists(textureFolder))
+			{
+				_rgm->addResourceLocation(textureFolder, "FileSystem", textureFolder);
+				_rgm->loadResourceGroup(textureFolder);
+				// Solo meter a _resourceGroups si no es precargado
+				if (_preloadedGroups.find(textureFolder) == _preloadedGroups.end())
+					_resourceGroups.insert(textureFolder);
+			}
+			tex = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
 		}
-		else {
-			Debug::error("[UIButton] Textura no existe");
-			button.textureID = UINT64_MAX;
-		}
+
+		button.textureID = tex ? (ImTextureID)tex->getHandle() : UINT64_MAX;
 	}
 	else {
 		button.textureID = UINT64_MAX;
@@ -1599,15 +1609,24 @@ uiTextureRectID RenderModule::addUITextureRect(const uiPanelID& panelID, const e
 		_resourceGroups.insert(textureFolder);
 	}
 	if (!textureFile.empty()) {
-		if (Ogre::ResourceGroupManager::getSingleton().resourceExists(textureFolder, textureFile))
-		{
-			Ogre::TexturePtr texture = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
-			tex.textureID = (ImTextureID)texture->getHandle();
+		// Obtener la textura ya cargada
+		Ogre::TexturePtr texture = Ogre::TextureManager::getSingleton().getByName(textureFile, textureFolder);
+
+		// Si no existe, registrar grupo y cargar
+		if (!texture) {
+			if (!_rgm->resourceGroupExists(textureFolder))
+			{
+				_rgm->addResourceLocation(textureFolder, "FileSystem", textureFolder);
+				_rgm->loadResourceGroup(textureFolder);
+				// Solo meter a _resourceGroups si no es precargado
+				if (_preloadedGroups.find(textureFolder) == _preloadedGroups.end())
+					_resourceGroups.insert(textureFolder);
+			}
+			texture = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
 		}
-		else {
-			Debug::error("[UIButton] Textura no existe");
-			tex.textureID = UINT64_MAX;
-		}
+
+		Debug::error("[UIButton] Textura no existe");
+		tex.textureID = texture ? (ImTextureID)texture->getHandle() : UINT64_MAX;
 	}
 	else {
 		tex.textureID = UINT64_MAX;

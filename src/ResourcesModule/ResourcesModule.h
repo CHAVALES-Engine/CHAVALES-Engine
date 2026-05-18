@@ -33,7 +33,7 @@ public:
 	 * @param relativePath - ruta desde la carpeta de assets.
 	 * @return std::String - ruta completa.
 	 */
-	std::string getAssetPath(const std::string& relativePath) const;
+	std::string getAssetPath(const std::string& relativePath);
 	/**
 	 * @brief Devuelve un puntero al recurso cargado, si no estaba cargado lo carga.
 	 * @param relativePath - ruta relativa a la carpeta assets.

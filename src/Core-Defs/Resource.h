@@ -52,7 +52,7 @@ namespace core
 			return { "", "", NONE };
 		}
 		std::string getName() const { return _id; }
-		std::string getPath() const { return _path; }
+		std::string getPath() const { return _path + _id; }
 	protected:
 		// @brief Settea el puntero al recurso.
 		// @param ptr - Puntero al recurso.
