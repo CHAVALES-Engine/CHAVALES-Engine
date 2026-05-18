@@ -43,7 +43,8 @@ namespace core
 				return false;
 			}
 
-			_messages.emplace(name, { persistant, core::Message<Args...>{} });
+			std::pair<bool, std::any> aux;
+			_messages.emplace(name, aux(persistant, core::Message<Args...>{}));
 			Debug::out("[MessageManager] Mensaje con nombre: \"", name, "\" creado.");
 			return true;
 		}
@@ -85,7 +86,7 @@ namespace core
 				it = _messages.find(name);
 			}
 
-			auto* msg = std::any_cast<core::Message<Args...>>(&it->second);
+			core::Message* msg = std::any_cast<core::Message<Args...>>(&it->second);
 			if (msg) {
 				msg->subscribe(func);
 				return true;
