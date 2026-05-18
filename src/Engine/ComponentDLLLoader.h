@@ -64,10 +64,9 @@ public:
 	 */
 	bool checkReload();
 	/**
-	 * @brief Settea un callback de reload, llamado cuando se tenga que recargar una dll.
-	 * @param cb - std::function<void(const std::string& path)> funcion a llamar.
+	 * @brief Precarga los recursos marcados en la dll.
 	 */
-	void setReloadCallback(ReloadCallback const & cb);
+	void preloadResources() const;
 private:
 	/**
 	 * @brief Struct con informacion asociada a una entrada a la libreria, necesaria para recarga.
@@ -113,10 +112,6 @@ private:
 	* @brief Vector contenedor de informacion de dlls.
 	*/
 	std::vector<LoadedLibrary> _libraries;
-	/**
-	 * @brief Funcion lambda a llamar cuando se hace un reload de una libreria
-	 */
-	ReloadCallback _reloadCallback;
 	/**
 	 *@brief Clase Engine amiga.
 	 */

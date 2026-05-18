@@ -40,7 +40,11 @@
 #include <guid.h>
 #include "GameConfigurator.h"
 #include <checkMLNew.h>
+#include <filesystem>
 #include <Vector2.h>
+
+#include "MeshResource.h"
+#include "TextureResource.h"
 
 static Ogre::Root* _root = nullptr;
 static Ogre::GL3PlusPlugin* _gl3Plugin = nullptr;
@@ -68,7 +72,7 @@ RenderModule::~RenderModule()
 	shutdown();
 }
 
-bool RenderModule::Init(SDL_Window* sdlWindow, const HWND handle, const int width, const int height, const std::vector<std::pair<FontName, FontPath>>& fonts)
+bool RenderModule::Init(SDL_Window* sdlWindow, const HWND handle, const int width, const int height)
 {
 	try
 	{
@@ -149,30 +153,16 @@ bool RenderModule::Init(SDL_Window* sdlWindow, const HWND handle, const int widt
 			_imguiSDLInitialized = true;
 		ImGuiIO& io = ImGui::GetIO();
 		_fonts["default"] = io.Fonts->AddFontDefault();
-		for (auto font : fonts) {
-			std::vector<float> sizes = { 16.0f, 32.0f, 64.0f };
-			for (float size : sizes) {
-				ImFont* f = io.Fonts->AddFontFromFileTTF(font.second.c_str(), size);
-				if (f) {
-					std::string name = font.first + "_" + std::to_string((int)size);
-					_fonts[name] = f;
-				}
-			}
-		}
-		io.Fonts->Build();
 
 		io.DisplaySize = ImVec2(
 			(float)_vp->getActualWidth(),
 			(float)_vp->getActualHeight()
 		);
 
-		Ogre::OverlayManager::getSingleton().addOverlay(_overlay);
-		_overlay->show();
-
-		Ogre::MaterialPtr materialUI = Ogre::MaterialManager::getSingleton().getByName("ImGui/material");
+		/*Ogre::MaterialPtr materialUI = Ogre::MaterialManager::getSingleton().getByName("ImGui/material");
 		_shaderGen->createShaderBasedTechnique(*materialUI, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
 
-		_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, materialUI->getName());
+		_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, materialUI->getName());*/
 
 		_vp->setOverlaysEnabled(true);
 
@@ -226,6 +216,106 @@ bool RenderModule::Init(SDL_Window* sdlWindow, const HWND handle, const int widt
 		std::cerr << "Error iniciando OGRE: excepcion desconocida" << std::endl;
 		return false;
 	}
+}
+
+void RenderModule::buildFontAtlas()
+{
+	ImGuiIO& io = ImGui::GetIO();
+	io.Fonts->Build();
+	io.DisplaySize = ImVec2(
+		(float)_vp->getActualWidth(),
+		(float)_vp->getActualHeight()
+	);
+
+	// Mostrar overlay despues de construir el atlas
+	Ogre::OverlayManager::getSingleton().addOverlay(_overlay);
+	_overlay->show();
+
+	// Recrear shader para ImGui con el nuevo atlas
+	Ogre::MaterialPtr materialUI = Ogre::MaterialManager::getSingleton().getByName("ImGui/material");
+	_shaderGen->createShaderBasedTechnique(*materialUI, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
+	_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, materialUI->getName());
+	_vp->setOverlaysEnabled(true);
+}
+
+core::ResourcePtr RenderModule::loadMesh(const std::string& id, const std::string& path, bool preload)
+{
+	std::string meshName = std::filesystem::path(path).filename().string();
+	std::string folder = std::filesystem::path(path).parent_path().string() + "/";
+	// Verificar si ya esta cargado
+	if (Ogre::MeshManager::getSingleton().resourceExists(meshName)) {
+		Debug::warning("[RenderModule] Mesh ya cargada: ", meshName);
+		return nullptr;
+	}
+	// Copiado de addModel
+	if (!Ogre::MeshManager::getSingleton().resourceExists(meshName)
+		&& !_rgm->resourceGroupExists(folder))
+	{
+		_rgm->addResourceLocation(folder, "FileSystem", folder);
+		_rgm->loadResourceGroup(folder);
+		if (preload)
+			_preloadedGroups.insert(folder);
+		else
+			_resourceGroups.insert(folder);
+	}
+
+	// Crea y carga el recurso.
+	auto res = std::make_shared<MeshResource>(meshName, folder);
+	res->load();
+	if (res->isValid())
+		return res;
+	// devuelve invalido
+	return nullptr;
+}
+
+core::ResourcePtr RenderModule::loadTexture(const std::string& id, const std::string& path, bool preload)
+{
+	auto p = std::filesystem::path(path);
+	std::string textureName = p.filename().string();
+	std::string folder = p.parent_path().string() + "/";
+
+	if (Ogre::TextureManager::getSingleton().resourceExists(textureName)) {
+		Debug::warning("[RenderModule] Textura ya cargada: ", textureName);
+		return nullptr;
+	}
+
+	if (!_rgm->resourceGroupExists(folder))
+	{
+		_rgm->addResourceLocation(folder, "FileSystem", folder);
+		_rgm->loadResourceGroup(folder);
+		if (preload)
+			_preloadedGroups.insert(folder);
+		else
+			_resourceGroups.insert(folder);
+	}
+
+	auto res = std::make_shared<TextureResource>(textureName, folder);
+	res->load();
+	if (res->isValid())
+		return res;
+	return nullptr;
+}
+
+core::ResourcePtr RenderModule::loadFont(const std::string& name, const std::string& path)
+{
+	ImGuiIO& io = ImGui::GetIO();
+	std::vector<float> sizes = { 16.0f, 32.0f, 64.0f };
+
+	std::string fullPath = path + name;
+	std::string fontName = std::filesystem::path(name).stem().string();
+
+	for (float size : sizes) {
+		ImFont* f = io.Fonts->AddFontFromFileTTF(fullPath.c_str(), size);
+		if (f) {
+			_fonts[fontName + "_" + std::to_string((int)size)] = f;
+		}
+	}
+
+	auto res = std::make_shared<core::Resource>(name, path, core::Resource::FONT);
+	res->load();
+	if (res->isValid())
+		return res;
+	return nullptr;
 }
 
 void RenderModule::renderFrame()
@@ -282,6 +372,10 @@ void RenderModule::cleanScene(const bool& end)
 		//Limpiamos solo recursos del juego
 		for (auto resourceGroup : _resourceGroups)
 		{
+			// Si es un grupo precargado no lo libera.
+			if (_preloadedGroups.find(resourceGroup) != _preloadedGroups.end())
+				continue;
+
 			// Liberar modelos y textruas
 			_rgm->unloadResourceGroup(resourceGroup);
 
@@ -314,6 +408,8 @@ void RenderModule::cleanScene(const bool& end)
 			// Borrar grupo
 			_rgm->destroyResourceGroup(groupName);
 		}
+		_resourceGroups.clear();
+		_preloadedGroups.clear();
 	}
 }
 
@@ -422,7 +518,7 @@ UITransformID RenderModule::addUITransform(const entityID& entityID, const core:
 			return i; //Ya existe
 		}
 	}
-	
+
 	UITransformData uiT;
 	uiT.entity = entityID;
 	uiT.position = pos;
@@ -573,13 +669,17 @@ modelID RenderModule::addModel(const entityID& entityID, const std::string& mode
 {
 	transformID nodeID = addNode(entityID);
 
-	if (!_rgm->resourceGroupExists(modelFolder))
+	// si el recurso no esta cargado y el grupo no existe lo registra
+	if (!Ogre::MeshManager::getSingleton().resourceExists(modelFile) && !_rgm->resourceGroupExists(modelFolder))
 	{
 		_rgm->addResourceLocation(modelFolder, "FileSystem", modelFolder);
 		_rgm->loadResourceGroup(modelFolder);
 		_resourceGroups.insert(modelFolder);
 	}
-	Ogre::Entity* model = _models.emplace_back(_sceneMgr->createEntity(modelFile + std::to_string(_nextModelID), modelFile));
+
+	Ogre::Entity* model = _models.emplace_back(
+		_sceneMgr->createEntity(modelFile + std::to_string(_nextModelID), modelFile));
+
 	_engineNodes[nodeID].sceneNode->attachObject(model);
 
 	for (unsigned int i = 0; i < model->getNumSubEntities(); ++i)
@@ -748,7 +848,9 @@ void RenderModule::setDiffuse(const modelID& id, const subMeshID& subID, const s
 		{
 			_rgm->addResourceLocation(textureFolder, "FileSystem", textureFolder);
 			_rgm->loadResourceGroup(textureFolder);
-			_resourceGroups.insert(textureFolder);
+			// Solo meter a _resourceGroups si no es precargado
+			if (_preloadedGroups.find(textureFolder) == _preloadedGroups.end())
+				_resourceGroups.insert(textureFolder);
 		}
 		Ogre::TexturePtr text = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
 
@@ -1331,7 +1433,8 @@ uiLabelID RenderModule::addUILabel(const uiPanelID& panelID, const entityID& ent
 	label.fontSize = fontSize;
 	label.align = textAlign;
 
-	std::string auxFontName = fontName + "_" + std::to_string((int)fontSize);
+	//std::string auxFontName = fontName + "_" + std::to_string((int)fontSize);
+	std::string auxFontName = std::filesystem::path(fontName).stem().string() + "_" + std::to_string((int)fontSize);
 	auto it = _fonts.find(auxFontName);
 	if (it != _fonts.end())
 	{
@@ -1349,7 +1452,7 @@ uiLabelID RenderModule::addUILabel(const uiPanelID& panelID, const entityID& ent
 	return id;
 }
 
-void RenderModule::deleteUILabel(const uiLabelID& id) 
+void RenderModule::deleteUILabel(const uiLabelID& id)
 {
 	auto [panelID, labelIndex] = _labelToPanel[id];
 	auto& label = _uiPanels[panelID].labels[labelIndex];
@@ -1408,22 +1511,30 @@ uiButtonID RenderModule::addUIImageButton(const uiPanelID& panelID, const entity
 	button.bgColor = bgColor;
 
 	button.buttonImage = true;
-	if (!_rgm->resourceGroupExists(textureFolder))
+	/*if (!_rgm->resourceGroupExists(textureFolder))
 	{
 		_rgm->addResourceLocation(textureFolder, "FileSystem", textureFolder);
 		_rgm->loadResourceGroup(textureFolder);
 		_resourceGroups.insert(textureFolder);
-	}
+	}*/
 	if (!textureFile.empty()) {
-		if (Ogre::ResourceGroupManager::getSingleton().resourceExists(textureFolder, textureFile))
-		{
-			Ogre::TexturePtr tex = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
-			button.textureID = (ImTextureID)tex->getHandle();
+		// Obtener la textura ya cargada
+		Ogre::TexturePtr tex = Ogre::TextureManager::getSingleton().getByName(textureFile, textureFolder);
+
+		// Si no existe, registrar grupo y cargar
+		if (!tex) {
+			if (!_rgm->resourceGroupExists(textureFolder))
+			{
+				_rgm->addResourceLocation(textureFolder, "FileSystem", textureFolder);
+				_rgm->loadResourceGroup(textureFolder);
+				// Solo meter a _resourceGroups si no es precargado
+				if (_preloadedGroups.find(textureFolder) == _preloadedGroups.end())
+					_resourceGroups.insert(textureFolder);
+			}
+			tex = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
 		}
-		else {
-			Debug::error("[UIButton] Textura no existe");
-			button.textureID = UINT64_MAX;
-		}
+
+		button.textureID = tex ? (ImTextureID)tex->getHandle() : UINT64_MAX;
 	}
 	else {
 		button.textureID = UINT64_MAX;
@@ -1452,7 +1563,8 @@ uiButtonID RenderModule::addUIButton(const uiPanelID& panelID, const entityID& e
 	button.psColor = psColor;
 	button.opacity = opacity;
 
-	std::string auxFontName = fontName + "_" + std::to_string((int)fontSize);
+	//std::string auxFontName = fontName + "_" + std::to_string((int)fontSize);
+	std::string auxFontName = std::filesystem::path(fontName).stem().string() + "_" + std::to_string((int)fontSize);
 	auto it = _fonts.find(auxFontName);
 
 	if (it != _fonts.end())
@@ -1573,15 +1685,24 @@ uiTextureRectID RenderModule::addUITextureRect(const uiPanelID& panelID, const e
 		_resourceGroups.insert(textureFolder);
 	}
 	if (!textureFile.empty()) {
-		if (Ogre::ResourceGroupManager::getSingleton().resourceExists(textureFolder, textureFile))
-		{
-			Ogre::TexturePtr texture = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
-			tex.textureID = (ImTextureID)texture->getHandle();
+		// Obtener la textura ya cargada
+		Ogre::TexturePtr texture = Ogre::TextureManager::getSingleton().getByName(textureFile, textureFolder);
+
+		// Si no existe, registrar grupo y cargar
+		if (!texture) {
+			if (!_rgm->resourceGroupExists(textureFolder))
+			{
+				_rgm->addResourceLocation(textureFolder, "FileSystem", textureFolder);
+				_rgm->loadResourceGroup(textureFolder);
+				// Solo meter a _resourceGroups si no es precargado
+				if (_preloadedGroups.find(textureFolder) == _preloadedGroups.end())
+					_resourceGroups.insert(textureFolder);
+			}
+			texture = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
 		}
-		else {
-			Debug::error("[UIButton] Textura no existe");
-			tex.textureID = UINT64_MAX;
-		}
+
+		Debug::error("[UIButton] Textura no existe");
+		tex.textureID = texture ? (ImTextureID)texture->getHandle() : UINT64_MAX;
 	}
 	else {
 		tex.textureID = UINT64_MAX;

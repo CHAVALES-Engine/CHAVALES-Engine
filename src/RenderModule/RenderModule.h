@@ -21,6 +21,7 @@
 #include "guid.h"
 #include "PhysicsTypes.h"
 #include "EngineAPI.h"
+#include "Resource.h"
 
 namespace Ogre
 {
@@ -136,8 +137,28 @@ class ENGINE_API RenderModule
 {
 public:
 	~RenderModule();
-	bool Init(SDL_Window* sdlWindow, const HWND handle, const int width, const int height, const std::vector<std::pair<FontName, FontPath>>& fonts);
+	/**
+	 * @brief Inicializacion del render module
+	 * @param sdlWindow 
+	 * @param handle 
+	 * @param width 
+	 * @param height 
+	 * @param fonts 
+	 * @return bool - Si se ha inicializado correctamente.
+	 */
+	bool Init(SDL_Window* sdlWindow, const HWND handle, const int width, const int height);
+	/**
+	 * Toma las fonts cargadas y las construye en imgui en una sola textura de atlas.
+	 */
+	void buildFontAtlas();
 
+	/**
+	 * @brief Metodos de precarga de recursos.
+	 * @param path - path a los recursos.
+	 */
+	core::ResourcePtr loadMesh(const std::string& id, const std::string& path, bool preload = false);
+	core::ResourcePtr loadTexture(const std::string& id, const std::string& path, bool preload = false);
+	core::ResourcePtr loadFont(const std::string& name, const std::string& path);
 	/*
 	* @brief Renderizar frame.
 	*/
@@ -704,5 +725,7 @@ private:
 	uiTextureRectID _nextTextureRectID;
 	Ogre::ImGuiOverlay* _overlay;
 	std::unordered_set<std::string> _resourceGroups;
+	std::unordered_set<std::string> _preloadedGroups;
+	std::vector<std::pair<FontName, FontPath>> _pendingFonts;
 	bool _imguiSDLInitialized = false;
 };

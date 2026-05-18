@@ -6,6 +6,7 @@
 
 #include "GameConfigurator.h"
 #include "checkMLNew.h"
+#include "Engine.h"
 
 ComponentDLLLoader::~ComponentDLLLoader()
 {
@@ -55,6 +56,7 @@ bool ComponentDLLLoader::load(const std::string& path)
 		return false;
 	}
 
+	// ==== CONFIGURACION DEL JUEGO ====
 	// Si no se especifica si cargar de argumentos o de toml, se busca la funcion configuradora en la dll
 	if (core::GameConfigurator::instance()._configType.empty())
 	{
@@ -64,11 +66,12 @@ bool ComponentDLLLoader::load(const std::string& path)
 		if (confFunc) confFunc();
 	}
 
+	// ==== COMPONENTES ====
 	// Obtenemos la direccion de memoria de la funcion exportada "getPluginComponents".
 	GetComponentsFn getComponents = (GetComponentsFn)GetProcAddress(entry.handle, "getPluginComponents");
 	// Si no se ha devuelto nada lanzamos error y salimos.
 	if (!getComponents) {
-		Debug::error("COMPONENT DLL LOADER: The export components function \"getPluginComponents not\" found in ", entry.path);
+		Debug::error("COMPONENT DLL LOADER: La funcion de exportacion de componentes \"getPluginComponents\" no encontrada en ", entry.path);
 		FreeLibrary(entry.handle);
 		return false;
 	}
@@ -186,9 +189,27 @@ bool ComponentDLLLoader::checkReload()
 	return reloaded;
 }
 
-void ComponentDLLLoader::setReloadCallback(ReloadCallback const& cb)
+using GetResourcesFn = const std::string* (*)(size_t&);
+void ComponentDLLLoader::preloadResources() const
 {
-	_reloadCallback = cb;
+	for (auto entry : _libraries)
+	{
+		// ==== PRECARGA DE RECURSOS ====
+		// Obtenemos la direccion de memoria de la funcion exportada "getPluginPreloadResources".
+		GetResourcesFn getResources = (GetResourcesFn)GetProcAddress(entry.handle, "getPluginPreloadResources");
+		// Si no se ha devuelto nada lanzamos error y salimos.
+		if (!getResources) {
+			Debug::error("COMPONENT DLL LOADER: La funcion de exportacion de resources \"getPluginPreloadResources\" no encontrada en  ", entry.path);
+			FreeLibrary(entry.handle);
+			continue;
+		}
+		// Cogemos los paths de los recursos marcados en la dll.
+		size_t count = 0;
+		const std::string* resPaths = getResources(count);
+		// Precargamos los recursos
+		for (size_t i = 0; i < count; ++i)
+			Engine::instance()->preload(resPaths[i]);
+	}
 }
 
 bool ComponentDLLLoader::_unload(LoadedLibrary& library)
@@ -223,7 +244,6 @@ void ComponentDLLLoader::_reload(LoadedLibrary& library)
 		Debug::error("COMPONENT DLL LOADER: Reload: Something went wrong with load library");
 		return;
 	}
-	if (_reloadCallback) _reloadCallback(path);
 
 	Debug::out("Reload OK: ", path);
 }

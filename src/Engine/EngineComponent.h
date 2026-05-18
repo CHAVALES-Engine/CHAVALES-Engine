@@ -6,6 +6,7 @@ class PlatformModule;
 class RenderModule;
 class AudioModule;
 class PhysicsModule;
+class ResourcesModule;
 
 /** 
  * @file
@@ -19,4 +20,5 @@ protected:
 	RenderModule* render()const;
 	AudioModule* audio()const;
 	PhysicsModule* physics() const;
+	ResourcesModule* resources() const;
 };

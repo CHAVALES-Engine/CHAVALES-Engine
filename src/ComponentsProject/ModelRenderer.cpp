@@ -1,11 +1,13 @@
 #include "ModelRenderer.h"
-
 #include "RenderModule.h"
 #include "Engine.h"
 #include "Entity.h"
 #include "PluginSDK.h"
 
-#include <string>
+#include "RenderModule.h"
+#include "ResourcesModule.h"
+#include "Engine.h"
+
 #include "checkMLNew.h"
 
 REGISTER_COMPONENT(ModelRenderer);
@@ -58,8 +60,12 @@ bool ModelRenderer::init(const Properties& p)
 	}
 
 	//Carga el modelo en ogre y se guarda una referencia a el
- 	auto model = Engine::instance()->getAssetSourceFolder(_modelName);
-	_modelID = render()->addModel(getEntity()->getEntityID(), model.second, model.first);
+	core::ResourcePtr res = resources()->getOrLoadAsset(_modelName);
+	if (!res || !res->isValid()) {
+		Debug::error("[ModelRenderer] Modelo no encontrado: ", _modelName);
+		return false;
+	}
+	_modelID = render()->addModel(getEntity()->getEntityID(), res->getPath(), res->getName());
 
 	return true;
 }
@@ -69,15 +75,24 @@ void ModelRenderer::ready()
 	// Aplica texturas
 	for (auto& texture : _textures)
 	{
-		auto text = Engine::instance()->getAssetSourceFolder(texture[0]);
-		render()->setDiffuse(_modelID, std::stoi(texture[1]), text.second, text.first);
+		core::ResourcePtr res = resources()->getOrLoadAsset(texture[0]);
+		if (!res || !res->isValid()) {
+			Debug::error("[ModelRenderer] Textura no encontrada: ", texture[0]);
+			continue;
+		}
+		int submesh = std::stoi(texture[1]);
+		render()->setDiffuse(_modelID, submesh, res->getPath(), res->getName());
 	}
 }
 
 void ModelRenderer::setDiffuse(const std::string& textureName, const int& submesh)
 {
-	auto texture = Engine::instance()->getAssetSourceFolder(textureName);
-	render()->setDiffuse(_modelID, submesh, texture.second, texture.first);
+	core::ResourcePtr res = resources()->getOrLoadAsset(textureName);
+	if (!res || !res->isValid()) {
+		Debug::error("[ModelRenderer] Textura no encontrada: ", textureName);
+		return;
+	}
+	render()->setDiffuse(_modelID, submesh, res->getPath(), res->getName());
 }
 
 void ModelRenderer::setTint(const core::Color& tint, const int& submesh)

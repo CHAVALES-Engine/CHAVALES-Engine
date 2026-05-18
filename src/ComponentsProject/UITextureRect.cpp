@@ -1,15 +1,14 @@
 #include "UITextureRect.h"
+#include <Debug.h>
 #include "Entity.h"
+#include <PluginSDK.h>
 
+#include "RenderModule.h"
+#include "ResourcesModule.h"
 #include "Engine.h"
 
-#include <Debug.h>
-#include <PluginSDK.h>
-#include "UIButton.h"
 #include <UITransform.h>
 #include <UIPanel.h>
-#include "RenderModule.h"
-
 #include "checkMLNew.h"
 
 REGISTER_COMPONENT(UITextureRect);
@@ -63,16 +62,27 @@ void UITextureRect::awake()
 		_textureRectID = UINT64_MAX;
 		return;
 	}
-	auto texture = Engine::instance()->getAssetSourceFolder(_textureName);
-	_textureRectID = render()->addUITextureRect(panelID,getEntity()->getEntityID(), texture.second, texture.first, _opacity);
+	core::ResourcePtr res = resources()->getOrLoadAsset(_textureName);
+	if (!res || !res->isValid()) {
+		Debug::error("[UITextureRect] Textura no encontrada: ", _textureName);
+		return;
+	}
+
+	_textureRectID = render()->addUITextureRect(panelID, getEntity()->getEntityID(), res->getPath(), res->getName(), _opacity);
 }
 
 void UITextureRect::setTexture(const std::string& texture)
 {
 	_textureName = texture;
 	if (_textureRectID == UINT64_MAX)return;
-	auto text = Engine::instance()->getAssetSourceFolder(_textureName);
-	render()->setUITextureRectTexture(_textureRectID, text.second, text.first);
+
+	core::ResourcePtr res = resources()->getOrLoadAsset(_textureName);
+	if (!res || !res->isValid()) {
+		Debug::error("[UITextureRect] Textura no encontrada: ", _textureName);
+		return;
+	}
+
+	render()->setUITextureRectTexture(_textureRectID, res->getPath(), res->getName());
 }
 
 void UITextureRect::setVisible(bool visible) {
