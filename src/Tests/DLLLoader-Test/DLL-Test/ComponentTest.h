@@ -9,7 +9,7 @@
 #include "Entity.h"
 #include "InputFacade.h"
 #include "Scene.h"
-#include "TimeManager.h"
+#include "TimerManager.h"
 #include "Collider.h"
 #include "Transform.h"
 

@@ -1,4 +1,4 @@
-#include "TimeManager.h"
+#include "TimerManager.h"
 #include "checkMLNew.h"
 
 void core::TimerManager::update()
@@ -9,7 +9,7 @@ void core::TimerManager::update()
 
 		if (t.timeLeftMS() > 0) break;
 
-		Debug::warning("Timer: ", t.id(), " ended");
+		Debug::warning("[TimerManager] Timer: ", t.id(), " ended");
 		t.executeFunc();
 		_timers.pop();
 	}
@@ -19,12 +19,12 @@ core::Timer core::TimerManager::createTimer(double_t duration, std::function<voi
 {
 	if (duration <= 0.0)
 	{
-		Debug::error("TimerManager::createTimer — invalid duration: ", duration);
+		Debug::error("[TimerManager] Invalid duration: ", duration);
 		return {};
 	}
 	if (func == nullptr)
 	{
-		Debug::error("TimerManager::createTimer — func is nullptr");
+		Debug::error("[TimerManager] Func is nullptr");
 		return {};
 	}
 	const uint64_t now = Clock::getRunningTime();
@@ -35,7 +35,7 @@ core::Timer core::TimerManager::createTimer(double_t duration, std::function<voi
 	Timer t(id, now, durationMS, func);
 	_timers.push(id, t);
 
-	Debug::warning("Timer: ", id, " created, duration: ", duration, "s");
+	Debug::warning("[TimerManager] Timer: ", id, " created, duration: ", duration, "s");
 
 	return t;
 }
@@ -63,9 +63,9 @@ bool core::TimerManager::stopTimer(Timer& timer)
 
 core::TimerManager::TimerManager()
 {
-	// reserva una cantidad maxima de timers
+	// Reserva una cantidad maxima de timers.
 	_freeIDs.reserve(QUANTITY);
-	// rellena los freeids con la cantidad maxima
+	// Rellena los freeids con la cantidad maxima.
 	for (int i = 0; i < QUANTITY; ++i)
 		_freeIDs.push_back(QUANTITY - i);
 }

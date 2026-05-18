@@ -20,7 +20,7 @@
 
 #include "MessagesManager.h"
 #include "ScriptsManager.h"
-#include "TimeManager.h"
+#include "TimerManager.h"
 
 Engine* Engine::_instance = nullptr;
 

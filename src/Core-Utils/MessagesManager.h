@@ -29,21 +29,22 @@ namespace core
 		* @brief Crea un mensaje dado un nombre.
 		*
 		* @param name - Nombre del nuevo mensaje.
+		* @param persistant - Si persiste entre escenas o no.
 		*
 		* @returns bool - True si ha sido posible crear el mensaje.
 		*/
 		template<typename... Args>
-		bool createMessage(const std::string& name)
+		bool createMessage(const std::string& name, bool persistant)
 		{
 			if (_messages.find(name) != _messages.end())
 			{
-				Debug::warning("Mensaje con nombre: \"", name, "\" ya existe. Elimina los suscritos anteriormente.");
+				Debug::warning("[MessageManager] Mensaje con nombre: \"", name, "\" ya existe. Elimina los suscritos anteriormente.");
 				clearMessage(name);
 				return false;
 			}
 
-			_messages.emplace(name, core::Message<Args...>{});
-			Debug::out("Mensaje con nombre: \"", name, "\" creado.");
+			_messages.emplace(name, { persistant, core::Message<Args...>{} });
+			Debug::out("[MessageManager] Mensaje con nombre: \"", name, "\" creado.");
 			return true;
 		}
 		/**
@@ -59,7 +60,7 @@ namespace core
 			auto it = _messages.find(name);
 			if (it == _messages.end())
 			{
-				Debug::warning("Mensaje con nombre: \"", name, "\" no existe.");
+				Debug::warning("[MessageManager] Mensaje con nombre: \"", name, "\" no existe.");
 				return nullptr;
 			}
 
@@ -79,7 +80,7 @@ namespace core
 			auto it = _messages.find(name);
 			if (it == _messages.end())
 			{
-				Debug::warning("Mensaje con nombre: \"", name, "\" no existe se creara uno nuevo.");
+				Debug::warning("[MessageManager] Mensaje con nombre: \"", name, "\" no existe se creara uno nuevo.");
 				createMessage(name);
 				it = _messages.find(name);
 			}
@@ -89,7 +90,7 @@ namespace core
 				msg->subscribe(func);
 				return true;
 			}
-			Debug::error("No se pudo subscribir al mensaje");
+			Debug::error("[MessageManager] No se pudo subscribir al mensaje");
 			return false;
 
 		}
@@ -110,6 +111,25 @@ namespace core
 		{
 			if (_destroyed) return;
 			_messages.erase(name);
+		}
+		/**
+		* @brief Elimina los mensajes que no tienen que persistir al cambiar de escena.
+		* Llamar al destruir una escena para limpiar los callbacks que no se quiere que persistan entre escenas.
+		*/
+		void clearNonPersistants()
+		{
+			auto it = _messages.begin();
+			while (it != _messages.end())
+			{
+				if (!it->second.first)
+				{
+					it = _messages.erase(it);
+				}
+				else
+				{
+					++it;
+				}
+			}
 		}
 		/**
 		* @brief DEBE llamarse antes del cierre del engine.
@@ -141,17 +161,17 @@ namespace core
 				_destroyed = true;
 				try { _messages.clear(); }
 				catch (const std::exception& e) {
-					Debug::error("MESSAGES MANAGER: Error limpiando mensajes en destructor: ", e.what());
+					Debug::error("[MessageManager] Error limpiando mensajes en destructor: ", e.what());
 				}
 				catch (...) {
-					Debug::error("MESSAGES MANAGER: Error desconocido limpiando mensajes en destructor.");
+					Debug::error("[MessageManager] Error desconocido limpiando mensajes en destructor.");
 				}
 			}
 		};
 		/**
 		* @brief Mapa de Mensajes.
 		*/
-		std::unordered_map<std::string, std::any> _messages;
+		std::unordered_map<std::string, std::pair<bool, std::any>> _messages;
 		/**
 		 * @brief Marca cuando se ha destruido el MessagesManager.
 		 */

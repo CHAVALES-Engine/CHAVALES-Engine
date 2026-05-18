@@ -39,19 +39,14 @@ namespace core
 					}
 					catch (const std::exception& e)
 					{
-						Debug::error("MESSAGE: Error en subscriber: ", e.what());
+						Debug::error("[Message] Error en subscriber: ", e.what());
 					}
 					catch (...)
 					{
-						Debug::error("MESSAGE: Error desconocido en subscriber.");
+						Debug::error("[Message] Error desconocido en subscriber.");
 					}
 				}
 			}
-			//for (int i = 0; i < _subscribers.size(); i++)
-			//{
-			//	//Debug::out("EJECUTANDO SUBSCRIBER");
-			//	_subscribers[i](args...);
-			//}
 		}
 		/**
 		* @brief Suscribe un puntero a funcion al mensaje.
@@ -68,7 +63,7 @@ namespace core
 		{
 			if (id < 0 || id >= static_cast<int>(_subscribers.size()))
 			{
-				Debug::error("MESSAGE: Mensaje con ID invalido: ", id);
+				Debug::error("[Message] Mensaje con ID invalido: ", id);
 				return false;
 			}
 			_subscribers.erase(_subscribers.begin() + id);
@@ -83,11 +78,11 @@ namespace core
 			}
 			catch (const std::exception& e)
 			{
-				Debug::error("MESSAGE: Error al desuscribir todos los callbacks: ", e.what());
+				Debug::error("[Message] Error al desuscribir todos los callbacks: ", e.what());
 			}
 			catch (...)
 			{
-				Debug::error("MESSAGE: Error desconocido al desuscribir todos los callbacks.");
+				Debug::error("[Message] Error desconocido al desuscribir todos los callbacks.");
 			}
 		}
 
@@ -99,5 +94,4 @@ namespace core
 		*/
 		std::vector < std::function < void(Args...) >> _subscribers;
 	};
-
 }

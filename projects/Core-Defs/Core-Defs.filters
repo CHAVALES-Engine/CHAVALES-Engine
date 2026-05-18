@@ -27,7 +27,7 @@
     <ClCompile Include="..\..\src\Core\Clock.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Core\TimeManager.cpp">
+    <ClCompile Include="..\..\src\Core\TimerManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Core\MessagesManager.cpp">
