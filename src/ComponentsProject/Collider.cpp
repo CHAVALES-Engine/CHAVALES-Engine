@@ -89,10 +89,6 @@ Collider::Collider()
 
 bool Collider::init(const Properties& p)
 {
-	//Default
-	radius = 0.5f;
-	height = 0.0f;
-
 	//SHAPE
 	std::string type = getProperty<std::string>(p, "type");
 	core::Vector3<> val;

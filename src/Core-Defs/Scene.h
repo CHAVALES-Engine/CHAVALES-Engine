@@ -117,7 +117,7 @@ namespace core
 		void destroyDeadEntities();
 
 		/**
-		 * @brief Anyade las entidades marcadas.
+		 * @brief Aniade las entidades marcadas.
 		 */
 		void addListedEntities();
 
@@ -154,7 +154,7 @@ namespace core
 		sceneName _name;
 		bool _active = false;
 		/**
-		 * @brief Anyade entidad al mapa.
+		 * @brief Aniade entidad al mapa.
 		 * @param e 
 		 */
 		void _addEntity(core::Entity* e);
@@ -169,7 +169,7 @@ namespace core
 		 */
 		std::vector<entityID> _entitiesToDelete;
 		/**
-		 * @brief Vector de entidades en la escena a anyadir.
+		 * @brief Vector de entidades en la escena a aniadir.
 		 *
 		 */
 		std::vector<core::Entity*> _entitiesToAdd;

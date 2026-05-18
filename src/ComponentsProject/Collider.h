@@ -60,7 +60,7 @@ protected:
 	/**
 	 * @brief Tamano del collider si es box
 	 */
-	core::Vector3<> size = { 1,1,1 };
+	core::Vector3<> size;
 	/**
 	 * @brief Tamaño del collider si es capsule
 	 */

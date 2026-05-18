@@ -159,7 +159,7 @@ namespace core {
 	void core::Scene::addEntity(Entity* e)
 	{
 		if (!e) {
-			Debug::error("SCENE: Intento de anyadir una entidad nula a la escena '", _name, "'");
+			Debug::error("SCENE: Intento de añadir una entidad nula a la escena '", _name, "'");
 			return;
 		}
 		_entitiesToAdd.push_back(e);
@@ -168,7 +168,7 @@ namespace core {
 	void Scene::destroyEntity(core::Entity* e)
 	{
 		if (!e) {
-			Debug::error("SCENE: Intento de anyadir una entidad nula a la escena '", _name, "'");
+			Debug::error("SCENE: Intento de añadir una entidad nula a la escena '", _name, "'");
 			return;
 		}
 		_entitiesToDelete.push_back(e->getEntityID());
@@ -222,7 +222,7 @@ namespace core {
 	void Scene::_addEntity(core::Entity* e)
 	{
 		if (!e) {
-			Debug::error("SCENE: Intento de anyadir una entidad nula a la escena '", _name, "'");
+			Debug::error("SCENE: Intento de añadir una entidad nula a la escena '", _name, "'");
 			return;
 		}
 
@@ -248,6 +248,6 @@ namespace core {
 		_entities[guid] = e;
 		_entitiesNames[finalName] = guid;
 		e->setScene(this);
-		Debug::out("SCENE: Entidad '", finalName, "' [ID: ", guid, "] anyadida con exito.");
+		Debug::out("SCENE: Entidad '", finalName, "' [ID: ", guid, "] añadida con éxito.");
 	}
 }

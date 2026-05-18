@@ -17,7 +17,6 @@ bool ScriptComponent::init(const Properties& p)
 	if (!setProperty(p, "script", scriptPath) ||
 		!_script->loadScript(scriptPath))
 		return false;
-	// inicializacion de propiedades TODO
 
 	_script->executeFunction("init");
 	return true;
