@@ -87,32 +87,24 @@ void ResourcesModule::addFactory(core::Resource::Type type, ResourceFactory fact
 
 bool ResourcesModule::load(const std::string& path, bool preload)
 {
-	std::string fullPath = core::GameConfigurator::instance()._assetsRoot + path;
 	ChavalesGUID id = getResourceId(path);
 
 	if (!id.isValid()) return false;
 	// Comprueba que no este ya cargado y sea valido.
 	auto it = _resources.find(id);
 	if (it != _resources.end() && it->second && it->second->isValid()) return false;
+	std::string originalPath = it->second->getPath();
 	// Crea el recurso dependiendo del archivo.
-	if (_isMeshFile(fullPath))
-	{
-		_resources[id] = _factories[core::Resource::Type::MESH](id.toString(), fullPath, preload);
-	}
-	else if (_isTextureFile(fullPath))
-	{
-		_resources[id] = _factories[core::Resource::Type::TEXTURE](id.toString(), fullPath, preload);
-	}
-	else if (_isFontFile(fullPath))
-	{
-		_resources[id] = _factories[core::Resource::Type::FONT](id.toString(), fullPath, preload);
-	}
-	else if (_isSoundFile(fullPath))
-	{
-		//_resources[id] = _factories[core::Resource::Type::TEXTURE](id.toString(), fullPath, preload); TODO
-	}
 
-	return true;
+	core::Resource::Type type = _getResourceType(originalPath);
+	auto factIt = _factories.find(type);
+	if (factIt == _factories.end()) return false;
+
+	auto loaded = factIt->second(it->second->getName(), originalPath, preload);
+	if (loaded)
+		_resources[id] = loaded;
+
+	return loaded != nullptr;
 }
 
 bool ResourcesModule::preloadAllAssets()
