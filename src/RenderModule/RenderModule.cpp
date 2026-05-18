@@ -72,7 +72,7 @@ RenderModule::~RenderModule()
 	shutdown();
 }
 
-bool RenderModule::Init(SDL_Window* sdlWindow, const HWND handle, const int width, const int height, const std::vector<std::pair<FontName, FontPath>>& fonts)
+bool RenderModule::Init(SDL_Window* sdlWindow, const HWND handle, const int width, const int height)
 {
 	try
 	{
@@ -153,30 +153,16 @@ bool RenderModule::Init(SDL_Window* sdlWindow, const HWND handle, const int widt
 			_imguiSDLInitialized = true;
 		ImGuiIO& io = ImGui::GetIO();
 		_fonts["default"] = io.Fonts->AddFontDefault();
-		for (auto font : fonts) {
-			std::vector<float> sizes = { 16.0f, 32.0f, 64.0f };
-			for (float size : sizes) {
-				ImFont* f = io.Fonts->AddFontFromFileTTF(font.second.c_str(), size);
-				if (f) {
-					std::string name = font.first + "_" + std::to_string((int)size);
-					_fonts[name] = f;
-				}
-			}
-		}
-		io.Fonts->Build();
 
 		io.DisplaySize = ImVec2(
 			(float)_vp->getActualWidth(),
 			(float)_vp->getActualHeight()
 		);
 
-		Ogre::OverlayManager::getSingleton().addOverlay(_overlay);
-		_overlay->show();
-
-		Ogre::MaterialPtr materialUI = Ogre::MaterialManager::getSingleton().getByName("ImGui/material");
+		/*Ogre::MaterialPtr materialUI = Ogre::MaterialManager::getSingleton().getByName("ImGui/material");
 		_shaderGen->createShaderBasedTechnique(*materialUI, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
 
-		_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, materialUI->getName());
+		_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, materialUI->getName());*/
 
 		_vp->setOverlaysEnabled(true);
 
@@ -227,9 +213,28 @@ bool RenderModule::Init(SDL_Window* sdlWindow, const HWND handle, const int widt
 	}
 }
 
-std::shared_ptr<core::Resource> RenderModule::loadMesh(const std::string& id, const std::string& path, bool preload)
+void RenderModule::buildFontAtlas()
 {
+	ImGuiIO& io = ImGui::GetIO();
+	io.Fonts->Build();
+	io.DisplaySize = ImVec2(
+		(float)_vp->getActualWidth(),
+		(float)_vp->getActualHeight()
+	);
 
+	// Mostrar overlay despues de construir el atlas
+	Ogre::OverlayManager::getSingleton().addOverlay(_overlay);
+	_overlay->show();
+
+	// Recrear shader para ImGui con el nuevo atlas
+	Ogre::MaterialPtr materialUI = Ogre::MaterialManager::getSingleton().getByName("ImGui/material");
+	_shaderGen->createShaderBasedTechnique(*materialUI, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
+	_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, materialUI->getName());
+	_vp->setOverlaysEnabled(true);
+}
+
+core::ResourcePtr RenderModule::loadMesh(const std::string& id, const std::string& path, bool preload)
+{
 	std::string meshName = std::filesystem::path(path).filename().string();
 	std::string folder = std::filesystem::path(path).parent_path().string() + "/";
 	// Verificar si ya esta cargado
@@ -258,7 +263,7 @@ std::shared_ptr<core::Resource> RenderModule::loadMesh(const std::string& id, co
 	return nullptr;
 }
 
-std::shared_ptr<core::Resource> RenderModule::loadTexture(const std::string& id, const std::string& path, bool preload)
+core::ResourcePtr RenderModule::loadTexture(const std::string& id, const std::string& path, bool preload)
 {
 	auto p = std::filesystem::path(path);
 	std::string textureName = p.filename().string();
@@ -280,6 +285,28 @@ std::shared_ptr<core::Resource> RenderModule::loadTexture(const std::string& id,
 	}
 
 	auto res = std::make_shared<TextureResource>(textureName, folder);
+	res->load();
+	if (res->isValid())
+		return res;
+	return nullptr;
+}
+
+core::ResourcePtr RenderModule::loadFont(const std::string& name, const std::string& path)
+{
+	ImGuiIO& io = ImGui::GetIO();
+	std::vector<float> sizes = { 16.0f, 32.0f, 64.0f };
+
+	std::string fullPath = path + name;
+	std::string fontName = std::filesystem::path(name).stem().string();
+
+	for (float size : sizes) {
+		ImFont* f = io.Fonts->AddFontFromFileTTF(fullPath.c_str(), size);
+		if (f) {
+			_fonts[fontName + "_" + std::to_string((int)size)] = f;
+		}
+	}
+
+	auto res = std::make_shared<core::Resource>(name, path, core::Resource::FONT);
 	res->load();
 	if (res->isValid())
 		return res;
@@ -1359,7 +1386,8 @@ uiLabelID RenderModule::addUILabel(const uiPanelID& panelID, const entityID& ent
 	label.fontSize = fontSize;
 	label.align = textAlign;
 
-	std::string auxFontName = fontName + "_" + std::to_string((int)fontSize);
+	//std::string auxFontName = fontName + "_" + std::to_string((int)fontSize);
+	std::string auxFontName = std::filesystem::path(fontName).stem().string() + "_" + std::to_string((int)fontSize);
 	auto it = _fonts.find(auxFontName);
 	if (it != _fonts.end())
 	{
@@ -1488,7 +1516,8 @@ uiButtonID RenderModule::addUIButton(const uiPanelID& panelID, const entityID& e
 	button.psColor = psColor;
 	button.opacity = opacity;
 
-	std::string auxFontName = fontName + "_" + std::to_string((int)fontSize);
+	//std::string auxFontName = fontName + "_" + std::to_string((int)fontSize);
+	std::string auxFontName = std::filesystem::path(fontName).stem().string() + "_" + std::to_string((int)fontSize);
 	auto it = _fonts.find(auxFontName);
 
 	if (it != _fonts.end())

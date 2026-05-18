@@ -1,11 +1,10 @@
 #include "ParticleGen.h"
-
 #include "Entity.h"
-#include "Engine.h"
 #include "PluginSDK.h"
+
+#include "Engine.h"
 #include "RenderModule.h"
 #include "ResourcesModule.h"
-#include <filesystem>
 #include "checkMLNew.h"
 
 REGISTER_COMPONENT(ParticleGen);
@@ -125,15 +124,14 @@ void ParticleGen::destroy()
 
 void ParticleGen::ready()
 {
-	std::string particleTextPath = resources()->getAssetPath(_textureName);
-	if (particleTextPath.empty()) {
+
+	core::ResourcePtr res = resources()->getOrLoadAsset(_textureName);
+	if (!res || !res->isValid()) {
 		Debug::error("[ParticleGen] Textura no encontrada: ", _textureName);
 	}
 	else
 	{
-		std::string textureFolder = std::filesystem::path(particleTextPath).parent_path().string() + "/";
-		std::string textureFilename = std::filesystem::path(particleTextPath).filename().string();
-		_particleGenID = render()->addParticleGen(getEntity()->getEntityID(), textureFolder, textureFilename);
+		_particleGenID = render()->addParticleGen(getEntity()->getEntityID(), res->getPath(), res->getName());
 	}
 	render()->setParticleGenPartWidth(_particleGenID, _partWidth);
 	render()->setParticleGenPartHeight(_particleGenID, _partHeight);

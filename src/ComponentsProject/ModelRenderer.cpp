@@ -1,13 +1,12 @@
 #include "ModelRenderer.h"
+#include <string>
+#include "Entity.h"
+#include "PluginSDK.h"
 
 #include "RenderModule.h"
 #include "ResourcesModule.h"
 #include "Engine.h"
-#include "Entity.h"
-#include "PluginSDK.h"
 
-#include <string>
-#include <filesystem>
 #include "checkMLNew.h"
 
 REGISTER_COMPONENT(ModelRenderer);
@@ -60,15 +59,12 @@ bool ModelRenderer::init(const Properties& p)
 	}
 
 	//Carga el modelo en ogre y se guarda una referencia a el
-	std::string modelPath = resources()->getAssetPath(_modelName);
-	if (modelPath.empty()) {
+	core::ResourcePtr res = resources()->getOrLoadAsset(_modelName);
+	if (!res || !res->isValid()) {
 		Debug::error("[ModelRenderer] Modelo no encontrado: ", _modelName);
 		return false;
 	}
-	std::string folder = std::filesystem::path(modelPath).parent_path().string() + "/";
-	std::string filename = std::filesystem::path(modelPath).filename().string();
-
-	_modelID = render()->addModel(getEntity()->getEntityID(), folder, filename);
+	_modelID = render()->addModel(getEntity()->getEntityID(), res->getPath(), res->getName());
 
 	return true;
 }
@@ -78,31 +74,24 @@ void ModelRenderer::ready()
 	// Aplica texturas
 	for (auto& texture : _textures)
 	{
-		std::string texturePath = resources()->getAssetPath(texture[0]);
-		if (texturePath.empty()) {
+		core::ResourcePtr res = resources()->getOrLoadAsset(texture[0]);
+		if (!res || !res->isValid()) {
 			Debug::error("[ModelRenderer] Textura no encontrada: ", texture[0]);
 			continue;
 		}
-		std::string textureFolder = std::filesystem::path(texturePath).parent_path().string() + "/";
-		std::string textureFilename = std::filesystem::path(texturePath).filename().string();
 		int submesh = std::stoi(texture[1]);
-
-		render()->setDiffuse(_modelID, submesh, textureFolder, textureFilename);
+		render()->setDiffuse(_modelID, submesh, res->getPath(), res->getName());
 	}
 }
 
 void ModelRenderer::setDiffuse(const std::string& textureName, const int& submesh)
 {
-	std::string texturePath = resources()->getAssetPath(textureName);
-	if (texturePath.empty()) {
+	core::ResourcePtr res = resources()->getOrLoadAsset(textureName);
+	if (!res || !res->isValid()) {
 		Debug::error("[ModelRenderer] Textura no encontrada: ", textureName);
 		return;
 	}
-
-	std::string textureFolder = std::filesystem::path(texturePath).parent_path().string() + "/";
-	std::string textureFilename = std::filesystem::path(texturePath).filename().string();
-
-	render()->setDiffuse(_modelID, submesh, textureFolder, textureFilename);
+	render()->setDiffuse(_modelID, submesh, res->getPath(), res->getName());
 }
 
 void ModelRenderer::setTint(const core::Color& tint, const int& submesh)

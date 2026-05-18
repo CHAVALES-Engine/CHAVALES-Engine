@@ -201,9 +201,9 @@ bool Engine::_initPriv()
 		_platformModule = nullptr;
 		return false;
 	}
-	// Render
+	// Renderç
 	_renderModule = new RenderModule();
-	if (!_renderModule->Init(_platformModule->getSDLWindow(), _platformModule->getWindowHandle(), _platformModule->getWindowWidth(), _platformModule->getWindowHeight(), _resourcesModule->getAllFonts())) {
+	if (!_renderModule->Init(_platformModule->getSDLWindow(), _platformModule->getWindowHandle(), _platformModule->getWindowWidth(), _platformModule->getWindowHeight())) {
 		delete _renderModule;
 		_renderModule = nullptr;
 		return false;
@@ -234,8 +234,18 @@ bool Engine::_initPriv()
 		{
 			return _renderModule->loadTexture(id, path, preload);
 		});
+	_resourcesModule->addFactory(core::Resource::Type::FONT,
+		[this](const std::string& id, const std::string& path, bool preload)
+		{
+			// imgui precarga automaticamente
+			return _renderModule->loadFont(id, path);
+		});
 	ComponentDLLLoader::instance().preloadResources();
-	preloadAll();
+	// imgui necesita tener precargadas todas las fonts
+	_resourcesModule->loadAllOfType(core::Resource::FONT);
+	_renderModule->buildFontAtlas();
+
+
 	// Facades publicas
 	_input = new InputFacade(_platformModule);
 

@@ -8,7 +8,7 @@ namespace core
 	class Resource
 	{
 	public:
-		enum state { UNLOADED, LOADING, LOADED, LOAD_ERROR};
+		enum state { UNLOADED, LOADING, LOADED, LOAD_ERROR };
 		enum Type { MESH, TEXTURE, FONT, SOUND, NONE };
 		Resource(const std::string& id, const std::string& path, Type type = NONE) :
 			_id(id), _path(path), _refCounter(0), _state(UNLOADED), _type(type) {
@@ -18,7 +18,10 @@ namespace core
 		virtual bool load()
 		{
 			// Si ya estaba cargado return false
-			return !isValid();
+			if (isValid())
+				return false;
+			_state = LOADED;
+			return true;
 		};
 		// @brief descarga el recurso  => a implementar por las clases especificas.
 		// @return bool - Descargado correctamente.
@@ -52,7 +55,8 @@ namespace core
 			return { "", "", NONE };
 		}
 		std::string getName() const { return _id; }
-		std::string getPath() const { return _path + _id; }
+		std::string getPath() const { return _path; }
+		std::string getFullPath() const { return _path + _id; }
 	protected:
 		// @brief Settea el puntero al recurso.
 		// @param ptr - Puntero al recurso.

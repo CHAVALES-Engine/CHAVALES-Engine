@@ -26,7 +26,7 @@ std::string ResourcesModule::getAssetPath(const std::string& relativePath)
 {
 	core::ResourcePtr ptr = getOrLoadAsset(relativePath);
 
-	if (ptr->isValid())
+	if (ptr && ptr->isValid())
 		return ptr->getPath();
 	Debug::error("[ResourcesModule] Ruta no encontrada: ", relativePath);
 	return "";
@@ -66,10 +66,10 @@ ChavalesGUID ResourcesModule::getResourceId(const std::string& path) const
 	return ChavalesGUID::invalid();
 }
 
-std::vector<std::pair<std::string, std::string>> ResourcesModule::getAllFonts() const
-{
-	return _fontsVector;
-}
+//std::vector<std::pair<std::string, std::string>> ResourcesModule::getAllFonts() const
+//{
+//	return _fontsVector;
+//}
 
 void ResourcesModule::addFactory(core::Resource::Type type, ResourceFactory fact)
 {
@@ -93,7 +93,7 @@ bool ResourcesModule::load(const std::string& path, bool preload)
 	if (!id.isValid()) return false;
 	// Comprueba que no este ya cargado y sea valido.
 	auto it = _resources.find(id);
-	if (it != _resources.end() && it->second->isValid()) return false;
+	if (it != _resources.end() && it->second && it->second->isValid()) return false;
 	// Crea el recurso dependiendo del archivo.
 	if (_isMeshFile(fullPath))
 	{
@@ -103,11 +103,11 @@ bool ResourcesModule::load(const std::string& path, bool preload)
 	{
 		_resources[id] = _factories[core::Resource::Type::TEXTURE](id.toString(), fullPath, preload);
 	}
-	else if (_isSoundFile(fullPath))
-	{
-		//_resources[id] = _factories[core::Resource::Type::TEXTURE](id.toString(), fullPath, preload); TODO
-	}
 	else if (_isFontFile(fullPath))
+	{
+		_resources[id] = _factories[core::Resource::Type::FONT](id.toString(), fullPath, preload);
+	}
+	else if (_isSoundFile(fullPath))
 	{
 		//_resources[id] = _factories[core::Resource::Type::TEXTURE](id.toString(), fullPath, preload); TODO
 	}
@@ -118,8 +118,24 @@ bool ResourcesModule::load(const std::string& path, bool preload)
 bool ResourcesModule::preloadAllAssets()
 {
 	for (auto [path, _] : _pathToGuid)
-		if (!load(path)) return false;
+		if (!load(path, true)) return false;
 	return true;
+}
+
+void ResourcesModule::loadAllOfType(core::Resource::Type type)
+{
+	auto factIt = _factories.find(type);
+	if (factIt == _factories.end()) return;
+
+	for (auto& [id, resource] : _resources)
+	{
+		if (resource && resource->getType() == type && !resource->isValid())
+		{
+			auto loaded = factIt->second(resource->getName(), resource->getPath(), true);
+			if (loaded)
+				_resources[id] = loaded;
+		}
+	}
 }
 
 void ResourcesModule::unloadAll()
@@ -168,12 +184,12 @@ bool ResourcesModule::_addResource(const std::string& sourcePath)
 	// Mapeos bidireccionales
 	std::string normalizedPath = _normalizePath(sourcePath);
 	_pathToGuid[normalizedPath] = aux;
-	_resources[aux] = std::make_shared<core::Resource>(nombreAsset, normalizedPath);
+	_resources[aux] = std::make_shared<core::Resource>(nombreAsset, p.parent_path().string()+"/", type);
 
 	// vector especial para fonts.
-	if (_isFontFile(sourcePath)) {
+	/*if (_isFontFile(sourcePath)) {
 		_fontsVector.push_back({ p.parent_path().filename().string() + "/" + nombreAsset,sourcePath });
-	}
+	}*/
 	return true;
 }
 

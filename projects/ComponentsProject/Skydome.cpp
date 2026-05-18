@@ -50,16 +50,12 @@ void Skydome::disable()
 
 void Skydome::setSkydome()
 {
-	std::string skydomePath = resources()->getAssetPath(_textureName);
-	if (skydomePath.empty()) {
+	core::ResourcePtr res = resources()->getOrLoadAsset(_textureName);
+	if (!res || !res->isValid()) {
 		Debug::error("[Skydome] Textura no encontrada: ", _textureName);
 		return;
 	}
-
-	std::string textureFolder = std::filesystem::path(skydomePath).parent_path().string() + "/";
-	std::string textureFilename = std::filesystem::path(skydomePath).filename().string();
-
-	render()->setSkydome(textureFolder, textureFilename, _curvature, _tiling, _distance, _drawFirst);
+	render()->setSkydome(res->getPath(), res->getName(), _curvature, _tiling, _distance, _drawFirst);
 }
 
 void Skydome::setSkydomeNull()

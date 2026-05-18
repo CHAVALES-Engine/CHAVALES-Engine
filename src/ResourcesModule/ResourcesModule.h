@@ -12,10 +12,10 @@
 #include "EngineAPI.h"
 #include "Resource.h"
 
-//struct AssetInfo {
-//	ChavalesGUID _id;
-//	bool isUpper;
-//};
+ //struct AssetInfo {
+ //	ChavalesGUID _id;
+ //	bool isUpper;
+ //};
 using ResourceFactory = std::function<core::ResourcePtr(const std::string&, const std::string&, bool)>;
 class ENGINE_API  ResourcesModule
 {
@@ -38,7 +38,7 @@ public:
 	 * @brief Devuelve un puntero al recurso cargado, si no estaba cargado lo carga.
 	 * @param relativePath - ruta relativa a la carpeta assets.
 	 * @return core::ResourcePtr - sharedPtr del recurso.
-	 */    
+	 */
 	core::ResourcePtr getOrLoadAsset(const std::string& relativePath);
 	/**
 	 * Obtener ID desde nombre de asset.
@@ -49,18 +49,18 @@ public:
 	/**
 	 * @brief Metodo para el RenderModule para sacar todas las fuentes.
 	 */
-	std::vector<std::pair<std::string, std::string>> getAllFonts() const;
+	 //std::vector<std::pair<std::string, std::string>> getAllFonts() const;
 
-	/**
-	 * @brief Metodo para acceder a todos los assets almacenados en el motor.
-	 */
-	/*std::vector<std::pair<std::string, std::string>> getAllAssets();*/
+	 /**
+	  * @brief Metodo para acceder a todos los assets almacenados en el motor.
+	  */
+	  /*std::vector<std::pair<std::string, std::string>> getAllAssets();*/
 
-	/**
-	 * @brief Funcion que anyade un metodo factory para un tipo de recurso marcado.
-	 * @param type - Tipo de recurso.
-	 * @param fact - Funcion factory.
-	 */
+	  /**
+	   * @brief Funcion que anyade un metodo factory para un tipo de recurso marcado.
+	   * @param type - Tipo de recurso.
+	   * @param fact - Funcion factory.
+	   */
 	void addFactory(core::Resource::Type type, ResourceFactory fact);
 
 	/**
@@ -73,6 +73,7 @@ public:
 	 * @return bool - Si se han precargado correctamente.
 	 */
 	bool preloadAllAssets();
+	void loadAllOfType(core::Resource::Type type);
 	void unloadAll();
 
 private:
@@ -105,12 +106,12 @@ private:
 
 	/**
 	 * Normaliza un path cambiando \ -> / y poniendo el path en minusculas
-	 * @param path 
-	 * @return 
+	 * @param path
+	 * @return
 	 */
 	static std::string _normalizePath(const std::string& path);
 	//std::string typeOfFolder; // String de la carpeta segun el tipo de asset
-	std::vector<std::pair<std::string, std::string>> _fontsVector; // Vector para guardar todas las fuentes
+	//std::vector<std::pair<std::string, std::string>> _fontsVector; // Vector para guardar todas las fuentes
 
 	// Rutas
 	//std::unordered_map<ChavalesGUID, std::string> _guidPath; // Mapa de ID-path del asset

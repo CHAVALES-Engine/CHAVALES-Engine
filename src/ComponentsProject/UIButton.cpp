@@ -1,12 +1,12 @@
 #include "UIButton.h"
 #include "Entity.h"
-#include "Engine.h"
-
 #include <Debug.h>
 #include <PluginSDK.h>
+
 #include "RenderModule.h"
 #include "ResourcesModule.h"
-#include <filesystem>
+#include "Engine.h"
+
 #include <UITransform.h>
 #include <UIPanel.h>
 #include "checkMLNew.h"
@@ -111,16 +111,13 @@ void UIButton::awake()
 
 	}
 	else {
-		std::string texturePath = resources()->getAssetPath(_textureName);
-		if (texturePath.empty()) {
+		core::ResourcePtr res = resources()->getOrLoadAsset(_textureName);
+		if (!res || !res->isValid()) {
 			Debug::error("[UIButton] Textura no encontrada: ", _textureName);
 			return;
 		}
 
-		std::string textureFolder = std::filesystem::path(texturePath).parent_path().string() + "/";
-		std::string textureFilename = std::filesystem::path(texturePath).filename().string();
-
-		_buttonID = render()->addUIImageButton(panelID, getEntity()->getEntityID(), _text, textureFolder, textureFilename, _bgColor, _hoverColor, _pressColor, _opacity);
+		_buttonID = render()->addUIImageButton(panelID, getEntity()->getEntityID(), _text, res->getPath(), res->getName(), _bgColor, _hoverColor, _pressColor, _opacity);
 	}
 }
 
@@ -146,16 +143,13 @@ void UIButton::setTexture(const std::string& texture)
 	_textureName = texture;
 	if (_buttonID == UINT64_MAX)return;
 
-	std::string texturePath = resources()->getAssetPath(_textureName);
-	if (texturePath.empty()) {
+	core::ResourcePtr res = resources()->getOrLoadAsset(_textureName);
+	if (!res || !res->isValid()) {
 		Debug::error("[UIButton] Textura no encontrada: ", _textureName);
 		return;
 	}
 
-	std::string textureFolder = std::filesystem::path(texturePath).parent_path().string() + "/";
-	std::string textureFilename = std::filesystem::path(texturePath).filename().string();
-
-	render()->setUIButtonTexture(_buttonID, textureFolder, textureFilename);
+	render()->setUIButtonTexture(_buttonID, res->getPath(), res->getName());
 }
 
 void UIButton::setOpacity(float opacity)
