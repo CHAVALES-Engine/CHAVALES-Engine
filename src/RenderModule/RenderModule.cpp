@@ -44,6 +44,7 @@
 #include <Vector2.h>
 
 #include "MeshResource.h"
+#include "TextureResource.h"
 
 static Ogre::Root* _root = nullptr;
 static Ogre::GL3PlusPlugin* _gl3Plugin = nullptr;
@@ -226,7 +227,7 @@ bool RenderModule::Init(SDL_Window* sdlWindow, const HWND handle, const int widt
 	}
 }
 
-std::shared_ptr<core::Resource> RenderModule::preloadMesh(const std::string& id, const std::string& path)
+std::shared_ptr<core::Resource> RenderModule::loadMesh(const std::string& id, const std::string& path, bool preload)
 {
 
 	std::string meshName = std::filesystem::path(path).filename().string();
@@ -242,7 +243,10 @@ std::shared_ptr<core::Resource> RenderModule::preloadMesh(const std::string& id,
 	{
 		_rgm->addResourceLocation(folder, "FileSystem", folder);
 		_rgm->loadResourceGroup(folder);
-		_preloadedGroups.insert(folder);
+		if (preload)
+			_preloadedGroups.insert(folder);
+		else
+			_resourceGroups.insert(folder);
 	}
 
 	// Crea y carga el recurso.
@@ -254,19 +258,31 @@ std::shared_ptr<core::Resource> RenderModule::preloadMesh(const std::string& id,
 	return nullptr;
 }
 
-std::shared_ptr<core::Resource>  RenderModule::preloadTexture(const std::string& id, const std::string& path)
+std::shared_ptr<core::Resource> RenderModule::loadTexture(const std::string& id, const std::string& path, bool preload)
 {
-	// Verificar si ya esta cargado
-	if (Ogre::MeshManager::getSingleton().resourceExists(path)) {
-		Debug::warning("[RenderModule] Mesh ya cargada: " + path);
+	auto p = std::filesystem::path(path);
+	std::string textureName = p.filename().string();
+	std::string folder = p.parent_path().string() + "/";
+
+	if (Ogre::TextureManager::getSingleton().resourceExists(textureName)) {
+		Debug::warning("[RenderModule] Textura ya cargada: ", textureName);
 		return nullptr;
 	}
-	// Crea y carga el recurso.
-	std::shared_ptr<MeshResource> res = std::make_shared<MeshResource>(id, path);
+
+	if (!_rgm->resourceGroupExists(folder))
+	{
+		_rgm->addResourceLocation(folder, "FileSystem", folder);
+		_rgm->loadResourceGroup(folder);
+		if (preload)
+			_preloadedGroups.insert(folder);
+		else
+			_resourceGroups.insert(folder);
+	}
+
+	auto res = std::make_shared<TextureResource>(textureName, folder);
 	res->load();
 	if (res->isValid())
 		return res;
-	// devuelve invalido
 	return nullptr;
 }
 
@@ -1359,7 +1375,7 @@ uiLabelID RenderModule::addUILabel(const uiPanelID& panelID, const entityID& ent
 	return id;
 }
 
-void RenderModule::deleteUILabel(const uiLabelID& id) 
+void RenderModule::deleteUILabel(const uiLabelID& id)
 {
 	auto [panelID, labelIndex] = _labelToPanel[id];
 	auto& label = _uiPanels[panelID].labels[labelIndex];

@@ -5,6 +5,15 @@
 #include "checkMLNew.h"
 
 
+ResourcesModule::~ResourcesModule()
+{
+	for (auto [_, resource] : _resources)
+		resource->unLoad();
+	_resources.clear();
+	_factories.clear();
+	_pathToGuid.clear();
+}
+
 bool ResourcesModule::Init()
 {
 	if (!_loadAsset(core::GameConfigurator::instance()._assetsRoot)) {
@@ -41,7 +50,7 @@ core::ResourcePtr ResourcesModule::getOrLoadAsset(const std::string& relativePat
 	}
 
 	// Si no, precargarlo
-	if (!preload(relativePath)) {
+	if (!load(relativePath)) {
 		return nullptr;
 	}
 
@@ -66,8 +75,7 @@ std::vector<std::pair<std::string, std::string>> ResourcesModule::getAllFonts() 
 	return _fontsVector;
 }
 
-void ResourcesModule::addFactory(core::Resource::Type type,
-	std::function<core::ResourcePtr(const std::string&, const std::string&)> fact)
+void ResourcesModule::addFactory(core::Resource::Type type, ResourceFactory fact)
 {
 	if (!fact) {
 		Debug::error("[ResourcesModule] Factory nula para tipo: ", static_cast<int>(type));
@@ -81,7 +89,7 @@ void ResourcesModule::addFactory(core::Resource::Type type,
 	_factories[type] = std::move(fact);
 }
 
-bool ResourcesModule::preload(const std::string& path)
+bool ResourcesModule::load(const std::string& path, bool preload)
 {
 	std::string fullPath = core::GameConfigurator::instance()._assetsRoot + path;
 	ChavalesGUID id = getResourceId(path);
@@ -93,19 +101,19 @@ bool ResourcesModule::preload(const std::string& path)
 	// Crea el recurso dependiendo del archivo.
 	if (_isMeshFile(fullPath))
 	{
-		_resources[id] = _factories[core::Resource::Type::MESH](id.toString(), fullPath);
+		_resources[id] = _factories[core::Resource::Type::MESH](id.toString(), fullPath, preload);
 	}
 	else if (_isTextureFile(fullPath))
 	{
-		_resources[id] = _factories[core::Resource::Type::TEXTURE](id.toString(), fullPath);
+		_resources[id] = _factories[core::Resource::Type::TEXTURE](id.toString(), fullPath, preload);
 	}
 	else if (_isSoundFile(fullPath))
 	{
-		//_resources[id] = _factories[core::Resource::Type::TEXTURE](id.toString(), fullPath); TODO
+		//_resources[id] = _factories[core::Resource::Type::TEXTURE](id.toString(), fullPath, preload); TODO
 	}
 	else if (_isFontFile(fullPath))
 	{
-		//_resources[id] = _factories[core::Resource::Type::TEXTURE](id.toString(), fullPath); TODO
+		//_resources[id] = _factories[core::Resource::Type::TEXTURE](id.toString(), fullPath, preload); TODO
 	}
 
 	return true;
@@ -114,8 +122,18 @@ bool ResourcesModule::preload(const std::string& path)
 bool ResourcesModule::preloadAllAssets()
 {
 	for (auto [path, _] : _pathToGuid)
-		if (!preload(path)) return false;
+		if (!load(path)) return false;
 	return true;
+}
+
+void ResourcesModule::unloadAll()
+{
+	for (auto& [_, resource] : _resources)
+	{
+		if (resource) resource->unLoad();
+	}
+	_resources.clear();
+	_pathToGuid.clear();
 }
 
 bool ResourcesModule::_loadAsset(const std::string& sourceName)

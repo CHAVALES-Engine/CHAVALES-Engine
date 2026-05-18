@@ -14,6 +14,7 @@
 #include "Transform.h"
 
 PRELOAD_RESOURCE("mesh/girl.fbx");
+PRELOAD_RESOURCE("texture/bake_girl.png");
 PRELOAD_RESOURCE("mesh/arena2.fbx");
 PRELOAD_RESOURCE("mesh/arena.fbx");
 

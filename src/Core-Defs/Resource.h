@@ -40,8 +40,6 @@ namespace core
 		{
 			if (!isValid()) return;
 			_refCounter--;
-			if (_refCounter <= 0)
-				unLoad();
 		};
 		int getCounter() const { return _refCounter; }
 		state getState() const { return _state; }

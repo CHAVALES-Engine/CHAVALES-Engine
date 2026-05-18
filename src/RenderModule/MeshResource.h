@@ -5,13 +5,12 @@
 
 class MeshResource: public core::Resource
 {
-private:
-	Ogre::MeshPtr _meshPtr;
 public:
 	MeshResource(const std::string& id, const std::string& path);
 	bool load() override;
 	bool unLoad() override;
 	Ogre::MeshPtr getMeshPtr() const;
-	void setMeshPtr(Ogre::MeshPtr ptr);
+private:
+	Ogre::MeshPtr _meshPtr;
 };
 

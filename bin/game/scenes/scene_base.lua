@@ -54,7 +54,8 @@ scene = { -- entidades en escena
                 },
                 ModelRenderer = {
                     file = "mesh/girl.fbx",
-                    ["number of textures"] = 0
+                    ["number of textures"] = 1,
+                    texture0 = {"texture/bake_girl.png", "0"}
                 }
             }
         },
@@ -85,7 +86,7 @@ scene = { -- entidades en escena
                     ["number of textures"] = 0
                 }
             }
-        }
+        },
         -- ,
         -- esfera = {
         --     ddol = false,
@@ -136,13 +137,14 @@ scene = { -- entidades en escena
         --         }
         --     }
         -- },
-        -- ambientLight = {
-        --     components = {
-        --         AmbientLight = {
-        --             color = Color.new(0.3, 0.0, 0.0, 0.0)
-        --         }
-        --     }
-        -- },
+         ambientLight = {
+             components = {
+                 AmbientLight = {
+                     color = Color.new(0.3, 0.0, 0.0, 0.0)
+                 }
+             }
+         }
+        --,
         -- light = {
         --     ddol = false,
         --     components = {

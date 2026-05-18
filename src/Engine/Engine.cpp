@@ -151,7 +151,7 @@ std::string Engine::getAssetSourceFolder(const std::string& assetName) const
 
 bool Engine::preload(const std::string& path)
 {
-	return _resourcesModule->preload(path);
+	return _resourcesModule->load(path);
 }
 
 bool Engine::preloadAll()
@@ -223,9 +223,14 @@ bool Engine::_initPriv()
 	}
 	// Precarga de recursos
 	_resourcesModule->addFactory(core::Resource::Type::MESH,
-		[this](const std::string& id, const std::string& path)
+		[this](const std::string& id, const std::string& path, bool preload)
 		{
-			return _renderModule->preloadMesh(id, path);
+			return _renderModule->loadMesh(id, path, preload);
+		});
+	_resourcesModule->addFactory(core::Resource::Type::TEXTURE,
+		[this](const std::string& id, const std::string& path, bool preload)
+		{
+			return _renderModule->loadTexture(id, path, preload);
 		});
 	ComponentDLLLoader::instance().preloadResources();
 	preloadAll();

@@ -152,8 +152,8 @@ public:
 	 * @brief Metodos de precarga de recursos.
 	 * @param path - path a los recursos.
 	 */
-	std::shared_ptr<core::Resource> preloadMesh(const std::string& id, const std::string& path);
-	std::shared_ptr<core::Resource> preloadTexture(const std::string& id, const std::string& path);
+	std::shared_ptr<core::Resource> loadMesh(const std::string& id, const std::string& path, bool preload = false);
+	std::shared_ptr<core::Resource> loadTexture(const std::string& id, const std::string& path, bool preload = false);
 
 	/*
 	* @brief Renderizar frame.

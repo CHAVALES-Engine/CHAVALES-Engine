@@ -1,10 +1,10 @@
-﻿#include "MeshResource.h"
+#include "MeshResource.h"
 #include "Debug.h"
 #include <filesystem>
 
 MeshResource::MeshResource(const std::string& id, const std::string& path) :
-	Resource(id, path, MESH) {
-}
+	Resource(id, path, MESH), _meshPtr(nullptr) 
+{}
 
 bool MeshResource::load()
 {
@@ -58,8 +58,4 @@ bool MeshResource::unLoad()
 Ogre::MeshPtr MeshResource::getMeshPtr() const
 {
 	return _meshPtr;
-}
-void MeshResource::setMeshPtr(Ogre::MeshPtr ptr)
-{
-	_meshPtr = ptr;
 }

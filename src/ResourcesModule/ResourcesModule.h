@@ -16,11 +16,12 @@
 //	ChavalesGUID _id;
 //	bool isUpper;
 //};
+using ResourceFactory = std::function<core::ResourcePtr(const std::string&, const std::string&, bool)>;
 class ENGINE_API  ResourcesModule
 {
 public:
 	ResourcesModule() = default;
-	~ResourcesModule() = default;
+	~ResourcesModule();
 
 	/**
 	 * @brief Inicializa el modulo y recorre las carpetas guardando las rutas a los assets.
@@ -60,18 +61,20 @@ public:
 	 * @param type - Tipo de recurso.
 	 * @param fact - Funcion factory.
 	 */
-	void addFactory(core::Resource::Type type, std::function<core::ResourcePtr(const std::string&, const std::string&)> fact);
+	void addFactory(core::Resource::Type type, ResourceFactory fact);
 
 	/**
 	 * @brief Funcion que precarga recursos.
 	 * @return bool - Si se ha precargado correctamente.
 	 */
-	bool preload(const std::string& path);
+	bool load(const std::string& path, bool preload = false);
 	/**
 	 * @brief Precarga todos los assets encontrados
 	 * @return bool - Si se han precargado correctamente.
 	 */
 	bool preloadAllAssets();
+	void unloadAll();
+
 private:
 	/**
 	 * @brief Metodo para recorrer todas las carpetas de recursos, es recursivo.
@@ -93,6 +96,11 @@ private:
 	bool _isTextureFile(const std::string& path) const;
 	bool _isSoundFile(const std::string& path) const;
 	bool _isFontFile(const std::string& path) const;
+	/**
+	 * @brief Devuelve el tipo de recurso a traves del path.
+	 * @param filePath - Ruta al fichero.
+	 * @return core::Resource::Type - Tipo enumerado del fichero.
+	 */
 	core::Resource::Type _getResourceType(const std::string& filePath) const;
 
 	/**
@@ -110,7 +118,7 @@ private:
 	//std::unordered_map<std::string, ChavalesGUID> _nameGuid; // Mapa de Key-ID del asset
 	//std::unordered_map<std::string, AssetInfo> _assetsMaps; // Mapa de assets nombre-ID
 	// Funciones constructoras de recursos.
-	std::unordered_map<core::Resource::Type, std::function<core::ResourcePtr(const std::string&, const std::string&)>> _factories;
+	std::unordered_map<core::Resource::Type, ResourceFactory> _factories;
 	// Mapas de recursos precargados.
 	std::unordered_map<ChavalesGUID, core::ResourcePtr> _resources;
 };
