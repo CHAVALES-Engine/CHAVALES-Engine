@@ -24,6 +24,7 @@ AudioSource::~AudioSource()
 bool AudioSource::init(const Properties& p)
 {
 	_path = getProperty<std::string>(p, "soundPath");
+	std::transform(_path.begin(), _path.end(), _path.begin(), ::tolower);
 	_id = getProperty<std::string>(p, "soundID");
 	_is3D = getProperty<bool>(p, "is3D");
 	_loop = getProperty<bool>(p, "loop");

@@ -247,27 +247,27 @@ void RenderModule::buildFontAtlas()
 
 core::ResourcePtr RenderModule::loadMesh(const std::string& id, const std::string& path, bool preload)
 {
-	std::string meshName = std::filesystem::path(path).filename().string();
-	std::string folder = std::filesystem::path(path).parent_path().string() + "/";
+	/*std::string meshName = std::filesystem::path(path).filename().string();
+	std::string folder = std::filesystem::path(path).parent_path().string() + "/";*/
 	// Verificar si ya esta cargado
-	if (Ogre::MeshManager::getSingleton().resourceExists(meshName)) {
-		Debug::warning("[RenderModule] Mesh ya cargada: ", meshName);
+	if (Ogre::MeshManager::getSingleton().resourceExists(id)) {
+		Debug::warning("[RenderModule] Mesh ya cargada: ", id);
 		return nullptr;
 	}
 	// Copiado de addModel
-	if (!Ogre::MeshManager::getSingleton().resourceExists(meshName)
-		&& !_rgm->resourceGroupExists(folder))
+	if (!Ogre::MeshManager::getSingleton().resourceExists(id)
+		&& !_rgm->resourceGroupExists(path))
 	{
-		_rgm->addResourceLocation(folder, "FileSystem", folder);
-		_rgm->loadResourceGroup(folder);
+		_rgm->addResourceLocation(path, "FileSystem", path);
+		_rgm->loadResourceGroup(path);
 		if (preload)
-			_preloadedGroups.insert(folder);
+			_preloadedGroups.insert(path);
 		else
-			_resourceGroups.insert(folder);
+			_resourceGroups.insert(path);
 	}
 
 	// Crea y carga el recurso.
-	auto res = std::make_shared<MeshResource>(meshName, folder);
+	auto res = std::make_shared<MeshResource>(id, path);
 	res->load();
 	if (res->isValid())
 		return res;
@@ -277,26 +277,26 @@ core::ResourcePtr RenderModule::loadMesh(const std::string& id, const std::strin
 
 core::ResourcePtr RenderModule::loadTexture(const std::string& id, const std::string& path, bool preload)
 {
-	auto p = std::filesystem::path(path);
+	/*auto p = std::filesystem::path(path);
 	std::string textureName = p.filename().string();
-	std::string folder = p.parent_path().string() + "/";
+	std::string folder = p.parent_path().string() + "/";*/
 
-	if (Ogre::TextureManager::getSingleton().resourceExists(textureName)) {
-		Debug::warning("[RenderModule] Textura ya cargada: ", textureName);
+	if (Ogre::TextureManager::getSingleton().resourceExists(id)) {
+		Debug::warning("[RenderModule] Textura ya cargada: ", id);
 		return nullptr;
 	}
 
-	if (!_rgm->resourceGroupExists(folder))
+	if (!_rgm->resourceGroupExists(path))
 	{
-		_rgm->addResourceLocation(folder, "FileSystem", folder);
-		_rgm->loadResourceGroup(folder);
+		_rgm->addResourceLocation(path, "FileSystem", path);
+		_rgm->loadResourceGroup(path);
 		if (preload)
-			_preloadedGroups.insert(folder);
+			_preloadedGroups.insert(path);
 		else
-			_resourceGroups.insert(folder);
+			_resourceGroups.insert(path);
 	}
 
-	auto res = std::make_shared<TextureResource>(textureName, folder);
+	auto res = std::make_shared<TextureResource>(id, path);
 	res->load();
 	if (res->isValid())
 		return res;

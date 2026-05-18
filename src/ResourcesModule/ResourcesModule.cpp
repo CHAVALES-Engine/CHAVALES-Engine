@@ -87,20 +87,25 @@ void ResourcesModule::addFactory(core::Resource::Type type, ResourceFactory fact
 
 bool ResourcesModule::load(const std::string& path, bool preload)
 {
+	std::string fullPath = core::GameConfigurator::instance()._assetsRoot + path;
 	ChavalesGUID id = getResourceId(path);
 
 	if (!id.isValid()) return false;
 	// Comprueba que no este ya cargado y sea valido.
 	auto it = _resources.find(id);
-	if (it != _resources.end() && it->second && it->second->isValid()) return false;
-	std::string originalPath = it->second->getPath();
-	// Crea el recurso dependiendo del archivo.
+	if (it == _resources.end() || !it->second) return false;
+	if (it->second->isValid()) return false;
 
-	core::Resource::Type type = _getResourceType(originalPath);
+	// Usar los datos originales del Resource (configuracion de mayusculas y minusculas correcta)
+	std::string originalName = it->second->getName();
+	std::string originalPath = it->second->getPath();
+	core::Resource::Type type = it->second->getType();
+
 	auto factIt = _factories.find(type);
 	if (factIt == _factories.end()) return false;
 
-	auto loaded = factIt->second(it->second->getName(), originalPath, preload);
+
+	auto loaded = factIt->second(originalName, originalPath, preload);
 	if (loaded)
 		_resources[id] = loaded;
 
@@ -176,12 +181,8 @@ bool ResourcesModule::_addResource(const std::string& sourcePath)
 	// Mapeos bidireccionales
 	std::string normalizedPath = _normalizePath(sourcePath);
 	_pathToGuid[normalizedPath] = aux;
-	_resources[aux] = std::make_shared<core::Resource>(nombreAsset, p.parent_path().string()+"/", type);
+	_resources[aux] = std::make_shared<core::Resource>(nombreAsset, p.parent_path().string() + "/", type);
 
-	// vector especial para fonts.
-	/*if (_isFontFile(sourcePath)) {
-		_fontsVector.push_back({ p.parent_path().filename().string() + "/" + nombreAsset,sourcePath });
-	}*/
 	return true;
 }
 

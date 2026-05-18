@@ -47,6 +47,7 @@ bool ModelRenderer::init(const Properties& p)
 {
 	// Lee la clave del archivo almacenado en resources
 	_modelName = getProperty<std::string>(p, "file");
+	std::transform(_modelName.begin(), _modelName.end(), _modelName.begin(), ::tolower);
 
 	// Lee cuantas texturas tiene
 	int nTextures = getProperty<int>(p, "number of textures");
