@@ -212,14 +212,15 @@ bool AudioModule::stopPlaying(int chID)
 {
 	auto itChFound = _channelSound.find(chID);
 	
-	bool playing = false;
-	itChFound->second->isPlaying(&playing);
-	if (!playing) return false;
 	if (itChFound == _channelSound.end())
 	{
 		Debug::error("[AudioModule]: Canal no encontrado, ID: ", to_string(chID));
 		return false;
 	}
+	bool playing = false;
+	itChFound->second->isPlaying(&playing);
+	if (!playing) return false;
+
 	auto res = itChFound->second->stop();
 	if (res == FMOD_OK) return true;
 	else {
