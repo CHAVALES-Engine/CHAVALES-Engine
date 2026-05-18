@@ -211,6 +211,11 @@ bool RenderModule::Init(SDL_Window* sdlWindow, const HWND handle, const int widt
 		std::cerr << "Error iniciando OGRE: " << e.what() << std::endl;
 		return false;
 	}
+	catch (...)
+	{
+		std::cerr << "Error iniciando OGRE: excepcion desconocida" << std::endl;
+		return false;
+	}
 }
 
 void RenderModule::buildFontAtlas()
@@ -741,9 +746,16 @@ void RenderModule::deleteModel(const modelID& id)
 				for (unsigned short t = 0; t < mat->getNumTechniques(); ++t)
 				{
 					Ogre::Technique* tech = mat->getTechnique(t);
-					if (tech)
+					if (_shaderGen && tech)
 					{
-						_shaderGen->removeShaderBasedTechnique(tech, Ogre::MaterialManager::DEFAULT_SCHEME_NAME);
+						try
+						{
+							_shaderGen->removeShaderBasedTechnique(tech, Ogre::MaterialManager::DEFAULT_SCHEME_NAME);
+						}
+						catch (...)
+						{
+							Debug::error("[RENDER MODULE]: Error borrando ShaderBasedTechnique.");
+						}
 					}
 				}
 				if (matMgr.resourceExists(matName))
@@ -786,9 +798,16 @@ void RenderModule::cleanModels()
 					for (unsigned short t = 0; t < mat->getNumTechniques(); ++t)
 					{
 						Ogre::Technique* tech = mat->getTechnique(t);
-						if (tech)
+						if (_shaderGen && tech)
 						{
-							_shaderGen->removeShaderBasedTechnique(tech, Ogre::MaterialManager::DEFAULT_SCHEME_NAME);
+							try
+							{
+								_shaderGen->removeShaderBasedTechnique(tech, Ogre::MaterialManager::DEFAULT_SCHEME_NAME);
+							}
+							catch (...)
+							{
+								Debug::error("[RENDER MODULE]: Error borrando ShaderBasedTechnique.");
+							}
 						}
 					}
 					if (matMgr.resourceExists(matName))
@@ -1129,45 +1148,73 @@ void RenderModule::setAmbientLight(const core::Color& color)
 
 particleGenID RenderModule::addParticleGen(const entityID& entityID, const std::string& textureFolder, const std::string& textureFile)
 {
+	if (textureFolder.empty() || textureFile.empty())
+	{
+		Debug::error("[ParticleGen] Texture folder/file vacio. Carpeta: ", textureFolder, ", Archivo: ", textureFile, ".");
+		return UINT64_MAX;
+	}
+
 	transformID nodeID = addNode(entityID);
 
 	std::string matName = "ParticleMat_" + std::to_string(_nextParticleGenID);
 
-	Ogre::MaterialPtr mat = Ogre::MaterialManager::getSingleton().create(matName, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-	_createdMaterials.push_back(matName);
-	mat->setReceiveShadows(false);
-
-	Ogre::Pass* pass = mat->getTechnique(0)->getPass(0);
-	pass->setLightingEnabled(false);
-	pass->setSceneBlending(Ogre::SBT_TRANSPARENT_ALPHA);
-	pass->setDepthWriteEnabled(false);
-
-	if (!_rgm->resourceGroupExists(textureFolder))
+	try
 	{
-		_rgm->addResourceLocation(textureFolder, "FileSystem", textureFolder);
-		_rgm->loadResourceGroup(textureFolder);
-		_resourceGroups.insert(textureFolder);
+		Ogre::MaterialPtr mat = Ogre::MaterialManager::getSingleton().create(matName, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+		_createdMaterials.push_back(matName);
+		mat->setReceiveShadows(false);
+
+		Ogre::Pass* pass = mat->getTechnique(0)->getPass(0);
+		pass->setLightingEnabled(false);
+		pass->setSceneBlending(Ogre::SBT_TRANSPARENT_ALPHA);
+		pass->setDepthWriteEnabled(false);
+
+		if (!_rgm->resourceGroupExists(textureFolder))
+		{
+			_rgm->addResourceLocation(textureFolder, "FileSystem", textureFolder);
+			_rgm->loadResourceGroup(textureFolder);
+			_resourceGroups.insert(textureFolder);
+		}
+
+		if (!Ogre::ResourceGroupManager::getSingleton().resourceExists(textureFolder, textureFile))
+		{
+			Debug::error("[ParticleGen] No existe textura ", textureFile, " en ", textureFolder, ".");
+			return UINT64_MAX;
+		}
+
+		Ogre::TexturePtr text = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
+
+		Ogre::TextureUnitState* tus = pass->createTextureUnitState();
+		tus->setTexture(text);
+		tus->setColourOperation(Ogre::LBO_MODULATE);
+
+		mat->load();
+
+		//Asignar RTSS
+		if (_shaderGen)
+		{
+			_shaderGen->createShaderBasedTechnique(*mat, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
+			if (!_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, mat->getName()))
+				Debug::error("[ParticleGen] No se valido el material ", mat->getName()," correctamente.");
+		}
+
+		Ogre::ParticleSystem* ps = _particleGens.emplace_back(_sceneMgr->createParticleSystem("ParticleGen_" + std::to_string(_nextParticleGenID)));
+		ps->setMaterialName(matName);
+		ps->addEmitter("Point");
+		_engineNodes[nodeID].sceneNode->attachObject(ps);
+
+		return _nextParticleGenID++;
 	}
-
-	Ogre::TexturePtr text = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
-
-	Ogre::TextureUnitState* tus = pass->createTextureUnitState();
-	tus->setTexture(text);
-	tus->setColourOperation(Ogre::LBO_MODULATE);
-
-	mat->load();
-
-	//Asignar RTSS
-	_shaderGen->createShaderBasedTechnique(*mat, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
-	_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, mat->getName());
-
-	Ogre::ParticleSystem* ps = _particleGens.emplace_back(_sceneMgr->createParticleSystem("ParticleGen_" + std::to_string(_nextParticleGenID)));
-
-	ps->setMaterialName(matName);
-	ps->addEmitter("Point");
-	_engineNodes[nodeID].sceneNode->attachObject(ps);
-
-	return _nextParticleGenID++;
+	catch (const std::exception& e)
+	{
+		Debug::error("[ParticleGen] Error creando sistema de particulas: ", e.what());
+		return UINT64_MAX;
+	}
+	catch (...)
+	{
+		Debug::error("[ParticleGen] Error desconocido creando sistema de particulas.");
+		return UINT64_MAX;
+	}
 }
 
 void RenderModule::deleteParticleGen(const particleGenID& id)

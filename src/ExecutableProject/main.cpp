@@ -47,6 +47,11 @@ static void configGame(size_t argc, char* argv[])
 			Debug::warning("[MAIN] Argumentos invalidos (", e.what(), "). Se cargara el archivo de configuracion.");
 			core::GameConfigurator::instance().LoadFromFile(CONFIGURATOR_PATH);
 		}
+		catch (...)
+		{
+			Debug::warning("[MAIN] Error desconocido leyendo argumentos. Se cargara el archivo de configuracion.");
+			core::GameConfigurator::instance().LoadFromFile(CONFIGURATOR_PATH);
+		}
 		return;
 	}
 

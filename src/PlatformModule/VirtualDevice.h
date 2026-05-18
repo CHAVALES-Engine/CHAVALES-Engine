@@ -190,8 +190,8 @@ namespace input
 		*/
 		void _setButton(input::InputButtons button, bool value);
 		/**
-		 * @brief Anyade texto al buffer de texto cuando se esta haciendo input de texto.
-		 * @param text - Texto que se anyade al buffer.
+		 * @brief Aniade texto al buffer de texto cuando se esta haciendo input de texto.
+		 * @param text - Texto que se aniade al buffer.
 		 */
 		void _appendText(const std::string& text);
 		/**

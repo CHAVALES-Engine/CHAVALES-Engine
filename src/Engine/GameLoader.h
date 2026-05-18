@@ -92,14 +92,14 @@ private:
 	 * @param n - Nombre de la escena
 	 * @param n - Ruta a la escena
 	 */
-	static void _loadLua(std::shared_ptr<core::Scene>& s, const sceneName& n, const std::string& p);
+	static void _loadScene(std::shared_ptr<core::Scene>& s, const sceneName& n, const std::string& p);
 
 	/**
 	 * Carga un archivo de lua y lo mete en la escena activa.
 	 * @param s - Escena a la que anadir.
 	 * @param p - path del fichero a cargar.
 	 */
-	static core::Entity* _loadLua(const std::shared_ptr<core::Scene>& s, std::string const& p);
+	static core::Entity* _loadPrefab(const std::shared_ptr<core::Scene>& s, std::string const& p);
 
 	/**
 	 * @brief Busca en la ruta el nombre de la escena y devuelve la ruta completa hasta el .lua.

@@ -60,7 +60,7 @@ protected:
 	/**
 	 * @brief Tamano del collider si es box
 	 */
-	core::Vector3<> size = { 1,1,1 };
+	core::Vector3<> size;
 	/**
 	 * @brief Tamaño del collider si es capsule
 	 */
@@ -114,7 +114,7 @@ public:
 	/**
 	 * @brief Llamado cuando el objeto esta listo.
 	 */
-	void ready() override;
+	void awake() override;
 	/**
 	 * @brief Actualizacion por frame
 	 * @param deltaTime Tiempo entre frames (normalmente en ms).

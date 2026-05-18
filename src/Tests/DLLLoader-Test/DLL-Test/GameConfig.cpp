@@ -1,4 +1,4 @@
-﻿
+
 #include "GameConfigurator.h"
 #include "checkMLNew.h"
 

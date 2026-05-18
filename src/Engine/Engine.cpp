@@ -58,10 +58,16 @@ void Engine::release()
 		delete _instance->_renderModule;
 		_instance->_renderModule = nullptr;
 	}
-	catch (std::exception e)
+	catch (const std::exception& e)
 	{
 		Debug::error(e.what());
 	}
+	catch (...)
+	{
+		Debug::error("Error desconocido liberando RenderModule.");
+	}
+	delete _instance->_resourcesModule;
+	_instance->_resourcesModule = nullptr;
 	delete _instance->_stateMachine;
 	_instance->_stateMachine = nullptr;
 	// Descarga dlls
@@ -201,7 +207,7 @@ bool Engine::_initPriv()
 		_platformModule = nullptr;
 		return false;
 	}
-	// Renderç
+	// Render
 	_renderModule = new RenderModule();
 	if (!_renderModule->Init(_platformModule->getSDLWindow(), _platformModule->getWindowHandle(), _platformModule->getWindowWidth(), _platformModule->getWindowHeight())) {
 		delete _renderModule;

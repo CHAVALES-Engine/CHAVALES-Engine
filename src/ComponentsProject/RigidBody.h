@@ -3,7 +3,6 @@
  * @brief
  */
 
-
 #pragma once
 #include "EngineComponent.h"
 #include "Vector3.h"
@@ -168,5 +167,4 @@ public:
 	 * @brief Indica si es cinematico
 	 */
 	bool getIsKinematic() const { return isKinematic; }
-
 };

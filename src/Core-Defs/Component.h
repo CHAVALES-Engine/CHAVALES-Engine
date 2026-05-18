@@ -237,6 +237,11 @@ namespace core
 				if constexpr (std::is_void_v<T>) return false; // Devuelve void
 				else return std::optional<T>(std::nullopt);	// Devuelve algo
 			}
+			catch (...) {
+				Debug::error("COMPONENT: Excepcion desconocida en: ", method);
+				if constexpr (std::is_void_v<T>) return false; // Devuelve void
+				else return std::optional<T>(std::nullopt);	// Devuelve algo
+			}
 		}
 	protected:
 		/**

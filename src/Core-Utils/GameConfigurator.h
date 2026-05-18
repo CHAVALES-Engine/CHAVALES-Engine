@@ -138,6 +138,10 @@ namespace core
 			{
 				Debug::warning("GAME CONFIGURATOR: Error leyendo ", key, ": ", e.what());
 			}
+			catch (...)
+			{
+				Debug::warning("GAME CONFIGURATOR: Error desconocido leyendo ", key, ".");
+			}
 			return defaultValue;
 		}
 	};
