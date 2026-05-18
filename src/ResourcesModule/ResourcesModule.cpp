@@ -27,7 +27,7 @@ std::string ResourcesModule::getAssetPath(const std::string& relativePath)
 	core::ResourcePtr ptr = getOrLoadAsset(relativePath);
 
 	if (ptr && ptr->isValid() || ptr->getType() == core::Resource::SOUND)
-		return ptr->getPath();
+		return ptr->getPath() + ptr->getName();
 	Debug::error("[ResourcesModule] Ruta no encontrada: ", relativePath);
 	return "";
 }
