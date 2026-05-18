@@ -86,9 +86,9 @@ namespace core
 				it = _messages.find(name);
 			}
 
-			core::Message<Args...> msg = std::any_cast<core::Message<Args...>>(&it->second);
+			core::Message<Args...>* msg = std::any_cast<core::Message<Args...>*>(&it->second);
 			if (msg) {
-				msg.subscribe(func);
+				msg->subscribe(func);
 				return true;
 			}
 			Debug::error("[MessageManager] No se pudo subscribir al mensaje");
