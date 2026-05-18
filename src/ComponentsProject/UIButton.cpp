@@ -114,6 +114,7 @@ void UIButton::awake()
 		core::ResourcePtr res = resources()->getOrLoadAsset(_textureName);
 		if (!res || !res->isValid()) {
 			Debug::error("[UIButton] Textura no encontrada: ", _textureName);
+			_buttonID = UINT64_MAX;
 			return;
 		}
 

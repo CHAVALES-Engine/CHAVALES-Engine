@@ -65,6 +65,7 @@ void UITextureRect::awake()
 	core::ResourcePtr res = resources()->getOrLoadAsset(_textureName);
 	if (!res || !res->isValid()) {
 		Debug::error("[UITextureRect] Textura no encontrada: ", _textureName);
+		_textureRectID = UINT64_MAX;
 		return;
 	}
 
