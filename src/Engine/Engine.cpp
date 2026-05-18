@@ -54,7 +54,7 @@ void Engine::release()
 		delete _instance->_renderModule;
 		_instance->_renderModule = nullptr;
 	}
-	catch (std::exception e)
+	catch (const std::exception& e)
 	{
 		Debug::error(e.what());
 	}
