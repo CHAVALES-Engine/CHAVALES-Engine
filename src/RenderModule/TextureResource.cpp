@@ -1,5 +1,6 @@
 #include "TextureResource.h"
 #include <Ogre.h>
+#include "checkMLNew.h"
 
 TextureResource::TextureResource(const std::string& id, const std::string& path) :
 	Resource(id, path, TEXTURE), _texturePtr(nullptr)

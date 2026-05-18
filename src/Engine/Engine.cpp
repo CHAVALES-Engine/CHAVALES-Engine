@@ -240,6 +240,9 @@ bool Engine::_initPriv()
 			// imgui precarga automaticamente
 			return _renderModule->loadFont(id, path);
 		});
+	/*_resourcesModule->addFactory(core::Resource::Type::SOUND, TODO
+		[this](const std::string& id, const std::string& path, bool preload) {
+		});*/
 	ComponentDLLLoader::instance().preloadResources();
 	// imgui necesita tener precargadas todas las fonts
 	_resourcesModule->loadAllOfType(core::Resource::FONT);

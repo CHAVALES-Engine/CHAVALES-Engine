@@ -1,6 +1,7 @@
 #include "MeshResource.h"
 #include "Debug.h"
 #include <filesystem>
+#include "checkMLNew.h"
 
 MeshResource::MeshResource(const std::string& id, const std::string& path) :
 	Resource(id, path, MESH), _meshPtr(nullptr) 
