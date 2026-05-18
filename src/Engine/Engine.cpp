@@ -40,10 +40,7 @@ Engine* Engine::instance()
 
 void Engine::release()
 {
-	if (_instance == nullptr)
-	{
-		return;
-	}
+	assert(_instance);
 	// facades
 	delete _instance->_input;
 	_instance->_input = nullptr;
