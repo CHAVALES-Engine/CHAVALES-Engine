@@ -65,7 +65,7 @@ namespace core
 				return nullptr;
 			}
 
-			return std::any_cast<core::Message<Args...>>(&it->second);
+			return std::any_cast<core::Message<Args...>>(&it->second.second);
 		}
 		/**
 		* @brief Subscribe una funcion a un mensaje
@@ -86,7 +86,7 @@ namespace core
 				it = _messages.find(name);
 			}
 
-			core::Message<Args...>* msg = std::any_cast<core::Message<Args...>>(&it->second);
+			core::Message<Args...> msg = std::any_cast<core::Message<Args...>>(&it->second);
 			if (msg) {
 				msg->subscribe(func);
 				return true;
