@@ -606,6 +606,7 @@ core::Entity* GameLoader::_loadLua(
 
 		e->awake();
 		e->ready();
+		e->setInitialized(true);
 
 		return e;
 	}
