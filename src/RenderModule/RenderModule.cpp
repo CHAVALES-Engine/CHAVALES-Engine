@@ -46,6 +46,8 @@
 #include "MeshResource.h"
 #include "TextureResource.h"
 
+#include "Debug.h"
+
 static Ogre::Root* _root = nullptr;
 static Ogre::GL3PlusPlugin* _gl3Plugin = nullptr;
 static Ogre::AssimpPlugin* _assimpPlugin = nullptr;
@@ -140,6 +142,11 @@ bool RenderModule::Init(SDL_Window* sdlWindow, const HWND handle, const int widt
 
 		Ogre::RTShader::ShaderGenerator::initialize();
 		_shaderGen = Ogre::RTShader::ShaderGenerator::getSingletonPtr();
+		if (!_shaderGen)
+		{
+			Debug::error("[RenderModule] No se pudo inicializar RTShader::ShaderGenerator");
+			return false;
+		}
 		_shaderGen->addSceneManager(_sceneMgr);
 		_shaderGen->setTargetLanguage("glsl");
 
