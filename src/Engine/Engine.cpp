@@ -111,9 +111,9 @@ std::shared_ptr<core::Scene> Engine::getScene() const
 	return _stateMachine->getCurrentScnPtr();
 }
 
-void Engine::renderFrame()
+bool Engine::renderFrame()
 {
-	_renderModule->renderFrame();
+	return _renderModule->renderFrame();
 }
 
 void Engine::cleanScene()

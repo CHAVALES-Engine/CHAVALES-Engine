@@ -59,7 +59,6 @@ static Ogre::SceneManager* _sceneMgr = nullptr;
 static Ogre::Viewport* _vp = nullptr;
 static Ogre::RTShader::ShaderGenerator* _shaderGen;
 static Ogre::ResourceGroupManager* _rgm;
-static entityID _mainCameraID;
 
 static Ogre::STBIImageCodec* _jpgCodec;
 static Ogre::STBIImageCodec* _jpegCodec;
@@ -110,7 +109,9 @@ bool RenderModule::Init(SDL_Window* sdlWindow, const HWND handle, const int widt
 		Ogre::RenderSystem* rs = renderers[0];
 		_root->setRenderSystem(rs);
 
-		_root->initialise(false); // No ventana automatica
+		_root->initialise();
+		_windowWidth = width;
+		_windowHeight = height;
 
 		// Crear ventana basica
 		Ogre::NameValuePairList params;
@@ -131,10 +132,6 @@ bool RenderModule::Init(SDL_Window* sdlWindow, const HWND handle, const int widt
 		_nextLightID = 0;
 		_nextParticleGenID = 0;
 		_nextSkydomeID = 0;
-
-		//Se crea una camara auxiliar para crear el viewport. En el momento que se cree una camara manualmente esta pasara automaticamente a ser la activa.
-		_mainCameraID = ChavalesGUID::generate();
-		addCamera(_mainCameraID, 45.0f, 0.1f, 1000.0f, 1.0f, { 0.0f, 0.0f, 0.0f, 1.0f });
 
 		_rgm = &Ogre::ResourceGroupManager::getSingleton();
 
@@ -160,7 +157,6 @@ bool RenderModule::Init(SDL_Window* sdlWindow, const HWND handle, const int widt
 		_shaderGen->setTargetLanguage("glsl");
 
 		Ogre::MaterialManager::getSingleton().setActiveScheme(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME);
-		_vp->setMaterialScheme(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME);
 
 		_overlaySystem = new Ogre::OverlaySystem();
 		_sceneMgr->addRenderQueueListener(_overlaySystem);
@@ -171,16 +167,13 @@ bool RenderModule::Init(SDL_Window* sdlWindow, const HWND handle, const int widt
 		_fonts["default"] = io.Fonts->AddFontDefault();
 
 		io.DisplaySize = ImVec2(
-			(float)_vp->getActualWidth(),
-			(float)_vp->getActualHeight()
+			_windowWidth, _windowHeight
 		);
 
 		/*Ogre::MaterialPtr materialUI = Ogre::MaterialManager::getSingleton().getByName("ImGui/material");
 		_shaderGen->createShaderBasedTechnique(*materialUI, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
 
 		_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, materialUI->getName());*/
-
-		_vp->setOverlaysEnabled(true);
 
 		Ogre::MaterialManager& matMgr = Ogre::MaterialManager::getSingleton();
 
@@ -241,8 +234,7 @@ void RenderModule::buildFontAtlas()
 	ImGuiIO& io = ImGui::GetIO();
 	io.Fonts->Build();
 	io.DisplaySize = ImVec2(
-		(float)_vp->getActualWidth(),
-		(float)_vp->getActualHeight()
+		_windowWidth, _windowHeight
 	);
 
 	// Mostrar overlay despues de construir el atlas
@@ -253,7 +245,6 @@ void RenderModule::buildFontAtlas()
 	Ogre::MaterialPtr materialUI = Ogre::MaterialManager::getSingleton().getByName("ImGui/material");
 	_shaderGen->createShaderBasedTechnique(*materialUI, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
 	_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, materialUI->getName());
-	_vp->setOverlaysEnabled(true);
 }
 
 core::ResourcePtr RenderModule::loadMesh(const std::string& id, const std::string& path, bool preload)
@@ -336,10 +327,18 @@ core::ResourcePtr RenderModule::loadFont(const std::string& name, const std::str
 	return nullptr;
 }
 
-void RenderModule::renderFrame()
+bool RenderModule::renderFrame()
 {
-	renderUI();
-	_root->renderOneFrame();
+	if (_vp != nullptr && _vp->getCamera() != nullptr)
+	{
+		renderUI();
+		_root->renderOneFrame();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 void RenderModule::cleanScene(const bool& end)
@@ -386,7 +385,6 @@ void RenderModule::cleanScene(const bool& end)
 	if (!end)
 	{
 		_sceneMgr->setAmbientLight(Ogre::ColourValue(0.0f, 0.0f, 0.0f));
-		addCamera(_mainCameraID, 45.0f, 0.1f, 1000.0f, 1.0f, { 0.0f, 0.0f, 0.0f, 1.0f });
 		//Limpiamos solo recursos del juego
 		for (auto resourceGroup : _resourceGroups)
 		{
@@ -598,8 +596,8 @@ cameraID RenderModule::addCamera(const entityID& entityID, const float& FOVy, co
 	camera->setFarClipDistance(farClipDistance);
 	camera->setFocalLength(focalLength);
 
-	//Si es la main camera auxiliar o es la primera camara manual se convierte automaticamente en la activa
-	if (_vp == nullptr || _vp->getCamera() == nullptr || (_cameras.size() == 2 && entityID != _mainCameraID))
+	//Si es la primera camara manual se convierte automaticamente en la activa
+	if (_vp == nullptr || _vp->getCamera() == nullptr || (_cameras.size() == 1))
 	{
 		setAsActiveCamera(createdCameraID);
 		_vp->setBackgroundColour(Ogre::ColourValue(bgColor.getRed(), bgColor.getGreen(), bgColor.getBlue()));
@@ -611,7 +609,7 @@ cameraID RenderModule::addCamera(const entityID& entityID, const float& FOVy, co
 
 void RenderModule::deleteCamera(const cameraID& id)
 {
-	if (id != UINT64_MAX && id < _cameras.size() && _cameras[id] != nullptr)
+	if (id != UINT64_MAX && id < _cameras.size() && id != 0 && _cameras[id] != nullptr)
 	{
 		Ogre::Camera* cam = _cameras[id];
 		_cameras[id] = nullptr;
@@ -639,6 +637,8 @@ void RenderModule::setAsActiveCamera(const cameraID& id)
 		{
 			_vp->setCamera(_cameras[id]);
 		}
+		_vp->setMaterialScheme(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME);
+		_vp->setOverlaysEnabled(true);
 	}
 }
 

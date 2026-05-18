@@ -98,7 +98,7 @@ public:
 	/*
 	* @brief Renderizar frame.
 	*/
-	void renderFrame();
+	bool renderFrame();
 	/*
 	* @brief Limpiar escena.
 	*/

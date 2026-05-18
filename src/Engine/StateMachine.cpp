@@ -52,7 +52,11 @@ void StateMachine::gameLoop()
 
 			_currentScene.ptr->update(_deltaTime);
 			_currentScene.ptr->lateUpdate(_deltaTime);
-			Engine::instance()->renderFrame();
+			//Si no se puede renderizar se sale del juego
+			if (!Engine::instance()->renderFrame())
+			{
+				_endGame = true;
+			}
 			// Gestion de creacion y eliminado de entidades en runtime
 			_currentScene.ptr->addListedEntities();
 			_currentScene.ptr->destroyDeadEntities();

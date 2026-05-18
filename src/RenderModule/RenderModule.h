@@ -162,7 +162,7 @@ public:
 	/*
 	* @brief Renderizar frame.
 	*/
-	void renderFrame();
+	bool renderFrame();
 
 	/*
 	* @brief Borrar todos los elementos de la escena.
@@ -728,4 +728,7 @@ private:
 	std::unordered_set<std::string> _preloadedGroups;
 	std::vector<std::pair<FontName, FontPath>> _pendingFonts;
 	bool _imguiSDLInitialized = false;
+
+	float _windowWidth;
+	float _windowHeight;
 };
