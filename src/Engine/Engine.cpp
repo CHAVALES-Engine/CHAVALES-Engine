@@ -40,7 +40,10 @@ Engine* Engine::instance()
 
 void Engine::release()
 {
-	assert(_instance);
+	if (_instance == nullptr)
+	{
+		return;
+	}
 	// facades
 	delete _instance->_input;
 	_instance->_input = nullptr;
@@ -54,7 +57,7 @@ void Engine::release()
 		delete _instance->_renderModule;
 		_instance->_renderModule = nullptr;
 	}
-	catch (std::exception e)
+	catch (const std::exception& e)
 	{
 		Debug::error(e.what());
 	}
