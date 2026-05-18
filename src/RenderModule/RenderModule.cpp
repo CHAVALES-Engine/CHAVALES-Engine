@@ -41,6 +41,7 @@
 #include "GameConfigurator.h"
 #include <checkMLNew.h>
 #include <filesystem>
+#include <stdexcept>
 #include <Vector2.h>
 
 #include "MeshResource.h"
@@ -137,8 +138,16 @@ bool RenderModule::Init(SDL_Window* sdlWindow, const HWND handle, const int widt
 
 		_rgm = &Ogre::ResourceGroupManager::getSingleton();
 
-		_rgm->addResourceLocation("./game/assets/ogre/Media/Main", "FileSystem", "Scene");
-		_rgm->addResourceLocation("./game/assets/ogre/Media/RTShaderLib", "FileSystem", "Scene");
+		const std::filesystem::path ogreMainPath("./game/assets/ogre/Media/Main");
+		const std::filesystem::path ogreRtShaderPath("./game/assets/ogre/Media/RTShaderLib");
+		
+		if (!std::filesystem::exists(ogreMainPath) || !std::filesystem::is_directory(ogreMainPath))
+			throw std::runtime_error("[RENDER MODULE] No existe ./game/assets/ogre/Media/Main");
+		if (!std::filesystem::exists(ogreRtShaderPath) || !std::filesystem::is_directory(ogreRtShaderPath))
+			throw std::runtime_error("[RENDER MODULE] No existe ./game/assets/ogre/Media/RTShaderLib");
+
+		_rgm->addResourceLocation(ogreMainPath.string(), "FileSystem", "Scene");
+		_rgm->addResourceLocation(ogreRtShaderPath.string(), "FileSystem", "Scene");
 
 		Ogre::RTShader::ShaderGenerator::initialize();
 		_shaderGen = Ogre::RTShader::ShaderGenerator::getSingletonPtr();
@@ -216,11 +225,13 @@ bool RenderModule::Init(SDL_Window* sdlWindow, const HWND handle, const int widt
 	catch (const std::exception& e)
 	{
 		std::cerr << "Error iniciando OGRE: " << e.what() << std::endl;
+		shutdown();
 		return false;
 	}
 	catch (...)
 	{
 		std::cerr << "Error iniciando OGRE: excepcion desconocida" << std::endl;
+		shutdown();
 		return false;
 	}
 }
