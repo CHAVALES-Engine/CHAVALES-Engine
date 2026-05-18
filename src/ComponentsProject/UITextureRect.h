@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file
  * @brief Componente que gestiona las texturas de la UI
  */

@@ -1,4 +1,4 @@
-﻿#include "Raycast.h"
+#include "Raycast.h"
 #include "checkMLNew.h"
 
 #include "PxPhysicsAPI.h"

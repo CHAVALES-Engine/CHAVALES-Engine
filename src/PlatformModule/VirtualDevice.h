@@ -144,7 +144,6 @@ namespace input
 		*/
 		float getAxis(InputAxis axis) const;
 
-
 		/**
 		* @brief Devuelve el estado del dispositivo.
 		*
@@ -160,8 +159,8 @@ namespace input
 		 * @brief Borra el buffer del input de texto para cuando se deja de escribir.
 		 */
 		void clearTextInput();
+
 	private:
-		;
 		/**
 		* @brief Construcora de VirtualDevice.
 		*/
@@ -205,8 +204,6 @@ namespace input
 		 * @param dz - Valor a cambiar.
 		 */
 		void _setDeadzone(float dz);
-
-
 
 		//------Arrays de teclas:
 		/**

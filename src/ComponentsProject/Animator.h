@@ -96,7 +96,7 @@ public:
 	*/
 	void setAnimEnabled(const std::string& animationName, const bool& active);
 	/*
-	* @brief Reanudar animacíon a partir de cierto instante de tiempo.
+	* @brief Reanudar animacÃ­on a partir de cierto instante de tiempo.
 	*/
 	void setAnimTimePos(const std::string& animationName, const float& timePos);
 	/*

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file
  * @brief Componente que representa la posición, escala y rotación de una entidad.
  */

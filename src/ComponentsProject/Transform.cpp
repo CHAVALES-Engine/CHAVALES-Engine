@@ -1,4 +1,4 @@
-﻿#include "Transform.h"
+#include "Transform.h"
 
 #include "Scene.h"
 #include <Engine.h>

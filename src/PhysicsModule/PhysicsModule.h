@@ -1,4 +1,4 @@
-﻿/**
+/**
 * @file
 */
 
@@ -241,13 +241,13 @@ public:
 	std::vector<PhysicsEvent> consumeEventsFor(ComponentID id);
 
 private:
-	Raycast raycast;
-	ComponentID nextID = 1;
-	ComponentID nextIDMaterial = 1;
-	std::unordered_map<ComponentID, PhysXComponent*> physicsMap;
-	std::unordered_map<physx::PxRigidActor*, ComponentID> actorToID;
-	std::unordered_map<physx::PxRigidActor*, core::Entity*> actorToEntity;
-	std::vector<PhysicsEvent> eventQueue;
-	float accumulator = 0.0f;
-	float fixedDt = 1/60.0f;
+	Raycast _raycast;
+	ComponentID _nextID = 1;
+	ComponentID _nextIDMaterial = 1;
+	std::unordered_map<ComponentID, PhysXComponent*> _physicsMap;
+	std::unordered_map<physx::PxRigidActor*, ComponentID> _actorToID;
+	std::unordered_map<physx::PxRigidActor*, core::Entity*> _actorToEntity;
+	std::vector<PhysicsEvent> _eventQueue;
+
+	const PxVec3 _defaultGravity = { 0.0f, -981.0f, 0.0f };
 };

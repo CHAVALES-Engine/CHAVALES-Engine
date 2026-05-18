@@ -1,4 +1,4 @@
-﻿#include "ModelRenderer.h"
+#include "ModelRenderer.h"
 
 #include "RenderModule.h"
 #include "ResourcesModule.h"

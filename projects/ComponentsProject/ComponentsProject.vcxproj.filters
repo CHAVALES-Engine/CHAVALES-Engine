@@ -30,9 +30,6 @@
     <ClInclude Include="..\..\src\ComponentsProject\AudioSource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\ComponentsProject\BoxCollider.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\ComponentsProject\CapsuleCollider.h">
       <Filter>Header Files</Filter>
     </ClInclude>

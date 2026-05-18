@@ -1,4 +1,4 @@
-﻿#include "InputFacade.h"
+#include "InputFacade.h"
 #include <PlatformModule.h>
 #include "checkMLNew.h"
 

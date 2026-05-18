@@ -1,4 +1,4 @@
-﻿#include "TimeManager.h"
+#include "TimeManager.h"
 #include "checkMLNew.h"
 
 void core::TimerManager::update()

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file
  * @brief Componente que gestiona un panel donde se anadiran los diferentes elementos de UI
  */

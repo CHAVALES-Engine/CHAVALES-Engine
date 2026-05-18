@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 /**
 * @file
 * @brief ComponentsRegister engloba metodos para el registro de componentes dll.

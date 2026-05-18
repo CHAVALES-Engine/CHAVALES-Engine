@@ -27,7 +27,7 @@ bool ComponentDLLLoader::load(const std::string& path)
 	// Comprueba si existe el fichero
 	WIN32_FILE_ATTRIBUTE_DATA attr;
 	if (!GetFileAttributesExA(path.c_str(), GetFileExInfoStandard, &attr)) {
-		Debug::error("COMPONENT DLL LOADER: File not found: ", path, " err=", GetLastError());
+		Debug::error("COMPONENT DLL LOADER: Archivo no encontrado : ", path, " err=", GetLastError());
 		return false;
 	}
 

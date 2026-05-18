@@ -42,9 +42,9 @@ public:
 	/**
 	 * @brief Lanza un rayo en la escena
 	 * @param origin Punto de origen del rayo
-	 * @param direction DirecciÛn del rayo (debe estar normalizada)
-	 * @param maxDistance Distancia m·xima del rayo
-	 * @param hitInfo Buffer donde se guarda la informaciÛn del impacto
+	 * @param direction Direcci√≥n del rayo (debe estar normalizada)
+	 * @param maxDistance Distancia m√°xima del rayo
+	 * @param hitInfo Buffer donde se guarda la informaci√≥n del impacto
 	 * @return true si el rayo impacta, false si no
 	 */
 	bool Cast(

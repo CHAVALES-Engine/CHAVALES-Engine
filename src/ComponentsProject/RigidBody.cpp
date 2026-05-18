@@ -1,4 +1,4 @@
-﻿#include "RigidBody.h"
+#include "RigidBody.h"
 #include "PluginSDK.h"
 #include "Entity.h"
 #include "Engine.h"

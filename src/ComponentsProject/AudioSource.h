@@ -46,7 +46,7 @@ class ENGINE_API AudioSource : public EngineComponent
 	*/
 	std::shared_ptr<Transform> _tr;
 	/*
-	* @brief Vector que guarda la ˙ltima posiciÛn regristrada para el c·lculo de velocidad
+	* @brief Vector que guarda la √∫ltima posici√≥n regristrada para el c√°lculo de velocidad
 	*/
 	core::Vector3<> _lastPosition;
 	/*
@@ -78,12 +78,12 @@ class ENGINE_API AudioSource : public EngineComponent
 	*/
 	float _soundVolume;
 	/*
-	* @brief Para el audio 3D, radio de la esfera en la que se escucha el audio al m·ximo volumen
+	* @brief Para el audio 3D, radio de la esfera en la que se escucha el audio al m√°ximo volumen
 	*/
 	float _minRadius;
 	/*
 	* @brief Para el audio 3D, radio de la esfera en la que se escucha el audio.
-		Entre el radio minimo y el maximo el audio se disipa linealmente. M·s alla del m·ximo el audio no se escucha
+		Entre el radio minimo y el maximo el audio se disipa linealmente. M√°s alla del m√°ximo el audio no se escucha
 	*/
 	float _maxRadius;
 	/*
@@ -99,11 +99,11 @@ public:
 
 	bool init(const Properties& p) override;
 	/*
-	* @brief Se carga el sonido con los par·metros configurados y, si tiene activado _playOnReady empieza a reproducirlo
+	* @brief Se carga el sonido con los par√°metros configurados y, si tiene activado _playOnReady empieza a reproducirlo
 	*/
 	void ready() override;
 	/*
-	* @brief En cada frame se actualiza la posiciÛn del Source y su velocidad si este es 3D
+	* @brief En cada frame se actualiza la posici√≥n del Source y su velocidad si este es 3D
 	*/
 	void update(uint64_t deltaTime) override;
 	/*
@@ -150,7 +150,7 @@ public:
 	*/
 	void pauseSound(bool pause) const;
 	/*
-	* @brief Devuelve si est· pausado
+	* @brief Devuelve si est√° pausado
 	*/
 	bool isPaused() const;
 

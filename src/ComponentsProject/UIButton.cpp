@@ -1,4 +1,4 @@
-﻿#include "UIButton.h"
+#include "UIButton.h"
 #include "Entity.h"
 #include "Engine.h"
 

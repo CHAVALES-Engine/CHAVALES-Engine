@@ -1,4 +1,4 @@
-﻿#include "Engine.h"
+#include "Engine.h"
 
 #include <memory>
 
@@ -16,10 +16,6 @@
 #include "GameLoader.h"
 
 #include "InputFacade.h"
-#include "RenderFacade.h"
-#include "UIFacade.h"
-#include "PhysicsFacade.h"
-#include "AudioFacade.h"
 #include <checkMLNew.h>
 
 #include "MessagesManager.h"
@@ -116,6 +112,7 @@ void Engine::cleanScene()
 {
 	_physicsModule->ReloadPhysics();
 	_renderModule->cleanScene(false);
+	_audioModule->stopEverything();
 }
 
 void Engine::setViewportBGColor(const core::Color& color)
