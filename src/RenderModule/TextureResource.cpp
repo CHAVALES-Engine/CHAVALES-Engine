@@ -48,7 +48,10 @@ bool TextureResource::unLoad()
 
 	try {
 		if (_texturePtr) {
-			Ogre::TextureManager::getSingleton().unload(_texturePtr->getHandle());
+			auto& mgr = Ogre::TextureManager::getSingleton();
+			if (mgr.resourceExists(_texturePtr->getName(), _texturePtr->getGroup())) {
+				mgr.unload(_texturePtr->getHandle());
+			}
 			_texturePtr.reset();
 			_state = UNLOADED;
 			return true;
