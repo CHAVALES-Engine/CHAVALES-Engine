@@ -113,4 +113,9 @@ bool core::GameConfigurator::LoadFromFile(const std::string& path)
 		Debug::error("GAME CONFIGURATOR: ", e.description());
 		return false;
 	}
+	catch (...)
+	{
+		Debug::error("GAME CONFIGURATOR: Error desconocido leyendo configuracion.");
+		return false;
+	}
 }

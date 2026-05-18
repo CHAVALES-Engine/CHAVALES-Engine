@@ -58,6 +58,10 @@ void Engine::release()
 	{
 		Debug::error(e.what());
 	}
+	catch (...)
+	{
+		Debug::error("Error desconocido liberando RenderModule.");
+	}
 	delete _instance->_resourcesModule;
 	_instance->_resourcesModule = nullptr;
 	delete _instance->_stateMachine;

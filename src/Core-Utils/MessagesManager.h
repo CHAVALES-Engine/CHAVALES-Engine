@@ -140,7 +140,12 @@ namespace core
 			{
 				_destroyed = true;
 				try { _messages.clear(); }
-				catch (...) {}
+				catch (const std::exception& e) {
+					Debug::error("MESSAGES MANAGER: Error limpiando mensajes en destructor: ", e.what());
+				}
+				catch (...) {
+					Debug::error("MESSAGES MANAGER: Error desconocido limpiando mensajes en destructor.");
+				}
 			}
 		};
 		/**

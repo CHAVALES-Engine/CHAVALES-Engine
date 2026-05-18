@@ -39,7 +39,11 @@ namespace core
 					}
 					catch (const std::exception& e)
 					{
-						Debug::error("Error en subscriber: ", e.what());
+						Debug::error("MESSAGE: Error en subscriber: ", e.what());
+					}
+					catch (...)
+					{
+						Debug::error("MESSAGE: Error desconocido en subscriber.");
 					}
 				}
 			}
@@ -64,7 +68,7 @@ namespace core
 		{
 			if (id < 0 || id >= static_cast<int>(_subscribers.size()))
 			{
-				Debug::error("Mensage con ID invalido: ", id);
+				Debug::error("MESSAGE: Mensaje con ID invalido: ", id);
 				return false;
 			}
 			_subscribers.erase(_subscribers.begin() + id);
@@ -79,7 +83,11 @@ namespace core
 			}
 			catch (const std::exception& e)
 			{
-				Debug::error("Error al desuscribir todos los callbacks: ", e.what());
+				Debug::error("MESSAGE: Error al desuscribir todos los callbacks: ", e.what());
+			}
+			catch (...)
+			{
+				Debug::error("MESSAGE: Error desconocido al desuscribir todos los callbacks.");
 			}
 		}
 
