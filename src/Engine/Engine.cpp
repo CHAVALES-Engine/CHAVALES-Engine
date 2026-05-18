@@ -159,7 +159,7 @@ std::string Engine::getAssetSourceFolder(const std::string& assetName) const
 
 bool Engine::preload(const std::string& path)
 {
-	return _resourcesModule->load(path);
+	return _resourcesModule->load(path, true);
 }
 
 bool Engine::preloadAll()

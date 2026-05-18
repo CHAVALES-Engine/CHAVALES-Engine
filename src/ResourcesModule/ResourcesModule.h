@@ -47,20 +47,10 @@ public:
 	 */
 	ChavalesGUID getResourceId(const std::string& path) const;
 	/**
-	 * @brief Metodo para el RenderModule para sacar todas las fuentes.
+	 * @brief Funcion que anyade un metodo factory para un tipo de recurso marcado.
+	 * @param type - Tipo de recurso.
+	 * @param fact - Funcion factory.
 	 */
-	 //std::vector<std::pair<std::string, std::string>> getAllFonts() const;
-
-	 /**
-	  * @brief Metodo para acceder a todos los assets almacenados en el motor.
-	  */
-	  /*std::vector<std::pair<std::string, std::string>> getAllAssets();*/
-
-	  /**
-	   * @brief Funcion que anyade un metodo factory para un tipo de recurso marcado.
-	   * @param type - Tipo de recurso.
-	   * @param fact - Funcion factory.
-	   */
 	void addFactory(core::Resource::Type type, ResourceFactory fact);
 
 	/**

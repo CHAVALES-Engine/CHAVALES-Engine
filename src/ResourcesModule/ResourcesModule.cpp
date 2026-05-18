@@ -66,11 +66,6 @@ ChavalesGUID ResourcesModule::getResourceId(const std::string& path) const
 	return ChavalesGUID::invalid();
 }
 
-//std::vector<std::pair<std::string, std::string>> ResourcesModule::getAllFonts() const
-//{
-//	return _fontsVector;
-//}
-
 void ResourcesModule::addFactory(core::Resource::Type type, ResourceFactory fact)
 {
 	if (!fact) {
