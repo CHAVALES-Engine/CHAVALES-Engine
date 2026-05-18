@@ -9,7 +9,9 @@ TextureResource::TextureResource(const std::string& id, const std::string& path)
 
 TextureResource::~TextureResource()
 {
-	if (isValid() && unLoad()) return;
+	if (_texturePtr) {
+		unLoad();
+	}
 
 	_texturePtr.reset();
 	_state = LOAD_ERROR;

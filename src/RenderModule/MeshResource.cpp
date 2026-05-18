@@ -32,7 +32,7 @@ bool MeshResource::load()
 		_state = LOAD_ERROR;
 	}
 
-	return true;
+	return false;
 }
 
 bool MeshResource::unLoad()
@@ -41,8 +41,14 @@ bool MeshResource::unLoad()
 	if (!Resource::unLoad()) return false;
 	try {
 		if (_meshPtr) {
+			auto& mgr = Ogre::MeshManager::getSingleton();
+			std::string meshName = _meshPtr->getName();
+			std::string groupName = _meshPtr->getGroup();
+
 			// Descargamos mesh de ogre.
-			Ogre::MeshManager::getSingleton().unload(_path);
+			if (mgr.resourceExists(meshName, groupName)) {
+				mgr.remove(meshName, groupName);
+			}
 			// Limpiamos el recurso.
 			_meshPtr.reset();
 			_state = UNLOADED;
