@@ -29,7 +29,8 @@ scene = { -- entidades en escena
                 AudioListener = {},
                 ScriptComponent = {
                     script = "./game/assets/scripts/luaComponentTest.lua"
-                }
+                },
+                ChangeTest = { scene = "scene_prueba" }
             }
         },
         gameManager = {

@@ -1472,44 +1472,86 @@ uiLabelID RenderModule::addUILabel(const uiPanelID& panelID, const entityID& ent
 
 void RenderModule::deleteUILabel(const uiLabelID& id)
 {
-	auto [panelID, labelIndex] = _labelToPanel[id];
+	const auto it = _labelToPanel.find(id);
+	if (it == _labelToPanel.end()) return;
+
+	auto [panelID, labelIndex] = it->second;
+	if (panelID >= _uiPanels.size()) return;
+	if (labelIndex < 0 || labelIndex >= _uiPanels[panelID].labels.size()) return;
+
 	auto& label = _uiPanels[panelID].labels[labelIndex];
 	label.alive = false;
 }
 
 void RenderModule::setUILabelVisible(const uiLabelID& labelID, bool visible)
 {
-	auto [panelID, labelIndex] = _labelToPanel[labelID];
+	const auto it = _labelToPanel.find(labelID);
+	if (it == _labelToPanel.end()) return;
+
+	auto [panelID, labelIndex] = it->second;
+	if (panelID >= _uiPanels.size()) return;
+	if (labelIndex < 0 || labelIndex >= _uiPanels[panelID].labels.size()) return;
+
 	_uiPanels[panelID].labels[labelIndex].visible = visible;
 }
 
 void RenderModule::setUILabelText(const uiLabelID& labelID, const std::string& text)
 {
-	auto [panelID, labelIndex] = _labelToPanel[labelID];
+	const auto it = _labelToPanel.find(labelID);
+	if (it == _labelToPanel.end()) return;
+
+	auto [panelID, labelIndex] = it->second;
+	if (panelID >= _uiPanels.size()) return;
+	if (labelIndex < 0 || labelIndex >= _uiPanels[panelID].labels.size()) return;
+
 	_uiPanels[panelID].labels[labelIndex].text = text;
 }
 
 void RenderModule::setUILabelOpacity(const uiLabelID& labelID, float opacity)
 {
-	auto [panelID, labelIndex] = _labelToPanel[labelID];
+	const auto it = _labelToPanel.find(labelID);
+	if (it == _labelToPanel.end()) return;
+
+	auto [panelID, labelIndex] = it->second;
+	if (panelID >= _uiPanels.size()) return;
+	if (labelIndex < 0 || labelIndex >= _uiPanels[panelID].labels.size()) return;
+
 	_uiPanels[panelID].labels[labelIndex].opacity = opacity;
 }
 
 void RenderModule::setUILabelTextColor(const uiLabelID& labelID, const core::Color& color)
 {
-	auto [panelID, labelIndex] = _labelToPanel[labelID];
+	const auto it = _labelToPanel.find(labelID);
+	if (it == _labelToPanel.end()) return;
+
+	auto [panelID, labelIndex] = it->second;
+	if (panelID >= _uiPanels.size()) return;
+	if (labelIndex < 0 || labelIndex >= _uiPanels[panelID].labels.size()) return;
+
 	_uiPanels[panelID].labels[labelIndex].textColor = color;
 }
 
 void RenderModule::setUILabelBackGroundColor(const uiLabelID& labelID, const core::Color& color)
 {
-	auto [panelID, labelIndex] = _labelToPanel[labelID];
+	const auto it = _labelToPanel.find(labelID);
+	if (it == _labelToPanel.end()) return;
+
+	auto [panelID, labelIndex] = it->second;
+	if (panelID >= _uiPanels.size()) return;
+	if (labelIndex < 0 || labelIndex >= _uiPanels[panelID].labels.size()) return;
+
 	_uiPanels[panelID].labels[labelIndex].bgColor = color;
 }
 
 void RenderModule::setUILabelAlign(const uiLabelID& labelID, const TextAlign& align)
 {
-	auto [panelID, labelIndex] = _labelToPanel[labelID];
+	const auto it = _labelToPanel.find(labelID);
+	if (it == _labelToPanel.end()) return;
+
+	auto [panelID, labelIndex] = it->second;
+	if (panelID >= _uiPanels.size()) return;
+	if (labelIndex < 0 || labelIndex >= _uiPanels[panelID].labels.size()) return;
+
 	_uiPanels[panelID].labels[labelIndex].align = align;
 }
 

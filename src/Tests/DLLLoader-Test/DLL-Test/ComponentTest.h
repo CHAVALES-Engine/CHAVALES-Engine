@@ -326,14 +326,25 @@ REGISTER_COMPONENT(InitialTest);
 
 class ChangeTest : public core::Component
 {
+	std::string toScene;
+
+public:
+	bool init(const Properties& p) override
+	{
+		return setProperty(p, "scene", toScene);
+	}
+
 	void ready() override
 	{
 		Debug::out("READY CHANGE");
-		//Engine::instance()->requestSceneChange("scene_prueba");
 	}
 
 	void update(uint64_t deltaTime) override
 	{
+		if (Input()->isJustPressed(input::MOUSE_BUTTON_LEFT)) 
+		{
+			Engine::instance()->requestSceneChange(toScene);
+		}
 	}
 };
 

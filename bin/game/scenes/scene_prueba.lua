@@ -22,7 +22,7 @@ scene = { -- entidades en escena
 						["focal length"] = 60.0
 						--["background color"] = Color.new(0.5,0.5,0.5,1)
 					},
-					InitialTest = {}
+					ChangeTest = { scene = "scene_base" }
 				}
 		},
 		esfera = {
