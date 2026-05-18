@@ -44,6 +44,10 @@ void Engine::release()
 	// facades
 	delete _instance->_input;
 	_instance->_input = nullptr;
+	// recursos
+	delete _instance->_resourcesModule;
+	_instance->_resourcesModule = nullptr;
+	// resto de modulos
 	delete _instance->_platformModule;
 	_instance->_platformModule = nullptr;
 	delete _instance->_audioModule;
@@ -58,8 +62,6 @@ void Engine::release()
 	{
 		Debug::error(e.what());
 	}
-	delete _instance->_resourcesModule;
-	_instance->_resourcesModule = nullptr;
 	delete _instance->_stateMachine;
 	_instance->_stateMachine = nullptr;
 	// Descarga dlls

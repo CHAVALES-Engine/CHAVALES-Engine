@@ -137,14 +137,13 @@ scene = { -- entidades en escena
         --         }
         --     }
         -- },
-         ambientLight = {
-             components = {
-                 AmbientLight = {
-                     color = Color.new(0.3, 0.0, 0.0, 0.0)
-                 }
-             }
-         }
-        --,
+        ambientLight = {
+            components = {
+                AmbientLight = {
+                    color = Color.new(0.5, 0.5, 0.5, 0.0)
+                }
+            }
+        },
         -- light = {
         --     ddol = false,
         --     components = {
@@ -163,60 +162,56 @@ scene = { -- entidades en escena
         --         }
         --     }
         -- },
-        -- CanvasUI = {
-        --     ddol = false,
-        --     components = {
-        --         UITransform = {
-        --             position = Vector2.new(0, 0),
-        --             dimension = Vector2.new(1280, 720),
-        --             zBuffer = 0,
-        --             -- position = Vector2.new(900, 10),
-        --             children = {"LabelUI", "ButtonUI", "ButtonUI2"}
-
-        --         },
-        --         UIPanel = {
-        --             name = "CanvasUI"
-        --         }
-        --     }
-        -- },
-        -- ButtonUI = {
-        --     ddol = false,
-        --     components = {
-        --         UITransform = {
-        --             position = Vector2.new(100, 60),
-        --             dimension = Vector2.new(200, 200),
-        --             zBuffer = 0
-
-        --         },
-        --         UIButton = {
-        --             textureName = "images/prueba.jpg",
-        --             text = "Boton Botonez",
-        --             opacity = 1.0,
-        --             fontName = "fonts/horrendo.ttf"
-
-        --         }
-        --     }
-        -- },
-        -- LabelUI = {
-        --     ddol = false,
-        --     components = {
-        --         UITransform = {
-        --             position = Vector2.new(600, 60),
-        --             dimension = Vector2.new(200, 200),
-        --             zBuffer = 0
-
-        --         },
-        --         UILabel = {
-        --             text = "Boton Botonez ( En realidad es un UILabel)",
-        --             opacity = 1.0,
-        --             bgColor = Color.new(1.0, 0.0, 0.0, 1),
-        --             align = "center",
-        --             fontSize = 16.0,
-        --             fontName = "fonts/horrendo.ttf",
-        --             textColor = Color.new(1.0, 1.0, 0.0, 1)
-        --         }
-        --     }
-        -- },
+        CanvasUI = {
+            ddol = false,
+            components = {
+                UITransform = {
+                    position = Vector2.new(0, 0),
+                    dimension = Vector2.new(1280, 720),
+                    zBuffer = 0,
+                    -- position = Vector2.new(900, 10),
+                    children = {"LabelUI", "ButtonUI"}
+                },
+                UIPanel = {
+                    name = "CanvasUI"
+                }
+            }
+        },
+        ButtonUI = {
+            ddol = false,
+            components = {
+                UITransform = {
+                    position = Vector2.new(100, 60),
+                    dimension = Vector2.new(200, 200),
+                    zBuffer = 0
+                },
+                UIButton = {
+                    textureName = "images/prueba.jpg",
+                    text = "Boton Botonez",
+                    opacity = 1.0,
+                    fontName = "fonts/horrendo.ttf"
+                }
+            }
+        },
+        LabelUI = {
+            ddol = false,
+            components = {
+                UITransform = {
+                    position = Vector2.new(600, 60),
+                    dimension = Vector2.new(200, 200),
+                    zBuffer = 0
+                },
+                UILabel = {
+                    text = "Boton Botonez ( En realidad es un UILabel)",
+                    opacity = 1.0,
+                    bgColor = Color.new(1.0, 0.0, 0.0, 1),
+                    align = "center",
+                    fontSize = 16.0,
+                    fontName = "fonts/horrendo.ttf",
+                    textColor = Color.new(1.0, 1.0, 0.0, 1)
+                }
+            }
+        },
         -- auxiliar = {
         --    ddol = false,
         --     components = {

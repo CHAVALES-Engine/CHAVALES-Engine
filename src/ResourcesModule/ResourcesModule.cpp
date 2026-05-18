@@ -45,7 +45,7 @@ core::ResourcePtr ResourcesModule::getOrLoadAsset(const std::string& relativePat
 
 	// Si ya esta cargado, devolverlo
 	auto it = _resources.find(id);
-	if (it != _resources.end() && it->second) {
+	if (it != _resources.end() && it->second && it->second->isValid()) {
 		return it->second;
 	}
 
@@ -173,7 +173,6 @@ bool ResourcesModule::_addResource(const std::string& sourcePath)
 	std::string normalizedPath = _normalizePath(sourcePath);
 	_pathToGuid[normalizedPath] = aux;
 	_resources[aux] = std::make_shared<core::Resource>(nombreAsset, normalizedPath);
-	_resources[aux] = std::make_shared<core::Resource>(nombreAsset, sourcePath);  // Ruta completa al archivo
 
 	// vector especial para fonts.
 	if (_isFontFile(sourcePath)) {
