@@ -64,8 +64,13 @@ namespace core
 				Debug::warning("[MessageManager] Mensaje con nombre: \"", name, "\" no existe.");
 				return nullptr;
 			}
-
-			return std::any_cast<core::Message<Args...>>(&it->second.second);
+			try {
+				return std::any_cast<core::Message<Args...>>(&it->second.second);
+			}
+			catch (const std::bad_any_cast& e) {
+				Debug::error("[MessageManager] Tipo de mensaje incorrecto para: \"", name, "\"");
+				return nullptr;
+			}
 		}
 		/**
 		* @brief Subscribe una funcion a un mensaje
@@ -86,11 +91,19 @@ namespace core
 				it = _messages.find(name);
 			}
 
-			core::Message<Args...>* msg = std::any_cast<core::Message<Args...>*>(&it->second.second);
-			if (msg) {
-				msg->subscribe(func);
-				return true;
+			try {
+				// ✅ Acceder a .second.second (el std::any dentro del pair)
+				core::Message<Args...>* msg = std::any_cast<core::Message<Args...>>(&it->second.second);
+				if (msg) {
+					msg->subscribe(func);
+					return true;
+				}
 			}
+			catch (const std::bad_any_cast& e) {
+				Debug::error("[MessageManager] Tipo de mensaje incorrecto para: \"", name, "\". Error: ", e.what());
+				return false;
+			}
+
 			Debug::error("[MessageManager] No se pudo subscribir al mensaje");
 			return false;
 
