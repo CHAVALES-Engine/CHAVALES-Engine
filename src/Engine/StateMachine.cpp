@@ -12,7 +12,7 @@
 #include "ComponentRegister.h"
 #include "Debug.h"
 #include "GameLoader.h"
-#include "TimeManager.h"
+#include "TimerManager.h"
 #include "checkMLNew.h"
 #include "MessagesManager.h"
 
@@ -85,6 +85,7 @@ void StateMachine::_addAndSetScene(const sceneName& n)
 
 	if (_currentScene.ptr != nullptr) // Esto NO deberia ir antes de saber si se ha cargado la escena o no pero como muchos inits() de componentes que se hacen en loadScene() dependen de IDs que luego se borran en el clearScene() peta -> UIPanel.init() hace addUIPanel() y guarda _panelID despues destruye la escena vieja y llama a cleanScene(), se pierde la referencia y peta
 	{
+		core::MessagesManager::instance().clearNonPersistants();
 		_currentScene.ptr->clearScene();
 		Engine::instance()->cleanScene();
 	}
