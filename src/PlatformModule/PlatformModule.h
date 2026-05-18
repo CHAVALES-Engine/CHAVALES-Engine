@@ -106,58 +106,58 @@ public:
 	 * @param device - id del dispositivo a comprobar. ANY_DEVICE por defecto => si se ha dejado de pulsar en cualquier dispositivo.
 	 */
 	bool isKeyReleased(input::InputEvent inputEvent, input::DeviceID device = input::ANY_DEVICE) const;
-	/*
+	/**
 	 * @brief Devuelve cuanto de accionado esta la accion a comprobar
 	 * @param inputEvent - InputEvent a comprobar
 	 * @param device - id del dispositivo a comprobar. ANY_DEVICE por defecto => la media de los ejes de los dispositivos.
 	 * @return float - Devuelve de -1 a 1
 	 */
 	float getAxis(input::InputEvent inputEvent, input::DeviceID device = input::ANY_DEVICE) const;
-	/*
+	/**
 	 * @brief Devuelve si se ha pulsado una accion
 	 * @param actionName - accion a comprobar
 	 * @param device - id del dispositivo a comprobar. ANY_DEVICE por defecto => si se ha pulsado en cualquier dispositivo.
 	 */
 	bool isActionPressed(const std::string& actionName, input::DeviceID device = input::ANY_DEVICE) const;
-	/*
+	/**
 	 * @brief Devuelve si se ha pulsado una accion
 	 * @param actionName - accion a comprobar
 	 * @param device - id del dispositivo a comprobar. ANY_DEVICE por defecto => si se ha pulsado en cualquier dispositivo.
 	 */
 	bool isActionJustPressed(const std::string& actionName, input::DeviceID device = input::ANY_DEVICE) const;
-	/*
+	/**
 	 * @brief Devuelve si se ha dejado de pulsar una accion
 	 * @param actionName - accion a comprobar
 	 * @param device - id del dispositivo a comprobar. ANY_DEVICE por defecto => si se ha dejado de pulsar en cualquier dispositivo.
 	 */
 	bool isActionReleased(const std::string& actionName, input::DeviceID device = input::ANY_DEVICE) const;
-	/*
+	/**
 	 * @brief Devuelve la media de los ejes registrados a esa accion(input::ANY_DEVICE) o la media de los ejes del device pedido.
 	 * @param actionName - accion a comprobar
 	 * @param device - id del dispositivo a comprobar. ANY_DEVICE por defecto => si se ha dejado de pulsar en cualquier dispositivo.
 	 */
 	float getActionAxis(const std::string& actionName, input::DeviceID device = input::ANY_DEVICE) const;
-	/*
+	/**
 	 * @brief Indica a la ventana que tome input de texto.
 	 * @param blockKeyboard - Booleano que indica si se debe bloquear el input de teclado mientras se escibe.
 	 */
 	void startTextInput(bool blockKeyboard = true);
-	/*
+	/**
 	 * @brief Indica a la ventana que deje de tomar input de texto.
 	 */
 	void stopTextInput();
-	/*
+	/**
 	 * @brief Devuelve el texto introducido por el dispositivo.
 	 * @param device - id del dispositivo a registrar. ANY_DEVICE por defecto => la suma del input de todos los dispositivos.
 	 * @return std::string - Input del texto.
 	 */
 	std::string getTextInput(input::DeviceID device = input::ANY_DEVICE) const;
-	/*
+	/**
 	 * @brief Borra el buffer del input escrito.
 	 * @param device - id del dispositivo a comprobar. ANY_DEVICE por defecto => la suma del input de todos los dispositivos.
 	 */
 	void clearTextInput(input::DeviceID device = input::ANY_DEVICE);
-	/*
+	/** 
 	 * @brief Getter del input mapper para registrar acciones
 	 * @return input::InputMapper& - referencia al InputMapper
 	 */
@@ -180,7 +180,17 @@ public:
 	*/
 	void setWindowName(const std::string& name);
 	/**
-	* @brief Registra una funcion para llamarla en el syncronice().
+	* @brief Activa o desactiva el modo pantalla completa.
+	* @param enabled - true para fullscreen, false para modo ventana.
+	* @return bool - true si la operación se aplicó correctamente.
+	*/
+	bool setFullscreen(bool enabled) const;
+	/**
+	* @brief Si la ventana está actualmente en pantalla completa
+	*/
+	bool isFullscreen() const;
+	/**
+	* @brief Registra una funcion para llamarla en el pollEvents().
 	* @param callback - Funcion a registrar.
 	*/
 	void registerEventObserver(EventCallback callback);

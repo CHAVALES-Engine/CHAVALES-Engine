@@ -367,6 +367,25 @@ void PlatformModule::setWindowName(const std::string& name)
 	SDL_SetWindowTitle(_window, name.c_str());
 }
 
+bool PlatformModule::setFullscreen(bool enabled) const
+{
+	if (_window == nullptr) 
+		return false;
+	if (!SDL_SetWindowFullscreen(_window, enabled))
+	{
+		Debug::error("[Platform Module] No se pudo cambiar a fullscreen: ", SDL_GetError());
+		return false;
+	}
+	return true;
+}
+
+bool PlatformModule::isFullscreen() const
+{
+	if (_window == nullptr) 
+		return false;
+	return (SDL_GetWindowFlags(_window) & SDL_WINDOW_FULLSCREEN) != 0;
+}
+
 void PlatformModule::registerEventObserver(EventCallback callback)
 {
 	_eventObserver = callback;

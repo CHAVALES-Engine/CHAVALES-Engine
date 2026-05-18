@@ -178,6 +178,18 @@ int Engine::getWindowHeight() const
 	return _platformModule->getWindowHeight();
 }
 
+bool Engine::setFullscreen(bool enabled) const
+{
+	if (_platformModule == nullptr) return false;
+	return _platformModule->setFullscreen(enabled);
+}
+
+bool Engine::isFullscreen() const
+{
+	if (_platformModule == nullptr) return false;
+	return _platformModule->isFullscreen();
+}
+
 bool Engine::_initPriv()
 {
 	// Abre archivo .log

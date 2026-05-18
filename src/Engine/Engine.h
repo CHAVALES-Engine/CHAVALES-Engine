@@ -140,6 +140,16 @@ public:
 	* @brief Devuelve altura de la ventana
 	*/
 	int getWindowHeight() const;
+	/**
+	* @brief Activa o desactiva pantalla completa
+	* @param enabled - true para fullscreen, false para modo ventana
+	* @return bool - true si se aplicó correctamente
+	*/
+	bool setFullscreen(bool enabled) const;
+	/**
+	* @brief Devuelve si la ventana está en pantalla completa
+	*/
+	bool isFullscreen() const;
 
 	// ---------- INPUT
 	const InputFacade* getInput() const { return _input; }
