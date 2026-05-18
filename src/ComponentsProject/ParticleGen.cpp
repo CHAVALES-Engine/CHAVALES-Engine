@@ -124,7 +124,7 @@ void ParticleGen::destroy()
 void ParticleGen::ready()
 {
 	auto particle = Engine::instance()->getAssetSourceFolder(_textureName);
-	_particleGenID = render()->addParticleGen(getEntity()->getEntityID(), particle.first, particle.second);
+	_particleGenID = render()->addParticleGen(getEntity()->getEntityID(), particle.second, particle.first);
 	if (_particleGenID == UINT64_MAX)
 	{
 		Debug::error("[ParticleGen] No se pudo crear el sistema de particulas para '", _textureName, "'.");

@@ -1087,7 +1087,7 @@ particleGenID RenderModule::addParticleGen(const entityID& entityID, const std::
 		if (_shaderGen)
 		{
 			_shaderGen->createShaderBasedTechnique(*mat, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
-			if (_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, mat->getName()))
+			if (!_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, mat->getName()))
 				Debug::error("[ParticleGen] No se valido el material ", mat->getName()," correctamente.");
 		}
 
