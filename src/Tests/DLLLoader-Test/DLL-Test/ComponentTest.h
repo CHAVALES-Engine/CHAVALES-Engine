@@ -327,7 +327,6 @@ REGISTER_COMPONENT(InitialTest);
 class ChangeTest : public core::Component
 {
 	std::string toScene;
-	bool fullscreen = false;
 
 public:
 	bool init(const Properties& p) override
@@ -344,8 +343,8 @@ public:
 	{
 		if (Input()->isJustPressed(input::MOUSE_BUTTON_LEFT)) 
 		{
-			fullscreen = !fullscreen;
-			Debug::out(Engine::instance()->setFullscreen(fullscreen) ? "CAMBIO OK" :  "ERROR");
+			const bool targetFullscreen = !Engine::instance()->isFullscreen();
+			Debug::out(Engine::instance()->setFullscreen(targetFullscreen) ? "CAMBIO OK" :  "ERROR");
 			Engine::instance()->requestSceneChange(toScene);
 		}
 	}
