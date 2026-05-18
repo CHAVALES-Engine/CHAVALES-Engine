@@ -81,7 +81,7 @@ scene = { -- entidades en escena
                     bounceCombine = 2
                 },
                 AudioSource = {
-                    soundPath = "sfx/smb_1-up.wav",
+                    soundPath = "audio/sfx/smb_1-up.wav",
                     soundID = "vidaExtra1",
                     is3D = true,
                     loop = false,
