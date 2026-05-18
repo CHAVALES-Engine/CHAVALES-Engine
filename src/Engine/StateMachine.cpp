@@ -86,7 +86,7 @@ void StateMachine::_addAndSetScene(const sceneName& n)
 	}
 	else
 	{
-		_currentScene.ptr = std::make_shared<core::Scene>("");
+		_currentScene.ptr = std::make_shared<core::Scene>(n);
 	}
 
 	// cargar nueva escena

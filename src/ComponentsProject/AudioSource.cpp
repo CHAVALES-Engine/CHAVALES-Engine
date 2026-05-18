@@ -1,10 +1,13 @@
 #include "AudioSource.h"
+#include <Debug.h>
+#include <Entity.h>
 #include <PluginSDK.h>
+
 #include "AudioModule.h"
+#include "ResourcesModule.h"
+
 #include "Engine.h"
 #include "Transform.h"
-#include "Entity.h" 
-#include <Debug.h>
 #include "checkMLNew.h"
 
 REGISTER_COMPONENT(AudioSource);
@@ -37,9 +40,12 @@ void AudioSource::ready()
 	assert(entity->hasComponent<Transform>());
 	_tr = entity->getComponent<Transform>();
 	_lastPosition = _tr->getGlobalPosition();
-	std::pair<std::string, std::string> path = Engine::instance()->getAssetSourceFolder(_path);
-	std::string realPath = path.second + path.first;
-	audio()->loadSound(realPath, _id, _isStream, _loop, _is3D);
+	std::string audioPath = resources()->getAssetPath(_path);
+	if (audioPath.empty()) {
+		Debug::error("[AudioSource] Audio no encontrado: ", _path);
+	}
+
+	audio()->loadSound(audioPath, _id, _isStream, _loop, _is3D);
 	if (_playOnReady)
 	{
 		playSound();

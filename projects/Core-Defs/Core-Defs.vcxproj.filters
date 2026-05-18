@@ -78,6 +78,9 @@
     <ClInclude Include="..\..\src\Core-Defs\InputDefs.h">
       <Filter>Header Files\Basics</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\Core-Defs\Resource.h">
+      <Filter>Header Files\Basics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

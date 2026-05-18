@@ -44,6 +44,10 @@ void Engine::release()
 	// facades
 	delete _instance->_input;
 	_instance->_input = nullptr;
+	// recursos
+	delete _instance->_resourcesModule;
+	_instance->_resourcesModule = nullptr;
+	// resto de modulos
 	delete _instance->_platformModule;
 	_instance->_platformModule = nullptr;
 	delete _instance->_audioModule;
@@ -135,7 +139,7 @@ bool Engine::rayCast(const core::Vector3<>& origin, const core::Vector3<>& direc
 std::vector<ShapeRenderData> Engine::GetPhysicsRenderData()
 {
 	if (!_physicsModule) return {};
-		return _physicsModule->GetRenderData();
+	return _physicsModule->GetRenderData();
 }
 
 void Engine::SetGravity(const core::Vector3<>& gravity) const
@@ -148,13 +152,19 @@ void Engine::setGizmos(bool gizmos)
 	_gizmos = gizmos;
 }
 
-std::pair<std::string, std::string> Engine::getAssetSourceFolder(const std::string& assetName) const
+std::string Engine::getAssetSourceFolder(const std::string& assetName) const
 {
-	return _resourcesModule->getAssetSourceFolder(assetName);
+	return _resourcesModule->getAssetPath(assetName);
 }
-std::vector<std::pair<std::string, std::string>> Engine::getAllAssets() const
+
+bool Engine::preload(const std::string& path)
 {
-	return _resourcesModule->getAllAssets();
+	return _resourcesModule->load(path);
+}
+
+bool Engine::preloadAll()
+{
+	return _resourcesModule->preloadAllAssets();
 }
 #pragma endregion
 
@@ -183,14 +193,6 @@ bool Engine::_initPriv()
 #endif
 	if (!ComponentDLLLoader::instance().load(basecompPath))
 		return false;
-
-	// Platform
-	_platformModule = new PlatformModule();
-	if (!_platformModule->Init()) {
-		delete _platformModule;
-		_platformModule = nullptr;
-		return false;
-	}
 	// Resources
 	_resourcesModule = new ResourcesModule();
 	if (!_resourcesModule->Init()) {
@@ -198,9 +200,16 @@ bool Engine::_initPriv()
 		_resourcesModule = nullptr;
 		return false;
 	}
+	// Platform
+	_platformModule = new PlatformModule();
+	if (!_platformModule->Init()) {
+		delete _platformModule;
+		_platformModule = nullptr;
+		return false;
+	}
 	// Render
 	_renderModule = new RenderModule();
-	if (!_renderModule->Init(_platformModule->getSDLWindow(), _platformModule->getWindowHandle(), _platformModule->getWindowWidth(), _platformModule->getWindowHeight(), _resourcesModule->getAllFonts())) {
+	if (!_renderModule->Init(_platformModule->getSDLWindow(), _platformModule->getWindowHandle(), _platformModule->getWindowWidth(), _platformModule->getWindowHeight())) {
 		delete _renderModule;
 		_renderModule = nullptr;
 		return false;
@@ -220,6 +229,32 @@ bool Engine::_initPriv()
 		_physicsModule = nullptr;
 		return false;
 	}
+	// Precarga de recursos
+	_resourcesModule->addFactory(core::Resource::Type::MESH,
+		[this](const std::string& id, const std::string& path, bool preload)
+		{
+			return _renderModule->loadMesh(id, path, preload);
+		});
+	_resourcesModule->addFactory(core::Resource::Type::TEXTURE,
+		[this](const std::string& id, const std::string& path, bool preload)
+		{
+			return _renderModule->loadTexture(id, path, preload);
+		});
+	_resourcesModule->addFactory(core::Resource::Type::FONT,
+		[this](const std::string& id, const std::string& path, bool preload)
+		{
+			// imgui precarga automaticamente
+			return _renderModule->loadFont(id, path);
+		});
+	/*_resourcesModule->addFactory(core::Resource::Type::SOUND, TODO
+		[this](const std::string& id, const std::string& path, bool preload) {
+		});*/
+	ComponentDLLLoader::instance().preloadResources();
+	// imgui necesita tener precargadas todas las fonts
+	_resourcesModule->loadAllOfType(core::Resource::FONT);
+	_renderModule->buildFontAtlas();
+
+
 	// Facades publicas
 	_input = new InputFacade(_platformModule);
 
