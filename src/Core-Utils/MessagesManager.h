@@ -81,7 +81,7 @@ namespace core
 			if (it == _messages.end())
 			{
 				Debug::warning("[MessageManager] Mensaje con nombre: \"", name, "\" no existe se creara uno nuevo.");
-				createMessage(name);
+				createMessage(name, false);
 				it = _messages.find(name);
 			}
 
