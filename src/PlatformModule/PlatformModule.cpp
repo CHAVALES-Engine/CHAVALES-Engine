@@ -367,6 +367,18 @@ void PlatformModule::setWindowName(const std::string& name)
 	SDL_SetWindowTitle(_window, name.c_str());
 }
 
+void PlatformModule::setWindowResizable(bool enabled)
+{
+	_windowResizable = enabled;
+	_applyWindowStyleRestrictions();
+}
+
+void PlatformModule::setWindowMaximizable(bool enabled) 
+{
+	_windowMaximizable = enabled;
+	_applyWindowStyleRestrictions();
+}
+
 bool PlatformModule::setFullscreen(bool enabled) const
 {
 	if (_window == nullptr) 
@@ -376,6 +388,7 @@ bool PlatformModule::setFullscreen(bool enabled) const
 		Debug::error("[Platform Module] No se pudo cambiar a fullscreen: ", SDL_GetError());
 		return false;
 	}
+	_applyWindowStyleRestrictions();
 	return true;
 }
 
@@ -389,6 +402,27 @@ bool PlatformModule::isFullscreen() const
 void PlatformModule::registerEventObserver(EventCallback callback)
 {
 	_eventObserver = callback;
+}
+
+void PlatformModule::_applyWindowStyleRestrictions() const
+{
+	if (_window != nullptr)
+	{
+		SDL_SetWindowResizable(_window, _windowResizable);
+	}
+
+	if (_windowHandle != nullptr)
+	{
+		LONG_PTR style = GetWindowLongPtr(_windowHandle, GWL_STYLE);
+		if (_windowMaximizable)
+			style |= WS_MAXIMIZEBOX;
+		else
+			style &= ~WS_MAXIMIZEBOX;
+
+		SetWindowLongPtr(_windowHandle, GWL_STYLE, style);
+		SetWindowPos(_windowHandle, nullptr, 0, 0, 0, 0,
+			SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
+	}
 }
 
 void PlatformModule::setGamepadVibration(input::DeviceID id, float lowFreq, float highFreq, uint32_t dur)

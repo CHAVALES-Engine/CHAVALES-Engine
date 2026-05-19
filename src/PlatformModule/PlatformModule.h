@@ -180,6 +180,14 @@ public:
 	*/
 	void setWindowName(const std::string& name);
 	/**
+	* @brief Activa o desactiva que la ventana se pueda redimensionar.
+	*/
+	void setWindowResizable(bool enabled);
+	/**
+	* @brief Activa o desactiva que la ventana se pueda maximizar.
+	*/
+	void setWindowMaximizable(bool enabled);
+	/**
 	* @brief Activa o desactiva el modo pantalla completa.
 	* @param enabled - true para fullscreen, false para modo ventana.
 	* @return bool - true si la operación se aplicó correctamente.
@@ -219,6 +227,7 @@ public:
 	void setGamepadColor(input::DeviceID id, uint8_t r, uint8_t g, uint8_t b);
 
 private:
+	void _applyWindowStyleRestrictions() const;
 
 	/**
 	* @brief procesa un evento de sdl
@@ -281,5 +290,6 @@ private:
 	* @brief Funcion para registrar y llamar.
 	*/
 	EventCallback _eventObserver;
-
+	bool _windowResizable = true;
+	bool _windowMaximizable = true;
 };

@@ -141,6 +141,14 @@ public:
 	*/
 	int getWindowHeight() const;
 	/**
+	* @brief Activa o desactiva que la ventana sea redimensionable.
+	*/
+	void setWindowResizable(bool enabled);
+	/**
+	* @brief Activa o desactiva que la ventana sea maximizable.
+	*/
+	void setWindowMaximizable(bool enabled);
+	/**
 	* @brief Activa o desactiva pantalla completa
 	* @param enabled - true para fullscreen, false para modo ventana
 	* @return bool - true si se aplicó correctamente

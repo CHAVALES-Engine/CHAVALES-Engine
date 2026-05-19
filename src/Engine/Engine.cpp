@@ -178,6 +178,18 @@ int Engine::getWindowHeight() const
 	return _platformModule->getWindowHeight();
 }
 
+void Engine::setWindowResizable(bool enabled)
+{
+	if (_platformModule == nullptr) return;
+	_platformModule->setWindowResizable(enabled);
+}
+
+void Engine::setWindowMaximizable(bool enabled)
+{
+	if (_platformModule == nullptr) return;
+	_platformModule->setWindowMaximizable(enabled);
+}
+
 bool Engine::setFullscreen(bool enabled) const
 {
 	if (_platformModule == nullptr) return false;

@@ -337,16 +337,17 @@ public:
 	void ready() override
 	{
 		Debug::out("READY CHANGE");
-		Engine::instance()->setFullscreen(true);
+		Engine::instance()->setWindowMaximizable(false);
+		Engine::instance()->setWindowResizable(false);
 	}
 
 	void update(uint64_t deltaTime) override
 	{
-		if (Input()->isJustPressed(input::MOUSE_BUTTON_LEFT)) 
+		if (Input()->isJustPressed(input::KEY_F11)) 
 		{
 			const bool targetFullscreen = !Engine::instance()->isFullscreen();
 			Debug::out(Engine::instance()->setFullscreen(targetFullscreen) ? "CAMBIO OK" :  "ERROR");
-			Engine::instance()->requestSceneChange(toScene);
+			//Engine::instance()->requestSceneChange(toScene);
 		}
 	}
 };
