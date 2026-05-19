@@ -85,6 +85,8 @@ struct UIButtonData
 	std::string textureFolder;
 	std::string textureFile;
 	ImTextureID textureID;
+	int texWidth = 0;
+	int texHeight = 0;
 	bool buttonImage;
 	float opacity;
 	std::function<void()> onClick;
@@ -107,6 +109,8 @@ struct UITextureRectData
 	float opacity;
 
 	ImTextureID textureID;
+	int texWidth = 0;
+	int texHeight = 0;
 	bool alive = true;
 };
 

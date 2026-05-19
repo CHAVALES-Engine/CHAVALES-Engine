@@ -1723,9 +1723,16 @@ uiButtonID RenderModule::addUIImageButton(const uiPanelID& panelID, const entity
 		}
 
 		button.textureID = tex ? (ImTextureID)tex->getHandle() : UINT64_MAX;
+		if (tex)
+		{
+			button.texWidth = static_cast<int>(tex->getWidth());
+			button.texHeight = static_cast<int>(tex->getHeight());
+		}
 	}
 	else {
 		button.textureID = UINT64_MAX;
+		button.texWidth = 0;
+		button.texHeight = 0;
 	}
 
 	_uiPanels[panelID].buttons.push_back(button);
@@ -1812,6 +1819,8 @@ void RenderModule::setUIButtonTexture(const uiButtonID& buttonID, const std::str
 	_uiPanels[panelID].buttons[buttonIndex].textureFile = textureFile;
 	_uiPanels[panelID].buttons[buttonIndex].textureFolder = textureFolder;
 	_uiPanels[panelID].buttons[buttonIndex].textureID = (ImTextureID)tex->getHandle();
+	_uiPanels[panelID].buttons[buttonIndex].texWidth = static_cast<int>(tex->getWidth());
+	_uiPanels[panelID].buttons[buttonIndex].texHeight = static_cast<int>(tex->getHeight());
 }
 
 void RenderModule::setUIButtonOpacity(const uiButtonID& buttonID, float& opacity)
@@ -1891,9 +1900,16 @@ uiTextureRectID RenderModule::addUITextureRect(const uiPanelID& panelID, const e
 
 		Debug::error("[UIButton] Textura no existe");
 		tex.textureID = texture ? (ImTextureID)texture->getHandle() : UINT64_MAX;
+		if (texture)
+		{
+			tex.texWidth = static_cast<int>(texture->getWidth());
+			tex.texHeight = static_cast<int>(texture->getHeight());
+		}
 	}
 	else {
 		tex.textureID = UINT64_MAX;
+		tex.texWidth = 0;
+		tex.texHeight = 0;
 	}
 
 	_uiPanels[panelID].textureRects.push_back(tex);
@@ -1934,6 +1950,8 @@ void  RenderModule::setUITextureRectTexture(const uiTextureRectID& textureRectID
 	_uiPanels[panelID].textureRects[textureRectIndex].textureFile = textureFile;
 	_uiPanels[panelID].textureRects[textureRectIndex].textureFolder = textureFolder;
 	_uiPanels[panelID].textureRects[textureRectIndex].textureID = (ImTextureID)tex->getHandle();
+	_uiPanels[panelID].textureRects[textureRectIndex].texWidth = static_cast<int>(tex->getWidth());
+	_uiPanels[panelID].textureRects[textureRectIndex].texHeight = static_cast<int>(tex->getHeight());
 }
 
 void RenderModule::setUITextureRectVisible(const uiTextureRectID& textureRectID, bool& visible)
@@ -1980,11 +1998,8 @@ void RenderModule::renderUI()
 		if (!panel.visible || !panel.alive) continue;
 
 		int tID = getTransformUI(panel.entity);
-		const ImVec2 auxDim = {
-			 std::max(1.0f, std::round(_uiTransforms[tID].dimension.getX() * safeScale)),
-			 std::max(1.0f, std::round(_uiTransforms[tID].dimension.getY() * safeScale))
-		};
-		const ImVec2 auxPos = { std::round(vpLeft + _uiTransforms[tID].position.getX() * safeScale), std::round(vpTop + _uiTransforms[tID].position.getY() * safeScale) };
+		const ImVec2 auxDim = { _uiTransforms[tID].dimension.getX() * safeScale, _uiTransforms[tID].dimension.getY() * safeScale };
+		const ImVec2 auxPos = { vpLeft + _uiTransforms[tID].position.getX() * safeScale,  vpTop + _uiTransforms[tID].position.getY() * safeScale };
 		ImGui::SetNextWindowPos(ImVec2(auxPos));
 		ImGui::SetNextWindowSize(ImVec2(auxDim));
 		ImGui::Begin(panel.title.c_str(), nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoMove);
@@ -2004,11 +2019,8 @@ void RenderModule::renderUI()
 			int tID = getTransformUI(label.entity);
 			splitter.SetCurrentChannel(drawList, _uiTransforms[tID].depthLayer);
 
-			const ImVec2 auxDim = {
-				std::max(1.0f, std::round((_uiTransforms[tID].dimension.getX() * safeScale))),
-				std::max(1.0f, std::round((_uiTransforms[tID].dimension.getY() * safeScale)))
-			};
-			const ImVec2 auxPos = { std::round(vpLeft + _uiTransforms[tID].position.getX() * safeScale),  std::round(vpTop + _uiTransforms[tID].position.getY() * safeScale) };
+			const ImVec2 auxDim = { _uiTransforms[tID].dimension.getX() * safeScale, _uiTransforms[tID].dimension.getY() * safeScale };
+			const ImVec2 auxPos = { vpLeft + _uiTransforms[tID].position.getX() * safeScale,  vpTop + _uiTransforms[tID].position.getY() * safeScale };
 			std::string labelName = "label_" + label.entity.toString();
 			drawList->AddRectFilled(auxPos, ImVec2(auxPos.x + auxDim.x, auxPos.y + auxDim.y), IM_COL32(label.bgColor.getRed() * 255, label.bgColor.getGreen() * 255, label.bgColor.getBlue() * 255, label.bgColor.getAlpha() * label.opacity * 255));
 			ImGui::PushFont(label.font);
@@ -2045,14 +2057,23 @@ void RenderModule::renderUI()
 			splitter.SetCurrentChannel(drawList, _uiTransforms[tID].depthLayer);
 
 			auto pos = _uiTransforms[tID].position;
-			ImGui::SetCursorPos(ImVec2(std::round(pos.getX() * safeScale), std::round(pos.getY() * safeScale)));
+			ImGui::SetCursorPos(ImVec2(pos.getX() * safeScale, pos.getY() * safeScale));
 			ImGui::PushStyleVar(ImGuiStyleVar_Alpha, tex.opacity);
 
 			const ImVec2 aux = {
 				std::max(1.0f, std::round((_uiTransforms[tID].dimension.getX() * safeScale))),
 				std::max(1.0f, std::round((_uiTransforms[tID].dimension.getY() * safeScale)))
 			};
-			ImGui::Image((ImTextureID)tex.textureID, aux);
+			ImVec2 uv0(0.0f, 0.0f);
+			ImVec2 uv1(1.0f, 1.0f);
+			if (tex.texWidth > 1 && tex.texHeight > 1)
+			{
+				const float uHalfTexel = 0.5f / static_cast<float>(tex.texWidth);
+				const float vHalfTexel = 0.5f / static_cast<float>(tex.texHeight);
+				uv0 = ImVec2(uHalfTexel, vHalfTexel);
+				uv1 = ImVec2(1.0f - uHalfTexel, 1.0f - vHalfTexel);
+			}
+			ImGui::Image((ImTextureID)tex.textureID, aux, uv0, uv1);
 			ImGui::PopStyleVar();
 		}
 
@@ -2067,12 +2088,9 @@ void RenderModule::renderUI()
 			splitter.SetCurrentChannel(drawList, _uiTransforms[tID].depthLayer);
 
 			auto pos = _uiTransforms[tID].position;
-			ImGui::SetCursorPos(ImVec2(std::round(pos.getX() * safeScale), std::round(pos.getY() * safeScale)));
+			ImGui::SetCursorPos(ImVec2(pos.getX() * safeScale, pos.getY() * safeScale));
 			ImGui::PushStyleVar(ImGuiStyleVar_Alpha, button.opacity);
-			const ImVec2 aux = {
-				std::max(1.0f, std::round((_uiTransforms[tID].dimension.getX() * safeScale))),
-				std::max(1.0f, std::round((_uiTransforms[tID].dimension.getY() * safeScale)))
-			};
+			const ImVec2 aux = { _uiTransforms[tID].dimension.getX() * safeScale, _uiTransforms[tID].dimension.getY() * safeScale };
 			ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(button.textColor.getRed() * 255, button.textColor.getGreen() * 255, button.textColor.getBlue() * 255, button.textColor.getAlpha() * button.opacity * 255));
 			ImGui::PushStyleColor(ImGuiCol_Button, IM_COL32(button.bgColor.getRed() * 255, button.bgColor.getGreen() * 255, button.bgColor.getBlue() * 255, button.bgColor.getAlpha() * button.opacity * 255));
 			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, IM_COL32(button.hvColor.getRed() * 255, button.hvColor.getGreen() * 255, button.hvColor.getBlue() * 255, button.hvColor.getAlpha() * button.opacity * 255));
@@ -2083,7 +2101,16 @@ void RenderModule::renderUI()
 				if (button.textureID != UINT64_MAX) {
 					std::string idButton = button.textureFile + "_" + button.entity.toString();
 					ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
-					click = ImGui::ImageButton(idButton.c_str(), (ImTextureID)(uintptr_t)button.textureID, aux);
+					ImVec2 uv0(0.0f, 0.0f);
+					ImVec2 uv1(1.0f, 1.0f);
+					if (button.texWidth > 1 && button.texHeight > 1)
+					{
+						const float uHalfTexel = 0.5f / static_cast<float>(button.texWidth);
+						const float vHalfTexel = 0.5f / static_cast<float>(button.texHeight);
+						uv0 = ImVec2(uHalfTexel, vHalfTexel);
+						uv1 = ImVec2(1.0f - uHalfTexel, 1.0f - vHalfTexel);
+					}
+					click = ImGui::ImageButton(idButton.c_str(), (ImTextureID)(uintptr_t)button.textureID, aux, uv0, uv1);
 					ImGui::PopStyleVar();
 				}
 				else {
