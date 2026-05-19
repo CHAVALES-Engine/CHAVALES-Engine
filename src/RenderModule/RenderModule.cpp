@@ -1038,11 +1038,24 @@ animationID RenderModule::registerSkeletonAnim(const modelID& modelID, const std
 {
 	if (modelID != UINT64_MAX && modelID < _models.size() && _models[modelID] != nullptr)
 	{
-		auto anim = _animations.emplace_back(std::make_pair(_models[modelID]->getAnimationState(animationName), 1.0f));
-		if (anim.first == nullptr)
+		try
+		{
+			auto anim = _animations.emplace_back(std::make_pair(_models[modelID]->getAnimationState(animationName), 1.0f));
+			if (anim.first == nullptr)
+				return UINT64_MAX;
+			_animations.back().first->setLoop(loop);
+			return _nextAnimationID++;
+		}
+		catch (const std::exception& e)
+		{
+			Debug::error("[RenderModule] registerSkeletonAnim fallo para '", animationName, "': ", e.what());
 			return UINT64_MAX;
-		_animations.back().first->setLoop(loop);
-		return _nextAnimationID++;
+		}
+		catch (...)
+		{
+			Debug::error("[RenderModule] registerSkeletonAnim fallo para '", animationName, "': excepcion desconocida");
+			return UINT64_MAX;
+		}
 	}
 	return UINT64_MAX;
 }
@@ -1110,7 +1123,18 @@ void RenderModule::setAnimEnabled(const animationID& animationID, const bool& ac
 {
 	if (animationID != UINT64_MAX && animationID < _animations.size() && _animations[animationID].first != nullptr)
 	{
-		_animations[animationID].first->setEnabled(active);
+		try
+		{
+			_animations[animationID].first->setEnabled(active);
+		}
+		catch (const std::exception& e)
+		{
+			Debug::error("[RenderModule] setAnimEnabled fallo (id=", std::to_string(animationID), "): ", e.what());
+		}
+		catch (...)
+		{
+			Debug::error("[RenderModule] setAnimEnabled fallo (id=", std::to_string(animationID), "): excepcion desconocida");
+		}
 	}
 }
 
@@ -1118,7 +1142,18 @@ void RenderModule::setAnimTimePos(const animationID& animationID, const float& t
 {
 	if (animationID != UINT64_MAX && animationID < _animations.size() && _animations[animationID].first != nullptr)
 	{
-		_animations[animationID].first->setTimePosition(timePos);
+		try
+		{
+			_animations[animationID].first->setTimePosition(timePos);
+		}
+		catch (const std::exception& e)
+		{
+			Debug::error("[RenderModule] setAnimTimePos fallo (id=", std::to_string(animationID), "): ", e.what());
+		}
+		catch (...)
+		{
+			Debug::error("[RenderModule] setAnimTimePos fallo (id=", std::to_string(animationID), "): excepcion desconocida");
+		}
 	}
 }
 
@@ -1135,7 +1170,20 @@ void RenderModule::updateAnimation(const animationID& animationID, const uint64_
 	if (animationID != UINT64_MAX && animationID < _animations.size() && _animations[animationID].first != nullptr)
 	{
 		auto& anim = _animations[animationID];
-		anim.first->addTime(((float)deltaTime / 1000.0f) * anim.second);
+		try
+		{
+			anim.first->addTime(((float)deltaTime / 1000.0f) * anim.second);
+		}
+		catch (const std::exception& e)
+		{
+			Debug::error("[RenderModule] updateAnimation fallo (id=", std::to_string(animationID), "): ", e.what());
+			anim.first = nullptr;
+		}
+		catch (...)
+		{
+			Debug::error("[RenderModule] updateAnimation fallo (id=", std::to_string(animationID), "): excepcion desconocida");
+			anim.first = nullptr;
+		}
 	}
 }
 

@@ -73,7 +73,20 @@ void Animator::update(uint64_t deltaTime)
 	{
 		if (animation.second.active)
 		{
-			render()->updateAnimation(animation.second.id, deltaTime);
+			try
+			{
+				render()->updateAnimation(animation.second.id, deltaTime);
+			}
+			catch (const std::exception& e)
+			{
+				Debug::error("[Animator] Error actualizando animacion '", animation.first, "': ", e.what());
+				animation.second.active = false;
+			}
+			catch (...)
+			{
+				Debug::error("[Animator] Error desconocido actualizando animacion '", animation.first, "'");
+				animation.second.active = false;
+			}
 		}
 	}
 }
