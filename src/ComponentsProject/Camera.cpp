@@ -133,27 +133,49 @@ float Camera::getFocalLength() const { return _focalLength; }
 
 core::Color Camera::getBgColor() const { return _bgColor; }
 
-core::Vector3<> Camera::screenToWorld(core::Vector2<>& screenPos, float screenWidth, float screenHeight,
+core::Vector3<> Camera::screenToWorld(core::Vector2<>& viewPos, float viewWidth, float viewHeight,
 	core::Vector3<>& outRayDir) const
 {
 	std::shared_ptr<Transform> transform = getEntity()->getComponent<Transform>();
 	if (!transform) return {};
 
+	int vpX = 0, vpY = 0, vpW = viewWidth, vpH = viewHeight;
+	core::Vector2<> ref = { static_cast<float>(vpW), static_cast<float>(vpH) };
+	if (Engine::instance() != nullptr)
+	{
+		Engine::instance()->getViewportRect(vpX, vpY, vpW, vpH);
+		ref = Engine::instance()->getLogicResolution();
+	}
+	if (vpW <= 0 || vpH <= 0) return {};
+
+	float pixelX = viewPos.getX(), pixelY = viewPos.getY();
+	if (ref.getX() > 0 && ref.getY() > 0 
+		&& pixelX >= 0.0f && pixelY >= 0.0f 
+		&& pixelX <= ref.getX() && pixelY <= ref.getY())
+	{
+		pixelX = vpX + pixelX / ref.getX() * vpW;
+		pixelY = vpY + pixelY / ref.getY() * vpH;
+	}
+
+	const float localX = pixelX - vpX;
+	const float localY = pixelY - vpY;
+
 	// Pantalla -> NDC [-1, 1]
-	float ndc_x = (2.0f * screenPos.getX()) / screenWidth - 1.0f;
-	float ndc_y = 1.0f - (2.0f * screenPos.getY()) / screenHeight;
+	float ndc_x = (2.0f * localX) / vpW - 1.0f;
+	float ndc_y = 1.0f - (2.0f * localY) / vpH;
 
 	// NDC -> direccion en espacio de vista
-	float aspect = screenWidth / screenHeight;
+	const float aspect = static_cast<float>(vpW) / static_cast<float>(vpH);
 	float halfH = std::tan(_FOVy / 2.0f);
 	float halfW = halfH * aspect;
 
 	outRayDir = core::Vector3<>(ndc_x * halfW, ndc_y * halfH, -1.0f);
 
 	// Normalizar
-	float length = std::sqrt(outRayDir.getX() * outRayDir.getX() +
+	const float length = std::sqrt(outRayDir.getX() * outRayDir.getX() +
 		outRayDir.getY() * outRayDir.getY() +
 		outRayDir.getZ() * outRayDir.getZ());
+	if (length <= 0.0f) return transform->getGlobalPosition();
 	outRayDir = core::Vector3<>(outRayDir.getX() / length, outRayDir.getY() / length, outRayDir.getZ() / length);
 
 	// Vista -> mundo
@@ -163,10 +185,19 @@ core::Vector3<> Camera::screenToWorld(core::Vector2<>& screenPos, float screenWi
 	return transform->getGlobalPosition();
 }
 
-core::Vector2<> Camera::worldToScreen(const core::Vector3<>& worldPos, float screenWidth, float screenHeight) const
+core::Vector2<> Camera::worldToScreen(const core::Vector3<>& worldPos, float viewWidth, float viewHeight) const
 {
 	std::shared_ptr<Transform> transform = getEntity()->getComponent<Transform>();
 	if (!transform)	return { -1,-1 };
+
+	int vpX = 0, vpY = 0, vpW = viewWidth, vpH = viewHeight;
+	core::Vector2<> ref = { static_cast<float>(vpW), static_cast<float>(vpH) };
+	if (Engine::instance() != nullptr)
+	{
+		Engine::instance()->getViewportRect(vpX, vpY, vpW, vpH);
+		ref = Engine::instance()->getLogicResolution();
+	}
+	if (vpW <= 0 || vpH <= 0) return { -1,-1 };
 
 	// Obtener posicion de la camara
 	core::Vector3<> cameraPos = transform->getGlobalPosition();
@@ -181,7 +212,7 @@ core::Vector2<> Camera::worldToScreen(const core::Vector3<>& worldPos, float scr
 	core::Vector3<> cameraPosSpace = transform->getGlobalRotation().inversed() * relativePos;
 
 	// Calcular la proyeccion perspectiva
-	float aspect = screenWidth / screenHeight;
+	const float aspect = static_cast<float>(vpW) / static_cast<float>(vpH);
 
 	float height = 2.0f * std::tan(_FOVy / 2.0f);
 	float width = height * aspect;
@@ -196,9 +227,14 @@ core::Vector2<> Camera::worldToScreen(const core::Vector3<>& worldPos, float scr
 	float ndcY = cameraPosSpace.getY() / (planeHeight / 2.0f);
 
 	// Convertir a coordenadas de pantalla
-	return core::Vector2<>(
-		(ndcX + 1.0f) / 2.0f * screenWidth,
-		(1.0f - ndcY) / 2.0f * screenHeight);
+	const float pixelX = vpX + (ndcX + 1.0f) * 0.5f * vpW;
+	const float pixelY = vpY + (1.0f - ndcY) * 0.5f * vpH;
+
+	if (ref.getX() <= 0 || ref.getY() <= 0 || vpW <= 0 || vpH <= 0) return { pixelX, pixelY };
+	return {
+		(pixelX - vpX) / vpW * ref.getX(),
+		(pixelY - vpY) / vpH * ref.getY()
+	};
 }
 
 void Camera::destroy()

@@ -111,23 +111,53 @@ std::shared_ptr<core::Scene> Engine::getScene() const
 	return _stateMachine->getCurrentScnPtr();
 }
 
-bool Engine::renderFrame()
-{
-	return _renderModule->renderFrame();
-}
-
 void Engine::cleanScene()
 {
+	if (!_physicsModule || !_renderModule || !_audioModule) return;
 	_physicsModule->ReloadPhysics();
 	_renderModule->cleanScene(false);
 	_audioModule->stopEverything();
 }
 
+#pragma region RENDER
+bool Engine::renderFrame()
+{
+	if (!_renderModule) return false;;
+	return _renderModule->renderFrame();
+}
+
+
 void Engine::setViewportBGColor(const core::Color& color)
 {
+	if (_renderModule == nullptr) return;
 	_renderModule->setViewportBGColor(color);
 }
 
+bool Engine::getViewportRect(int& x, int& y, int& w, int& h) const
+{
+	if (_renderModule == nullptr) return false;
+	return _renderModule->getViewportRectPixels(x, y, w, h);
+}
+
+core::Vector2<> Engine::getLogicResolution() const
+{
+	if (_renderModule == nullptr) return { -1, -1 };
+	return _renderModule->getResolution();
+}
+
+core::Vector2<> Engine::windowToLogicCoords(const core::Vector2<>& windowPos) const
+{
+	if (_renderModule == nullptr) return false;
+	return _renderModule->windowToLogicCoords(windowPos);
+}
+
+void Engine::setGizmos(bool gizmos)
+{
+	_gizmos = gizmos;
+}
+#pragma endregion
+
+#pragma region PHYSICS
 bool Engine::rayCast(const core::Vector3<>& origin, const core::Vector3<>& direction, float maxDistance,
 	RayInfo& rayInfo) const
 {
@@ -146,12 +176,9 @@ void Engine::SetGravity(const core::Vector3<>& gravity) const
 {
 	_physicsModule->SetGravity(gravity);
 }
+#pragma endregion
 
-void Engine::setGizmos(bool gizmos)
-{
-	_gizmos = gizmos;
-}
-
+#pragma region RESOURCES
 std::string Engine::getAssetSourceFolder(const std::string& assetName) const
 {
 	return _resourcesModule->getAssetPath(assetName);
@@ -168,6 +195,7 @@ bool Engine::preloadAll()
 }
 #pragma endregion
 
+#pragma region PLATFORM
 int Engine::getWindowWidth() const
 {
 	return _platformModule->getWindowWidth();
@@ -178,13 +206,13 @@ int Engine::getWindowHeight() const
 	return _platformModule->getWindowHeight();
 }
 
-void Engine::setWindowResizable(bool enabled)
+void Engine::setWindowResizable(bool enabled) const
 {
 	if (_platformModule == nullptr) return;
 	_platformModule->setWindowResizable(enabled);
 }
 
-void Engine::setWindowMaximizable(bool enabled)
+void Engine::setWindowMaximizable(bool enabled) const
 {
 	if (_platformModule == nullptr) return;
 	_platformModule->setWindowMaximizable(enabled);
@@ -201,6 +229,7 @@ bool Engine::isFullscreen() const
 	if (_platformModule == nullptr) return false;
 	return _platformModule->isFullscreen();
 }
+#pragma endregion
 
 bool Engine::_initPriv()
 {

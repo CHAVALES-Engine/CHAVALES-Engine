@@ -258,6 +258,25 @@ public:
 	* @brief Escala el viewport al tamaño actual de la ventana manteniendo aspect ratio, se adapta a fullscreen
 	*/
 	void scaleViewportToWindow();
+	/*
+	* @brief Devuelve el rectangulo real del viewport en pixeles dentro de la ventana
+	* @param x - posicion x (izquierda) en pixeles
+	* @param y - posicion y (arriba) en pixeles
+	* @param w - ancho del viewport en pixeles
+	* @param h - alto del viewport en pixeles
+	* @return bool - true si los valores son validos.
+	*/
+	bool getViewportRectPixels(int& x, int& y, int& w, int& h) const;
+	/*
+	* @brief Devuelve la resolucion lógica base del render (la de inicializacion de la ventana).
+	*/
+	core::Vector2<> getResolution() const;
+	/*
+	* @brief Convierte coordenadas de ventana SDL (pixeles reales) a coordenadas de render base lógicas.
+	* @param windowPos - posicion en ventana real.
+	* @returns salida en coordenadas de render base lógicas, con el viewport a escala 1 real.
+	*/
+	core::Vector2<> windowToLogicCoords(const core::Vector2<>& windowPos) const;
 
 	// --- Metodos camaras
 	/*

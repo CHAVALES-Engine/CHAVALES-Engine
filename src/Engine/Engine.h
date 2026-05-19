@@ -110,6 +110,26 @@ public:
 	*/
 	void setViewportBGColor(const core::Color& color);
 
+	/**
+	* @brief Devuelve por parametros el rectangulo real del viewport en pixeles de ventana, con la escala de la ventana aplicada.
+	* @param x - Posicion X del viewport.
+	* @param y - Posicion Y del viewport.
+	* @param w - Ancho del viewport.
+	* @param h - Alto del viewport.
+	* @return bool - true si los datos son validos.
+	*/
+	bool getViewportRect(int& x, int& y, int& w, int& h) const;
+	/**
+	* @brief Devuelve la resolucion de referencia lógica (base) del render.
+	*/
+	core::Vector2<> getLogicResolution() const;
+	/**
+	* @brief Convierte coordenadas de ventana (pixeles reales) a coordenadas de render base lógicas.
+	* @param windowPos - posicion en la ventana real de SDL, no logica (y lo que devuelve Input).
+	* @return renderPos - salida en coordenadas de render base, coordenadas logicas, con el viewport a escala 1.
+	*/
+	core::Vector2<> windowToLogicCoords(const core::Vector2<>& windowPos) const;
+
 	// ---------- PHYSICS
 	bool rayCast(const core::Vector3<>& origin,
 		const core::Vector3<>& direction,
@@ -143,11 +163,11 @@ public:
 	/**
 	* @brief Activa o desactiva que la ventana sea redimensionable.
 	*/
-	void setWindowResizable(bool enabled);
+	void setWindowResizable(bool enabled) const;
 	/**
 	* @brief Activa o desactiva que la ventana sea maximizable.
 	*/
-	void setWindowMaximizable(bool enabled);
+	void setWindowMaximizable(bool enabled) const;
 	/**
 	* @brief Activa o desactiva pantalla completa
 	* @param enabled - true para fullscreen, false para modo ventana

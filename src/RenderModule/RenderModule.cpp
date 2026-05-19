@@ -43,6 +43,7 @@
 #include <filesystem>
 #include <stdexcept>
 #include <Vector2.h>
+#include <algorithm>
 
 #include "MeshResource.h"
 #include "TextureResource.h"
@@ -342,7 +343,10 @@ bool RenderModule::renderFrame()
 	}
 }
 
-void RenderModule::_calculateViewportRect(float windowWidth, float windowHeight, float& vpLeft, float& vpTop, float& vpWidth, float& vpHeight) const
+void RenderModule::_calculateViewportRect(
+	float windowWidth, float windowHeight, 
+	float& vpLeft, float& vpTop, 
+	float& vpWidth, float& vpHeight) const
 {
 	const float baseW = _windowWidth;
 	const float baseH = _windowHeight;
@@ -373,6 +377,48 @@ void RenderModule::scaleViewportToWindow()
 	float vpLeft, vpTop, vpWidth, vpHeight;
 	_calculateViewportRect(windowWidth, windowHeight, vpLeft, vpTop, vpWidth, vpHeight);
 	_vp->setDimensions(vpLeft, vpTop, vpWidth, vpHeight);
+}
+
+bool RenderModule::getViewportRectPixels(int& x, int& y, int& w, int& h) const
+{
+	if (_window == nullptr) return false;
+
+	if (_vp != nullptr)
+	{
+		x = _vp->getActualLeft();
+		y = _vp->getActualTop();
+		w = _vp->getActualWidth();
+		h = _vp->getActualHeight();
+	}
+	else
+	{
+		x = 0;
+		y = 0;
+		w = _window->getWidth();
+		h = _window->getHeight();
+	}
+	return (w > 0 && h > 0);
+}
+
+core::Vector2<> RenderModule::getResolution() const
+{
+	return { _windowWidth, _windowHeight };
+}
+
+core::Vector2<> RenderModule::windowToLogicCoords(const core::Vector2<>& windowPos) const
+{
+	int vpX = 0, vpY = 0, vpW = 0, vpH = 0;
+	if (!getViewportRectPixels(vpX, vpY, vpW, vpH)) return false;
+
+	const auto ref = getResolution();
+	if (vpW <= 0 || vpH <= 0 || ref.getX() <= 0 || ref.getY() <= 0) return false;
+
+	const float localX = std::clamp(windowPos.getX() - static_cast<float>(vpX), 0.0f, static_cast<float>(vpW));
+	const float localY = std::clamp(windowPos.getY() - static_cast<float>(vpY), 0.0f, static_cast<float>(vpH));
+	return {
+		localX / static_cast<float>(vpW) * ref.getX(),
+		localY / static_cast<float>(vpH) * ref.getY()
+	};
 }
 
 void RenderModule::cleanScene(const bool& end)
