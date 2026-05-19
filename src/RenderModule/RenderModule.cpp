@@ -1891,6 +1891,7 @@ void RenderModule::renderUI()
 		ImGui::SetNextWindowPos(ImVec2(auxPos));
 		ImGui::SetNextWindowSize(ImVec2(auxDim));
 		ImGui::Begin(panel.title.c_str(), nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoMove);
+		ImGui::SetWindowFontScale(safeScale);
 
 		ImDrawList* drawList = ImGui::GetWindowDrawList();
 		ImDrawListSplitter splitter;
