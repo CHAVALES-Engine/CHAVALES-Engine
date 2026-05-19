@@ -835,16 +835,21 @@ void PhysicsModule::ReloadPhysics()
 	_actorToEntity.clear();
 	_eventQueue.clear();
 
+	PxVec3 prevGravity;
+
 	//libero escena act
 	if (gScene)
 	{
+		prevGravity = gScene->getGravity();
+
 		gScene->release();
 		gScene = nullptr;
 	}
+	else { prevGravity = _defaultGravity; }
 
 	//nueva igual
 	PxSceneDesc sceneDesc(gPhysics->getTolerancesScale());
-	sceneDesc.gravity = _defaultGravity;
+	sceneDesc.gravity = prevGravity;
 
 	if (!dispatcher)
 		dispatcher = PxDefaultCpuDispatcherCreate(2);
