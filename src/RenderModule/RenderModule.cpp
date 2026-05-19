@@ -1932,8 +1932,11 @@ void RenderModule::renderUI()
 		if (!panel.visible || !panel.alive) continue;
 
 		int tID = getTransformUI(panel.entity);
-		const ImVec2 auxDim = { _uiTransforms[tID].dimension.getX() * safeScale, _uiTransforms[tID].dimension.getY() * safeScale };
-		const ImVec2 auxPos = { vpLeft + _uiTransforms[tID].position.getX() * safeScale,  vpTop + _uiTransforms[tID].position.getY() * safeScale };
+		const ImVec2 auxDim = {
+			 std::max(1.0f, std::round(_uiTransforms[tID].dimension.getX() * safeScale)),
+			 std::max(1.0f, std::round(_uiTransforms[tID].dimension.getY() * safeScale))
+		};
+		const ImVec2 auxPos = { std::round(vpLeft + _uiTransforms[tID].position.getX() * safeScale), std::round(vpTop + _uiTransforms[tID].position.getY() * safeScale) };
 		ImGui::SetNextWindowPos(ImVec2(auxPos));
 		ImGui::SetNextWindowSize(ImVec2(auxDim));
 		ImGui::Begin(panel.title.c_str(), nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoMove);
@@ -1953,8 +1956,11 @@ void RenderModule::renderUI()
 			int tID = getTransformUI(label.entity);
 			splitter.SetCurrentChannel(drawList, _uiTransforms[tID].depthLayer);
 
-			const ImVec2 auxDim = { _uiTransforms[tID].dimension.getX() * safeScale, _uiTransforms[tID].dimension.getY() * safeScale };
-			const ImVec2 auxPos = { vpLeft + _uiTransforms[tID].position.getX() * safeScale,  vpTop + _uiTransforms[tID].position.getY() * safeScale };
+			const ImVec2 auxDim = {
+				std::max(1.0f, std::round((_uiTransforms[tID].dimension.getX() * safeScale))),
+				std::max(1.0f, std::round((_uiTransforms[tID].dimension.getY() * safeScale)))
+			};
+			const ImVec2 auxPos = { std::round(vpLeft + _uiTransforms[tID].position.getX() * safeScale),  std::round(vpTop + _uiTransforms[tID].position.getY() * safeScale) };
 			std::string labelName = "label_" + label.entity.toString();
 			drawList->AddRectFilled(auxPos, ImVec2(auxPos.x + auxDim.x, auxPos.y + auxDim.y), IM_COL32(label.bgColor.getRed() * 255, label.bgColor.getGreen() * 255, label.bgColor.getBlue() * 255, label.bgColor.getAlpha() * label.opacity * 255));
 			ImGui::PushFont(label.font);
@@ -1991,10 +1997,13 @@ void RenderModule::renderUI()
 			splitter.SetCurrentChannel(drawList, _uiTransforms[tID].depthLayer);
 
 			auto pos = _uiTransforms[tID].position;
-			ImGui::SetCursorPos(ImVec2(pos.getX() * safeScale, pos.getY() * safeScale));
+			ImGui::SetCursorPos(ImVec2(std::round(pos.getX() * safeScale), std::round(pos.getY() * safeScale)));
 			ImGui::PushStyleVar(ImGuiStyleVar_Alpha, tex.opacity);
 
-			const ImVec2 aux = { _uiTransforms[tID].dimension.getX() * safeScale, _uiTransforms[tID].dimension.getY() * safeScale };
+			const ImVec2 aux = {
+				std::max(1.0f, std::round((_uiTransforms[tID].dimension.getX() * safeScale))),
+				std::max(1.0f, std::round((_uiTransforms[tID].dimension.getY() * safeScale)))
+			};
 			ImGui::Image((ImTextureID)tex.textureID, aux);
 			ImGui::PopStyleVar();
 		}
@@ -2010,9 +2019,12 @@ void RenderModule::renderUI()
 			splitter.SetCurrentChannel(drawList, _uiTransforms[tID].depthLayer);
 
 			auto pos = _uiTransforms[tID].position;
-			ImGui::SetCursorPos(ImVec2(pos.getX() * safeScale, pos.getY() * safeScale));
+			ImGui::SetCursorPos(ImVec2(std::round(pos.getX() * safeScale), std::round(pos.getY() * safeScale)));
 			ImGui::PushStyleVar(ImGuiStyleVar_Alpha, button.opacity);
-			const ImVec2 aux = { _uiTransforms[tID].dimension.getX() * safeScale, _uiTransforms[tID].dimension.getY() * safeScale };
+			const ImVec2 aux = {
+				std::max(1.0f, std::round((_uiTransforms[tID].dimension.getX() * safeScale))),
+				std::max(1.0f, std::round((_uiTransforms[tID].dimension.getY() * safeScale)))
+			};
 			ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(button.textColor.getRed() * 255, button.textColor.getGreen() * 255, button.textColor.getBlue() * 255, button.textColor.getAlpha() * button.opacity * 255));
 			ImGui::PushStyleColor(ImGuiCol_Button, IM_COL32(button.bgColor.getRed() * 255, button.bgColor.getGreen() * 255, button.bgColor.getBlue() * 255, button.bgColor.getAlpha() * button.opacity * 255));
 			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, IM_COL32(button.hvColor.getRed() * 255, button.hvColor.getGreen() * 255, button.hvColor.getBlue() * 255, button.hvColor.getAlpha() * button.opacity * 255));
