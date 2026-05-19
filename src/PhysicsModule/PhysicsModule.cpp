@@ -922,3 +922,8 @@ std::vector<PhysicsEvent> PhysicsModule::consumeEventsFor(ComponentID id)
 	_eventQueue = std::move(remaining);
 	return result;
 }
+
+
+float PhysicsModule::getGravity() {
+	return getGravity();
+}

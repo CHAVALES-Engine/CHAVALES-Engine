@@ -240,6 +240,8 @@ public:
 
 	std::vector<PhysicsEvent> consumeEventsFor(ComponentID id);
 
+	float getGravity();
+
 private:
 	Raycast _raycast;
 	ComponentID _nextID = 1;

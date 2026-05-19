@@ -130,6 +130,11 @@ public:
 	float getLinearDamping() const;
 
 	/**
+	 * @brief Obtiene la gravedad 
+	 */
+	float getGravity() const;
+
+	/**
 	 * @brief Aplica una fuerza al rigidbody
 	 * @param force Vector de fuerza
 	 * @param mode Tipo de fuerza (impulso, fuerza continua, etc.)

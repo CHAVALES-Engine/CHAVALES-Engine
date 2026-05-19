@@ -218,6 +218,11 @@ float RigidBody::getLinearDamping() const
 	return physics()->GetLinearDamping(physicsID);
 }
 
+float RigidBody::getGravity() const
+{
+	return physics()->getGravity();
+}
+
 void RigidBody::AddForce(const core::Vector3<>& force, char mode) {
 	physics()->AddForce(physicsID, force, mode);
 }
