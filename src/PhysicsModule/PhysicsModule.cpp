@@ -925,5 +925,5 @@ std::vector<PhysicsEvent> PhysicsModule::consumeEventsFor(ComponentID id)
 
 
 float PhysicsModule::getGravity() {
-	return getGravity();
+	return gScene->getGravity().y;
 }
