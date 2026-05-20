@@ -212,16 +212,16 @@ namespace core
 			return a + t * (b - a);
 		}
 
-		/*
-		* @brief Devuelve el Mersenne Twister encargado de la gestion de número nuevos
+		/**
+		* @brief Devuelve el Mersenne Twister encargado de la gestion de nÃºmero nuevos
 		*/
 		static std::mt19937& getRandomGenerator() {
 			static std::mt19937 randomGen(std::random_device{}());
 			return randomGen;
 		}
 
-		/*
-		* @brief Asigna la semilla al sistema de generación.
+		/**
+		* @brief Asigna la semilla al sistema de generaciÃ³n.
 		* 
 		* @param seed - Nueva semilla a asigar.
 		*/
@@ -229,39 +229,39 @@ namespace core
 			getRandomGenerator().seed(seed);
 		}
 
-		/*
+		/**
 		* @brief Devuelve un entero aleatorio entre min y max, ambos incluidos. [min,max]
 		*
-		* @param min - límite inferior del Random.
-		* @param max - límite superior del Random.
+		* @param min - lÃ­mite inferior del Random.
+		* @param max - lÃ­mite superior del Random.
 		*/
 		static int Random(int min, int max) {
 			std::uniform_int_distribution<int> dist(min, max);
 			return dist(getRandomGenerator());
 		}
 
-		/*
+		/**
 		* @brief Devuelve un float aleatorio entre min y max,exclusivos. [min,max)
 		*
-		* @param min - límite inferior del Random.
-		* @param max - límite superior del Random.
+		* @param min - lÃ­mite inferior del Random.
+		* @param max - lÃ­mite superior del Random.
 		*/
 		static float Random(float min, float max) {
 			std::uniform_real_distribution<float> dist(min, max);
 			return dist(getRandomGenerator());
 		}
 
-		/*
+		/**
 		* @brief Devuelve un double aleatorio entre min y max,  exclusivos. [min,max)
 		*
-		* @param min - límite inferior del Random.
-		* @param max - límite superior del Random.
+		* @param min - lÃ­mite inferior del Random.
+		* @param max - lÃ­mite superior del Random.
 		*/
 		static double Random(double min, double max) {
 			std::uniform_real_distribution<double> dist(min, max);
 			return dist(getRandomGenerator());
 		}
-		/*
+		/**
 		* @brief Devuelve un double aleatorio entre 0.0 y 1.0,  exclusivos. [0.0,1.0)
 		*/
 		static double Random() {

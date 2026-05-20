@@ -1,4 +1,4 @@
-﻿#include "Transform.h"
+#include "Transform.h"
 
 #include "Scene.h"
 #include <Engine.h>
@@ -223,7 +223,6 @@ bool Transform::init(const Properties& p)
 	}
 	_localScale = getProperty<core::Vector3<>>(p, "scale");
 	_pendingChildren = getProperty<std::vector<std::string>>(p, "children");
-	//pendingChildren.clear();
 	_transformID = render()->addNode(getEntity()->getEntityID(), getGlobalPosition(), getGlobalRotation(), getGlobalScale(), true);
 	return true;
 }
@@ -239,7 +238,7 @@ void Transform::ready()
 	}
 }
 
-void Transform::setGlobalPosition(core::Vector3<> gp)
+void Transform::setGlobalPosition(const core::Vector3<>& gp)
 {
 	if (_parent != nullptr)
 	{
@@ -400,7 +399,7 @@ void Transform::setParent(Transform* t, bool keepWorldMeasures)
 	for (Transform* padre = t; padre != nullptr; padre = padre->getParent())
 		if (padre == this) // de padre en padre buscamos ciclos
 		{
-			Debug::error("Parenting cycle detected, cannot make ", padre, " and ", t, " related.");
+			Debug::error("Parentesco ciclico detectado, no se puede hacer que ", padre, " y ", t, " sean parientes.");
 			return; // si lo hay no hacemos nada
 		}
 

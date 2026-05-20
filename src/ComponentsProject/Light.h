@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file
  * @brief Componente que gestiona una luz.
  */
@@ -10,7 +10,7 @@
 
 using lightID = uint64_t;
 
-/*
+/**
  * +-------+
  * | LIGHT |
  * +-------+

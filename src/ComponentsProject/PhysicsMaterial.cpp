@@ -1,4 +1,4 @@
-﻿#include "PhysicsMaterial.h"
+#include "PhysicsMaterial.h"
 #include "PluginSDK.h"
 #include "Engine.h"
 #include "Entity.h"
@@ -10,23 +10,7 @@ REGISTER_COMPONENT(PhysicsMaterial);
 
 PhysicsMaterial::PhysicsMaterial()
 {
-	staticFriction = 0.6f;
-	dynamicFriction = 0.6f;
-	restitution = 0.0f;
 
-	frictionCombine = CombineMode::Av;
-	bounceCombine = CombineMode::Av;
-}
-
-PhysicsMaterial::PhysicsMaterial(float staticF, float dynamicF, float rest,
-	CombineMode frictionMode, CombineMode bounceMode)
-{
-	staticFriction = staticF;
-	dynamicFriction = dynamicF;
-	restitution = rest;
-
-	frictionCombine = frictionMode;
-	bounceCombine = bounceMode;
 }
 
 bool PhysicsMaterial::init(const Properties& p)
@@ -38,6 +22,9 @@ bool PhysicsMaterial::init(const Properties& p)
 	frictionCombine = static_cast<CombineMode>(getProperty<int>(p, "frictionCombine"));
 	bounceCombine = static_cast<CombineMode>(getProperty<int>(p, "bounceCombine"));
 
+	col = entity->hasComponent<Collider>();
+	if (!col) return false;
+	collider = entity->getComponent<Collider>();
 	return true;
 }
 
@@ -49,17 +36,18 @@ void PhysicsMaterial::ready()
 	if (restitution > 1.0f) restitution = 1.0f;
 	if (!entity) return;
 
-	auto collider = entity->getComponent<Collider>();
-	if (!collider) return;
-	physicsShapeID = collider->getId();
-	physicsMaterialID = physics()->CreateMaterial(
-		physicsShapeID,
-		staticFriction,
-		dynamicFriction,
-		restitution,
-		static_cast<int>(frictionCombine),
-		static_cast<int>(bounceCombine)
-	);
+	if (col)
+	{
+		physicsShapeID = collider->getId();
+		physicsMaterialID = physics()->CreateMaterial(
+			physicsShapeID,
+			staticFriction,
+			dynamicFriction,
+			restitution,
+			static_cast<int>(frictionCombine),
+			static_cast<int>(bounceCombine)
+		);
+	}
 }
 
 void PhysicsMaterial::update(uint64_t dt)

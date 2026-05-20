@@ -11,7 +11,7 @@
 
 using cameraID = uint64_t;
 
-/*
+/**
  * +--------+
  * | CAMERA |
  * +--------+
@@ -67,32 +67,32 @@ public:
 	/**
 	 * @brief Convierte coordenadas de pantalla a coordenadas mundiales con referencia de la camara.
 	 * Pasamos alto y ancho de la ventana por si hay 2 viewports.
-	 * @param screenPos - Posicion del punto de pantalla.
-	 * @param screenWidth - Ancho de la ventana.
-	 * @param screenHeight - Alto de la ventana.
+	 * @param viewPos - Posicion del punto de pantalla.
+	 * @param viewWidth - Ancho de la ventana.
+	 * @param viewHeight - Alto de la ventana.
 	 * @param outRayDir - Direccion a la que apuntar si se quiere lanzar un rayo a este punto.
 	 * @return core::Vector3<> - Coordenadas en el mundo.
 	 */
-	core::Vector3<> screenToWorld(
-		core::Vector2<>& screenPos,
-		float screenWidth,
-		float screenHeight,
+	core::Vector3<> screenToWorld(const
+		core::Vector2<>& viewPos,
+		float viewWidth,
+		float viewHeight,
 		core::Vector3<>&outRayDir
 	) const;
 
 	/**
-	 * @brief Convierte un punto del mundo a coordenadas de pantalla.
+	 * @brief Convierte un punto del mundo a coordenadas de pantalla lógicas sin escalado de viewport.
 	 * Pasamos alto y ancho de la ventana por si hay 2 viewports.
 	 * @param worldPos - Posicion en coordenadas de mundo.
-	 * @param screenWidth - Ancho de la ventana.
-	 * @param screenHeight - Alto de la ventana.
-	 * @return core::Vector2<> - Posicion en pantalla (0,0 en esquina superior izquierda)
+	 * @param viewWidth - Ancho de la ventana.
+	 * @param viewHeight - Alto de la ventana.
+	 * @return core::Vector2<> - Posicion en pantalla (0,0 en esquina superior izquierda) en escala lógica base sin escalado de viewport
 	 *                   o Vector2(-1,-1) si el punto esta detras de la camara.
 	 */
 	core::Vector2<> worldToScreen(
 		const core::Vector3<>& worldPos,
-		float screenWidth,
-		float screenHeight
+		float viewWidth,
+		float viewHeight
 	) const;
 	void destroy() override;
 };

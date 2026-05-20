@@ -16,10 +16,12 @@ public:
 	~ScriptComponent();
 
     bool init(const Properties& p) override;
+    void awake() override;
     void ready() override;
     void enable() override;
     void fixedUpdate() override;
     void update(uint64_t deltaTime)override;
+    void lateUpdate(uint64_t deltaTime) override;
     void disable() override;
     void destroy() override;
 

@@ -12,7 +12,7 @@
 #include <Quaternion.h>
 
 
-/*
+/**
  * +----------+
  * | ANIMATOR |
  * +----------+
@@ -69,37 +69,37 @@ public:
 	void ready() override;
 	void update(uint64_t deltaTime) override;
 
-	/*
+	/**
 	* @brief Registrar animator. Llamar en ready.
 	*/
 	void registerAnimator();
-	/*
+	/**
 	* @brief Establecer loop de animacion de esqueleto. Devuelve true si se ha encontrado la animacion.
 	*/
 	bool registerSkeletonAnim(const std::string& animationName, const bool& loop);
-	/*
+	/**
 	* @brief Crear animacion de transform.
 	*/
 	void createTransformAnimation(const std::string& animationName, const bool& loop, const float& totalDuration);
-	/*
+	/**
 	* @brief Anadir keyframe a animacion de transform. Time pos en segundos.
 	*/
 	void addTransformKeyFrame(const std::string& animationName,
 							  const float& timePos, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float>& scale);
-	/*
+	/**
 	* @brief Anadir keyframe a animacion de transform con rotacion sencilla. Time pos en segundos.
 	*/
 	void addTransformKeyFrame(const std::string& animationName,
 							  const float& timePos, const core::Vector3<float>& pos, const float& rot, const Axis& axis, const core::Vector3<float>& scale);
-	/*
+	/**
 	* @brief Establecer animacion activa.
 	*/
 	void setAnimEnabled(const std::string& animationName, const bool& active);
-	/*
-	* @brief Reanudar animacíon a partir de cierto instante de tiempo.
+	/**
+	* @brief Reanudar animacÃ­on a partir de cierto instante de tiempo.
 	*/
 	void setAnimTimePos(const std::string& animationName, const float& timePos);
-	/*
+	/**
 	* @brief Ajustar velocidad de animacion.
 	*/
 	void setAnimSpeed(const std::string& animationName, const float& speed);

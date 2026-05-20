@@ -1,4 +1,4 @@
-﻿#include "Clock.h"
+#include "Clock.h"
 #include "checkMLNew.h"
 
 void core::Clock::setDeltaTime(uint64_t dt)
@@ -10,6 +10,13 @@ uint64_t core::Clock::calculateDeltaTime(std::chrono::high_resolution_clock::tim
 {
 	return (std::chrono::duration_cast<std::chrono::milliseconds>
 		(std::chrono::high_resolution_clock::now().time_since_epoch() - sT.time_since_epoch())).count();
+}
+
+uint64_t core::Clock::calculateDeltaTime(
+	std::chrono::high_resolution_clock::time_point start,
+	std::chrono::high_resolution_clock::time_point end)
+{
+	return std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
 }
 
 std::chrono::high_resolution_clock::time_point core::Clock::getNow()

@@ -1,4 +1,4 @@
-﻿#include "PlatformModule.h"
+#include "PlatformModule.h"
 
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_gamepad.h>
@@ -18,7 +18,6 @@ PlatformModule::PlatformModule() :
 	_window(nullptr), _windowHandle(nullptr)
 {
 	_inputMapper = new input::InputMapper();
-
 }
 
 PlatformModule::~PlatformModule()
@@ -39,7 +38,7 @@ bool PlatformModule::Init()
 {
 	// Inicializacion de SDL
 	if (!SDL_Init(SDL_INIT_EVENTS | SDL_INIT_VIDEO | SDL_INIT_GAMEPAD)) {
-		Debug::error("[Paltform] SDL Could not be initialized.");
+		Debug::error("[Paltform] SDL No se ha podido inicializar.");
 		return false;
 	}
 	// Creacion de ventana
@@ -48,7 +47,7 @@ bool PlatformModule::Init()
 		core::GameConfigurator::instance()._windowHeight,
 		SDL_WINDOW_RESIZABLE)) == nullptr)
 	{
-		Debug::error("[Platform]SDL Could not be created.");
+		Debug::error("[Platform] SDL No se ha podido crear.");
 		return false;
 	}
 
@@ -133,7 +132,7 @@ void PlatformModule::setMouseSensitivity(float sensitivity = 10.0)
 	_mouseSensitivity = sensitivity;
 }
 
-bool PlatformModule::isDeviceConnected(input::DeviceID device)
+bool PlatformModule::isDeviceConnected(input::DeviceID device) const
 {
 	bool connected = false;
 	auto it = _virtualDevices.find(device);
@@ -152,14 +151,14 @@ bool PlatformModule::isKeyPressed(input::InputEvent inputEvent, input::DeviceID 
 			[&](input::Key k) { return vd->isPressed(k); },
 			[&](input::GamepadButton b) { return vd->isPressed(b); },
 			[&](input::MouseButton b) { return vd->isPressed(b); },
-			[](auto&&) { Debug::error("[Input] inputEvent not allowed"); return false; }
+			[](auto&&) { Debug::error("[Input] inputEvent no permitido"); return false; }
 			}, inputEvent); // Le pasamos ya el InputEvent para no tener que gestionarlo luego.
 		};
 	// Si el device es uno concreto llama a su funcion.
 	if (device != input::ANY_DEVICE) {
 		auto it = _virtualDevices.find(device);
 		if (it != _virtualDevices.end()) return func(it->second);
-		Debug::error("[Input] device: ", device, " not found");
+		Debug::error("[Input] device: ", device, " no encontrado");
 		return false;
 	}
 
@@ -183,14 +182,14 @@ bool PlatformModule::isJustPressed(input::InputEvent inputEvent, input::DeviceID
 			[&](input::Key k) { return vd->isJustPressed(k); },
 			[&](input::GamepadButton b) { return vd->isJustPressed(b); },
 			[&](input::MouseButton b) { return vd->isJustPressed(b); },
-			[](auto&& inputEvent) { Debug::error("[Input] inputEvent not allowed ", toString(inputEvent)); return false; }
+			[](auto&& inputEvent) { Debug::error("[Input] inputEvent no permitido ", toString(inputEvent)); return false; }
 			}, inputEvent); // Le pasamos ya el InputEvent para no tener que gestionarlo luego.
 		};
 	// Si el device es uno concreto llama a su funcion.
 	if (device != input::ANY_DEVICE) {
 		auto it = _virtualDevices.find(device);
 		if (it != _virtualDevices.end()) return func(it->second);
-		Debug::error("[Input] device: ", device, " not found");
+		Debug::error("[Input] device: ", device, " no encontrado");
 		return false;
 	}
 
@@ -213,7 +212,7 @@ bool PlatformModule::isKeyReleased(input::InputEvent inputEvent, input::DeviceID
 			[&](input::Key k) {return vd->isReleased(k); },
 			[&](input::GamepadButton b) {return vd->isReleased(b); },
 			[&](input::MouseButton b) {return vd->isReleased(b); },
-			[](auto&& inputEvent) { Debug::error("[Input] inputEvent not allowed ", toString(inputEvent)); return false; }
+			[](auto&& inputEvent) { Debug::error("[Input] inputEvent no permitido ", toString(inputEvent)); return false; }
 			}, inputEvent);
 		};
 	// Si el device es uno concreto llama a su funcion.
@@ -221,7 +220,7 @@ bool PlatformModule::isKeyReleased(input::InputEvent inputEvent, input::DeviceID
 	{
 		auto it = _virtualDevices.find(device);
 		if (it != _virtualDevices.end()) return func(it->second);
-		Debug::error("[Input] device: ", device, " not found");
+		Debug::error("[Input] device: ", device, " no encontrado.");
 		return false;
 	}
 	// ANY_DEVICE - early exit en cuanto algun device tenga la tecla pulsada.
@@ -239,7 +238,7 @@ float PlatformModule::getAxis(input::InputEvent inputEvent, input::DeviceID devi
 		return std::visit(input::overloaded{
 			[&](input::MouseAxis a) {return vd->getAxis(a); },
 			[&](input::GamepadAxis a) {return vd->getAxis(a); },
-			[](auto&& inputEvent) { Debug::error("[Input] inputEvent not allowed ", toString(inputEvent)); return 0.0f; }
+			[](auto&& inputEvent) { Debug::error("[Input] inputEvent no permitido ", toString(inputEvent)); return 0.0f; }
 			}, inputEvent);
 		};
 	// Si el device es uno concreto llama a su funcion.
@@ -247,7 +246,7 @@ float PlatformModule::getAxis(input::InputEvent inputEvent, input::DeviceID devi
 	{
 		auto it = _virtualDevices.find(device);
 		if (it != _virtualDevices.end()) return func(it->second);
-		Debug::error("[Input] device: ", device, " not found");
+		Debug::error("[Input] device: ", device, " no encontrado");
 		return 0.0f;
 	}
 	// ANY_DEVICE - Coge el mayor input de todos los device.
@@ -338,7 +337,7 @@ void PlatformModule::setWindowSize(int w, int h)
 	SDL_SetWindowSize(_window, w, h);
 }
 
-bool PlatformModule::setIcon(std::string path)
+bool PlatformModule::setIcon(const std::string& path)
 {
 	if (_icon != nullptr)
 	{
@@ -348,29 +347,82 @@ bool PlatformModule::setIcon(std::string path)
 	_icon = SDL_LoadSurface(path.c_str());
 	if (!_icon)
 	{
-		Debug::error("[Platform] Window icon in path \"", path, "\" does not exist.");
+		Debug::error("[Platform] Window icon en la ruta \"", path, "\" no existe.");
 		return false;
 	}
 	// Icono de la ventana
 	if (!SDL_SetWindowIcon(_window, _icon))
 	{
-		Debug::error("[Platform] Cound't asign icon: \"", path, "\" to window.");
+		Debug::error("[Platform] No se ha podido asignar el window icon : \"", path, "\" a la ventana.");
 		return false;
 	}
 	// Icono de la taskbar
 
-	Debug::out("[Platform] Window icon changed: \"", path, "\".");
+	Debug::out("[Platform] Window icon cambiado: \"", path, "\".");
 	return true;
 }
 
-void PlatformModule::setWindowName(std::string name)
+void PlatformModule::setWindowName(const std::string& name)
 {
 	SDL_SetWindowTitle(_window, name.c_str());
+}
+
+void PlatformModule::setWindowResizable(bool enabled)
+{
+	_windowResizable = enabled;
+	_applyWindowStyleRestrictions();
+}
+
+void PlatformModule::setWindowMaximizable(bool enabled) 
+{
+	_windowMaximizable = enabled;
+	_applyWindowStyleRestrictions();
+}
+
+bool PlatformModule::setFullscreen(bool enabled) const
+{
+	if (_window == nullptr) 
+		return false;
+	if (!SDL_SetWindowFullscreen(_window, enabled))
+	{
+		Debug::error("[Platform Module] No se pudo cambiar a fullscreen: ", SDL_GetError());
+		return false;
+	}
+	_applyWindowStyleRestrictions();
+	return true;
+}
+
+bool PlatformModule::isFullscreen() const
+{
+	if (_window == nullptr) 
+		return false;
+	return (SDL_GetWindowFlags(_window) & SDL_WINDOW_FULLSCREEN) != 0;
 }
 
 void PlatformModule::registerEventObserver(EventCallback callback)
 {
 	_eventObserver = callback;
+}
+
+void PlatformModule::_applyWindowStyleRestrictions() const
+{
+	if (_window != nullptr)
+	{
+		SDL_SetWindowResizable(_window, _windowResizable);
+	}
+
+	if (_windowHandle != nullptr)
+	{
+		LONG_PTR style = GetWindowLongPtr(_windowHandle, GWL_STYLE);
+		if (_windowMaximizable)
+			style |= WS_MAXIMIZEBOX;
+		else
+			style &= ~WS_MAXIMIZEBOX;
+
+		SetWindowLongPtr(_windowHandle, GWL_STYLE, style);
+		SetWindowPos(_windowHandle, nullptr, 0, 0, 0, 0,
+			SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
+	}
 }
 
 void PlatformModule::setGamepadVibration(input::DeviceID id, float lowFreq, float highFreq, uint32_t dur)
@@ -385,7 +437,7 @@ void PlatformModule::setGamepadVibration(input::DeviceID id, float lowFreq, floa
 		{
 			if (!SDL_RumbleGamepad(it.second, clampLow, clampHigh, dur))
 			{
-				Debug::error("[Platform] Could not rumble for gamepad with id\"", it.first, "\".");
+				Debug::error("[Platform] No se ha podido vibrar el gamepad con id\"", it.first, "\".");
 			}
 		}
 	}
@@ -396,13 +448,13 @@ void PlatformModule::setGamepadVibration(input::DeviceID id, float lowFreq, floa
 		{
 			if (!SDL_RumbleGamepad(it->second, clampLow, clampHigh, dur))
 			{
-				Debug::error("[Platform] Could not rumble for gamepad with id\"", it->first, "\".");
+				Debug::error("[Platform] No se ha podido vibrar el gamepad con id\"", it->first, "\".");
 			}
 		}
 	}
 }
 
-void PlatformModule::setGamepadColor(input::DeviceID id, core::Color color)
+void PlatformModule::setGamepadColor(input::DeviceID id, const core::Color& color)
 {
 	// Clampeamos los valores dados a entre 0.0 y 1.0 y los convertimos a la unidad que pide SDL.
 	uint8_t clampR = static_cast<uint8_t>(std::clamp(color.getRed(), 0.0f, 1.0f) * (std::numeric_limits<uint8_t>::max)());
@@ -420,7 +472,7 @@ void PlatformModule::setGamepadColor(input::DeviceID id, uint8_t r, uint8_t g, u
 		{
 			if (!SDL_SetGamepadLED(it.second, r, g, b))
 			{
-				Debug::error("[Platform] Could not change led color for gamepad with id\"", it.first, "\".");
+				Debug::error("[Platform] No se ha podido cambiar el color del led del gamepad con id\"", it.first, "\".");
 			}
 		}
 	}
@@ -431,7 +483,7 @@ void PlatformModule::setGamepadColor(input::DeviceID id, uint8_t r, uint8_t g, u
 		{
 			if (!SDL_SetGamepadLED(it->second, r, g, b))
 			{
-				Debug::error("[Platform] Could not change led color for gamepad with id\"", it->first, "\".");
+				Debug::error("[Platform] No se ha podido cambiar el color del led del gamepad con id\"", it->first, "\".");
 			}
 		}
 	}
@@ -628,7 +680,7 @@ void PlatformModule::_processEvent(const SDL_Event& event)
 	case SDL_EVENT_GAMEPAD_ADDED: {
 		uint32_t id = event.gdevice.which;
 		SDL_Gamepad* gamepad = SDL_OpenGamepad(id);
-		Debug::warning("[Platform] New Gamepad with id: ", id);
+		Debug::warning("[Platform] Nuevo Gamepad con id: ", id);
 		if (gamepad) {
 			_devicesID[id] = gamepad;
 			input::VirtualDevice* virtualDevice = new input::VirtualDevice();

@@ -1,4 +1,4 @@
-﻿#include "RigidBody.h"
+#include "RigidBody.h"
 #include "PluginSDK.h"
 #include "Entity.h"
 #include "Engine.h"
@@ -172,33 +172,33 @@ void RigidBody::update(uint64_t dt)
 	}
 }
 
-core::Vector3<> RigidBody::getVelocity() {
+core::Vector3<> RigidBody::getVelocity() const {
 	return physics()->GetLinearVelocity(physicsID);
 }
 
-core::Vector3<> RigidBody::getPosition() {
+core::Vector3<> RigidBody::getPosition() const {
 	return physics()->GetPhysicsPosition(physicsID);
 }
 
-core::Quaternion<> RigidBody::getRotation()
+core::Quaternion<> RigidBody::getRotation() const
 {
 	return physics()->GetPhysicsRotation(physicsID);
 }
 
-float RigidBody::getMass()
+float RigidBody::getMass() const
 {
 	return physics()->GetMass(physicsID);
 }
 
-void RigidBody::setVelocity(core::Vector3<> vel) {
+void RigidBody::setVelocity(const core::Vector3<>& vel) {
 	physics()->SetLinearVelocity(physicsID, vel);
 }
 
-void RigidBody::setPosition(core::Vector3<> pos) {
+void RigidBody::setPosition(const core::Vector3<>& pos) {
 	physics()->SetPhysicsPosition(physicsID, pos);
 }
 
-void RigidBody::setRotation(core::Quaternion<> rot)
+void RigidBody::setRotation(const core::Quaternion<>& rot)
 {
 	physics()->SetPhysicsRotation(physicsID, rot);
 }
@@ -213,12 +213,17 @@ void RigidBody::setLinearDamping(float damping)
 	physics()->SetLinearDamping(physicsID, damping);
 }
 
-float RigidBody::getLinearDamping()
+float RigidBody::getLinearDamping() const
 {
 	return physics()->GetLinearDamping(physicsID);
 }
 
-void RigidBody::AddForce(core::Vector3<> force, char mode) {
+float RigidBody::getGravity() const
+{
+	return physics()->getGravity();
+}
+
+void RigidBody::AddForce(const core::Vector3<>& force, char mode) {
 	physics()->AddForce(physicsID, force, mode);
 }
 

@@ -14,7 +14,6 @@
     <ClInclude Include="..\..\src\ComponentsProject\Animator.h" />
     <ClInclude Include="..\..\src\ComponentsProject\AudioListener.h" />
     <ClInclude Include="..\..\src\ComponentsProject\AudioSource.h" />
-    <ClInclude Include="..\..\src\ComponentsProject\BoxCollider.h" />
     <ClInclude Include="..\..\src\ComponentsProject\Camera.h" />
     <ClInclude Include="..\..\src\ComponentsProject\CapsuleCollider.h" />
     <ClInclude Include="..\..\src\ComponentsProject\Collider.h" />

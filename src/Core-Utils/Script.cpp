@@ -16,3 +16,18 @@ bool Script::executeFunction(const std::string& name) const {
 	return _handle != NULL_SCRIPT &&
 		ScriptsManager::instance().execute(_handle, name);
 }
+
+bool Script::executeFunction(const std::string& name, std::initializer_list<Property> args) {
+	return _handle != NULL_SCRIPT &&
+		ScriptsManager::instance().execute(_handle, name, args);
+}
+
+bool Script::executeWithProps(const std::string& name, const Properties& props) {
+	return _handle != NULL_SCRIPT &&
+		ScriptsManager::instance().executeWithProps(_handle, name, props);
+}
+
+void Script::setEntity(core::Entity* entity) const
+{
+	ScriptsManager::instance().setScriptEntity(_handle, entity);
+}

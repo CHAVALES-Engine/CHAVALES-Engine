@@ -13,37 +13,50 @@
 
 static void configGame(size_t argc, char* argv[])
 {
-	if (argc > 2 && strcmp(argv[2], "NO") == 0) // no usar configuracion guardada, carga lo del editor
+	if (argc > 11 && strcmp(argv[2], "NO") == 0) // no usar configuracion guardada, carga lo del editor
 	{
-		core::GameConfigurator::instance()._firstScene = argv[3];
-		Debug::out("[MAIN] Escena inicial ", core::GameConfigurator::instance()._firstScene);
+		try
+		{
+			std::string windowName = argv[5];
+			std::replace(windowName.begin(), windowName.end(), '_', ' ');
+			const float clearR = std::stof(argv[7]);
+			const float clearG = std::stof(argv[8]);
+			const float clearB = std::stof(argv[9]);
+			const int windowWidth = std::stoi(argv[10]);
+			const int windowHeight = std::stoi(argv[11]);
 
-		core::GameConfigurator::instance()._gameDLL = argv[4];
-		Debug::out("[MAIN] Nombre de la DLL ", core::GameConfigurator::instance()._gameDLL);
+			auto& cfg = core::GameConfigurator::instance();
+			cfg._firstScene = argv[3];
+			cfg._gameDLL = argv[4];
+			cfg._windowName = windowName;
+			cfg._iconRoot = argv[6];
+			cfg._clearColor = { clearR, clearG, clearB, 1.0f };
+			cfg._windowWidth = windowWidth;
+			cfg._windowHeight = windowHeight;
 
-		core::GameConfigurator::instance()._windowName = argv[5];
-		std::replace(core::GameConfigurator::instance()._windowName.begin(), core::GameConfigurator::instance()._windowName.end(), '_', ' ');
-		Debug::out("[MAIN] Nombre de la ventana ", core::GameConfigurator::instance()._windowName);
-
-		core::GameConfigurator::instance()._iconRoot = argv[6];
-		Debug::out("[MAIN] Ruta del icono ", core::GameConfigurator::instance()._iconRoot);
-
-		core::GameConfigurator::instance()._clearColor = { std::stof(argv[7]) , std::stof(argv[8]) , std::stof(argv[9]) , 1.0f };
-		Debug::out("[MAIN] Clear color ",
-			core::GameConfigurator::instance()._clearColor.getRed(), " ",
-			core::GameConfigurator::instance()._clearColor.getGreen(), " ",
-			core::GameConfigurator::instance()._clearColor.getBlue());
-
-		core::GameConfigurator::instance()._windowWidth = std::stoi(argv[10]);
-		Debug::out("[MAIN] Ancho ", core::GameConfigurator::instance()._windowWidth);
-
-		core::GameConfigurator::instance()._windowHeight = std::stoi(argv[11]);
-		Debug::out("[MAIN] Alto ", core::GameConfigurator::instance()._windowHeight);
-
+			Debug::out("[MAIN] Escena inicial ", cfg._firstScene);
+			Debug::out("[MAIN] Nombre de la DLL ", cfg._gameDLL);
+			Debug::out("[MAIN] Nombre de la ventana ", cfg._windowName);
+			Debug::out("[MAIN] Ruta del icono ", cfg._iconRoot);
+			Debug::out("[MAIN] Clear color ", cfg._clearColor);
+			Debug::out("[MAIN] Ancho ", cfg._windowWidth);
+			Debug::out("[MAIN] Alto ", cfg._windowHeight);
+		}
+		catch (const std::exception& e)
+		{
+			Debug::warning("[MAIN] Argumentos invalidos (", e.what(), "). Se cargara el archivo de configuracion.");
+			core::GameConfigurator::instance().LoadFromFile(CONFIGURATOR_PATH);
+		}
+		catch (...)
+		{
+			Debug::warning("[MAIN] Error desconocido leyendo argumentos. Se cargara el archivo de configuracion.");
+			core::GameConfigurator::instance().LoadFromFile(CONFIGURATOR_PATH);
+		}
 		return;
 	}
 
 	// si no estas usando los datos del editor carga el toml
+	Debug::warning("[MAIN] Argumentos insuficientes para configuracion por linea de comandos. Se cargara el archivo de configuracion.");
 	core::GameConfigurator::instance().LoadFromFile(CONFIGURATOR_PATH);
 }
 

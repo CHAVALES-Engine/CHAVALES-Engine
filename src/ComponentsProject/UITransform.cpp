@@ -1,4 +1,4 @@
-﻿#include "UITransform.h"
+#include "UITransform.h"
 #include "Scene.h"
 #include <Engine.h>
 #include <Debug.h>
@@ -25,9 +25,9 @@ UITransform::UITransform()
 			setRotation(std::any_cast<float>(args[0]));
 		}
 		});
-	registerMethod("setZbuffer", [this](const std::vector<std::any>& args) {
+	registerMethod("setDepthLayer", [this](const std::vector<std::any>& args) {
 		if (args.size() >= 1) {
-			setZbuffer(std::any_cast<int>(args[0]));
+			setDepthLayer(std::any_cast<int>(args[0]));
 		}
 		});
 	registerMethod("getPosition", [this](const std::vector<std::any>& args) {
@@ -50,9 +50,9 @@ UITransform::UITransform()
 			return getRotation();
 		}
 		});
-	registerMethod("getZBuffer", [this](const std::vector<std::any>& args) {
+	registerMethod("getDepthLayer", [this](const std::vector<std::any>& args) {
 		if (args.size() >= 1) {
-			return getZBuffer();
+			return getDepthLayer();
 		}
 		});
 	registerMethod("setParent", [this](const std::vector<std::any>& args) {
@@ -92,7 +92,7 @@ bool UITransform::init(const Properties& p)
 	_position = getProperty<core::Vector2<>>(p, "position");
 	_dimension = getProperty<core::Vector2<>>(p, "dimension");
 	_rotation = getProperty<float>(p, "rotation");
-	_zBuffer = getProperty<int>(p, "zBuffer");
+	_dLayer = getProperty<int>(p, "dLayer");
 	std::vector<std::string> children = getProperty<std::vector<std::string>>(p, "children");
 	for (const std::string& name : children)
 	{
@@ -102,11 +102,11 @@ bool UITransform::init(const Properties& p)
 		if (std::shared_ptr<UITransform> t = e->getComponent<UITransform>())
 			t->setParent(this);
 	}
-	_UItransformID = render()->addUITransform(getEntity()->getEntityID(),getPosition(), getZBuffer(),getDimension(), getRotation());
+	_UItransformID = render()->addUITransform(getEntity()->getEntityID(),getPosition(), getDepthLayer(),getDimension(), getRotation());
 	render()->setUITransformPos(_UItransformID, getPosition());
 	render()->setUITransformDimension(_UItransformID, getDimension());
 	render()->setUITransformRotation(_UItransformID, getRotation());
-	render()->setUITransformZBuffer(_UItransformID, getZBuffer());
+	render()->setUITransformDepthLayer(_UItransformID, getDepthLayer());
 
 	return true;
 }
@@ -129,10 +129,10 @@ void UITransform::setRotation(float r)
 	render()->setUITransformRotation(_UItransformID, r);
 }
 
-void UITransform::setZbuffer(int zBuff)
+void UITransform::setDepthLayer(int dLayer)
 {
-	_zBuffer = zBuff;
-	render()->setUITransformZBuffer(_UItransformID, zBuff);
+	_dLayer = dLayer;
+	render()->setUITransformDepthLayer(_UItransformID, dLayer);
 }
 
 core::Vector2<> UITransform::getPosition() const {
@@ -153,9 +153,9 @@ float UITransform::getRotation() const {
 	return _rotation;
 }
 
-int UITransform::getZBuffer() const
+int UITransform::getDepthLayer() const
 {
-	return _zBuffer;
+	return _dLayer;
 }
 
 void UITransform::setParent(UITransform* t)

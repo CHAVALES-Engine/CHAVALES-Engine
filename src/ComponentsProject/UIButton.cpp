@@ -1,10 +1,12 @@
-﻿#include "UIButton.h"
+#include "UIButton.h"
 #include "Entity.h"
-#include "Engine.h"
-
 #include <Debug.h>
 #include <PluginSDK.h>
+
 #include "RenderModule.h"
+#include "ResourcesModule.h"
+#include "Engine.h"
+
 #include <UITransform.h>
 #include <UIPanel.h>
 #include "checkMLNew.h"
@@ -109,8 +111,14 @@ void UIButton::awake()
 
 	}
 	else {
-		auto texture = Engine::instance()->getAssetSourceFolder(_textureName);
-		_buttonID = render()->addUIImageButton(panelID, getEntity()->getEntityID(), _text, texture.second, texture.first, _bgColor, _hoverColor, _pressColor, _opacity);
+		core::ResourcePtr res = resources()->getOrLoadAsset(_textureName);
+		if (!res || !res->isValid()) {
+			Debug::error("[UIButton] Textura no encontrada: ", _textureName);
+			_buttonID = UINT64_MAX;
+			return;
+		}
+
+		_buttonID = render()->addUIImageButton(panelID, getEntity()->getEntityID(), _text, res->getPath(), res->getName(), _bgColor, _hoverColor, _pressColor, _opacity);
 	}
 }
 
@@ -118,6 +126,7 @@ void UIButton::destroy()
 {
 	if (_buttonID == UINT64_MAX)return;
 	render()->deleteUIButton(_buttonID);
+	_buttonID = UINT64_MAX;
 }
 
 void UIButton::setText(const std::string& text) {
@@ -134,8 +143,14 @@ void UIButton::setTexture(const std::string& texture)
 {
 	_textureName = texture;
 	if (_buttonID == UINT64_MAX)return;
-	auto text= Engine::instance()->getAssetSourceFolder(_textureName);
-	render()->setUIButtonTexture(_buttonID, text.second, text.first);
+
+	core::ResourcePtr res = resources()->getOrLoadAsset(_textureName);
+	if (!res || !res->isValid()) {
+		Debug::error("[UIButton] Textura no encontrada: ", _textureName);
+		return;
+	}
+
+	render()->setUIButtonTexture(_buttonID, res->getPath(), res->getName());
 }
 
 void UIButton::setOpacity(float opacity)
@@ -144,22 +159,22 @@ void UIButton::setOpacity(float opacity)
 	if (_buttonID == UINT64_MAX)return;
 	render()->setUIButtonOpacity(_buttonID, opacity);
 }
-void UIButton::setBackgroudColor(core::Color color) {
+void UIButton::setBackgroudColor(const core::Color& color) {
 	_bgColor = color;
 	if (_buttonID == UINT64_MAX)return;
 	render()->setUIButtonBackgroundColor(_buttonID, _bgColor);
 }
-void UIButton::setTextColor(core::Color color) {
+void UIButton::setTextColor(const core::Color& color) {
 	_textColor = color;
 	if (_buttonID == UINT64_MAX)return;
 	render()->setUIButtonTextColor(_buttonID, _textColor);
 }
-void UIButton::setHoverColor(core::Color color) {
+void UIButton::setHoverColor(const core::Color& color) {
 	_hoverColor = color;
 	if (_buttonID == UINT64_MAX)return;
 	render()->setUIButtonHoverColor(_buttonID, _hoverColor);
 }
-void UIButton::setPressColor(core::Color color) {
+void UIButton::setPressColor(const core::Color& color) {
 	_pressColor = color;
 	if (_buttonID == UINT64_MAX)return;
 	render()->setUIButtonPressColor(_buttonID, _pressColor);

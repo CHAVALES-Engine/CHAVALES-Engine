@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file
  * @brief Componente que gestiona las texturas de la UI
  */
@@ -10,7 +10,7 @@
 
 #pragma once
 using textureRectID = uint64_t;
-/*
+/**
  * +----------+
  * | UIBUTTON |
  * +----------+

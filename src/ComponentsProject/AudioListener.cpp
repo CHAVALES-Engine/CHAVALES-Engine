@@ -27,6 +27,7 @@ bool AudioListener::init(const Properties& p)
 
 void AudioListener::ready()
 {
+	if (!_transform) return;
 	_transform = entity->getComponent<Transform>();
 	_lastPos = _transform->getGlobalPosition();
 }
@@ -36,7 +37,14 @@ void AudioListener::update(uint64_t deltaTime)
 	if (!_transform)
 		_transform = getEntity()->getComponent<Transform>();
 	if (!_transform) return;
-	core::Vector3<> vel = (_transform->getGlobalPosition() - _lastPos) / deltaTime;
-	_lastPos = _transform->getGlobalPosition();
-	audio()->setListener(_transform->getGlobalPosition(), _transform->forward(), _transform->up(), vel);
+	const core::Vector3<> currentPos = _transform->getGlobalPosition();
+	core::Vector3<> vel(0.0f, 0.0f, 0.0f);
+	if (deltaTime > 0)
+	{
+		// deltaTime llega en ms -> FMOD espera unidades por segundo
+		const float dtSeconds = deltaTime / 1000.0f;
+		vel = (currentPos - _lastPos) / dtSeconds;
+	}
+	_lastPos = currentPos;
+	audio()->setListener(currentPos, _transform->forward(), _transform->up(), vel);
 }

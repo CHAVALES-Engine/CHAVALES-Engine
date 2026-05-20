@@ -92,7 +92,7 @@ namespace input
 		*/
 		std::unordered_map < std::string, std::vector<InputMappperEntry>> _mapper;
 
-		/*
+		/**
 		* @brief Elimina una accion al quedarse vacia.
 		*
 		* @param actionName - Nombre de la accion a eliminar.

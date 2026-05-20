@@ -1,4 +1,4 @@
-﻿#include "Collider.h"
+#include "Collider.h"
 #include "PluginSDK.h"
 #include "PhysicsModule.h"
 #include "Engine.h"
@@ -75,7 +75,7 @@ Collider::Collider()
 	registerMethod("subscribeOnCollisionEnter", [this](const std::vector<std::any>& args) {
 		if (args.size() >= 1) {
 			auto func = std::any_cast<std::function<void(core::Entity*)>>(args[0]);
-			_onCollisionEnter.subscribe(std::any_cast<std::function<void(core::Entity*)>>(args[0]));
+			_onCollisionEnter.subscribe(func);
 		}
 		});
 
@@ -89,10 +89,6 @@ Collider::Collider()
 
 bool Collider::init(const Properties& p)
 {
-	//Default
-	radius = 0.5f;
-	height = 0.0f;
-
 	//SHAPE
 	std::string type = getProperty<std::string>(p, "type");
 	core::Vector3<> val;
@@ -131,7 +127,7 @@ bool Collider::init(const Properties& p)
 	return true;
 }
 
-void Collider::ready()
+void Collider::awake()
 {
 	createPhysics();
 }
@@ -146,7 +142,8 @@ void Collider::update(uint64_t deltaTime)
 
 	if (!entity || physicsID == 0 || !transform) return;
 
-	for (auto& event : physics()->consumeEventsFor(physicsID)) {
+	std::vector<PhysicsEvent> events = physics()->consumeEventsFor(physicsID);
+	for (auto& event : events) {
 		switch (event.type) {
 		case CollisionType::TriggerEnter: onTriggerEnter(event.otherEntity); break;
 		case CollisionType::TriggerExit: onTriggerExit(event.otherEntity); break;

@@ -78,37 +78,28 @@ private:
 	static void _defineUserTypes(sol::state& lua);
 
 	/**
-	 * @brief Funcion que ejecuta un lua a nivel de motor para hidratar los prefabs de una escena.
-	 
-	 * @param lua - Estado de lua.
-	 * @param fp - Ruta al archivo lua de funciones.
-	 * @param sp - Ruta a la escena a hidratar.
-	 * @param st - Tabla sol resultante de la ejecucion de lua al hidratar los prefabs.
-	 * @returns Si el lua se ha podido ejecutar correctamente y ha devuelto una tabla valida.
-	 */
-	static bool _defineFunc(sol::state& lua, const std::string& fp, const std::string& sp, sol::table& st);
-
-	/**
 	 * @brief Funcion que inyecta en el estado de lua las funcion loadPrefab.
 	 * @param lua - Estado de lua.
 	 * @param fp - Ruta al archivo lua de funciones.
 	 * @returns Si el lua se ha podido ejecutar correctamente y se ha inyectado la funcion.
 	 */
-	static bool _injectPrefabFunc(sol::state& lua, const std::string& fp);
+	static bool _injectFunctions(sol::state& lua, const std::string& fp);
 
 	/**
-	 * @brief Para definir tipos de clases propias que poder traducir desde lua.
+	 * @brief Carga una escena entera desde lua.
 	 *
 	 * @param lua - Estado de lua donde definir los tipos.
+	 * @param n - Nombre de la escena
+	 * @param n - Ruta a la escena
 	 */
-	static void _loadLua(std::shared_ptr<core::Scene>& s, const sceneName& n, const std::string& p);
+	static void _loadScene(std::shared_ptr<core::Scene>& s, const sceneName& n, const std::string& p);
 
 	/**
 	 * Carga un archivo de lua y lo mete en la escena activa.
 	 * @param s - Escena a la que anadir.
 	 * @param p - path del fichero a cargar.
 	 */
-	static core::Entity* _loadLua(const std::shared_ptr<core::Scene>& s, std::string const& p);
+	static core::Entity* _loadPrefab(const std::shared_ptr<core::Scene>& s, std::string const& p);
 
 	/**
 	 * @brief Busca en la ruta el nombre de la escena y devuelve la ruta completa hasta el .lua.
@@ -135,6 +126,7 @@ private:
 	static std::vector<T> _parseVector(const sol::table& table);
 
 	static inline std::string _path = "";
+	static inline std::string _luaFuncFile = "luaFunc.lua";
 	static inline std::filesystem::file_time_type _lastTime;
 	static inline uintmax_t _lastSize;
 

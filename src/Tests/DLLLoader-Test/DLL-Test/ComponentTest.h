@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <Component.h>
 #include <PluginSDK.h>
 
@@ -9,12 +9,18 @@
 #include "Entity.h"
 #include "InputFacade.h"
 #include "Scene.h"
-#include "TimeManager.h"
+#include "TimerManager.h"
 #include "Collider.h"
 #include "Transform.h"
 
+PRELOAD_RESOURCE("mesh/girl.fbx");
+PRELOAD_RESOURCE("texture/bake_girl.png");
+PRELOAD_RESOURCE("mesh/arena2.fbx");
+PRELOAD_RESOURCE("mesh/arena.fbx");
+
 class ComponentTest : public core::Component
 {
+public:
 	int velocity = 0;
 	int device;
 	bool moveCamera = true;
@@ -134,7 +140,10 @@ class ComponentTest : public core::Component
 
 			float speed = velocity * (float)deltaTime / 1000.0f;
 			float mouseSensitivity = velocity / 100.0f;
-
+			if (Input()->isJustPressed(input::KEY_R))
+			{
+				Engine::instance()->requestSceneChange("scene_base");
+			}
 			if (Input()->isJustPressed(input::KEY_K)) {
 				//entity->getScene()->findEntityByName("cube2")->destroy();
 				entity->getScene()->findEntityByName("esfera")->getComponent<AudioSource>()->playSound();
@@ -305,6 +314,7 @@ class InitialTest : public core::Component
 	void ready() override
 	{
 		Debug::out("READY INITIAL");
+		Engine::instance()->requestSceneChange("scene_base");
 	}
 
 	void update(uint64_t deltaTime) override
@@ -316,14 +326,29 @@ REGISTER_COMPONENT(InitialTest);
 
 class ChangeTest : public core::Component
 {
+	std::string toScene;
+
+public:
+	bool init(const Properties& p) override
+	{
+		return setProperty(p, "scene", toScene);
+	}
+
 	void ready() override
 	{
 		Debug::out("READY CHANGE");
-		//Engine::instance()->requestSceneChange("scene_prueba");
+		Engine::instance()->setWindowMaximizable(false);
+		Engine::instance()->setWindowResizable(false);
 	}
 
 	void update(uint64_t deltaTime) override
 	{
+		if (Input()->isJustPressed(input::KEY_F11)) 
+		{
+			const bool targetFullscreen = !Engine::instance()->isFullscreen();
+			Debug::out(Engine::instance()->setFullscreen(targetFullscreen) ? "CAMBIO OK" :  "ERROR");
+			//Engine::instance()->requestSceneChange(toScene);
+		}
 	}
 };
 

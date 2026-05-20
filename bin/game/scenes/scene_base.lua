@@ -9,7 +9,7 @@ scene = { -- entidades en escena
             components = { -- componentes de esa entidad
                 Transform = { -- componente transform
                     -- posicion local
-                    position = Vector3.new(200.0, 200.0, 200.0),
+                    position = Vector3.new(5, 4, 5),
                     -- rotacion local
                     rotation = Quaternion.new(0.0, 0.0, 1.0, 45.0),
                     -- escala local
@@ -22,14 +22,13 @@ scene = { -- entidades en escena
                     ["focal length"] = 60.0
                     -- ["background color"] = Color.new(0.5,0.5,0.5,1)
                 },
-                ComponentTest = {
-                    velocity = 100
-                },
-                ChangeTest = {},
+                --ChangeTest = {},
                 AudioListener = {},
                 ScriptComponent = {
-                    script = "./game/assets/scripts/luaComponentTest.lua"
+                    script = "./game/assets/scripts/luaComponentTest.lua",
+                    velocity = 100
                 }
+                --, ChangeTest = { scene = "scene_prueba" }
             }
         },
         gameManager = {
@@ -38,7 +37,7 @@ scene = { -- entidades en escena
                 Transform = {
                     position = Vector3.new(0, 0, 0),
                     rotation = Quaternion.new(),
-                    scale = Vector3.new(0.5)
+                    scale = Vector3.new(1.0)
                 },
                 PersistentTest = {}
             }
@@ -47,9 +46,9 @@ scene = { -- entidades en escena
             ddol = false,
             components = {
                 Transform = {
-                    position = Vector3.new(0, 300, 0),
+                    position = Vector3.new(0, 3, 0),
                     rotation = Quaternion.new(),
-                    scale = Vector3.new(0.5)
+                    scale = Vector3.new(1.0)
                 },
                 ModelRenderer = {
                     file = "mesh/sphere.fbx",
@@ -59,14 +58,14 @@ scene = { -- entidades en escena
                     useGravity = true,
                     isKinematic = false,
                     mass = 1.0,
-                    position = Vector3.new(0, 30, 0),
-                    velocity = Vector3.new(0, -100, 0),
+                    position = Vector3.new(0, 3, 0),
+                    velocity = Vector3.new(0, 0, 0),
                     damping = 0.0,
                     blockAxes = {false, false, false}
                 },
                 Collider = {
                     type = "CAPSULE",
-                    shape = Vector3.new(50, 0, 0),
+                    shape = Vector3.new(1, 0, 0),
                     rotation = Vector3.new(),
                     dynamic = true,
                     trigger = false,
@@ -74,14 +73,13 @@ scene = { -- entidades en escena
                 },
                 PhysicsMaterial = {
                     staticFriction = 0.5,
-                    dynamicFriction = 0.5,
-                    restitution = 1.50,
-                    frictionCombine = 1,
-                    bounceCombine = 1.0
+                    dynamicFriction = 0.9,
+                    restitution = 0.7,
+                    frictionCombine = 0,
+                    bounceCombine = 2
                 },
                 AudioSource = {
-                    soundPath = "sfx/smb_1-up.wav",
-                    soundID = "vidaExtra1",
+                    soundPath = "audio/sfx/smb_1-up.wav",
                     is3D = true,
                     loop = false,
                     isStream = false,
@@ -123,7 +121,7 @@ scene = { -- entidades en escena
                 UITransform = {
                     position = Vector2.new(0, 0),
                     dimension = Vector2.new(1280, 720),
-                    zBuffer = 0,
+                    dLayer = 0,
                     -- position = Vector2.new(900, 10),
                     children = {"LabelUI", "ButtonUI", "ButtonUI2"}
 
@@ -139,7 +137,7 @@ scene = { -- entidades en escena
                 UITransform = {
                     position = Vector2.new(100, 60),
                     dimension = Vector2.new(200, 200),
-                    zBuffer = 0
+                    dLayer = 0
 
                 },
                 UIButton = {
@@ -156,8 +154,8 @@ scene = { -- entidades en escena
             components = {
                 UITransform = {
                     position = Vector2.new(600, 60),
-                    dimension = Vector2.new(200, 200),
-                    zBuffer = 0
+                    dimension = Vector2.new(500, 200),
+                    dLayer = 0
 
                 },
                 UILabel = {

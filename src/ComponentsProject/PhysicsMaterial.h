@@ -6,6 +6,7 @@
 #pragma once
 #include "EngineComponent.h"
 #include <EngineAPI.h>
+#include "Collider.h"
 
 class Engine;
 
@@ -18,20 +19,20 @@ class Engine;
  */
 class ENGINE_API PhysicsMaterial : public EngineComponent
 {
-/*
- * +-----------------+
- * | PHYSICSMATERIAL |
- * +-----------------+
- *
- * --- Ejemplo de uso en lua ---
- *		PhysicsMaterial = {
- *			staticFriction = 10.0,
- *			dynamicFriction = 10.0,
- *			restitution = 10.0,
- *			frictionCombine = 0/1/2/3,
- *			bounceCombine = 0/1/2/3
- *		}
-*/
+	/**
+	 * +-----------------+
+	 * | PHYSICSMATERIAL |
+	 * +-----------------+
+	 *
+	 * --- Ejemplo de uso en lua ---
+	 *		PhysicsMaterial = {
+	 *			staticFriction = 10.0,
+	 *			dynamicFriction = 10.0,
+	 *			restitution = 10.0,
+	 *			frictionCombine = 0/1/2/3,
+	 *			bounceCombine = 0/1/2/3
+	 *		}
+	*/
 public:
 
 	/**
@@ -39,50 +40,45 @@ public:
 	 */
 	enum class CombineMode {
 		Av,   // Promedio
-		Min,  // Mínimo
-		Max,  // Máximo
-		Mult  // Multiplicación
+		Min,  // MÃ­nimo
+		Max,  // MÃ¡ximo
+		Mult  // MultiplicaciÃ³n
 	};
 
 	/**
 	 * @brief Friccion estatica (resistencia inicial al movimiento)
 	 */
-	float staticFriction = 0.6f;
+	float staticFriction;
 
 	/**
 	 * @brief Friccion dinamica (resistencia en movimiento)
 	 */
-	float dynamicFriction = 0.6f;
+	float dynamicFriction;
 
 	/**
 	 * @brief Restitucion (rebote, 0 = sin rebote, 1 = rebote perfecto)
 	 */
-	float restitution = 0.0f;
+	float restitution;
 
 	/**
 	 * @brief Modo de combinacion de friccion entre materiales
 	 */
-	CombineMode frictionCombine = CombineMode::Av;
+	CombineMode frictionCombine = CombineMode::Max;
 
 	/**
 	 * @brief Modo de combinacion del rebote
 	 */
-	CombineMode bounceCombine = CombineMode::Av;
+	CombineMode bounceCombine = CombineMode::Max;
 
 	/**
 	 * @brief ID del material en el sistema de fisicas
 	 */
 	uint32_t physicsMaterialID = 0;
 	uint32_t physicsShapeID = 0;
-	
-	PhysicsMaterial();
 
-	/**
-	 * @brief Constructor con parametros fisicos
-	 */
-	PhysicsMaterial(float staticF, float dynamicF, float rest,
-		CombineMode frictionMode = CombineMode::Av,
-		CombineMode bounceMode = CombineMode::Av);
+	std::shared_ptr<Collider> collider;
+	bool col;
+	PhysicsMaterial();
 
 	bool init(const Properties& p) override;
 

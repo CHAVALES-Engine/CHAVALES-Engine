@@ -8,7 +8,7 @@
 
 using particleGenID = uint64_t;
 
-/*
+/**
  * +---------+
  * | SKYDOME |
  * +---------+
@@ -49,11 +49,11 @@ public:
 	void ready() override;
 	void disable() override;
 
-	/*
+	/**
 	* @brief Establecer este skybox como el actual.
 	*/
 	void setSkydome();
-	/*
+	/**
 	* @brief Quitar cualquier skybox de la escena.
 	*/
 	void setSkydomeNull();

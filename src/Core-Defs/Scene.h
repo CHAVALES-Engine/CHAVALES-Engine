@@ -96,7 +96,7 @@ namespace core
 		/**
 		 * @brief Extrae las entidades marcadas como DontDestroyOnLoad de la escena.
 		 */
-		std::vector<Entity*> getDDOLEntities();
+		std::vector<Entity*> getDDOLEntities() const;
 
 		/**
 		 * @brief Marca una entidad para insertar.
@@ -117,7 +117,7 @@ namespace core
 		void destroyDeadEntities();
 
 		/**
-		 * @brief Anyade las entidades marcadas.
+		 * @brief Aniade las entidades marcadas.
 		 */
 		void addListedEntities();
 
@@ -125,7 +125,7 @@ namespace core
 		 * @brief Devuelve el mapa de entidades de la escena.
 		 *
 		 */
-		std::unordered_map<entityID, core::Entity*> getEntities() const;
+		const std::unordered_map<entityID, core::Entity*>& getEntities() const;
 
 		/**
 		 * @brief Busca una entidad a partir de su nombre.
@@ -137,7 +137,7 @@ namespace core
 		 * @brief Devuelve el nombre de la escena.
 		 *
 		 */
-		inline sceneName getName()
+		inline const sceneName& getName() const
 		{
 			return _name;
 		}
@@ -145,7 +145,7 @@ namespace core
 		 * @brief Settea el nombre de la escena.
 		 *
 		 */
-		inline void setName(sceneName n)
+		inline void setName(const sceneName& n)
 		{
 			_name = n;
 		}
@@ -154,7 +154,7 @@ namespace core
 		sceneName _name;
 		bool _active = false;
 		/**
-		 * @brief Anyade entidad al mapa.
+		 * @brief Aniade entidad al mapa.
 		 * @param e 
 		 */
 		void _addEntity(core::Entity* e);
@@ -169,7 +169,7 @@ namespace core
 		 */
 		std::vector<entityID> _entitiesToDelete;
 		/**
-		 * @brief Vector de entidades en la escena a anyadir.
+		 * @brief Vector de entidades en la escena a aniadir.
 		 *
 		 */
 		std::vector<core::Entity*> _entitiesToAdd;

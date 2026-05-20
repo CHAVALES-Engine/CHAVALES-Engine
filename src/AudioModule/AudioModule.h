@@ -32,17 +32,24 @@ public:
 	 * @brief Carga un audio.
 	 * @param path - Ruta del audio.
 	 * @param id - ID del audio.
+	 */
+	bool loadSound(const std::string& path, const std::string& id, bool preload = false);
+
+	/**
+	 * @brief Configura el audio indicado.
+	 * @param id - ID del audio.
 	 * @param soundStream - 
 	 * @param soundLooping - Si debe ciclar infinitamente.
 	 * @param sound3D - Si el audio es 3D.
+	 * @return 
 	 */
-	bool loadSound(std::string path, std::string id, bool soundStream = true, bool soundLooping = false, bool sound3D = true);
+	bool configureSound(const std::string& id, bool soundStream = true, bool soundLooping = false, bool sound3D = true);
 
 	/**
 	 * @brief Retira un audio.
 	 * @param id - ID del audio.
 	 */
-	bool unloadSound(std::string id);
+	bool unloadSound(const std::string& id);
 
 	/**
 	 * @brief Busca un sonido, si lo encuentra lo asocia a un canal. Luego comienza a reproducirlo. El metodo devuelve el canal.
@@ -52,7 +59,7 @@ public:
 	 * @param pos3 -
 	 * @param vel3 -
 	 */
-	int playSound(std::string id, float soundVolume, int looping = 0, const core::Vector3<> pos3 = { 0.0f, 0.0f,0.0f }, const core::Vector3<> vel3 = { 0.0f,0.0f,0.0f });
+	int playSound(const std::string& id, float soundVolume, int looping = 0, const core::Vector3<>& pos3 = { 0.0f, 0.0f,0.0f }, const core::Vector3<>& vel3 = { 0.0f,0.0f,0.0f });
 
 	/**
 	 * @brief Metodo para establecer un volumen a un canal.
@@ -94,7 +101,7 @@ public:
 	 * @brief Si el canal esta pausado.
 	 * @param chID - ID del canal.
 	 */
-	bool isPaused(int chID);
+	bool isPaused(int chID) const;
 
 	/**
 	 * @brief Actualiza los parametros del audio listener de FMOD.
@@ -103,7 +110,7 @@ public:
 	 * @param up - vector up del listener.
 	 * @param vel - velocidad del audio listener, para el efecto Doppler.
 	 */
-	void setListener(core::Vector3<> pos, core::Vector3<> forward, core::Vector3<> up, core::Vector3<> vel = { 0.0,0.0,0.0 });
+	void setListener(const core::Vector3<>& pos, const core::Vector3<>& forward, const core::Vector3<>& up, const core::Vector3<>& vel = { 0.0,0.0,0.0 });
 
 	/**
 	 * @brief Silencia todos los canales.
@@ -126,7 +133,7 @@ public:
 	 * @param pos - nueva posicion del sonido.
 	 * @param vel - nueva velocidad de propagacion del sonido.
 	 */
-	bool setAudioPos(int chID, core::Vector3<> pos, core::Vector3<> vel);
+	bool setAudioPos(int chID, const core::Vector3<>& pos, const core::Vector3<>& vel);
 
 	/**
 	 * @brief Metodo para determinar el radio mínimo y máximo de un audio 3D.
@@ -140,7 +147,7 @@ public:
 	 * @brief Metodo para comprobar si el canal se esta reproduciendo. Devuelve falso solo si se ha detenido.
 	 * @param chID - ID del canal.
 	 */
-	bool isChannelPlaying(int chID);
+	bool isChannelPlaying(int chID) const;
 
 	/**
 	 * @brief Establece un tiempo de inicio (y/o parada)
@@ -158,13 +165,13 @@ public:
 	 * @param chID - ID del canal.
 	 * @param volume - volumen.
 	 */
-	bool getVolume(int chID, float& volume);
+	bool getVolume(int chID, float& volume) const;
 
 	/**
 	 * @brief Comprueba validez del canal.
 	 * @param chID - ID del canal.
 	 */
-	bool isValidChannel(int chID);
+	bool isValidChannel(int chID) const;
 
 private:
 	FMOD::System* _system = nullptr;

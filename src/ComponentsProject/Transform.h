@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file
  * @brief Componente que representa la posición, escala y rotación de una entidad.
  */
@@ -13,7 +13,7 @@
 
 using transformID = uint64_t;
 
-/*
+/**
  * +-----------+
  * | TRANSFORM |
  * +-----------+
@@ -37,7 +37,6 @@ using transformID = uint64_t;
  * return setProperty(properties, "atributo1", component);
  *
 */
-;
 class ENGINE_API Transform : public EngineComponent
 {
 	transformID _transformID;
@@ -61,7 +60,7 @@ public:
 
 	void ready() override;
 
-	void setGlobalPosition(core::Vector3<> gp);
+	void setGlobalPosition(const core::Vector3<>& gp);
 	void setLocalPosition(const core::Vector3<>& lp);
 
 	void setGlobalRotation(const core::Quaternion<>& gr);

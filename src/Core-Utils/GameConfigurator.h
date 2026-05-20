@@ -28,63 +28,63 @@ namespace core
 		static GameConfigurator& instance();
 
 		// --- Carpeta root de contenido del juego
-		/*
+		/**
 		* @brief
 		*	Ruta donde buscar las escenas del juego
 		*/
 		std::string _root = "./game/";
 
 		// --- Carga de juegos
-		/*
+		/**
 		* @brief
 		*	Ruta donde buscar las escenas del juego
 		*/
 		std::string _scenesRoot = "./game/scenes/";
-		/*
+		/**
 		* @brief
 		*	Nombre del .lua de la escena inicial
 		*/
 		std::string _firstScene = "scene_base";
-		/*
+		/**
 		* @brief
 		*	Nombre del .dll del juego
 		*/
 		std::string _gameDLL = "";
-		/*
+		/**
 		* @brief
 		*	Si se usara o no el .toml para la carga
 		*/
 		std::string _configType = "";
 
 		// --- SDL
-		/*
+		/**
 		* @brief
 		*	Nombre de la ventana del juego
 		*/
 		std::string _windowName = "";
-		/*
+		/**
 		* @brief
 		*	Ruta para la imagen del icono relativa a la carpeta de assets
 		*/
 		std::string _iconRoot = "";
-		/*
+		/**
 		* @brief
 		*	Color del vacio
 		*/
 		core::Color _clearColor = CHAVAL_VACIO;
-		/*
+		/**
 		* @brief
 		*	Ancho de la ventana
 		*/
 		int _windowWidth = 1920;
-		/*
+		/**
 		* @brief
 		*	Alto de la ventana
 		*/
 		int _windowHeight = 1080;
 
 		// --- Assets
-		/*
+		/**
 		* @brief
 		*	Ruta donde buscar los assets del juego
 		*/
@@ -137,6 +137,10 @@ namespace core
 			catch (const std::exception& e)
 			{
 				Debug::warning("GAME CONFIGURATOR: Error leyendo ", key, ": ", e.what());
+			}
+			catch (...)
+			{
+				Debug::warning("GAME CONFIGURATOR: Error desconocido leyendo ", key, ".");
 			}
 			return defaultValue;
 		}

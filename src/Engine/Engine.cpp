@@ -1,4 +1,4 @@
-﻿#include "Engine.h"
+#include "Engine.h"
 
 #include <memory>
 
@@ -16,15 +16,11 @@
 #include "GameLoader.h"
 
 #include "InputFacade.h"
-#include "RenderFacade.h"
-#include "UIFacade.h"
-#include "PhysicsFacade.h"
-#include "AudioFacade.h"
 #include <checkMLNew.h>
 
 #include "MessagesManager.h"
 #include "ScriptsManager.h"
-#include "TimeManager.h"
+#include "TimerManager.h"
 
 Engine* Engine::_instance = nullptr;
 
@@ -48,6 +44,10 @@ void Engine::release()
 	// facades
 	delete _instance->_input;
 	_instance->_input = nullptr;
+	// recursos
+	delete _instance->_resourcesModule;
+	_instance->_resourcesModule = nullptr;
+	// resto de modulos
 	delete _instance->_platformModule;
 	_instance->_platformModule = nullptr;
 	delete _instance->_audioModule;
@@ -58,9 +58,13 @@ void Engine::release()
 		delete _instance->_renderModule;
 		_instance->_renderModule = nullptr;
 	}
-	catch (std::exception e)
+	catch (const std::exception& e)
 	{
 		Debug::error(e.what());
+	}
+	catch (...)
+	{
+		Debug::error("Error desconocido liberando RenderModule.");
 	}
 	delete _instance->_resourcesModule;
 	_instance->_resourcesModule = nullptr;
@@ -107,22 +111,53 @@ std::shared_ptr<core::Scene> Engine::getScene() const
 	return _stateMachine->getCurrentScnPtr();
 }
 
-void Engine::renderFrame()
-{
-	_renderModule->renderFrame();
-}
-
 void Engine::cleanScene()
 {
+	if (!_physicsModule || !_renderModule || !_audioModule) return;
 	_physicsModule->ReloadPhysics();
 	_renderModule->cleanScene(false);
+	_audioModule->stopEverything();
 }
 
-void Engine::setViewportBGColor(core::Color color)
+#pragma region RENDER
+bool Engine::renderFrame()
 {
+	if (!_renderModule) return false;;
+	return _renderModule->renderFrame();
+}
+
+
+void Engine::setViewportBGColor(const core::Color& color)
+{
+	if (_renderModule == nullptr) return;
 	_renderModule->setViewportBGColor(color);
 }
 
+bool Engine::getViewportRect(int& x, int& y, int& w, int& h) const
+{
+	if (_renderModule == nullptr) return false;
+	return _renderModule->getViewportRectPixels(x, y, w, h);
+}
+
+core::Vector2<> Engine::getLogicResolution() const
+{
+	if (_renderModule == nullptr) return { -1, -1 };
+	return _renderModule->getResolution();
+}
+
+core::Vector2<> Engine::windowToLogicCoords(const core::Vector2<>& windowPos) const
+{
+	if (_renderModule == nullptr) return { -1.0f, -1.0f };
+	return _renderModule->windowToLogicCoords(windowPos);
+}
+
+void Engine::setGizmos(bool gizmos)
+{
+	_gizmos = gizmos;
+}
+#pragma endregion
+
+#pragma region PHYSICS
 bool Engine::rayCast(const core::Vector3<>& origin, const core::Vector3<>& direction, float maxDistance,
 	RayInfo& rayInfo) const
 {
@@ -134,29 +169,33 @@ bool Engine::rayCast(const core::Vector3<>& origin, const core::Vector3<>& direc
 std::vector<ShapeRenderData> Engine::GetPhysicsRenderData()
 {
 	if (!_physicsModule) return {};
-		return _physicsModule->GetRenderData();
+	return _physicsModule->GetRenderData();
 }
 
 void Engine::SetGravity(const core::Vector3<>& gravity) const
 {
 	_physicsModule->SetGravity(gravity);
 }
+#pragma endregion
 
-void Engine::setGizmos(bool gizmos)
+#pragma region RESOURCES
+std::string Engine::getAssetSourceFolder(const std::string& assetName) const
 {
-	_gizmos = gizmos;
+	return _resourcesModule->getAssetPath(assetName);
 }
 
-std::pair<std::string, std::string> Engine::getAssetSourceFolder(std::string assetName)
+bool Engine::preload(const std::string& path)
 {
-	return _resourcesModule->getAssetSourceFolder(assetName);
+	return _resourcesModule->load(path, true);
 }
-std::vector<std::pair<std::string, std::string>> Engine::getAllAssets()
+
+bool Engine::preloadAll()
 {
-	return _resourcesModule->getAllAssets();
+	return _resourcesModule->preloadAllAssets();
 }
 #pragma endregion
 
+#pragma region PLATFORM
 int Engine::getWindowWidth() const
 {
 	return _platformModule->getWindowWidth();
@@ -166,6 +205,31 @@ int Engine::getWindowHeight() const
 {
 	return _platformModule->getWindowHeight();
 }
+
+void Engine::setWindowResizable(bool enabled) const
+{
+	if (_platformModule == nullptr) return;
+	_platformModule->setWindowResizable(enabled);
+}
+
+void Engine::setWindowMaximizable(bool enabled) const
+{
+	if (_platformModule == nullptr) return;
+	_platformModule->setWindowMaximizable(enabled);
+}
+
+bool Engine::setFullscreen(bool enabled) const
+{
+	if (_platformModule == nullptr) return false;
+	return _platformModule->setFullscreen(enabled);
+}
+
+bool Engine::isFullscreen() const
+{
+	if (_platformModule == nullptr) return false;
+	return _platformModule->isFullscreen();
+}
+#pragma endregion
 
 bool Engine::_initPriv()
 {
@@ -182,14 +246,6 @@ bool Engine::_initPriv()
 #endif
 	if (!ComponentDLLLoader::instance().load(basecompPath))
 		return false;
-
-	// Platform
-	_platformModule = new PlatformModule();
-	if (!_platformModule->Init()) {
-		delete _platformModule;
-		_platformModule = nullptr;
-		return false;
-	}
 	// Resources
 	_resourcesModule = new ResourcesModule();
 	if (!_resourcesModule->Init()) {
@@ -197,9 +253,16 @@ bool Engine::_initPriv()
 		_resourcesModule = nullptr;
 		return false;
 	}
+	// Platform
+	_platformModule = new PlatformModule();
+	if (!_platformModule->Init()) {
+		delete _platformModule;
+		_platformModule = nullptr;
+		return false;
+	}
 	// Render
 	_renderModule = new RenderModule();
-	if (!_renderModule->Init(_platformModule->getSDLWindow(), _platformModule->getWindowHandle(), _platformModule->getWindowWidth(), _platformModule->getWindowHeight(), _resourcesModule->getAllFonts())) {
+	if (!_renderModule->Init(_platformModule->getSDLWindow(), _platformModule->getWindowHandle(), _platformModule->getWindowWidth(), _platformModule->getWindowHeight())) {
 		delete _renderModule;
 		_renderModule = nullptr;
 		return false;
@@ -219,14 +282,151 @@ bool Engine::_initPriv()
 		_physicsModule = nullptr;
 		return false;
 	}
+	// Precarga de recursos
+	_resourcesModule->addFactory(core::Resource::Type::MESH,
+		[this](const std::string& id, const std::string& path, bool preload)
+		{
+			return _renderModule->loadMesh(id, path, preload);
+		});
+	_resourcesModule->addFactory(core::Resource::Type::TEXTURE,
+		[this](const std::string& id, const std::string& path, bool preload)
+		{
+			return _renderModule->loadTexture(id, path, preload);
+		});
+	_resourcesModule->addFactory(core::Resource::Type::FONT,
+		[this](const std::string& id, const std::string& path, bool preload)
+		{
+			// imgui precarga automaticamente
+			return _renderModule->loadFont(id, path);
+		});
+	_resourcesModule->addFactory(core::Resource::Type::SOUND,
+		[this](const std::string& id, const std::string& path, bool preload) -> core::ResourcePtr {
+			std::string fullPath = path + id;
+			if (_audioModule->loadSound(fullPath, id)) {
+				core::ResourcePtr res = std::make_shared<core::Resource>(id, path, core::Resource::SOUND);
+				if (res->load())
+					return res;
+			}
+			return nullptr;
+		});
+	ComponentDLLLoader::instance().preloadResources();
+	// imgui necesita tener precargadas todas las fonts
+	_resourcesModule->loadAllOfType(core::Resource::FONT);
+	_renderModule->buildFontAtlas();
+
+
 	// Facades publicas
 	_input = new InputFacade(_platformModule);
 
 	_stateMachine = new StateMachine();
 	// Manager de scripts
 	ScriptsManager::instance().init();
+	_registerScriptBindings();
 
 	return true;
+}
+
+void Engine::_registerScriptBindings() const
+{
+	auto& sm = ScriptsManager::instance();
+
+	sm.bindMethodImpl("Engine", "requestSceneChange",
+		[](void* o, const std::vector<Property>& a) -> Property {
+			static_cast<Engine*>(o)->requestSceneChange(ScriptsManager::instance().getArg<std::string>(a[0]));
+			return Property(0);
+		});
+
+	sm.bindMethodImpl("Engine", "quitGame",
+		[](void* o, const std::vector<Property>&) -> Property {
+			static_cast<Engine*>(o)->quitGame();
+			return Property(0);
+		});
+
+	sm.bindMethodImpl("Engine", "instantiatePrefab",
+		[](void* o, const std::vector<Property>& a) -> Property {
+			return Property(static_cast<Engine*>(o)->instantiatePrefab(
+				ScriptsManager::instance().getArg<std::string>(a[0])));
+		});
+
+	sm.bindMethodImpl("Engine", "getScene",
+		[](void* o, const std::vector<Property>&) -> Property {
+			return Property(static_cast<Engine*>(o)->getScene());
+		});
+
+	// ===== render =====
+	sm.bindMethodImpl("Engine", "setViewportBGColor",
+		[](void* o, const std::vector<Property>& a) -> Property {
+			static_cast<Engine*>(o)->setViewportBGColor(ScriptsManager::instance().getArg<core::Color>(a[0]));
+			return Property(0);
+		});
+
+	// ===== physics =====
+	sm.bindMethodImpl("Engine", "rayCast",
+		[](void* o, const std::vector<Property>& a) -> Property {
+			RayInfo info;
+			bool hit = static_cast<Engine*>(o)->rayCast(
+				ScriptsManager::instance().getArg<core::Vector3<>>(a[0]),
+				ScriptsManager::instance().getArg<core::Vector3<>>(a[1]),
+				ScriptsManager::instance().getArg<float>(a[2]),
+				info);
+			if (!hit) info = RayInfo{};
+			return Property(info);
+		});
+
+	sm.bindMethodImpl("Engine", "setGravity",
+		[](void* o, const std::vector<Property>& a) -> Property {
+			static_cast<Engine*>(o)->SetGravity(ScriptsManager::instance().getArg<core::Vector3<>>(a[0]));
+			return Property(0);
+		});
+
+	sm.bindMethodImpl("Engine", "setGizmos",
+		[](void* o, const std::vector<Property>& a) -> Property {
+			static_cast<Engine*>(o)->setGizmos(ScriptsManager::instance().getArg<bool>(a[0]));
+			return Property(0);
+		});
+
+	// ===== resources =====
+	sm.bindMethodImpl("Engine", "getAssetSourceFolder",
+		[](void* o, const std::vector<Property>& a) -> Property {
+			return Property(static_cast<Engine*>(o)->getAssetSourceFolder(
+				ScriptsManager::instance().getArg<std::string>(a[0])));
+		});
+
+	sm.bindMethodImpl("Engine", "preload",
+		[](void* o, const std::vector<Property>& a) -> Property {
+			return Property(static_cast<Engine*>(o)->preload(ScriptsManager::instance().getArg<std::string>(a[0])));
+		});
+
+	sm.bindMethodImpl("Engine", "preloadAll",
+		[](void* o, const std::vector<Property>&) -> Property {
+			return Property(static_cast<Engine*>(o)->preloadAll());
+		});
+
+	// ===== platform =====
+	sm.bindMethodImpl("Engine", "getWindowWidth",
+		[](void* o, const std::vector<Property>&) -> Property {
+			return Property(static_cast<Engine*>(o)->getWindowWidth());
+		});
+
+	sm.bindMethodImpl("Engine", "getWindowHeight",
+		[](void* o, const std::vector<Property>&) -> Property {
+			return Property(static_cast<Engine*>(o)->getWindowHeight());
+		});
+
+	sm.bindMethodImpl("Engine", "setFullscreen",
+		[](void* o, const std::vector<Property>& a) -> Property {
+			return Property(static_cast<Engine*>(o)->setFullscreen(ScriptsManager::instance().getArg<bool>(a[0])));
+		});
+
+	sm.bindMethodImpl("Engine", "isFullscreen",
+		[](void* o, const std::vector<Property>&) -> Property {
+			return Property(static_cast<Engine*>(o)->isFullscreen());
+		});
+
+	sm.bindGlobalImpl("engine", "Engine", const_cast<Engine*>(this));
+
+	// ===== input =====
+	_input->_registerScriptBindings();
 }
 
 bool Engine::update(uint64_t dt) const
@@ -248,7 +448,7 @@ bool Engine::update(uint64_t dt) const
 	return false;
 }
 
-void Engine::fixedUpdate(float dt)const
+void Engine::fixedUpdate(float dt) const
 {
 	if (_physicsModule)
 		_physicsModule->fixedUpdate(dt);

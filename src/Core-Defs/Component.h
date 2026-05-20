@@ -19,7 +19,7 @@
 
 namespace core
 {
-	/*
+	/**
 	 * +-----------+
 	 * | COMPONENT |
 	 * +-----------+
@@ -114,7 +114,7 @@ namespace core
 		*/
 		virtual void lateUpdate(uint64_t deltaTime) {}
 
-		///**
+		/**
 		//* @brief Comportamiento de renderizado del componente
 		//*/
 		//virtual void render() const {}
@@ -221,6 +221,11 @@ namespace core
 			try {
 				std::any result = it->second(args);
 				if constexpr (std::is_void_v<T>) return true;
+				else if constexpr (std::is_same_v<T, std::any>) {
+					if (!result.has_value())
+						return std::optional<std::any>(std::nullopt);
+					return std::optional<std::any>(result);
+				}
 				else {
 					// Metodo que devuelve algo - devuelve std::optional<T>
 					try {
@@ -234,6 +239,11 @@ namespace core
 			}
 			catch (const std::exception& e) {
 				Debug::error("COMPONENT: Excepcion en: ", method);
+				if constexpr (std::is_void_v<T>) return false; // Devuelve void
+				else return std::optional<T>(std::nullopt);	// Devuelve algo
+			}
+			catch (...) {
+				Debug::error("COMPONENT: Excepcion desconocida en: ", method);
 				if constexpr (std::is_void_v<T>) return false; // Devuelve void
 				else return std::optional<T>(std::nullopt);	// Devuelve algo
 			}
@@ -267,12 +277,12 @@ namespace core
 
 	struct ComponentDescriptor
 	{
-		/*
+		/**
 		* @brief Nombre del componente
 		*/
 		const char* name;
 
-		/*
+		/**
 		* @brief Funcion creadora de un componente
 		*/
 		ComponentConstructor ComponentConstructor;

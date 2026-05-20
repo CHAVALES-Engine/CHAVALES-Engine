@@ -7,7 +7,7 @@
     <ClCompile Include="..\..\src\Core-Utils\MessagesManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Core-Utils\TimeManager.cpp">
+    <ClCompile Include="..\..\src\Core-Utils\TimerManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Core-Utils\Timer.cpp">
@@ -36,7 +36,7 @@
     <ClInclude Include="..\..\src\Core-Utils\MessagesManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Core-Utils\TimeManager.h">
+    <ClInclude Include="..\..\src\Core-Utils\TimerManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Core-Utils\Timer.h">
@@ -49,6 +49,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Core-Utils\Script.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Core-Utils\PropertyConverters.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

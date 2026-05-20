@@ -19,7 +19,7 @@ class RigidBody;
 namespace core {
 	class Entity;
 }
-/*
+/**
  * +----------+
  * | COLLIDER |
  * +----------+
@@ -53,18 +53,18 @@ protected:
 	 */
 	bool isTrigger = false;
 	/**
-	 * @brief Si es dinamico o est·tico
+	 * @brief Si es dinamico o est√°tico
 	 */
 	bool isDynamic = false;
 
 	/**
 	 * @brief Tamano del collider si es box
 	 */
-	core::Vector3<> size = { 1,1,1 };
+	core::Vector3<> size;
 	/**
-	 * @brief TamaÒo del collider si es capsule
+	 * @brief Tama√±o del collider si es capsule
 	 */
-	int radius, height;
+	float radius, height;
 	/**
 	 * @brief Offset respecto a la entidad, donde esta el collider
 	 */
@@ -114,7 +114,7 @@ public:
 	/**
 	 * @brief Llamado cuando el objeto esta listo.
 	 */
-	void ready() override;
+	void awake() override;
 	/**
 	 * @brief Actualizacion por frame
 	 * @param deltaTime Tiempo entre frames (normalmente en ms).
@@ -135,7 +135,7 @@ public:
 	void onTriggerEnter(core::Entity* other);
 	/**
 	 * @brief Deteccion de salida de solapamiento entre colliders donde al menos uno es trigger.
-	 * @param core::Entity other, otro collider contra el que habÌa chocado.
+	 * @param core::Entity other, otro collider contra el que hab√≠a chocado.
 	 */
 	void onTriggerExit(core::Entity* other);
 	/**
@@ -145,7 +145,7 @@ public:
 	void onCollisionEnter(core::Entity* other);
 	/**
 	 * @brief Deteccion de salida de choque entre colliders donde ninguno es trigger.
-	 * @param ComponentId other, otro collider contra el que habÌa chocado.
+	 * @param ComponentId other, otro collider contra el que hab√≠a chocado.
 	 */
 	void onCollisionExit(core::Entity* other);
 	/**

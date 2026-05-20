@@ -135,6 +135,7 @@ private:
     bool mQuietMode;
     Real mTicksPerSecond;
     Real mAnimationSpeedModifier;
+    Real mUnitScaleToMeters = 1.0f;
 };
 
 class _OgreAssimpExport AssimpPlugin : public Plugin

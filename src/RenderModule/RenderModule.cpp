@@ -1,4 +1,4 @@
-﻿#include "RenderModule.h"
+#include "RenderModule.h"
 
 #include <OgreRoot.h>
 #include <OgreRenderWindow.h>
@@ -40,7 +40,15 @@
 #include <guid.h>
 #include "GameConfigurator.h"
 #include <checkMLNew.h>
+#include <filesystem>
+#include <stdexcept>
 #include <Vector2.h>
+#include <algorithm>
+
+#include "MeshResource.h"
+#include "TextureResource.h"
+
+#include "Debug.h"
 
 static Ogre::Root* _root = nullptr;
 static Ogre::GL3PlusPlugin* _gl3Plugin = nullptr;
@@ -52,7 +60,6 @@ static Ogre::SceneManager* _sceneMgr = nullptr;
 static Ogre::Viewport* _vp = nullptr;
 static Ogre::RTShader::ShaderGenerator* _shaderGen;
 static Ogre::ResourceGroupManager* _rgm;
-static entityID _mainCameraID;
 
 static Ogre::STBIImageCodec* _jpgCodec;
 static Ogre::STBIImageCodec* _jpegCodec;
@@ -68,7 +75,7 @@ RenderModule::~RenderModule()
 	shutdown();
 }
 
-bool RenderModule::Init(SDL_Window* sdlWindow, const HWND handle, const int width, const int height, const std::vector<std::pair<FontName, FontPath>> fonts)
+bool RenderModule::Init(SDL_Window* sdlWindow, const HWND handle, const int width, const int height)
 {
 	try
 	{
@@ -103,7 +110,9 @@ bool RenderModule::Init(SDL_Window* sdlWindow, const HWND handle, const int widt
 		Ogre::RenderSystem* rs = renderers[0];
 		_root->setRenderSystem(rs);
 
-		_root->initialise(false); // No ventana automatica
+		_root->initialise();
+		_windowWidth = width;
+		_windowHeight = height;
 
 		// Crear ventana basica
 		Ogre::NameValuePairList params;
@@ -125,22 +134,30 @@ bool RenderModule::Init(SDL_Window* sdlWindow, const HWND handle, const int widt
 		_nextParticleGenID = 0;
 		_nextSkydomeID = 0;
 
-		//Se crea una camara auxiliar para crear el viewport. En el momento que se cree una camara manualmente esta pasara automaticamente a ser la activa.
-		_mainCameraID = ChavalesGUID::generate();
-		addCamera(_mainCameraID, 45.0f, 0.1f, 1000.0f, 1.0f, { 0.0f, 0.0f, 0.0f, 1.0f });
-
 		_rgm = &Ogre::ResourceGroupManager::getSingleton();
 
-		_rgm->addResourceLocation("./game/assets/ogre/Media/Main", "FileSystem", "Scene");
-		_rgm->addResourceLocation("./game/assets/ogre/Media/RTShaderLib", "FileSystem", "Scene");
+		const std::filesystem::path ogreMainPath("./game/assets/ogre/Media/Main");
+		const std::filesystem::path ogreRtShaderPath("./game/assets/ogre/Media/RTShaderLib");
+		
+		if (!std::filesystem::exists(ogreMainPath) || !std::filesystem::is_directory(ogreMainPath))
+			throw std::runtime_error("[RENDER MODULE] No existe ./game/assets/ogre/Media/Main");
+		if (!std::filesystem::exists(ogreRtShaderPath) || !std::filesystem::is_directory(ogreRtShaderPath))
+			throw std::runtime_error("[RENDER MODULE] No existe ./game/assets/ogre/Media/RTShaderLib");
+
+		_rgm->addResourceLocation(ogreMainPath.string(), "FileSystem", "Scene");
+		_rgm->addResourceLocation(ogreRtShaderPath.string(), "FileSystem", "Scene");
 
 		Ogre::RTShader::ShaderGenerator::initialize();
 		_shaderGen = Ogre::RTShader::ShaderGenerator::getSingletonPtr();
+		if (!_shaderGen)
+		{
+			Debug::error("[RenderModule] No se pudo inicializar RTShader::ShaderGenerator");
+			return false;
+		}
 		_shaderGen->addSceneManager(_sceneMgr);
 		_shaderGen->setTargetLanguage("glsl");
 
 		Ogre::MaterialManager::getSingleton().setActiveScheme(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME);
-		_vp->setMaterialScheme(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME);
 
 		_overlaySystem = new Ogre::OverlaySystem();
 		_sceneMgr->addRenderQueueListener(_overlaySystem);
@@ -149,32 +166,15 @@ bool RenderModule::Init(SDL_Window* sdlWindow, const HWND handle, const int widt
 			_imguiSDLInitialized = true;
 		ImGuiIO& io = ImGui::GetIO();
 		_fonts["default"] = io.Fonts->AddFontDefault();
-		for (auto font : fonts) {
-			std::vector<float> sizes = { 16.0f, 32.0f, 64.0f };
-			for (float size : sizes) {
-				ImFont* f = io.Fonts->AddFontFromFileTTF(font.second.c_str(), size);
-				if (f) {
-					std::string name = font.first + "_" + std::to_string((int)size);
-					_fonts[name] = f;
-				}
-			}
-		}
-		io.Fonts->Build();
 
 		io.DisplaySize = ImVec2(
-			(float)_vp->getActualWidth(),
-			(float)_vp->getActualHeight()
+			_windowWidth, _windowHeight
 		);
 
-		Ogre::OverlayManager::getSingleton().addOverlay(_overlay);
-		_overlay->show();
-
-		Ogre::MaterialPtr materialUI = Ogre::MaterialManager::getSingleton().getByName("ImGui/material");
+		/*Ogre::MaterialPtr materialUI = Ogre::MaterialManager::getSingleton().getByName("ImGui/material");
 		_shaderGen->createShaderBasedTechnique(*materialUI, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
 
-		_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, materialUI->getName());
-
-		_vp->setOverlaysEnabled(true);
+		_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, materialUI->getName());*/
 
 		Ogre::MaterialManager& matMgr = Ogre::MaterialManager::getSingleton();
 
@@ -204,7 +204,7 @@ bool RenderModule::Init(SDL_Window* sdlWindow, const HWND handle, const int widt
 			mat->load();
 
 			_shaderGen->createShaderBasedTechnique(*mat, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
-			_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, mat->getName(), mat->getGroup());
+			//_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, mat->getName(), mat->getGroup());
 		}
 		_debugDraw = _sceneMgr->createManualObject("DebugDraw");
 		_debugDraw->setDynamic(true);
@@ -219,14 +219,206 @@ bool RenderModule::Init(SDL_Window* sdlWindow, const HWND handle, const int widt
 	catch (const std::exception& e)
 	{
 		std::cerr << "Error iniciando OGRE: " << e.what() << std::endl;
+		shutdown();
+		return false;
+	}
+	catch (...)
+	{
+		std::cerr << "Error iniciando OGRE: excepcion desconocida" << std::endl;
+		shutdown();
 		return false;
 	}
 }
 
-void RenderModule::renderFrame()
+void RenderModule::buildFontAtlas()
 {
-	renderUI();
-	_root->renderOneFrame();
+	ImGuiIO& io = ImGui::GetIO();
+	io.Fonts->Build();
+	io.DisplaySize = ImVec2(
+		_windowWidth, _windowHeight
+	);
+
+	// Mostrar overlay despues de construir el atlas
+	Ogre::OverlayManager::getSingleton().addOverlay(_overlay);
+	_overlay->show();
+
+	// Recrear shader para ImGui con el nuevo atlas
+	Ogre::MaterialPtr materialUI = Ogre::MaterialManager::getSingleton().getByName("ImGui/material");
+	_shaderGen->createShaderBasedTechnique(*materialUI, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
+	_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, materialUI->getName());
+}
+
+core::ResourcePtr RenderModule::loadMesh(const std::string& id, const std::string& path, bool preload)
+{
+	/*std::string meshName = std::filesystem::path(path).filename().string();
+	std::string folder = std::filesystem::path(path).parent_path().string() + "/";*/
+	// Verificar si ya esta cargado
+	if (Ogre::MeshManager::getSingleton().resourceExists(id)) {
+		Debug::warning("[RenderModule] Mesh ya cargada: ", id);
+		return nullptr;
+	}
+	// Copiado de addModel
+	if (!Ogre::MeshManager::getSingleton().resourceExists(id)
+		&& !_rgm->resourceGroupExists(path))
+	{
+		_rgm->addResourceLocation(path, "FileSystem", path);
+		_rgm->loadResourceGroup(path);
+		if (preload)
+			_preloadedGroups.insert(path);
+		else
+			_resourceGroups.insert(path);
+	}
+
+	// Crea y carga el recurso.
+	auto res = std::make_shared<MeshResource>(id, path);
+	res->load();
+	if (res->isValid())
+		return res;
+	// devuelve invalido
+	return nullptr;
+}
+
+core::ResourcePtr RenderModule::loadTexture(const std::string& id, const std::string& path, bool preload)
+{
+	/*auto p = std::filesystem::path(path);
+	std::string textureName = p.filename().string();
+	std::string folder = p.parent_path().string() + "/";*/
+
+	if (Ogre::TextureManager::getSingleton().resourceExists(id)) {
+		Debug::warning("[RenderModule] Textura ya cargada: ", id);
+		return nullptr;
+	}
+
+	if (!_rgm->resourceGroupExists(path))
+	{
+		_rgm->addResourceLocation(path, "FileSystem", path);
+		_rgm->loadResourceGroup(path);
+		if (preload)
+			_preloadedGroups.insert(path);
+		else
+			_resourceGroups.insert(path);
+	}
+
+	auto res = std::make_shared<TextureResource>(id, path);
+	res->load();
+	if (res->isValid())
+		return res;
+	return nullptr;
+}
+
+core::ResourcePtr RenderModule::loadFont(const std::string& name, const std::string& path)
+{
+	ImGuiIO& io = ImGui::GetIO();
+	std::vector<float> sizes = { 16.0f, 32.0f, 64.0f };
+
+	std::string fullPath = path + name;
+	std::string fontName = std::filesystem::path(name).stem().string();
+
+	for (float size : sizes) {
+		ImFont* f = io.Fonts->AddFontFromFileTTF(fullPath.c_str(), size);
+		if (f) {
+			_fonts[fontName + "_" + std::to_string((int)size)] = f;
+		}
+	}
+
+	auto res = std::make_shared<core::Resource>(name, path, core::Resource::FONT);
+	res->load();
+	if (res->isValid())
+		return res;
+	return nullptr;
+}
+
+bool RenderModule::renderFrame()
+{
+	if (_vp != nullptr && _vp->getCamera() != nullptr)
+	{
+		scaleViewportToWindow();
+		renderUI();
+		_root->renderOneFrame();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+void RenderModule::_calculateViewportRect(
+	float windowWidth, float windowHeight, 
+	float& vpLeft, float& vpTop, 
+	float& vpWidth, float& vpHeight) const
+{
+	const float baseW = _windowWidth;
+	const float baseH = _windowHeight;
+	const float sx = windowWidth / baseW;
+	const float sy = windowHeight / baseH;
+	const float s = std::min(sx, sy);
+
+	const float vpWpx = baseW * s;
+	const float vpHpx = baseH * s;
+	const float xPx = (windowWidth - vpWpx) * 0.5f;
+	const float yPx = (windowHeight - vpHpx) * 0.5f;
+
+	vpLeft = xPx / windowWidth;
+	vpTop = yPx / windowHeight;
+	vpWidth = vpWpx / windowWidth;
+	vpHeight = vpHpx / windowHeight;
+}
+
+void RenderModule::scaleViewportToWindow()
+{
+	if (_vp == nullptr || _window == nullptr) return;
+	_window->windowMovedOrResized();
+
+	const float windowWidth = _window->getWidth();
+	const float windowHeight = _window->getHeight();
+	if (windowWidth <= 0.0f || windowHeight <= 0.0f) return;
+
+	float vpLeft, vpTop, vpWidth, vpHeight;
+	_calculateViewportRect(windowWidth, windowHeight, vpLeft, vpTop, vpWidth, vpHeight);
+	_vp->setDimensions(vpLeft, vpTop, vpWidth, vpHeight);
+}
+
+bool RenderModule::getViewportRectPixels(int& x, int& y, int& w, int& h) const
+{
+	if (_window == nullptr) return false;
+
+	if (_vp != nullptr)
+	{
+		x = _vp->getActualLeft();
+		y = _vp->getActualTop();
+		w = _vp->getActualWidth();
+		h = _vp->getActualHeight();
+	}
+	else
+	{
+		x = 0;
+		y = 0;
+		w = _window->getWidth();
+		h = _window->getHeight();
+	}
+	return (w > 0 && h > 0);
+}
+
+core::Vector2<> RenderModule::getResolution() const
+{
+	return { _windowWidth, _windowHeight };
+}
+
+core::Vector2<> RenderModule::windowToLogicCoords(const core::Vector2<>& windowPos) const
+{
+	int vpX = 0, vpY = 0, vpW = 0, vpH = 0;
+	if (!getViewportRectPixels(vpX, vpY, vpW, vpH)) return { -1.0f, -1.0f };
+
+	const auto ref = getResolution();
+	if (vpW <= 0 || vpH <= 0 || ref.getX() <= 0 || ref.getY() <= 0) return { -1.0f, -1.0f };
+
+	const float localX = std::clamp(windowPos.getX() - static_cast<float>(vpX), 0.0f, static_cast<float>(vpW));
+	const float localY = std::clamp(windowPos.getY() - static_cast<float>(vpY), 0.0f, static_cast<float>(vpH));
+	return {
+		localX / static_cast<float>(vpW) * ref.getX(),
+		localY / static_cast<float>(vpH) * ref.getY()
+	};
 }
 
 void RenderModule::cleanScene(const bool& end)
@@ -273,10 +465,13 @@ void RenderModule::cleanScene(const bool& end)
 	if (!end)
 	{
 		_sceneMgr->setAmbientLight(Ogre::ColourValue(0.0f, 0.0f, 0.0f));
-		addCamera(_mainCameraID, 45.0f, 0.1f, 1000.0f, 1.0f, { 0.0f, 0.0f, 0.0f, 1.0f });
 		//Limpiamos solo recursos del juego
 		for (auto resourceGroup : _resourceGroups)
 		{
+			// Si es un grupo precargado no lo libera.
+			if (_preloadedGroups.find(resourceGroup) != _preloadedGroups.end())
+				continue;
+
 			// Liberar modelos y textruas
 			_rgm->unloadResourceGroup(resourceGroup);
 
@@ -309,6 +504,8 @@ void RenderModule::cleanScene(const bool& end)
 			// Borrar grupo
 			_rgm->destroyResourceGroup(groupName);
 		}
+		_resourceGroups.clear();
+		_preloadedGroups.clear();
 	}
 }
 
@@ -317,7 +514,7 @@ RenderModule::EventCallback RenderModule::getImguiInputCallback()
 	return ImGui_ImplSDL3_ProcessEvent;
 }
 
-transformID RenderModule::addNode(const entityID& entityID, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float> scale, const bool& fromTransform)
+transformID RenderModule::addNode(const entityID& entityID, const core::Vector3<float>& pos, const core::Quaternion<float>& rot, const core::Vector3<float>& scale, const bool& fromTransform)
 {
 	for (int i = 0; i < (int)_engineNodes.size(); i++)
 	{
@@ -404,10 +601,10 @@ void RenderModule::setNodeScale(const transformID& id, const core::Vector3<float
 		_engineNodes[id].sceneNode->setScale(scale.getX(), scale.getY(), scale.getZ());
 	}
 }
-UITransformID RenderModule::addUITransform(const entityID& entityID, const core::Vector2<float>& pos, const int& zBuffer, const core::Vector2<float>& dimension, const float& rotation)
+UITransformID RenderModule::addUITransform(const entityID& entityID, const core::Vector2<float>& pos, const int& dLayer, const core::Vector2<float>& dimension, const float& rotation)
 {
-	if (zBuffer < 0 || zBuffer >32) {
-		Debug::error("zBuffer fuera de rango [0-32]");
+	if (dLayer < 0 || dLayer > 32) {
+		Debug::error("depth layer fuera de rango [0-32]");
 		return -1;
 	}
 	for (int i = 0; i < (int)_uiTransforms.size(); i++)
@@ -417,13 +614,13 @@ UITransformID RenderModule::addUITransform(const entityID& entityID, const core:
 			return i; //Ya existe
 		}
 	}
-	
+
 	UITransformData uiT;
 	uiT.entity = entityID;
 	uiT.position = pos;
 	uiT.dimension = dimension;
 	uiT.rotation = rotation;
-	uiT.zBuffer = zBuffer;
+	uiT.depthLayer = dLayer;
 	_uiTransforms.emplace_back(uiT);
 	return _uiTransforms.size() - 1;
 }
@@ -446,9 +643,9 @@ void RenderModule::setUITransformRotation(const UITransformID& id, const float& 
 	}
 }
 
-void RenderModule::setUITransformZBuffer(const UITransformID& id, const int& zBuff) {
+void RenderModule::setUITransformDepthLayer(const UITransformID& id, const int& dLayer) {
 	if (id != UINT64_MAX && id < _uiTransforms.size()) {
-		_uiTransforms[id].zBuffer = zBuff;
+		_uiTransforms[id].depthLayer = dLayer;
 	}
 }
 UITransformID RenderModule::getTransformUI(const entityID& entityID)
@@ -460,7 +657,7 @@ UITransformID RenderModule::getTransformUI(const entityID& entityID)
 	return UINT64_MAX;
 }
 
-void RenderModule::setViewportBGColor(core::Color color)
+void RenderModule::setViewportBGColor(const core::Color& color)
 {
 	_vp->setBackgroundColour(Ogre::ColourValue(color.getRed(), color.getGreen(), color.getBlue()));
 }
@@ -479,8 +676,8 @@ cameraID RenderModule::addCamera(const entityID& entityID, const float& FOVy, co
 	camera->setFarClipDistance(farClipDistance);
 	camera->setFocalLength(focalLength);
 
-	//Si es la main camera auxiliar o es la primera camara manual se convierte automaticamente en la activa
-	if (_vp == nullptr || _vp->getCamera() == nullptr || (_cameras.size() == 2 && entityID != _mainCameraID))
+	//Si es la primera camara manual se convierte automaticamente en la activa
+	if (_vp == nullptr || _vp->getCamera() == nullptr || (_cameras.size() == 1))
 	{
 		setAsActiveCamera(createdCameraID);
 		_vp->setBackgroundColour(Ogre::ColourValue(bgColor.getRed(), bgColor.getGreen(), bgColor.getBlue()));
@@ -492,7 +689,7 @@ cameraID RenderModule::addCamera(const entityID& entityID, const float& FOVy, co
 
 void RenderModule::deleteCamera(const cameraID& id)
 {
-	if (id != UINT64_MAX && id < _cameras.size() && _cameras[id] != nullptr)
+	if (id != UINT64_MAX && id < _cameras.size() && id != 0 && _cameras[id] != nullptr)
 	{
 		Ogre::Camera* cam = _cameras[id];
 		_cameras[id] = nullptr;
@@ -520,6 +717,8 @@ void RenderModule::setAsActiveCamera(const cameraID& id)
 		{
 			_vp->setCamera(_cameras[id]);
 		}
+		_vp->setMaterialScheme(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME);
+		_vp->setOverlaysEnabled(true);
 	}
 }
 
@@ -568,13 +767,17 @@ modelID RenderModule::addModel(const entityID& entityID, const std::string& mode
 {
 	transformID nodeID = addNode(entityID);
 
-	if (!_rgm->resourceGroupExists(modelFolder))
+	// si el recurso no esta cargado y el grupo no existe lo registra
+	if (!Ogre::MeshManager::getSingleton().resourceExists(modelFile) && !_rgm->resourceGroupExists(modelFolder))
 	{
 		_rgm->addResourceLocation(modelFolder, "FileSystem", modelFolder);
 		_rgm->loadResourceGroup(modelFolder);
 		_resourceGroups.insert(modelFolder);
 	}
-	Ogre::Entity* model = _models.emplace_back(_sceneMgr->createEntity(modelFile + std::to_string(_nextModelID), modelFile));
+
+	Ogre::Entity* model = _models.emplace_back(
+		_sceneMgr->createEntity(modelFile + std::to_string(_nextModelID), modelFile));
+
 	_engineNodes[nodeID].sceneNode->attachObject(model);
 
 	for (unsigned int i = 0; i < model->getNumSubEntities(); ++i)
@@ -592,7 +795,7 @@ modelID RenderModule::addModel(const entityID& entityID, const std::string& mode
 
 			if (!baseWhite)
 			{
-				Debug::error("[RenderModule] BaseWhite not found");
+				Debug::error("[RenderModule] BaseWhite no encontrado");
 			}
 			else
 			{
@@ -641,9 +844,16 @@ void RenderModule::deleteModel(const modelID& id)
 				for (unsigned short t = 0; t < mat->getNumTechniques(); ++t)
 				{
 					Ogre::Technique* tech = mat->getTechnique(t);
-					if (tech)
+					if (_shaderGen && tech)
 					{
-						_shaderGen->removeShaderBasedTechnique(tech, Ogre::MaterialManager::DEFAULT_SCHEME_NAME);
+						try
+						{
+							_shaderGen->removeShaderBasedTechnique(tech, Ogre::MaterialManager::DEFAULT_SCHEME_NAME);
+						}
+						catch (...)
+						{
+							Debug::error("[RENDER MODULE]: Error borrando ShaderBasedTechnique.");
+						}
 					}
 				}
 				if (matMgr.resourceExists(matName))
@@ -686,9 +896,16 @@ void RenderModule::cleanModels()
 					for (unsigned short t = 0; t < mat->getNumTechniques(); ++t)
 					{
 						Ogre::Technique* tech = mat->getTechnique(t);
-						if (tech)
+						if (_shaderGen && tech)
 						{
-							_shaderGen->removeShaderBasedTechnique(tech, Ogre::MaterialManager::DEFAULT_SCHEME_NAME);
+							try
+							{
+								_shaderGen->removeShaderBasedTechnique(tech, Ogre::MaterialManager::DEFAULT_SCHEME_NAME);
+							}
+							catch (...)
+							{
+								Debug::error("[RENDER MODULE]: Error borrando ShaderBasedTechnique.");
+							}
 						}
 					}
 					if (matMgr.resourceExists(matName))
@@ -729,11 +946,21 @@ void RenderModule::setDiffuse(const modelID& id, const subMeshID& subID, const s
 		{
 			_rgm->addResourceLocation(textureFolder, "FileSystem", textureFolder);
 			_rgm->loadResourceGroup(textureFolder);
-			_resourceGroups.insert(textureFolder);
+			// Solo meter a _resourceGroups si no es precargado
+			if (_preloadedGroups.find(textureFolder) == _preloadedGroups.end())
+				_resourceGroups.insert(textureFolder);
 		}
 		Ogre::TexturePtr text = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
 
-		Ogre::TextureUnitState* tus = pass->createTextureUnitState();
+		Ogre::TextureUnitState* tus;
+		if (pass->getNumTextureUnitStates() == 0)
+		{
+			tus = pass->createTextureUnitState();
+		}
+		else
+		{
+			tus = pass->getTextureUnitState(0);
+		}
 		tus->setTexture(text);
 		tus->setColourOperation(Ogre::LBO_MODULATE);
 	}
@@ -819,11 +1046,24 @@ animationID RenderModule::registerSkeletonAnim(const modelID& modelID, const std
 {
 	if (modelID != UINT64_MAX && modelID < _models.size() && _models[modelID] != nullptr)
 	{
-		auto anim = _animations.emplace_back(std::make_pair(_models[modelID]->getAnimationState(animationName), 1.0f));
-		if (anim.first == nullptr)
+		try
+		{
+			auto anim = _animations.emplace_back(std::make_pair(_models[modelID]->getAnimationState(animationName), 1.0f));
+			if (anim.first == nullptr)
+				return UINT64_MAX;
+			_animations.back().first->setLoop(loop);
+			return _nextAnimationID++;
+		}
+		catch (const std::exception& e)
+		{
+			Debug::error("[RenderModule] registerSkeletonAnim fallo para '", animationName, "': ", e.what());
 			return UINT64_MAX;
-		_animations.back().first->setLoop(loop);
-		return _nextAnimationID++;
+		}
+		catch (...)
+		{
+			Debug::error("[RenderModule] registerSkeletonAnim fallo para '", animationName, "': excepcion desconocida");
+			return UINT64_MAX;
+		}
 	}
 	return UINT64_MAX;
 }
@@ -891,7 +1131,18 @@ void RenderModule::setAnimEnabled(const animationID& animationID, const bool& ac
 {
 	if (animationID != UINT64_MAX && animationID < _animations.size() && _animations[animationID].first != nullptr)
 	{
-		_animations[animationID].first->setEnabled(active);
+		try
+		{
+			_animations[animationID].first->setEnabled(active);
+		}
+		catch (const std::exception& e)
+		{
+			Debug::error("[RenderModule] setAnimEnabled fallo (id=", std::to_string(animationID), "): ", e.what());
+		}
+		catch (...)
+		{
+			Debug::error("[RenderModule] setAnimEnabled fallo (id=", std::to_string(animationID), "): excepcion desconocida");
+		}
 	}
 }
 
@@ -899,7 +1150,18 @@ void RenderModule::setAnimTimePos(const animationID& animationID, const float& t
 {
 	if (animationID != UINT64_MAX && animationID < _animations.size() && _animations[animationID].first != nullptr)
 	{
-		_animations[animationID].first->setTimePosition(timePos);
+		try
+		{
+			_animations[animationID].first->setTimePosition(timePos);
+		}
+		catch (const std::exception& e)
+		{
+			Debug::error("[RenderModule] setAnimTimePos fallo (id=", std::to_string(animationID), "): ", e.what());
+		}
+		catch (...)
+		{
+			Debug::error("[RenderModule] setAnimTimePos fallo (id=", std::to_string(animationID), "): excepcion desconocida");
+		}
 	}
 }
 
@@ -916,7 +1178,20 @@ void RenderModule::updateAnimation(const animationID& animationID, const uint64_
 	if (animationID != UINT64_MAX && animationID < _animations.size() && _animations[animationID].first != nullptr)
 	{
 		auto& anim = _animations[animationID];
-		anim.first->addTime(((float)deltaTime / 1000.0f) * anim.second);
+		try
+		{
+			anim.first->addTime(((float)deltaTime / 1000.0f) * anim.second);
+		}
+		catch (const std::exception& e)
+		{
+			Debug::error("[RenderModule] updateAnimation fallo (id=", std::to_string(animationID), "): ", e.what());
+			anim.first = nullptr;
+		}
+		catch (...)
+		{
+			Debug::error("[RenderModule] updateAnimation fallo (id=", std::to_string(animationID), "): excepcion desconocida");
+			anim.first = nullptr;
+		}
 	}
 }
 
@@ -1027,45 +1302,73 @@ void RenderModule::setAmbientLight(const core::Color& color)
 
 particleGenID RenderModule::addParticleGen(const entityID& entityID, const std::string& textureFolder, const std::string& textureFile)
 {
+	if (textureFolder.empty() || textureFile.empty())
+	{
+		Debug::error("[ParticleGen] Texture folder/file vacio. Carpeta: ", textureFolder, ", Archivo: ", textureFile, ".");
+		return UINT64_MAX;
+	}
+
 	transformID nodeID = addNode(entityID);
 
 	std::string matName = "ParticleMat_" + std::to_string(_nextParticleGenID);
 
-	Ogre::MaterialPtr mat = Ogre::MaterialManager::getSingleton().create(matName, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-	_createdMaterials.push_back(matName);
-	mat->setReceiveShadows(false);
-
-	Ogre::Pass* pass = mat->getTechnique(0)->getPass(0);
-	pass->setLightingEnabled(false);
-	pass->setSceneBlending(Ogre::SBT_TRANSPARENT_ALPHA);
-	pass->setDepthWriteEnabled(false);
-
-	if (!_rgm->resourceGroupExists(textureFolder))
+	try
 	{
-		_rgm->addResourceLocation(textureFolder, "FileSystem", textureFolder);
-		_rgm->loadResourceGroup(textureFolder);
-		_resourceGroups.insert(textureFolder);
+		Ogre::MaterialPtr mat = Ogre::MaterialManager::getSingleton().create(matName, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+		_createdMaterials.push_back(matName);
+		mat->setReceiveShadows(false);
+
+		Ogre::Pass* pass = mat->getTechnique(0)->getPass(0);
+		pass->setLightingEnabled(false);
+		pass->setSceneBlending(Ogre::SBT_TRANSPARENT_ALPHA);
+		pass->setDepthWriteEnabled(false);
+
+		if (!_rgm->resourceGroupExists(textureFolder))
+		{
+			_rgm->addResourceLocation(textureFolder, "FileSystem", textureFolder);
+			_rgm->loadResourceGroup(textureFolder);
+			_resourceGroups.insert(textureFolder);
+		}
+
+		if (!Ogre::ResourceGroupManager::getSingleton().resourceExists(textureFolder, textureFile))
+		{
+			Debug::error("[ParticleGen] No existe textura ", textureFile, " en ", textureFolder, ".");
+			return UINT64_MAX;
+		}
+
+		Ogre::TexturePtr text = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
+
+		Ogre::TextureUnitState* tus = pass->createTextureUnitState();
+		tus->setTexture(text);
+		tus->setColourOperation(Ogre::LBO_MODULATE);
+
+		mat->load();
+
+		//Asignar RTSS
+		if (_shaderGen)
+		{
+			_shaderGen->createShaderBasedTechnique(*mat, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
+			if (!_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, mat->getName()))
+				Debug::error("[ParticleGen] No se valido el material ", mat->getName()," correctamente.");
+		}
+
+		Ogre::ParticleSystem* ps = _particleGens.emplace_back(_sceneMgr->createParticleSystem("ParticleGen_" + std::to_string(_nextParticleGenID)));
+		ps->setMaterialName(matName);
+		ps->addEmitter("Point");
+		_engineNodes[nodeID].sceneNode->attachObject(ps);
+
+		return _nextParticleGenID++;
 	}
-
-	Ogre::TexturePtr text = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
-
-	Ogre::TextureUnitState* tus = pass->createTextureUnitState();
-	tus->setTexture(text);
-	tus->setColourOperation(Ogre::LBO_MODULATE);
-
-	mat->load();
-
-	//Asignar RTSS
-	_shaderGen->createShaderBasedTechnique(*mat, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
-	_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, mat->getName());
-
-	Ogre::ParticleSystem* ps = _particleGens.emplace_back(_sceneMgr->createParticleSystem("ParticleGen_" + std::to_string(_nextParticleGenID)));
-
-	ps->setMaterialName(matName);
-	ps->addEmitter("Point");
-	_engineNodes[nodeID].sceneNode->attachObject(ps);
-
-	return _nextParticleGenID++;
+	catch (const std::exception& e)
+	{
+		Debug::error("[ParticleGen] Error creando sistema de particulas: ", e.what());
+		return UINT64_MAX;
+	}
+	catch (...)
+	{
+		Debug::error("[ParticleGen] Error desconocido creando sistema de particulas.");
+		return UINT64_MAX;
+	}
 }
 
 void RenderModule::deleteParticleGen(const particleGenID& id)
@@ -1270,7 +1573,7 @@ void  RenderModule::deleteUIPanel(const uiPanelID& id) {
 }
 
 
-uiLabelID RenderModule::addUILabel(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const  float opacity, const core::Color textColor, const core::Color bgColor, const float fontSize, const TextAlign textAlign, const std::string fontName)
+uiLabelID RenderModule::addUILabel(const uiPanelID& panelID, const entityID& entityID, const std::string& text, const  float opacity, const core::Color& textColor, const core::Color& bgColor, const float fontSize, const TextAlign textAlign, const std::string& fontName)
 {
 	addUITransform(entityID);
 
@@ -1284,7 +1587,8 @@ uiLabelID RenderModule::addUILabel(const uiPanelID& panelID, const entityID& ent
 	label.fontSize = fontSize;
 	label.align = textAlign;
 
-	std::string auxFontName = fontName + "_" + std::to_string((int)fontSize);
+	//std::string auxFontName = fontName + "_" + std::to_string((int)fontSize);
+	std::string auxFontName = std::filesystem::path(fontName).stem().string() + "_" + std::to_string((int)fontSize);
 	auto it = _fonts.find(auxFontName);
 	if (it != _fonts.end())
 	{
@@ -1301,45 +1605,89 @@ uiLabelID RenderModule::addUILabel(const uiPanelID& panelID, const entityID& ent
 	_labelToPanel[id] = { panelID, labelIndex };
 	return id;
 }
-void RenderModule::deleteUILabel(const uiLabelID& id) {
-	auto [panelID, labelIndex] = _labelToPanel[id];
+
+void RenderModule::deleteUILabel(const uiLabelID& id)
+{
+	const auto it = _labelToPanel.find(id);
+	if (it == _labelToPanel.end()) return;
+
+	auto [panelID, labelIndex] = it->second;
+	if (panelID >= _uiPanels.size()) return;
+	if (labelIndex < 0 || labelIndex >= _uiPanels[panelID].labels.size()) return;
+
 	auto& label = _uiPanels[panelID].labels[labelIndex];
 	label.alive = false;
 }
 
 void RenderModule::setUILabelVisible(const uiLabelID& labelID, bool visible)
 {
-	auto [panelID, labelIndex] = _labelToPanel[labelID];
+	const auto it = _labelToPanel.find(labelID);
+	if (it == _labelToPanel.end()) return;
+
+	auto [panelID, labelIndex] = it->second;
+	if (panelID >= _uiPanels.size()) return;
+	if (labelIndex < 0 || labelIndex >= _uiPanels[panelID].labels.size()) return;
+
 	_uiPanels[panelID].labels[labelIndex].visible = visible;
 }
 
 void RenderModule::setUILabelText(const uiLabelID& labelID, const std::string& text)
 {
-	auto [panelID, labelIndex] = _labelToPanel[labelID];
+	const auto it = _labelToPanel.find(labelID);
+	if (it == _labelToPanel.end()) return;
+
+	auto [panelID, labelIndex] = it->second;
+	if (panelID >= _uiPanels.size()) return;
+	if (labelIndex < 0 || labelIndex >= _uiPanels[panelID].labels.size()) return;
+
 	_uiPanels[panelID].labels[labelIndex].text = text;
 }
 
 void RenderModule::setUILabelOpacity(const uiLabelID& labelID, float opacity)
 {
-	auto [panelID, labelIndex] = _labelToPanel[labelID];
+	const auto it = _labelToPanel.find(labelID);
+	if (it == _labelToPanel.end()) return;
+
+	auto [panelID, labelIndex] = it->second;
+	if (panelID >= _uiPanels.size()) return;
+	if (labelIndex < 0 || labelIndex >= _uiPanels[panelID].labels.size()) return;
+
 	_uiPanels[panelID].labels[labelIndex].opacity = opacity;
 }
 
-void RenderModule::setUILabelTextColor(const uiLabelID& labelID, core::Color color)
+void RenderModule::setUILabelTextColor(const uiLabelID& labelID, const core::Color& color)
 {
-	auto [panelID, labelIndex] = _labelToPanel[labelID];
+	const auto it = _labelToPanel.find(labelID);
+	if (it == _labelToPanel.end()) return;
+
+	auto [panelID, labelIndex] = it->second;
+	if (panelID >= _uiPanels.size()) return;
+	if (labelIndex < 0 || labelIndex >= _uiPanels[panelID].labels.size()) return;
+
 	_uiPanels[panelID].labels[labelIndex].textColor = color;
 }
 
-void RenderModule::setUILabelBackGroundColor(const uiLabelID& labelID, core::Color color)
+void RenderModule::setUILabelBackGroundColor(const uiLabelID& labelID, const core::Color& color)
 {
-	auto [panelID, labelIndex] = _labelToPanel[labelID];
+	const auto it = _labelToPanel.find(labelID);
+	if (it == _labelToPanel.end()) return;
+
+	auto [panelID, labelIndex] = it->second;
+	if (panelID >= _uiPanels.size()) return;
+	if (labelIndex < 0 || labelIndex >= _uiPanels[panelID].labels.size()) return;
+
 	_uiPanels[panelID].labels[labelIndex].bgColor = color;
 }
 
 void RenderModule::setUILabelAlign(const uiLabelID& labelID, const TextAlign& align)
 {
-	auto [panelID, labelIndex] = _labelToPanel[labelID];
+	const auto it = _labelToPanel.find(labelID);
+	if (it == _labelToPanel.end()) return;
+
+	auto [panelID, labelIndex] = it->second;
+	if (panelID >= _uiPanels.size()) return;
+	if (labelIndex < 0 || labelIndex >= _uiPanels[panelID].labels.size()) return;
+
 	_uiPanels[panelID].labels[labelIndex].align = align;
 }
 
@@ -1359,25 +1707,40 @@ uiButtonID RenderModule::addUIImageButton(const uiPanelID& panelID, const entity
 	button.bgColor = bgColor;
 
 	button.buttonImage = true;
-	if (!_rgm->resourceGroupExists(textureFolder))
+	/*if (!_rgm->resourceGroupExists(textureFolder))
 	{
 		_rgm->addResourceLocation(textureFolder, "FileSystem", textureFolder);
 		_rgm->loadResourceGroup(textureFolder);
 		_resourceGroups.insert(textureFolder);
-	}
+	}*/
 	if (!textureFile.empty()) {
-		if (Ogre::ResourceGroupManager::getSingleton().resourceExists(textureFolder, textureFile))
-		{
-			Ogre::TexturePtr tex = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
-			button.textureID = (ImTextureID)tex->getHandle();
+		// Obtener la textura ya cargada
+		Ogre::TexturePtr tex = Ogre::TextureManager::getSingleton().getByName(textureFile, textureFolder);
+
+		// Si no existe, registrar grupo y cargar
+		if (!tex) {
+			if (!_rgm->resourceGroupExists(textureFolder))
+			{
+				_rgm->addResourceLocation(textureFolder, "FileSystem", textureFolder);
+				_rgm->loadResourceGroup(textureFolder);
+				// Solo meter a _resourceGroups si no es precargado
+				if (_preloadedGroups.find(textureFolder) == _preloadedGroups.end())
+					_resourceGroups.insert(textureFolder);
+			}
+			tex = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
 		}
-		else {
-			Debug::error("[UIButton] Textura no existe");
-			button.textureID = UINT64_MAX;
+
+		button.textureID = tex ? (ImTextureID)tex->getHandle() : UINT64_MAX;
+		if (tex)
+		{
+			button.texWidth = static_cast<int>(tex->getWidth());
+			button.texHeight = static_cast<int>(tex->getHeight());
 		}
 	}
 	else {
 		button.textureID = UINT64_MAX;
+		button.texWidth = 0;
+		button.texHeight = 0;
 	}
 
 	_uiPanels[panelID].buttons.push_back(button);
@@ -1403,7 +1766,8 @@ uiButtonID RenderModule::addUIButton(const uiPanelID& panelID, const entityID& e
 	button.psColor = psColor;
 	button.opacity = opacity;
 
-	std::string auxFontName = fontName + "_" + std::to_string((int)fontSize);
+	//std::string auxFontName = fontName + "_" + std::to_string((int)fontSize);
+	std::string auxFontName = std::filesystem::path(fontName).stem().string() + "_" + std::to_string((int)fontSize);
 	auto it = _fonts.find(auxFontName);
 
 	if (it != _fonts.end())
@@ -1421,6 +1785,7 @@ uiButtonID RenderModule::addUIButton(const uiPanelID& panelID, const entityID& e
 	_buttonToPanel[id] = { panelID, buttonIndex };
 	return id;
 }
+
 void RenderModule::deleteUIButton(const uiButtonID& id) {
 	auto [panelID, buttonIndex] = _buttonToPanel[id];
 	auto& button = _uiPanels[panelID].buttons[buttonIndex];
@@ -1440,7 +1805,7 @@ void RenderModule::setUIButtonText(const uiButtonID& buttonID, const std::string
 	_uiPanels[panelID].buttons[buttonIndex].text = text;
 }
 
-void RenderModule::setUIButtonTexture(const uiButtonID& buttonID, std::string& textureFolder, std::string& textureFile)
+void RenderModule::setUIButtonTexture(const uiButtonID& buttonID, const std::string& textureFolder, const std::string& textureFile)
 {
 	if (textureFile.empty() || textureFolder.empty()) {
 		Debug::error("[UIButton] TextureFile/textureFolder vacio");
@@ -1462,6 +1827,8 @@ void RenderModule::setUIButtonTexture(const uiButtonID& buttonID, std::string& t
 	_uiPanels[panelID].buttons[buttonIndex].textureFile = textureFile;
 	_uiPanels[panelID].buttons[buttonIndex].textureFolder = textureFolder;
 	_uiPanels[panelID].buttons[buttonIndex].textureID = (ImTextureID)tex->getHandle();
+	_uiPanels[panelID].buttons[buttonIndex].texWidth = static_cast<int>(tex->getWidth());
+	_uiPanels[panelID].buttons[buttonIndex].texHeight = static_cast<int>(tex->getHeight());
 }
 
 void RenderModule::setUIButtonOpacity(const uiButtonID& buttonID, float& opacity)
@@ -1523,18 +1890,34 @@ uiTextureRectID RenderModule::addUITextureRect(const uiPanelID& panelID, const e
 		_resourceGroups.insert(textureFolder);
 	}
 	if (!textureFile.empty()) {
-		if (Ogre::ResourceGroupManager::getSingleton().resourceExists(textureFolder, textureFile))
-		{
-			Ogre::TexturePtr texture = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
-			tex.textureID = (ImTextureID)texture->getHandle();
+		// Obtener la textura ya cargada
+		Ogre::TexturePtr texture = Ogre::TextureManager::getSingleton().getByName(textureFile, textureFolder);
+
+		// Si no existe, registrar grupo y cargar
+		if (!texture) {
+			if (!_rgm->resourceGroupExists(textureFolder))
+			{
+				_rgm->addResourceLocation(textureFolder, "FileSystem", textureFolder);
+				_rgm->loadResourceGroup(textureFolder);
+				// Solo meter a _resourceGroups si no es precargado
+				if (_preloadedGroups.find(textureFolder) == _preloadedGroups.end())
+					_resourceGroups.insert(textureFolder);
+			}
+			texture = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
 		}
-		else {
-			Debug::error("[UIButton] Textura no existe");
-			tex.textureID = UINT64_MAX;
+
+		Debug::error("[UIButton] Textura no existe");
+		tex.textureID = texture ? (ImTextureID)texture->getHandle() : UINT64_MAX;
+		if (texture)
+		{
+			tex.texWidth = static_cast<int>(texture->getWidth());
+			tex.texHeight = static_cast<int>(texture->getHeight());
 		}
 	}
 	else {
 		tex.textureID = UINT64_MAX;
+		tex.texWidth = 0;
+		tex.texHeight = 0;
 	}
 
 	_uiPanels[panelID].textureRects.push_back(tex);
@@ -1546,13 +1929,14 @@ uiTextureRectID RenderModule::addUITextureRect(const uiPanelID& panelID, const e
 
 	return id;
 }
+
 void RenderModule::deleteUITextureRect(const uiTextureRectID& id) {
 	auto [panelID, textureRectIndex] = _textureToPanel[id];
 	auto& textureRect = _uiPanels[panelID].textureRects[textureRectIndex];
 	textureRect.alive = false;
 }
 
-void  RenderModule::setUITextureRectTexture(const uiTextureRectID& textureRectID, std::string& textureFolder, std::string& textureFile)
+void  RenderModule::setUITextureRectTexture(const uiTextureRectID& textureRectID, const std::string& textureFolder, const std::string& textureFile)
 {
 	if (textureFile.empty() || textureFolder.empty()) {
 		Debug::error("[UITextureRect] TextureFile/textureFolder vacio");
@@ -1574,8 +1958,8 @@ void  RenderModule::setUITextureRectTexture(const uiTextureRectID& textureRectID
 	_uiPanels[panelID].textureRects[textureRectIndex].textureFile = textureFile;
 	_uiPanels[panelID].textureRects[textureRectIndex].textureFolder = textureFolder;
 	_uiPanels[panelID].textureRects[textureRectIndex].textureID = (ImTextureID)tex->getHandle();
-
-
+	_uiPanels[panelID].textureRects[textureRectIndex].texWidth = static_cast<int>(tex->getWidth());
+	_uiPanels[panelID].textureRects[textureRectIndex].texHeight = static_cast<int>(tex->getHeight());
 }
 
 void RenderModule::setUITextureRectVisible(const uiTextureRectID& textureRectID, bool& visible)
@@ -1608,21 +1992,31 @@ void RenderModule::renderUI()
 	ImGui_ImplSDL3_NewFrame();
 	ImGui::NewFrame();
 
+	const float baseW = _windowWidth > 0.0f ? _windowWidth : 1.0f;
+	const float baseH = _windowHeight > 0.0f ? _windowHeight : 1.0f;
+	const float vpW = _vp != nullptr ? _vp->getActualWidth() : baseW;
+	const float vpH = _vp != nullptr ? _vp->getActualHeight() : baseH;
+	const float vpLeft = _vp != nullptr ? _vp->getActualLeft() : 0.0f;
+	const float vpTop = _vp != nullptr ? _vp->getActualTop() : 0.0f;
+	const float uiScale = std::min(vpW / baseW, vpH / baseH);
+	const float safeScale = uiScale > 0.0f ? uiScale : 1.0f;
+
 	for (UIPanelData& panel : _uiPanels)
 	{
 		if (!panel.visible || !panel.alive) continue;
 
 		int tID = getTransformUI(panel.entity);
-		const ImVec2 auxDim = { _uiTransforms[tID].dimension.getX(), _uiTransforms[tID].dimension.getY() };
-		const ImVec2 auxPos = { _uiTransforms[tID].position.getX(),  _uiTransforms[tID].position.getY() };
+		const ImVec2 auxDim = { _uiTransforms[tID].dimension.getX() * safeScale, _uiTransforms[tID].dimension.getY() * safeScale };
+		const ImVec2 auxPos = { vpLeft + _uiTransforms[tID].position.getX() * safeScale,  vpTop + _uiTransforms[tID].position.getY() * safeScale };
 		ImGui::SetNextWindowPos(ImVec2(auxPos));
 		ImGui::SetNextWindowSize(ImVec2(auxDim));
 		ImGui::Begin(panel.title.c_str(), nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoMove);
+		ImGui::SetWindowFontScale(safeScale);
 
 		ImDrawList* drawList = ImGui::GetWindowDrawList();
 		ImDrawListSplitter splitter;
 		splitter.Split(drawList, 32);
-		splitter.SetCurrentChannel(drawList, _uiTransforms[tID].zBuffer);
+		splitter.SetCurrentChannel(drawList, _uiTransforms[tID].depthLayer);
 
 		for (UILabelData& label : panel.labels)
 		{
@@ -1631,10 +2025,10 @@ void RenderModule::renderUI()
 				continue;
 			}
 			int tID = getTransformUI(label.entity);
-			splitter.SetCurrentChannel(drawList, _uiTransforms[tID].zBuffer);
+			splitter.SetCurrentChannel(drawList, _uiTransforms[tID].depthLayer);
 
-			const ImVec2 auxDim = { _uiTransforms[tID].dimension.getX(), _uiTransforms[tID].dimension.getY() };
-			const ImVec2 auxPos = { _uiTransforms[tID].position.getX(),  _uiTransforms[tID].position.getY() };
+			const ImVec2 auxDim = { _uiTransforms[tID].dimension.getX() * safeScale, _uiTransforms[tID].dimension.getY() * safeScale };
+			const ImVec2 auxPos = { vpLeft + _uiTransforms[tID].position.getX() * safeScale,  vpTop + _uiTransforms[tID].position.getY() * safeScale };
 			std::string labelName = "label_" + label.entity.toString();
 			drawList->AddRectFilled(auxPos, ImVec2(auxPos.x + auxDim.x, auxPos.y + auxDim.y), IM_COL32(label.bgColor.getRed() * 255, label.bgColor.getGreen() * 255, label.bgColor.getBlue() * 255, label.bgColor.getAlpha() * label.opacity * 255));
 			ImGui::PushFont(label.font);
@@ -1646,13 +2040,13 @@ void RenderModule::renderUI()
 			switch (label.align)
 			{
 			case TextAlign::LEFT:
-				posTextX = auxPos.x + 5.0f;
+				posTextX = auxPos.x + 5.0f * safeScale;
 				break;
 			case TextAlign::CENTER:
 				posTextX = auxPos.x + (auxDim.x - textSize.x) * 0.5f;
 				break;
 			case TextAlign::RIGHT:
-				posTextX = auxPos.x + auxDim.x - textSize.x - 5.0f;
+				posTextX = auxPos.x + auxDim.x - textSize.x - 5.0f * safeScale;
 			}
 
 			drawList->AddText(ImVec2(posTextX, posTextY), IM_COL32(label.textColor.getRed() * 255, label.textColor.getGreen() * 255, label.textColor.getBlue() * 255, label.textColor.getAlpha() * label.opacity * 255), label.text.c_str());
@@ -1668,14 +2062,26 @@ void RenderModule::renderUI()
 			}
 
 			int tID = getTransformUI(tex.entity);
-			splitter.SetCurrentChannel(drawList, _uiTransforms[tID].zBuffer);
+			splitter.SetCurrentChannel(drawList, _uiTransforms[tID].depthLayer);
 
 			auto pos = _uiTransforms[tID].position;
-			ImGui::SetCursorPos(ImVec2(pos.getX(), pos.getY()));
+			ImGui::SetCursorPos(ImVec2(pos.getX() * safeScale, pos.getY() * safeScale));
 			ImGui::PushStyleVar(ImGuiStyleVar_Alpha, tex.opacity);
 
-			const ImVec2 aux = { _uiTransforms[tID].dimension.getX(), _uiTransforms[tID].dimension.getY() };
-			ImGui::Image((ImTextureID)tex.textureID, aux);
+			const ImVec2 aux = {
+				std::max(1.0f, std::round((_uiTransforms[tID].dimension.getX() * safeScale))),
+				std::max(1.0f, std::round((_uiTransforms[tID].dimension.getY() * safeScale)))
+			};
+			ImVec2 uv0(0.0f, 0.0f);
+			ImVec2 uv1(1.0f, 1.0f);
+			if (tex.texWidth > 1 && tex.texHeight > 1)
+			{
+				const float uHalfTexel = 0.5f / static_cast<float>(tex.texWidth);
+				const float vHalfTexel = 0.5f / static_cast<float>(tex.texHeight);
+				uv0 = ImVec2(uHalfTexel, vHalfTexel);
+				uv1 = ImVec2(1.0f - uHalfTexel, 1.0f - vHalfTexel);
+			}
+			ImGui::Image((ImTextureID)tex.textureID, aux, uv0, uv1);
 			ImGui::PopStyleVar();
 		}
 
@@ -1687,12 +2093,12 @@ void RenderModule::renderUI()
 			}
 
 			int tID = getTransformUI(button.entity);
-			splitter.SetCurrentChannel(drawList, _uiTransforms[tID].zBuffer);
+			splitter.SetCurrentChannel(drawList, _uiTransforms[tID].depthLayer);
 
 			auto pos = _uiTransforms[tID].position;
-			ImGui::SetCursorPos(ImVec2(pos.getX(), pos.getY()));
+			ImGui::SetCursorPos(ImVec2(pos.getX() * safeScale, pos.getY() * safeScale));
 			ImGui::PushStyleVar(ImGuiStyleVar_Alpha, button.opacity);
-			const ImVec2 aux = { _uiTransforms[tID].dimension.getX(), _uiTransforms[tID].dimension.getY() };
+			const ImVec2 aux = { _uiTransforms[tID].dimension.getX() * safeScale, _uiTransforms[tID].dimension.getY() * safeScale };
 			ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(button.textColor.getRed() * 255, button.textColor.getGreen() * 255, button.textColor.getBlue() * 255, button.textColor.getAlpha() * button.opacity * 255));
 			ImGui::PushStyleColor(ImGuiCol_Button, IM_COL32(button.bgColor.getRed() * 255, button.bgColor.getGreen() * 255, button.bgColor.getBlue() * 255, button.bgColor.getAlpha() * button.opacity * 255));
 			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, IM_COL32(button.hvColor.getRed() * 255, button.hvColor.getGreen() * 255, button.hvColor.getBlue() * 255, button.hvColor.getAlpha() * button.opacity * 255));
@@ -1703,14 +2109,22 @@ void RenderModule::renderUI()
 				if (button.textureID != UINT64_MAX) {
 					std::string idButton = button.textureFile + "_" + button.entity.toString();
 					ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
-					click = ImGui::ImageButton(idButton.c_str(), (ImTextureID)(uintptr_t)button.textureID, aux);
+					ImVec2 uv0(0.0f, 0.0f);
+					ImVec2 uv1(1.0f, 1.0f);
+					if (button.texWidth > 1 && button.texHeight > 1)
+					{
+						const float uHalfTexel = 0.5f / static_cast<float>(button.texWidth);
+						const float vHalfTexel = 0.5f / static_cast<float>(button.texHeight);
+						uv0 = ImVec2(uHalfTexel, vHalfTexel);
+						uv1 = ImVec2(1.0f - uHalfTexel, 1.0f - vHalfTexel);
+					}
+					click = ImGui::ImageButton(idButton.c_str(), (ImTextureID)(uintptr_t)button.textureID, aux, uv0, uv1);
 					ImGui::PopStyleVar();
 				}
 				else {
 					std::string idButton = button.textureFile + "_" + button.entity.toString();
 					ImGui::InvisibleButton(idButton.c_str(), ImVec2(1, 1));
 				}
-
 			}
 			else
 			{
