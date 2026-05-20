@@ -33,6 +33,7 @@ StateMachine::~StateMachine()
 void StateMachine::gameLoop()
 {
 	auto startTime = core::Clock::getNow();
+	uint64_t accumulator = 0; 
 	_isLoopRunning = true;
 
 	while (!_endGame) // bucle de juego
@@ -40,15 +41,18 @@ void StateMachine::gameLoop()
 		_processSceneChange();
 		if (_currentScene.ptr != nullptr)
 		{
-			_deltaTime = core::Clock::calculateDeltaTime(startTime);
+			auto now = core::Clock::getNow();
+			_deltaTime = core::Clock::calculateDeltaTime(startTime, now);
+			startTime = now;
 
 			core::Clock::setDeltaTime(_deltaTime); // para acceso general
 
-			if (_deltaTime >= core::Clock::FRAME_RATE)
+			accumulator += _deltaTime;
+			while (accumulator >= core::Clock::FRAME_RATE)
 			{
 				_currentScene.ptr->fixedUpdate();
 				Engine::instance()->fixedUpdate(core::Clock::FRAME_RATE);
-				startTime = core::Clock::getNow();
+				accumulator -= core::Clock::FRAME_RATE;
 			}
 
 			_currentScene.ptr->update(_deltaTime);

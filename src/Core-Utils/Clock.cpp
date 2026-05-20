@@ -12,6 +12,13 @@ uint64_t core::Clock::calculateDeltaTime(std::chrono::high_resolution_clock::tim
 		(std::chrono::high_resolution_clock::now().time_since_epoch() - sT.time_since_epoch())).count();
 }
 
+uint64_t core::Clock::calculateDeltaTime(
+	std::chrono::high_resolution_clock::time_point start,
+	std::chrono::high_resolution_clock::time_point end)
+{
+	return std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+}
+
 std::chrono::high_resolution_clock::time_point core::Clock::getNow()
 {
 	return std::chrono::high_resolution_clock::now();

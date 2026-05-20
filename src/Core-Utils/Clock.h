@@ -42,6 +42,9 @@ namespace core
 		*	@param sT - Tiempo desde el que calcular el deltaTime.
 		*/
 		static inline uint64_t calculateDeltaTime(std::chrono::high_resolution_clock::time_point sT);
+		static inline uint64_t calculateDeltaTime(
+			std::chrono::high_resolution_clock::time_point start,
+			std::chrono::high_resolution_clock::time_point end);
 
 		/** @brief
 		*	Tiempo actual.
