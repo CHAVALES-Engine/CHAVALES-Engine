@@ -25,6 +25,7 @@
     <ClInclude Include="..\..\src\Core-Utils\EngineAPI.h" />
     <ClInclude Include="..\..\src\Core-Utils\GameConfigurator.h" />
     <ClInclude Include="..\..\src\Core-Utils\MessagesManager.h" />
+    <ClInclude Include="..\..\src\Core-Utils\PropertyConverters.h" />
     <ClInclude Include="..\..\src\Core-Utils\Script.h" />
     <ClInclude Include="..\..\src\Core-Utils\ScriptsManager.h" />
     <ClInclude Include="..\..\src\Core-Utils\TimerManager.h" />
@@ -85,6 +86,7 @@
       </PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)src\Core-Defs\;$(SolutionDir)dependencies\sol\;$(SolutionDir)dependencies\lua\src\;$(SolutionDir)dependencies\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -112,6 +114,7 @@
       </PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>$(SolutionDir)src\$(ProjectName)\;$(SolutionDir)src\Core-Defs\;$(SolutionDir)dependencies\sol\;$(SolutionDir)dependencies\lua\src\;$(SolutionDir)dependencies\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>

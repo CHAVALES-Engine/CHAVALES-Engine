@@ -4,15 +4,24 @@
  */
 
 #pragma once
-
+#include <memory>
 #include <variant>
+#include <string>
+#include <vector>
 #include <unordered_map>
 
-#include "Color.h"
-#include "Quaternion.h"
 #include "Vector2.h"
 #include "Vector3.h"
 #include "Vector4.h"
+#include "Quaternion.h"
+#include "Color.h"
+#include "InputDefs.h"
+#include "PhysicsTypes.h" 
+ // Forward declarations
+namespace core {
+	class Entity;
+	class Scene;
+}
 
 using Property = std::variant<
 	int,
@@ -34,7 +43,17 @@ using Property = std::variant<
 	std::vector<core::Vector3<>>,
 	std::vector<core::Vector4<>>,
 	std::vector<core::Quaternion<>>,
-	std::vector<core::Color>
+	std::vector<core::Color>,
+	// INPUT
+	input::Key,
+	input::MouseButton,
+	input::MouseAxis,
+	input::GamepadButton,
+	input::GamepadAxis,
+	// ENGINE
+	core::Entity*,
+	std::shared_ptr<core::Scene>,
+	RayInfo
 >;
 
 using Properties = std::unordered_map<std::string, Property>;

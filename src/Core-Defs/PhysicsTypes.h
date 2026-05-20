@@ -5,6 +5,8 @@
 #pragma once
 #include <cstdint>
 #include "CommonEnums.h"
+#include "Quaternion.h"
+#include "Vector3.h"
 
 namespace core
 {
