@@ -15,6 +15,61 @@ REGISTER_COMPONENT(AudioSource);
 AudioSource::AudioSource() : _tr(nullptr), _lastPosition(0.0f, 0.0f, 0.0f), _path(), _id(), _is3D(false), _loop(false),
 _isStream(), _playOnReady(), _soundVolume(0.0f), _minRadius(1.0f), _maxRadius(100.0f), _channelID(-1), isPlaying(false)
 {
+	registerMethod("playSound", [this](const std::vector<std::any>& args) {
+		playSound();
+		});
+
+	registerMethod("stopSound", [this](const std::vector<std::any>& args) {
+		stopSound();
+		});
+
+	registerMethod("pauseSound", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			pauseSound(std::any_cast<bool>(args[0]));
+		}
+		});
+
+	registerMethod("isPaused", [this](const std::vector<std::any>& args) {
+		return isPaused();
+		});
+
+	registerMethod("setVolume", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			setVolume(std::any_cast<float>(args[0]));
+		}
+		});
+
+	registerMethod("getVolume", [this](const std::vector<std::any>& args) {
+		return getVolume();
+		});
+
+	registerMethod("setLooping", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			setLooping(std::any_cast<int>(args[0]));
+		}
+		});
+
+	registerMethod("getLooping", [this](const std::vector<std::any>& args) {
+		return getLooping();
+		});
+
+	registerMethod("setDelay", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 3) {
+			setDelay(std::any_cast<double>(args[0]), std::any_cast<double>(args[1]), std::any_cast<bool>(args[2]));
+		}
+		});
+
+	registerMethod("setMinRadius", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			setMinRadius(std::any_cast<float>(args[0]));
+		}
+		});
+
+	registerMethod("setMaxRadius", [this](const std::vector<std::any>& args) {
+		if (args.size() >= 1) {
+			setMaxRadius(std::any_cast<float>(args[0]));
+		}
+		});
 }
 
 AudioSource::~AudioSource()

@@ -10,6 +10,7 @@
 #include "GameConfigurator.h"
 #include "Transform.h"
 #include "checkMLNew.h"
+#include "ScriptsManager.h"
 
 REGISTER_COMPONENT(Camera);
 
@@ -63,6 +64,53 @@ Camera::Camera() : _FOVy(45.0f), _nearClipDistance(0.1f), _farClipDistance(1000.
 
 	registerMethod("getBgColor", [this](const std::vector<std::any>& args) {
 		return getBgColor();
+		});
+
+	registerMethod("setAsActiveCamera", [this](const std::vector<std::any>& args) {
+		setAsActiveCamera();
+		});
+	// Revisar
+	registerMethod("screenToWorld", [this](const std::vector<std::any>& args) -> std::any {
+		if (args.size() >= 3) {
+
+			core::Vector2<> viewPos = std::any_cast<core::Vector2<>>(args[0]);
+			float viewWidth = std::any_cast<float>(args[1]);
+			float viewHeight = std::any_cast<float>(args[2]);
+
+			core::Vector3<> outRayDir;
+			core::Vector3<> result =
+				screenToWorld(viewPos, viewWidth, viewHeight, outRayDir);
+
+			// devolver ambos resultados
+			return std::make_any<std::vector<std::any>>(
+				std::vector<std::any>{
+				result,
+					outRayDir
+			}
+			);
+		}
+
+		return std::any{};
+		});
+
+	registerMethod("worldToScreen", [this](const std::vector<std::any>& args) -> std::any {
+		if (args.size() >= 3) {
+
+			core::Vector3<> worldPos =
+				std::any_cast<core::Vector3<>>(args[0]);
+
+			float viewWidth =
+				std::any_cast<float>(args[1]);
+
+			float viewHeight =
+				std::any_cast<float>(args[2]);
+
+			return std::make_any<core::Vector2<>>(
+				worldToScreen(worldPos, viewWidth, viewHeight)
+			);
+		}
+
+		return std::any{};
 		});
 }
 
@@ -133,7 +181,7 @@ float Camera::getFocalLength() const { return _focalLength; }
 
 core::Color Camera::getBgColor() const { return _bgColor; }
 
-core::Vector3<> Camera::screenToWorld(core::Vector2<>& viewPos, float viewWidth, float viewHeight,
+core::Vector3<> Camera::screenToWorld(const core::Vector2<>& viewPos, float viewWidth, float viewHeight,
 	core::Vector3<>& outRayDir) const
 {
 	std::shared_ptr<Transform> transform = getEntity()->getComponent<Transform>();
@@ -149,8 +197,8 @@ core::Vector3<> Camera::screenToWorld(core::Vector2<>& viewPos, float viewWidth,
 	if (vpW <= 0 || vpH <= 0) return {};
 
 	float pixelX = viewPos.getX(), pixelY = viewPos.getY();
-	if (ref.getX() > 0 && ref.getY() > 0 
-		&& pixelX >= 0.0f && pixelY >= 0.0f 
+	if (ref.getX() > 0 && ref.getY() > 0
+		&& pixelX >= 0.0f && pixelY >= 0.0f
 		&& pixelX <= ref.getX() && pixelY <= ref.getY())
 	{
 		pixelX = vpX + pixelX / ref.getX() * vpW;

@@ -73,7 +73,7 @@ public:
 	 * @param outRayDir - Direccion a la que apuntar si se quiere lanzar un rayo a este punto.
 	 * @return core::Vector3<> - Coordenadas en el mundo.
 	 */
-	core::Vector3<> screenToWorld(
+	core::Vector3<> screenToWorld(const
 		core::Vector2<>& viewPos,
 		float viewWidth,
 		float viewHeight,
