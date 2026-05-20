@@ -15,6 +15,7 @@
 #include "TimerManager.h"
 #include "checkMLNew.h"
 #include "MessagesManager.h"
+#include "ScriptsManager.h"
 
 class GameLoader;
 
@@ -67,6 +68,7 @@ void StateMachine::gameLoop()
 
 	_isLoopRunning = false;
 	core::MessagesManager::instance().shutdown();
+	ScriptsManager::instance().shutdown();
 
 	// llamar a la destructora de la escena
 	if (_currentScene.ptr != nullptr)

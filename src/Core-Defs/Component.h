@@ -221,6 +221,11 @@ namespace core
 			try {
 				std::any result = it->second(args);
 				if constexpr (std::is_void_v<T>) return true;
+				else if constexpr (std::is_same_v<T, std::any>) {
+					if (!result.has_value())
+						return std::optional<std::any>(std::nullopt);
+					return std::optional<std::any>(result);
+				}
 				else {
 					// Metodo que devuelve algo - devuelve std::optional<T>
 					try {

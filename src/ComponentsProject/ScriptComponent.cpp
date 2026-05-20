@@ -7,7 +7,8 @@
 REGISTER_COMPONENT(ScriptComponent);
 
 ScriptComponent::ScriptComponent() : _script(std::make_unique<Script>())
-{}
+{
+}
 
 ScriptComponent::~ScriptComponent() = default;
 
@@ -18,35 +19,84 @@ bool ScriptComponent::init(const Properties& p)
 		!_script->loadScript(scriptPath))
 		return false;
 
-	_script->executeFunction("init");
+	// Inyecta entity en el entorno del script para que pueda usar
+	_script->setEntity(getEntity());
+	// Pasa las Properties a la funcion init(properties) del Lua
+	_script->executeWithProps("init", p);
 	return true;
 }
 
-void ScriptComponent::ready()
+void ScriptComponent::awake()
 {
-	if (!_script->executeFunction("ready"))
-		Debug::warning("[Component: ]");
+	try
+	{
+		_script->executeFunction("awake");
+	}
+	catch (...)
+	{
+	}
 }
-
-void ScriptComponent::enable()
-{
-	_script->executeFunction("enable");
+void ScriptComponent::ready() {
+	try
+	{
+		_script->executeFunction("ready");
+	}
+	catch (...)
+	{
+	}
 }
-
-void ScriptComponent::fixedUpdate()
-{
+void ScriptComponent::enable() {
+	try
+	{
+		_script->executeFunction("enable");
+	}
+	catch (...)
+	{
+	}
 }
-
-void ScriptComponent::update(uint64_t deltaTime)
-{
+void ScriptComponent::disable() {
+	try
+	{
+		_script->executeFunction("disable");
+	}
+	catch (...)
+	{
+	}
 }
+void ScriptComponent::destroy() {
+	try
+	{
+		_script->executeFunction("destroy");
+	}
+	catch (...)
+	{
+	}
+	}
+void ScriptComponent::fixedUpdate() {
+	try
+	{
+		_script->executeFunction("fixedUpdate");
+	}
+	catch (...)
+	{
+	}
+ }
 
-void ScriptComponent::disable()
-{
-	_script->executeFunction("disable");
+void ScriptComponent::update(uint64_t dt) {
+	try
+	{
+		_script->executeFunction("update", { static_cast<float>(dt) });
+	}
+	catch (...)
+	{
+	}
 }
-
-void ScriptComponent::destroy()
-{
-	_script->executeFunction("destroy");
+void ScriptComponent::lateUpdate(uint64_t dt) {
+	try
+	{
+		_script->executeFunction("lateUpdate", { static_cast<float>(dt) });
+	}
+	catch (...)
+	{
+	}
 }
