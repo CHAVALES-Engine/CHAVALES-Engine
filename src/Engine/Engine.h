@@ -180,7 +180,7 @@ public:
 	bool isFullscreen() const;
 
 	// ---------- INPUT
-	const InputFacade* getInput() const { return _input; }
+	InputFacade* getInput() const { return _input; }
 
 private:
 	/*
@@ -188,7 +188,10 @@ private:
 	*	Inicializador privado de modulos
 	*/
 	bool _initPriv();
-
+	/**
+	 * @brief Registra los metodos del engine en el sistema de script
+	 */
+	void _registerScriptBindings() const;
 	/*
 	* @brief
 	*	Instancia estatica de la clase
@@ -239,4 +242,4 @@ private:
 	friend EngineComponent;
 };
 
-static const InputFacade* Input() { return Engine::instance()->getInput(); }
+static InputFacade* Input() { return Engine::instance()->getInput(); }

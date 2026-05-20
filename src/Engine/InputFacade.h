@@ -212,4 +212,10 @@ public:
 	* @return bool - Devuelve true si esta mapeada.
 	*/
 	bool hasAction(const std::string& actionName) const;
+
+private:
+	/**
+	 * @brief Registra los metodos de input
+	 */
+	void _registerScriptBindings();
 };

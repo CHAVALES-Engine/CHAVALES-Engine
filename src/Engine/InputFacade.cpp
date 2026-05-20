@@ -1,9 +1,209 @@
 #include "InputFacade.h"
 #include <PlatformModule.h>
 #include "checkMLNew.h"
+#include "ScriptsManager.h"
 
 InputFacade::InputFacade(PlatformModule* platform) : _platform(platform)
 {
+}
+
+void InputFacade::_registerScriptBindings()
+{
+	auto& sm = ScriptsManager::instance();
+
+	// Helper local: convierte un Property a input::InputEvent.
+	// InputEvent es un variant, no un enum, asi que no se puede castear directo.
+	auto getEventArg = [](const Property& p) -> input::InputEvent {
+		return std::visit(input::overloaded{
+			[](input::Key k)            -> input::InputEvent { return k; },
+			[](input::MouseButton mb)   -> input::InputEvent { return mb; },
+			[](input::MouseAxis ma)     -> input::InputEvent { return ma; },
+			[](input::GamepadButton gb) -> input::InputEvent { return gb; },
+			[](input::GamepadAxis ga)   -> input::InputEvent { return ga; },
+			[](int i) -> input::InputEvent {
+				// Decodificar segun rango
+				if (i < 1000) return static_cast<input::Key>(i);
+				if (i < 2000) return static_cast<input::MouseButton>(i - 1000);
+				if (i < 3000) return static_cast<input::MouseAxis>(i - 2000);
+				if (i < 4000) return static_cast<input::GamepadButton>(i - 3000);
+				return static_cast<input::GamepadAxis>(i - 4000);
+			},
+			[](auto&&) -> input::InputEvent {
+				Debug::error("Tipo invalido pasado a InputEvent");
+				return input::KEY_NONE;
+			}
+			}, p);
+		};
+
+	sm.bindMethodImpl("InputFacade", "setRelativeMouseMode",
+		[](void* o, const std::vector<Property>& a) -> Property {
+			static_cast<InputFacade*>(o)->setRelativeMouseMode(ScriptsManager::instance().getArg<bool>(a[0]));
+			return Property(0);
+		});
+
+	sm.bindMethodImpl("InputFacade", "isDeviceConnected",
+		[](void* o, const std::vector<Property>& a) -> Property {
+			return Property(static_cast<InputFacade*>(o)->isDeviceConnected(ScriptsManager::instance().getArg<int>(a[0])));
+		});
+
+	sm.bindMethodImpl("InputFacade", "isKeyPressed",
+		[getEventArg](void* o, const std::vector<Property>& a) -> Property {
+			input::DeviceID dev = (a.size() > 1) ? std::get<int>(a[1]) : input::ANY_DEVICE;
+			return Property(static_cast<InputFacade*>(o)->isKeyPressed(getEventArg(a[0]), dev));
+		});
+
+	sm.bindMethodImpl("InputFacade", "isJustPressed",
+		[getEventArg](void* o, const std::vector<Property>& a) -> Property {
+			input::DeviceID dev = (a.size() > 1) ? std::get<int>(a[1]) : input::ANY_DEVICE;
+			return Property(static_cast<InputFacade*>(o)->isJustPressed(getEventArg(a[0]), dev));
+		});
+
+	sm.bindMethodImpl("InputFacade", "isKeyReleased",
+		[getEventArg](void* o, const std::vector<Property>& a) -> Property {
+			input::DeviceID dev = (a.size() > 1) ? std::get<int>(a[1]) : input::ANY_DEVICE;
+			return Property(static_cast<InputFacade*>(o)->isKeyReleased(getEventArg(a[0]), dev));
+		});
+
+	sm.bindMethodImpl("InputFacade", "getAxis",
+		[getEventArg](void* o, const std::vector<Property>& a) -> Property {
+			input::DeviceID dev = (a.size() > 1) ? std::get<int>(a[1]) : input::ANY_DEVICE;
+			return Property(static_cast<InputFacade*>(o)->getAxis(getEventArg(a[0]), dev));
+		});
+
+	sm.bindMethodImpl("InputFacade", "isActionPressed",
+		[](void* o, const std::vector<Property>& a) -> Property {
+			input::DeviceID dev = (a.size() > 1) ? std::get<int>(a[1]) : input::ANY_DEVICE;
+			return Property(static_cast<InputFacade*>(o)->isActionPressed(std::get<std::string>(a[0]), dev));
+		});
+
+	sm.bindMethodImpl("InputFacade", "isActionJustPressed",
+		[](void* o, const std::vector<Property>& a) -> Property {
+			input::DeviceID dev = (a.size() > 1) ? std::get<int>(a[1]) : input::ANY_DEVICE;
+			return Property(static_cast<InputFacade*>(o)->isActionJustPressed(std::get<std::string>(a[0]), dev));
+		});
+
+	sm.bindMethodImpl("InputFacade", "isActionReleased",
+		[](void* o, const std::vector<Property>& a) -> Property {
+			input::DeviceID dev = (a.size() > 1) ? std::get<int>(a[1]) : input::ANY_DEVICE;
+			return Property(static_cast<InputFacade*>(o)->isActionReleased(std::get<std::string>(a[0]), dev));
+		});
+
+	sm.bindMethodImpl("InputFacade", "getActionAxis",
+		[](void* o, const std::vector<Property>& a) -> Property {
+			input::DeviceID dev = (a.size() > 1) ? std::get<int>(a[1]) : input::ANY_DEVICE;
+			return Property(static_cast<InputFacade*>(o)->getActionAxis(std::get<std::string>(a[0]), dev));
+		});
+
+	sm.bindMethodImpl("InputFacade", "startTextInput",
+		[](void* o, const std::vector<Property>& a) -> Property {
+			bool block = (a.size() > 0) ? std::get<bool>(a[0]) : true;
+			static_cast<InputFacade*>(o)->startTextInput(block);
+			return Property(0);
+		});
+
+	sm.bindMethodImpl("InputFacade", "stopTextInput",
+		[](void* o, const std::vector<Property>&) -> Property {
+			static_cast<InputFacade*>(o)->stopTextInput();
+			return Property(0);
+		});
+
+	sm.bindMethodImpl("InputFacade", "getTextInput",
+		[](void* o, const std::vector<Property>& a) -> Property {
+			input::DeviceID dev = (a.size() > 0) ? std::get<int>(a[0]) : input::ANY_DEVICE;
+			return Property(static_cast<InputFacade*>(o)->getTextInput(dev));
+		});
+
+	sm.bindMethodImpl("InputFacade", "clearTextInput",
+		[](void* o, const std::vector<Property>& a) -> Property {
+			input::DeviceID dev = (a.size() > 0) ? std::get<int>(a[0]) : input::ANY_DEVICE;
+			static_cast<InputFacade*>(o)->clearTextInput(dev);
+			return Property(0);
+		});
+
+	sm.bindMethodImpl("InputFacade", "getWindowWidth",
+		[](void* o, const std::vector<Property>&) -> Property {
+			return Property(static_cast<InputFacade*>(o)->getWindowWidth());
+		});
+
+	sm.bindMethodImpl("InputFacade", "getWindowHeight",
+		[](void* o, const std::vector<Property>&) -> Property {
+			return Property(static_cast<InputFacade*>(o)->getWindowHeight());
+		});
+
+	sm.bindMethodImpl("InputFacade", "setWindowSize",
+		[](void* o, const std::vector<Property>& a) -> Property {
+			static_cast<InputFacade*>(o)->setWindowSize(ScriptsManager::instance().getArg<int>(a[0]), ScriptsManager::instance().getArg<int>(a[1]));
+			return Property(0);
+		});
+
+	sm.bindMethodImpl("InputFacade", "setIcon",
+		[](void* o, const std::vector<Property>& a) -> Property {
+			return Property(static_cast<InputFacade*>(o)->setIcon(ScriptsManager::instance().getArg<std::string>(a[0])));
+		});
+
+	sm.bindMethodImpl("InputFacade", "setWindowName",
+		[](void* o, const std::vector<Property>& a) -> Property {
+			static_cast<InputFacade*>(o)->setWindowName(ScriptsManager::instance().getArg<std::string>(a[0]));
+			return Property(0);
+		});
+
+	sm.bindMethodImpl("InputFacade", "setGamepadVibration",
+		[](void* o, const std::vector<Property>& a) -> Property {
+			static_cast<InputFacade*>(o)->setGamepadVibration(
+				ScriptsManager::instance().getArg<int>(a[0]),
+				ScriptsManager::instance().getArg<float>(a[1]),
+				ScriptsManager::instance().getArg<float>(a[2]),
+				static_cast<uint32_t>(ScriptsManager::instance().getArg<int>(a[3])));
+			return Property(0);
+		});
+
+	sm.bindMethodImpl("InputFacade", "setGamepadColor",
+		[](void* o, const std::vector<Property>& a) -> Property {
+			static_cast<InputFacade*>(o)->setGamepadColor(
+				ScriptsManager::instance().getArg<int>(a[0]), ScriptsManager::instance().getArg<core::Color>(a[1]));
+			return Property(0);
+		});
+
+	sm.bindMethodImpl("InputFacade", "addEventToAction",
+		[getEventArg](void* o, const std::vector<Property>& a) -> Property {
+			input::DeviceID dev = (a.size() > 2) ? std::get<int>(a[2]) : input::ANY_DEVICE;
+			static_cast<InputFacade*>(o)->addEventToAction(
+				std::get<std::string>(a[0]), getEventArg(a[1]), dev);
+			return Property(0);
+		});
+
+	sm.bindMethodImpl("InputFacade", "removeEvent",
+		[getEventArg](void* o, const std::vector<Property>& a) -> Property {
+			input::DeviceID dev = (a.size() > 2) ? std::get<int>(a[2]) : input::ANY_DEVICE;
+			static_cast<InputFacade*>(o)->removeEvent(
+				std::get<std::string>(a[0]), getEventArg(a[1]), dev);
+			return Property(0);
+		});
+
+	sm.bindMethodImpl("InputFacade", "removeEvents",
+		[](void* o, const std::vector<Property>& a) -> Property {
+			static_cast<InputFacade*>(o)->removeEvents(ScriptsManager::instance().getArg<std::string>(a[0]));
+			return Property(0);
+		});
+
+	sm.bindMethodImpl("InputFacade", "removeEventsFromID",
+		[](void* o, const std::vector<Property>& a) -> Property {
+			input::DeviceID dev = (a.size() > 1) ? std::get<int>(a[1]) : input::ANY_DEVICE;
+			static_cast<InputFacade*>(o)->removeEventsFromID(std::get<std::string>(a[0]), dev);
+			return Property(0);
+		});
+
+	sm.bindMethodImpl("InputFacade", "getActions",
+		[](void* o, const std::vector<Property>&) -> Property {
+			return Property(static_cast<InputFacade*>(o)->getActions());
+		});
+
+	sm.bindMethodImpl("InputFacade", "hasAction",
+		[](void* o, const std::vector<Property>& a) -> Property {
+			return Property(static_cast<InputFacade*>(o)->hasAction(ScriptsManager::instance().getArg<std::string>(a[0])));
+		});
+
+	sm.bindGlobalImpl("Input", "InputFacade", _input);
 }
 
 void InputFacade::setRelativeMouseMode(bool enabled) const

@@ -262,7 +262,7 @@ void ScriptsManager::registerBindings() const
 {
 	auto& lua = pImpl->lua;
 
-	// ===== MATH & CORE TYPES =====
+	// ===== MATH Y CORE =====
 	lua.new_usertype<core::Vector2<>>("Vector2",
 		sol::constructors<core::Vector2<>(), core::Vector2<>(float), core::Vector2<>(float, float)>(),
 		"x", &core::Vector2<>::getX, "y", &core::Vector2<>::getY,

@@ -22,15 +22,13 @@ scene = { -- entidades en escena
                     ["focal length"] = 60.0
                     -- ["background color"] = Color.new(0.5,0.5,0.5,1)
                 },
-                ComponentTest = {
-                    velocity = 100
-                },
-                ChangeTest = {},
+                --ChangeTest = {},
                 AudioListener = {},
                 ScriptComponent = {
-                    script = "./game/assets/scripts/luaComponentTest.lua"
-                },
-                ChangeTest = { scene = "scene_prueba" }
+                    script = "./game/assets/scripts/luaComponentTest.lua",
+                    velocity = 100
+                }
+                --, ChangeTest = { scene = "scene_prueba" }
             }
         },
         gameManager = {

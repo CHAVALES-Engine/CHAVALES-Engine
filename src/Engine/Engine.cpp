@@ -314,8 +314,112 @@ bool Engine::_initPriv()
 	_stateMachine = new StateMachine();
 	// Manager de scripts
 	ScriptsManager::instance().init();
+	_registerScriptBindings();
 
 	return true;
+}
+
+void Engine::_registerScriptBindings() const
+{
+	auto& sm = ScriptsManager::instance();
+
+	sm.bindMethodImpl("Engine", "requestSceneChange",
+		[](void* o, const std::vector<Property>& a) -> Property {
+			static_cast<Engine*>(o)->requestSceneChange(ScriptsManager::instance().getArg<std::string>(a[0]));
+			return Property(0);
+		});
+
+	sm.bindMethodImpl("Engine", "quitGame",
+		[](void* o, const std::vector<Property>&) -> Property {
+			static_cast<Engine*>(o)->quitGame();
+			return Property(0);
+		});
+
+	sm.bindMethodImpl("Engine", "instantiatePrefab",
+		[](void* o, const std::vector<Property>& a) -> Property {
+			return Property(static_cast<Engine*>(o)->instantiatePrefab(
+				ScriptsManager::instance().getArg<std::string>(a[0])));
+		});
+
+	sm.bindMethodImpl("Engine", "getScene",
+		[](void* o, const std::vector<Property>&) -> Property {
+			return Property(static_cast<Engine*>(o)->getScene());
+		});
+
+	// ===== render =====
+	sm.bindMethodImpl("Engine", "setViewportBGColor",
+		[](void* o, const std::vector<Property>& a) -> Property {
+			static_cast<Engine*>(o)->setViewportBGColor(ScriptsManager::instance().getArg<core::Color>(a[0]));
+			return Property(0);
+		});
+
+	// ===== physics =====
+	sm.bindMethodImpl("Engine", "rayCast",
+		[](void* o, const std::vector<Property>& a) -> Property {
+			RayInfo info;
+			bool hit = static_cast<Engine*>(o)->rayCast(
+				ScriptsManager::instance().getArg<core::Vector3<>>(a[0]),
+				ScriptsManager::instance().getArg<core::Vector3<>>(a[1]),
+				ScriptsManager::instance().getArg<float>(a[2]),
+				info);
+			if (!hit) info = RayInfo{};
+			return Property(info);
+		});
+
+	sm.bindMethodImpl("Engine", "setGravity",
+		[](void* o, const std::vector<Property>& a) -> Property {
+			static_cast<Engine*>(o)->SetGravity(ScriptsManager::instance().getArg<core::Vector3<>>(a[0]));
+			return Property(0);
+		});
+
+	sm.bindMethodImpl("Engine", "setGizmos",
+		[](void* o, const std::vector<Property>& a) -> Property {
+			static_cast<Engine*>(o)->setGizmos(ScriptsManager::instance().getArg<bool>(a[0]));
+			return Property(0);
+		});
+
+	// ===== resources =====
+	sm.bindMethodImpl("Engine", "getAssetSourceFolder",
+		[](void* o, const std::vector<Property>& a) -> Property {
+			return Property(static_cast<Engine*>(o)->getAssetSourceFolder(
+				ScriptsManager::instance().getArg<std::string>(a[0])));
+		});
+
+	sm.bindMethodImpl("Engine", "preload",
+		[](void* o, const std::vector<Property>& a) -> Property {
+			return Property(static_cast<Engine*>(o)->preload(ScriptsManager::instance().getArg<std::string>(a[0])));
+		});
+
+	sm.bindMethodImpl("Engine", "preloadAll",
+		[](void* o, const std::vector<Property>&) -> Property {
+			return Property(static_cast<Engine*>(o)->preloadAll());
+		});
+
+	// ===== platform =====
+	sm.bindMethodImpl("Engine", "getWindowWidth",
+		[](void* o, const std::vector<Property>&) -> Property {
+			return Property(static_cast<Engine*>(o)->getWindowWidth());
+		});
+
+	sm.bindMethodImpl("Engine", "getWindowHeight",
+		[](void* o, const std::vector<Property>&) -> Property {
+			return Property(static_cast<Engine*>(o)->getWindowHeight());
+		});
+
+	sm.bindMethodImpl("Engine", "setFullscreen",
+		[](void* o, const std::vector<Property>& a) -> Property {
+			return Property(static_cast<Engine*>(o)->setFullscreen(ScriptsManager::instance().getArg<bool>(a[0])));
+		});
+
+	sm.bindMethodImpl("Engine", "isFullscreen",
+		[](void* o, const std::vector<Property>&) -> Property {
+			return Property(static_cast<Engine*>(o)->isFullscreen());
+		});
+
+	sm.bindGlobalImpl("engine", "Engine", const_cast<Engine*>(this));
+
+	// ===== input =====
+	_input->_registerScriptBindings();
 }
 
 bool Engine::update(uint64_t dt) const
