@@ -350,6 +350,6 @@ void InputFacade::_registerScriptBindings()
 			return Property(static_cast<InputFacade*>(o)->hasAction(ScriptsManager::instance().getArg<std::string>(a[0])));
 		});
 
-	sm.bindGlobalImpl("Input", "InputFacade", _input);
+	sm.bindGlobalImpl("Input", "InputFacade", this);
 }
 
