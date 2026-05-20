@@ -80,7 +80,6 @@ scene = { -- entidades en escena
                 },
                 AudioSource = {
                     soundPath = "audio/sfx/smb_1-up.wav",
-                    soundID = "vidaExtra1",
                     is3D = true,
                     loop = false,
                     isStream = false,

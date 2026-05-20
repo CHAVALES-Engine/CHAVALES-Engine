@@ -32,11 +32,18 @@ public:
 	 * @brief Carga un audio.
 	 * @param path - Ruta del audio.
 	 * @param id - ID del audio.
+	 */
+	bool loadSound(const std::string& path, const std::string& id, bool preload = false);
+
+	/**
+	 * @brief Configura el audio indicado.
+	 * @param id - ID del audio.
 	 * @param soundStream - 
 	 * @param soundLooping - Si debe ciclar infinitamente.
 	 * @param sound3D - Si el audio es 3D.
+	 * @return 
 	 */
-	bool loadSound(const std::string& path, const std::string& id, bool soundStream = true, bool soundLooping = false, bool sound3D = true);
+	bool configureSound(const std::string& id, bool soundStream = true, bool soundLooping = false, bool sound3D = true);
 
 	/**
 	 * @brief Retira un audio.

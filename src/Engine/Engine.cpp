@@ -299,9 +299,16 @@ bool Engine::_initPriv()
 			// imgui precarga automaticamente
 			return _renderModule->loadFont(id, path);
 		});
-	/*_resourcesModule->addFactory(core::Resource::Type::SOUND, TODO
-		[this](const std::string& id, const std::string& path, bool preload) {
-		});*/
+	_resourcesModule->addFactory(core::Resource::Type::SOUND,
+		[this](const std::string& id, const std::string& path, bool preload) -> core::ResourcePtr {
+			std::string fullPath = path + id;
+			if (_audioModule->loadSound(fullPath, id)) {
+				core::ResourcePtr res = std::make_shared<core::Resource>(id, path, core::Resource::SOUND);
+				if (res->load())
+					return res;
+			}
+			return nullptr;
+		});
 	ComponentDLLLoader::instance().preloadResources();
 	// imgui necesita tener precargadas todas las fonts
 	_resourcesModule->loadAllOfType(core::Resource::FONT);

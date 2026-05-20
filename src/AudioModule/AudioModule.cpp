@@ -81,43 +81,54 @@ void AudioModule::shutdown()
 	_system = nullptr;
 }
 
-bool AudioModule::loadSound(const string& path, const string& id, bool soundStream, bool soundLooping, bool sound3D)
+bool AudioModule::loadSound(const std::string& path, const std::string& id, bool preload)
 {
 	auto itSoundFound = _soundMap.find(id);
-	if (itSoundFound == _soundMap.end())
-	{
-		//Depends in the parameters of the method
-		FMOD_MODE eMode = FMOD_DEFAULT;
-		if (sound3D) {
-			eMode |= FMOD_3D | FMOD_3D_LINEARROLLOFF;
-		}
-		else {
-			eMode |= FMOD_2D;
-		}
-		eMode |= soundLooping ? FMOD_LOOP_NORMAL : FMOD_LOOP_OFF;
-		eMode |= soundStream ? FMOD_CREATESTREAM : FMOD_CREATECOMPRESSEDSAMPLE;
-
-
-
-		//Result helps to identifie exceptions
-		FMOD_RESULT result;
-		FMOD::Sound* sound = nullptr;
-
-		result = _system->createSound(path.c_str(), eMode, nullptr, &sound);
-
-		if (result == FMOD_OK)
-		{
-			_soundMap[id] = sound;
-			return true;
-		}
-		else
-		{
-			Debug::error("[AudioModule]: No se ha encontrado audio");
-			return false;
-		}
+	if (itSoundFound != _soundMap.end()) {
+		Debug::warning("[AudioModule] Audio ya cargado: ", id);
+		return true;
 	}
-	return true;
+
+	FMOD::Sound* sound = nullptr;
+	// Carga basica sin flags especiales
+	FMOD_RESULT result = _system->createSound(path.c_str(), FMOD_DEFAULT, nullptr, &sound);
+
+	if (result == FMOD_OK) {
+		_soundMap[id] = sound;
+		return true;
+	}
+
+	Debug::error("[AudioModule] No se encontro audio: ", path);
+	return false;
 }
+
+bool AudioModule::configureSound(const std::string& id, bool soundStream, bool soundLooping, bool sound3D)
+{
+	auto itSoundFound = _soundMap.find(id);
+	if (itSoundFound == _soundMap.end()) {
+		Debug::error("[AudioModule] Audio no encontrado: ", id);
+		return false;
+	}
+
+	FMOD::Sound* sound = itSoundFound->second;
+	FMOD_MODE eMode = FMOD_DEFAULT;
+
+	if (sound3D) {
+		eMode |= FMOD_3D | FMOD_3D_LINEARROLLOFF;
+	}
+	else {
+		eMode |= FMOD_2D;
+	}
+	eMode |= soundLooping ? FMOD_LOOP_NORMAL : FMOD_LOOP_OFF;
+	eMode |= soundStream ? FMOD_CREATESTREAM : FMOD_CREATECOMPRESSEDSAMPLE;
+
+	FMOD_RESULT result = sound->setMode(eMode);
+	if (result == FMOD_OK) return true;
+
+	Debug::error("[AudioModule] Error configurando: ", id);
+	return false;
+}
+
 
 bool AudioModule::unloadSound(const std::string& id)
 {

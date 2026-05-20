@@ -79,8 +79,10 @@ AudioSource::~AudioSource()
 bool AudioSource::init(const Properties& p)
 {
 	_path = getProperty<std::string>(p, "soundPath");
-	std::transform(_path.begin(), _path.end(), _path.begin(), ::tolower);
-	_id = getProperty<std::string>(p, "soundID");
+	if (_path.empty()) {
+		Debug::warning("[AudioSource] soundPath vacio");
+		return false;
+	}
 	_is3D = getProperty<bool>(p, "is3D");
 	_loop = getProperty<bool>(p, "loop");
 	_isStream = getProperty<bool>(p, "isStream");
@@ -93,15 +95,34 @@ bool AudioSource::init(const Properties& p)
 
 void AudioSource::ready()
 {
-	assert(entity->hasComponent<Transform>());
+	if (!entity || !entity->hasComponent<Transform>()) {
+		Debug::warning("[AudioSource] Entity sin Transform");
+		return;
+	}
 	_tr = entity->getComponent<Transform>();
+	if (!_tr) {
+		Debug::warning("[AudioSource] No se pudo obtener Transform");
+		return;
+	}
 	_lastPosition = _tr->getGlobalPosition();
-	std::string audioPath = resources()->getAssetPath(_path);
-	if (audioPath.empty()) {
-		Debug::error("[AudioSource] Audio no encontrado: ", _path);
+
+	resources()->getOrLoadAsset(_path);
+
+	// Validar path
+	if (_path.empty()) {
+		Debug::warning("[AudioSource] soundPath vacío, no se cargará audio");
+		return;
 	}
 
-	audio()->loadSound(audioPath, _id, _isStream, _loop, _is3D);
+	// Carga el modelo en fmod y se guarda una referencia a el
+	core::ResourcePtr res = resources()->getOrLoadAsset(_path);
+	if (!res || !res->isValid()) {
+		Debug::error("[AudioSource] Modelo no encontrado: ", _id);
+		return;
+	}
+	_id = res->getName();
+	audio()->configureSound(_id, _isStream, _loop, _is3D);
+
 	if (_playOnReady)
 	{
 		playSound();
@@ -111,11 +132,16 @@ void AudioSource::ready()
 
 void AudioSource::update(uint64_t deltaTime)
 {
+	// Validar que tenemos lo necesario
+	if (!_tr || _id.empty() || _channelID == -1) {
+		return;
+	}
+
 	float dt = deltaTime / 1000.0f;
 
 	isPlaying = audio()->isChannelPlaying(_channelID);
 
-	if (_is3D && dt > 0 && isPlaying) {
+	if (_tr && _is3D && dt > 0 && isPlaying) {
 		auto currentPos = _tr->getGlobalPosition();
 		auto velocity = (currentPos - _lastPosition) / dt;
 
@@ -143,18 +169,38 @@ void AudioSource::enable()
 
 void AudioSource::playSound()
 {
-	int looping = 0;
-	if (_loop) looping = -1;
+	if (_id.empty()) {
+		Debug::warning("[AudioSource] Audio no disponible: ", _path);
+		return;
+	}
 
-	if (isPlaying)
-	{
+	if (!_tr) {
+		Debug::warning("[AudioSource] Transform no disponible para reproducir audio");
+		_tr = entity ? entity->getComponent<Transform>() : nullptr;
+		if (!_tr && _is3D) {
+			Debug::error("[AudioSource] Audio 3D requiere Transform");
+			return;
+		}
+	}
+
+	if (isPlaying && _channelID != -1) {
 		stopSound();
 	}
-	_channelID = audio()->playSound(_id, _soundVolume, looping, _tr->getGlobalPosition());
-	isPlaying = _channelID != -1;
 
-	if (_is3D)
-	{
+	// Reproducir
+	int looping = _loop ? -1 : 0;
+	core::Vector3<> pos = _tr ? _tr->getGlobalPosition() : core::Vector3<>(0.0f, 0.0f, 0.0f);
+
+	_channelID = audio()->playSound(_id, _soundVolume, looping, pos);
+	isPlaying = (_channelID != -1);
+
+	if (!isPlaying) {
+		Debug::warning("[AudioSource] No se pudo reproducir: ", _id);
+		return;
+	}
+
+	// Configurar radio 3D si aplica
+	if (_is3D && _channelID != -1) {
 		audio()->setMinMaxRadius(_channelID, _minRadius, _maxRadius);
 	}
 }
