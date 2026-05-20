@@ -952,7 +952,15 @@ void RenderModule::setDiffuse(const modelID& id, const subMeshID& subID, const s
 		}
 		Ogre::TexturePtr text = Ogre::TextureManager::getSingleton().load(textureFile, textureFolder, Ogre::TEX_TYPE_2D, 0);
 
-		Ogre::TextureUnitState* tus = pass->createTextureUnitState();
+		Ogre::TextureUnitState* tus;
+		if (pass->getNumTextureUnitStates() == 0)
+		{
+			tus = pass->createTextureUnitState();
+		}
+		else
+		{
+			tus = pass->getTextureUnitState(0);
+		}
 		tus->setTexture(text);
 		tus->setColourOperation(Ogre::LBO_MODULATE);
 	}
