@@ -48,11 +48,14 @@ void StateMachine::gameLoop()
 			core::Clock::setDeltaTime(_deltaTime); // para acceso general
 
 			accumulator += _deltaTime;
-			while (accumulator >= core::Clock::FRAME_RATE)
+			int fixedSteps = 0;
+			while (accumulator >= core::Clock::FRAME_RATE 
+				&& fixedSteps < core::Clock::MAX_FIXED_STEPS)
 			{
 				_currentScene.ptr->fixedUpdate();
 				Engine::instance()->fixedUpdate(core::Clock::FRAME_RATE);
 				accumulator -= core::Clock::FRAME_RATE;
+				++fixedSteps;
 			}
 
 			_currentScene.ptr->update(_deltaTime);

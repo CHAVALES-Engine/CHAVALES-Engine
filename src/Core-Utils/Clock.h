@@ -24,11 +24,17 @@ namespace core
 		*/
 		static inline uint64_t deltaTime = 0;
 
-		/*
+		/**
 		* @brief
 		*	Tasa de frames por milisegundo. 60 FPS.
 		*/
-		static const uint64_t FRAME_RATE = 1000 / 60; // 1000 ms / 60 frames
+		static constexpr uint64_t FRAME_RATE = 1000 / 60; // 1000 ms / 60 frames
+
+		/**
+		 * brief Numero máximo de pasos fijos por frame
+		 */
+		static constexpr int MAX_FIXED_STEPS = 4;
+
 
 		/** @brief
 		*	Actualiza deltaTime.
