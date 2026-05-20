@@ -26,7 +26,7 @@ std::string ResourcesModule::getAssetPath(const std::string& relativePath)
 {
 	core::ResourcePtr ptr = getOrLoadAsset(relativePath);
 
-	if (ptr && ptr->isValid() || ptr->getType() == core::Resource::SOUND)
+	if (ptr && (ptr->isValid() || ptr->getType() == core::Resource::SOUND))
 		return ptr->getPath() + ptr->getName();
 	Debug::error("[ResourcesModule] Ruta no encontrada: ", relativePath);
 	return "";
@@ -41,7 +41,7 @@ core::ResourcePtr ResourcesModule::getOrLoadAsset(const std::string& relativePat
 
 	// Si ya esta cargado, devolverlo
 	auto it = _resources.find(id);
-	if (it != _resources.end() && it->second && it->second->isValid() || it->second->getType() == core::Resource::SOUND) {
+	if (it != _resources.end() && it->second && (it->second->isValid() || it->second->getType() == core::Resource::SOUND)) {
 		return it->second;
 	}
 

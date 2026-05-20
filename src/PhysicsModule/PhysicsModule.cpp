@@ -93,7 +93,9 @@ bool PhysicsModule::Init()
 	}
 
 	PxTolerancesScale scale;
-	scale.speed = 1000;
+	// https://nvidia-omniverse.github.io/PhysX/physx/5.1.0/_build/physx/latest/class_px_tolerances_scale.html
+	scale.length = 1.0f; // 1 unidad de distancia para nosotros 1 metro
+	scale.speed = 9.81f; // aceleracion "tipica" de un objeto cayendo durante un segundo
 	gPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *gFoundation, scale, true, gPvd);
 	PxInitExtensions(*gPhysics, gPvd);
 
