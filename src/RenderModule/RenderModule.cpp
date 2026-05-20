@@ -204,7 +204,7 @@ bool RenderModule::Init(SDL_Window* sdlWindow, const HWND handle, const int widt
 			mat->load();
 
 			_shaderGen->createShaderBasedTechnique(*mat, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
-			_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, mat->getName(), mat->getGroup());
+			//_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, mat->getName(), mat->getGroup());
 		}
 		_debugDraw = _sceneMgr->createManualObject("DebugDraw");
 		_debugDraw->setDynamic(true);

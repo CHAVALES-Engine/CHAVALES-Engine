@@ -64,7 +64,7 @@ protected:
 	/**
 	 * @brief Tamaño del collider si es capsule
 	 */
-	int radius, height;
+	float radius, height;
 	/**
 	 * @brief Offset respecto a la entidad, donde esta el collider
 	 */
