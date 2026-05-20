@@ -147,7 +147,7 @@ core::Vector2<> Engine::getLogicResolution() const
 
 core::Vector2<> Engine::windowToLogicCoords(const core::Vector2<>& windowPos) const
 {
-	if (_renderModule == nullptr) return false;
+	if (_renderModule == nullptr) return { -1.0f, -1.0f };
 	return _renderModule->windowToLogicCoords(windowPos);
 }
 

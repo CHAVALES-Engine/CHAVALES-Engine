@@ -408,10 +408,10 @@ core::Vector2<> RenderModule::getResolution() const
 core::Vector2<> RenderModule::windowToLogicCoords(const core::Vector2<>& windowPos) const
 {
 	int vpX = 0, vpY = 0, vpW = 0, vpH = 0;
-	if (!getViewportRectPixels(vpX, vpY, vpW, vpH)) return false;
+	if (!getViewportRectPixels(vpX, vpY, vpW, vpH)) return { -1.0f, -1.0f };
 
 	const auto ref = getResolution();
-	if (vpW <= 0 || vpH <= 0 || ref.getX() <= 0 || ref.getY() <= 0) return false;
+	if (vpW <= 0 || vpH <= 0 || ref.getX() <= 0 || ref.getY() <= 0) return { -1.0f, -1.0f };
 
 	const float localX = std::clamp(windowPos.getX() - static_cast<float>(vpX), 0.0f, static_cast<float>(vpW));
 	const float localY = std::clamp(windowPos.getY() - static_cast<float>(vpY), 0.0f, static_cast<float>(vpH));
