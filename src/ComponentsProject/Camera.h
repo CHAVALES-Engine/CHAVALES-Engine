@@ -11,7 +11,7 @@
 
 using cameraID = uint64_t;
 
-/*
+/**
  * +--------+
  * | CAMERA |
  * +--------+

@@ -19,7 +19,7 @@ class RigidBody;
 namespace core {
 	class Entity;
 }
-/*
+/**
  * +----------+
  * | COLLIDER |
  * +----------+

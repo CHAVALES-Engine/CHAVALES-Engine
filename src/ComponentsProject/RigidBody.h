@@ -18,7 +18,7 @@ class Engine;
  * Sirve como puente entre el motor y el sistema de fisicas.
  */
 class ENGINE_API RigidBody : public EngineComponent {
-/*
+/**
  * +-----------+
  * | RIGIDBODY |
  * +-----------+

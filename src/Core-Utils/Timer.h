@@ -151,7 +151,7 @@ namespace core
 		* @brief Tiempo restante.
 		*/
 		uint64_t _leftTime = 0;
-		/*
+		/**
 		 * @brief Indica si esta pausado.
 		 */
 		bool _paused = false;

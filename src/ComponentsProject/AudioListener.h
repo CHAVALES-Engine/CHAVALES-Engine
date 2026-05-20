@@ -10,7 +10,7 @@
 
 class Transform;
 
-/*
+/**
  * +----------------+
  * | AUDIO LISTENER |
  * +----------------+
@@ -41,7 +41,7 @@ public:
 
 	bool init(const Properties& p) override;
 	virtual void ready() override;
-	/*
+	/**
 	* @brief En cada frame se actualiza la posicion del Listener y su velocidad
 	*/
 	virtual void update(uint64_t deltaTime) override;

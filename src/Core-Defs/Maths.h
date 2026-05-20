@@ -212,7 +212,7 @@ namespace core
 			return a + t * (b - a);
 		}
 
-		/*
+		/**
 		* @brief Devuelve el Mersenne Twister encargado de la gestion de número nuevos
 		*/
 		static std::mt19937& getRandomGenerator() {
@@ -220,7 +220,7 @@ namespace core
 			return randomGen;
 		}
 
-		/*
+		/**
 		* @brief Asigna la semilla al sistema de generación.
 		* 
 		* @param seed - Nueva semilla a asigar.
@@ -229,7 +229,7 @@ namespace core
 			getRandomGenerator().seed(seed);
 		}
 
-		/*
+		/**
 		* @brief Devuelve un entero aleatorio entre min y max, ambos incluidos. [min,max]
 		*
 		* @param min - límite inferior del Random.
@@ -240,7 +240,7 @@ namespace core
 			return dist(getRandomGenerator());
 		}
 
-		/*
+		/**
 		* @brief Devuelve un float aleatorio entre min y max,exclusivos. [min,max)
 		*
 		* @param min - límite inferior del Random.
@@ -251,7 +251,7 @@ namespace core
 			return dist(getRandomGenerator());
 		}
 
-		/*
+		/**
 		* @brief Devuelve un double aleatorio entre min y max,  exclusivos. [min,max)
 		*
 		* @param min - límite inferior del Random.
@@ -261,7 +261,7 @@ namespace core
 			std::uniform_real_distribution<double> dist(min, max);
 			return dist(getRandomGenerator());
 		}
-		/*
+		/**
 		* @brief Devuelve un double aleatorio entre 0.0 y 1.0,  exclusivos. [0.0,1.0)
 		*/
 		static double Random() {

@@ -8,7 +8,7 @@
 #include <EngineAPI.h>
 
 using panelID = uint64_t;
-/*
+/**
  * +---------+
  * | UIPANEL |
  * +---------+

@@ -39,7 +39,7 @@ public:
 	 * @return bool - True o false si esta conectado o no.
 	 */
 	bool isDeviceConnected(input::DeviceID device) const;
-	/*
+	/**
 	* @brief Devuelve si una tecla esta pulsada
 	* @param inputAction - InputEvent a comprobar
 	* @param device - id del dispositivo a comprobar. -1 por defecto => el primero positivo que encuentre.
@@ -51,57 +51,57 @@ public:
 	* @returns bool - Estado de la tecla.
 	*/
 	bool isJustPressed(input::InputEvent inputEvent, input::DeviceID device = input::ANY_DEVICE) const;
-	/*
+	/**
 	* @brief Devuelve si se ha dejado de pulsar una tecla
 	* @param inputAction - InputEvent a comprobar
 	* @param device - id del dispositivo a comprobar. -1 por defecto => el primero positivo que encuentre.
 	*/
 	bool isKeyReleased(input::InputEvent inputAction, input::DeviceID device = input::ANY_DEVICE) const;
-	/*
+	/**
 	* @brief Devuelve cuanto de accionado esta la accion a comprobar
 	* @param inputAction - InputEvent a comprobar
 	* @param device - id del dispositivo a comprobar. -1 por defecto => el primero positivo que encuentre.
 	* @return float - Devuelve de -1 a 1
 	*/
 	float getAxis(input::InputEvent inputAction, input::DeviceID device = input::ANY_DEVICE) const;
-	/*
+	/**
 	* @brief Devuelve si se ha pulsado una accion
 	* @param actionName - accion a comprobar
 	* @param device - id del dispositivo a comprobar. -1 por defecto => el primero positivo que encuentre.
 	*/
 	bool isActionPressed(const std::string& actionName, input::DeviceID device = input::ANY_DEVICE) const;
-	/*
+	/**
 	* @brief Devuelve si se acaba de pulsar una accion
 	* @param actionName - accion a comprobar
 	* @param device - id del dispositivo a comprobar. -1 por defecto => el primero positivo que encuentre.
 	*/
 	bool isActionJustPressed(const std::string& actionName, input::DeviceID device = input::ANY_DEVICE) const;
-	/*
+	/**
 	* @brief Devuelve si se ha dejado de pulsar una accion
 	* @param actionName - accion a comprobar
 	* @param device - id del dispositivo a comprobar. -1 por defecto => el primero positivo que encuentre.
 	*/
 	bool isActionReleased(const std::string& actionName, input::DeviceID device = input::ANY_DEVICE) const;
-	/*
+	/**
 	 * @brief Devuelve la media de los ejes registrados a esa accion(input::ANY_DEVICE) o la media de los ejes del device pedido.
 	 * @param actionName - accion a comprobar
 	 * @param device - id del dispositivo a comprobar. ANY_DEVICE por defecto => si se ha dejado de pulsar en cualquier dispositivo.
 	 */
 	float getActionAxis(const std::string& actionName, input::DeviceID device = input::ANY_DEVICE) const;
-	/*
+	/**
 	* @brief Indica a la ventana que tome input de texto.
 	*/
 	void startTextInput(bool blockKeyboard = true) const;
-	/*
+	/**
 	* @brief Indica a la ventana que deje de tomar input de texto.
 	*/
 	void stopTextInput() const;
-	/*
+	/**
 	* @brief Devuelve el texto introducido por el dispositivo
 	* @param device - id del dispositivo a comprobar. ANY_DEVICE por defecto => la suma del input de todos los dispositivos.
 	*/
 	std::string getTextInput(input::DeviceID device = input::ANY_DEVICE) const;
-	/*
+	/**
 	 * @brief Borra el buffer del input escrito.
 	 * @param device - id del dispositivo a comprobar. ANY_DEVICE por defecto => la suma del input de todos los dispositivos.
 	 */

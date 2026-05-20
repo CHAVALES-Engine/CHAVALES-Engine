@@ -10,7 +10,7 @@
 
 using lightID = uint64_t;
 
-/*
+/**
  * +-------+
  * | LIGHT |
  * +-------+

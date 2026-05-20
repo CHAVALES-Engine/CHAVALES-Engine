@@ -48,25 +48,25 @@ public:
 	bool update(uint64_t dt) const;
 	void fixedUpdate(float dt) const;
 
-	/*
+	/**
 	* @brief Inicializacion del motor
 	* @return bool - True si se ha inicializado correctamente
 	*/
 	static bool init();
 
-	/*
+	/**
 	* @brief Devuelve la instancia del motor
 	* @return Engine* - Instancia del motor
 	*/
 	static Engine* instance();
 
-	/*
+	/**
 	* @brief Cierre limpio de los modulos del motor
 	*/
 	static void release();
 
 	// ---------- STATE MACHINE
-	/*
+	/**
 	* @brief Lanza el bucle de juego
 	*/
 	void startLoop() const;
@@ -95,17 +95,17 @@ public:
 	std::shared_ptr <core::Scene> getScene() const;
 
 	// ---------- RENDER
-	/*
+	/**
 	* @brief Renderizar frame.
 	*/
 	bool renderFrame();
-	/*
+	/**
 	* @brief Limpiar escena.
 	*/
 	void cleanScene();
 
 	// Metodos viewport
-	/*
+	/**
 	* @brief Cambiar color de fondo.
 	*/
 	void setViewportBGColor(const core::Color& color);
@@ -138,7 +138,7 @@ public:
 	std::vector<ShapeRenderData> GetPhysicsRenderData();
 
 	void SetGravity(const core::Vector3<>& gravity) const;
-	/*
+	/**
 	* @brief Setea los gizmos para debuggear physx
 	*/
 	void setGizmos(bool gizmos);
@@ -183,7 +183,7 @@ public:
 	InputFacade* getInput() const { return _input; }
 
 private:
-	/*
+	/**
 	* @brief
 	*	Inicializador privado de modulos
 	*/
@@ -192,7 +192,7 @@ private:
 	 * @brief Registra los metodos del engine en el sistema de script
 	 */
 	void _registerScriptBindings() const;
-	/*
+	/**
 	* @brief
 	*	Instancia estatica de la clase
 	*/
@@ -201,31 +201,31 @@ private:
 	// gizmos
 	bool _gizmos = false;
 
-	/*
+	/**
 	* @brief
 	*	Referencia al modulo de platform
 	*/
 	PlatformModule* _platformModule = nullptr;
 
-	/*
+	/**
 	* @brief
 	*	Referencia al modulo de render
 	*/
 	RenderModule* _renderModule = nullptr;
 
-	/*
+	/**
 	* @brief
 	*	Referencia al modulo de audio
 	*/
 	AudioModule* _audioModule = nullptr;
 
-	/*
+	/**
 	* @brief
 	*	Referencia al modulo de fisica
 	*/
 	PhysicsModule* _physicsModule = nullptr;
 
-	/*
+	/**
 	* @brief
 	*	Referencia al modulo de recursos
 	*/
@@ -233,7 +233,7 @@ private:
 
 	InputFacade* _input = nullptr;
 
-	/*
+	/**
 	* @brief
 	*	Referencia a la maquina de estados
 	*/

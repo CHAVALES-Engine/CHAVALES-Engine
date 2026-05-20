@@ -13,7 +13,7 @@
 
 using transformID = uint64_t;
 
-/*
+/**
  * +-----------+
  * | TRANSFORM |
  * +-----------+
@@ -37,7 +37,6 @@ using transformID = uint64_t;
  * return setProperty(properties, "atributo1", component);
  *
 */
-;
 class ENGINE_API Transform : public EngineComponent
 {
 	transformID _transformID;

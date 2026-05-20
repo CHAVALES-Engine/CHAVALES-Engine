@@ -16,21 +16,21 @@
 
 namespace PluginSDK {
 
-	/*
+	/**
 	* @brief
 	*	Singleton PluginComponentRegistry, compartido en un plugin.
 	*	Funciona como un registro local de componentes
 	*/
 	class PluginComponentRegistry {
 	public:
-		/*
+		/**
 		* @brief Instancia del PluginRegistry
 		*/
 		static PluginComponentRegistry& instance() {
 			static PluginComponentRegistry instance;
 			return instance;
 		}
-		/*
+		/**
 		* @brief Aniade un descriptor al registro local
 		*
 		* @param name - nombre del componente
@@ -39,7 +39,7 @@ namespace PluginSDK {
 		void add(const char* name, core::ComponentConstructor ComponentConstructor) {
 			_descriptors.push_back({ name, std::move(ComponentConstructor) });
 		}
-		/*
+		/**
 		* @brief Acceso a los descriptores contenidos
 		*
 		* @return std::vector<core::ComponentDescriptor>& - vector de descriptores de componentes
@@ -48,20 +48,20 @@ namespace PluginSDK {
 			return _descriptors;
 		}
 	private:
-		/*
+		/**
 		* @brief Lista de componentes registrados en la dll del plugin
 		*/
 		std::vector<core::ComponentDescriptor> _descriptors;
 	};
 
-	/*
+	/**
 	* @brief
 	*	Struct que al crearse registra el componente de tipo T en el
 	*	registro local del plugin
 	*/
 	template<typename T>
 	struct AutoRegisterComponent {
-		/*
+		/**
 		* @brief
 		*	Constructor explicito que aniade una funcion constructora
 		*	lambda del objeto T (En nuestro caso, clases hijas de component)
@@ -73,14 +73,14 @@ namespace PluginSDK {
 		}
 	};
 
-	/*
+	/**
 	* @brief
 	*	Singleton PluginResourcesRegistry, compartido en un plugin.
 	*	Funciona como un registro local de resources a precargar
 	*/
 	class PluginResourcesRegistry {
 	public:
-		/*
+		/**
 		* @brief Instancia del PluginResourcesRegistry
 		*/
 		static PluginResourcesRegistry& instance() {
@@ -88,7 +88,7 @@ namespace PluginSDK {
 			return instance;
 		}
 
-		/*
+		/**
 		* @brief Mete un resource al registro local.
 		* @param path - Ruta del archivo (ej: "models/player/player.mesh").
 		*/
@@ -96,7 +96,7 @@ namespace PluginSDK {
 			_resources.push_back(path);
 		}
 
-		/*
+		/**
 		* @brief Acceso a los resources contenidos.
 		* @return const std::vector<std::string>& - vector de paths de resources.
 		*/
@@ -104,18 +104,18 @@ namespace PluginSDK {
 			return _resources;
 		}
 	private:
-		/*
+		/**
 		* @brief Lista de resources registrados en la dll del plugin
 		*/
 		std::vector<std::string> _resources;
 	};
 
-	/*
+	/**
 	* @brief
 	*	Struct que al crearse registra un resource en el registro local del plugin
 	*/
 	struct AutoRegisterResource {
-		/*
+		/**
 		* @brief Constructor que mete un resource al registro local.
 		* @param path - ruta del archivo.
 		*/
@@ -127,7 +127,7 @@ namespace PluginSDK {
 
 
 // ======= COMPONENTS =======
-/*
+/**
 * @brief
 *	Macro para registrar un componente en el registro local
 * @param Clase a registrar
@@ -143,7 +143,7 @@ namespace PluginSDK {
 
 // Indica al linker que getPluginComponent, aunque no esta siendo usado en nuestro proyecto, debe ser incluido en el .obj
 #pragma comment(linker, "/INCLUDE:getPluginComponents")
-	/*
+	/**
 	* @brief
 	*	Funcion de C exportada para acceder a los componentes registrados por el singleton
 	* @param & count - Se asigna el numero de componentes que hay registrados
@@ -158,7 +158,7 @@ const core::ComponentDescriptor* getPluginComponents(size_t& count);
 #define _PRELOAD_CONCAT(a, b) a##b
 // Macro que expande counter primero y concatena con un prefijo
 #define _PRELOAD_NAME(prefix, counter) _PRELOAD_CONCAT(prefix, counter)
-/*
+/**
 * @brief Macro para registrar un resource en el registro local.
 * @param PATH - ruta del archivo.
 * @example
@@ -170,7 +170,7 @@ const core::ComponentDescriptor* getPluginComponents(size_t& count);
 
 // Indica al linker que getPluginPreloadAssets, aunque no esta siendo usado en nuestro proyecto, debe ser incluido en el .obj
 #pragma comment(linker, "/INCLUDE:getPluginPreloadResources")
-	/*
+	/**
 	* @brief
 	*	Funcion de C exportada para acceder a los preloadAssets registrados por el singleton
 	* @param & count - Se asigna el numero de preloadAssets que hay registrados

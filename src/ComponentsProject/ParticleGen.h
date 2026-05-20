@@ -9,7 +9,7 @@
 
 using particleGenID = uint64_t;
 
-/*
+/**
  * +--------------------+
  * | PARTICLE GENERATOR |
  * +--------------------+
@@ -57,55 +57,55 @@ public:
 	void disable() override;
 	void destroy() override;
 
-	/*
+	/**
 	* @brief Establecer emision de generador de particulas.
 	*/
 	void setEmitting(const bool& emitting);
-	/*
+	/**
 	* @brief Establecer cantidad total de particulas del generador.
 	*/
 	void setQuota(const float& quota);
-	/*
+	/**
 	* @brief Establecer ratio de emision de generador de particulas.
 	*/
 	void setEmissionRate(const float& rate);
-	/*
+	/**
 	* @brief Establecer tiempo de emision del generador de particulas.
 	*/
 	void setDuration(const float& duration);
-	/*
+	/**
 	* @brief Establecer tiempo de vida de particulas del generador.
 	*/
 	void setTimeToLive(const float& time);
-	/*
+	/**
 	* @brief Establecer velocidad de particulas del generador.
 	*/
 	void setVelocity(const float& velocity);
-	/*
+	/**
 	* @brief Establecer velocidad minima de particulas del generador.
 	*/
 	void setMinVelocity(const float& velocity);
-	/*
+	/**
 	* @brief Establecer velocidad maxima de particulas del generador.
 	*/
 	void setMaxVelocity(const float& velocity);
-	/*
+	/**
 	* @brief Establecer direccion de particulas del generador.
 	*/
 	void setDirection(const core::Vector3<float>& direction);
-	/*
+	/**
 	* @brief Establecer angulo de dipsersion de particulas del generador.
 	*/
 	void setAngle(const float& angle);
-	/*
+	/**
 	* @brief Establecer ancho de particulas del generador.
 	*/
 	void setPartWidth(const float& width);
-	/*
+	/**
 	* @brief Establecer alto de particulas del generador.
 	*/
 	void setPartHeight(const float& height);
-	/*
+	/**
 	* @brief Establecer color de particulas del generador.
 	*/
 	void setPartColor(const core::Color& color);

@@ -19,7 +19,7 @@
 
 namespace core
 {
-	/*
+	/**
 	 * +-----------+
 	 * | COMPONENT |
 	 * +-----------+
@@ -114,7 +114,7 @@ namespace core
 		*/
 		virtual void lateUpdate(uint64_t deltaTime) {}
 
-		///**
+		/**
 		//* @brief Comportamiento de renderizado del componente
 		//*/
 		//virtual void render() const {}
@@ -277,12 +277,12 @@ namespace core
 
 	struct ComponentDescriptor
 	{
-		/*
+		/**
 		* @brief Nombre del componente
 		*/
 		const char* name;
 
-		/*
+		/**
 		* @brief Funcion creadora de un componente
 		*/
 		ComponentConstructor ComponentConstructor;

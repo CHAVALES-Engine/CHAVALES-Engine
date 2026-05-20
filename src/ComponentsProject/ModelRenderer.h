@@ -10,7 +10,7 @@
 
 using modelID = uint64_t;
 
-/*
+/**
  * +----------------+
  * | MODEL RENDERER |
  * +----------------+

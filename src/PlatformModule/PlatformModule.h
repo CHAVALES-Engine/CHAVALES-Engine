@@ -23,7 +23,7 @@ namespace input
 	class VirtualDevice;
 }
 
-/*
+/**
  * @brief Define las funciones del Modulo de Plataforma:
  *	- Funciones de personalizacion de la ventana.
  *	- Funciones para gestionar el input.

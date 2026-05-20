@@ -19,7 +19,7 @@ class Engine;
  */
 class ENGINE_API PhysicsMaterial : public EngineComponent
 {
-	/*
+	/**
 	 * +-----------------+
 	 * | PHYSICSMATERIAL |
 	 * +-----------------+

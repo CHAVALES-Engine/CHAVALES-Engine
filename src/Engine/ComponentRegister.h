@@ -23,26 +23,26 @@ private:
 	ComponentRegister() = default;
 	~ComponentRegister() = default;
 public:
-	/*
+	/**
 	* @brief Devuelve una instancia del registro
 	* 
 	* @return ComponentRegister& - Instancia del ComponentRegister
 	*/
 	static ComponentRegister& instance();
-	/*
+	/**
 	* @brief Registra un componente en el mapa, con su constructor
 	* 
 	* @return bool - Se ha registrado correctamente
 	*/
 	bool registComponent(const std::string& name, core::ComponentConstructor ComponentConstructor);
-	/*
+	/**
 	* @brief 
 	*	Crea el componente pedido usando su funcion asignada
 	* 
 	* @return std::shared_ptr<core::Component> - Puntero al componente creado
 	*/
 	std::shared_ptr<core::Component> create(const std::string& name);
-	/*
+	/**
 	* @brief
 	*	Desregistra un componente
 	* 
@@ -50,7 +50,7 @@ public:
 	*/
 	bool unregisterComponent(const std::string& name);
 private:
-	/*
+	/**
 	* @brief 
 	*	Unordered map:
 	*		nombre de componente (clave) - puntero a funcion constructora (valor)
