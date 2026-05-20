@@ -330,6 +330,25 @@ String ReplaceSpaces(const String& s)
 
     return res;
 }
+
+
+// The FBX unit scale factor is a numerical multiplier used to interpret the size of a 3D model relative to centimeters, which is the base unit of the FBX format. If your 3D software uses a different scale (like meters or inches), this factor translates the raw data into that target unit
+// https://help.autodesk.com/view/FBX/2017/ENU/?guid=__cpp_ref_class_fbx_system_unit_html
+Real getSceneUnitScaleToMeters(const aiScene* scene)
+{
+    if (!scene || !scene->mMetaData)
+        return 1.0f;
+
+    ai_real unitScaleFactorCm = 0.0;
+    if (scene->mMetaData->Get("UnitScaleFactor", unitScaleFactorCm))
+        return static_cast<Real>(unitScaleFactorCm * 0.01);
+
+    double unitScaleFactorCmD = 0.0;
+    if (scene->mMetaData->Get("UnitScaleFactor", unitScaleFactorCmD))
+        return static_cast<Real>(unitScaleFactorCmD * 0.01);
+
+    return 1.0f;
+}
 } // namespace
 
 AssimpLoader::AssimpLoader()
@@ -407,6 +426,12 @@ bool AssimpLoader::_load(const char* name, Assimp::Importer& importer, Mesh* mes
 
     mQuietMode = mLoaderParams & LP_QUIET_MODE;
     mNodeDerivedTransformByName.clear();
+    mUnitScaleToMeters = getSceneUnitScaleToMeters(scene);
+    if (!mQuietMode && Math::Abs(mUnitScaleToMeters - 1.0f) > 0.00001f)
+    {
+        LogManager::getSingleton().logMessage(
+            "Assimp unit scale -> meters: " + StringConverter::toString(mUnitScaleToMeters));
+    }
 
     String basename, extension;
     StringUtil::splitBaseFilename(mesh->getName(), basename, extension);
@@ -682,6 +707,7 @@ void AssimpLoader::parseAnimation(const aiScene* mScene, int index, aiAnimation*
                     aiVector3D aiTrans = getTranslate(node_anim, keyframes, it, mTicksPerSecond);
 
                     Vector3 trans(aiTrans.x, aiTrans.y, aiTrans.z);
+                    trans *= mUnitScaleToMeters;
 
                     aiQuaternion aiRot = getRotate(node_anim, keyframes, it, mTicksPerSecond);
                     Quaternion rot(aiRot.w, aiRot.x, aiRot.y, aiRot.z);
@@ -776,7 +802,8 @@ void AssimpLoader::createBonesFromNode(const aiScene* mScene, const aiNode* pNod
         if (!aiM.IsIdentity())
         {
             aiM.Decompose(scale, rot, pos);
-            bone->setPosition(pos.x, pos.y, pos.z);
+            bone->setPosition(pos.x * mUnitScaleToMeters, pos.y * mUnitScaleToMeters,
+                              pos.z * mUnitScaleToMeters);
             bone->setOrientation(rot.w, rot.x, rot.y, rot.z);
         }
 
@@ -1235,6 +1262,7 @@ bool AssimpLoader::createSubMesh(const String& name, int index, const aiNode* pN
         // Position
         Vector3 vect(vec->x, vec->y, vec->z);
         vect = aiM * vect;
+        vect *= mUnitScaleToMeters;
 
         /*
         if(NULL != mSkeletonRootNode)

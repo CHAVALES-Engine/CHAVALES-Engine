@@ -5,6 +5,8 @@ local moveCamera = true
 local _transform = nil
 local _esfera = nil
 local _camera = nil
+local girl = nil
+local trans_girl = nil
 
 function init(properties)
     -- Equivalente a: setProperty(p, "device", device)
@@ -38,9 +40,16 @@ function ready()
 
     Input:setRelativeMouseMode(false)
 
+
     if _transform then
         _transform:call("lockRotationZ", true)
-        _transform:call("LookAt", Vector3.new(0, 150, 0))
+        girl = entity:getScene():findEntityByName("girl")
+        if girl then
+            trans_girl = girl:getComponent("Transform") 
+            if trans_girl then
+                _transform:call("LookAt", trans_girl:call("getGlobalPosition"))
+            end
+        end
     end
 
     -- Esfera
