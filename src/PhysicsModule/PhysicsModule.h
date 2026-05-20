@@ -251,5 +251,5 @@ private:
 	std::unordered_map<physx::PxRigidActor*, core::Entity*> _actorToEntity;
 	std::vector<PhysicsEvent> _eventQueue;
 
-	const PxVec3 _defaultGravity = { 0.0f, -981.0f, 0.0f };
+	const PxVec3 _defaultGravity = { 0.0f, -9.81f, 0.0f };
 };

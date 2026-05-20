@@ -9,7 +9,7 @@ scene = { -- entidades en escena
             components = { -- componentes de esa entidad
                 Transform = { -- componente transform
                     -- posicion local
-                    position = Vector3.new(200.0, 200.0, 200.0),
+                    position = Vector3.new(5, 4, 5),
                     -- rotacion local
                     rotation = Quaternion.new(0.0, 0.0, 1.0, 45.0),
                     -- escala local
@@ -37,7 +37,7 @@ scene = { -- entidades en escena
                 Transform = {
                     position = Vector3.new(0, 0, 0),
                     rotation = Quaternion.new(),
-                    scale = Vector3.new(0.5)
+                    scale = Vector3.new(1.0)
                 },
                 PersistentTest = {}
             }
@@ -46,9 +46,9 @@ scene = { -- entidades en escena
             ddol = false,
             components = {
                 Transform = {
-                    position = Vector3.new(0, 300, 0),
+                    position = Vector3.new(0, 3, 0),
                     rotation = Quaternion.new(),
-                    scale = Vector3.new(0.5)
+                    scale = Vector3.new(1.0)
                 },
                 ModelRenderer = {
                     file = "mesh/sphere.fbx",
@@ -58,14 +58,14 @@ scene = { -- entidades en escena
                     useGravity = true,
                     isKinematic = false,
                     mass = 1.0,
-                    position = Vector3.new(0, 300, 0),
-                    velocity = Vector3.new(0, 500, 0),
+                    position = Vector3.new(0, 3, 0),
+                    velocity = Vector3.new(0, 0, 0),
                     damping = 0.0,
                     blockAxes = {false, false, false}
                 },
                 Collider = {
                     type = "CAPSULE",
-                    shape = Vector3.new(50, 0, 0),
+                    shape = Vector3.new(1, 0, 0),
                     rotation = Vector3.new(),
                     dynamic = true,
                     trigger = false,
