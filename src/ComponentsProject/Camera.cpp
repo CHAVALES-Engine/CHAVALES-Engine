@@ -9,8 +9,8 @@
 
 #include "GameConfigurator.h"
 #include "Transform.h"
-#include "checkMLNew.h"
 #include "ScriptsManager.h"
+#include "checkMLNew.h"
 
 REGISTER_COMPONENT(Camera);
 
@@ -69,7 +69,7 @@ Camera::Camera() : _FOVy(45.0f), _nearClipDistance(0.1f), _farClipDistance(1000.
 	registerMethod("setAsActiveCamera", [this](const std::vector<std::any>& args) {
 		setAsActiveCamera();
 		});
-	// Revisar
+
 	registerMethod("screenToWorld", [this](const std::vector<std::any>& args) -> std::any {
 		if (args.size() >= 3) {
 

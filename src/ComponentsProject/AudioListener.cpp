@@ -27,6 +27,7 @@ bool AudioListener::init(const Properties& p)
 
 void AudioListener::ready()
 {
+	if (!_transform) return;
 	_transform = entity->getComponent<Transform>();
 	_lastPos = _transform->getGlobalPosition();
 }

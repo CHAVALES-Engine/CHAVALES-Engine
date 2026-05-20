@@ -99,6 +99,7 @@ void Animator::registerAnimator()
 
 bool Animator::registerSkeletonAnim(const std::string& animationName, const bool& loop)
 {
+	if (_modelID == UINT64_MAX) return false;
 	animationID id = render()->registerSkeletonAnim(_modelID, animationName, loop);
 	if (id != -1)
 	{

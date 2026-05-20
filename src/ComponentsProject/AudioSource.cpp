@@ -90,7 +90,7 @@ bool AudioSource::init(const Properties& p)
 	_soundVolume = getProperty<float>(p, "soundVolume");
 	_minRadius = getProperty<float>(p, "minRadius");
 	_maxRadius = getProperty<float>(p, "maxRadius");
-	return true;
+	return entity->hasComponent<Transform>();
 }
 
 void AudioSource::ready()
