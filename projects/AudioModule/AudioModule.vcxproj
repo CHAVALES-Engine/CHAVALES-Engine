@@ -104,11 +104,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\AudioModule\AudioModule.h" />
-    <ClInclude Include="..\..\src\AudioModule\AudioResource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\AudioModule\AudioModule.cpp" />
-    <ClCompile Include="..\..\src\AudioModule\AudioResource.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

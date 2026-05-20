@@ -18,15 +18,9 @@
     <ClInclude Include="..\..\src\AudioModule\AudioModule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\AudioModule\AudioResource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\AudioModule\AudioModule.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\AudioModule\AudioResource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
