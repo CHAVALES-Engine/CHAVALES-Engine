@@ -54,15 +54,15 @@ scene = { -- entidades en escena
                     file = "mesh/sphere.fbx",
                     ["number of textures"] = 0
                 },
-                RigidBody = {
-                    useGravity = true,
-                    isKinematic = false,
-                    mass = 1.0,
-                    position = Vector3.new(0, 300, 0),
-                    velocity = Vector3.new(0, 500, 0),
-                    damping = 0.0,
-                    blockAxes = {false, false, false}
-                },
+                -- RigidBody = {
+                --     useGravity = true,
+                --     isKinematic = false,
+                --     mass = 1.0,
+                --     position = Vector3.new(0, 300, 0),
+                --     velocity = Vector3.new(0, 500, 0),
+                --     damping = 0.0,
+                --     blockAxes = {false, false, false}
+                -- },
                 Collider = {
                     type = "CAPSULE",
                     shape = Vector3.new(50, 0, 0),

@@ -22,6 +22,9 @@ bool PhysicsMaterial::init(const Properties& p)
 	frictionCombine = static_cast<CombineMode>(getProperty<int>(p, "frictionCombine"));
 	bounceCombine = static_cast<CombineMode>(getProperty<int>(p, "bounceCombine"));
 
+	col = entity->hasComponent<Collider>();
+	if (!col) return false;
+	collider = entity->getComponent<Collider>();
 	return true;
 }
 
@@ -33,17 +36,18 @@ void PhysicsMaterial::ready()
 	if (restitution > 1.0f) restitution = 1.0f;
 	if (!entity) return;
 
-	auto collider = entity->getComponent<Collider>();
-	if (!collider) return;
-	physicsShapeID = collider->getId();
-	physicsMaterialID = physics()->CreateMaterial(
-		physicsShapeID,
-		staticFriction,
-		dynamicFriction,
-		restitution,
-		static_cast<int>(frictionCombine),
-		static_cast<int>(bounceCombine)
-	);
+	if (col)
+	{
+		physicsShapeID = collider->getId();
+		physicsMaterialID = physics()->CreateMaterial(
+			physicsShapeID,
+			staticFriction,
+			dynamicFriction,
+			restitution,
+			static_cast<int>(frictionCombine),
+			static_cast<int>(bounceCombine)
+		);
+	}
 }
 
 void PhysicsMaterial::update(uint64_t dt)

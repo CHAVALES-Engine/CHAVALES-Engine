@@ -6,6 +6,7 @@
 #pragma once
 #include "EngineComponent.h"
 #include <EngineAPI.h>
+#include "Collider.h"
 
 class Engine;
 
@@ -18,20 +19,20 @@ class Engine;
  */
 class ENGINE_API PhysicsMaterial : public EngineComponent
 {
-/*
- * +-----------------+
- * | PHYSICSMATERIAL |
- * +-----------------+
- *
- * --- Ejemplo de uso en lua ---
- *		PhysicsMaterial = {
- *			staticFriction = 10.0,
- *			dynamicFriction = 10.0,
- *			restitution = 10.0,
- *			frictionCombine = 0/1/2/3,
- *			bounceCombine = 0/1/2/3
- *		}
-*/
+	/*
+	 * +-----------------+
+	 * | PHYSICSMATERIAL |
+	 * +-----------------+
+	 *
+	 * --- Ejemplo de uso en lua ---
+	 *		PhysicsMaterial = {
+	 *			staticFriction = 10.0,
+	 *			dynamicFriction = 10.0,
+	 *			restitution = 10.0,
+	 *			frictionCombine = 0/1/2/3,
+	 *			bounceCombine = 0/1/2/3
+	 *		}
+	*/
 public:
 
 	/**
@@ -74,7 +75,9 @@ public:
 	 */
 	uint32_t physicsMaterialID = 0;
 	uint32_t physicsShapeID = 0;
-	
+
+	std::shared_ptr<Collider> collider;
+	bool col;
 	PhysicsMaterial();
 
 	bool init(const Properties& p) override;
