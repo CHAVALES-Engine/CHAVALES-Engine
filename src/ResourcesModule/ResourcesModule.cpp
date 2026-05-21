@@ -142,19 +142,25 @@ void ResourcesModule::unloadAll()
 
 bool ResourcesModule::_loadAsset(const std::string& sourceName)
 {
-	for (const auto& entry : std::filesystem::directory_iterator(sourceName))
+	try
 	{
-		if (entry.is_directory())
+		for (const auto& entry : std::filesystem::directory_iterator(sourceName))
 		{
-			if (!_loadAsset(entry.path().string()))
-				return false;
+			if (entry.is_directory())
+			{
+				if (!_loadAsset(entry.path().string()))
+					return false;
+			}
+			else
+			{
+				std::string normalizedPath = entry.path().generic_string();
+				if (!_addResource(normalizedPath))
+					return false;
+			}
 		}
-		else
-		{
-			std::string normalizedPath = entry.path().generic_string();
-			if (!_addResource(normalizedPath))
-				return false;
-		}
+	}catch (std::exception e)
+	{
+		Debug::warning("[ResourcesModule] Fallo al navegar entre los recursos: ", e.what());
 	}
 	return true;
 }
