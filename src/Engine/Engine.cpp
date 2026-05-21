@@ -45,15 +45,10 @@ void Engine::release()
 	delete _instance->_input;
 	_instance->_input = nullptr;
 	// recursos
-	delete _instance->_resourcesModule;
-	_instance->_resourcesModule = nullptr;
-	// resto de modulos
-	delete _instance->_platformModule;
-	_instance->_platformModule = nullptr;
-	delete _instance->_audioModule;
-	_instance->_audioModule = nullptr;
-	delete _instance->_physicsModule;
-	_instance->_physicsModule = nullptr;
+	if (_instance->_resourcesModule)
+	{
+		_instance->_resourcesModule->unloadAll();
+	}
 	try {
 		delete _instance->_renderModule;
 		_instance->_renderModule = nullptr;
@@ -68,6 +63,13 @@ void Engine::release()
 	}
 	delete _instance->_resourcesModule;
 	_instance->_resourcesModule = nullptr;
+	// resto de modulos
+	delete _instance->_audioModule;
+	_instance->_audioModule = nullptr;
+	delete _instance->_physicsModule;
+	_instance->_physicsModule = nullptr;
+	delete _instance->_platformModule;
+	_instance->_platformModule = nullptr;
 	delete _instance->_stateMachine;
 	_instance->_stateMachine = nullptr;
 	// Descarga dlls

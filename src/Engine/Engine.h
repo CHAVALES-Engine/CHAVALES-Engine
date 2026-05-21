@@ -237,7 +237,7 @@ private:
 	* @brief
 	*	Referencia a la maquina de estados
 	*/
-	StateMachine* _stateMachine;
+	StateMachine* _stateMachine = nullptr;
 
 	friend EngineComponent;
 };
