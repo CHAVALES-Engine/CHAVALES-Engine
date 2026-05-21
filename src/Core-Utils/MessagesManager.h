@@ -92,7 +92,6 @@ namespace core
 			}
 
 			try {
-				// ✅ Acceder a .second.second (el std::any dentro del pair)
 				core::Message<Args...>* msg = std::any_cast<core::Message<Args...>>(&it->second.second);
 				if (msg) {
 					msg->subscribe(func);
