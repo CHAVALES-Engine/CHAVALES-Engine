@@ -41,7 +41,6 @@ private:
 	ScriptsManager();
 	~ScriptsManager();
 	using MethodWrapper = std::function<Property(void*, const std::vector<Property>&)>;
-	std::function<void(const std::string&)> _onEditableScript;
 public:
 	// Eliminar copia y movimiento
 	ScriptsManager(const ScriptsManager&) = delete;
