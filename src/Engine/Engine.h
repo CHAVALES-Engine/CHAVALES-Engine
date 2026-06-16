@@ -147,6 +147,7 @@ public:
 	std::string getAssetSourceFolder(const std::string& assetName) const;
 	std::vector<std::pair<std::string, std::string>> getAllAssets() const;
 	bool preload(const std::string& path);
+	bool unload(const std::string& path);
 	bool preloadAll();
 
 

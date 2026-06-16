@@ -191,6 +191,11 @@ bool Engine::preload(const std::string& path)
 	return _resourcesModule->load(path, true);
 }
 
+bool Engine::unload(const std::string& path)
+{
+	return _resourcesModule->unload(path);
+}
+
 bool Engine::preloadAll()
 {
 	return _resourcesModule->preloadAllAssets();
