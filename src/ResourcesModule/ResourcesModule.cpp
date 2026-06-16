@@ -140,6 +140,22 @@ void ResourcesModule::unloadAll()
 	_pathToGuid.clear();
 }
 
+bool ResourcesModule::unload(const std::string& path) 
+{
+	ChavalesGUID id = getResourceId(path);
+	if (!id.isValid()) return false;
+
+	auto it = _resources.find(id);
+	// Si NO se encuentra o el puntero es nulo, no hay nada que descargar
+	if (it == _resources.end() || !it->second) return false;
+
+	//Si NO es válido, ya está descargado
+	if (!it->second->isValid()) return false;
+
+	// Llamamos al unload del recurso físico (liberar texturas, vbos, etc.)
+	return it->second->unLoad(); 
+}
+
 bool ResourcesModule::_loadAsset(const std::string& sourceName)
 {
 	try

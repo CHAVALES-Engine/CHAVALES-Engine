@@ -59,6 +59,11 @@ public:
 	 */
 	bool load(const std::string& path, bool preload = false);
 	/**
+	 * @brief Funcion que descarga un asset concreto
+	 * @return bool - Si se ha descargado correctamente.
+	 */
+	bool unload(const std::string& path);
+	/**
 	 * @brief Precarga todos los assets encontrados
 	 * @return bool - Si se han precargado correctamente.
 	 */

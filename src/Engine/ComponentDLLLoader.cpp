@@ -227,6 +227,21 @@ bool ComponentDLLLoader::_unload(LoadedLibrary& library)
 	}
 	for (const auto& name : toUnregister)
 		ComponentRegister::instance().unregisterComponent(name);
+
+	//Descargar assets en hotReload
+	GetResourcesFn getResources = (GetResourcesFn)GetProcAddress(library.handle, "getPluginPreloadResources");  
+	// Si no se ha devuelto nada lanzamos error y salimos.
+	if (!getResources) { 
+		Debug::error("COMPONENT DLL LOADER: La funcion de exportacion de resources \"getPluginPreloadResources\" no encontrada en  ", library.path); 
+	}
+	else {
+		// Cogemos los paths de los recursos marcados en la dll.
+		size_t count = 0;
+		const std::string* resPaths = getResources(count); 
+		// Precargamos los recursos
+		for (size_t i = 0; i < count; ++i) 
+			Engine::instance()->unload(resPaths[i]); 
+	}
 	if (!FreeLibrary(library.handle))return false;
 	library.handle = nullptr;
 	return DeleteFileA(library.tempPath.c_str());
