@@ -39,6 +39,9 @@ void StateMachine::gameLoop()
 	while (!_endGame) // bucle de juego
 	{
 		_processSceneChange();
+
+		_endGame = _endGame || Engine::instance()->update(_deltaTime);
+
 		if (_currentScene.ptr != nullptr)
 		{
 			auto now = core::Clock::getNow();
@@ -70,7 +73,6 @@ void StateMachine::gameLoop()
 			_currentScene.ptr->destroyDeadEntities();
 		}
 		_processHotLuaReload();
-		_endGame = _endGame || Engine::instance()->update(_deltaTime) ;
 	}
 
 	_isLoopRunning = false;
