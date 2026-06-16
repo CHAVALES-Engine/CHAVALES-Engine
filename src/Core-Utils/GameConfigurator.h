@@ -107,6 +107,9 @@ namespace core
 		 * @brief Cargar desde disco.
 		 */
 		bool LoadFromFile(const std::string& path);
+
+		std::string getWindowName(); 
+		void setWindowName(std::string s); 
 	private:
 		template<typename T>
 		static T GetValue(const toml::table& table, const std::string& key, const T& defaultValue)

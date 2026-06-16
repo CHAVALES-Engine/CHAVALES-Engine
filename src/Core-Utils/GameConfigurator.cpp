@@ -119,3 +119,13 @@ bool core::GameConfigurator::LoadFromFile(const std::string& path)
 		return false;
 	}
 }
+
+std::string core::GameConfigurator::getWindowName()
+{
+	return _windowName;
+}
+
+void core::GameConfigurator::setWindowName(std::string s)
+{
+	_windowName = s;
+}

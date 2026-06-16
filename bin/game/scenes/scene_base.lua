@@ -47,7 +47,7 @@ scene = { -- entidades en escena
             ddol = false,
             components = {
                 Transform = {
-                    position = Vector3.new(0, 3, 0),
+                    position = Vector3.new(0, 4, 0),
                     rotation = Quaternion.new(),
                     scale = Vector3.new(1.0)
                 },
