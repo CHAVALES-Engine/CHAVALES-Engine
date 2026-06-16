@@ -137,7 +137,7 @@ bool ChavalesEditor::runEditor()
     ImGui_ImplOpenGL3_Init(glsl_version);
 
     // Our state
-    ImVec4 clear_color = ImVec4(0.118, 0.118, 0.118, 1.0);
+    ImVec4 clear_color = ImVec4(0.118f, 0.118f, 0.118f, 1.0f);
 
     // Main loop
     bool done = false;
