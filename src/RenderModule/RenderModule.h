@@ -135,6 +135,14 @@ struct UITransformData
 	int depthLayer;
 };
 
+struct ScriptEditorData
+{
+	std::string path;
+	std::vector<char> buffer;
+	bool dirty = false;
+	bool isActive = false;
+};
+
 union SDL_Event;
 
 class ENGINE_API RenderModule
@@ -143,11 +151,11 @@ public:
 	~RenderModule();
 	/**
 	 * @brief Inicializacion del render module
-	 * @param sdlWindow 
-	 * @param handle 
-	 * @param width 
-	 * @param height 
-	 * @param fonts 
+	 * @param sdlWindow
+	 * @param handle
+	 * @param width
+	 * @param height
+	 * @param fonts
 	 * @return bool - Si se ha inicializado correctamente.
 	 */
 	bool Init(SDL_Window* sdlWindow, const HWND handle, const int width, const int height);
@@ -692,6 +700,7 @@ public:
 	void renderUI();
 	void cleanUI();
 
+	void renderScriptComponents();
 	/**
 	* @brief Se encarga de resetear los colliders dibujados en escen
 	*/
@@ -717,6 +726,17 @@ public:
 	*/
 	void DrawSphere(const ShapeRenderData& data);
 
+	void registerScriptEditor(const std::string& path);
+	const std::vector<ScriptEditorData>& getScriptEditors() const {
+		return _scriptEditors;
+	};
+
+	std::function<void(const std::string&)> _onScriptSaved;
+	void setScriptSavedCallback(std::function<void(const std::string&)> cb)
+	{
+		_onScriptSaved = std::move(cb);
+	}
+
 	void shutdown();
 
 private:
@@ -737,6 +757,7 @@ private:
 	std::unordered_map<std::string, ImFont*> _fonts;
 	std::vector<UITransformData> _uiTransforms;
 	std::vector<std::string> _createdMaterials;
+	std::vector<ScriptEditorData> _scriptEditors;
 	TextAlign stringToAlign(const std::string& align);
 
 	transformID _nextTransformID;
@@ -757,6 +778,8 @@ private:
 	std::unordered_set<std::string> _preloadedGroups;
 	std::vector<std::pair<FontName, FontPath>> _pendingFonts;
 	bool _imguiSDLInitialized = false;
+
+	int _activeScriptEditor = 0;
 
 	float _windowWidth;
 	float _windowHeight;

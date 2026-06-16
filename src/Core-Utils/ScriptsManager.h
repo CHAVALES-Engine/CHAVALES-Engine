@@ -14,15 +14,15 @@
 #include "Debug.h"
 #include "Entity.h"
 
-/**
- * @brief Alias que identifica una lista de argumentos para ejecutar una funcion.
- *		usamos un initializer:list porque es mas practico escribit como argumento {42.0f, true, std::string("fire")} 
- *		en lugar de tener que construir una estructura tipo vector o array.
- */
-using ExecuteArgs = std::initializer_list<Property>;
  /**
-  * @brief Alias para el identificador unico de un script cargado.
+  * @brief Alias que identifica una lista de argumentos para ejecutar una funcion.
+  *		usamos un initializer:list porque es mas practico escribit como argumento {42.0f, true, std::string("fire")}
+  *		en lugar de tener que construir una estructura tipo vector o array.
   */
+using ExecuteArgs = std::initializer_list<Property>;
+/**
+ * @brief Alias para el identificador unico de un script cargado.
+ */
 using ScriptHandle = ChavalesGUID;
 /**
  * @brief Valor constante que representa un manejador de script nulo o invalido.
@@ -41,6 +41,7 @@ private:
 	ScriptsManager();
 	~ScriptsManager();
 	using MethodWrapper = std::function<Property(void*, const std::vector<Property>&)>;
+	std::function<void(const std::string&)> _onEditableScript;
 public:
 	// Eliminar copia y movimiento
 	ScriptsManager(const ScriptsManager&) = delete;
@@ -128,6 +129,30 @@ public:
 	 * @param instance - Instancia estatica de la clase en c++ usada.
 	 */
 	void bindGlobalImpl(const std::string& globalName, const std::string& typeName, void* instance) const;
+
+	void setEditableScriptCallback(std::function<void(const std::string&)> cb)
+	{
+		_onEditableScript = std::move(cb);
+	}
+
+	void notifyEditableScript(const std::string& path)
+	{
+		if (_onEditableScript)
+			_onEditableScript(path);
+	}
+	void notifyLuaChanged()
+	{
+		_luaDirty = true;
+	}
+	bool isLuaDirty() const
+	{
+		return _luaDirty;
+	}
+
+	void clearLuaDirty()
+	{
+		_luaDirty = false;
+	}
 private:
 	/**
 	 * @brief Helper que declara un usertype.
@@ -139,4 +164,5 @@ private:
 	struct Impl;
 	// @brief Puntero inteligente a la implementacion interna.
 	std::unique_ptr<Impl> pImpl;
+	bool _luaDirty = false;
 };

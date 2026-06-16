@@ -325,6 +325,19 @@ bool Engine::_initPriv()
 	ScriptsManager::instance().init();
 	_registerScriptBindings();
 
+	ScriptsManager::instance().setEditableScriptCallback(
+		[this](const std::string& path)
+		{
+			_renderModule->registerScriptEditor(path);
+		}
+	);
+	_renderModule->setScriptSavedCallback(
+		[](const std::string& path)
+		{
+			ScriptsManager::instance().notifyLuaChanged();
+		}
+	);
+
 	return true;
 }
 

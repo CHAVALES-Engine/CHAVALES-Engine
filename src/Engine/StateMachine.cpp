@@ -159,9 +159,11 @@ void StateMachine::_processSceneChange()
 
 void StateMachine::_processHotLuaReload()
 {
-	if (GameLoader::reloadLua() || ComponentDLLLoader::instance().checkReload()) // si es necesario recargar...
+	if (GameLoader::reloadLua() || ComponentDLLLoader::instance().checkReload() || ScriptsManager::instance().isLuaDirty()) // si es necesario recargar...
 	{
 		Debug::warning("Reloading scene [", _currentScene.name, "]");
+
+		ScriptsManager::instance().clearLuaDirty();
 
 		_addAndSetScene(_currentScene.name);
 

@@ -26,6 +26,7 @@ scene = { -- entidades en escena
                 AudioListener = {},
                 ScriptComponent = {
                     script = "./game/assets/scripts/luaComponentTest.lua",
+                    edit = true,
                     velocity = 100
                 }
                 --, ChangeTest = { scene = "scene_prueba" }

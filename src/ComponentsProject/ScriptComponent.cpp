@@ -19,10 +19,19 @@ bool ScriptComponent::init(const Properties& p)
 		!_script->loadScript(scriptPath))
 		return false;
 
+	bool edit = false;
+	if (!setProperty(p, "edit", edit))
+		return false;
+
 	// Inyecta entity en el entorno del script para que pueda usar
 	_script->setEntity(getEntity());
 	// Pasa las Properties a la funcion init(properties) del Lua
 	_script->executeWithProps("init", p);
+
+	if (edit) {
+		ScriptsManager::instance().notifyEditableScript(scriptPath);
+	}
+
 	return true;
 }
 
@@ -71,7 +80,7 @@ void ScriptComponent::destroy() {
 	catch (...)
 	{
 	}
-	}
+}
 void ScriptComponent::fixedUpdate() {
 	try
 	{
@@ -80,7 +89,7 @@ void ScriptComponent::fixedUpdate() {
 	catch (...)
 	{
 	}
- }
+}
 
 void ScriptComponent::update(uint64_t dt) {
 	try
