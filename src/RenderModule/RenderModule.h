@@ -730,7 +730,11 @@ public:
 	const std::vector<ScriptEditorData>& getScriptEditors() const {
 		return _scriptEditors;
 	};
-
+	void clearScriptEditors()
+	{
+		_scriptEditors.clear();
+		_activeScriptEditor = 0;
+	}
 	std::function<void(const std::string&)> _onScriptSaved;
 	void setScriptSavedCallback(std::function<void(const std::string&)> cb)
 	{

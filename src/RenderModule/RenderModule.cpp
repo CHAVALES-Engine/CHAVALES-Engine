@@ -426,6 +426,9 @@ void RenderModule::cleanScene(const bool& end)
 	if (!_sceneMgr)
 		return;
 
+	//Limpiar script components
+	clearScriptEditors();
+
 	//Limpiar camaras
 	cleanCameras();
 
