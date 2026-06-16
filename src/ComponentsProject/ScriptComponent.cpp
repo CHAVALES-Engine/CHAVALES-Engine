@@ -29,7 +29,7 @@ bool ScriptComponent::init(const Properties& p)
 	_script->executeWithProps("init", p);
 
 	if (edit) {
-		ScriptsManager::instance().notifyEditableScript(scriptPath);
+		
 	}
 
 	return true;

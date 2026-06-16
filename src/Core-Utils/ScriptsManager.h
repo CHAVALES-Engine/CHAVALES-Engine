@@ -130,29 +130,6 @@ public:
 	 */
 	void bindGlobalImpl(const std::string& globalName, const std::string& typeName, void* instance) const;
 
-	void setEditableScriptCallback(std::function<void(const std::string&)> cb)
-	{
-		_onEditableScript = std::move(cb);
-	}
-
-	void notifyEditableScript(const std::string& path)
-	{
-		if (_onEditableScript)
-			_onEditableScript(path);
-	}
-	void notifyLuaChanged()
-	{
-		_luaDirty = true;
-	}
-	bool isLuaDirty() const
-	{
-		return _luaDirty;
-	}
-
-	void clearLuaDirty()
-	{
-		_luaDirty = false;
-	}
 private:
 	/**
 	 * @brief Helper que declara un usertype.
@@ -164,5 +141,4 @@ private:
 	struct Impl;
 	// @brief Puntero inteligente a la implementacion interna.
 	std::unique_ptr<Impl> pImpl;
-	bool _luaDirty = false;
 };

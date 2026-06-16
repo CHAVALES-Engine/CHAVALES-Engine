@@ -426,9 +426,6 @@ void RenderModule::cleanScene(const bool& end)
 	if (!_sceneMgr)
 		return;
 
-	//Limpiar script components
-	clearScriptEditors();
-
 	//Limpiar camaras
 	cleanCameras();
 
@@ -2158,54 +2155,7 @@ void RenderModule::renderUI()
 		ImGui::End();
 	}
 
-	renderScriptComponents();
-
 	ImGui::Render();
-}
-
-void RenderModule::renderScriptComponents() {
-	//EDITO EN RUNTIME DE SCRIPTCOMPONENTS
-	if (_scriptEditors.empty())
-		return;
-
-	for (int i = 0; i < _scriptEditors.size(); ++i)
-	{
-		auto& e = _scriptEditors[i];
-
-		ImGui::SetNextWindowSize(ImVec2(500, 400), ImGuiCond_FirstUseEver);
-
-		std::string title = "Lua: " + e.path;
-
-		ImGui::Begin(title.c_str());
-
-		ImGui::PushID(i);
-
-		if (ImGui::InputTextMultiline(
-			"##code",
-			e.buffer.data(),
-			e.buffer.size(),
-			ImVec2(-1, -1),
-			ImGuiInputTextFlags_AllowTabInput))
-		{
-			e.dirty = true;
-		}
-
-		ImGui::PopID();
-
-		if (e.dirty &&
-			ImGui::GetIO().KeyCtrl &&
-			ImGui::IsKeyPressed(ImGuiKey_S))
-		{
-			std::ofstream out(e.path);
-			out.write(e.buffer.data(), std::strlen(e.buffer.data()));
-			e.dirty = false;
-
-			if (_onScriptSaved)
-				_onScriptSaved(e.path);
-		}
-
-		ImGui::End();
-	}
 }
 
 void RenderModule::cleanUI()
@@ -2470,26 +2420,4 @@ void RenderModule::DrawSphere(const ShapeRenderData& data)
 	drawCircle(Ogre::Vector3::UNIT_X, Ogre::Vector3::UNIT_Y);
 	drawCircle(Ogre::Vector3::UNIT_X, Ogre::Vector3::UNIT_Z);
 	drawCircle(Ogre::Vector3::UNIT_Y, Ogre::Vector3::UNIT_Z);
-}
-
-void RenderModule::registerScriptEditor(const std::string& path)
-{
-	for (auto& e : _scriptEditors)
-		if (e.path == path)
-			return;
-
-	ScriptEditorData e;
-	e.path = path;
-
-	std::ifstream in(path);
-	if (in)
-	{
-		std::string text((std::istreambuf_iterator<char>(in)),
-			std::istreambuf_iterator<char>());
-
-		e.buffer.assign(text.begin(), text.end());
-		e.buffer.push_back('\0');
-	}
-
-	_scriptEditors.push_back(std::move(e));
 }

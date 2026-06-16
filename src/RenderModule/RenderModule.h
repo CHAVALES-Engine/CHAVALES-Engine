@@ -135,14 +135,6 @@ struct UITransformData
 	int depthLayer;
 };
 
-struct ScriptEditorData
-{
-	std::string path;
-	std::vector<char> buffer;
-	bool dirty = false;
-	bool isActive = false;
-};
-
 union SDL_Event;
 
 class ENGINE_API RenderModule
@@ -726,21 +718,6 @@ public:
 	*/
 	void DrawSphere(const ShapeRenderData& data);
 
-	void registerScriptEditor(const std::string& path);
-	const std::vector<ScriptEditorData>& getScriptEditors() const {
-		return _scriptEditors;
-	};
-	void clearScriptEditors()
-	{
-		_scriptEditors.clear();
-		_activeScriptEditor = 0;
-	}
-	std::function<void(const std::string&)> _onScriptSaved;
-	void setScriptSavedCallback(std::function<void(const std::string&)> cb)
-	{
-		_onScriptSaved = std::move(cb);
-	}
-
 	void shutdown();
 
 private:
@@ -760,8 +737,7 @@ private:
 	std::unordered_map<uiTextureRectID, std::pair<uiPanelID, int>> _textureToPanel;
 	std::unordered_map<std::string, ImFont*> _fonts;
 	std::vector<UITransformData> _uiTransforms;
-	std::vector<std::string> _createdMaterials;
-	std::vector<ScriptEditorData> _scriptEditors;
+	std::vector<std::string> _createdMaterials;;
 	TextAlign stringToAlign(const std::string& align);
 
 	transformID _nextTransformID;
@@ -783,7 +759,6 @@ private:
 	std::vector<std::pair<FontName, FontPath>> _pendingFonts;
 	bool _imguiSDLInitialized = false;
 
-	int _activeScriptEditor = 0;
 
 	float _windowWidth;
 	float _windowHeight;
