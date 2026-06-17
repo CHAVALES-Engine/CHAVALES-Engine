@@ -24,7 +24,10 @@ public:
     void lateUpdate(uint64_t deltaTime) override;
     void disable() override;
     void destroy() override;
-
+    std::string getScriptPath() {
+        return _scriptPath;
+    }
 private:
     std::unique_ptr<Script> _script;
+    std::string _scriptPath;
 };
