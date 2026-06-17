@@ -10,19 +10,15 @@
 
 #include "GameConfigurator.h"
 
- // --- INICIO DE CAMBIOS: Incluir windows.h para CreateProcess ---
 #ifdef _WIN32
 #include <windows.h>
 #endif
-// --- FIN DE CAMBIOS ---
 
 #include "checkML.h" // es importante que vaya despues de todo porque redefine new y no queremos que lo haga tmb en las dependencias
 
-// --- INICIO DE CAMBIOS: Función para lanzar el editor en modo "solo scripts" ---
 static void launchEditorScriptsOnly()
 {
 #ifdef _WIN32
-	// Ajusta estos nombres si el ejecutable de tu editor se llama de otra forma
 #ifdef _DEBUG
 	const wchar_t* editor_cmd = L"ChavalesEditor_d.exe -scriptsOnly";
 #else
@@ -47,7 +43,6 @@ static void launchEditorScriptsOnly()
 	}
 #endif
 }
-// --- FIN DE CAMBIOS ---
 
 static void configGame(size_t argc, char* argv[])
 {
@@ -105,7 +100,6 @@ int main(int argc, char* argv[])
 #endif
 	Debug::out("[MAIN] Inicializando ChavalesEngine");
 
-	// --- INICIO DE CAMBIOS: Comprobar si el editor ya está conectado ---
 	bool editorConnected = false;
 	for (int i = 0; i < argc; ++i) {
 		if (strcmp(argv[i], "-editorConnected") == 0) {
@@ -114,11 +108,9 @@ int main(int argc, char* argv[])
 		}
 	}
 
-	// Si abrimos el juego "a mano", lanzamos el editor solo para los scripts
 	if (!editorConnected) {
 		launchEditorScriptsOnly();
 	}
-	// --- FIN DE CAMBIOS ---
 	
 	// Inicializa configuracion
 	configGame(argc, argv);
