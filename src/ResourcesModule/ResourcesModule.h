@@ -117,4 +117,6 @@ private:
 	std::unordered_map<core::Resource::Type, ResourceFactory> _factories;
 	// Mapas de recursos precargados.
 	std::unordered_map<ChavalesGUID, core::ResourcePtr> _resources;
+
+	std::string _assetsRootCopy;
 };
