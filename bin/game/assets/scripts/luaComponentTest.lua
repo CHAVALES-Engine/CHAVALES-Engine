@@ -40,18 +40,6 @@ function ready()
 
     Input:setRelativeMouseMode(false)
 
-
-    if _transform then
-        _transform:call("lockRotationZ", true)
-        girl = entity:getScene():findEntityByName("girl")
-        if girl then
-            trans_girl = girl:getComponent("Transform") 
-            if trans_girl then
-                _transform:call("LookAt", trans_girl:call("getGlobalPosition"))
-            end
-        end
-    end
-
     -- Esfera
     _esfera = entity:getScene():findEntityByName("esfera")
     if not _esfera then

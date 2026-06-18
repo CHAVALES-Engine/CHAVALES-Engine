@@ -152,14 +152,9 @@ bool ResourcesModule::unload(const std::string& path)
 	//Si NO es válido, ya está descargado
 	if (!it->second->isValid()) it->second->unLoad();
 	//Reseteamos el shared_ptr a un recurso vacío pero que conserve su información básica (Name, Path, Type) para cuando se vuelva a cargar.
-	auto originalResource = it->second; 
-	it->second = std::make_shared<core::Resource>( 
-		originalResource->getName(), 
-		originalResource->getPath(), 
-		originalResource->getType() 
-	); 
+	bool ok = it->second->unLoad();
 	// Llamamos al unload del recurso físico (liberar texturas, vbos, etc.)
-	return true; 
+	return ok; 
 }
 
 bool ResourcesModule::_loadAsset(const std::string& sourceName)

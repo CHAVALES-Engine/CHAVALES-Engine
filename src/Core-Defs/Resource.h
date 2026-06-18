@@ -32,6 +32,7 @@ namespace core
 				Debug::warning("No se puede descargar ", _id, ": ", _refCounter, " entidades lo usan");
 				return false;
 			}
+			_state = UNLOADED; 
 			return true;
 		};
 		// @brief anyade una referencia al contador
