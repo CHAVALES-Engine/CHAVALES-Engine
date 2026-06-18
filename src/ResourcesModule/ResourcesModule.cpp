@@ -16,7 +16,9 @@ ResourcesModule::~ResourcesModule()
 
 bool ResourcesModule::Init()
 {
-	if (!_loadAsset(core::GameConfigurator::instance()._assetsRoot)) {
+	_assetsRootCopy = core::GameConfigurator::instance()._assetsRoot;
+
+	if (!_loadAsset(_assetsRootCopy)) {
 		return false;
 	}
 	return true;
@@ -34,7 +36,6 @@ std::string ResourcesModule::getAssetPath(const std::string& relativePath)
 
 core::ResourcePtr ResourcesModule::getOrLoadAsset(const std::string& relativePath)
 {
-	std::string fullPath = core::GameConfigurator::instance()._assetsRoot + relativePath;
 	ChavalesGUID id = getResourceId(relativePath);
 
 	if (!id.isValid()) return nullptr;
@@ -55,8 +56,7 @@ core::ResourcePtr ResourcesModule::getOrLoadAsset(const std::string& relativePat
 
 ChavalesGUID ResourcesModule::getResourceId(const std::string& path) const
 {
-	std::string fullPath = _normalizePath(
-		core::GameConfigurator::instance()._assetsRoot + path);
+	std::string fullPath = _normalizePath(_assetsRootCopy + path);
 
 	auto it = _pathToGuid.find(fullPath);
 	if (it != _pathToGuid.end())
@@ -82,7 +82,6 @@ void ResourcesModule::addFactory(core::Resource::Type type, ResourceFactory fact
 
 bool ResourcesModule::load(const std::string& path, bool preload)
 {
-	std::string fullPath = core::GameConfigurator::instance()._assetsRoot + path;
 	ChavalesGUID id = getResourceId(path);
 
 	if (!id.isValid()) return false;
