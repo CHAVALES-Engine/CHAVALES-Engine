@@ -120,6 +120,7 @@ void GameLoader::_parseObject(const sol::object& obj, const std::string& clave, 
 		{
 			Debug::error("GAMELOADER: Parametro tabla no compatible en ", clave, " para el componente ",
 				componentName, ".");
+			Engine::instance()->quitGame();
 		}
 
 		break;
@@ -154,6 +155,7 @@ void GameLoader::_parseObject(const sol::object& obj, const std::string& clave, 
 		{
 			Debug::error("GAMELOADER: El tipo del parametro de ", clave, " no esta definido para el componente ",
 				componentName, ".");
+			Engine::instance()->quitGame();
 		}
 		break;
 	}
@@ -161,6 +163,7 @@ void GameLoader::_parseObject(const sol::object& obj, const std::string& clave, 
 	{
 		Debug::error("GAMELOADER: El tipo del parametro de ", clave, " para el componente ", componentName,
 			" no es valido.");
+		Engine::instance()->quitGame();
 		break;
 	}
 	}
@@ -199,14 +202,16 @@ void GameLoader::_parseComponent(core::Entity* e, std::pair<sol::object, sol::ob
 		else
 		{
 			// --- quita el componente a la entidad
-			Debug::warning("GAMELOADER: Error al cargar componente ", componenteName,
-				": no se pudo inicializar correctamente.");
+			Debug::error("GAMELOADER: Error al cargar componente ", componenteName,
+				": no se pudo inicializar correctamente para la entidad: ", e->getName(), ".");
+			Engine::instance()->quitGame();
 		}
 	}
 	else
 	{
 		// si no se ha conseguido crear el componente porque no estaba bien registrado
-		Debug::warning("GAMELOADER: Componente ", componenteName, " no registrado en la entidad ", e->getName(), ".");
+		Debug::error("GAMELOADER: Componente ", componenteName, " no registrado en la entidad ", e->getName(), ".");
+		Engine::instance()->quitGame();
 	}
 }
 
@@ -243,8 +248,8 @@ void GameLoader::_instanceEntity(core::Entity* e, const std::pair<sol::object, s
 	sol::object object = partes["components"];
 	if (object.get_type() != sol::type::table)
 	{
-		Debug::error("GAMELOADER: 'components' no existe o no es una tabla en la entidad ", entidadName,
-			", creando entidad vacia.");
+		Debug::error("GAMELOADER: 'components' no existe o no es una tabla en la entidad ", entidadName);
+		Engine::instance()->quitGame();
 		return;
 	}
 	sol::table componentes = object;
@@ -260,9 +265,11 @@ void GameLoader::_instanceEntity(core::Entity* e, const std::pair<sol::object, s
 			component->setName(componenteName);
 			e->addComponent(std::move(component)); // anyade sin inicializar
 		}
-		else
-			Debug::warning("GAMELOADER: No existe el componente ", componenteName,
-				" en ningun registro, no se cargara el componente en ", entidadName, ".");
+		else {
+			Debug::error("GAMELOADER: No existe el componente ", componenteName,
+				" en ningun registro, no se puede asignar el componente en ", entidadName, ".");
+			Engine::instance()->quitGame();
+		}
 	}
 }
 
@@ -273,8 +280,8 @@ void GameLoader::_initializeEntity(core::Entity* e, const std::pair<sol::object,
 	sol::object object = partes["components"];
 	if (object.get_type() != sol::type::table)
 	{
-		Debug::error("GAMELOADER: 'components' no existe o no es una tabla en la entidad ", e->getName(),
-			", creando entidad vacia.");
+		Debug::error("GAMELOADER: 'components' no existe o no es una tabla en la entidad ", e->getName());
+		Engine::instance()->quitGame();
 		return;
 	}
 	sol::table componentes = object;
@@ -528,6 +535,7 @@ core::Entity* GameLoader::_loadPrefab(
 	if (!_injectFunctions(lua, _luaFuncFile))
 	{
 		Debug::error("GAMELOADER: No se pudieron inyectar las funciones de Lua en el motor.");
+		Engine::instance()->quitGame();
 		return nullptr;
 	}
 
@@ -537,11 +545,13 @@ core::Entity* GameLoader::_loadPrefab(
 	if (!fs::exists(path))
 	{
 		Debug::error("GAMELOADER: Prefab no encontrado: ", path);
+		Engine::instance()->quitGame();
 		return nullptr;
 	}
 	if (!fs::is_regular_file(path))
 	{
 		Debug::error("GAMELOADER: La ruta del prefab no es un archivo valido: ", path);
+		Engine::instance()->quitGame();
 		return nullptr;
 	}
 
@@ -553,6 +563,7 @@ core::Entity* GameLoader::_loadPrefab(
 		if (!object.valid() || object.get_type() != sol::type::table)
 		{
 			Debug::error("GAMELOADER: 'prefab' no existe o no es una tabla en ", path);
+			Engine::instance()->quitGame();
 			return nullptr;
 		}
 		// POR SI UN PREFAB TIENE MAS DE UNA ENTIDAD
@@ -584,6 +595,7 @@ core::Entity* GameLoader::_loadPrefab(
 		if (!componentsObj.valid() || componentsObj.get_type() != sol::type::table)
 		{
 			Debug::error("GAMELOADER: 'components' no existe en ", prefabName);
+			Engine::instance()->quitGame();
 			return nullptr;
 		}
 
@@ -604,7 +616,8 @@ core::Entity* GameLoader::_loadPrefab(
 			}
 			else
 			{
-				Debug::warning("GAMELOADER: Componente ", componenteName, " no registrado.");
+				Debug::error("GAMELOADER: Componente ", componenteName, " no registrado.");
+				Engine::instance()->quitGame();
 			}
 		}
 
@@ -632,11 +645,13 @@ core::Entity* GameLoader::_loadPrefab(
 		// si no lo consigue saca error
 		Debug::error("GAMELOADER: Error abriendo escena: ", path);
 		Debug::error("Lua exception: ", e.what());
+		Engine::instance()->quitGame();
 		return nullptr;
 	}
 	catch (...)
 	{
 		Debug::error("GAMELOADER: Excepcion desconocida cargando prefab ", path);
+		Engine::instance()->quitGame();
 		return nullptr;
 	}
 }

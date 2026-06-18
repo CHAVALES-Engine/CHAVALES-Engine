@@ -130,7 +130,8 @@ namespace core
 		virtual void destroy() {}
 
 		/**
-		* @brief Obtiene una propiedad tipada del conjunto de propiedades
+		* @brief DEPRECADO -> Usar SetProperty
+		* Obtiene una propiedad tipada del conjunto de propiedades. En casode error devuelve el valor por defecto del tipo
 		* @param props Propiedades del componente
 		* @param key Clave de la propiedad
 		* @param warn Si mostrar por consola errores o no
@@ -149,7 +150,7 @@ namespace core
 			if (it == props.end())
 			{
 				if (warn)
-					Debug::warning("COMPONENT: No se encontró el parametro ", key, " en las propiedades del componente ", getName(), ".");
+					Debug::warning("COMPONENT: GetProperty - No se encontró el parametro ", key, " en las propiedades del componente ", getName(), ".");
 				return T(); // devolvemos valor por defecto
 			}
 
@@ -184,8 +185,7 @@ namespace core
 			if (it == props.end())
 			{
 				if (warn)
-					Debug::warning("COMPONENT: No se encontró el parametro ", key, " en las propiedades del componente ", getName(), ".");
-				// devolvemos valor por defecto
+					Debug::error("COMPONENT: SetProperty - No se encontró el parametro ", key, " en las propiedades del componente ", getName(), ".");
 				return false;
 			}
 
