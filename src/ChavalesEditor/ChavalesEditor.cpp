@@ -218,7 +218,6 @@ bool ChavalesEditor::runEditor(bool scriptsOnly, char * sceneToLoad[])
 	bool g_gameRunning = scriptsOnly;
 
 	if (scriptsOnly) {
-		core::GameConfigurator::instance().LoadFromFile(CONFIGURATOR_PATH);
 		std::string stl = sceneToLoad[0];
 		if (!stl.empty()) {
 			core::GameConfigurator::instance()._firstScene = stl;
