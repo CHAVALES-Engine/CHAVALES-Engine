@@ -14,9 +14,8 @@ ScriptComponent::~ScriptComponent() = default;
 
 bool ScriptComponent::init(const Properties& p)
 {
-	std::string scriptPath;
-	if (!setProperty(p, "script", scriptPath) ||
-		!_script->loadScript(scriptPath))
+	if (!setProperty(p, "script", _scriptPath) ||
+		!_script->loadScript(_scriptPath))
 		return false;
 
 	bool edit = false;

@@ -9,7 +9,41 @@
 #include <filesystem>
 
 #include "GameConfigurator.h"
+
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 #include "checkML.h" // es importante que vaya despues de todo porque redefine new y no queremos que lo haga tmb en las dependencias
+
+static void launchEditorScriptsOnly(const std::string& currentScene)
+{
+#ifdef _WIN32
+#ifdef _DEBUG
+	std::wstring editor_cmd = L"ChavalesEditor_d.exe -scriptsOnly ";
+#else
+	std::wstring editor_cmd = L"ChavalesEditor_r.exe -scriptsOnly ";
+#endif
+
+	std::wstring wScene(currentScene.begin(), currentScene.end());
+	editor_cmd += wScene;
+
+	STARTUPINFOW si;
+	PROCESS_INFORMATION pi;
+	memset(&si, 0, sizeof(STARTUPINFOW));
+	si.cb = sizeof(STARTUPINFOW);
+	memset(&pi, 0, sizeof(PROCESS_INFORMATION));
+
+	if (CreateProcessW(NULL, const_cast<LPWSTR>(editor_cmd.c_str()), NULL, NULL, FALSE, CREATE_NEW_CONSOLE, NULL, NULL, &si, &pi)) {
+		::CloseHandle(pi.hThread);
+		::CloseHandle(pi.hProcess);
+		Debug::out("[MAIN] Editor lanzado en modo solo scripts para la escena: ", currentScene);
+	}
+	else {
+		Debug::warning("[MAIN] No se pudo lanzar el editor de scripts.");
+	}
+#endif
+}
 
 static void configGame(size_t argc, char* argv[])
 {
@@ -69,6 +103,18 @@ int main(int argc, char* argv[])
 
 	// Inicializa configuracion
 	configGame(argc, argv);
+
+	bool editorConnected = false;
+	for (int i = 0; i < argc; ++i) {
+		if (strcmp(argv[i], "-editorConnected") == 0) {
+			editorConnected = true;
+			break;
+		}
+	}
+
+	if (!editorConnected) {
+		launchEditorScriptsOnly(core::GameConfigurator::instance()._firstScene);
+	}
 
 	// Inicializa el Engine
 	if (!Engine::init())

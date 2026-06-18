@@ -4,7 +4,7 @@ local moveCamera = true
 
 local _transform = nil
 local _esfera = nil
-local _camera = nil
+local _camera = nila
 local girl = nil
 local trans_girl = nil
 
@@ -152,7 +152,7 @@ function update(deltaTime)
     end
 
     -- Toggle de control de camara
-    if Input:isJustPressed(input.KEY_CTRL) then
+    if Input:isJustPressed(input.KEY_L) then
         moveCamera = not moveCamera
     end
 
