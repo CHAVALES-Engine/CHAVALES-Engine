@@ -152,7 +152,7 @@ function update(deltaTime)
     end
 
     -- Toggle de control de camara
-    if Input:isJustPressed(input.KEY_L) then
+    if Input:isJustPressed(input.KEY_CTRL) then
         moveCamera = not moveCamera
     end
 
