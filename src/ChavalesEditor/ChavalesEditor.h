@@ -7,6 +7,6 @@
 class ChavalesEditor
 {
 public:
-	static bool runEditor(bool scripts, std::string sceneToLoad = "");
+	static bool runEditor(bool scripts, char * sceneToLoad[]);
 	static int startup();
 };

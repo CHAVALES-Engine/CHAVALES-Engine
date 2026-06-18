@@ -151,7 +151,7 @@ static void LoadEditableScripts(const std::string& scenePath) {
 }
 
 // Main code
-bool ChavalesEditor::runEditor(bool scriptsOnly, std::string sceneToLoad)
+bool ChavalesEditor::runEditor(bool scriptsOnly, char * sceneToLoad[])
 {
 	// Setup SDL
 	if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMEPAD))
@@ -219,9 +219,9 @@ bool ChavalesEditor::runEditor(bool scriptsOnly, std::string sceneToLoad)
 
 	if (scriptsOnly) {
 		core::GameConfigurator::instance().LoadFromFile(CONFIGURATOR_PATH);
-
-		if (!sceneToLoad.empty()) {
-			core::GameConfigurator::instance()._firstScene = sceneToLoad;
+		std::string stl = sceneToLoad[0];
+		if (!stl.empty()) {
+			core::GameConfigurator::instance()._firstScene = stl;
 		}
 
 		std::filesystem::path dirScn(core::GameConfigurator::instance()._scenesRoot);
@@ -529,13 +529,13 @@ int ChavalesEditor::startup()
 int main(int argc, char* argv[])
 {
 	bool scriptsOnly = false;
-	std::string sceneToLoad = "";
+	char* sceneToLoad[] = { argv[0] };
 
 	for (int i = 0; i < argc; ++i) {
 		if (strcmp(argv[i], "-scriptsOnly") == 0) {
 			scriptsOnly = true;
 			if (i + 1 < argc) {
-				sceneToLoad = argv[i + 1];
+				sceneToLoad[0] = argv[i + 1];
 			}
 			break;
 		}
