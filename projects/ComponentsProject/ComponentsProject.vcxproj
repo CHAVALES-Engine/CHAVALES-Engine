@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\src\ComponentsProject\AmbientLight.h" />
     <ClInclude Include="..\..\src\ComponentsProject\Animator.h" />
     <ClInclude Include="..\..\src\ComponentsProject\AudioListener.h" />
     <ClInclude Include="..\..\src\ComponentsProject\AudioSource.h" />
@@ -30,9 +31,9 @@
     <ClInclude Include="..\..\src\ComponentsProject\UIPanel.h" />
     <ClInclude Include="..\..\src\ComponentsProject\UITextureRect.h" />
     <ClInclude Include="..\..\src\ComponentsProject\UITransform.h" />
-    <ClInclude Include="AmbientLight.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\ComponentsProject\AmbientLight.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\Animator.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\AudioListener.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\AudioSource.cpp" />
@@ -44,14 +45,13 @@
     <ClCompile Include="..\..\src\ComponentsProject\ParticleGen.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\PhysicsMaterial.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\RigidBody.cpp" />
+    <ClCompile Include="..\..\src\ComponentsProject\Skydome.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\Transform.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\UIButton.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\UILabel.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\UIPanel.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\UITextureRect.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\UITransform.cpp" />
-    <ClCompile Include="AmbientLight.cpp" />
-    <ClCompile Include="Skydome.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core-Defs\Core-Defs.vcxproj">

@@ -12,7 +12,7 @@ bool AmbientLight::init(const Properties& p)
 {
 	core::Color color;
 	if (!setProperty(p, "color", color))
-		color = core::Color(0.0f, 0.0f, 0.0f, 0.0f);
+		return false;
 
 	setAmbientLight(color);
 
