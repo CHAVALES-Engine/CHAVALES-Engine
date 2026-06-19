@@ -12,8 +12,7 @@
 
 REGISTER_COMPONENT(AudioSource);
 
-AudioSource::AudioSource() : _tr(nullptr), _lastPosition(0.0f, 0.0f, 0.0f), _path(), _id(), _is3D(false), _loop(false),
-_isStream(), _playOnReady(), _soundVolume(0.0f), _minRadius(1.0f), _maxRadius(100.0f), _channelID(-1), isPlaying(false)
+AudioSource::AudioSource() : tr(nullptr), lastPosition(0.0f, 0.0f, 0.0f), id(), channelID(-1), isPlaying(false)
 {
 	registerMethod("playSound", [this](const std::vector<std::any>& args) {
 		playSound();
@@ -76,22 +75,18 @@ AudioSource::~AudioSource()
 {
 }
 
-bool AudioSource::init(const Properties& p)
-{
-	_path = getProperty<std::string>(p, "soundPath");
-	if (_path.empty()) {
-		Debug::warning("[AudioSource] soundPath vacio");
-		return false;
-	}
-	_is3D = getProperty<bool>(p, "is3D");
-	_loop = getProperty<bool>(p, "loop");
-	_isStream = getProperty<bool>(p, "isStream");
-	_playOnReady = getProperty<bool>(p, "playOnReady");
-	_soundVolume = getProperty<float>(p, "soundVolume");
-	_minRadius = getProperty<float>(p, "minRadius");
-	_maxRadius = getProperty<float>(p, "maxRadius");
-	return entity->hasComponent<Transform>();
-}
+//bool AudioSource::init(const Properties& p)
+//{
+//	path = getProperty<std::string>(p, "soundPath");
+//	is3D = getProperty<bool>(p, "is3D");
+//	loop = getProperty<bool>(p, "loop");
+//	isStream = getProperty<bool>(p, "isStream");
+//	playOnReady = getProperty<bool>(p, "playOnReady");
+//	soundVolume = getProperty<float>(p, "soundVolume");
+//	minRadius = getProperty<float>(p, "minRadius");
+//	maxRadius = getProperty<float>(p, "maxRadius");
+//	return entity->hasComponent<Transform>();
+//}
 
 void AudioSource::ready()
 {
@@ -99,31 +94,29 @@ void AudioSource::ready()
 		Debug::warning("[AudioSource] Entity sin Transform");
 		return;
 	}
-	_tr = entity->getComponent<Transform>();
-	if (!_tr) {
+	tr = entity->getComponent<Transform>();
+	if (!tr) {
 		Debug::warning("[AudioSource] No se pudo obtener Transform");
 		return;
 	}
-	_lastPosition = _tr->getGlobalPosition();
-
-	resources()->getOrLoadAsset(_path);
+	lastPosition = tr->getGlobalPosition();
 
 	// Validar path
-	if (_path.empty()) {
+	if (path->empty()) {
 		Debug::warning("[AudioSource] soundPath vacío, no se cargará audio");
 		return;
 	}
 
 	// Carga el modelo en fmod y se guarda una referencia a el
-	core::ResourcePtr res = resources()->getOrLoadAsset(_path);
+	core::ResourcePtr res = resources()->getOrLoadAsset(path);
 	if (!res || !res->isValid()) {
-		Debug::error("[AudioSource] Modelo no encontrado: ", _id);
+		Debug::error("[AudioSource] Audio no encontrado: ", id);
 		return;
 	}
-	_id = res->getName();
-	audio()->configureSound(_id, _isStream, _loop, _is3D);
+	id = res->getName();
+	audio()->configureSound(id, isStream, loop, is3D);
 
-	if (_playOnReady)
+	if (playOnReady)
 	{
 		playSound();
 	}
@@ -133,24 +126,24 @@ void AudioSource::ready()
 void AudioSource::update(uint64_t deltaTime)
 {
 	// Validar que tenemos lo necesario
-	if (!_tr || _id.empty() || _channelID == -1) {
+	if (!tr || id.empty() || channelID == -1) {
 		return;
 	}
 
 	float dt = deltaTime / 1000.0f;
 
-	isPlaying = audio()->isChannelPlaying(_channelID);
+	isPlaying = audio()->isChannelPlaying(channelID);
 
-	if (_tr && _is3D && dt > 0 && isPlaying) {
-		auto currentPos = _tr->getGlobalPosition();
-		auto velocity = (currentPos - _lastPosition) / dt;
+	if (tr && is3D && dt > 0 && isPlaying) {
+		auto currentPos = tr->getGlobalPosition();
+		auto velocity = (currentPos - lastPosition) / dt;
 
-		audio()->setAudioPos(_channelID, currentPos, velocity);
+		audio()->setAudioPos(channelID, currentPos, velocity);
 
-		_lastPosition = currentPos;
+		lastPosition = currentPos;
 	}
 	if (!isPlaying) {
-		_channelID = -1;
+		channelID = -1;
 	}
 }
 
@@ -164,44 +157,44 @@ void AudioSource::destroy()
 }
 void AudioSource::enable()
 {
-	if (isPlaying && audio()->isPaused(_channelID)) pauseSound(false);
+	if (isPlaying && audio()->isPaused(channelID)) pauseSound(false);
 }
 
 void AudioSource::playSound()
 {
-	if (_id.empty()) {
-		Debug::warning("[AudioSource] Audio no disponible: ", _path);
+	if (id.empty()) {
+		Debug::warning("[AudioSource] Audio no disponible: ", path);
 		return;
 	}
 
-	if (!_tr) {
+	if (!tr) {
 		Debug::warning("[AudioSource] Transform no disponible para reproducir audio");
-		_tr = entity ? entity->getComponent<Transform>() : nullptr;
-		if (!_tr && _is3D) {
+		tr = entity ? entity->getComponent<Transform>() : nullptr;
+		if (!tr && is3D) {
 			Debug::error("[AudioSource] Audio 3D requiere Transform");
 			return;
 		}
 	}
 
-	if (isPlaying && _channelID != -1) {
+	if (isPlaying && channelID != -1) {
 		stopSound();
 	}
 
 	// Reproducir
-	int looping = _loop ? -1 : 0;
-	core::Vector3<> pos = _tr ? _tr->getGlobalPosition() : core::Vector3<>(0.0f, 0.0f, 0.0f);
+	int looping = loop ? -1 : 0;
+	core::Vector3<> pos = tr ? tr->getGlobalPosition() : core::Vector3<>(0.0f, 0.0f, 0.0f);
 
-	_channelID = audio()->playSound(_id, _soundVolume, looping, pos);
-	isPlaying = (_channelID != -1);
+	channelID = audio()->playSound(id, soundVolume, looping, pos);
+	isPlaying = (channelID != -1);
 
 	if (!isPlaying) {
-		Debug::warning("[AudioSource] No se pudo reproducir: ", _id);
+		Debug::warning("[AudioSource] No se pudo reproducir: ", id);
 		return;
 	}
 
 	// Configurar radio 3D si aplica
-	if (_is3D && _channelID != -1) {
-		audio()->setMinMaxRadius(_channelID, _minRadius, _maxRadius);
+	if (is3D && channelID != -1) {
+		audio()->setMinMaxRadius(channelID, minRadius, maxRadius);
 	}
 }
 
@@ -209,108 +202,108 @@ int AudioSource::getLooping() const
 {
 	if (!isPlaying) return false;
 	int looping = 0;
-	audio()->getLooping(_channelID, &looping);
+	audio()->getLooping(channelID, &looping);
 	return looping;
 }
 
 void AudioSource::setLooping(int& loop) const
 {
 	if (!isPlaying) return;
-	audio()->setLooping(_channelID, loop);
+	audio()->setLooping(channelID, loop);
 }
 void AudioSource::setLooping(int&& loop) const
 {
 	if (!isPlaying) return;
-	audio()->setLooping(_channelID, loop);
+	audio()->setLooping(channelID, loop);
 }
 
 float AudioSource::getVolume() const
 {
 	if (!isPlaying) return -1.0;
 	float volume = 0.0f;
-	audio()->getVolume(_channelID, volume);
+	audio()->getVolume(channelID, volume);
 	return volume;
 }
 
 void AudioSource::setVolume(float& newVolume)
 {
 	if (!isPlaying) return;
-	_soundVolume = newVolume;
-	audio()->setChannelVolume(_channelID, _soundVolume);
+	soundVolume = newVolume;
+	audio()->setChannelVolume(channelID, soundVolume);
 }
 
 void AudioSource::setVolume(float&& newVolume)
 {
 	if (!isPlaying) return;
-	_soundVolume = newVolume;
-	audio()->setChannelVolume(_channelID, _soundVolume);
+	soundVolume = newVolume;
+	audio()->setChannelVolume(channelID, soundVolume);
 }
 
 void AudioSource::setMinRadius(float& newRadius)
 {
 	if (!isPlaying) return;
-	_minRadius = newRadius;
-	audio()->setMinMaxRadius(_channelID, _minRadius, _maxRadius);
+	minRadius = newRadius;
+	audio()->setMinMaxRadius(channelID, minRadius, maxRadius);
 }
 
 void AudioSource::setMinRadius(float&& newRadius)
 {
 	if (!isPlaying) return;
-	_minRadius = newRadius;
-	audio()->setMinMaxRadius(_channelID, _minRadius, _maxRadius);
+	minRadius = newRadius;
+	audio()->setMinMaxRadius(channelID, minRadius, maxRadius);
 }
 
 float AudioSource::getMinRadius() const
 {
-	return _minRadius;
+	return minRadius;
 }
 
 void AudioSource::setMaxRadius(float& newRadius)
 {
 	if (!isPlaying) return;
-	_maxRadius = newRadius;
-	audio()->setMinMaxRadius(_channelID, _minRadius, _maxRadius);
+	maxRadius = newRadius;
+	audio()->setMinMaxRadius(channelID, minRadius, maxRadius);
 }
 
 void AudioSource::setMaxRadius(float&& newRadius)
 {
 	if (!isPlaying) return;
-	_maxRadius = newRadius;
-	audio()->setMinMaxRadius(_channelID, _minRadius, _maxRadius);
+	maxRadius = newRadius;
+	audio()->setMinMaxRadius(channelID, minRadius, maxRadius);
 }
 
 float AudioSource::getMaxRadius() const
 {
-	return _maxRadius;
+	return maxRadius;
 }
 
 void AudioSource::stopSound()
 {
 	if (!isPlaying) return;
 
-	audio()->stopPlaying(_channelID);
-	_channelID = -1;
+	audio()->stopPlaying(channelID);
+	channelID = -1;
 	isPlaying = false;
 }
 
 void AudioSource::pauseSound(bool pause) const
 {
 	if (!isPlaying) return;
-	audio()->pauseChannel(_channelID, pause);
+	audio()->pauseChannel(channelID, pause);
 }
 bool AudioSource::isPaused() const
 {
 	if (!isPlaying) return false;
-	return audio()->isPaused(_channelID);
+	return audio()->isPaused(channelID);
 }
 
 void AudioSource::setDelay(double start, double end, bool stopChannel) const
 {
 	if (!isPlaying) return;
-	audio()->setDelay(_channelID, start, end, stopChannel);
+	audio()->setDelay(channelID, start, end, stopChannel);
 }
 
 const std::string& AudioSource::getSoundName() const
 {
-	return _id;
+	return id;
 }

@@ -44,52 +44,52 @@ class ENGINE_API AudioSource : public EngineComponent
 	/**
 	* @brief Referencia al Tranform de la entidad para el audio 3D
 	*/
-	std::shared_ptr<Transform> _tr;
+	std::shared_ptr<Transform> tr;
 	/**
 	* @brief Vector que guarda la última posición regristrada para el cálculo de velocidad
 	*/
-	core::Vector3<> _lastPosition;
-	/**
-	* @brief Ruta de donde se encuentre el sonido
-	*/
-	std::string _path;
+	core::Vector3<> lastPosition;
 	/**
 	* @brief Identificador del audio para la carga del recurso
 	*/
-	std::string _id;
+	std::string id;
+	/**
+	* @brief Ruta de donde se encuentre el sonido
+	*/
+	PROPERTY(std::string, path);
 	/**
 	* @brief Bool que configura si el audio es 3D (true) o 2D (false)
 	*/
-	bool _is3D;
+	PROPERTY(bool, is3D);
 	/**
 	* @brief Bool que configura si el audio se repite infinitamente (true) o se reproduce solo una vez (false)
 	*/
-	bool _loop;
+	PROPERTY(bool, loop);
 	/**
 	* @brief Bool que configura si el audio es Stream, conigurado para audios largos (true) o nom, pensado para audios cortos o efectos de sonido (false)
 	*/
-	bool _isStream;
+	PROPERTY(bool, isStream);
 	/**
 	* @brief Bool que configura si el audio empieza a sonar al activarse por primera vez la entidad en Ready (true) o no (false)
 	*/
-	bool _playOnReady;
+	PROPERTY(bool, playOnReady);
 	/**
 	* @brief Float que determina el volumen del sonido
 	*/
-	float _soundVolume;
+	PROPERTY(float, soundVolume);
 	/**
 	* @brief Para el audio 3D, radio de la esfera en la que se escucha el audio al máximo volumen
 	*/
-	float _minRadius;
+	PROPERTY(float, minRadius);
 	/**
 	* @brief Para el audio 3D, radio de la esfera en la que se escucha el audio.
 		Entre el radio minimo y el maximo el audio se disipa linealmente. Más alla del máximo el audio no se escucha
 	*/
-	float _maxRadius;
+	PROPERTY(float, maxRadius);
 	/**
 	* @brief Identificador del canal que reproduce el sonido
 	*/
-	int _channelID;
+	int channelID;
 
 	bool isPlaying;
 
@@ -97,9 +97,10 @@ public:
 	AudioSource();
 	~AudioSource();
 
-	bool init(const Properties& p) override;
+	//bool init(const Properties& p) override;
+	
 	/**
-	* @brief Se carga el sonido con los parámetros configurados y, si tiene activado _playOnReady empieza a reproducirlo
+	* @brief Se carga el sonido con los parámetros configurados y, si tiene activado playOnReady empieza a reproducirlo
 	*/
 	void ready() override;
 	/**

@@ -1,7 +1,6 @@
 #include "Component.h"
 #include "checkMLNew.h"
 
-
 core::Component::Component()
 	: entity(nullptr), enabled(true)
 {
@@ -41,4 +40,11 @@ bool core::Component::isEnabled() const
 const std::string& core::Component::getName() const
 {
 	return _name;
+}
+
+bool core::Component::init(const Properties& p) {
+	for (auto* prop : registeredProperties) {
+		if (!prop->setProperty(this, p)) return false;
+	}
+	return true;
 }

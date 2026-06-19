@@ -44,12 +44,17 @@ namespace core
 	 * return setProperty(properties, "atributo1", component);
 	 *
 	*/
-
+	class ComponentProperty;
 	class Component
 	{
 	public:
 		Component();
 		~Component();
+
+		/**
+		* @brief Lista de propiedades del componente que se registrarán desde el .lua
+		*/
+		std::vector<ComponentProperty*> registeredProperties;
 
 		// --- SETTERS
 		/**
@@ -82,7 +87,7 @@ namespace core
 		/**
 		* @brief Metodo que inicializa las variables del componente tras ser creado
 		*/
-		virtual bool init(const Properties& p) { return true; }
+		virtual bool init(const Properties& p);
 
 		/**
 		* @brief Comportamiento cuando todos los componentes de una entidad se han inicializado pero el resto de entidades no tienen por que estar inicializadas
@@ -130,7 +135,7 @@ namespace core
 		virtual void destroy() {}
 
 		/**
-		* @brief DEPRECADO -> Usar SetProperty
+		* @brief DEPRACATED -> Usar SetProperty para control de errores
 		* Obtiene una propiedad tipada del conjunto de propiedades. En casode error devuelve el valor por defecto del tipo
 		* @param props Propiedades del componente
 		* @param key Clave de la propiedad
@@ -287,4 +292,71 @@ namespace core
 		*/
 		ComponentConstructor ComponentConstructor;
 	};
-} // end of namespace
+
+	struct ComponentProperty {
+		std::string name;
+		virtual bool setProperty(Component* comp, const Properties& p) = 0;
+		virtual ~ComponentProperty() = default;
+	};
+
+	template<typename T>
+	class TypeProperty : public ComponentProperty {
+	private:
+		T value;
+	public:
+		TypeProperty(const std::string& propertyName, Component* comp) {
+			name = propertyName;
+			comp->registeredProperties.push_back(this);
+		}
+		bool setProperty(Component* comp, const Properties& p) override {
+			return comp->setProperty<T>(p, name, value);
+		}
+
+		operator T& () { return value; }
+		operator const T& () const { return value; }
+		T* operator&() { return &value; }
+		const T* operator&() const { return &value; }
+		//Operadores sobre la variable
+		T& operator=(const T& newValue) { value = newValue; return value; }
+		T& operator+=(const T& v) { value += v; return value; }
+		T& operator-=(const T& v) { value -= v; return value; }
+		T& operator*=(const T& v) { value *= v; return value; }
+		T& operator/=(const T& v) { value /= v; return value; }
+		T& operator++() { ++value; return value; }
+		T& operator--() { --value; return value; }
+		T operator++(int) { T temp = value; ++value; return temp; }
+		T operator--(int) { T temp = value; --value; return temp; }
+		//Operadores aritmeticos
+		T operator+(const T& v) const { return value + v; }
+		T operator-(const T& v) const { return value - v; }
+		T operator*(const T& v) const { return value * v; }
+		T operator/(const T& v) const { return value / v; }
+		//arrays
+		auto& operator[](size_t index) { return value[index]; }
+		const auto& operator[](size_t index) const { return value[index]; }
+		//Comparadores logicos
+		bool operator==(const T& v) const { return value == v; }
+		bool operator!=(const T& v) const { return value != v; }
+		bool operator==(const TypeProperty<T>& v) const { return value == v.value; }
+		bool operator!=(const TypeProperty<T>& v) const { return value != v.value; }
+		bool operator<(const T& v) const { return value < v; }
+		bool operator>(const T& v) const { return value > v; }
+		bool operator<=(const T& v) const { return value <= v; }
+		bool operator>=(const T& v) const { return value >= v; }
+		//Acceso a la variable y sus metodos de tipo
+		T* operator->() { return &value; }
+		const T* operator->() const { return &value; }
+		T& get() { return value; }
+		const T& get() const { return value; }
+
+		friend std::ostream& operator<<(std::ostream& os, const TypeProperty<T>& p) {
+			os << p.value;
+			return os;
+		}
+	}; // end of namespace
+}
+	/**
+	 * @brief Inicializa una propiedad para su auto-lectura en el init del componente
+	 */
+#define PROPERTY(TYPE, NAME) \
+    core::TypeProperty<TYPE> NAME = core::TypeProperty<TYPE>(#NAME, this)
