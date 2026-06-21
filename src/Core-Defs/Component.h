@@ -306,7 +306,7 @@ namespace core
 	public:
 		TypeProperty(const std::string& propertyName, Component* comp) {
 			name = propertyName;
-			comp->registeredProperties.push_back(this);
+			if(comp != nullptr) comp->registeredProperties.push_back(this);
 		}
 		bool setProperty(Component* comp, const Properties& p) override {
 			return comp->setProperty<T>(p, name, value);
