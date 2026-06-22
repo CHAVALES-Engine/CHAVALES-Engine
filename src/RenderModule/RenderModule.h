@@ -742,7 +742,6 @@ private:
 
 	transformID _nextTransformID;
 	UITransformID _nextUITransformID;
-	cameraID _nextCameraID;
 	modelID _nextModelID;
 	animationID _nextAnimationID;
 	lightID _nextLightID;

@@ -127,7 +127,6 @@ bool RenderModule::Init(SDL_Window* sdlWindow, const HWND handle, const int widt
 
 		_nextTransformID = 0;
 		_nextUITransformID = 0;
-		_nextCameraID = 0;
 		_nextModelID = 0;
 		_nextAnimationID = 0;
 		_nextLightID = 0;
@@ -682,26 +681,18 @@ cameraID RenderModule::addCamera(const entityID& entityID, const float& FOVy, co
 		setAsActiveCamera(createdCameraID);
 		_vp->setBackgroundColour(Ogre::ColourValue(bgColor.getRed(), bgColor.getGreen(), bgColor.getBlue()));
 	}
-
-	_nextCameraID = _cameras.size();
 	return createdCameraID;
 }
 
 void RenderModule::deleteCamera(const cameraID& id)
 {
-	if (id != UINT64_MAX && id < _cameras.size() && id != 0 && _cameras[id] != nullptr)
+	if (id != UINT64_MAX && id < _cameras.size() && _cameras[id] != nullptr && _vp->getCamera() != _cameras[id])
 	{
 		Ogre::Camera* cam = _cameras[id];
 		_cameras[id] = nullptr;
-		//Desvinculamos del viewport en caso de actividad
-		if (_vp->getCamera() == cam) _vp->setCamera(nullptr);
 		Ogre::SceneNode* parent = cam->getParentSceneNode();
 		if (parent) parent->detachObject(cam);
 		_sceneMgr->destroyCamera(cam);
-		_nextCameraID = _cameras.size();
-
-		if (_vp != nullptr && _vp->getCamera() == nullptr && !_cameras.empty())
-			_vp->setCamera(_cameras[0]);
 	}
 }
 
@@ -738,7 +729,6 @@ void RenderModule::cleanCameras()
 		}
 	}
 	_cameras.clear();
-	_nextCameraID = 0;
 	if (_vp)
 		_vp->setCamera(nullptr);
 }
