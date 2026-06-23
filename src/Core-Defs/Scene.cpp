@@ -33,7 +33,7 @@ namespace core {
 		}
 	}
 
-	void core::Scene::awake()
+	void core::Scene::awake(const bool& loadingScreen)
 	{
 		Debug::out("SCENE: Llamando a awake() en escena '", _name, "'.");
 		if (_entities.empty()) {
@@ -44,11 +44,18 @@ namespace core {
 		for (auto [guid, ent] : _entities)
 		{
 			if (ent && ent->isAlive() && !ent->isInitialized())
+			{
 				ent->awake();
+				if (loadingScreen && _loadingScreenIncrease && _loadingScreenRender)
+				{
+					_loadingScreenIncrease();
+					_loadingScreenRender();
+				}
+			}
 		}
 	}
 
-	void core::Scene::ready()
+	void core::Scene::ready(const bool& loadingScreen)
 	{
 		Debug::out("SCENE: Llamando a ready() en escena '", _name, "'.");
 		if (_entities.empty()) return;
@@ -56,7 +63,14 @@ namespace core {
 		for (auto [guid, ent] : _entities)
 		{
 			if (ent && ent->isAlive() && !ent->isInitialized())
+			{
 				ent->ready();
+				if (loadingScreen && _loadingScreenIncrease && _loadingScreenRender)
+				{
+					_loadingScreenIncrease();
+					_loadingScreenRender();
+				}
+			}
 			ent->setInitialized(true);
 		}
 	}
@@ -192,10 +206,17 @@ namespace core {
 		_entitiesToDelete.clear();
 	}
 
-	void Scene::addListedEntities()
+	void Scene::addListedEntities(const bool& loadingScreen)
 	{
 		for (auto* e : _entitiesToAdd)
+		{
 			_addEntity(e);
+			if (loadingScreen && _loadingScreenIncrease && _loadingScreenRender)
+			{
+				_loadingScreenIncrease();
+				_loadingScreenRender();
+			}
+		}
 
 		_entitiesToAdd.clear();
 	}

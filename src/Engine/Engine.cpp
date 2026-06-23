@@ -125,10 +125,33 @@ void Engine::cleanScene()
 #pragma region RENDER
 bool Engine::renderFrame()
 {
-	if (!_renderModule) return false;;
+	if (!_renderModule) return false;
 	return _renderModule->renderFrame();
 }
 
+bool Engine::createLoadingScreenScene(const std::string& bgImage, const core::Color& barFill, const std::string& fontName)
+{
+	if (!_renderModule) return false;
+	_renderModule->createLoadingScreenScene(bgImage, barFill, fontName);
+}
+
+void Engine::setLoadingScreenProcedures(const int& n)
+{
+	if (!_renderModule) return;
+	_renderModule->setLoadingScreenProcedures(n);
+}
+
+void Engine::increaseLoadingScreen(const int& n)
+{
+	if (!_renderModule) return;
+	_renderModule->increaseLoadingScreen(n);
+}
+
+bool Engine::renderLoadingScreen()
+{
+	if (!_renderModule) return false;
+	return _renderModule->renderLoadingScreen();
+}
 
 void Engine::setViewportBGColor(const core::Color& color)
 {

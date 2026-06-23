@@ -61,6 +61,10 @@ static Ogre::Viewport* _vp = nullptr;
 static Ogre::RTShader::ShaderGenerator* _shaderGen;
 static Ogre::ResourceGroupManager* _rgm;
 
+static Ogre::SceneManager* _sceneMgrLS = nullptr;
+static Ogre::Viewport* _vpLS = nullptr;
+
+
 static Ogre::STBIImageCodec* _jpgCodec;
 static Ogre::STBIImageCodec* _jpegCodec;
 static Ogre::STBIImageCodec* _pngCodec;
@@ -169,6 +173,8 @@ bool RenderModule::Init(SDL_Window* sdlWindow, const HWND handle, const int widt
 		io.DisplaySize = ImVec2(
 			_windowWidth, _windowHeight
 		);
+
+		_ls = LoadingScreenData();
 
 		/*Ogre::MaterialPtr materialUI = Ogre::MaterialManager::getSingleton().getByName("ImGui/material");
 		_shaderGen->createShaderBasedTechnique(*materialUI, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
@@ -342,6 +348,27 @@ bool RenderModule::renderFrame()
 	}
 }
 
+bool RenderModule::renderLoadingScreen()
+{
+	if (_vpLS != nullptr && _vpLS->getCamera() != nullptr)
+	{
+		//Desactivar viewport principal
+		if (_vp) _vp->setVisibilityMask(0);
+
+		scaleViewportToWindow();
+		renderUI(true);
+		_root->renderOneFrame();
+
+		//Reactivar viewport princiapl
+		if (_vp) _vp->setVisibilityMask(0xFFFFFFFF);
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 void RenderModule::_calculateViewportRect(
 	float windowWidth, float windowHeight, 
 	float& vpLeft, float& vpTop, 
@@ -487,10 +514,32 @@ void RenderModule::cleanScene(const bool& end)
 
 		_debugNode = _sceneMgr->getRootSceneNode()->createChildSceneNode();
 		_debugNode->attachObject(_debugDraw);
+
+		//Recrear loading screen
+		if (_ls.exists)
+		{
+			createLoadingScreenScene(_ls.bgImage, _ls.barFill, _ls.fontName);
+		}
 	}
 	else
 	{
 		_sceneMgr->clearScene();
+
+		//Limpieza pantalla de carga
+		if (_vpLS)
+		{
+			_window->removeViewport(1);
+			_vpLS = nullptr;
+		}
+		if (_sceneMgrLS)
+		{
+			_shaderGen->removeSceneManager(_sceneMgrLS);
+			_sceneMgrLS->clearScene();
+			_root->destroySceneManager(_sceneMgrLS);
+			_sceneMgrLS = nullptr;
+		}
+		//Fin limpieza pantalla de carga
+
 		Ogre::StringVector groups = _rgm->getResourceGroups();
 		for (const std::string& groupName : groups)
 		{
@@ -1977,7 +2026,7 @@ TextAlign RenderModule::stringToAlign(const std::string& align)
 	}
 }
 
-void RenderModule::renderUI()
+void RenderModule::renderUI(const bool& loadingScreen)
 {
 	ImGui_ImplSDL3_NewFrame();
 	ImGui::NewFrame();
@@ -1994,6 +2043,13 @@ void RenderModule::renderUI()
 	for (UIPanelData& panel : _uiPanels)
 	{
 		if (!panel.visible || !panel.alive) continue;
+
+		bool isLSPanel = (panel.title == "LSPanel");
+		//Descartamos el panel de la pantalla de carga para render normal
+		if (!loadingScreen && isLSPanel) continue;
+		//Si estamos renderizando pantalla de carga solo queremos su panel
+		if (loadingScreen && !isLSPanel) continue;
+		
 
 		int tID = getTransformUI(panel.entity);
 		const ImVec2 auxDim = { _uiTransforms[tID].dimension.getX() * safeScale, _uiTransforms[tID].dimension.getY() * safeScale };
@@ -2189,6 +2245,107 @@ void RenderModule::cleanDebug()
 		_sceneMgr->destroySceneNode(_debugNode);
 		_debugNode = nullptr;
 	}
+}
+
+bool RenderModule::createLoadingScreenScene(const std::string& bgImage, const core::Color& barFill, const std::string& fontName)
+{
+	try
+	{
+		// Scene manager propio
+		_sceneMgrLS = _root->createSceneManager("LoadingScreenSM");
+		_sceneMgrLS->setAmbientLight(Ogre::ColourValue(1.0f, 1.0f, 1.0f));
+
+		// Registrar en ShaderGen
+		_shaderGen->addSceneManager(_sceneMgrLS);
+
+		// Camara
+		Ogre::SceneNode* camNode = _sceneMgrLS->getRootSceneNode()->createChildSceneNode();
+		auto cameraLS = _sceneMgrLS->createCamera("CameraLS");
+		camNode->attachObject(cameraLS);
+		cameraLS->setAutoAspectRatio(true);
+		cameraLS->setNearClipDistance(0.1f);
+		cameraLS->setFarClipDistance(1000.0f);
+
+		// Viewport encima del principal
+		_vpLS = _window->addViewport(cameraLS, 1);
+		_vpLS->setBackgroundColour(Ogre::ColourValue(0.0f, 0.0f, 0.0f));
+		_vpLS->setMaterialScheme(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME);
+		_vpLS->setOverlaysEnabled(true);
+
+		entityID eidPanel = entityID::generate();
+		entityID eidBG = entityID::generate();
+		entityID eidBarFrame = entityID::generate();
+		entityID eidBarFill = entityID::generate();
+		entityID eidText = entityID::generate();
+
+		// Panel
+		_ls.panelID = addUIPanel(eidPanel, "LSPanel");
+		UITransformID tPanel = getTransformUI(eidPanel);
+		setUITransformPos(tPanel, { 0.0f, 0.0f });
+		setUITransformDimension(tPanel, { 1280.0f, 720.0f });
+
+		//Imagen fondo
+		std::string bgFolder = std::filesystem::path(bgImage).parent_path().string() + "/";
+		_preloadedGroups.insert(bgFolder);
+		std::string bgFile = std::filesystem::path(bgImage).filename().string();
+
+		float opacity = 1.0f;
+		_ls.bgID = addUITextureRect(_ls.panelID, eidBG, bgFolder, bgFile, opacity);
+		UITransformID tBG = getTransformUI(eidBG);
+		setUITransformPos(tBG, { 0.0f, 0.0f });
+		setUITransformDimension(tBG, { 1280.0f, 720.0f });
+		setUITransformDepthLayer(tBG, 1);
+
+		//Barra marco
+		_ls.barFrameID = addUILabel(_ls.panelID, eidBarFrame, "", opacity, core::Color(1.0f, 1.0f, 1.0f, 1.0f), core::Color(0.1f, 0.1f, 0.1f, 1.0f), 16.0f, TextAlign::LEFT, "");
+		UITransformID tFrame = getTransformUI(eidBarFrame);
+		setUITransformPos(tFrame, { 1040.0f, 600.0f });
+		setUITransformDimension(tFrame, { 600.0f, 40.0f });
+		setUITransformDepthLayer(tFrame, 2);
+
+		//Barra relleno
+		_ls.barFillID = addUILabel(_ls.panelID, eidBarFill, "", opacity, core::Color(1.0f, 1.0f, 1.0f, 1.0f), barFill, 16.0f, TextAlign::LEFT, "");
+		_ls.barFillTID = getTransformUI(eidBarFill);
+		setUITransformPos(_ls.barFillTID, { 1060.0f, 610.0f });
+		setUITransformDimension(_ls.barFillTID, { 0.0f, 20.0f });
+		setUITransformDepthLayer(_ls.barFillTID, 3);
+
+		//Label porcentaje
+		_ls.textID = addUILabel(_ls.panelID, eidText, "0%", opacity, core::Color(1.0f, 1.0f, 1.0f, 1.0f), core::Color(0.0f, 0.0f, 0.0f, 0.0f), 16.0f, TextAlign::RIGHT, fontName);
+		UITransformID tPct = getTransformUI(eidText);
+		setUITransformPos(tPct, { 1640.0f, 605.0f });
+		setUITransformDimension(tPct, { 120.0f,  30.0f });
+		setUITransformDepthLayer(tPct, 3);
+
+		_ls.exists = true;
+		_ls.bgImage = bgImage;
+		_ls.barFill = barFill;
+		_ls.fontName = fontName;
+
+		return true;
+	}
+	catch (const std::exception& e)
+	{
+		Debug::error("[RenderModule] Error al crear escena de pantalla de carga: ", e.what());
+		return false;
+	}
+}
+
+void RenderModule::setLoadingScreenProcedures(const int& n)
+{
+	_ls.nProcedures = n;
+	_ls.currProcedures = 0;
+	setUITransformDimension(_ls.barFillTID, { 0.0f, 20.0f });
+}
+
+void RenderModule::increaseLoadingScreen(const int& n)
+{
+	_ls.currProcedures += n;
+
+	int newPer = _ls.currProcedures / _ls.nProcedures;
+
+	setUITransformDimension(_ls.barFillTID, { 560.0f * newPer, 20.0f });
+	setUILabelText(_ls.textID, std::to_string(newPer * 100) + "%");
 }
 
 void RenderModule::shutdown()

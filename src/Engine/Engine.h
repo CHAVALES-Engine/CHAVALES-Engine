@@ -99,6 +99,27 @@ public:
 	* @brief Renderizar frame.
 	*/
 	bool renderFrame();
+
+	/**
+	* @brief Crear escena de pantalla de carga
+	*/
+	bool createLoadingScreenScene(const std::string& bgImage, const core::Color& barFill, const std::string& fontName);
+
+	/**
+	* @brief Establece nuevo progreso para la pantalla de carga
+	*/
+	void setLoadingScreenProcedures(const int& n);
+
+	/**
+	* @brief Actualiza la barra de progreso
+	*/
+	void increaseLoadingScreen(const int& n);
+
+	/**
+	* @brief Renderizar pantalla de carga.
+	*/
+	bool renderLoadingScreen();
+
 	/**
 	* @brief Limpiar escena.
 	*/

@@ -19,6 +19,7 @@
     <ClInclude Include="..\..\src\ComponentsProject\CapsuleCollider.h" />
     <ClInclude Include="..\..\src\ComponentsProject\Collider.h" />
     <ClInclude Include="..\..\src\ComponentsProject\Light.h" />
+    <ClInclude Include="..\..\src\ComponentsProject\LoadingScreen.h" />
     <ClInclude Include="..\..\src\ComponentsProject\ScriptComponent.h" />
     <ClInclude Include="..\..\src\ComponentsProject\ModelRenderer.h" />
     <ClInclude Include="..\..\src\ComponentsProject\ParticleGen.h" />
@@ -40,6 +41,7 @@
     <ClCompile Include="..\..\src\ComponentsProject\Camera.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\Collider.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\Light.cpp" />
+    <ClCompile Include="..\..\src\ComponentsProject\LoadingScreen.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\ScriptComponent.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\ModelRenderer.cpp" />
     <ClCompile Include="..\..\src\ComponentsProject\ParticleGen.cpp" />

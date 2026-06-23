@@ -1,6 +1,7 @@
 #include "StateMachine.h"
 
 #include <chrono>
+#include <thread>
 #include <stdexcept>
 
 #include "Clock.h"
@@ -89,7 +90,7 @@ void StateMachine::gameLoop()
 	_currentScene.ptr = nullptr;
 }
 
-void StateMachine::_addAndSetScene(const sceneName& n)
+void StateMachine::_addAndSetScene(const sceneName& n, const bool& loadingScreen)
 {
 	_isPerformingSceneChange = true;
 	//std::vector<core::Entity*> persistentEntities;
@@ -113,12 +114,25 @@ void StateMachine::_addAndSetScene(const sceneName& n)
 		Debug::out("STATEMACHINE: Entrando a escena ", n);
 
 		// anade las entidades que sean persistentes de la escena anterior saltandose sus readys
-		_currentScene.ptr->addListedEntities();
+		if (loadingScreen)
+		{
+			Engine::instance()->setLoadingScreenProcedures(_currentScene.ptr->getEntities().size() * 3);
+			Engine::instance()->renderLoadingScreen();
+			_currentScene.ptr->setLoadingScreenRenderCallback([]() {
+				Engine::instance()->increaseLoadingScreen(1);
+				});
+			_currentScene.ptr->setLoadingScreenIncreaseCallback([]() {
+				Engine::instance()->renderLoadingScreen();
+				});
+		}
+		_currentScene.ptr->addListedEntities(loadingScreen);
 
 		// --- a este nivel se llama al ready:
 		// garantizamos que en el ready el resto de entidades y sus componentes estan inicializados 
-		_currentScene.ptr->awake();
-		_currentScene.ptr->ready();
+		_currentScene.ptr->awake(loadingScreen);
+		_currentScene.ptr->ready(loadingScreen);
+
+		if (loadingScreen) std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
 		// setea nueva escena actual
 		_currentScene.name = n;
@@ -131,7 +145,7 @@ void StateMachine::_addAndSetScene(const sceneName& n)
 	_isPerformingSceneChange = false;
 }
 
-void StateMachine::requestSceneChange(const sceneName& sn)
+void StateMachine::requestSceneChange(const sceneName& sn, const bool& loadingScreen)
 {
 	if (_isLoopRunning || _isPerformingSceneChange)
 	{
@@ -142,7 +156,7 @@ void StateMachine::requestSceneChange(const sceneName& sn)
 	}
 
 	Debug::out("STATEMACHINE: Cambio de escena a ", sn);
-	_addAndSetScene(sn);
+	_addAndSetScene(sn, loadingScreen);
 	if (!_currentScene.ptr) Engine::instance()->quitGame();
 }
 
