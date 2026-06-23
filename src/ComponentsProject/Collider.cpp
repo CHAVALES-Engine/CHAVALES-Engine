@@ -89,14 +89,16 @@ Collider::Collider()
 
 bool Collider::init(const Properties& p)
 {
-	//SHAPE
-	std::string type = getProperty<std::string>(p, "type");
+	if (!Component::init(p)) return false;
+	//TYPE AND SHAPE
+	std::string type;
+	if (!setProperty(p, "type", type)) return false;
 	core::Vector3<> val;
-	setProperty(p, "shape", val);
+	if (!setProperty(p, "shape", val)) return false;
 	if (type == "BOX")
 	{
 		shapeType = ShapeType::BOX;
-		size = val;
+		shape = val;
 	}
 	else if (type == "CAPSULE")
 	{
@@ -107,22 +109,22 @@ bool Collider::init(const Properties& p)
 	else
 	{
 		Debug::error("[COLLIDER] TIPO INCOMPATIBLE!!");
+		return false;
 	}
 
 	//ROTATION
 	core::Vector3<> r;
-	setProperty(p, "rotation", r);
-	core::Quaternion<float> q;
-	rotation = q.fromEuler(r);
-
-	//DYNAMIC
-	isDynamic = getProperty<bool>(p, "dynamic");
-
-	//TRIGGER
-	isTrigger = getProperty<bool>(p, "trigger");
-
-	//CENTER
-	setProperty(p, "center", center);
+	if (!setProperty(p, "rotation", r, false))
+	{
+		if (!setProperty(p, "rotation", rotation)) {
+			Debug::error("[COLLIDER] Rotacion no inicializada, no cumple el formato Vector3 o Quaternion");
+			return false;
+		}
+	}
+	else
+	{
+		rotation = core::Quaternion().fromEuler(r);
+	}
 
 	return true;
 }
@@ -227,7 +229,7 @@ bool Collider::createPhysics() {
 		switch (shapeType)
 		{
 		case ShapeType::BOX:
-			physics()->AttachBoxShape(physicsID, size, center, rotation, isTrigger);
+			physics()->AttachBoxShape(physicsID, shape, center, rotation, isTrigger);
 			break;
 		case ShapeType::CAPSULE:
 			physics()->AttachCapsuleShape(physicsID, radius, height, center, rotation, isTrigger);
@@ -240,7 +242,7 @@ bool Collider::createPhysics() {
 		switch (shapeType)
 		{
 		case ShapeType::BOX:
-			physicsID = physics()->CreateBoxShape(size, center, pos, rotGlob, rotation, isDynamic, isTrigger);
+			physicsID = physics()->CreateBoxShape(shape, center, pos, rotGlob, rotation, isDynamic, isTrigger);
 			break;
 		case ShapeType::CAPSULE:
 			physicsID = physics()->CreateCapsuleShape(radius, height, center, pos, rotGlob, rotation, isDynamic, isTrigger);

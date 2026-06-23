@@ -37,11 +37,11 @@ class ENGINE_API Camera : public EngineComponent
 {
 	cameraID _cameraID;
 
-	float _FOVy;
-	float _nearClipDistance;
-	float _farClipDistance;
-	float _focalLength;
-	core::Color _bgColor;
+	PROPERTY(float, FOVy);
+	PROPERTY(float, nearClipDistance);
+	PROPERTY(float, farClipDistance);
+	PROPERTY(float, focalLength);
+	core::Color backgroundColor;
 
 public:
 	Camera();
@@ -53,10 +53,10 @@ public:
 	void setAsActiveCamera();
 
 	void setFOVy(const float& FOVy);
-	void setNearClipDistance(const float& nearClipDistance);
-	void setFarClipDistance(const float& farClipDistance);
-	void setFocalLength(const float& focalLength);
-	void setBgColor(const core::Color& bgColor);
+	void setNearClipDistance(const float& _nearClipDistance);
+	void setFarClipDistance(const float& _farClipDistance);
+	void setFocalLength(const float& _focalLength);
+	void setBgColor(const core::Color& _bgColor);
 
 	float getFOVy() const;
 	float getNearClipDistance() const;

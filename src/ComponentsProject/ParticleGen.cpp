@@ -94,18 +94,18 @@ ParticleGen::~ParticleGen()
 {
 }
 
-bool ParticleGen::init(const Properties &p)
-{
-	_textureName = getProperty<std::string>(p, "texture name");
-	setProperty(p, "particle width", _partWidth);
-	setProperty(p, "particle height", _partHeight);
-	setProperty(p, "emission rate", _emissionRate);
-	setProperty(p, "min velocity", _minVelocity);
-	setProperty(p, "max velocity", _maxVelocity);
-	setProperty(p, "direction", _direction);
-	setProperty(p, "angle", _angle);
-	return true;
-}
+//bool ParticleGen::init(const Properties &p)
+//{
+//	textureName = getProperty<std::string>(p, "texture name");
+//	setProperty(p, "particle width", particleWidth);
+//	setProperty(p, "particle height", particleHeight);
+//	setProperty(p, "emission rate", emissionRate);
+//	setProperty(p, "min velocity", minVelocity);
+//	setProperty(p, "max velocity", maxVelocity);
+//	setProperty(p, "direction", direction);
+//	setProperty(p, "angle", angle);
+//	return true;
+//}
 
 void ParticleGen::enable()
 {
@@ -124,25 +124,25 @@ void ParticleGen::destroy()
 
 void ParticleGen::ready()
 {
-	core::ResourcePtr res = resources()->getOrLoadAsset(_textureName);
+	core::ResourcePtr res = resources()->getOrLoadAsset(textureName);
 	if (!res || !res->isValid())
 	{
-		Debug::error("[ParticleGen] Textura no encontrada: ", _textureName);
+		Debug::error("[ParticleGen] Textura no encontrada: ", textureName);
 		return;
 	}
 	_particleGenID = render()->addParticleGen(getEntity()->getEntityID(), res->getPath(), res->getName());
 	if (_particleGenID == UINT64_MAX)
 	{
-		Debug::error("[ParticleGen] No se pudo crear el sistema de particulas para '", _textureName, "'.");
+		Debug::error("[ParticleGen] No se pudo crear el sistema de particulas para '", textureName, "'.");
 		return;
 	}
-	render()->setParticleGenPartWidth(_particleGenID, _partWidth);
-	render()->setParticleGenPartHeight(_particleGenID, _partHeight);
-	render()->setParticleGenEmissionRate(_particleGenID, _emissionRate);
-	render()->setParticleGenMinVelocity(_particleGenID, _minVelocity);
-	render()->setParticleGenMaxVelocity(_particleGenID, _maxVelocity);
-	render()->setParticleGenDirection(_particleGenID, _direction);
-	render()->setParticleGenAngle(_particleGenID, _angle);
+	render()->setParticleGenPartWidth(_particleGenID, particleWidth);
+	render()->setParticleGenPartHeight(_particleGenID, particleHeight);
+	render()->setParticleGenEmissionRate(_particleGenID, emissionRate);
+	render()->setParticleGenMinVelocity(_particleGenID, minVelocity);
+	render()->setParticleGenMaxVelocity(_particleGenID, maxVelocity);
+	render()->setParticleGenDirection(_particleGenID, direction);
+	render()->setParticleGenAngle(_particleGenID, angle);
 }
 
 void ParticleGen::setEmitting(const bool &emitting)

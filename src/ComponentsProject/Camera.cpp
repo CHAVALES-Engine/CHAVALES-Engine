@@ -14,7 +14,7 @@
 
 REGISTER_COMPONENT(Camera);
 
-Camera::Camera() : _FOVy(45.0f), _nearClipDistance(0.1f), _farClipDistance(1000.0f), _focalLength(1.0f), _bgColor(0.0f, 0.0f, 0.0f, 1.0f)
+Camera::Camera()
 {
 	registerMethod("setFOVy", [this](const std::vector<std::any>& args) {
 		if (args.size() >= 1) {
@@ -120,66 +120,63 @@ Camera::~Camera()
 
 bool Camera::init(const Properties& p)
 {
-	_FOVy = getProperty<float>(p, "FOVy");
-	_nearClipDistance = getProperty<float>(p, "nearPlane");
-	_farClipDistance = getProperty<float>(p, "farPlane");
-	_focalLength = getProperty<float>(p, "focal length");
-	if (!setProperty(p, "background color", _bgColor))
-		_bgColor = core::GameConfigurator::instance()._clearColor;
+	if (!Component::init(p)) return false;
+	if (!setProperty(p, "background color", backgroundColor, false))
+		backgroundColor = core::GameConfigurator::instance()._clearColor;
 
 	return true;
 }
 
 void Camera::ready()
 {
-	_cameraID = render()->addCamera(getEntity()->getEntityID(), _FOVy, _nearClipDistance, _farClipDistance, _focalLength, _bgColor);
+	_cameraID = render()->addCamera(getEntity()->getEntityID(), FOVy, nearClipDistance, farClipDistance, focalLength, backgroundColor);
 }
 
 void Camera::setAsActiveCamera()
 {
 	render()->setAsActiveCamera(_cameraID);
-	Engine::instance()->setViewportBGColor(_bgColor);
+	Engine::instance()->setViewportBGColor(backgroundColor);
 }
 
-void Camera::setFOVy(const float& FOVy)
+void Camera::setFOVy(const float& _FOVy)
 {
-	_FOVy = FOVy;
-	render()->setCameraFOVy(_cameraID, _FOVy);
+	FOVy = _FOVy;
+	render()->setCameraFOVy(_cameraID, FOVy);
 }
 
-void Camera::setNearClipDistance(const float& nearClipDistance)
+void Camera::setNearClipDistance(const float& _nearClipDistance)
 {
-	_nearClipDistance = nearClipDistance;
-	render()->setCameraNearClipDistance(_cameraID, _nearClipDistance);
+	nearClipDistance = _nearClipDistance;
+	render()->setCameraNearClipDistance(_cameraID, nearClipDistance);
 }
 
-void Camera::setFarClipDistance(const float& farClipDistance)
+void Camera::setFarClipDistance(const float& _farClipDistance)
 {
-	_farClipDistance = farClipDistance;
-	render()->setCameraFarClipDistance(_cameraID, _farClipDistance);
+	farClipDistance = _farClipDistance;
+	render()->setCameraFarClipDistance(_cameraID, farClipDistance);
 }
 
-void Camera::setFocalLength(const float& focalLength)
+void Camera::setFocalLength(const float& _focalLength)
 {
-	_focalLength = focalLength;
-	render()->setCameraFocalLength(_cameraID, _focalLength);
+	focalLength = _focalLength;
+	render()->setCameraFocalLength(_cameraID, focalLength);
 }
 
-void Camera::setBgColor(const core::Color& bgColor)
+void Camera::setBgColor(const core::Color& _bgColor)
 {
-	_bgColor = bgColor;
-	render()->setViewportBGColor(_bgColor);
+	backgroundColor = _bgColor;
+	render()->setViewportBGColor(backgroundColor);
 }
 
-float Camera::getFOVy() const { return _FOVy; }
+float Camera::getFOVy() const { return FOVy; }
 
-float Camera::getNearClipDistance() const { return _nearClipDistance; }
+float Camera::getNearClipDistance() const { return nearClipDistance; }
 
-float Camera::getFarClipDistance() const { return _farClipDistance; }
+float Camera::getFarClipDistance() const { return farClipDistance; }
 
-float Camera::getFocalLength() const { return _focalLength; }
+float Camera::getFocalLength() const { return focalLength; }
 
-core::Color Camera::getBgColor() const { return _bgColor; }
+core::Color Camera::getBgColor() const { return backgroundColor; }
 
 core::Vector3<> Camera::screenToWorld(const core::Vector2<>& viewPos, float viewWidth, float viewHeight,
 	core::Vector3<>& outRayDir) const
@@ -214,7 +211,7 @@ core::Vector3<> Camera::screenToWorld(const core::Vector2<>& viewPos, float view
 
 	// NDC -> direccion en espacio de vista
 	const float aspect = static_cast<float>(vpW) / static_cast<float>(vpH);
-	float halfH = std::tan(_FOVy / 2.0f);
+	float halfH = std::tan(FOVy / 2.0f);
 	float halfW = halfH * aspect;
 
 	outRayDir = core::Vector3<>(ndc_x * halfW, ndc_y * halfH, -1.0f);
@@ -262,12 +259,12 @@ core::Vector2<> Camera::worldToScreen(const core::Vector3<>& worldPos, float vie
 	// Calcular la proyeccion perspectiva
 	const float aspect = static_cast<float>(vpW) / static_cast<float>(vpH);
 
-	float height = 2.0f * std::tan(_FOVy / 2.0f);
+	float height = 2.0f * std::tan(FOVy / 2.0f);
 	float width = height * aspect;
 
 	// Proyectar al plano de vista
 	float distance = -cameraPosSpace.getZ();
-	float planeHeight = 2.0f * distance * std::tan(_FOVy / 2.0f);
+	float planeHeight = 2.0f * distance * std::tan(FOVy / 2.0f);
 	float planeWidth = planeHeight * aspect;
 
 	// Coordenadas normalizadas en el plano de vista [-1, 1]

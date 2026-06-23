@@ -10,7 +10,7 @@
 
 REGISTER_COMPONENT(Light);
 
-Light::Light() : _type(Type::POINT), _color(1, 1, 1, 1), _intensity(1.0f), _innerAngle(15.0f), _outerAngle(45.0f), _falloff(1.0f)
+Light::Light() : _type(Type::POINT)
 {
 	registerMethod("setType", [this](const std::vector<std::any>& args) {
 		if (args.size() >= 1) {
@@ -66,39 +66,38 @@ Light::~Light()
 }
 bool Light::init(const Properties& p)
 {
-	_typeInt = getProperty<int>(p, "type");
-	_type = static_cast<Light::Type>(_typeInt);
+	if (!Component::init(p)) return false;
+	if (type < 0 || type > 3) {
+		Debug::error("[LIGHT] TIPO INCOMPATIBLE!!");
+		return false;
+	}
+	_type = static_cast<Light::Type>(type.get());
 
-	_color = getProperty<core::Color>(p, "color");
-	_intensity = getProperty<float>(p, "intensity");
-	_innerAngle = getProperty<float> (p, "inner");
-	_outerAngle = getProperty<float>(p, "outer");
-	_falloff = getProperty<float>(p, "falloff");
 	return true;
 }
 void Light::ready()
 {
-	_lightID = render()->addLight(getEntity()->getEntityID(), _typeInt, _color, _intensity);
+	_lightID = render()->addLight(getEntity()->getEntityID(), type, color, intensity);
 }
 void Light::setType(const Type& type)
 {
 	_type = type;
 }
 
-void Light::setColor(const core::Color& color)
+void Light::setColor(const core::Color& _color)
 {
-	_color = color;
+	color = _color;
 }
 
-void Light::setIntensity(const float& intensity)
+void Light::setIntensity(const float& _intensity)
 {
-	_intensity = intensity;
+	intensity = _intensity;
 }
 
-void Light::setSpotRange(const float& inner, const float& outer, const float& falloff) {
-	_innerAngle = inner;
-	_outerAngle = outer;
-	_falloff = falloff;
+void Light::setSpotRange(const float& _inner, const float& _outer, const float& _falloff) {
+	innerAngle = _inner;
+	outerAngle = _outer;
+	falloff = _falloff;
 }
 
 
@@ -106,22 +105,22 @@ Light::Type Light::getType() const {
 	return _type;
 }
 core::Color Light::getColor() const {
-	return _color;
+	return color;
 }
 float Light::getIntensity() const {
-	return _intensity;
+	return intensity;
 }
 
 float Light::getInnerAngle() const {
-	return _innerAngle;
+	return innerAngle;
 }
 
 float Light::getOuterAngle() const {
-	return _outerAngle;
+	return outerAngle;
 }
 
 float Light::getFallOff() const {
-	return _falloff;
+	return falloff;
 }
 
 void Light::destroy()

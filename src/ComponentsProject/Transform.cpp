@@ -210,19 +210,22 @@ Transform::Transform()
 
 bool Transform::init(const Properties& p)
 {
-	_localPosition = getProperty<core::Vector3<>>(p, "position");
+	if (!setProperty<core::Vector3<>>(p, "position", _localPosition)) return false;
+	if (!setProperty<core::Vector3<>>(p, "scale", _localScale)) return false;
 	core::Vector3<> _rot;
 	if (!setProperty(p, "rotation", _rot, false))
 	{
-		if (!setProperty(p, "rotation", _localRotation))
-			Debug::warning("[TRANSFORM] Rotacion no inicializada, predeterminada a ", core::ZERO);
+		if (!setProperty(p, "rotation", _localRotation)) {
+			Debug::error("[TRANSFORM] Rotacion no inicializada, no cumple el formato Vector3 o Quaternion");
+			return false;
+		}
 	}
 	else
 	{
 		_localRotation = core::Quaternion().fromEuler(_rot);
 	}
-	_localScale = getProperty<core::Vector3<>>(p, "scale");
 	_pendingChildren = getProperty<std::vector<std::string>>(p, "children");
+
 	_transformID = render()->addNode(getEntity()->getEntityID(), getGlobalPosition(), getGlobalRotation(), getGlobalScale(), true);
 	return true;
 }
@@ -273,7 +276,7 @@ void Transform::setGlobalRotation(const core::Quaternion<>& gr)
 	core::Quaternion<> normalized = gr.normalized();
 	if (_parent != nullptr)
 	{
-		core::Quaternion<> gpri = _parent->getGlobalRotation().inversed(); 
+		core::Quaternion<> gpri = _parent->getGlobalRotation().inversed();
 		_localRotation = (gpri * normalized).normalized();
 	}
 	else
@@ -475,7 +478,7 @@ void Transform::detachChildren()
 
 void Transform::translate(const core::Vector3<>& t)
 {
-	_localPosition = _localPosition + t; 
+	_localPosition = _localPosition + t;
 	render()->setNodePosition(_transformID, getGlobalPosition());
 
 	for (auto& c : _children)
@@ -486,7 +489,7 @@ void Transform::translate(const core::Vector3<>& t)
 
 void Transform::rotateLocal(const core::Quaternion<>& q)
 {
-	_localRotation = (_localRotation * q).normalized(); 
+	_localRotation = (_localRotation * q).normalized();
 	render()->setNodeRotation(_transformID, getGlobalRotation());
 
 	for (auto& c : _children)
@@ -586,7 +589,7 @@ void Transform::LookAt(const core::Vector3<>& target)
 
 	if (sqrMagnitude <= 0.000001f)
 		return;
-	
+
 	direction /= core::Maths::Sqrt(sqrMagnitude);
 
 	const float horizontalLength = core::Maths::Sqrt(
@@ -610,7 +613,7 @@ std::shared_ptr<core::Component> Transform::getComponentInParents(const std::str
 		if (e != nullptr)
 		{
 			auto c = e->getComponent(name);
-			if (c != nullptr) 
+			if (c != nullptr)
 				return c;
 		}
 		parent = parent->getParent();

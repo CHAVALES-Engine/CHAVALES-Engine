@@ -37,21 +37,21 @@ class ENGINE_API ParticleGen : public EngineComponent
 {
 	particleGenID _particleGenID;
 
-	std::string _textureName;
+	PROPERTY(std::string, textureName);
 
-	float _partWidth;
-	float _partHeight;
-	float _emissionRate;
-	float _minVelocity;
-	float _maxVelocity;
-	core::Vector3<float> _direction;
-	float _angle;
+	PROPERTY(float, particleWidth);
+	PROPERTY(float, particleHeight);
+	PROPERTY(float, emissionRate);
+	PROPERTY(float, minVelocity);
+	PROPERTY(float, maxVelocity);
+	PROPERTY(core::Vector3<float>, direction);
+	PROPERTY(float, angle);
 
 public:
 	ParticleGen();
 	~ParticleGen();
 
-	bool init(const Properties& p) override;
+	//bool init(const Properties& p) override;
 	void ready() override;
 	void enable() override;
 	void disable() override;

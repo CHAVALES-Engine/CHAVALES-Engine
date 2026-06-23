@@ -34,24 +34,24 @@ class ENGINE_API UIButton : public EngineComponent
 {
 private:
 	buttonID _buttonID;
-	std::string _text;
-	std::string _textureName;
-	float _opacity;
-	float _fontSize;
-	std::string _fontName;
-	core::Color _bgColor;
-	core::Color _textColor;
-	core::Color _hoverColor;
-	core::Color _pressColor;
+	PROPERTY(std::string, text);
+	PROPERTY(std::string, textureName);
+	PROPERTY(float, opacity);
+	PROPERTY(float, fontSize);
+	PROPERTY(std::string, fontName);
+	PROPERTY(core::Color, bgColor);
+	PROPERTY(core::Color, textColor);
+	PROPERTY(core::Color, hoverColor);
+	PROPERTY(core::Color, pressColor);
 
 public:
 	UIButton();
 	~UIButton();
 
-	bool init(const Properties& p) override;
+	//bool init(const Properties& p) override;
 	void awake() override;
 	void destroy() override;
-	void setText(const std::string& text);
+	void setText(const std::string& _text);
 	void setVisible(bool visible);
 	void setTexture(const std::string& texture);
 	void setOnClick(std::function<void()>callback);

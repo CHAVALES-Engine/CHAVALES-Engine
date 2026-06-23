@@ -33,19 +33,19 @@ using particleGenID = uint64_t;
 */
 class ENGINE_API Skydome : public EngineComponent
 {
-	bool _enabledOnStart;
-	std::string _textureName;
+	PROPERTY(bool, enabledOnStart);
+	PROPERTY(std::string, textureName);
 
-	float _curvature;
-	float _tiling;
-	float _distance;
-	bool _drawFirst;
+	PROPERTY(float, curvature);
+	PROPERTY(float, tiling);
+	PROPERTY(float, distance);
+	PROPERTY(bool, drawFirst);
 
 public:
 	Skydome();
 	~Skydome();
 
-	bool init(const Properties& p) override;
+	//bool init(const Properties& p) override;
 	void ready() override;
 	void disable() override;
 

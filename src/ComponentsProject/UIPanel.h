@@ -30,7 +30,7 @@ class ENGINE_API UIPanel : public EngineComponent
 {
 private:
 	panelID _panelID;
-	std::string _title;
+	PROPERTY(std::string, name);
 
 public:
 	UIPanel();

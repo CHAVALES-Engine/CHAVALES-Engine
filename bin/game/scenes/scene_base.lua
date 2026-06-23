@@ -2,7 +2,7 @@
 scene = { -- entidades en escena
     gizmos = true,
     entities = {
-        cube = loadPrefab("game/scenes/cube.lua"),
+        cube = loadPrefab("game/prefabs/cube.lua"),
         -- ENTIDAD 1
         camera = { -- nombre de la entidad
             ddol = false, -- dont destroy on loads
@@ -17,9 +17,9 @@ scene = { -- entidades en escena
                 },
                 Camera = {
                     FOVy = 1.0,
-                    nearPlane = 0.1,
-                    farPlane = 10000.0,
-                    ["focal length"] = 60.0
+                    nearClipDistance = 0.1,
+                    farClipDistance = 10000.0,
+                    focalLength = 60.0,
                     -- ["background color"] = Color.new(0.5,0.5,0.5,1)
                 },
                 --ChangeTest = {},
@@ -68,8 +68,8 @@ scene = { -- entidades en escena
                     type = "CAPSULE",
                     shape = Vector3.new(1, 0, 0),
                     rotation = Vector3.new(),
-                    dynamic = true,
-                    trigger = false,
+                    isDynamic = true,
+                    isTrigger = false,
                     center = Vector3.new(0, 0, 0)
                 },
                 PhysicsMaterial = {
@@ -80,7 +80,7 @@ scene = { -- entidades en escena
                     bounceCombine = 2
                 },
                 AudioSource = {
-                    soundPath = "audio/sfx/smb_1-up.wav",
+                    path = "audio/sfx/smb_1-up.wav",
                     is3D = true,
                     loop = false,
                     isStream = false,
@@ -110,8 +110,8 @@ scene = { -- entidades en escena
                     type = 1,
                     color = Color.new(1, 1, 1, 1),
                     intensity = 1.0,
-                    inner = 30.0,
-                    outer = 60.0,
+                    innerAngle = 30.0,
+                    outerAngle = 60.0,
                     falloff = 1.0
                 }
             }
@@ -123,6 +123,7 @@ scene = { -- entidades en escena
                     position = Vector2.new(0, 0),
                     dimension = Vector2.new(1280, 720),
                     dLayer = 0,
+                    rotation = 0.0,
                     -- position = Vector2.new(900, 10),
                     children = {"LabelUI", "ButtonUI", "ButtonUI2"}
 
@@ -138,15 +139,20 @@ scene = { -- entidades en escena
                 UITransform = {
                     position = Vector2.new(100, 60),
                     dimension = Vector2.new(200, 200),
+                    rotation = 0.0,
                     dLayer = 0
 
                 },
                 UIButton = {
                     textureName = "images/prueba.jpg",
+                    textColor = Color.new(1.0,0.0,0.0,1.0),
+                    bgColor = Color.new(0.0,0.0,0.0,1.0),
+                    hoverColor = Color.new(0.0,0.0,0.0,1.0),
+                    pressColor = Color.new(0.0,0.0,0.0,1.0),
                     text = "Boton Botonez",
                     opacity = 1.0,
-                    fontName = "fonts/horrendo.ttf"
-
+                    fontName = "fonts/horrendo.ttf",
+                    fontSize = 16.0,
                 }
             }
         },
@@ -156,6 +162,7 @@ scene = { -- entidades en escena
                 UITransform = {
                     position = Vector2.new(600, 60),
                     dimension = Vector2.new(500, 200),
+                    rotation = 0.0,
                     dLayer = 0
 
                 },

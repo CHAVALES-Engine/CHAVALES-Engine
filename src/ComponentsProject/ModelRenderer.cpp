@@ -46,24 +46,33 @@ ModelRenderer::~ModelRenderer()
 bool ModelRenderer::init(const Properties& p)
 {
 	// Lee la clave del archivo almacenado en resources
-	_modelName = getProperty<std::string>(p, "file");
+	if (!setProperty<std::string>(p, "file", _modelName)) {
+		Debug::error("[MODELRENDERER] Ubicación de archivo no especificada correctamente.");
+		return false;
+	}
 	std::transform(_modelName.begin(), _modelName.end(), _modelName.begin(), ::tolower);
 
 	// Lee cuantas texturas tiene
-	int nTextures = getProperty<int>(p, "number of textures");
-
+	int nTextures;
+	if (!setProperty<int>(p, "number of textures", nTextures)) {
+		Debug::error("[MODELRENDERER] No se encontrón el número de texturas. Param name: [\"number of textures\"].");
+		return false;
+	}
 	// Lee cada textura: { nombre, nombre archivo, submesh }
 	for (int i = 0; i < nTextures; i++)
 	{
 		std::vector<std::string> texture;
-		if (setProperty(p, "texture" + std::to_string(i), texture))
-			_textures.push_back(texture);
+		if (!setProperty(p, "texture" + std::to_string(i), texture)) {
+			Debug::error("[MODELRENDERER] Error con la textura número: ", i);
+			return false;
+		}
+		_textures.push_back(texture);
 	}
 
 	//Carga el modelo en ogre y se guarda una referencia a el
 	core::ResourcePtr res = resources()->getOrLoadAsset(_modelName);
 	if (!res || !res->isValid()) {
-		Debug::error("[ModelRenderer] Modelo no encontrado: ", _modelName);
+		Debug::error("[MODELRENDERER] Modelo no encontrado: ", _modelName);
 		return false;
 	}
 	_modelID = render()->addModel(getEntity()->getEntityID(), res->getPath(), res->getName());
@@ -78,7 +87,7 @@ void ModelRenderer::ready()
 	{
 		core::ResourcePtr res = resources()->getOrLoadAsset(texture[0]);
 		if (!res || !res->isValid()) {
-			Debug::error("[ModelRenderer] Textura no encontrada: ", texture[0]);
+			Debug::error("[MODELRENDERER] Textura no encontrada: ", texture[0]);
 			continue;
 		}
 		int submesh = std::stoi(texture[1]);
@@ -90,7 +99,7 @@ void ModelRenderer::setDiffuse(const std::string& textureName, const int& submes
 {
 	core::ResourcePtr res = resources()->getOrLoadAsset(textureName);
 	if (!res || !res->isValid()) {
-		Debug::error("[ModelRenderer] Textura no encontrada: ", textureName);
+		Debug::error("[MODELRENDERER] Textura no encontrada: ", textureName);
 		return;
 	}
 	render()->setDiffuse(_modelID, submesh, res->getPath(), res->getName());

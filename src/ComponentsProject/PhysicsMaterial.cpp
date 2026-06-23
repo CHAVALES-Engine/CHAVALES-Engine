@@ -15,16 +15,18 @@ PhysicsMaterial::PhysicsMaterial()
 
 bool PhysicsMaterial::init(const Properties& p)
 {
-	staticFriction = getProperty<float>(p, "staticFriction");
-	dynamicFriction = getProperty<float>(p, "dynamicFriction");
-	restitution = getProperty<float>(p, "restitution");
+	if (!Component::init(p)) return false;
 
-	frictionCombine = static_cast<CombineMode>(getProperty<int>(p, "frictionCombine"));
-	bounceCombine = static_cast<CombineMode>(getProperty<int>(p, "bounceCombine"));
+	int friction, bounce;
+	if (!setProperty(p, "frictionCombine", friction)) return false;
+	if (!setProperty(p, "bounceCombine", bounce)) return false;
+	if (friction < 0 || friction > 4 || bounce < 0 || bounce > 4) {
+		Debug::error("[PHYSCSMATERIAL] CombineMode fuera de rango");
+		return false;
+	}
+	frictionCombine = static_cast<CombineMode>(friction);
+	bounceCombine = static_cast<CombineMode>(bounce);
 
-	col = entity->hasComponent<Collider>();
-	if (!col) return false;
-	collider = entity->getComponent<Collider>();
 	return true;
 }
 
@@ -35,6 +37,14 @@ void PhysicsMaterial::ready()
 	if (restitution < 0.0f) restitution = 0.0f;
 	if (restitution > 1.0f) restitution = 1.0f;
 	if (!entity) return;
+
+	col = entity->hasComponent<Collider>();
+	if (!col) {
+		Debug::warning("[PHYSICSMATERIAL] Para que funcione el material la entidad necesita un collider");
+		return;
+	}
+	collider = entity->getComponent<Collider>();
+
 
 	if (col)
 	{

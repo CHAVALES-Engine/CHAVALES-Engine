@@ -40,14 +40,14 @@ public:
 
 private:
 	lightID _lightID;
-	int _typeInt;
+	PROPERTY(int, type);
 	Type _type;
-	core::Color _color;
-	float _intensity;
+	PROPERTY(core::Color, color);
+	PROPERTY(float, intensity);
 
-	float _innerAngle;
-	float _outerAngle;
-	float _falloff;
+	PROPERTY(float, innerAngle);
+	PROPERTY(float, outerAngle);
+	PROPERTY(float, falloff);
 
 public:
 	Light();
@@ -56,10 +56,10 @@ public:
 	bool init(const Properties& p) override;
 	void ready() override;
 	void setType(const Type& type);
-	void setColor(const core::Color& color);
-	void setIntensity(const float& intensity);
-	void setDirection(const core::Vector3<float>& dir);
-	void setSpotRange(const float& inner, const float& outer, const float& falloff);
+	void setColor(const core::Color& _color);
+	void setIntensity(const float& _intensity);
+	//void setDirection(const core::Vector3<float>& _dir);
+	void setSpotRange(const float& _inner, const float& _outer, const float& _falloff);
 
 	Type getType() const;
 	core::Color getColor() const;

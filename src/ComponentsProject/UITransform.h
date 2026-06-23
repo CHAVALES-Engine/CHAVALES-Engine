@@ -37,10 +37,10 @@ using UItransformID = uint64_t;
 class ENGINE_API UITransform : public EngineComponent
 {
 	UItransformID _UItransformID;
-	core::Vector2<> _position;
-	core::Vector2<> _dimension;
-	int _dLayer;
-	float _rotation;
+	PROPERTY(core::Vector2<>, position);
+	PROPERTY(core::Vector2<>, dimension);
+	PROPERTY(float, rotation);
+	PROPERTY(int, dLayer);
 
 	UITransform* _parent = nullptr;
 	std::vector<UITransform*> _children;
@@ -52,7 +52,7 @@ public:
 	void setPosition(const core::Vector2<>& pos);
 	void setDimension(const core::Vector2<>& dim);
 	void setRotation(float r);
-	void setDepthLayer(int dLayer);
+	void setDepthLayer(int layer);
 
 	core::Vector2<> getPosition() const;
 	core::Vector2<> getGlobalPosition() const;

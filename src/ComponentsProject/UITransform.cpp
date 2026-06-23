@@ -89,10 +89,8 @@ UITransform::UITransform()
 
 bool UITransform::init(const Properties& p)
 {
-	_position = getProperty<core::Vector2<>>(p, "position");
-	_dimension = getProperty<core::Vector2<>>(p, "dimension");
-	_rotation = getProperty<float>(p, "rotation");
-	_dLayer = getProperty<int>(p, "dLayer");
+	if (!Component::init(p)) return false;
+
 	std::vector<std::string> children = getProperty<std::vector<std::string>>(p, "children");
 	for (const std::string& name : children)
 	{
@@ -113,49 +111,49 @@ bool UITransform::init(const Properties& p)
 
 void UITransform::setPosition(const core::Vector2<>& pos)
 {
-	_position = pos;
+	position = pos;
 	render()->setUITransformPos(_UItransformID, getPosition());
 }
 
 void UITransform::setDimension(const core::Vector2<>& dim)
 {
-	_dimension = dim;
+	dimension = dim;
 	render()->setUITransformDimension(_UItransformID, dim);
 }
 
 void UITransform::setRotation(float r)
 {
-	_rotation = r;
+	rotation = r;
 	render()->setUITransformRotation(_UItransformID, r);
 }
 
-void UITransform::setDepthLayer(int dLayer)
+void UITransform::setDepthLayer(int layer)
 {
-	_dLayer = dLayer;
+	dLayer = layer;
 	render()->setUITransformDepthLayer(_UItransformID, dLayer);
 }
 
 core::Vector2<> UITransform::getPosition() const {
-	return _position;
+	return position;
 }
 
 core::Vector2<> UITransform::getGlobalPosition() const {
 	if (_parent) {
-		return _parent->getGlobalPosition() + _position;
+		return _parent->getGlobalPosition() + position;
 	}
-	return _position;
+	return position;
 }
 
 core::Vector2<> UITransform::getDimension() const {
-	return _dimension;
+	return dimension;
 }
 float UITransform::getRotation() const {
-	return _rotation;
+	return rotation;
 }
 
 int UITransform::getDepthLayer() const
 {
-	return _dLayer;
+	return dLayer;
 }
 
 void UITransform::setParent(UITransform* t)

@@ -36,8 +36,8 @@ UITextureRect::~UITextureRect(){}
 
 bool UITextureRect::init(const Properties& p)
 {
-	_textureName = getProperty<std::string>(p, "textureName");
-	_opacity = getProperty<float>(p, "opacity");
+	textureName = getProperty<std::string>(p, "textureName");
+	opacity = getProperty<float>(p, "opacity");
 
 	return true;
 }
@@ -62,24 +62,24 @@ void UITextureRect::awake()
 		_textureRectID = UINT64_MAX;
 		return;
 	}
-	core::ResourcePtr res = resources()->getOrLoadAsset(_textureName);
+	core::ResourcePtr res = resources()->getOrLoadAsset(textureName);
 	if (!res || !res->isValid()) {
-		Debug::error("[UITextureRect] Textura no encontrada: ", _textureName);
+		Debug::error("[UITextureRect] Textura no encontrada: ", textureName);
 		_textureRectID = UINT64_MAX;
 		return;
 	}
 
-	_textureRectID = render()->addUITextureRect(panelID, getEntity()->getEntityID(), res->getPath(), res->getName(), _opacity);
+	_textureRectID = render()->addUITextureRect(panelID, getEntity()->getEntityID(), res->getPath(), res->getName(), opacity);
 }
 
 void UITextureRect::setTexture(const std::string& texture)
 {
-	_textureName = texture;
+	textureName = texture;
 	if (_textureRectID == UINT64_MAX)return;
 
-	core::ResourcePtr res = resources()->getOrLoadAsset(_textureName);
+	core::ResourcePtr res = resources()->getOrLoadAsset(textureName);
 	if (!res || !res->isValid()) {
-		Debug::error("[UITextureRect] Textura no encontrada: ", _textureName);
+		Debug::error("[UITextureRect] Textura no encontrada: ", textureName);
 		return;
 	}
 
@@ -92,7 +92,7 @@ void UITextureRect::setVisible(bool visible) {
 }
 void UITextureRect::setOpacity(float opacity)
 {
-	_opacity = opacity;
+	opacity = opacity;
 	if (_textureRectID == UINT64_MAX)return;
 	render()->setUITextureRectOpacity(_textureRectID, opacity);
 }

@@ -33,13 +33,13 @@ class ENGINE_API UILabel : public EngineComponent
 {
 private:
 	labelID _labelID;
-	std::string _text;
-	core::Color _bgColor;
-	core::Color _textColor;
-	float _opacity;
-	float _fontSize;
-	TextAlign _align = TextAlign::LEFT;
-	std::string _fontName;
+	PROPERTY(std::string, text);
+	PROPERTY(core::Color, bgColor);
+	PROPERTY(core::Color, textColor);
+	PROPERTY(float, opacity);
+	PROPERTY(float, fontSize);
+	PROPERTY(std::string, fontName);
+	TextAlign align = TextAlign::LEFT;
 public:
 	UILabel();
 	~UILabel();
@@ -47,10 +47,10 @@ public:
 	bool init(const Properties& p) override;
 	void awake() override;
 	void destroy() override;
-	void setText(const std::string& text);
+	void setText(const std::string& _text);
 	void setVisible(bool visible);
-	void setOpacity(float opacity);
+	void setOpacity(float _opacity);
 	void setBackgroudColor(const core::Color& color);
 	void setTextColor(const core::Color& color);
-	void setAlign(TextAlign align);
+	void setAlign(TextAlign _align);
 };

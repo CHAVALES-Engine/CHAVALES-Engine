@@ -51,24 +51,23 @@ protected:
 	/**
 	 * @brief Si es un trigger o no
 	 */
-	bool isTrigger = false;
+	PROPERTY(bool, isTrigger);
 	/**
 	 * @brief Si es dinamico o estático
 	 */
-	bool isDynamic = false;
-
+	PROPERTY(bool, isDynamic);
+	/**
+	 * @brief Offset respecto a la entidad, donde esta el collider
+	 */
+	PROPERTY(core::Vector3<>, center);
 	/**
 	 * @brief Tamano del collider si es box
 	 */
-	core::Vector3<> size;
+	core::Vector3<> shape;
 	/**
 	 * @brief Tamaño del collider si es capsule
 	 */
 	float radius, height;
-	/**
-	 * @brief Offset respecto a la entidad, donde esta el collider
-	 */
-	core::Vector3<> center = { 0,0,0 };
 	/**
 	 * @brief Rotacion local del collider respecto al transform
 	 */
@@ -167,7 +166,7 @@ public:
 		switch (shapeType)
 		{
 		case ShapeType::BOX:
-			return size;
+			return shape;
 			break;
 		case ShapeType::CAPSULE:
 			return core::Vector3<>(radius, height, radius);

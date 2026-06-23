@@ -48,17 +48,17 @@ public:
 	/**
 	 * @brief Friccion estatica (resistencia inicial al movimiento)
 	 */
-	float staticFriction;
+	PROPERTY(float, staticFriction);
 
 	/**
 	 * @brief Friccion dinamica (resistencia en movimiento)
 	 */
-	float dynamicFriction;
+	PROPERTY(float, dynamicFriction);
 
 	/**
 	 * @brief Restitucion (rebote, 0 = sin rebote, 1 = rebote perfecto)
 	 */
-	float restitution;
+	PROPERTY(float, restitution);
 
 	/**
 	 * @brief Modo de combinacion de friccion entre materiales

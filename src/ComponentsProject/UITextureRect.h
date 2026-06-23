@@ -35,8 +35,8 @@ class ENGINE_API UITextureRect : public EngineComponent
 {
 private :
 	textureRectID _textureRectID;
-	std::string _textureName;
-	float _opacity;
+	std::string textureName;
+	float opacity;
 
 public:
 	UITextureRect();

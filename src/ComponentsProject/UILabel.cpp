@@ -12,7 +12,7 @@
 
 REGISTER_COMPONENT(UILabel);
 
-UILabel::UILabel() : _text("Label")
+UILabel::UILabel()
 {
 	registerMethod("setText", [this](const std::vector<std::any>& args) {
 		if (args.size() >= 1) {
@@ -50,23 +50,22 @@ UILabel::~UILabel(){}
 
 bool UILabel::init(const Properties& p)
 {
-	_text = getProperty<std::string>(p, "text");
-	_opacity = getProperty<float>(p, "opacity");
-	_bgColor = getProperty<core::Color>(p, "bgColor");
-	_textColor = getProperty<core::Color>(p, "textColor");
-	std::string auxAlign = getProperty<std::string>(p, "align");
+	if (!Component::init(p)) return false;
+	std::string auxAlign;
+	if(!setProperty<std::string>(p, "align", auxAlign)) return false;
 	if (auxAlign == "center") {
-		_align = TextAlign::CENTER;
+		align = TextAlign::CENTER;
 	}
 	else if(auxAlign == "right"){
-		_align = TextAlign::RIGHT;
+		align = TextAlign::RIGHT;
+	}
+	else if (auxAlign == "left") {
+		align = TextAlign::LEFT;
 	}
 	else {
-		_align = TextAlign::LEFT;
-
+		Debug::error("[UILABEL] Align incompatible. Debe ser 'center', 'right' o 'left'");
+		return false;
 	}
-	_fontSize = getProperty<float>(p, "fontSize");
-	_fontName = getProperty<std::string>(p, "fontName");
 	return true;
 }
 
@@ -90,7 +89,7 @@ void UILabel::awake()
 		_labelID = UINT64_MAX;
 		return;
 	}
-	_labelID = render()->addUILabel(panelID, getEntity()->getEntityID(), _text, _opacity, _textColor, _bgColor, _fontSize, _align, _fontName);
+	_labelID = render()->addUILabel(panelID, getEntity()->getEntityID(), text, opacity, textColor, bgColor, fontSize, align, fontName);
 }
 
 void UILabel::destroy()
@@ -100,11 +99,11 @@ void UILabel::destroy()
 	_labelID = UINT64_MAX;
 }
 
-void UILabel::setText(const std::string& text)
+void UILabel::setText(const std::string& _text)
 {
-	_text = text;
+	text = _text;
 	if (_labelID == UINT64_MAX)return;
-	render()->setUILabelText(_labelID, _text);
+	render()->setUILabelText(_labelID, text);
 
 }
 
@@ -114,31 +113,31 @@ void UILabel::setVisible(bool visible)
 	render()->setUILabelVisible(_labelID, visible);
 }
 
-void UILabel::setOpacity(float opacity)
+void UILabel::setOpacity(float _opacity)
 {
-	_opacity = opacity;
+	opacity = _opacity;
 	if (_labelID == UINT64_MAX)return;
-	render()->setUILabelOpacity(_labelID, _opacity);
+	render()->setUILabelOpacity(_labelID, opacity);
 
 }
 
 void UILabel::setBackgroudColor(const core::Color& color)
 {
-	_bgColor = color;
+	bgColor = color;
 	if (_labelID == UINT64_MAX)return;
-	render()->setUILabelBackGroundColor(_labelID, _bgColor);
+	render()->setUILabelBackGroundColor(_labelID, bgColor);
 }
 
 void UILabel::setTextColor(const core::Color& color){
-	_textColor = color;
+	textColor = color;
 	if (_labelID == UINT64_MAX)return;
-	render()->setUILabelTextColor(_labelID, _textColor);
+	render()->setUILabelTextColor(_labelID, textColor);
 
 }
 
-void UILabel::setAlign(TextAlign align)
+void UILabel::setAlign(TextAlign _align)
 {
-	_align = align;
+	align = _align;
 	if (_labelID == UINT64_MAX)return;
 	render()->setUILabelAlign(_labelID, align);
 }

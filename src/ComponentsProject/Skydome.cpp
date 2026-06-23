@@ -23,21 +23,21 @@ Skydome::~Skydome()
 {
 }
 
-bool Skydome::init(const Properties& p)
-{
-	_enabledOnStart = getProperty<bool>(p, "enabled on start");
-	_textureName = getProperty<std::string>(p, "texture");
-
-	_curvature = getProperty<float>(p, "curvature");
-	_tiling = getProperty<float>(p, "tiling");
-	_distance = getProperty<float>(p, "distance");
-	_drawFirst = getProperty<bool>(p, "draw first");
-	return true;
-}
+//bool Skydome::init(const Properties& p)
+//{
+//	enabledOnStart = getProperty<bool>(p, "enabledOnStart");
+//	textureName = getProperty<std::string>(p, "textureName");
+//
+//	curvature = getProperty<float>(p, "curvature");
+//	tiling = getProperty<float>(p, "tiling");
+//	distance = getProperty<float>(p, "distance");
+//	drawFirst = getProperty<bool>(p, "drawFirst");
+//	return true;
+//}
 
 void Skydome::ready()
 {
-	if (_enabledOnStart)
+	if (enabledOnStart)
 	{
 		setSkydome();
 	}
@@ -50,12 +50,12 @@ void Skydome::disable()
 
 void Skydome::setSkydome()
 {
-	core::ResourcePtr res = resources()->getOrLoadAsset(_textureName);
+	core::ResourcePtr res = resources()->getOrLoadAsset(textureName);
 	if (!res || !res->isValid()) {
-		Debug::error("[Skydome] Textura no encontrada: ", _textureName);
+		Debug::error("[Skydome] Textura no encontrada: ", textureName);
 		return;
 	}
-	render()->setSkydome(res->getPath(), res->getName(), _curvature, _tiling, _distance, _drawFirst);
+	render()->setSkydome(res->getPath(), res->getName(), curvature, tiling, distance, drawFirst);
 }
 
 void Skydome::setSkydomeNull()
