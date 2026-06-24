@@ -14,6 +14,8 @@ REGISTER_COMPONENT(UILabel);
 
 UILabel::UILabel()
 {
+	_labelID = UINT64_MAX;
+
 	registerMethod("setText", [this](const std::vector<std::any>& args) {
 		if (args.size() >= 1) {
 			setText(std::any_cast<std::string>(args[0]));
@@ -69,7 +71,7 @@ bool UILabel::init(const Properties& p)
 	return true;
 }
 
-void UILabel::awake()
+void UILabel::ready()
 {
 	auto uiT = getEntity()->getComponent<UITransform>();
 	if (!uiT) {

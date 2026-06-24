@@ -48,6 +48,7 @@ class ENGINE_API UITransform : public EngineComponent
 public:
 	UITransform();
 	bool init(const Properties& p) override;
+	void awake() override;
 
 	void setPosition(const core::Vector2<>& pos);
 	void setDimension(const core::Vector2<>& dim);

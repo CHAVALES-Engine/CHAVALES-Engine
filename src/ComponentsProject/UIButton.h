@@ -48,8 +48,7 @@ public:
 	UIButton();
 	~UIButton();
 
-	//bool init(const Properties& p) override;
-	void awake() override;
+	void ready() override;
 	void destroy() override;
 	void setText(const std::string& _text);
 	void setVisible(bool visible);

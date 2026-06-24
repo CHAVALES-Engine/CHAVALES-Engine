@@ -10,6 +10,8 @@ REGISTER_COMPONENT(UITransform);
 
 UITransform::UITransform()
 {
+	_UItransformID = UINT64_MAX;
+
 	registerMethod("setPosition", [this](const std::vector<std::any>& args) {
 		if (args.size() >= 1) {
 			setPosition(std::any_cast<core::Vector2<>>(args[0]));
@@ -100,13 +102,14 @@ bool UITransform::init(const Properties& p)
 		if (std::shared_ptr<UITransform> t = e->getComponent<UITransform>())
 			t->setParent(this);
 	}
+	return true;
+}
+void UITransform::awake() {
 	_UItransformID = render()->addUITransform(getEntity()->getEntityID(),getPosition(), getDepthLayer(),getDimension(), getRotation());
 	render()->setUITransformPos(_UItransformID, getPosition());
 	render()->setUITransformDimension(_UItransformID, getDimension());
 	render()->setUITransformRotation(_UItransformID, getRotation());
 	render()->setUITransformDepthLayer(_UItransformID, getDepthLayer());
-
-	return true;
 }
 
 void UITransform::setPosition(const core::Vector2<>& pos)

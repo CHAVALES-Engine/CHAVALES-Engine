@@ -16,6 +16,8 @@ REGISTER_COMPONENT(UIButton);
 
 UIButton::UIButton()
 {
+	_buttonID = UINT64_MAX;
+
 	registerMethod("setText", [this](const std::vector<std::any>& args) {
 		if (args.size() >= 1) {
 			setText(std::any_cast<std::string>(args[0]));
@@ -72,21 +74,8 @@ UIButton::UIButton()
 UIButton::~UIButton()
 {
 }
-//bool UIButton::init(const Properties& p)
-//{
-//	textureName = getProperty<std::string>(p, "textureName");
-//	text = getProperty<std::string>(p, "text");
-//	opacity = getProperty<float>(p, "opacity");
-//	fontSize = getProperty<float>(p, "fontSize");
-//	fontName = getProperty<std::string>(p, "fontName");
-//	bgColor = getProperty<core::Color>(p, "bgColor");
-//	textColor = getProperty<core::Color>(p, "textColor");
-//	hoverColor = getProperty<core::Color>(p, "hoverColor");
-//	pressColor = getProperty<core::Color>(p, "pressColor");
-//	return true;
-//}
 
-void UIButton::awake()
+void UIButton::ready()
 {
 	auto uiT = getEntity()->getComponent<UITransform>();
 	if (!uiT) {

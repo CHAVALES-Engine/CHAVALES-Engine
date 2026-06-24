@@ -15,6 +15,8 @@ REGISTER_COMPONENT(UITextureRect);
 
 UITextureRect::UITextureRect()
 {
+	_textureRectID = UINT64_MAX;
+
 	registerMethod("setVisible", [this](const std::vector<std::any>& args) {
 		if (args.size() >= 1) {
 			setVisible(std::any_cast<bool>(args[0]));
@@ -34,15 +36,7 @@ UITextureRect::UITextureRect()
 
 UITextureRect::~UITextureRect(){}
 
-bool UITextureRect::init(const Properties& p)
-{
-	textureName = getProperty<std::string>(p, "textureName");
-	opacity = getProperty<float>(p, "opacity");
-
-	return true;
-}
-
-void UITextureRect::awake()
+void UITextureRect::ready()
 {
 	auto uiT = getEntity()->getComponent<UITransform>();
 	if (!uiT) {
@@ -90,9 +84,9 @@ void UITextureRect::setVisible(bool visible) {
 	if (_textureRectID == UINT64_MAX)return;
 	render()->setUITextureRectVisible(_textureRectID, visible);
 }
-void UITextureRect::setOpacity(float opacity)
+void UITextureRect::setOpacity(float _opacity)
 {
-	opacity = opacity;
+	opacity = _opacity;
 	if (_textureRectID == UINT64_MAX)return;
 	render()->setUITextureRectOpacity(_textureRectID, opacity);
 }

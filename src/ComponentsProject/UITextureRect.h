@@ -35,17 +35,16 @@ class ENGINE_API UITextureRect : public EngineComponent
 {
 private :
 	textureRectID _textureRectID;
-	std::string textureName;
-	float opacity;
+	PROPERTY(std::string, textureName);
+	PROPERTY(float, opacity);
 
 public:
 	UITextureRect();
 	~UITextureRect();
 
-	bool init(const Properties& p) override;
-	void awake() override;
+	void ready() override;
 	void setTexture(const std::string& texture);
 	void setVisible(bool visible);
-	void setOpacity(float opacity);
+	void setOpacity(float _opacity);
 	void destroy() override;
 };

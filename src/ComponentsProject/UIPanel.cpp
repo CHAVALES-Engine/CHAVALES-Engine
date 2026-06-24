@@ -13,6 +13,7 @@ REGISTER_COMPONENT(UIPanel);
 
 UIPanel::UIPanel()
 {
+    _panelID = UINT64_MAX;
     registerMethod("setVisible", [this](const std::vector<std::any>& args) {
         if (args.size() >= 1) {
             setVisible(std::any_cast<bool>(args[0]));
@@ -27,21 +28,18 @@ bool UIPanel::init(const Properties& p)
     if (!Component::init(p)) return false;
     auto uiT = getEntity()->getComponent<UITransform>();
     if (!uiT) {
-        Debug::error("[UIButton] - No transform, no se crea UIButton");
-        _panelID = UINT64_MAX;
+        Debug::error("[UIPanel] - No transform, no se crea UIPanel");
         return false;
     }
-    name = getProperty<std::string>(p, "name");
-    _panelID = render()->addUIPanel(getEntity()->getEntityID(), name);
     return true;
 }
 panelID UIPanel::getPanelID() const
 {
     return _panelID;
 }
-void UIPanel::ready()
+void UIPanel::awake()
 {
-   
+    _panelID = render()->addUIPanel(getEntity()->getEntityID(), name);
 }
 void UIPanel::setVisible(bool visible)
 {

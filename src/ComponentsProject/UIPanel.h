@@ -35,8 +35,8 @@ private:
 public:
 	UIPanel();
 	~UIPanel();
-	void ready() override;
 	bool init(const Properties& p) override;
+	void awake() override;
 	panelID getPanelID() const;
 	void setVisible (bool visible);
 	void destroy() override;
