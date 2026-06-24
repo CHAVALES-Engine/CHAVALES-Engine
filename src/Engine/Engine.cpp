@@ -93,9 +93,9 @@ void Engine::startLoop() const
 		_stateMachine->gameLoop();
 }
 
-void Engine::requestSceneChange(std::string const& n) const
+void Engine::requestSceneChange(std::string const& n, const bool loadingScreen) const
 {
-	_stateMachine->requestSceneChange(n);
+	_stateMachine->requestSceneChange(n, loadingScreen);
 }
 
 void Engine::quitGame() const

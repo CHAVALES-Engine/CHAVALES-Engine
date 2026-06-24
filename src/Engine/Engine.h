@@ -75,7 +75,7 @@ public:
 	 * @brief Solicita un cambio de escena a la maquina de estados.
 	 * @param n - path de la escena.
 	 */
-	void requestSceneChange(std::string const& n) const;
+	void requestSceneChange(std::string const& n, const bool loadingScreen = false) const;
 
 	/**
 	 * @brief Acaba y cierra el juego.
