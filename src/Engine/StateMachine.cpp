@@ -108,7 +108,7 @@ void StateMachine::_addAndSetScene(const sceneName& n)
 	// cargar nueva escena
 	GameLoader::loadScene(n, _currentScene.ptr);
 
-	if (_currentScene.ptr != nullptr) // si se ha cargado correctamente
+	if (_currentScene.ptr != nullptr && !_endGame) // si se ha cargado correctamente
 	{
 		Debug::out("STATEMACHINE: Entrando a escena ", n);
 

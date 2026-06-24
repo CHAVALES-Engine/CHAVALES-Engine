@@ -16,6 +16,11 @@ REGISTER_COMPONENT(Camera);
 
 Camera::Camera()
 {
+	FOVy = 45.0f;
+	nearClipDistance = 0.1f;
+	farClipDistance = 1000.0f;
+	focalLength = 1.0f;
+
 	registerMethod("setFOVy", [this](const std::vector<std::any>& args) {
 		if (args.size() >= 1) {
 			setFOVy(std::any_cast<float>(args[0]));
