@@ -119,6 +119,11 @@ private:
 	bool _hasPendingSceneChange = false;
 
 	/**
+	 * @brief Si hay que cargar siguiente escena con pantalla de carga
+	 */
+	bool _requestedLoadingScreen = false;
+
+	/**
 	 * @brief Nombre de la siguiente escena solicitada.
 	 */
 	sceneName _pendingSceneName;

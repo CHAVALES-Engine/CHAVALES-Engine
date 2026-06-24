@@ -151,6 +151,7 @@ void StateMachine::requestSceneChange(const sceneName& sn, const bool& loadingSc
 	{
 		_pendingSceneName = sn;
 		_hasPendingSceneChange = true;
+		_requestedLoadingScreen = loadingScreen;
 		Debug::out("STATEMACHINE: Cambio de escena encolado a ", sn);
 		return;
 	}
@@ -167,7 +168,8 @@ void StateMachine::_processSceneChange()
 	sceneName nextScene = _pendingSceneName; // guardar antes de clar
 	_hasPendingSceneChange = false;
 	_pendingSceneName.clear();
-	_addAndSetScene(nextScene);
+	_addAndSetScene(nextScene, _requestedLoadingScreen);
+	_requestedLoadingScreen = false;
 	if (!_currentScene.ptr) Engine::instance()->quitGame();
 }
 
