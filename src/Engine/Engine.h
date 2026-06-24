@@ -101,11 +101,6 @@ public:
 	bool renderFrame();
 
 	/**
-	* @brief Crear escena de pantalla de carga
-	*/
-	bool createLoadingScreenScene(const std::string& bgImage, const core::Color& barFill, const std::string& fontName);
-
-	/**
 	* @brief Establece nuevo progreso para la pantalla de carga
 	*/
 	void setLoadingScreenProcedures(const int& n);

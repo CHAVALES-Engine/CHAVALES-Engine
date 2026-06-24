@@ -144,7 +144,8 @@ struct LoadingScreenData
 	uiLabelID barFillID;
 	uiLabelID textID;
 
-	std::string bgImage;
+	std::string bgImageFolder;
+	std::string bgImageName;
 	core::Color barFill;
 	UITransformID barFillTID;
 	std::string fontName;
@@ -746,7 +747,7 @@ public:
 	/**
 	* @brief Crear escena de pantalla de carga
 	*/
-	bool createLoadingScreenScene(const std::string& bgImage, const core::Color& barFill, const std::string& fontName);
+	bool createLoadingScreenScene(const std::string& bgImageFolder, const std::string& bgImageName, const core::Color& barFill, const std::string& fontName);
 
 	/**
 	* @brief Establece nuevo progreso para la pantalla de carga

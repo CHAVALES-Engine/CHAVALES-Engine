@@ -129,12 +129,6 @@ bool Engine::renderFrame()
 	return _renderModule->renderFrame();
 }
 
-bool Engine::createLoadingScreenScene(const std::string& bgImage, const core::Color& barFill, const std::string& fontName)
-{
-	if (!_renderModule) return false;
-	_renderModule->createLoadingScreenScene(bgImage, barFill, fontName);
-}
-
 void Engine::setLoadingScreenProcedures(const int& n)
 {
 	if (!_renderModule) return;

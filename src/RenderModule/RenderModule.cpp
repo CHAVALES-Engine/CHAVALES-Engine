@@ -518,7 +518,7 @@ void RenderModule::cleanScene(const bool& end)
 		//Recrear loading screen
 		if (_ls.exists)
 		{
-			createLoadingScreenScene(_ls.bgImage, _ls.barFill, _ls.fontName);
+			createLoadingScreenScene(_ls.bgImageFolder, _ls.bgImageName, _ls.barFill, _ls.fontName);
 		}
 	}
 	else
@@ -2247,7 +2247,7 @@ void RenderModule::cleanDebug()
 	}
 }
 
-bool RenderModule::createLoadingScreenScene(const std::string& bgImage, const core::Color& barFill, const std::string& fontName)
+bool RenderModule::createLoadingScreenScene(const std::string& bgImageFolder, const std::string& bgImageName, const core::Color& barFill, const std::string& fontName)
 {
 	try
 	{
@@ -2285,12 +2285,8 @@ bool RenderModule::createLoadingScreenScene(const std::string& bgImage, const co
 		setUITransformDimension(tPanel, { 1280.0f, 720.0f });
 
 		//Imagen fondo
-		std::string bgFolder = std::filesystem::path(bgImage).parent_path().string() + "/";
-		_preloadedGroups.insert(bgFolder);
-		std::string bgFile = std::filesystem::path(bgImage).filename().string();
-
 		float opacity = 1.0f;
-		_ls.bgID = addUITextureRect(_ls.panelID, eidBG, bgFolder, bgFile, opacity);
+		_ls.bgID = addUITextureRect(_ls.panelID, eidBG, bgImageFolder, bgImageName, opacity);
 		UITransformID tBG = getTransformUI(eidBG);
 		setUITransformPos(tBG, { 0.0f, 0.0f });
 		setUITransformDimension(tBG, { 1280.0f, 720.0f });
@@ -2318,7 +2314,8 @@ bool RenderModule::createLoadingScreenScene(const std::string& bgImage, const co
 		setUITransformDepthLayer(tPct, 3);
 
 		_ls.exists = true;
-		_ls.bgImage = bgImage;
+		_ls.bgImageFolder = bgImageFolder;
+		_ls.bgImageName = bgImageName;
 		_ls.barFill = barFill;
 		_ls.fontName = fontName;
 
