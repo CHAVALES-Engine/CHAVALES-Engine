@@ -46,17 +46,35 @@ public:
 	*/
 	bool isKeyPressed(input::InputEvent inputAction, input::DeviceID device = input::ANY_DEVICE) const;
 	/**
+	* @brief Devuelve si una tecla esta pulsada con el device correspondiente.
+	* @param inputEvent - InputEvent a comprobar
+	* @return std::pair<bool, input::DeviceID> - Siendo first si la tecla ha sido pulsada y second el device que lo ha pulsado.
+	*/
+	std::pair<bool, input::DeviceID> isKeyPressedWithDevice(input::InputEvent inputEvent) const;
+	/**
 	* @brief Devuelve si una tecla se acaba de pulsar.
 	* @param key - Tecla a comprobar.
 	* @returns bool - Estado de la tecla.
 	*/
 	bool isJustPressed(input::InputEvent inputEvent, input::DeviceID device = input::ANY_DEVICE) const;
 	/**
+	* @brief Devuelve si una tecla se acaba de pulsar con el devide correspondiente.
+	* @param key - Tecla a comprobar.
+	* @return std::pair<bool, input::DeviceID> - Siendo first si la tecla se acaba de pulsar y second el device que lo ha pulsado.
+	*/
+	std::pair<bool, input::DeviceID> isJustPressedWithDevice(input::InputEvent inputEvent) const;
+	/**
 	* @brief Devuelve si se ha dejado de pulsar una tecla
 	* @param inputAction - InputEvent a comprobar
 	* @param device - id del dispositivo a comprobar. -1 por defecto => el primero positivo que encuentre.
 	*/
 	bool isKeyReleased(input::InputEvent inputAction, input::DeviceID device = input::ANY_DEVICE) const;
+	/**
+	 * @brief Devuelve si se ha dejado de pulsar una tecla con el device correspondiente.
+	 * @param inputEvent - InputEvent a comprobar
+	 * @returms std::pair<bool, input::DeviceID> - Siendo first si la tecla se ha dejado de pulsar y second el device que la ha dejado de pulsar.
+	 */
+	std::pair<bool, input::DeviceID> isKeyReleasedWithDevice(input::InputEvent inputEvent) const;
 	/**
 	* @brief Devuelve cuanto de accionado esta la accion a comprobar
 	* @param inputAction - InputEvent a comprobar
@@ -65,11 +83,24 @@ public:
 	*/
 	float getAxis(input::InputEvent inputAction, input::DeviceID device = input::ANY_DEVICE) const;
 	/**
+	 * @brief Devuelve cuanto de accionado esta la accion a comprobar con el device correspondiente.
+	 * @param inputEvent - InputEvent a comprobar
+	 * @param device - id del dispositivo a comprobar. ANY_DEVICE por defecto => la media de los ejes de los dispositivos.
+	 * @return std::pair<float, input::DeviceID> - Siendo first valor entre -1 a 1 y second el device.
+	 */
+	std::pair<float, input::DeviceID> getAxisWithDevice(input::InputEvent inputEvent) const;
+	/**
 	* @brief Devuelve si se ha pulsado una accion
 	* @param actionName - accion a comprobar
 	* @param device - id del dispositivo a comprobar. -1 por defecto => el primero positivo que encuentre.
 	*/
 	bool isActionPressed(const std::string& actionName, input::DeviceID device = input::ANY_DEVICE) const;
+	/**
+	 * @brief Devuelve si se ha pulsado una accion con el device correspondiente.
+	 * @param actionName - accion a comprobar
+	 * @returns std::pair<bool, input::DeviceID> - Siendo first si la accion ha sido pulsada y second el device.
+	 */
+	std::pair<bool, input::DeviceID> isActionPressedWithDevice(const std::string& actionName) const;
 	/**
 	* @brief Devuelve si se acaba de pulsar una accion
 	* @param actionName - accion a comprobar
@@ -77,17 +108,35 @@ public:
 	*/
 	bool isActionJustPressed(const std::string& actionName, input::DeviceID device = input::ANY_DEVICE) const;
 	/**
+	 * @brief Devuelve si se ha pulsado una accion y su device
+	 * @param actionName - accion a comprobar
+	 * @returns std::pair<bool, input::DeviceID> - id del dispositivo a comprobar. ANY_DEVICE por defecto => si se ha pulsado en cualquier dispositivo.
+	 */
+	std::pair<bool, input::DeviceID> isActionJustPressedWithDevice(const std::string& actionName) const;
+	/**
 	* @brief Devuelve si se ha dejado de pulsar una accion
 	* @param actionName - accion a comprobar
 	* @param device - id del dispositivo a comprobar. -1 por defecto => el primero positivo que encuentre.
 	*/
 	bool isActionReleased(const std::string& actionName, input::DeviceID device = input::ANY_DEVICE) const;
 	/**
+	 * @brief Devuelve si se ha dejado de pulsar una accion y su device
+	 * @param actionName - accion a comprobar
+	 * @device std::pair<bool, input::DeviceID> - Siendo first si se ha dejado de pulsar la accion y second el device.
+	 */
+	std::pair<bool, input::DeviceID> isActionReleasedWithDevice(const std::string& actionName) const;
+	/**
 	 * @brief Devuelve la media de los ejes registrados a esa accion(input::ANY_DEVICE) o la media de los ejes del device pedido.
 	 * @param actionName - accion a comprobar
 	 * @param device - id del dispositivo a comprobar. ANY_DEVICE por defecto => si se ha dejado de pulsar en cualquier dispositivo.
 	 */
 	float getActionAxis(const std::string& actionName, input::DeviceID device = input::ANY_DEVICE) const;
+	/**
+	 * @brief Devuelve la media de los ejes registrados a esa accion(input::ANY_DEVICE) o la media de los ejes del device pedido y su device.
+	 * @param actionName - accion a comprobar
+	 * @returns std::pair<float, input::DeviceID> - Siendo first valor entre -1 y 1 y second el device.
+	 */
+	std::pair<float, input::DeviceID> getActionAxisWithDevice(const std::string& actionName) const;
 	/**
 	* @brief Indica a la ventana que tome input de texto.
 	*/

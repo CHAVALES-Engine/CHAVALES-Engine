@@ -50,6 +50,8 @@ using Property = std::variant<
 	input::MouseAxis,
 	input::GamepadButton,
 	input::GamepadAxis,
+	std::pair<bool,input::DeviceID>,
+	std::pair<float,input::DeviceID>,
 	// ENGINE
 	core::Entity*,
 	std::shared_ptr<core::Scene>,
