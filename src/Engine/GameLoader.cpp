@@ -746,6 +746,8 @@ core::Entity* GameLoader::loadPrefab(const std::string& n)
 	return _loadPrefab(Engine::instance()->getScene(), n);
 }
 
+#ifdef _DEBUG
+
 bool GameLoader::reloadLua()
 {
 	try
@@ -791,3 +793,5 @@ bool GameLoader::reloadLua()
 		return false;
 	}
 }
+
+#endif

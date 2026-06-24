@@ -34,7 +34,7 @@ StateMachine::~StateMachine()
 void StateMachine::gameLoop()
 {
 	auto startTime = core::Clock::getNow();
-	uint64_t accumulator = 0; 
+	uint64_t accumulator = 0;
 	_isLoopRunning = true;
 
 	while (!_endGame) // bucle de juego
@@ -53,7 +53,7 @@ void StateMachine::gameLoop()
 
 			accumulator += _deltaTime;
 			int fixedSteps = 0;
-			while (accumulator >= core::Clock::FRAME_RATE 
+			while (accumulator >= core::Clock::FRAME_RATE
 				&& fixedSteps < core::Clock::MAX_FIXED_STEPS)
 			{
 				_currentScene.ptr->fixedUpdate();
@@ -73,7 +73,10 @@ void StateMachine::gameLoop()
 			_currentScene.ptr->addListedEntities();
 			_currentScene.ptr->destroyDeadEntities();
 		}
+
+#ifdef _DEBUG
 		_processHotLuaReload();
+#endif
 	}
 
 	_isLoopRunning = false;
@@ -173,6 +176,8 @@ void StateMachine::_processSceneChange()
 	if (!_currentScene.ptr) Engine::instance()->quitGame();
 }
 
+#ifdef _DEBUG
+
 void StateMachine::_processHotLuaReload()
 {
 	if (GameLoader::reloadLua() || ComponentDLLLoader::instance().checkReload()) // si es necesario recargar...
@@ -189,3 +194,5 @@ void StateMachine::_processHotLuaReload()
 		}
 	}
 }
+
+#endif

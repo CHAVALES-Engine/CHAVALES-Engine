@@ -86,7 +86,9 @@ private:
 	 */
 	void _processSceneChange();
 
+#ifdef _DEBUG
 	void _processHotLuaReload();
+#endif
 
 	/**
 	 * @brief Tiempo desde la ultima actualizacion.

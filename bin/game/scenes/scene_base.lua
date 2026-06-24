@@ -16,7 +16,7 @@ scene = { -- entidades en escena
                     scale = Vector3.new(1)
                 },
                 Camera = {
-                    FOVy = 1.0,
+                    FOVy = 1.0,  
                     nearPlane = 0.1,
                     farPlane = 10000.0,
                     ["focal length"] = 60.0
@@ -80,7 +80,7 @@ scene = { -- entidades en escena
                     bounceCombine = 2
                 },
                 AudioSource = {
-                    soundPath = "audio/sfx/smb_1-up.wav",
+                    path = "audio/sfx/smb_1-up.wav",
                     is3D = true,
                     loop = false,
                     isStream = false,
