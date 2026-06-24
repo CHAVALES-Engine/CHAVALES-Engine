@@ -2252,7 +2252,7 @@ bool RenderModule::createLoadingScreenScene(const std::string& bgImage, const co
 	try
 	{
 		// Scene manager propio
-		_sceneMgrLS = _root->createSceneManager("LoadingScreenSM");
+		_sceneMgrLS = _root->createSceneManager();
 		_sceneMgrLS->setAmbientLight(Ogre::ColourValue(1.0f, 1.0f, 1.0f));
 
 		// Registrar en ShaderGen
