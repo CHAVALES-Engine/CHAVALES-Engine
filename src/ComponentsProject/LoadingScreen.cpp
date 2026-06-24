@@ -2,6 +2,9 @@
 #include "checkMLNew.h"
 #include "Engine.h"
 #include "RenderModule.h"
+#include "PluginSDK.h"
+
+REGISTER_COMPONENT(LoadingScreen);
 
 bool LoadingScreen::init(const Properties& p)
 {
