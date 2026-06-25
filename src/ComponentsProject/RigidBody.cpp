@@ -114,15 +114,28 @@ RigidBody::RigidBody()
 
 bool RigidBody::init(const Properties& p)
 {
-	useGravity = getProperty<bool>(p, "useGravity");
-	isKinematic = getProperty<bool>(p, "isKinematic");
-	setMass(getProperty<float>(p, "mass"));
-	setPosition(getProperty<core::Vector3<>>(p, "position"));
+	if (!setProperty<bool>(p, "useGravity", useGravity)) return false;
+	if (!setProperty<bool>(p, "isKinematic", isKinematic)) return false;
+
+	float mass;
+	if (!setProperty<float>(p, "mass", mass)) return false;
+	setMass(mass);
+
+	core::Vector3<> pos;
+	if (!setProperty<core::Vector3<>>(p, "position", pos)) return false;
+	setPosition(pos);
+
 	physicsID = physics()->CreateRigidBody(getPosition(), getMass(), useGravity, isKinematic);
 	if (!isKinematic)
 	{
-		setVelocity(getProperty<core::Vector3<>>(p, "velocity"));
-		setLinearDamping(getProperty<float>(p, "damping"));
+		core::Vector3<> vel;
+		if (!setProperty<core::Vector3<>>(p, "velocity", vel)) return false;
+		setVelocity(vel);
+
+		float damp;
+		if (!setProperty<float>(p, "damping", damp)) return false;
+		setLinearDamping(damp);
+
 		std::vector<bool> blockAxs(3, false);
 		setProperty(p, "blockAxes", blockAxs, false);
 		if (blockAxs.size() >= 3) {
@@ -165,7 +178,7 @@ void RigidBody::update(uint64_t dt)
 		transform->setGlobalPosition(getPosition());
 		transform->setGlobalRotation(getRotation());
 	}
-	else if(isKinematic || !useGravity)
+	else if (isKinematic || !useGravity)
 	{
 		setPosition(transform->getGlobalPosition());
 		setRotation(transform->getGlobalRotation());
