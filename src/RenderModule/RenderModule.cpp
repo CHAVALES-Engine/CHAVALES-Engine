@@ -2338,7 +2338,7 @@ void RenderModule::increaseLoadingScreen(const int& n)
 
 		float newPer = static_cast<float>(_ls.currProcedures) / static_cast<float>(_ls.nProcedures);
 
-		setUITransformDimension(_ls.barFillTID, { 373.0f * newPer, 13.0f });
+		setUITransformDimension(_ls.barFillTID, { std::min(373.0f, 373.0f * newPer), 13.0f });
 		int finalPer = std::min(100, static_cast<int>(newPer * 100));
 		setUILabelText(_ls.textID, std::to_string(finalPer));
 	}
