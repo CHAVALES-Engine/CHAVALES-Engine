@@ -754,7 +754,7 @@ public:
 	/**
 	* @brief Establece nuevo progreso para la pantalla de carga
 	*/
-	void setLoadingScreenProcedures(const int& n);
+	bool setLoadingScreenProcedures(const int& n);
 
 	/**
 	* @brief Actualiza la barra de progreso

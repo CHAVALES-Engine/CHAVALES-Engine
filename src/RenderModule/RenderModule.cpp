@@ -2307,11 +2307,13 @@ bool RenderModule::createLoadingScreenScene(const std::string& bgImageFolder, co
 	}
 }
 
-void RenderModule::setLoadingScreenProcedures(const int& n)
+bool RenderModule::setLoadingScreenProcedures(const int& n)
 {
+	if (!_ls.exists) return false;
 	_ls.nProcedures = n;
 	_ls.currProcedures = 0;
 	setUITransformDimension(_ls.barFillTID, { 0.0f, 20.0f });
+	return true;
 }
 
 void RenderModule::increaseLoadingScreen(const int& n)
