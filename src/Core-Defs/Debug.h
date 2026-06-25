@@ -81,27 +81,29 @@ public:
 	*/
 	static void open(const std::string& file = "log.log")
 	{
-if (_file.is_open()) return;
+		if (_file.is_open()) return;
 
-	std::filesystem::path finalPath;
+		std::filesystem::path finalPath;
 
-	if (!_logPath.empty())
-	{
-		std::filesystem::create_directories(_logPath);
-		finalPath = std::filesystem::path(_logPath) / file;
-	}
-	else
-	{
-		finalPath = file;
-	}
+		std::filesystem::path basePath = std::filesystem::path("ChavalesEngine");
 
-	_file.open(finalPath);
+		if (!_logPath.empty())
+		{
+			basePath /= _logPath;
+		}
 
-	if (!_file.is_open())
-		error(Mode::CONS,
-			"[DEBUG] Fichero log no se ha podido abrir.");
+		std::filesystem::create_directories(basePath);
 
-	setlocale(LC_ALL, "es_ES.utf8");
+		finalPath = basePath / file;
+
+		_file.open(finalPath);
+
+		if (!_file.is_open())
+		{
+			error(Mode::CONS, "[DEBUG] Fichero log no se ha podido abrir.");
+		}
+
+		setlocale(LC_ALL, "es_ES.utf8");
 	}
 
 	/**
