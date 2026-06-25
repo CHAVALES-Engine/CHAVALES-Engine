@@ -359,13 +359,34 @@ bool RenderModule::renderLoadingScreen()
 		renderUI(true);
 		_root->renderOneFrame();
 
-		//Reactivar viewport princiapl
+		//Reactivar viewport principal
 		if (_vp) _vp->setVisibilityMask(0xFFFFFFFF);
 		return true;
 	}
 	else
 	{
 		return false;
+	}
+}
+
+void RenderModule::setLoadingScreenActive(const bool& active)
+{
+	if (active)
+	{
+		if (_vpLS == nullptr && _sceneMgrLS != nullptr)
+		{
+			_vpLS = _window->addViewport(_ls.cam, 1);
+			_vpLS->setMaterialScheme(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME);
+			_vpLS->setOverlaysEnabled(true);
+		}
+	}
+	else
+	{
+		if (_vpLS != nullptr)
+		{
+			_window->removeViewport(1);
+			_vpLS = nullptr;
+		}
 	}
 }
 
@@ -531,11 +552,14 @@ void RenderModule::cleanScene(const bool& end)
 			_window->removeViewport(1);
 			_vpLS = nullptr;
 		}
+		if (_ls.cam != nullptr)
+		{
+			_sceneMgrLS->destroyCamera(_ls.cam);
+			_ls.cam = nullptr;
+		}
 		if (_sceneMgrLS)
 		{
-			_shaderGen->removeSceneManager(_sceneMgrLS);
 			_sceneMgrLS->clearScene();
-			_root->destroySceneManager(_sceneMgrLS);
 			_sceneMgrLS = nullptr;
 		}
 		//Fin limpieza pantalla de carga
@@ -2251,26 +2275,29 @@ bool RenderModule::createLoadingScreenScene(const std::string& bgImageFolder, co
 {
 	try
 	{
-		// Scene manager propio
-		_sceneMgrLS = _root->createSceneManager();
-		_sceneMgrLS->setAmbientLight(Ogre::ColourValue(1.0f, 1.0f, 1.0f));
+		if (!_ls.exists)
+		{
+			// Scene manager propio
+			_sceneMgrLS = _root->createSceneManager();
+			_sceneMgrLS->setAmbientLight(Ogre::ColourValue(1.0f, 1.0f, 1.0f));
 
-		// Registrar en ShaderGen
-		_shaderGen->addSceneManager(_sceneMgrLS);
+			// Registrar en ShaderGen
+			_shaderGen->addSceneManager(_sceneMgrLS);
 
-		// Camara
-		Ogre::SceneNode* camNode = _sceneMgrLS->getRootSceneNode()->createChildSceneNode();
-		auto cameraLS = _sceneMgrLS->createCamera("CameraLS");
-		camNode->attachObject(cameraLS);
-		cameraLS->setAutoAspectRatio(true);
-		cameraLS->setNearClipDistance(0.1f);
-		cameraLS->setFarClipDistance(1000.0f);
+			// Camara
+			Ogre::SceneNode* camNode = _sceneMgrLS->getRootSceneNode()->createChildSceneNode();
+			_ls.cam = _sceneMgrLS->createCamera("CameraLS");
+			camNode->attachObject(_ls.cam);
+			_ls.cam->setAutoAspectRatio(true);
+			_ls.cam->setNearClipDistance(0.1f);
+			_ls.cam->setFarClipDistance(1000.0f);
 
-		// Viewport encima del principal
-		_vpLS = _window->addViewport(cameraLS, 1);
-		_vpLS->setBackgroundColour(Ogre::ColourValue(0.0f, 0.0f, 0.0f));
-		_vpLS->setMaterialScheme(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME);
-		_vpLS->setOverlaysEnabled(true);
+			// Viewport encima del principal
+			_vpLS = _window->addViewport(_ls.cam, 1);
+			_vpLS->setBackgroundColour(Ogre::ColourValue(0.0f, 0.0f, 0.0f));
+			_vpLS->setMaterialScheme(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME);
+			_vpLS->setOverlaysEnabled(true);
+		}
 
 		entityID eidPanel = entityID::generate();
 		entityID eidBG = entityID::generate();
@@ -2310,7 +2337,7 @@ bool RenderModule::createLoadingScreenScene(const std::string& bgImageFolder, co
 		_ls.textID = addUILabel(_ls.panelID, eidText, "0%", opacity, core::Color(1.0f, 1.0f, 1.0f, 1.0f), core::Color(0.0f, 0.0f, 0.0f, 0.0f), 16.0f, TextAlign::RIGHT, fontName);
 		UITransformID tPct = getTransformUI(eidText);
 		setUITransformPos(tPct, { 1640.0f, 605.0f });
-		setUITransformDimension(tPct, { 120.0f,  30.0f });
+		setUITransformDimension(tPct, { 120.0f, 30.0f });
 		setUITransformDepthLayer(tPct, 3);
 
 		_ls.exists = true;
@@ -2387,6 +2414,9 @@ void RenderModule::shutdown()
 		if (_sceneMgr)
 			Ogre::RTShader::ShaderGenerator::getSingleton()
 			.removeSceneManager(_sceneMgr);
+		if (_sceneMgrLS)
+			Ogre::RTShader::ShaderGenerator::getSingleton()
+			.removeSceneManager(_sceneMgrLS);
 		Ogre::RTShader::ShaderGenerator::destroy();
 	}
 

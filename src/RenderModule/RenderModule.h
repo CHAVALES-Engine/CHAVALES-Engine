@@ -144,6 +144,8 @@ struct LoadingScreenData
 	uiLabelID barFillID;
 	uiLabelID textID;
 
+	Ogre::Camera* cam;
+
 	std::string bgImageFolder;
 	std::string bgImageName;
 	core::Color barFill;
@@ -153,7 +155,7 @@ struct LoadingScreenData
 	int nProcedures;
 	int currProcedures;
 
-	LoadingScreenData() { exists = false; nProcedures = 0; currProcedures = 0; }
+	LoadingScreenData() { exists = false; nProcedures = 0; currProcedures = 0; cam = nullptr;  }
 };
 
 union SDL_Event;
@@ -193,6 +195,11 @@ public:
 	* @brief Renderizar pantalla de carga.
 	*/
 	bool renderLoadingScreen();
+
+	/**
+	* @brief Establecer el viewport de la pantalla de carga.
+	*/
+	void setLoadingScreenActive(const bool& active);
 
 	/**
 	* @brief Borrar todos los elementos de la escena.

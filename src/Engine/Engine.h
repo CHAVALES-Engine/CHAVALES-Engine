@@ -101,6 +101,11 @@ public:
 	bool renderFrame();
 
 	/**
+	* @brief Establecer actividad pantalla de carga.
+	*/
+	void setLoadingScreenActive(const bool& active);
+
+	/**
 	* @brief Establece nuevo progreso para la pantalla de carga
 	*/
 	void setLoadingScreenProcedures(const int& n);
