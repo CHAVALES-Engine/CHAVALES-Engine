@@ -107,6 +107,10 @@ namespace core
 		 * @brief Cargar desde disco.
 		 */
 		bool LoadFromFile(const std::string& path);
+		/**
+		 * @brief Nombre del juego
+		 */
+		std::string getLogRoot() const;
 
 	private:
 		template<typename T>

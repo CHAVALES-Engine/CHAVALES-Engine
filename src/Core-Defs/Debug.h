@@ -9,6 +9,8 @@
 #include <utility>
 #include <cassert>
 #include <locale.h>
+#include <filesystem>
+#include <cstdlib>
 
 /*//------ANSI codes:
 
@@ -64,6 +66,14 @@ public:
 	};
 
 	/**
+	* @brief Guarda el nombre del juego para poder guardar archivos pertenecientes a este en una carpeta con su nombre
+	*/
+	static void setLogPath(const std::string& path)
+	{
+		_logPath = path;
+	}
+
+	/**
 	* @brief Abre el fichero de Log.
 	* Si ya esta abierto el fichero no lo vuelve a abrir.
 	*
@@ -71,9 +81,27 @@ public:
 	*/
 	static void open(const std::string& file = "log.log")
 	{
-		if (!_file.is_open()) _file.open(file);
-		if (!_file.is_open()) error(Mode::CONS, "[DEBUG] Fichero log no se ha podido abrir.");
-		setlocale(LC_ALL, "es_ES.utf8");
+if (_file.is_open()) return;
+
+	std::filesystem::path finalPath;
+
+	if (!_logPath.empty())
+	{
+		std::filesystem::create_directories(_logPath);
+		finalPath = std::filesystem::path(_logPath) / file;
+	}
+	else
+	{
+		finalPath = file;
+	}
+
+	_file.open(finalPath);
+
+	if (!_file.is_open())
+		error(Mode::CONS,
+			"[DEBUG] Fichero log no se ha podido abrir.");
+
+	setlocale(LC_ALL, "es_ES.utf8");
 	}
 
 	/**
@@ -197,4 +225,5 @@ private:
 	* Archivo de salida del Debug.
 	*/
 	static inline std::ofstream _file;
+	static inline std::string _logPath = "";
 };
