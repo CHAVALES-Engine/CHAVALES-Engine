@@ -90,18 +90,18 @@ public:
 
 		if (_dupenv_s(&buffer, &len, "LOCALAPPDATA") == 0 && buffer)
 		{
-			basePath = std::filesystem::path(buffer) / "ChavalesEngine";
+			basePath = std::filesystem::path(buffer);
 			free(buffer);
 		}
 		else
 		{
-			basePath = std::filesystem::path("Logs");
+			basePath = std::filesystem::path(".");
 		}
 
 		if (!_logPath.empty())
-		{
 			basePath /= _logPath;
-		}
+		else
+			basePath /= "ChavalesEngine";
 
 		std::filesystem::create_directories(basePath);
 
