@@ -83,9 +83,20 @@ public:
 	{
 		if (_file.is_open()) return;
 
-		std::filesystem::path finalPath;
+		char* buffer = nullptr;
+		size_t len = 0;
 
-		std::filesystem::path basePath = std::filesystem::path("Logs");
+		std::filesystem::path basePath;
+
+		if (_dupenv_s(&buffer, &len, "LOCALAPPDATA") == 0 && buffer)
+		{
+			basePath = std::filesystem::path(buffer) / "ChavalesEngine";
+			free(buffer);
+		}
+		else
+		{
+			basePath = std::filesystem::path("Logs");
+		}
 
 		if (!_logPath.empty())
 		{
@@ -94,7 +105,7 @@ public:
 
 		std::filesystem::create_directories(basePath);
 
-		finalPath = basePath / file;
+		std::filesystem::path finalPath = basePath / file;
 
 		_file.open(finalPath);
 
