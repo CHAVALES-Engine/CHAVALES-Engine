@@ -347,9 +347,9 @@ bool RenderModule::renderFrame()
 
 bool RenderModule::renderLoadingScreen()
 {
-	if (_vp != nullptr)
+	if (_ls.exists && _vp != nullptr)
 	{
-		if (_vp->getCamera() != nullptr)
+		if (_vp->getCamera() != nullptr && _ls.cam != nullptr)
 		{
 			_vp->setCamera(_ls.cam);
 		}
