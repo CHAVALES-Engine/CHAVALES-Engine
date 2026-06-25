@@ -414,7 +414,8 @@ void RenderModule::_calculateViewportRect(
 
 void RenderModule::scaleViewportToWindow()
 {
-	if (_vp == nullptr || _window == nullptr) return;
+	Ogre::Viewport* activeVP = (_vpLS != nullptr) ? _vpLS : _vp;
+	if (activeVP == nullptr || _window == nullptr) return;
 	_window->windowMovedOrResized();
 
 	const float windowWidth = _window->getWidth();
@@ -423,7 +424,7 @@ void RenderModule::scaleViewportToWindow()
 
 	float vpLeft, vpTop, vpWidth, vpHeight;
 	_calculateViewportRect(windowWidth, windowHeight, vpLeft, vpTop, vpWidth, vpHeight);
-	_vp->setDimensions(vpLeft, vpTop, vpWidth, vpHeight);
+	activeVP->setDimensions(vpLeft, vpTop, vpWidth, vpHeight);
 }
 
 bool RenderModule::getViewportRectPixels(int& x, int& y, int& w, int& h) const
@@ -2057,10 +2058,12 @@ void RenderModule::renderUI(const bool& loadingScreen)
 
 	const float baseW = _windowWidth > 0.0f ? _windowWidth : 1.0f;
 	const float baseH = _windowHeight > 0.0f ? _windowHeight : 1.0f;
-	const float vpW = _vp != nullptr ? _vp->getActualWidth() : baseW;
-	const float vpH = _vp != nullptr ? _vp->getActualHeight() : baseH;
-	const float vpLeft = _vp != nullptr ? _vp->getActualLeft() : 0.0f;
-	const float vpTop = _vp != nullptr ? _vp->getActualTop() : 0.0f;
+	Ogre::Viewport* activeVP = (loadingScreen && _vpLS != nullptr) ? _vpLS : _vp;
+
+	const float vpW = activeVP != nullptr ? activeVP->getActualWidth() : baseW;
+	const float vpH = activeVP != nullptr ? activeVP->getActualHeight() : baseH;
+	const float vpLeft = activeVP != nullptr ? activeVP->getActualLeft() : 0.0f;
+	const float vpTop = activeVP != nullptr ? activeVP->getActualTop() : 0.0f;
 	const float uiScale = std::min(vpW / baseW, vpH / baseH);
 	const float safeScale = uiScale > 0.0f ? uiScale : 1.0f;
 
@@ -2291,12 +2294,6 @@ bool RenderModule::createLoadingScreenScene(const std::string& bgImageFolder, co
 			_ls.cam->setAutoAspectRatio(true);
 			_ls.cam->setNearClipDistance(0.1f);
 			_ls.cam->setFarClipDistance(1000.0f);
-
-			// Viewport encima del principal
-			_vpLS = _window->addViewport(_ls.cam, 1);
-			_vpLS->setBackgroundColour(Ogre::ColourValue(0.0f, 0.0f, 0.0f));
-			_vpLS->setMaterialScheme(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME);
-			_vpLS->setOverlaysEnabled(true);
 		}
 
 		entityID eidPanel = entityID::generate();
@@ -2345,8 +2342,6 @@ bool RenderModule::createLoadingScreenScene(const std::string& bgImageFolder, co
 		_ls.bgImageName = bgImageName;
 		_ls.barFill = barFill;
 		_ls.fontName = fontName;
-
-		setLoadingScreenActive(false);
 
 		return true;
 	}
