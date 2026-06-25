@@ -349,7 +349,7 @@ bool RenderModule::renderLoadingScreen()
 {
 	if (_ls.exists && _vp != nullptr)
 	{
-		if (_vp->getCamera() != nullptr && _ls.cam != nullptr)
+		if (_vp->getCamera() == nullptr && _ls.cam != nullptr)
 		{
 			_vp->setCamera(_ls.cam);
 		}
