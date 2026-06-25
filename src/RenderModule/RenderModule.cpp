@@ -2346,6 +2346,8 @@ bool RenderModule::createLoadingScreenScene(const std::string& bgImageFolder, co
 		_ls.barFill = barFill;
 		_ls.fontName = fontName;
 
+		setLoadingScreenActive(false);
+
 		return true;
 	}
 	catch (const std::exception& e)
