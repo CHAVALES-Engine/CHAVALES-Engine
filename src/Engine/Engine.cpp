@@ -264,10 +264,7 @@ bool Engine::isFullscreen() const
 
 bool Engine::_initPriv()
 {
-	auto& config = core::GameConfigurator::instance();
-
-	Debug::setLogPath(config.getLogRoot()); //o lo que uses como nombre
-
+	
 	// Abre archivo .log
 	Debug::open();
 

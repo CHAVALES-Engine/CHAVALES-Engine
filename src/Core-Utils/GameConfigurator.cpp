@@ -44,11 +44,6 @@ toml::table core::GameConfigurator::Serialize()
 
 
 
-std::string core::GameConfigurator::getLogRoot() const
-{
-	return std::filesystem::path(_gameDLL).stem().string();
-}
-
 void core::GameConfigurator::Deserialize(const toml::table& data)
 {
 	_root = GetValue<std::string>(data, "root", _root);

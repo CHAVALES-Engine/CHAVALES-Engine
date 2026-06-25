@@ -65,13 +65,7 @@ public:
 		BOTH
 	};
 
-	/**
-	* @brief Guarda el nombre del juego para poder guardar archivos pertenecientes a este en una carpeta con su nombre
-	*/
-	static void setLogPath(const std::string& path)
-	{
-		_logPath = path;
-	}
+
 
 	/**
 	* @brief Abre el fichero de Log.
@@ -98,10 +92,8 @@ public:
 			basePath = std::filesystem::path(".");
 		}
 
-		if (!_logPath.empty())
-			basePath /= _logPath;
-		else
-			basePath /= "ChavalesEngine";
+
+		basePath /= "ChavalesEngineGameosLogs";
 
 		std::filesystem::create_directories(basePath);
 
@@ -238,5 +230,4 @@ private:
 	* Archivo de salida del Debug.
 	*/
 	static inline std::ofstream _file;
-	static inline std::string _logPath = "";
 };
