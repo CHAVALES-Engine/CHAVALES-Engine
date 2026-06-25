@@ -26,7 +26,7 @@
  * return setProperty(properties, "atributo1", component);
  *
 */
-;
+
 class ENGINE_API AmbientLight : public EngineComponent
 {
 public:

@@ -93,9 +93,9 @@ void Engine::startLoop() const
 		_stateMachine->gameLoop();
 }
 
-void Engine::requestSceneChange(std::string const& n) const
+void Engine::requestSceneChange(std::string const& n, const bool loadingScreen) const
 {
-	_stateMachine->requestSceneChange(n);
+	_stateMachine->requestSceneChange(n, loadingScreen);
 }
 
 void Engine::quitGame() const
@@ -125,10 +125,33 @@ void Engine::cleanScene()
 #pragma region RENDER
 bool Engine::renderFrame()
 {
-	if (!_renderModule) return false;;
+	if (!_renderModule) return false;
 	return _renderModule->renderFrame();
 }
 
+bool Engine::setLoadingScreenProcedures(const int& n)
+{
+	if (!_renderModule) return false;
+	return _renderModule->setLoadingScreenProcedures(n);
+}
+
+bool Engine::initLoadingScreen()
+{
+	if (!_renderModule) return false;
+	return _renderModule->initLoadingScreen();
+}
+
+void Engine::increaseLoadingScreen(const int& n)
+{
+	if (!_renderModule) return;
+	_renderModule->increaseLoadingScreen(n);
+}
+
+bool Engine::renderLoadingScreen()
+{
+	if (!_renderModule) return false;
+	return _renderModule->renderLoadingScreen();
+}
 
 void Engine::setViewportBGColor(const core::Color& color)
 {

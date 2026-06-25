@@ -22,40 +22,72 @@ bool InputFacade::isKeyPressed(input::InputEvent inputAction, input::DeviceID de
 {
 	return _platform->isKeyPressed(inputAction, device);
 }
+std::pair<bool,input::DeviceID> InputFacade::isKeyPressedWithDevice(input::InputEvent inputAction) const
+{
+	return _platform->isKeyPressedWithDevice(inputAction);
+}
 
 bool InputFacade::isJustPressed(input::InputEvent inputEvent, input::DeviceID device) const
 {
 	return _platform->isJustPressed(inputEvent, device);
+}
+std::pair<bool, input::DeviceID> InputFacade::isJustPressedWithDevice(input::InputEvent inputEvent) const
+{
+	return _platform->isJustPressedWithDevice(inputEvent);
 }
 
 bool InputFacade::isKeyReleased(input::InputEvent inputAction, input::DeviceID device) const
 {
 	return _platform->isKeyReleased(inputAction, device);
 }
+std::pair<bool, input::DeviceID> InputFacade::isKeyReleasedWithDevice(input::InputEvent inputAction) const
+{
+	return _platform->isKeyReleasedWithDevice(inputAction);
+}
 
 float InputFacade::getAxis(input::InputEvent inputAction, input::DeviceID device) const
 {
 	return _platform->getAxis(inputAction, device);
+}
+std::pair<float, input::DeviceID> InputFacade::getAxisWithDevice(input::InputEvent inputAction) const
+{
+	return _platform->getAxisWithDevice(inputAction);
 }
 
 bool InputFacade::isActionPressed(const std::string& actionName, input::DeviceID device) const
 {
 	return _platform->isActionPressed(actionName, device);
 }
+std::pair<bool, input::DeviceID> InputFacade::isActionPressedWithDevice(const std::string& actionName) const
+{
+	return _platform->isActionPressedWithDevice(actionName);
+}
 
 bool InputFacade::isActionJustPressed(const std::string& actionName, input::DeviceID device) const
 {
 	return _platform->isActionJustPressed(actionName, device);
+}
+std::pair<bool, input::DeviceID> InputFacade::isActionJustPressedWithDevice(const std::string& actionName) const
+{
+	return _platform->isActionJustPressedWithDevice(actionName);
 }
 
 bool InputFacade::isActionReleased(const std::string& actionName, input::DeviceID device) const
 {
 	return _platform->isActionReleased(actionName, device);
 }
+std::pair<bool, input::DeviceID> InputFacade::isActionReleasedWithDevice(const std::string& actionName) const
+{
+	return _platform->isActionReleasedWithDevice(actionName);
+}
 
 float InputFacade::getActionAxis(const std::string& actionName, input::DeviceID device) const
 {
 	return _platform->getActionAxis(actionName, device);
+}
+std::pair<float, input::DeviceID> InputFacade::getActionAxisWithDevice(const std::string& actionName) const
+{
+	return _platform->getActionAxisWithDevice(actionName);
 }
 
 void InputFacade::startTextInput(bool blockKeyboard) const
@@ -198,11 +230,21 @@ void InputFacade::_registerScriptBindings()
 			input::DeviceID dev = (a.size() > 1) ? std::get<int>(a[1]) : input::ANY_DEVICE;
 			return Property(static_cast<InputFacade*>(o)->isKeyPressed(getEventArg(a[0]), dev));
 		});
+	sm.bindMethodImpl("InputFacade", "isKeyPressedWithDevice",
+		[getEventArg](void* o, const std::vector<Property>& a) -> Property {
+			input::DeviceID dev = (a.size() > 1) ? std::get<int>(a[1]) : input::ANY_DEVICE;
+			return Property(static_cast<InputFacade*>(o)->isKeyPressedWithDevice(getEventArg(a[0])));
+		});
 
 	sm.bindMethodImpl("InputFacade", "isJustPressed",
 		[getEventArg](void* o, const std::vector<Property>& a) -> Property {
 			input::DeviceID dev = (a.size() > 1) ? std::get<int>(a[1]) : input::ANY_DEVICE;
 			return Property(static_cast<InputFacade*>(o)->isJustPressed(getEventArg(a[0]), dev));
+		});
+	sm.bindMethodImpl("InputFacade", "isJustPressedWithDevice",
+		[getEventArg](void* o, const std::vector<Property>& a) -> Property {
+			input::DeviceID dev = (a.size() > 1) ? std::get<int>(a[1]) : input::ANY_DEVICE;
+			return Property(static_cast<InputFacade*>(o)->isJustPressedWithDevice(getEventArg(a[0])));
 		});
 
 	sm.bindMethodImpl("InputFacade", "isKeyReleased",
@@ -210,11 +252,21 @@ void InputFacade::_registerScriptBindings()
 			input::DeviceID dev = (a.size() > 1) ? std::get<int>(a[1]) : input::ANY_DEVICE;
 			return Property(static_cast<InputFacade*>(o)->isKeyReleased(getEventArg(a[0]), dev));
 		});
+	sm.bindMethodImpl("InputFacade", "isKeyReleasedWithDevice",
+		[getEventArg](void* o, const std::vector<Property>& a) -> Property {
+			input::DeviceID dev = (a.size() > 1) ? std::get<int>(a[1]) : input::ANY_DEVICE;
+			return Property(static_cast<InputFacade*>(o)->isKeyReleasedWithDevice(getEventArg(a[0])));
+		});
 
 	sm.bindMethodImpl("InputFacade", "getAxis",
 		[getEventArg](void* o, const std::vector<Property>& a) -> Property {
 			input::DeviceID dev = (a.size() > 1) ? std::get<int>(a[1]) : input::ANY_DEVICE;
 			return Property(static_cast<InputFacade*>(o)->getAxis(getEventArg(a[0]), dev));
+		});
+	sm.bindMethodImpl("InputFacade", "getAxisWithDevice",
+		[getEventArg](void* o, const std::vector<Property>& a) -> Property {
+			input::DeviceID dev = (a.size() > 1) ? std::get<int>(a[1]) : input::ANY_DEVICE;
+			return Property(static_cast<InputFacade*>(o)->getAxisWithDevice(getEventArg(a[0])));
 		});
 
 	sm.bindMethodImpl("InputFacade", "isActionPressed",
@@ -222,11 +274,21 @@ void InputFacade::_registerScriptBindings()
 			input::DeviceID dev = (a.size() > 1) ? std::get<int>(a[1]) : input::ANY_DEVICE;
 			return Property(static_cast<InputFacade*>(o)->isActionPressed(std::get<std::string>(a[0]), dev));
 		});
+	sm.bindMethodImpl("InputFacade", "isActionPressedWithDevice",
+		[](void* o, const std::vector<Property>& a) -> Property {
+			input::DeviceID dev = (a.size() > 1) ? std::get<int>(a[1]) : input::ANY_DEVICE;
+			return Property(static_cast<InputFacade*>(o)->isActionPressedWithDevice(std::get<std::string>(a[0])));
+		});
 
 	sm.bindMethodImpl("InputFacade", "isActionJustPressed",
 		[](void* o, const std::vector<Property>& a) -> Property {
 			input::DeviceID dev = (a.size() > 1) ? std::get<int>(a[1]) : input::ANY_DEVICE;
 			return Property(static_cast<InputFacade*>(o)->isActionJustPressed(std::get<std::string>(a[0]), dev));
+		});
+	sm.bindMethodImpl("InputFacade", "isActionJustPressedWithDevice",
+		[](void* o, const std::vector<Property>& a) -> Property {
+			input::DeviceID dev = (a.size() > 1) ? std::get<int>(a[1]) : input::ANY_DEVICE;
+			return Property(static_cast<InputFacade*>(o)->isActionJustPressedWithDevice(std::get<std::string>(a[0])));
 		});
 
 	sm.bindMethodImpl("InputFacade", "isActionReleased",
@@ -234,11 +296,21 @@ void InputFacade::_registerScriptBindings()
 			input::DeviceID dev = (a.size() > 1) ? std::get<int>(a[1]) : input::ANY_DEVICE;
 			return Property(static_cast<InputFacade*>(o)->isActionReleased(std::get<std::string>(a[0]), dev));
 		});
+	sm.bindMethodImpl("InputFacade", "isActionReleasedWithDevice",
+		[](void* o, const std::vector<Property>& a) -> Property {
+			input::DeviceID dev = (a.size() > 1) ? std::get<int>(a[1]) : input::ANY_DEVICE;
+			return Property(static_cast<InputFacade*>(o)->isActionReleasedWithDevice(std::get<std::string>(a[0])));
+		});
 
 	sm.bindMethodImpl("InputFacade", "getActionAxis",
 		[](void* o, const std::vector<Property>& a) -> Property {
 			input::DeviceID dev = (a.size() > 1) ? std::get<int>(a[1]) : input::ANY_DEVICE;
 			return Property(static_cast<InputFacade*>(o)->getActionAxis(std::get<std::string>(a[0]), dev));
+		});
+	sm.bindMethodImpl("InputFacade", "getActionAxisWithDevice",
+		[](void* o, const std::vector<Property>& a) -> Property {
+			input::DeviceID dev = (a.size() > 1) ? std::get<int>(a[1]) : input::ANY_DEVICE;
+			return Property(static_cast<InputFacade*>(o)->getActionAxisWithDevice(std::get<std::string>(a[0])));
 		});
 
 	sm.bindMethodImpl("InputFacade", "startTextInput",

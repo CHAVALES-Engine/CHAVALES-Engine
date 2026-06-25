@@ -75,7 +75,7 @@ public:
 	 * @brief Solicita un cambio de escena a la maquina de estados.
 	 * @param n - path de la escena.
 	 */
-	void requestSceneChange(std::string const& n) const;
+	void requestSceneChange(std::string const& n, const bool loadingScreen = false) const;
 
 	/**
 	 * @brief Acaba y cierra el juego.
@@ -99,6 +99,27 @@ public:
 	* @brief Renderizar frame.
 	*/
 	bool renderFrame();
+
+	/**
+	* @brief Establece nuevo progreso para la pantalla de carga.
+	*/
+	bool setLoadingScreenProcedures(const int& n);
+
+	/**
+	* @brief Establece barra de progreso a 0 si existe pantalla de carga. Devuelve false en caso negativo.
+	*/
+	bool initLoadingScreen();
+
+	/**
+	* @brief Actualiza la barra de progreso.
+	*/
+	void increaseLoadingScreen(const int& n);
+
+	/**
+	* @brief Renderizar pantalla de carga.
+	*/
+	bool renderLoadingScreen();
+
 	/**
 	* @brief Limpiar escena.
 	*/

@@ -61,6 +61,7 @@ static Ogre::Viewport* _vp = nullptr;
 static Ogre::RTShader::ShaderGenerator* _shaderGen;
 static Ogre::ResourceGroupManager* _rgm;
 
+
 static Ogre::STBIImageCodec* _jpgCodec;
 static Ogre::STBIImageCodec* _jpegCodec;
 static Ogre::STBIImageCodec* _pngCodec;
@@ -169,6 +170,8 @@ bool RenderModule::Init(SDL_Window* sdlWindow, const HWND handle, const int widt
 		io.DisplaySize = ImVec2(
 			_windowWidth, _windowHeight
 		);
+
+		_ls = LoadingScreenData();
 
 		/*Ogre::MaterialPtr materialUI = Ogre::MaterialManager::getSingleton().getByName("ImGui/material");
 		_shaderGen->createShaderBasedTechnique(*materialUI, Ogre::MaterialManager::DEFAULT_SCHEME_NAME, Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, true);
@@ -342,6 +345,33 @@ bool RenderModule::renderFrame()
 	}
 }
 
+bool RenderModule::renderLoadingScreen()
+{
+	if (_ls.exists && _vp != nullptr)
+	{
+		if (_vp->getCamera() == nullptr && _ls.cam != nullptr)
+		{
+			_vp->setCamera(_ls.cam);
+		}
+		if (_vp->getCamera() != nullptr)
+		{
+			scaleViewportToWindow();
+			renderUI(true);
+			_root->renderOneFrame();
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+		
+	}
+	else
+	{
+		return false;
+	}
+}
+
 void RenderModule::_calculateViewportRect(
 	float windowWidth, float windowHeight, 
 	float& vpLeft, float& vpTop, 
@@ -487,10 +517,27 @@ void RenderModule::cleanScene(const bool& end)
 
 		_debugNode = _sceneMgr->getRootSceneNode()->createChildSceneNode();
 		_debugNode->attachObject(_debugDraw);
+
+		//Recrear loading screen
+		if (_ls.exists)
+		{
+			createLoadingScreenScene(_ls.bgImageFolder, _ls.bgImageName, _ls.barFill, _ls.fontName);
+		}
 	}
 	else
 	{
+		if (_ls.cam != nullptr)
+		{
+			Ogre::SceneNode* parent = _ls.cam->getParentSceneNode();
+			if (parent)
+				parent->detachObject(_ls.cam);
+
+			_sceneMgr->destroyCamera(_ls.cam);
+			_ls.cam = nullptr;
+		}
+
 		_sceneMgr->clearScene();
+
 		Ogre::StringVector groups = _rgm->getResourceGroups();
 		for (const std::string& groupName : groups)
 		{
@@ -1977,7 +2024,7 @@ TextAlign RenderModule::stringToAlign(const std::string& align)
 	}
 }
 
-void RenderModule::renderUI()
+void RenderModule::renderUI(const bool& loadingScreen)
 {
 	ImGui_ImplSDL3_NewFrame();
 	ImGui::NewFrame();
@@ -1994,6 +2041,13 @@ void RenderModule::renderUI()
 	for (UIPanelData& panel : _uiPanels)
 	{
 		if (!panel.visible || !panel.alive) continue;
+
+		bool isLSPanel = (panel.title == "LSPanel");
+		//Descartamos el panel de la pantalla de carga para render normal
+		if (!loadingScreen && isLSPanel) continue;
+		//Si estamos renderizando pantalla de carga solo queremos su panel
+		if (loadingScreen && !isLSPanel) continue;
+		
 
 		int tID = getTransformUI(panel.entity);
 		const ImVec2 auxDim = { _uiTransforms[tID].dimension.getX() * safeScale, _uiTransforms[tID].dimension.getY() * safeScale };
@@ -2188,6 +2242,105 @@ void RenderModule::cleanDebug()
 	{
 		_sceneMgr->destroySceneNode(_debugNode);
 		_debugNode = nullptr;
+	}
+}
+
+bool RenderModule::createLoadingScreenScene(const std::string& bgImageFolder, const std::string& bgImageName, const core::Color& barFill, const std::string& fontName)
+{
+	try
+	{
+		if (!_ls.exists)
+		{
+			//Camara auxiliar
+			Ogre::SceneNode* camNode = _sceneMgr->getRootSceneNode()->createChildSceneNode();
+			_ls.cam = _sceneMgr->createCamera("CameraLS");
+			camNode->attachObject(_ls.cam);
+			_ls.cam->setAutoAspectRatio(true);
+			_ls.cam->setNearClipDistance(0.1f);
+			_ls.cam->setFarClipDistance(1000.0f);
+		}
+		entityID eidPanel = entityID::generate();
+		entityID eidBG = entityID::generate();
+		entityID eidBarFrame = entityID::generate();
+		entityID eidBarFill = entityID::generate();
+		entityID eidText = entityID::generate();
+
+		// Panel
+		_ls.panelID = addUIPanel(eidPanel, "LSPanel");
+		UITransformID tPanel = getTransformUI(eidPanel);
+		setUITransformPos(tPanel, { 0.0f, 0.0f });
+		setUITransformDimension(tPanel, { 1280.0f, 720.0f });
+
+		//Imagen fondo
+		float opacity = 1.0f;
+		_ls.bgID = addUITextureRect(_ls.panelID, eidBG, bgImageFolder, bgImageName, opacity);
+		UITransformID tBG = getTransformUI(eidBG);
+		setUITransformPos(tBG, { 0.0f, 0.0f });
+		setUITransformDimension(tBG, { 1280.0f, 720.0f });
+		setUITransformDepthLayer(tBG, 1);
+
+		//Barra marco
+		_ls.barFrameID = addUILabel(_ls.panelID, eidBarFrame, "", opacity, core::Color(1.0f, 1.0f, 1.0f, 1.0f), core::Color(0.1f, 0.1f, 0.1f, 1.0f), 16.0f, TextAlign::LEFT, "");
+		UITransformID tFrame = getTransformUI(eidBarFrame);
+		setUITransformPos(tFrame, { 693.0f, 550.0f });
+		setUITransformDimension(tFrame, { 400.0f, 27.0f });
+		setUITransformDepthLayer(tFrame, 2);
+
+		//Barra relleno
+		_ls.barFillID = addUILabel(_ls.panelID, eidBarFill, "", opacity, core::Color(1.0f, 1.0f, 1.0f, 1.0f), barFill, 16.0f, TextAlign::LEFT, "");
+		_ls.barFillTID = getTransformUI(eidBarFill);
+		setUITransformPos(_ls.barFillTID, { 707.0f, 557.0f });
+		setUITransformDimension(_ls.barFillTID, { 0.0f, 13.0f });
+		setUITransformDepthLayer(_ls.barFillTID, 3);
+
+		//Label porcentaje
+		_ls.textID = addUILabel(_ls.panelID, eidText, "0", opacity, core::Color(1.0f, 1.0f, 1.0f, 1.0f), core::Color(0.0f, 0.0f, 0.0f, 0.0f), 16.0f, TextAlign::RIGHT, fontName);
+		UITransformID tPct = getTransformUI(eidText);
+		setUITransformPos(tPct, { 1093.0f, 553.0f });
+		setUITransformDimension(tPct, { 80.0f, 20.0f });
+		setUITransformDepthLayer(tPct, 3);
+
+		_ls.exists = true;
+		_ls.bgImageFolder = bgImageFolder;
+		_ls.bgImageName = bgImageName;
+		_ls.barFill = barFill;
+		_ls.fontName = fontName;
+
+		return true;
+	}
+	catch (const std::exception& e)
+	{
+		Debug::error("[RenderModule] Error al crear escena de pantalla de carga: ", e.what());
+		return false;
+	}
+}
+
+bool RenderModule::initLoadingScreen()
+{
+	if (!_ls.exists) return false;
+	_ls.currProcedures = 0;
+	setUITransformDimension(_ls.barFillTID, { 0.0f, 20.0f });
+	return true;
+}
+
+bool RenderModule::setLoadingScreenProcedures(const int& n)
+{
+	if (!_ls.exists) return false;
+	_ls.nProcedures = n;
+	return true;
+}
+
+void RenderModule::increaseLoadingScreen(const int& n)
+{
+	if (_ls.exists)
+	{
+		_ls.currProcedures += n;
+
+		float newPer = static_cast<float>(_ls.currProcedures) / static_cast<float>(_ls.nProcedures);
+
+		setUITransformDimension(_ls.barFillTID, { std::min(373.0f, 373.0f * newPer), 13.0f });
+		int finalPer = std::min(100, static_cast<int>(newPer * 100));
+		setUILabelText(_ls.textID, std::to_string(finalPer));
 	}
 }
 

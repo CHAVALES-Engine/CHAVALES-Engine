@@ -62,7 +62,9 @@ public:
 	/**
 	 * @brief Comprueba si es necesario recargar alguna de las dll.
 	 */
+#ifdef _DEBUG
 	bool checkReload();
+#endif
 	/**
 	 * @brief Precarga los recursos marcados en la dll.
 	 */

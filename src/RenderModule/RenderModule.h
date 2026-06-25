@@ -135,6 +135,29 @@ struct UITransformData
 	int depthLayer;
 };
 
+struct LoadingScreenData
+{
+	bool exists;
+	uiPanelID panelID;
+	uiTextureRectID bgID;
+	uiLabelID barFrameID;
+	uiLabelID barFillID;
+	uiLabelID textID;
+
+	Ogre::Camera* cam;
+
+	std::string bgImageFolder;
+	std::string bgImageName;
+	core::Color barFill;
+	UITransformID barFillTID;
+	std::string fontName;
+
+	int nProcedures;
+	int currProcedures;
+
+	LoadingScreenData() { exists = false; nProcedures = 0; currProcedures = 0; cam = nullptr; }
+};
+
 union SDL_Event;
 
 class ENGINE_API RenderModule
@@ -167,6 +190,11 @@ public:
 	* @brief Renderizar frame.
 	*/
 	bool renderFrame();
+
+	/**
+	* @brief Renderizar pantalla de carga.
+	*/
+	bool renderLoadingScreen();
 
 	/**
 	* @brief Borrar todos los elementos de la escena.
@@ -689,7 +717,7 @@ public:
 	*/
 	void setUITextureRectOpacity(const uiTextureRectID& textureRectID, float& opacity);
 
-	void renderUI();
+	void renderUI(const bool& loadingScreen = false);
 	void cleanUI();
 
 	void renderScriptComponents();
@@ -717,6 +745,26 @@ public:
 	* @brief Dibuja el box sphere para debug
 	*/
 	void DrawSphere(const ShapeRenderData& data);
+
+	/**
+	* @brief Crear escena de pantalla de carga
+	*/
+	bool createLoadingScreenScene(const std::string& bgImageFolder, const std::string& bgImageName, const core::Color& barFill, const std::string& fontName);
+
+	/**
+	* @brief Establece barra de progreso a 0 si existe pantalla de carga. Devuelve false en caso negativo.
+	*/
+	bool initLoadingScreen();
+
+	/**
+	* @brief Establece nuevo progreso para la pantalla de carga
+	*/
+	bool setLoadingScreenProcedures(const int& n);
+
+	/**
+	* @brief Actualiza la barra de progreso
+	*/
+	void increaseLoadingScreen(const int& n);
 
 	void shutdown();
 
@@ -757,6 +805,8 @@ private:
 	std::unordered_set<std::string> _preloadedGroups;
 	std::vector<std::pair<FontName, FontPath>> _pendingFonts;
 	bool _imguiSDLInitialized = false;
+
+	LoadingScreenData _ls;
 
 
 	float _windowWidth;

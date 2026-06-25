@@ -51,7 +51,7 @@ public:
 	 * @brief Metodo para pedir un cambio de escena
 	 * @param sn - nombre de la escena
 	 */
-	void requestSceneChange(const sceneName& sn);
+	void requestSceneChange(const sceneName& sn, const bool& loadingScreen = false);
 
 	/**
 	 * @brief Devuelve el nombre de la escena activa actualmente.
@@ -79,14 +79,16 @@ private:
 	 * @brief Inserta una escena nueva en la maquina de estados y la setea como escena activa actualmente.
 	 * @param n - Nombre de la escena a insertar.
 	 */
-	void _addAndSetScene(const sceneName& n);
+	void _addAndSetScene(const sceneName& n, const bool& loadingScreen = false);
 
 	/**
 	 * @brief Procesa peticiones de cambio de escena si las ha habido.
 	 */
 	void _processSceneChange();
 
+#ifdef _DEBUG
 	void _processHotLuaReload();
+#endif
 
 	/**
 	 * @brief Tiempo desde la ultima actualizacion.
@@ -117,6 +119,11 @@ private:
 	 * @brief Si hay un cambio de escena pendiente de aplicar.
 	 */
 	bool _hasPendingSceneChange = false;
+
+	/**
+	 * @brief Si hay que cargar siguiente escena con pantalla de carga
+	 */
+	bool _requestedLoadingScreen = false;
 
 	/**
 	 * @brief Nombre de la siguiente escena solicitada.

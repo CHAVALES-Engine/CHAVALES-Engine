@@ -8,6 +8,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <functional>
 
 #include "guid.h"
 
@@ -45,13 +46,13 @@ namespace core
 		 * @brief Parte del ciclo de escena. Se llama cuando todas las entidades y componentes ya se han inicializado.
 		 *
 		 */
-		void awake();
+		void awake(const bool& loadingScreen = false);
 
 		/**
 		 * @brief Parte del ciclo de escena. Se llama despues de la inicializacion.
 		 *
 		 */
-		void ready();
+		void ready(const bool& loadingScreen = false);
 
 		/**
 		 * @brief Parte del ciclo de escena. Se llama una vez cada intervalo fijo de tiempo.
@@ -150,6 +151,17 @@ namespace core
 			_name = n;
 		}
 
+		/**
+		 * @brief Establecer metodo para renderizar pantalla de carga
+		 *
+		 */
+		void setLoadingScreenRenderCallback(std::function<void()> cb) { _loadingScreenRender = cb; }
+		/**
+		 * @brief Establecer metodo para incrementar progreso pantalla de carga
+		 *
+		 */
+		void setLoadingScreenIncreaseCallback(std::function<void()> cb) { _loadingScreenIncrease = cb; }
+
 	private:
 		sceneName _name;
 		bool _active = false;
@@ -178,5 +190,9 @@ namespace core
 		 *
 		 */
 		std::unordered_map<std::string, entityID> _entitiesNames;
+
+
+		std::function<void()> _loadingScreenRender;
+		std::function<void()> _loadingScreenIncrease;
 	};
 }

@@ -40,7 +40,9 @@ public:
 	/**
 	 * @brief Control de recargado de la escena desde el archivo .lua.
 	 */
+#ifdef _DEBUG
 	static bool reloadLua();
+#endif
 
 private:
 	// -- Traducciones de Lua

@@ -1,6 +1,7 @@
 #include "StateMachine.h"
 
 #include <chrono>
+#include <thread>
 #include <stdexcept>
 
 #include "Clock.h"
@@ -33,7 +34,7 @@ StateMachine::~StateMachine()
 void StateMachine::gameLoop()
 {
 	auto startTime = core::Clock::getNow();
-	uint64_t accumulator = 0; 
+	uint64_t accumulator = 0;
 	_isLoopRunning = true;
 
 	while (!_endGame) // bucle de juego
@@ -52,7 +53,7 @@ void StateMachine::gameLoop()
 
 			accumulator += _deltaTime;
 			int fixedSteps = 0;
-			while (accumulator >= core::Clock::FRAME_RATE 
+			while (accumulator >= core::Clock::FRAME_RATE
 				&& fixedSteps < core::Clock::MAX_FIXED_STEPS)
 			{
 				_currentScene.ptr->fixedUpdate();
@@ -72,7 +73,10 @@ void StateMachine::gameLoop()
 			_currentScene.ptr->addListedEntities();
 			_currentScene.ptr->destroyDeadEntities();
 		}
+
+#ifdef _DEBUG
 		_processHotLuaReload();
+#endif
 	}
 
 	_isLoopRunning = false;
@@ -89,7 +93,7 @@ void StateMachine::gameLoop()
 	_currentScene.ptr = nullptr;
 }
 
-void StateMachine::_addAndSetScene(const sceneName& n)
+void StateMachine::_addAndSetScene(const sceneName& n, const bool& loadingScreen)
 {
 	_isPerformingSceneChange = true;
 	//std::vector<core::Entity*> persistentEntities;
@@ -105,20 +109,41 @@ void StateMachine::_addAndSetScene(const sceneName& n)
 		_currentScene.ptr = std::make_shared<core::Scene>(n);
 	}
 
+	bool loadingScreenAble = loadingScreen && Engine::instance()->initLoadingScreen();
+	if (loadingScreenAble) Engine::instance()->renderLoadingScreen();
+
 	// cargar nueva escena
 	GameLoader::loadScene(n, _currentScene.ptr);
 
 	if (_currentScene.ptr != nullptr && !_endGame) // si se ha cargado correctamente
 	{
 		Debug::out("STATEMACHINE: Entrando a escena ", n);
-
+		Engine::instance()->setLoadingScreenProcedures(_currentScene.ptr->getEntities().size() * 3);
+		Engine::instance()->increaseLoadingScreen(_currentScene.ptr->getEntities().size());
+		Engine::instance()->renderLoadingScreen();
 		// anade las entidades que sean persistentes de la escena anterior saltandose sus readys
+		if (loadingScreenAble)
+		{
+			Engine::instance()->renderLoadingScreen();
+			_currentScene.ptr->setLoadingScreenRenderCallback([]() {
+				Engine::instance()->increaseLoadingScreen(1);
+				});
+			_currentScene.ptr->setLoadingScreenIncreaseCallback([]() {
+				Engine::instance()->renderLoadingScreen();
+				});
+		}
+
 		_currentScene.ptr->addListedEntities();
 
 		// --- a este nivel se llama al ready:
 		// garantizamos que en el ready el resto de entidades y sus componentes estan inicializados 
-		_currentScene.ptr->awake();
-		_currentScene.ptr->ready();
+		_currentScene.ptr->awake(loadingScreenAble);
+		_currentScene.ptr->ready(loadingScreenAble);
+
+		if (loadingScreenAble)
+		{
+			//std::this_thread::sleep_for(std::chrono::milliseconds(500));
+		}
 
 		// setea nueva escena actual
 		_currentScene.name = n;
@@ -131,18 +156,19 @@ void StateMachine::_addAndSetScene(const sceneName& n)
 	_isPerformingSceneChange = false;
 }
 
-void StateMachine::requestSceneChange(const sceneName& sn)
+void StateMachine::requestSceneChange(const sceneName& sn, const bool& loadingScreen)
 {
 	if (_isLoopRunning || _isPerformingSceneChange)
 	{
 		_pendingSceneName = sn;
 		_hasPendingSceneChange = true;
+		_requestedLoadingScreen = loadingScreen;
 		Debug::out("STATEMACHINE: Cambio de escena encolado a ", sn);
 		return;
 	}
 
 	Debug::out("STATEMACHINE: Cambio de escena a ", sn);
-	_addAndSetScene(sn);
+	_addAndSetScene(sn, loadingScreen);
 	if (!_currentScene.ptr) Engine::instance()->quitGame();
 }
 
@@ -153,9 +179,12 @@ void StateMachine::_processSceneChange()
 	sceneName nextScene = _pendingSceneName; // guardar antes de clar
 	_hasPendingSceneChange = false;
 	_pendingSceneName.clear();
-	_addAndSetScene(nextScene);
+	_addAndSetScene(nextScene, _requestedLoadingScreen);
+	_requestedLoadingScreen = false;
 	if (!_currentScene.ptr) Engine::instance()->quitGame();
 }
+
+#ifdef _DEBUG
 
 void StateMachine::_processHotLuaReload()
 {
@@ -173,3 +202,5 @@ void StateMachine::_processHotLuaReload()
 		}
 	}
 }
+
+#endif

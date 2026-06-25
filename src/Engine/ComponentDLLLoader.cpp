@@ -162,6 +162,8 @@ bool ComponentDLLLoader::unload(const std::string& path)
 	return ok;
 }
 
+#ifdef _DEBUG
+
 bool ComponentDLLLoader::checkReload()
 {
 	bool reloaded = false;
@@ -188,6 +190,8 @@ bool ComponentDLLLoader::checkReload()
 	}
 	return reloaded;
 }
+
+#endif
 
 using GetResourcesFn = const std::string* (*)(size_t&);
 void ComponentDLLLoader::preloadResources() const
