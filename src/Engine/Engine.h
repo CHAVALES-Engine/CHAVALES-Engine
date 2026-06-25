@@ -101,12 +101,17 @@ public:
 	bool renderFrame();
 
 	/**
-	* @brief Establece nuevo progreso para la pantalla de carga
+	* @brief Establece nuevo progreso para la pantalla de carga.
 	*/
 	bool setLoadingScreenProcedures(const int& n);
 
 	/**
-	* @brief Actualiza la barra de progreso
+	* @brief Establece barra de progreso a 0 si existe pantalla de carga. Devuelve false en caso negativo.
+	*/
+	bool initLoadingScreen();
+
+	/**
+	* @brief Actualiza la barra de progreso.
 	*/
 	void increaseLoadingScreen(const int& n);
 

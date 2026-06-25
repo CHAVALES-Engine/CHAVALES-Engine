@@ -135,6 +135,12 @@ bool Engine::setLoadingScreenProcedures(const int& n)
 	return _renderModule->setLoadingScreenProcedures(n);
 }
 
+bool Engine::initLoadingScreen()
+{
+	if (!_renderModule) return false;
+	return _renderModule->initLoadingScreen();
+}
+
 void Engine::increaseLoadingScreen(const int& n)
 {
 	if (!_renderModule) return;

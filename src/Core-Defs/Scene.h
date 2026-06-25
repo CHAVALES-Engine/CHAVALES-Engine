@@ -120,7 +120,7 @@ namespace core
 		/**
 		 * @brief Aniade las entidades marcadas.
 		 */
-		void addListedEntities(const bool& loadingScreen = false);
+		void addListedEntities();
 
 		/**
 		 * @brief Devuelve el mapa de entidades de la escena.

@@ -109,17 +109,23 @@ void StateMachine::_addAndSetScene(const sceneName& n, const bool& loadingScreen
 		_currentScene.ptr = std::make_shared<core::Scene>(n);
 	}
 
+	bool loadingScreenAble = loadingScreen && Engine::instance()->initLoadingScreen();
+	if (loadingScreenAble) Engine::instance()->renderLoadingScreen();
+
 	// cargar nueva escena
 	GameLoader::loadScene(n, _currentScene.ptr);
+
+	
 
 	if (_currentScene.ptr != nullptr) // si se ha cargado correctamente
 	{
 		Debug::out("STATEMACHINE: Entrando a escena ", n);
-		bool loadingScreenAble = loadingScreen && Engine::instance()->setLoadingScreenProcedures(_currentScene.ptr->getEntities().size() * 3);
+		Engine::instance()->setLoadingScreenProcedures(_currentScene.ptr->getEntities().size() * 3);
+		Engine::instance()->increaseLoadingScreen(_currentScene.ptr->getEntities().size());
+		Engine::instance()->renderLoadingScreen();
 		// anade las entidades que sean persistentes de la escena anterior saltandose sus readys
 		if (loadingScreenAble)
 		{
-			Engine::instance()->setLoadingScreenProcedures(_currentScene.ptr->getEntities().size() * 3);
 			Engine::instance()->renderLoadingScreen();
 			_currentScene.ptr->setLoadingScreenRenderCallback([]() {
 				Engine::instance()->increaseLoadingScreen(1);
@@ -129,7 +135,7 @@ void StateMachine::_addAndSetScene(const sceneName& n, const bool& loadingScreen
 				});
 		}
 
-		_currentScene.ptr->addListedEntities(loadingScreenAble);
+		_currentScene.ptr->addListedEntities();
 
 		// --- a este nivel se llama al ready:
 		// garantizamos que en el ready el resto de entidades y sus componentes estan inicializados 
@@ -138,7 +144,7 @@ void StateMachine::_addAndSetScene(const sceneName& n, const bool& loadingScreen
 
 		if (loadingScreenAble)
 		{
-			std::this_thread::sleep_for(std::chrono::milliseconds(500));
+			//std::this_thread::sleep_for(std::chrono::milliseconds(500));
 		}
 
 		// setea nueva escena actual

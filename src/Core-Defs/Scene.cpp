@@ -206,16 +206,11 @@ namespace core {
 		_entitiesToDelete.clear();
 	}
 
-	void Scene::addListedEntities(const bool& loadingScreen)
+	void Scene::addListedEntities()
 	{
 		for (auto* e : _entitiesToAdd)
 		{
 			_addEntity(e);
-			if (loadingScreen && _loadingScreenIncrease && _loadingScreenRender)
-			{
-				_loadingScreenIncrease();
-				_loadingScreenRender();
-			}
 		}
 
 		_entitiesToAdd.clear();

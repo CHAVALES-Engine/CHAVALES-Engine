@@ -752,6 +752,11 @@ public:
 	bool createLoadingScreenScene(const std::string& bgImageFolder, const std::string& bgImageName, const core::Color& barFill, const std::string& fontName);
 
 	/**
+	* @brief Establece barra de progreso a 0 si existe pantalla de carga. Devuelve false en caso negativo.
+	*/
+	bool initLoadingScreen();
+
+	/**
 	* @brief Establece nuevo progreso para la pantalla de carga
 	*/
 	bool setLoadingScreenProcedures(const int& n);

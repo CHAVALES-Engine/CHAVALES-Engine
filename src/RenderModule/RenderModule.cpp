@@ -2274,21 +2274,21 @@ bool RenderModule::createLoadingScreenScene(const std::string& bgImageFolder, co
 		//Barra marco
 		_ls.barFrameID = addUILabel(_ls.panelID, eidBarFrame, "", opacity, core::Color(1.0f, 1.0f, 1.0f, 1.0f), core::Color(0.1f, 0.1f, 0.1f, 1.0f), 16.0f, TextAlign::LEFT, "");
 		UITransformID tFrame = getTransformUI(eidBarFrame);
-		setUITransformPos(tFrame, { 693.0f, 400.0f });
+		setUITransformPos(tFrame, { 693.0f, 550.0f });
 		setUITransformDimension(tFrame, { 400.0f, 27.0f });
 		setUITransformDepthLayer(tFrame, 2);
 
 		//Barra relleno
 		_ls.barFillID = addUILabel(_ls.panelID, eidBarFill, "", opacity, core::Color(1.0f, 1.0f, 1.0f, 1.0f), barFill, 16.0f, TextAlign::LEFT, "");
 		_ls.barFillTID = getTransformUI(eidBarFill);
-		setUITransformPos(_ls.barFillTID, { 707.0f, 407.0f });
+		setUITransformPos(_ls.barFillTID, { 707.0f, 557.0f });
 		setUITransformDimension(_ls.barFillTID, { 0.0f, 13.0f });
 		setUITransformDepthLayer(_ls.barFillTID, 3);
 
 		//Label porcentaje
-		_ls.textID = addUILabel(_ls.panelID, eidText, "0%", opacity, core::Color(1.0f, 1.0f, 1.0f, 1.0f), core::Color(0.0f, 0.0f, 0.0f, 0.0f), 16.0f, TextAlign::RIGHT, fontName);
+		_ls.textID = addUILabel(_ls.panelID, eidText, "0", opacity, core::Color(1.0f, 1.0f, 1.0f, 1.0f), core::Color(0.0f, 0.0f, 0.0f, 0.0f), 16.0f, TextAlign::RIGHT, fontName);
 		UITransformID tPct = getTransformUI(eidText);
-		setUITransformPos(tPct, { 1093.0f, 403.0f });
+		setUITransformPos(tPct, { 1093.0f, 553.0f });
 		setUITransformDimension(tPct, { 80.0f, 20.0f });
 		setUITransformDepthLayer(tPct, 3);
 
@@ -2307,23 +2307,33 @@ bool RenderModule::createLoadingScreenScene(const std::string& bgImageFolder, co
 	}
 }
 
-bool RenderModule::setLoadingScreenProcedures(const int& n)
+bool RenderModule::initLoadingScreen()
 {
 	if (!_ls.exists) return false;
-	_ls.nProcedures = n;
 	_ls.currProcedures = 0;
 	setUITransformDimension(_ls.barFillTID, { 0.0f, 20.0f });
 	return true;
 }
 
+bool RenderModule::setLoadingScreenProcedures(const int& n)
+{
+	if (!_ls.exists) return false;
+	_ls.nProcedures = n;
+	return true;
+}
+
 void RenderModule::increaseLoadingScreen(const int& n)
 {
-	_ls.currProcedures += n;
+	if (_ls.exists)
+	{
+		_ls.currProcedures += n;
 
-	float newPer = static_cast<float>(_ls.currProcedures) / static_cast<float>(_ls.nProcedures);
+		float newPer = static_cast<float>(_ls.currProcedures) / static_cast<float>(_ls.nProcedures);
 
-	setUITransformDimension(_ls.barFillTID, { 373.0f * newPer, 13.0f });
-	setUILabelText(_ls.textID, std::to_string(static_cast<int>(newPer * 100)) + "%");
+		setUITransformDimension(_ls.barFillTID, { 373.0f * newPer, 13.0f });
+		int finalPer = std::min(100, static_cast<int>(newPer * 100));
+		setUILabelText(_ls.textID, std::to_string(finalPer));
+	}
 }
 
 void RenderModule::shutdown()
