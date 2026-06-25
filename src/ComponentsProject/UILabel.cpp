@@ -71,7 +71,7 @@ bool UILabel::init(const Properties& p)
 	return true;
 }
 
-void UILabel::ready()
+void UILabel::awake()
 {
 	auto uiT = getEntity()->getComponent<UITransform>();
 	if (!uiT) {

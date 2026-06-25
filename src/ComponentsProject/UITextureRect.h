@@ -42,7 +42,7 @@ public:
 	UITextureRect();
 	~UITextureRect();
 
-	void ready() override;
+	void awake() override;
 	void setTexture(const std::string& texture);
 	void setVisible(bool visible);
 	void setOpacity(float _opacity);

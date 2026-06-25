@@ -75,7 +75,7 @@ UIButton::~UIButton()
 {
 }
 
-void UIButton::ready()
+void UIButton::awake()
 {
 	auto uiT = getEntity()->getComponent<UITransform>();
 	if (!uiT) {

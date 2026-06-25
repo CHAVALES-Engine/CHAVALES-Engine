@@ -31,15 +31,12 @@ bool UIPanel::init(const Properties& p)
         Debug::error("[UIPanel] - No transform, no se crea UIPanel");
         return false;
     }
+    _panelID = render()->addUIPanel(getEntity()->getEntityID(), name);
     return true;
 }
 panelID UIPanel::getPanelID() const
 {
     return _panelID;
-}
-void UIPanel::awake()
-{
-    _panelID = render()->addUIPanel(getEntity()->getEntityID(), name);
 }
 void UIPanel::setVisible(bool visible)
 {

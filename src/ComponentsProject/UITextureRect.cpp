@@ -36,7 +36,7 @@ UITextureRect::UITextureRect()
 
 UITextureRect::~UITextureRect(){}
 
-void UITextureRect::ready()
+void UITextureRect::awake()
 {
 	auto uiT = getEntity()->getComponent<UITransform>();
 	if (!uiT) {

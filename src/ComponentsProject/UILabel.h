@@ -45,7 +45,7 @@ public:
 	~UILabel();
 
 	bool init(const Properties& p) override;
-	void ready() override;
+	void awake() override;
 	void destroy() override;
 	void setText(const std::string& _text);
 	void setVisible(bool visible);
