@@ -61,9 +61,6 @@ static Ogre::Viewport* _vp = nullptr;
 static Ogre::RTShader::ShaderGenerator* _shaderGen;
 static Ogre::ResourceGroupManager* _rgm;
 
-static Ogre::SceneManager* _sceneMgrLS = nullptr;
-static Ogre::Viewport* _vpLS = nullptr;
-
 
 static Ogre::STBIImageCodec* _jpgCodec;
 static Ogre::STBIImageCodec* _jpegCodec;
@@ -350,43 +347,16 @@ bool RenderModule::renderFrame()
 
 bool RenderModule::renderLoadingScreen()
 {
-	if (_vpLS != nullptr && _vpLS->getCamera() != nullptr)
+	if (_vp != nullptr && _vp->getCamera() != nullptr)
 	{
-		//Desactivar viewport principal
-		if (_vp) _vp->setVisibilityMask(0);
-
 		scaleViewportToWindow();
 		renderUI(true);
 		_root->renderOneFrame();
-
-		//Reactivar viewport principal
-		if (_vp) _vp->setVisibilityMask(0xFFFFFFFF);
 		return true;
 	}
 	else
 	{
 		return false;
-	}
-}
-
-void RenderModule::setLoadingScreenActive(const bool& active)
-{
-	if (active)
-	{
-		if (_vpLS == nullptr && _sceneMgrLS != nullptr)
-		{
-			_vpLS = _window->addViewport(_ls.cam, 1);
-			_vpLS->setMaterialScheme(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME);
-			_vpLS->setOverlaysEnabled(true);
-		}
-	}
-	else
-	{
-		if (_vpLS != nullptr)
-		{
-			_window->removeViewport(1);
-			_vpLS = nullptr;
-		}
 	}
 }
 
@@ -414,8 +384,7 @@ void RenderModule::_calculateViewportRect(
 
 void RenderModule::scaleViewportToWindow()
 {
-	Ogre::Viewport* activeVP = (_vpLS != nullptr) ? _vpLS : _vp;
-	if (activeVP == nullptr || _window == nullptr) return;
+	if (_vp == nullptr || _window == nullptr) return;
 	_window->windowMovedOrResized();
 
 	const float windowWidth = _window->getWidth();
@@ -424,7 +393,7 @@ void RenderModule::scaleViewportToWindow()
 
 	float vpLeft, vpTop, vpWidth, vpHeight;
 	_calculateViewportRect(windowWidth, windowHeight, vpLeft, vpTop, vpWidth, vpHeight);
-	activeVP->setDimensions(vpLeft, vpTop, vpWidth, vpHeight);
+	_vp->setDimensions(vpLeft, vpTop, vpWidth, vpHeight);
 }
 
 bool RenderModule::getViewportRectPixels(int& x, int& y, int& w, int& h) const
@@ -546,24 +515,6 @@ void RenderModule::cleanScene(const bool& end)
 	else
 	{
 		_sceneMgr->clearScene();
-
-		//Limpieza pantalla de carga
-		if (_vpLS)
-		{
-			_window->removeViewport(1);
-			_vpLS = nullptr;
-		}
-		if (_ls.cam != nullptr)
-		{
-			_sceneMgrLS->destroyCamera(_ls.cam);
-			_ls.cam = nullptr;
-		}
-		if (_sceneMgrLS)
-		{
-			_sceneMgrLS->clearScene();
-			_sceneMgrLS = nullptr;
-		}
-		//Fin limpieza pantalla de carga
 
 		Ogre::StringVector groups = _rgm->getResourceGroups();
 		for (const std::string& groupName : groups)
@@ -2058,12 +2009,10 @@ void RenderModule::renderUI(const bool& loadingScreen)
 
 	const float baseW = _windowWidth > 0.0f ? _windowWidth : 1.0f;
 	const float baseH = _windowHeight > 0.0f ? _windowHeight : 1.0f;
-	Ogre::Viewport* activeVP = (loadingScreen && _vpLS != nullptr) ? _vpLS : _vp;
-
-	const float vpW = activeVP != nullptr ? activeVP->getActualWidth() : baseW;
-	const float vpH = activeVP != nullptr ? activeVP->getActualHeight() : baseH;
-	const float vpLeft = activeVP != nullptr ? activeVP->getActualLeft() : 0.0f;
-	const float vpTop = activeVP != nullptr ? activeVP->getActualTop() : 0.0f;
+	const float vpW = _vp != nullptr ? _vp->getActualWidth() : baseW;
+	const float vpH = _vp != nullptr ? _vp->getActualHeight() : baseH;
+	const float vpLeft = _vp != nullptr ? _vp->getActualLeft() : 0.0f;
+	const float vpTop = _vp != nullptr ? _vp->getActualTop() : 0.0f;
 	const float uiScale = std::min(vpW / baseW, vpH / baseH);
 	const float safeScale = uiScale > 0.0f ? uiScale : 1.0f;
 
@@ -2278,23 +2227,6 @@ bool RenderModule::createLoadingScreenScene(const std::string& bgImageFolder, co
 {
 	try
 	{
-		if (!_ls.exists)
-		{
-			// Scene manager propio
-			_sceneMgrLS = _root->createSceneManager();
-			_sceneMgrLS->setAmbientLight(Ogre::ColourValue(1.0f, 1.0f, 1.0f));
-
-			// Registrar en ShaderGen
-			_shaderGen->addSceneManager(_sceneMgrLS);
-
-			// Camara
-			Ogre::SceneNode* camNode = _sceneMgrLS->getRootSceneNode()->createChildSceneNode();
-			_ls.cam = _sceneMgrLS->createCamera("CameraLS");
-			camNode->attachObject(_ls.cam);
-			_ls.cam->setAutoAspectRatio(true);
-			_ls.cam->setNearClipDistance(0.1f);
-			_ls.cam->setFarClipDistance(1000.0f);
-		}
 
 		entityID eidPanel = entityID::generate();
 		entityID eidBG = entityID::generate();
@@ -2363,10 +2295,10 @@ void RenderModule::increaseLoadingScreen(const int& n)
 {
 	_ls.currProcedures += n;
 
-	int newPer = _ls.currProcedures / _ls.nProcedures;
+	float newPer = static_cast<float>(_ls.currProcedures) / static_cast<float>(_ls.nProcedures);
 
 	setUITransformDimension(_ls.barFillTID, { 560.0f * newPer, 20.0f });
-	setUILabelText(_ls.textID, std::to_string(newPer * 100) + "%");
+	setUILabelText(_ls.textID, std::to_string(static_cast<int>(newPer * 100)) + "%");
 }
 
 void RenderModule::shutdown()
@@ -2411,9 +2343,6 @@ void RenderModule::shutdown()
 		if (_sceneMgr)
 			Ogre::RTShader::ShaderGenerator::getSingleton()
 			.removeSceneManager(_sceneMgr);
-		if (_sceneMgrLS)
-			Ogre::RTShader::ShaderGenerator::getSingleton()
-			.removeSceneManager(_sceneMgrLS);
 		Ogre::RTShader::ShaderGenerator::destroy();
 	}
 

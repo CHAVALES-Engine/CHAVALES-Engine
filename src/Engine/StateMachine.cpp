@@ -129,8 +129,6 @@ void StateMachine::_addAndSetScene(const sceneName& n, const bool& loadingScreen
 				});
 		}
 
-		if (loadingScreen) Engine::instance()->setLoadingScreenActive(true);
-
 		_currentScene.ptr->addListedEntities(loadingScreen);
 
 		// --- a este nivel se llama al ready:
@@ -141,7 +139,6 @@ void StateMachine::_addAndSetScene(const sceneName& n, const bool& loadingScreen
 		if (loadingScreen)
 		{
 			std::this_thread::sleep_for(std::chrono::milliseconds(500));
-			Engine::instance()->setLoadingScreenActive(false);
 		}
 
 		// setea nueva escena actual

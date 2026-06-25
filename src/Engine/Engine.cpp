@@ -129,12 +129,6 @@ bool Engine::renderFrame()
 	return _renderModule->renderFrame();
 }
 
-void Engine::setLoadingScreenActive(const bool& active)
-{
-	if (!_renderModule) return;
-	_renderModule->setLoadingScreenActive(active);
-}
-
 void Engine::setLoadingScreenProcedures(const int& n)
 {
 	if (!_renderModule) return;
