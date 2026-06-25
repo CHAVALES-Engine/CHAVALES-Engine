@@ -269,14 +269,29 @@ void ComponentDLLLoader::_reload(LoadedLibrary& library)
 
 std::string ComponentDLLLoader::_makeTempPath(const std::string& originalPath) {
 	// "plugins/game.dll" -> "plugins/game_hot.dll"
-	auto dotPos = originalPath.rfind('.');
-	std::string base = (dotPos != std::string::npos) // valor por defecto de size_t
-		? originalPath.substr(0, dotPos)
-		: originalPath;
-	std::string ext = (dotPos != std::string::npos)
-		? originalPath.substr(dotPos)
-		: "";
-	return base + "_hot" + ext;
+	char* buffer = nullptr;
+	size_t len = 0;
+
+	std::filesystem::path basePath;
+
+	if (_dupenv_s(&buffer, &len, "LOCALAPPDATA") == 0 && buffer)
+	{
+		basePath = std::filesystem::path(buffer);
+		free(buffer);
+	}
+	else
+	{
+		basePath = std::filesystem::temp_directory_path();
+	}
+
+	basePath /= "ChavalesEngineReload";
+	basePath /= "HotReload";
+
+	std::filesystem::create_directories(basePath);
+
+	std::filesystem::path original(originalPath);
+
+	return (basePath / (original.stem().string() + "_hot" + original.extension().string())).string();
 }
 
 FILETIME ComponentDLLLoader::_getFileWriteTime(const std::string& path)
