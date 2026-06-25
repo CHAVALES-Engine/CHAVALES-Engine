@@ -83,18 +83,9 @@ public:
 	{
 		if (_file.is_open()) return;
 
-		const char* localAppData = std::getenv("LOCALAPPDATA");
+		std::filesystem::path finalPath;
 
-		std::filesystem::path basePath;
-
-		if (localAppData)
-		{
-			basePath = std::filesystem::path(localAppData) / "ChavalesEngine";
-		}
-		else
-		{
-			basePath = std::filesystem::path("ChavalesEngine");
-		}
+		std::filesystem::path basePath = std::filesystem::path("Logs");
 
 		if (!_logPath.empty())
 		{
@@ -103,7 +94,7 @@ public:
 
 		std::filesystem::create_directories(basePath);
 
-		std::filesystem::path finalPath = basePath / file;
+		finalPath = basePath / file;
 
 		_file.open(finalPath);
 
