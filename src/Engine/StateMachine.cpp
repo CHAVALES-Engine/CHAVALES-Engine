@@ -144,7 +144,7 @@ void StateMachine::_addAndSetScene(const sceneName& n, const bool& loadingScreen
 
 		if (loadingScreenAble)
 		{
-			std::this_thread::sleep_for(std::chrono::milliseconds(500));
+			//std::this_thread::sleep_for(std::chrono::milliseconds(500));
 		}
 
 		// setea nueva escena actual
