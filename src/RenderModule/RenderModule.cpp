@@ -347,8 +347,12 @@ bool RenderModule::renderFrame()
 
 bool RenderModule::renderLoadingScreen()
 {
-	if (_vp != nullptr && _vp->getCamera() != nullptr)
+	if (_vp != nullptr)
 	{
+		if (_vp->getCamera() != nullptr)
+		{
+			_vp->setCamera(_ls.cam);
+		}
 		scaleViewportToWindow();
 		renderUI(true);
 		_root->renderOneFrame();
@@ -514,6 +518,16 @@ void RenderModule::cleanScene(const bool& end)
 	}
 	else
 	{
+		if (_ls.cam != nullptr)
+		{
+			Ogre::SceneNode* parent = _ls.cam->getParentSceneNode();
+			if (parent)
+				parent->detachObject(_ls.cam);
+
+			_sceneMgr->destroyCamera(_ls.cam);
+			_ls.cam = nullptr;
+		}
+
 		_sceneMgr->clearScene();
 
 		Ogre::StringVector groups = _rgm->getResourceGroups();
@@ -2227,7 +2241,16 @@ bool RenderModule::createLoadingScreenScene(const std::string& bgImageFolder, co
 {
 	try
 	{
-
+		if (!_ls.exists)
+		{
+			//Camara auxiliar
+			Ogre::SceneNode* camNode = _sceneMgr->getRootSceneNode()->createChildSceneNode();
+			_ls.cam = _sceneMgr->createCamera("CameraLS");
+			camNode->attachObject(_ls.cam);
+			_ls.cam->setAutoAspectRatio(true);
+			_ls.cam->setNearClipDistance(0.1f);
+			_ls.cam->setFarClipDistance(1000.0f);
+		}
 		entityID eidPanel = entityID::generate();
 		entityID eidBG = entityID::generate();
 		entityID eidBarFrame = entityID::generate();
@@ -2251,22 +2274,22 @@ bool RenderModule::createLoadingScreenScene(const std::string& bgImageFolder, co
 		//Barra marco
 		_ls.barFrameID = addUILabel(_ls.panelID, eidBarFrame, "", opacity, core::Color(1.0f, 1.0f, 1.0f, 1.0f), core::Color(0.1f, 0.1f, 0.1f, 1.0f), 16.0f, TextAlign::LEFT, "");
 		UITransformID tFrame = getTransformUI(eidBarFrame);
-		setUITransformPos(tFrame, { 1040.0f, 600.0f });
-		setUITransformDimension(tFrame, { 600.0f, 40.0f });
+		setUITransformPos(tFrame, { 693.0f, 400.0f });
+		setUITransformDimension(tFrame, { 400.0f, 27.0f });
 		setUITransformDepthLayer(tFrame, 2);
 
 		//Barra relleno
 		_ls.barFillID = addUILabel(_ls.panelID, eidBarFill, "", opacity, core::Color(1.0f, 1.0f, 1.0f, 1.0f), barFill, 16.0f, TextAlign::LEFT, "");
 		_ls.barFillTID = getTransformUI(eidBarFill);
-		setUITransformPos(_ls.barFillTID, { 1060.0f, 610.0f });
-		setUITransformDimension(_ls.barFillTID, { 0.0f, 20.0f });
+		setUITransformPos(_ls.barFillTID, { 707.0f, 407.0f });
+		setUITransformDimension(_ls.barFillTID, { 0.0f, 13.0f });
 		setUITransformDepthLayer(_ls.barFillTID, 3);
 
 		//Label porcentaje
 		_ls.textID = addUILabel(_ls.panelID, eidText, "0%", opacity, core::Color(1.0f, 1.0f, 1.0f, 1.0f), core::Color(0.0f, 0.0f, 0.0f, 0.0f), 16.0f, TextAlign::RIGHT, fontName);
 		UITransformID tPct = getTransformUI(eidText);
-		setUITransformPos(tPct, { 1640.0f, 605.0f });
-		setUITransformDimension(tPct, { 120.0f, 30.0f });
+		setUITransformPos(tPct, { 1093.0f, 403.0f });
+		setUITransformDimension(tPct, { 80.0f, 20.0f });
 		setUITransformDepthLayer(tPct, 3);
 
 		_ls.exists = true;
@@ -2297,7 +2320,7 @@ void RenderModule::increaseLoadingScreen(const int& n)
 
 	float newPer = static_cast<float>(_ls.currProcedures) / static_cast<float>(_ls.nProcedures);
 
-	setUITransformDimension(_ls.barFillTID, { 560.0f * newPer, 20.0f });
+	setUITransformDimension(_ls.barFillTID, { 373.0f * newPer, 13.0f });
 	setUILabelText(_ls.textID, std::to_string(static_cast<int>(newPer * 100)) + "%");
 }
 
