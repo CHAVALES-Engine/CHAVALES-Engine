@@ -46,11 +46,11 @@ namespace core {
 			if (ent && ent->isAlive() && !ent->isInitialized())
 			{
 				ent->awake();
-				if (loadingScreen && _loadingScreenIncrease && _loadingScreenRender)
-				{
-					_loadingScreenIncrease();
-					_loadingScreenRender();
-				}
+			}
+			if (loadingScreen && _loadingScreenIncrease && _loadingScreenRender)
+			{
+				_loadingScreenIncrease();
+				_loadingScreenRender();
 			}
 		}
 	}
@@ -65,11 +65,11 @@ namespace core {
 			if (ent && ent->isAlive() && !ent->isInitialized())
 			{
 				ent->ready();
-				if (loadingScreen && _loadingScreenIncrease && _loadingScreenRender)
-				{
-					_loadingScreenIncrease();
-					_loadingScreenRender();
-				}
+			}
+			if (loadingScreen && _loadingScreenIncrease && _loadingScreenRender)
+			{
+				_loadingScreenIncrease();
+				_loadingScreenRender();
 			}
 			ent->setInitialized(true);
 		}

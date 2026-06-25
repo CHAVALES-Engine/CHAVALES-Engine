@@ -353,10 +353,18 @@ bool RenderModule::renderLoadingScreen()
 		{
 			_vp->setCamera(_ls.cam);
 		}
-		scaleViewportToWindow();
-		renderUI(true);
-		_root->renderOneFrame();
-		return true;
+		if (_vp->getCamera() != nullptr)
+		{
+			scaleViewportToWindow();
+			renderUI(true);
+			_root->renderOneFrame();
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+		
 	}
 	else
 	{
