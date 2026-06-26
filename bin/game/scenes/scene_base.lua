@@ -125,7 +125,7 @@ scene = { -- entidades en escena
                     dLayer = 0,
                     rotation = 0.0,
                     -- position = Vector2.new(900, 10),
-                    children = {"LabelUI", "ButtonUI", "ButtonUI2"}
+                    children = {"LabelUI", "ButtonUI", "ButtonUI2", "ipText"}
 
                 },
                 UIPanel = {
@@ -174,6 +174,29 @@ scene = { -- entidades en escena
                     fontSize = 16.0,
                     fontName = "fonts/horrendo.ttf",
                     textColor = Color.new(1.0, 1.0, 0.0, 1)
+                }
+            }
+        },
+        ipText = {
+            ddol = false,
+            components = {
+                UITransform = {
+                    position = Vector2.new(300, 100),
+                    dimension = Vector2.new(100, 100),
+                    rotation = 0.0,
+                    dLayer = 0
+
+                },
+                InputTextButton ={
+                    textureName = "",
+                    textColor = Color.new(0.0,0.0,0.0,1.0),
+                    bgColor = Color.new(0.906, 0.678, 0.325, 1.0),
+                    hoverColor = Color.new(0.933, 0.808, 0.251, 0.5),
+                    pressColor = Color.new(0.925, 0.71, 0.929, .7),
+                    text = "Escribeme",
+                    opacity = 1.0,
+                    fontName = "fonts/Cousine-Bold.ttf",
+                    fontSize = 16.0,
                 }
             }
         },
