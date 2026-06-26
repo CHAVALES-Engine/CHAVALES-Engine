@@ -52,12 +52,12 @@ void InputTextButton::_changeWritteability()
 	Debug::warning("[InputText] Cambio a: ", _isWriteable ? "SI escribible" : "NO escribible");
 	if (_isWriteable)
 	{
+		_info = "";
 		Input()->startTextInput();
 	}
 	else
 	{
 		Input()->stopTextInput();
 		Input()->clearTextInput();
-		_info = "";
 	}
 }
