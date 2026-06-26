@@ -118,12 +118,12 @@ void StateMachine::_addAndSetScene(const sceneName& n, const bool& loadingScreen
 	if (_currentScene.ptr != nullptr && !_endGame) // si se ha cargado correctamente
 	{
 		Debug::out("STATEMACHINE: Entrando a escena ", n);
-		Engine::instance()->setLoadingScreenProcedures(_currentScene.ptr->getEntities().size() * 3);
-		Engine::instance()->increaseLoadingScreen(_currentScene.ptr->getEntities().size());
-		Engine::instance()->renderLoadingScreen();
-		// anade las entidades que sean persistentes de la escena anterior saltandose sus readys
+		
 		if (loadingScreenAble)
 		{
+			// Procesos: Numero de entidades divididas en los procesos init awake y ready
+			Engine::instance()->setLoadingScreenProcedures(_currentScene.ptr->getEntities().size() * 3);
+			Engine::instance()->increaseLoadingScreen(_currentScene.ptr->getEntities().size());
 			Engine::instance()->renderLoadingScreen();
 			_currentScene.ptr->setLoadingScreenRenderCallback([]() {
 				Engine::instance()->increaseLoadingScreen(1);
@@ -132,12 +132,15 @@ void StateMachine::_addAndSetScene(const sceneName& n, const bool& loadingScreen
 				Engine::instance()->renderLoadingScreen();
 				});
 		}
-
+		// anade las entidades que sean persistentes de la escena anterior saltandose sus readys
 		_currentScene.ptr->addListedEntities();
 
 		// --- a este nivel se llama al ready:
-		// garantizamos que en el ready el resto de entidades y sus componentes estan inicializados 
+		// garantizamos que en el ready el resto de entidades y sus componentes estan inicializados
+		if (loadingScreenAble) Engine::instance()->setLoadingScreenProcedures(_currentScene.ptr->getEntities().size() * 3);
 		_currentScene.ptr->awake(loadingScreenAble);
+		// refrescamos numero de entidades para la pantalla de carga por si ha cambiado
+		if (loadingScreenAble) Engine::instance()->setLoadingScreenProcedures(_currentScene.ptr->getEntities().size() * 3);
 		_currentScene.ptr->ready(loadingScreenAble);
 
 		if (loadingScreenAble)

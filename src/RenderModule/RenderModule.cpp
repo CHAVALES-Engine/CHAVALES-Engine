@@ -2326,6 +2326,10 @@ bool RenderModule::initLoadingScreen()
 bool RenderModule::setLoadingScreenProcedures(const int& n)
 {
 	if (!_ls.exists) return false;
+	if (_ls.currProcedures > 0 && _ls.nProcedures > 0)
+	{
+		_ls.currProcedures = (_ls.currProcedures * n) / _ls.nProcedures;
+	}
 	_ls.nProcedures = n;
 	return true;
 }
