@@ -49,7 +49,7 @@ std::vector<T> GameLoader::_parseVector(const sol::table& table)
 	return result;
 }
 
-void GameLoader::_parseObject(const sol::object& obj, const std::string& clave, Properties& props,
+bool GameLoader::_parseObject(const sol::object& obj, const std::string& clave, Properties& props,
 	const std::string& componentName)
 {
 	switch (obj.get_type())
@@ -120,7 +120,7 @@ void GameLoader::_parseObject(const sol::object& obj, const std::string& clave, 
 		{
 			Debug::error("GAMELOADER: Parametro tabla no compatible en ", clave, " para el componente ",
 				componentName, ".");
-			Engine::instance()->quitGame();
+			return false;
 		}
 
 		break;
@@ -155,7 +155,7 @@ void GameLoader::_parseObject(const sol::object& obj, const std::string& clave, 
 		{
 			Debug::error("GAMELOADER: El tipo del parametro de ", clave, " no esta definido para el componente ",
 				componentName, ".");
-			Engine::instance()->quitGame();
+			return false;
 		}
 		break;
 	}
@@ -163,10 +163,10 @@ void GameLoader::_parseObject(const sol::object& obj, const std::string& clave, 
 	{
 		Debug::error("GAMELOADER: El tipo del parametro de ", clave, " para el componente ", componentName,
 			" no es valido.");
-		Engine::instance()->quitGame();
+		return false;
 		break;
 	}
-	}
+	}return true;
 }
 
 void GameLoader::_parseComponent(core::Entity* e, std::pair<sol::object, sol::object>& componenteObj)
@@ -190,7 +190,12 @@ void GameLoader::_parseComponent(core::Entity* e, std::pair<sol::object, sol::ob
 			auto objetoParametro = p.second;
 
 			// traducir objeto a propiedad
-			_parseObject(objetoParametro, nombreParametro, properties, componenteName);
+			if (!_parseObject(objetoParametro, nombreParametro, properties, componenteName)) {
+				Debug::error("GAMELOADER: Error al parsear el parametro ", nombreParametro,
+					"en el componente ", componenteName, " para la entidad : ", e->getName(), ".");
+				Engine::instance()->quitGame();
+				return;
+			}
 		}
 
 		// --- a este nivel va el init:
