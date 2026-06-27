@@ -62,7 +62,7 @@ private:
 	 * @param e - Entidad a la que pertenecera el componente.
 	 * @param componenteObj - Par nombre, objeto de sol a traducir.
 	 */
-	static void _parseComponent(core::Entity* e, std::pair<sol::object, sol::object>& componenteObj);
+	static bool _parseComponent(core::Entity* e, std::pair<sol::object, sol::object>& componenteObj);
 
 	/**
 	 * @brief Traduce un objeto de sol a variant para guardarlo en el mapa de propiedades de un componente.

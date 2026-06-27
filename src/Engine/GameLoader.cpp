@@ -169,7 +169,7 @@ bool GameLoader::_parseObject(const sol::object& obj, const std::string& clave, 
 	}return true;
 }
 
-void GameLoader::_parseComponent(core::Entity* e, std::pair<sol::object, sol::object>& componenteObj)
+bool GameLoader::_parseComponent(core::Entity* e, std::pair<sol::object, sol::object>& componenteObj)
 {
 	// encontramos su nombre e intentamos instanciar un componente con una clase con tal nombre
 	auto componenteName = componenteObj.first.as<std::string>();
@@ -194,7 +194,7 @@ void GameLoader::_parseComponent(core::Entity* e, std::pair<sol::object, sol::ob
 				Debug::error("GAMELOADER: Error al parsear el parametro ", nombreParametro,
 					"en el componente ", componenteName, " para la entidad : ", e->getName(), ".");
 				Engine::instance()->quitGame();
-				return;
+				return false;
 			}
 		}
 
@@ -203,6 +203,7 @@ void GameLoader::_parseComponent(core::Entity* e, std::pair<sol::object, sol::ob
 		if (component->init(properties))
 		{
 			Debug::out("GAMELOADER: Componente ", componenteName, " cargado para la entidad ", e->getName(), ".");
+			return true;
 		}
 		else
 		{
@@ -210,6 +211,7 @@ void GameLoader::_parseComponent(core::Entity* e, std::pair<sol::object, sol::ob
 			Debug::error("GAMELOADER: Error al cargar componente ", componenteName,
 				": no se pudo inicializar correctamente para la entidad: ", e->getName(), ".");
 			Engine::instance()->quitGame();
+			return false;
 		}
 	}
 	else
@@ -217,6 +219,7 @@ void GameLoader::_parseComponent(core::Entity* e, std::pair<sol::object, sol::ob
 		// si no se ha conseguido crear el componente porque no estaba bien registrado
 		Debug::error("GAMELOADER: Componente ", componenteName, " no registrado en la entidad ", e->getName(), ".");
 		Engine::instance()->quitGame();
+		return false;
 	}
 }
 
@@ -630,19 +633,21 @@ core::Entity* GameLoader::_loadPrefab(
 		s->addEntity(e);
 		s->addListedEntities();
 
+		bool allGood = true;
 		// inicializacion de componentes.
 		for (auto& kv : componentes)
 		{
 			if (!kv.first.is<std::string>())
 				continue;
 
-			_parseComponent(e, kv);
+			allGood = allGood && _parseComponent(e, kv);
 		}
 
-		e->awake();
-		e->ready();
-		e->setInitialized(true);
-
+		if (allGood) {
+			e->awake();
+			e->ready();
+			e->setInitialized(true);
+		}
 		return e;
 	}
 	catch (const sol::error& e)
