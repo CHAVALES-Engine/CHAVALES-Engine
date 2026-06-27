@@ -1,4 +1,4 @@
-#include "Network.h"
+#include "NetworkModule.h"
 
 #include <iostream>
 #include <ws2tcpip.h>
@@ -6,7 +6,7 @@
 
 #include "Debug.h"
 
-bool Network::Init()
+bool NetworkModule::Init()
 {
 	// Estructura de windows que almacena informacion de winsock
 	WSADATA wsa;
@@ -38,9 +38,9 @@ bool Network::Init()
 	return true;
 }
 
-void Network::shutdown()
+void NetworkModule::shutdown()
 {
-	if (_connState == ConnectionState::CONNECTED)
+	if (_connState == NetworkState::CONNECTED)
 		disconnect();   // avisa al peer
 
 	// Si el shocket es invalido (no se ha inicializado o ya se habia cerrado)
@@ -50,11 +50,11 @@ void Network::shutdown()
 	}
 	// Limpiamos la movida de la consexion
 	WSACleanup();
-	_connState = ConnectionState::IDLE;
+	_connState = NetworkState::IDLE;
 	_role = NetworkRole::NONE;
 }
 
-bool Network::hostSession(uint16_t port)
+bool NetworkModule::hostSession(uint16_t port)
 {
 	if (!_bindLocal(port))
 	{
@@ -64,13 +64,13 @@ bool Network::hostSession(uint16_t port)
 
 	// Settea el estado de la maquina
 	_role = NetworkRole::HOST;
-	_connState = ConnectionState::WAITING;
+	_connState = NetworkState::WAITING;
 	_handshakeStart = GetTickCount64();   // marca de tiempo de inicio
 	Debug::out("[Network] Esperando cliente en puerto ", port, "...");
 	return true;
 }
 
-bool Network::joinSession(const std::string& ip, uint16_t port)
+bool NetworkModule::joinSession(const std::string& ip, uint16_t port)
 {
 	// Guardamos la direccion del host como _peers[0]
 	Peer host{};
@@ -87,39 +87,39 @@ bool Network::joinSession(const std::string& ip, uint16_t port)
 
 	// Settea el estado de la maquina
 	_role = NetworkRole::CLIENT;
-	_connState = ConnectionState::WAITING;
+	_connState = NetworkState::WAITING;
 	_handshakeStart = GetTickCount64();
 	_lastSendTime = 0;
 	Debug::out("[Network] Conectando...");
 	return true;
 }
 
-void Network::disconnect()
+void NetworkModule::disconnect()
 {
 	// Avisar al peer de que nos vamos (best-effort, UDP puede perderlo)
-	if (_connState == ConnectionState::CONNECTED)
+	if (_connState == NetworkState::CONNECTED)
 		for (auto& peer : _peers)
-			_sendTo(peer.addr, (uint8_t)SystemMsg::BYE, 0);
+			_sendTo(peer.addr, (uint8_t)NetworkMsg::BYE, 0);
 
 	// Volver a estado inicial, pero sin cerrar Winsock ni el socket
-	_connState = ConnectionState::IDLE;
+	_connState = NetworkState::IDLE;
 	_role = NetworkRole::NONE;
 	_peers.clear();
 	_handshakeStart = 0;
 	_lastSendTime = 0;
 }
 
-void Network::update()
+void NetworkModule::update()
 {
 	// si esta esperando una conexion
-	if (_connState == ConnectionState::WAITING)
+	if (_connState == NetworkState::WAITING)
 	{
 		uint32_t now = GetTickCount64();
 
 		// El cliente reenvia HELLO cada 200ms hasta que el host responde
 		if (_role == NetworkRole::CLIENT && now - _lastSendTime > 200)
 		{
-			_sendTo(_peers[0].addr, (uint8_t)SystemMsg::HELLO, 0);
+			_sendTo(_peers[0].addr, (uint8_t)NetworkMsg::HELLO, 0);
 			_lastSendTime = now;
 		}
 
@@ -127,14 +127,14 @@ void Network::update()
 		if (now - _handshakeStart > 10000)
 		{
 			Debug::error("[Network] Timeout de conexion");
-			_connState = ConnectionState::FAILED;
+			_connState = NetworkState::FAILED;
 			return;
 		}
 	}
 
 	// Solo recibimos si estamos esperando o conectados
-	if (_connState != ConnectionState::WAITING &&
-		_connState != ConnectionState::CONNECTED) return;
+	if (_connState != NetworkState::WAITING &&
+		_connState != NetworkState::CONNECTED) return;
 
 	char buffer[MAX_PACKET];
 	sockaddr_in from{};
@@ -147,9 +147,9 @@ void Network::update()
 		int r = recvfrom(_socket, buffer, sizeof(buffer), 0,
 			(sockaddr*)&from, &fromLen);
 		if (r == SOCKET_ERROR) break;
-		if (r < (int)sizeof(PacketHeader)) continue; // paquete corrupto/incompleto
+		if (r < (int)sizeof(NetworkHeader)) continue; // paquete corrupto/incompleto
 
-		PacketHeader header;
+		NetworkHeader header;
 		memcpy(&header, buffer, sizeof(header));
 
 		const void* payload = buffer + sizeof(header);
@@ -160,14 +160,14 @@ void Network::update()
 	}
 }
 
-void Network::_processPacket(const PacketHeader& header, const void* payload,
+void NetworkModule::_processPacket(const NetworkHeader& header, const void* payload,
 	int payloadSize, const sockaddr_in& from)
 {
 
 	// Mensajes de sistema los maneja el modulo
-	switch ((SystemMsg)header.type)
+	switch ((NetworkMsg)header.type)
 	{
-	case SystemMsg::HELLO:	// Es un paquete handshake?
+	case NetworkMsg::HELLO:	// Es un paquete handshake?
 		// Solo relevante mientras conectamos
 		if (_role == NetworkRole::HOST) {
 			// Ya lo conociamos? (HELLO reenviado)
@@ -181,14 +181,14 @@ void Network::_processPacket(const PacketHeader& header, const void* payload,
 
 				// Le respondemos diciendole que id le toca
 
-				_sendTo(p.addr, (uint8_t)SystemMsg::ASSIGN_ID, 0, &p.id, sizeof(p.id));
-				_connState = ConnectionState::CONNECTED;
+				_sendTo(p.addr, (uint8_t)NetworkMsg::ASSIGN_ID, 0, &p.id, sizeof(p.id));
+				_connState = NetworkState::CONNECTED;
 				Debug::out("[Network] Cliente conectado con id ", (int)p.id);
 			}
 		}
 		return;
 
-	case SystemMsg::BYE:	// Es un paquete de despedida?
+	case NetworkMsg::BYE:	// Es un paquete de despedida?
 		if (_role == NetworkRole::HOST)
 		{
 			Peer* p = _findPeerByAddr(from);
@@ -201,16 +201,16 @@ void Network::_processPacket(const PacketHeader& header, const void* payload,
 		{
 			// Si soy cliente y el host se va, me desconecto del todo
 			Debug::out("[Network] El host cerro la sesion.");
-			_connState = ConnectionState::IDLE;
+			_connState = NetworkState::IDLE;
 			_peers.clear();
 		}
 		return;
-	case SystemMsg::ASSIGN_ID: // Es un paquete de asignacion de ID?
+	case NetworkMsg::ASSIGN_ID: // Es un paquete de asignacion de ID?
 		if (_role == NetworkRole::CLIENT)
 		{
 			// El payload trae mi id de jugador
 			memcpy(&_myId, payload, sizeof(_myId));
-			_connState = ConnectionState::CONNECTED;
+			_connState = NetworkState::CONNECTED;
 			Debug::out("[Network] Conectado! Mi id es ", (int)_myId);
 		}
 		return;
@@ -233,7 +233,7 @@ void Network::_processPacket(const PacketHeader& header, const void* payload,
 	}
 }
 
-std::string Network::getLocalIP() const
+std::string NetworkModule::getLocalIP() const
 {
 	char hostname[256];
 	if (gethostname(hostname, sizeof(hostname)) == SOCKET_ERROR)
@@ -273,22 +273,22 @@ std::string Network::getLocalIP() const
 	return ip;
 }
 
-void Network::_sendTo(const sockaddr_in& to, uint8_t type, uint8_t senderId,
+void NetworkModule::_sendTo(const sockaddr_in& to, uint8_t type, uint8_t senderId,
 	const void* data, int size) const
 {
 	char buf[MAX_PACKET];
-	PacketHeader h{ type, senderId, 0 };
+	NetworkHeader h{ type, senderId, 0 };
 	memcpy(buf, &h, sizeof(h));
 
-	if (data && size) 
+	if (data && size)
 		memcpy(buf + sizeof(h), data, size);
 
 	sendto(_socket, buf, sizeof(h) + size, 0, (sockaddr*)&to, sizeof(to));
 }
 
-void Network::_sendRaw(uint8_t type, const void* data, int size) const
+void NetworkModule::_sendRaw(uint8_t type, const void* data, int size) const
 {
-	if (_connState != ConnectionState::CONNECTED) 
+	if (_connState != NetworkState::CONNECTED)
 		return;
 
 	if (_role == NetworkRole::HOST)

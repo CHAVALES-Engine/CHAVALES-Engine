@@ -1,4 +1,5 @@
 #pragma once
+#include "NetworkDefs.h"
 #include <functional>
 #include <string>
 #include "EngineAPI.h"
@@ -19,6 +20,7 @@
  */
 
 class AudioFacade;
+class NetworkModule;
 class PlatformModule;
 class RenderModule;
 class AudioModule;
@@ -204,6 +206,128 @@ public:
 	// ---------- INPUT
 	InputFacade* getInput() const { return _input; }
 
+	// -- Network.
+
+	/**
+	* @brief xxx.
+	*
+	* @param xxx - xxx.
+	*
+	* @returns xxx - xxx.
+	*/
+	bool networkInit();
+
+	/**
+	* @brief xxx.
+	*
+	* @param xxx - xxx.
+	*
+	* @returns xxx - xxx.
+	*/
+	void networkShutdown();
+
+	/**
+	* @brief xxx.
+	*
+	* @param xxx - xxx.
+	*
+	* @returns xxx - xxx.
+	*/
+	bool networkHost(uint16_t port);
+
+	/**
+	* @brief xxx.
+	*
+	* @param xxx - xxx.
+	*
+	* @returns xxx - xxx.
+	*/
+	bool networkJoin(const std::string& ip, uint16_t port);
+
+	/**
+	* @brief xxx.
+	*
+	* @param xxx - xxx.
+	*
+	* @returns xxx - xxx.
+	*/
+	void networkDisconnect();
+
+	/**
+	* @brief xxx.
+	*
+	* @param xxx - xxx.
+	*
+	* @returns xxx - xxx.
+	*/
+	template<typename T>
+	void networkSend(uint8_t type, const T& payload);
+
+	/**
+	* @brief xxx.
+	*
+	* @param xxx - xxx.
+	*
+	* @returns xxx - xxx.
+	*/
+	NetworkObserverID networkAddObserver(uint8_t type, PacketCallback cb);
+
+	/**
+	* @brief xxx.
+	*
+	* @param xxx - xxx.
+	*
+	* @returns xxx - xxx.
+	*/
+	void networkUnsubscribe(uint8_t type, NetworkObserverID id);
+
+	/**
+	* @brief xxx.
+	*
+	* @param xxx - xxx.
+	*
+	* @returns xxx - xxx.
+	*/
+	void networkClearObservers();
+
+	/**
+	* @brief xxx.
+	*
+	* @param xxx - xxx.
+	*
+	* @returns xxx - xxx.
+	*/
+	NetworkState networkGetNetworkState();
+
+	/**
+	* @brief xxx.
+	*
+	* @param xxx - xxx.
+	*
+	* @returns xxx - xxx.
+	*/
+	bool networkIsConnected();
+
+	/**
+	* @brief xxx.
+	*
+	* @param xxx - xxx.
+	*
+	* @returns xxx - xxx.
+	*/
+	std::string networkGetLocalIp();
+
+	/**
+	* @brief xxx.
+	*
+	* @param xxx - xxx.
+	*
+	* @returns xxx - xxx.
+	*/
+	NetworkRole networkGetRole();
+
+	// -- Fin Network.
+
 private:
 	/**
 	* @brief
@@ -260,6 +384,12 @@ private:
 	*	Referencia a la maquina de estados
 	*/
 	StateMachine* _stateMachine = nullptr;
+	
+	/**
+	* @brief
+	*	Referencia a network.
+	*/
+	NetworkModule* _networkModule = nullptr;
 
 	friend EngineComponent;
 };

@@ -7,7 +7,6 @@
 #include "InputMapper.h"
 #include "Color.h"
 #include "EngineAPI.h"
-#include "Network.h"
 #include <Windows.h>
 
 #include <queue>
@@ -291,130 +290,6 @@ public:
 	*/
 	void setGamepadColor(input::DeviceID id, uint8_t r, uint8_t g, uint8_t b);
 
-
-	// -- Network.
-
-	/**
-	* @brief xxx.
-	*
-	* @param xxx - xxx.
-	*
-	* @returns xxx - xxx.
-	*/
-	bool networkInit();
-
-	/**
-	* @brief xxx.
-	*
-	* @param xxx - xxx.
-	*
-	* @returns xxx - xxx.
-	*/
-	void networkShutdown();
-
-	/**
-	* @brief xxx.
-	*
-	* @param xxx - xxx.
-	*
-	* @returns xxx - xxx.
-	*/
-	bool networkHost(uint16_t port);
-
-	/**
-	* @brief xxx.
-	*
-	* @param xxx - xxx.
-	*
-	* @returns xxx - xxx.
-	*/
-	bool networkJoin(const std::string& ip, uint16_t port);
-
-	/**
-	* @brief xxx.
-	*
-	* @param xxx - xxx.
-	*
-	* @returns xxx - xxx.
-	*/
-	void networkDisconnect();
-
-	/**
-	* @brief xxx.
-	*
-	* @param xxx - xxx.
-	*
-	* @returns xxx - xxx.
-	*/
-	template<typename T>
-	void networkSend(uint8_t type, const T& payload);
-
-	/**
-	* @brief xxx.
-	*
-	* @param xxx - xxx.
-	*
-	* @returns xxx - xxx.
-	*/
-	ObserverID networkAddObserver(uint8_t type, Network::PacketCallback cb);
-
-	/**
-	* @brief xxx.
-	*
-	* @param xxx - xxx.
-	*
-	* @returns xxx - xxx.
-	*/
-	void networkUnsubscribe(uint8_t type, ObserverID id);
-
-	/**
-	* @brief xxx.
-	*
-	* @param xxx - xxx.
-	*
-	* @returns xxx - xxx.
-	*/
-	void networkClearObservers();
-
-	/**
-	* @brief xxx.
-	*
-	* @param xxx - xxx.
-	*
-	* @returns xxx - xxx.
-	*/
-	ConnectionState networkGetConnectionState();
-
-	/**
-	* @brief xxx.
-	*
-	* @param xxx - xxx.
-	*
-	* @returns xxx - xxx.
-	*/
-	bool networkIsConnected();
-
-	/**
-	* @brief xxx.
-	*
-	* @param xxx - xxx.
-	*
-	* @returns xxx - xxx.
-	*/
-	std::string networkGetLocalIp();
-
-
-	/**
-	* @brief xxx.
-	*
-	* @param xxx - xxx.
-	*
-	* @returns xxx - xxx.
-	*/
-	NetworkRole networkGetRole();
-
-	// -- Fin Network.
-
 private:
 
 	void _applyWindowStyleRestrictions() const;
@@ -511,7 +386,4 @@ private:
 	EventCallback _eventObserver;
 	bool _windowResizable = true;
 	bool _windowMaximizable = true;
-
-	Network* _network = nullptr;
 };
-
