@@ -1,8 +1,8 @@
+#include <PlatformModule.h>
 #include "Engine.h"
 
 #include <memory>
 
-#include <PlatformModule.h>
 #include <RenderModule.h>
 #include <AudioModule.h>
 #include <PhysicsModule.h>

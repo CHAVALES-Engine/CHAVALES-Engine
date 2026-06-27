@@ -7,6 +7,7 @@
 #include "InputMapper.h"
 #include "Color.h"
 #include "EngineAPI.h"
+#include "Network.h"
 #include <Windows.h>
 
 #include <queue>
@@ -18,7 +19,6 @@ union SDL_Event;
 struct SDL_Gamepad;
 struct SDL_Surface;
 
-class Network;
 
 namespace input
 {
@@ -514,5 +514,4 @@ private:
 
 	Network* _network = nullptr;
 };
-
 

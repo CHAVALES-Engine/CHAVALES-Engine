@@ -14,7 +14,6 @@
 #include "GameConfigurator.h"
 #include <checkMLNew.h>
 
-#include "Network.h"
 
 
 PlatformModule::PlatformModule() :
@@ -440,7 +439,15 @@ void PlatformModule::networkShutdown()
 bool PlatformModule::networkHost(uint16_t port)
 {
 	return _network->hostSession(port);;
+}template<typename T>
+inline void PlatformModule::networkSend(uint8_t type, const T& payload)
+{
+
+
+	_network->send<T>(type, payload);
+
 }
+
 
 bool PlatformModule::networkJoin(const std::string& ip, uint16_t port)
 {
@@ -450,12 +457,6 @@ bool PlatformModule::networkJoin(const std::string& ip, uint16_t port)
 void PlatformModule::networkDisconnect()
 {
 	_network->disconnect();
-}
-
-template<typename T>
-inline void PlatformModule::networkSend(uint8_t type, const T& payload)
-{
-	_network->send(type, payload);
 }
 
 ObserverID PlatformModule::networkAddObserver(uint8_t type, Network::PacketCallback cb)
