@@ -2,12 +2,13 @@
 
 #include <string>
 #include <unordered_map>
-#include <Windows.h>
 #include <InputDefs.h>
 #include <functional>
 #include "InputMapper.h"
 #include "Color.h"
 #include "EngineAPI.h"
+#include "Network.h"
+#include <Windows.h>
 
 #include <queue>
 
@@ -17,6 +18,7 @@ struct SDL_Window;
 union SDL_Event;
 struct SDL_Gamepad;
 struct SDL_Surface;
+
 namespace input
 {
 	class VirtualDevice;
@@ -124,7 +126,7 @@ public:
 	 * @returms std::pair<bool, input::DeviceID> - Siendo first si la tecla se ha dejado de pulsar y second el device que la ha dejado de pulsar.
 	 */
 	std::pair<bool, input::DeviceID> isKeyReleasedWithDevice(input::InputEvent inputEvent) const;
-	
+
 	/**
 	 * @brief Devuelve cuanto de accionado esta la accion a comprobar
 	 * @param inputEvent - InputEvent a comprobar
@@ -139,7 +141,7 @@ public:
 	 * @return std::pair<float, input::DeviceID> - Siendo first valor entre -1 a 1 y second el device.
 	 */
 	std::pair<float, input::DeviceID> getAxisWithDevice(input::InputEvent inputEvent) const;
-	
+
 
 	/**
 	 * @brief Devuelve si se ha pulsado una accion
@@ -153,7 +155,7 @@ public:
 	 * @returns std::pair<bool, input::DeviceID> - Siendo first si la accion ha sido pulsada y second el device.
 	 */
 	std::pair<bool, input::DeviceID> isActionPressedWithDevice(const std::string& actionName) const;
-	
+
 	/**
 	 * @brief Devuelve si se ha pulsado una accion
 	 * @param actionName - accion a comprobar
@@ -166,7 +168,7 @@ public:
 	 * @returns std::pair<bool, input::DeviceID> - id del dispositivo a comprobar. ANY_DEVICE por defecto => si se ha pulsado en cualquier dispositivo.
 	 */
 	std::pair<bool, input::DeviceID> isActionJustPressedWithDevice(const std::string& actionName) const;
-	
+
 	/**
 	 * @brief Devuelve si se ha dejado de pulsar una accion
 	 * @param actionName - accion a comprobar
@@ -192,7 +194,7 @@ public:
 	 * @returns std::pair<float, input::DeviceID> - Siendo first valor entre -1 y 1 y second el device.
 	 */
 	std::pair<float, input::DeviceID> getActionAxisWithDevice(const std::string& actionName) const;
-	
+
 	/**
 	 * @brief Indica a la ventana que tome input de texto.
 	 * @param blockKeyboard - Booleano que indica si se debe bloquear el input de teclado mientras se escibe.
@@ -213,34 +215,34 @@ public:
 	 * @param device - id del dispositivo a comprobar. ANY_DEVICE por defecto => la suma del input de todos los dispositivos.
 	 */
 	void clearTextInput(input::DeviceID device = input::ANY_DEVICE);
-	
-	
+
+
 	/**
 	 * @brief Getter del input mapper para registrar acciones
 	 * @return input::InputMapper& - referencia al InputMapper
 	 */
 	input::InputMapper* getInputMapper() const;
-	
+
 	/**
 	* @brief Cambia el tamanyo de la ventana.
 	* @param w - Width.
 	* @param w - Height.
 	*/
 	void setWindowSize(int w, int h);
-	
+
 	/**
 	* @brief Cambia el tamanyo de la ventana.
 	* @param path - Ruta del icono.
 	* @return bool - si se ha podido cambiar.
 	*/
 	bool setIcon(const std::string& path);
-	
+
 	/**
 	* @brief Cambia el tamanyo de la ventana.
 	* @param name - Nombre de la ventana.
 	*/
 	void setWindowName(const std::string& name);
-	
+
 	/**
 	* @brief Activa o desactiva que la ventana se pueda redimensionar.
 	*/
@@ -288,7 +290,132 @@ public:
 	*/
 	void setGamepadColor(input::DeviceID id, uint8_t r, uint8_t g, uint8_t b);
 
+
+	// -- Network.
+
+	/**
+	* @brief xxx.
+	*
+	* @param xxx - xxx.
+	*
+	* @returns xxx - xxx.
+	*/
+	bool networkInit();
+
+	/**
+	* @brief xxx.
+	*
+	* @param xxx - xxx.
+	*
+	* @returns xxx - xxx.
+	*/
+	void networkShutdown();
+
+	/**
+	* @brief xxx.
+	*
+	* @param xxx - xxx.
+	*
+	* @returns xxx - xxx.
+	*/
+	bool networkHost(uint16_t port);
+
+	/**
+	* @brief xxx.
+	*
+	* @param xxx - xxx.
+	*
+	* @returns xxx - xxx.
+	*/
+	bool networkJoin(const std::string& ip, uint16_t port);
+
+	/**
+	* @brief xxx.
+	*
+	* @param xxx - xxx.
+	*
+	* @returns xxx - xxx.
+	*/
+	void networkDisconnect();
+
+	/**
+	* @brief xxx.
+	*
+	* @param xxx - xxx.
+	*
+	* @returns xxx - xxx.
+	*/
+	template<typename T>
+	void networkSend(uint8_t type, const T& payload);
+
+	/**
+	* @brief xxx.
+	*
+	* @param xxx - xxx.
+	*
+	* @returns xxx - xxx.
+	*/
+	ObserverID networkAddObserver(uint8_t type, Network::PacketCallback cb);
+
+	/**
+	* @brief xxx.
+	*
+	* @param xxx - xxx.
+	*
+	* @returns xxx - xxx.
+	*/
+	void networkUnsubscribe(uint8_t type, ObserverID id);
+
+	/**
+	* @brief xxx.
+	*
+	* @param xxx - xxx.
+	*
+	* @returns xxx - xxx.
+	*/
+	void networkClearObservers();
+
+	/**
+	* @brief xxx.
+	*
+	* @param xxx - xxx.
+	*
+	* @returns xxx - xxx.
+	*/
+	ConnectionState networkGetConnectionState();
+
+	/**
+	* @brief xxx.
+	*
+	* @param xxx - xxx.
+	*
+	* @returns xxx - xxx.
+	*/
+	bool networkIsConnected();
+
+	/**
+	* @brief xxx.
+	*
+	* @param xxx - xxx.
+	*
+	* @returns xxx - xxx.
+	*/
+	std::string networkGetLocalIp();
+
+
+	/**
+	* @brief xxx.
+	*
+	* @param xxx - xxx.
+	*
+	* @returns xxx - xxx.
+	*/
+	NetworkRole networkGetRole();
+
+	// -- Fin Network.
+
 private:
+
 	void _applyWindowStyleRestrictions() const;
 
 	/**
@@ -315,10 +442,12 @@ private:
 	input::InputButtons _castButton(const SDL_Event& event) const;
 
 
+	// -- Metodos privados de gestion de teclas.
+
 	std::pair<bool, input::DeviceID> _isKeyPressed(input::InputEvent inputEvent, input::DeviceID device = input::ANY_DEVICE) const;
-	
+
 	std::pair<bool, input::DeviceID> _isJustPressed(input::InputEvent inputEvent, input::DeviceID device = input::ANY_DEVICE) const;
-	
+
 	std::pair<bool, input::DeviceID> _isKeyReleased(input::InputEvent inputEvent, input::DeviceID device = input::ANY_DEVICE) const;
 
 	std::pair<float, input::DeviceID> _getAxis(input::InputEvent inputEvent, input::DeviceID device = input::ANY_DEVICE) const;
@@ -381,4 +510,8 @@ private:
 	EventCallback _eventObserver;
 	bool _windowResizable = true;
 	bool _windowMaximizable = true;
+
+	Network _network;
 };
+
+

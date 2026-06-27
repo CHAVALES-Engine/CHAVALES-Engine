@@ -105,6 +105,12 @@ bool PlatformModule::pollEvents()
 			_eventObserver(&event);
 		}
 	}
+
+	if (_network.getConnectionState() != ConnectionState::IDLE)
+	{
+		_network.update();
+	}
+
 	return false;
 }
 
@@ -411,6 +417,76 @@ void PlatformModule::setGamepadColor(input::DeviceID id, uint8_t r, uint8_t g, u
 		}
 	}
 }
+
+#pragma region Network
+
+bool PlatformModule::networkInit()
+{
+	return _network.Init();
+}
+
+void PlatformModule::networkShutdown()
+{
+	_network.shutdown();
+}
+
+bool PlatformModule::networkHost(uint16_t port)
+{
+	return _network.hostSession(port);;
+}
+
+bool PlatformModule::networkJoin(const std::string& ip, uint16_t port)
+{
+	return _network.joinSession(ip, port);
+}
+
+void PlatformModule::networkDisconnect()
+{
+	_network.disconnect();
+}
+
+template<typename T>
+inline void PlatformModule::networkSend(uint8_t type, const T& payload)
+{
+	_network.send(type, payload);
+}
+
+ObserverID PlatformModule::networkAddObserver(uint8_t type, Network::PacketCallback cb)
+{
+	return _network.addObserver(type, cb);
+}
+
+void PlatformModule::networkUnsubscribe(uint8_t type, ObserverID id)
+{
+	_network.unsubscribe(type, id);
+}
+
+void PlatformModule::networkClearObservers()
+{
+	_network.clearObservers();
+}
+
+ConnectionState PlatformModule::networkGetConnectionState()
+{
+	return _network.getConnectionState();;
+}
+
+bool PlatformModule::networkIsConnected()
+{
+	return _network.isConnected();
+}
+
+std::string PlatformModule::networkGetLocalIp()
+{
+	return _network.getLocalIP();
+}
+
+NetworkRole PlatformModule::networkGetRole()
+{
+	return _network.getRole();
+}
+
+#pragma endregion
 
 input::InputButtons PlatformModule::_castButton(const SDL_Event& event) const
 {
@@ -819,7 +895,7 @@ void PlatformModule::_processEvent(const SDL_Event& event)
 	}
 	case SDL_EVENT_GAMEPAD_AXIS_MOTION: {
 		uint32_t id = event.gaxis.which;
-		auto trad = _traductionMap.find(id);
+		auto trad = _traductionMap.find(id); // Dado el id de SDl buscamos en las traducciones el id nuestro.
 		auto it = _virtualDevices.find(trad->second);
 		if (it != _virtualDevices.end()) {
 			it->second->_setAxis(_castAxis(event), event.gaxis.value);
@@ -828,7 +904,7 @@ void PlatformModule::_processEvent(const SDL_Event& event)
 	}
 	case SDL_EVENT_GAMEPAD_BUTTON_DOWN: {
 		uint32_t id = event.gbutton.which;
-		auto trad = _traductionMap.find(id);
+		auto trad = _traductionMap.find(id); // Dado el id de SDl buscamos en las traducciones el id nuestro.
 		auto it = _virtualDevices.find(trad->second);
 		if (it != _virtualDevices.end()) {
 			it->second->_setButton(_castButton(event), true);
@@ -837,7 +913,7 @@ void PlatformModule::_processEvent(const SDL_Event& event)
 	}
 	case SDL_EVENT_GAMEPAD_BUTTON_UP: {
 		uint32_t id = event.gbutton.which;
-		auto trad = _traductionMap.find(id);
+		auto trad = _traductionMap.find(id); // Dado el id de SDl buscamos en las traducciones el id nuestro.
 		auto it = _virtualDevices.find(trad->second);
 		if (it != _virtualDevices.end()) {
 			it->second->_setButton(_castButton(event), false);

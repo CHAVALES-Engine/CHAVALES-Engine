@@ -101,11 +101,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\PlatformModule\InputMapper.cpp" />
+    <ClCompile Include="..\..\src\PlatformModule\Network.cpp" />
     <ClCompile Include="..\..\src\PlatformModule\PlatformModule.cpp" />
     <ClCompile Include="..\..\src\PlatformModule\VirtualDevice.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\PlatformModule\InputMapper.h" />
+    <ClInclude Include="..\..\src\PlatformModule\Network.h" />
     <ClInclude Include="..\..\src\PlatformModule\PlatformModule.h" />
     <ClInclude Include="..\..\src\PlatformModule\VirtualDevice.h" />
   </ItemGroup>

@@ -27,6 +27,9 @@
     <ClCompile Include="..\..\src\PlatformModule\VirtualDevice.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\PlatformModule\Network.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\PlatformModule\PlatformModule.h">
@@ -37,6 +40,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\PlatformModule\InputMapper.h">
       <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\PlatformModule\Network.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
