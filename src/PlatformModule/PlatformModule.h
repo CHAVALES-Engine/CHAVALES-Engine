@@ -512,7 +512,7 @@ private:
 	bool _windowResizable = true;
 	bool _windowMaximizable = true;
 
-	Network _network;
+	Network* _network = nullptr;
 };
 
 
