@@ -14,6 +14,9 @@
 #include "GameConfigurator.h"
 #include <checkMLNew.h>
 
+#include "Network.h"
+
+
 PlatformModule::PlatformModule() :
 	_window(nullptr), _windowHandle(nullptr)
 {

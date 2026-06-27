@@ -7,7 +7,6 @@
 #include "InputMapper.h"
 #include "Color.h"
 #include "EngineAPI.h"
-#include "Network.h"
 #include <Windows.h>
 
 #include <queue>
@@ -18,6 +17,8 @@ struct SDL_Window;
 union SDL_Event;
 struct SDL_Gamepad;
 struct SDL_Surface;
+
+class Network;
 
 namespace input
 {
