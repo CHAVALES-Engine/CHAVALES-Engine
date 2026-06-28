@@ -646,8 +646,8 @@ core::Entity* GameLoader::_loadPrefab(
 		if (allGood) {
 			e->awake();
 			e->ready();
-			e->setInitialized(true);
 		}
+		e->setInitialized(true);
 		return e;
 	}
 	catch (const sol::error& e)
