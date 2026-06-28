@@ -206,123 +206,100 @@ public:
 	// ---------- INPUT
 	InputFacade* getInput() const { return _input; }
 
-	// -- Network.
+
+	// -- NETWORK
 
 	/**
-	* @brief xxx.
+	* @brief Inicializa la conexion.
 	*
-	* @param xxx - xxx.
-	*
-	* @returns xxx - xxx.
+	* @returns bool - Si se ha podido inicializar o no.
 	*/
 	bool networkInit();
 
 	/**
-	* @brief xxx.
-	*
-	* @param xxx - xxx.
-	*
-	* @returns xxx - xxx.
+	* @brief Cierre de la conexion.
 	*/
 	void networkShutdown();
 
 	/**
-	* @brief xxx.
+	* @brief Hostear una sesion.
 	*
-	* @param xxx - xxx.
+	* @param port - Puerto de la sesion.
 	*
-	* @returns xxx - xxx.
+	* @returns bool - Si se ha podido hostear o no.
 	*/
 	bool networkHost(uint16_t port);
 
 	/**
-	* @brief xxx.
+	* @brief Unirse a una sesion.
 	*
-	* @param xxx - xxx.
-	*
-	* @returns xxx - xxx.
+	* @param ip - IP de la sesion.
+	* @param port - Puerto de la sesion.
 	*/
-	bool networkJoin(const std::string& ip, uint16_t port);
+	void networkJoin(const std::string& ip, uint16_t port);
 
 	/**
-	* @brief xxx.
-	*
-	* @param xxx - xxx.
-	*
-	* @returns xxx - xxx.
+	* @brief Desconectarse de la sesion.
 	*/
 	void networkDisconnect();
 
 	/**
-	* @brief xxx.
+	* @brief Manda un mensaje.
 	*
-	* @param xxx - xxx.
-	*
-	* @returns xxx - xxx.
+	* @param type - Tipo dado por el desarrollador para guardar su observador al que se le quiere mandar el mensaje.
+	* @param payload - Mensaje.
 	*/
 	template<typename T>
 	void networkSend(uint8_t type, const T& payload);
 
 	/**
-	* @brief xxx.
+	* @brief Mete un observador nuevo con una funcion asociada.
 	*
-	* @param xxx - xxx.
+	* @param type - Tipo dado por el desarrollador para guardar su observador.
+	* @param cb - Funcion.
 	*
-	* @returns xxx - xxx.
+	* @returns NetworkObserverID - ID asociado automaticamente al nuevo observador.
 	*/
 	NetworkObserverID networkAddObserver(uint8_t type, PacketCallback cb);
 
 	/**
-	* @brief xxx.
+	* @brief Desuscribe un observador.
 	*
-	* @param xxx - xxx.
-	*
-	* @returns xxx - xxx.
+	* @param type - Tipo dado por el desarrollador para guardar su observador.
+	* @param id - ID del observador a desuscribir.
 	*/
 	void networkUnsubscribe(uint8_t type, NetworkObserverID id);
 
 	/**
-	* @brief xxx.
-	*
-	* @param xxx - xxx.
-	*
-	* @returns xxx - xxx.
+	* @brief Vacia el mapa de observadores.
 	*/
 	void networkClearObservers();
 
 	/**
-	* @brief xxx.
+	* @brief Devuelve el estado de la conexion.
 	*
-	* @param xxx - xxx.
-	*
-	* @returns xxx - xxx.
+	* @returns NetworkState - Estado de la conexion: IDLE, WAITING, CONNECTED o FAILED.
 	*/
 	NetworkState networkGetNetworkState();
 
 	/**
-	* @brief xxx.
+	* @brief Devuelve si la conexion esta establecida o no.
 	*
-	* @param xxx - xxx.
-	*
-	* @returns xxx - xxx.
+	* @returns bool - Si esta establecida (NetworkState::CONNECTED) o no.
 	*/
 	bool networkIsConnected();
 
 	/**
-	* @brief xxx.
+	* @brief Devuelve la IP local.
 	*
-	* @param xxx - xxx.
-	*
-	* @returns xxx - xxx.
+	* @returns std::string - IP.
 	*/
 	std::string networkGetLocalIp();
 
 	/**
-	* @brief xxx.
+	* @brief Devuelve el rol de quien lo llama.
 	*
-	* @param xxx - xxx.
-	*
-	* @returns xxx - xxx.
+	* @returns NetworkRole - Rol.
 	*/
 	NetworkRole networkGetRole();
 

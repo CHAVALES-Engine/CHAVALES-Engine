@@ -294,9 +294,9 @@ inline void Engine::networkSend(uint8_t type, const T& payload)
 	_networkModule->send(type, payload);
 }
 
-bool Engine::networkJoin(const std::string& ip, uint16_t port)
+void Engine::networkJoin(const std::string& ip, uint16_t port)
 {
-	return _networkModule->joinSession(ip, port);
+	_networkModule->joinSession(ip, port);
 }
 
 void Engine::networkDisconnect()
