@@ -73,10 +73,12 @@ void StateMachine::gameLoop()
 				_currentScene.ptr->destroyDeadEntities();
 			}
 		}
-
 #ifdef _DEBUG
 		_processHotLuaReload();
 #endif
+		if (_currentScene.ptr == nullptr) {
+			_endGame = true;
+		}
 	}
 
 	_isLoopRunning = false;
