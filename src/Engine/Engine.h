@@ -1,4 +1,5 @@
 #pragma once
+#include "NetworkDefs.h"
 #include <functional>
 #include <string>
 #include "EngineAPI.h"
@@ -19,6 +20,7 @@
  */
 
 class AudioFacade;
+class NetworkModule;
 class PlatformModule;
 class RenderModule;
 class AudioModule;
@@ -204,6 +206,105 @@ public:
 	// ---------- INPUT
 	InputFacade* getInput() const { return _input; }
 
+
+	// -- NETWORK
+
+	/**
+	* @brief Inicializa la conexion.
+	*
+	* @returns bool - Si se ha podido inicializar o no.
+	*/
+	bool networkInit();
+
+	/**
+	* @brief Cierre de la conexion.
+	*/
+	void networkShutdown();
+
+	/**
+	* @brief Hostear una sesion.
+	*
+	* @param port - Puerto de la sesion.
+	*
+	* @returns bool - Si se ha podido hostear o no.
+	*/
+	bool networkHost(uint16_t port);
+
+	/**
+	* @brief Unirse a una sesion.
+	*
+	* @param ip - IP de la sesion.
+	* @param port - Puerto de la sesion.
+	*/
+	void networkJoin(const std::string& ip, uint16_t port);
+
+	/**
+	* @brief Desconectarse de la sesion.
+	*/
+	void networkDisconnect();
+
+	/**
+	* @brief Manda un mensaje.
+	*
+	* @param type - Tipo dado por el desarrollador para guardar su observador al que se le quiere mandar el mensaje.
+	* @param payload - Mensaje.
+	*/
+	template<typename T>
+	void networkSend(uint8_t type, const T& payload);
+
+	/**
+	* @brief Mete un observador nuevo con una funcion asociada.
+	*
+	* @param type - Tipo dado por el desarrollador para guardar su observador.
+	* @param cb - Funcion.
+	*
+	* @returns NetworkObserverID - ID asociado automaticamente al nuevo observador.
+	*/
+	NetworkObserverID networkAddObserver(uint8_t type, PacketCallback cb);
+
+	/**
+	* @brief Desuscribe un observador.
+	*
+	* @param type - Tipo dado por el desarrollador para guardar su observador.
+	* @param id - ID del observador a desuscribir.
+	*/
+	void networkUnsubscribe(uint8_t type, NetworkObserverID id);
+
+	/**
+	* @brief Vacia el mapa de observadores.
+	*/
+	void networkClearObservers();
+
+	/**
+	* @brief Devuelve el estado de la conexion.
+	*
+	* @returns NetworkState - Estado de la conexion: IDLE, WAITING, CONNECTED o FAILED.
+	*/
+	NetworkState networkGetNetworkState();
+
+	/**
+	* @brief Devuelve si la conexion esta establecida o no.
+	*
+	* @returns bool - Si esta establecida (NetworkState::CONNECTED) o no.
+	*/
+	bool networkIsConnected();
+
+	/**
+	* @brief Devuelve la IP local.
+	*
+	* @returns std::string - IP.
+	*/
+	std::string networkGetLocalIp();
+
+	/**
+	* @brief Devuelve el rol de quien lo llama.
+	*
+	* @returns NetworkRole - Rol.
+	*/
+	NetworkRole networkGetRole();
+
+	// -- Fin Network.
+
 private:
 	/**
 	* @brief
@@ -260,6 +361,12 @@ private:
 	*	Referencia a la maquina de estados
 	*/
 	StateMachine* _stateMachine = nullptr;
+	
+	/**
+	* @brief
+	*	Referencia a network.
+	*/
+	NetworkModule* _networkModule = nullptr;
 
 	friend EngineComponent;
 };

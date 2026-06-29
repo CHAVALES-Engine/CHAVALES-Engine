@@ -1,3 +1,4 @@
+#include <NetworkModule.h>
 #include "Engine.h"
 
 #include <memory>
@@ -73,6 +74,8 @@ void Engine::release()
 	_instance->_platformModule = nullptr;
 	delete _instance->_stateMachine;
 	_instance->_stateMachine = nullptr;
+	delete _instance->_networkModule;
+	_instance->_networkModule = nullptr;
 	// Descarga dlls
 	ComponentDLLLoader::instance().unLoadAll();
 	// Cierra sistemas core del motor
@@ -260,11 +263,87 @@ bool Engine::isFullscreen() const
 	if (_platformModule == nullptr) return false;
 	return _platformModule->isFullscreen();
 }
+
+#pragma endregion
+
+#pragma region NETWORK
+
+bool Engine::networkInit()
+{
+	if (!_networkModule->Init())
+	{
+		quitGame();
+		return false;
+	}
+	return true;
+}
+
+void Engine::networkShutdown()
+{
+	_networkModule->shutdown();
+}
+
+bool Engine::networkHost(uint16_t port)
+{
+	return _networkModule->hostSession(port);
+}
+
+template<typename T>
+inline void Engine::networkSend(uint8_t type, const T& payload)
+{
+	_networkModule->send(type, payload);
+}
+
+void Engine::networkJoin(const std::string& ip, uint16_t port)
+{
+	_networkModule->joinSession(ip, port);
+}
+
+void Engine::networkDisconnect()
+{
+	_networkModule->disconnect();
+}
+
+NetworkObserverID Engine::networkAddObserver(uint8_t type, PacketCallback cb)
+{
+	return _networkModule->addObserver(type, cb);
+}
+
+void Engine::networkUnsubscribe(uint8_t type, NetworkObserverID id)
+{
+	_networkModule->unsubscribe(type, id);
+}
+
+void Engine::networkClearObservers()
+{
+	_networkModule->clearObservers();
+}
+
+NetworkState Engine::networkGetNetworkState()
+{
+	return _networkModule->getNetworkState();
+}
+
+bool Engine::networkIsConnected()
+{
+	return _networkModule->isConnected();
+}
+
+std::string Engine::networkGetLocalIp()
+{
+	return _networkModule->getLocalIP();
+}
+
+NetworkRole Engine::networkGetRole()
+{
+	return _networkModule->getRole();
+}
+
 #pragma endregion
 
 bool Engine::_initPriv()
 {
-	
+
 	// Abre archivo .log
 	Debug::open();
 
@@ -314,6 +393,9 @@ bool Engine::_initPriv()
 		_physicsModule = nullptr;
 		return false;
 	}
+	// Network
+	_networkModule = new NetworkModule();
+
 	// Precarga de recursos
 	_resourcesModule->addFactory(core::Resource::Type::MESH,
 		[this](const std::string& id, const std::string& path, bool preload)
@@ -477,6 +559,10 @@ bool Engine::update(uint64_t dt) const
 	}
 	if (_platformModule)
 		return _platformModule->pollEvents();
+
+	if (_networkModule->getNetworkState() != NetworkState::IDLE)
+		_networkModule->update();
+
 	return false;
 }
 

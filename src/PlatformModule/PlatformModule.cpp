@@ -14,6 +14,8 @@
 #include "GameConfigurator.h"
 #include <checkMLNew.h>
 
+
+
 PlatformModule::PlatformModule() :
 	_window(nullptr), _windowHandle(nullptr)
 {
@@ -105,6 +107,7 @@ bool PlatformModule::pollEvents()
 			_eventObserver(&event);
 		}
 	}
+
 	return false;
 }
 
@@ -819,7 +822,7 @@ void PlatformModule::_processEvent(const SDL_Event& event)
 	}
 	case SDL_EVENT_GAMEPAD_AXIS_MOTION: {
 		uint32_t id = event.gaxis.which;
-		auto trad = _traductionMap.find(id);
+		auto trad = _traductionMap.find(id); // Dado el id de SDl buscamos en las traducciones el id nuestro.
 		auto it = _virtualDevices.find(trad->second);
 		if (it != _virtualDevices.end()) {
 			it->second->_setAxis(_castAxis(event), event.gaxis.value);
@@ -828,7 +831,7 @@ void PlatformModule::_processEvent(const SDL_Event& event)
 	}
 	case SDL_EVENT_GAMEPAD_BUTTON_DOWN: {
 		uint32_t id = event.gbutton.which;
-		auto trad = _traductionMap.find(id);
+		auto trad = _traductionMap.find(id); // Dado el id de SDl buscamos en las traducciones el id nuestro.
 		auto it = _virtualDevices.find(trad->second);
 		if (it != _virtualDevices.end()) {
 			it->second->_setButton(_castButton(event), true);
@@ -837,7 +840,7 @@ void PlatformModule::_processEvent(const SDL_Event& event)
 	}
 	case SDL_EVENT_GAMEPAD_BUTTON_UP: {
 		uint32_t id = event.gbutton.which;
-		auto trad = _traductionMap.find(id);
+		auto trad = _traductionMap.find(id); // Dado el id de SDl buscamos en las traducciones el id nuestro.
 		auto it = _virtualDevices.find(trad->second);
 		if (it != _virtualDevices.end()) {
 			it->second->_setButton(_castButton(event), false);
