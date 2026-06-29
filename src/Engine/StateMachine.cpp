@@ -80,7 +80,8 @@ void StateMachine::gameLoop()
 	}
 
 	_isLoopRunning = false;
-	core::MessagesManager::instance().shutdown();
+	//core::MessagesManager::instance().shutdown();
+	core::MessagesManager::release();
 	ScriptsManager::instance().shutdown();
 
 	// llamar a la destructora de la escena
