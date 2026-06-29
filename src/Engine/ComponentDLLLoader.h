@@ -69,7 +69,9 @@ public:
 	 * @brief Precarga los recursos marcados en la dll.
 	 */
 	void preloadResources() const;
+
 private:
+
 	/**
 	 * @brief Struct con informacion asociada a una entrada a la libreria, necesaria para recarga.
 	 */
@@ -110,6 +112,16 @@ private:
 	 * @return bool - Si el fichero esta libre.
 	 */
 	bool _isFileFree(const std::string& path);
+	/**
+	 * @brief Devuelve la ruta a un directorio temporal para guardar los archivos hot cuyo nombre es el PID del proceso.
+	 * @return std::string - Ruta del directorio temporal.
+	 */
+	std::string _getProcessTempRoute();
+	/**
+	 * @brief Eliminar ficheros basura de otras ejecuciones.
+	 */
+	void _cleanTempDirectories();
+
 	/**
 	* @brief Vector contenedor de informacion de dlls.
 	*/

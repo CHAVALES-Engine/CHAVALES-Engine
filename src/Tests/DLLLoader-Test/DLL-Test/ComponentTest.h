@@ -123,7 +123,7 @@ public:
 			Debug::error("[ComponentTest] El cube no tiene Collider");
 			return;
 		}
-
+		//int hola = 0;
 		col_cube->_onCollisionEnter.subscribe([](core::Entity* other) {
 			Debug::out("CUBE");
 			});

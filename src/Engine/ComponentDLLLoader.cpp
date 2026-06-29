@@ -93,25 +93,15 @@ bool ComponentDLLLoader::load(const std::string& path)
 	return true;
 }
 
-bool ComponentDLLLoader::loadAll(const std::string& path) {
+bool ComponentDLLLoader::loadAll(const std::string& path)
+{
 	Debug::out("[Component DLLLoader] Loading all dlls from: ", path);
 	if (!std::filesystem::exists(path))
 	{
 		Debug::error("COMPONENT DLL LOADER: Carpeta no encontrada: ", path);
 		return false;
 	}
-	// Limpiar _hot residuales del arranque anterior
-	for (const auto& entry : std::filesystem::directory_iterator(path))
-	{
-		if (!std::filesystem::exists(entry.path()))
-			continue;
-		if (entry.path().extension() == ".dll" &&
-			entry.path().stem().string().find("_hot") != std::string::npos)
-		{
-			std::filesystem::remove(entry.path());
-			Debug::warning("COMPONENT DLL LOADER: Cleaned residual hot dll: ", entry.path().string());
-		}
-	}
+
 	std::vector<std::string> pendingLibraries;
 	for (const auto& entry : std::filesystem::directory_iterator(path))
 	{
@@ -143,10 +133,13 @@ bool ComponentDLLLoader::loadAll(const std::string& path) {
 
 void ComponentDLLLoader::unLoadAll()
 {
-	for (auto& library : _libraries) {
+	for (auto& library : _libraries)
+	{
 		_unload(library);
 	}
 	_libraries.clear();
+
+	std::filesystem::remove_all(_getProcessTempRoute());
 }
 
 bool ComponentDLLLoader::unload(const std::string& path)
@@ -233,21 +226,22 @@ bool ComponentDLLLoader::_unload(LoadedLibrary& library)
 		ComponentRegister::instance().unregisterComponent(name);
 
 	//Descargar assets en hotReload
-	GetResourcesFn getResources = (GetResourcesFn)GetProcAddress(library.handle, "getPluginPreloadResources");  
+	GetResourcesFn getResources = (GetResourcesFn)GetProcAddress(library.handle, "getPluginPreloadResources");
 	// Si no se ha devuelto nada lanzamos error y salimos.
-	if (!getResources) { 
-		Debug::error("COMPONENT DLL LOADER: La funcion de exportacion de resources \"getPluginPreloadResources\" no encontrada en  ", library.path); 
+	if (!getResources) {
+		Debug::error("COMPONENT DLL LOADER: La funcion de exportacion de resources \"getPluginPreloadResources\" no encontrada en  ", library.path);
 	}
 	else {
 		// Cogemos los paths de los recursos marcados en la dll.
 		size_t count = 0;
-		const std::string* resPaths = getResources(count); 
+		const std::string* resPaths = getResources(count);
 		// Precargamos los recursos
-		for (size_t i = 0; i < count; ++i) 
-			Engine::instance()->unload(resPaths[i]); 
+		for (size_t i = 0; i < count; ++i)
+			Engine::instance()->unload(resPaths[i]);
 	}
 	if (!FreeLibrary(library.handle))return false;
 	library.handle = nullptr;
+	//return true;
 	return DeleteFileA(library.tempPath.c_str());
 }
 
@@ -267,31 +261,15 @@ void ComponentDLLLoader::_reload(LoadedLibrary& library)
 	Debug::out("Reload OK: ", path);
 }
 
-std::string ComponentDLLLoader::_makeTempPath(const std::string& originalPath) {
-	// "plugins/game.dll" -> "plugins/game_hot.dll"
-	char* buffer = nullptr;
-	size_t len = 0;
-
-	std::filesystem::path basePath;
-
-	if (_dupenv_s(&buffer, &len, "LOCALAPPDATA") == 0 && buffer)
-	{
-		basePath = std::filesystem::path(buffer);
-		free(buffer);
-	}
-	else
-	{
-		basePath = std::filesystem::temp_directory_path();
-	}
-
-	basePath /= "ChavalesEngineReload";
-	basePath /= "HotReload";
+std::string ComponentDLLLoader::_makeTempPath(const std::string& originalPath)
+{
+	std::string basePath = _getProcessTempRoute();
 
 	std::filesystem::create_directories(basePath);
 
+	std::filesystem::path dir(basePath);
 	std::filesystem::path original(originalPath);
-
-	return (basePath / (original.stem().string() + "_hot" + original.extension().string())).string();
+	return (dir / (original.stem().string() + "_hot" + original.extension().string())).string();
 }
 
 FILETIME ComponentDLLLoader::_getFileWriteTime(const std::string& path)
@@ -319,4 +297,29 @@ bool ComponentDLLLoader::_isFileFree(const std::string& path)
 	if (h == INVALID_HANDLE_VALUE) return false;
 	CloseHandle(h);
 	return true;
+}
+
+std::string ComponentDLLLoader::_getProcessTempRoute()
+{
+	// "plugins/game.dll" -> "<LOCALAPPDATA>/ChavalesEngineReload/HotReload/<PID>/game_hot.dll"
+	char* buffer = nullptr;
+	size_t len = 0;
+
+	std::filesystem::path basePath;
+
+	if (_dupenv_s(&buffer, &len, "LOCALAPPDATA") == 0 && buffer)
+	{
+		basePath = std::filesystem::path(buffer);
+		free(buffer);
+	}
+	else
+	{
+		basePath = std::filesystem::temp_directory_path();
+	}
+
+	basePath /= "ChavalesEngineReload";
+	basePath /= "HotReload";
+	basePath /= std::to_string(GetCurrentProcessId()); // Carpeta por el PID del proceso.
+
+	return basePath.string();
 }
