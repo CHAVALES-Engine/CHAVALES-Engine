@@ -43,7 +43,7 @@ void StateMachine::gameLoop()
 
 		_endGame = _endGame || Engine::instance()->update(_deltaTime);
 
-		if (_currentScene.ptr != nullptr)
+		if (_currentScene.ptr != nullptr && !_endGame)
 		{
 			auto now = core::Clock::getNow();
 			_deltaTime = core::Clock::calculateDeltaTime(startTime, now);
