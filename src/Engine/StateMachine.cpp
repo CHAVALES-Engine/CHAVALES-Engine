@@ -200,8 +200,7 @@ void StateMachine::_processHotLuaReload()
 		if (!_currentScene.ptr)
 		{
 			Debug::warning("[HOT RELOADING] No se recargó bien la escena.");
-			Engine::instance()->cleanScene();
-			Engine::instance()->renderFrame();
+			Engine::instance()->quitGame();
 		}
 	}
 }
