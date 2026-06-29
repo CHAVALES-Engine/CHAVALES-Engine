@@ -561,7 +561,10 @@ bool Engine::update(uint64_t dt) const
 		return _platformModule->pollEvents();
 
 	if (_networkModule->getNetworkState() != NetworkState::IDLE)
+	{
+		Debug::out("[Engine] Netowrk Update.");
 		_networkModule->update();
+	}
 
 	return false;
 }
