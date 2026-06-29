@@ -40,38 +40,38 @@ void StateMachine::gameLoop()
 	while (!_endGame) // bucle de juego
 	{
 		_processSceneChange();
-
-		_endGame = _endGame || Engine::instance()->update(_deltaTime);
-
-		if (_currentScene.ptr != nullptr && !_endGame)
-		{
-			auto now = core::Clock::getNow();
-			_deltaTime = core::Clock::calculateDeltaTime(startTime, now);
-			startTime = now;
-
-			core::Clock::setDeltaTime(_deltaTime); // para acceso general
-
-			accumulator += _deltaTime;
-			int fixedSteps = 0;
-			while (accumulator >= core::Clock::FRAME_RATE
-				&& fixedSteps < core::Clock::MAX_FIXED_STEPS)
+		if (!_endGame) {
+			_endGame = Engine::instance()->update(_deltaTime);
+			if (!_endGame && _currentScene.ptr != nullptr)
 			{
-				_currentScene.ptr->fixedUpdate();
-				Engine::instance()->fixedUpdate(core::Clock::FRAME_RATE);
-				accumulator -= core::Clock::FRAME_RATE;
-				++fixedSteps;
-			}
+				auto now = core::Clock::getNow();
+				_deltaTime = core::Clock::calculateDeltaTime(startTime, now);
+				startTime = now;
 
-			_currentScene.ptr->update(_deltaTime);
-			_currentScene.ptr->lateUpdate(_deltaTime);
-			//Si no se puede renderizar se sale del juego
-			if (!Engine::instance()->renderFrame())
-			{
-				_endGame = true;
+				core::Clock::setDeltaTime(_deltaTime); // para acceso general
+
+				accumulator += _deltaTime;
+				int fixedSteps = 0;
+				while (accumulator >= core::Clock::FRAME_RATE
+					&& fixedSteps < core::Clock::MAX_FIXED_STEPS)
+				{
+					_currentScene.ptr->fixedUpdate();
+					Engine::instance()->fixedUpdate(core::Clock::FRAME_RATE);
+					accumulator -= core::Clock::FRAME_RATE;
+					++fixedSteps;
+				}
+
+				_currentScene.ptr->update(_deltaTime);
+				_currentScene.ptr->lateUpdate(_deltaTime);
+				//Si no se puede renderizar se sale del juego
+				if (!Engine::instance()->renderFrame())
+				{
+					_endGame = true;
+				}
+				// Gestion de creacion y eliminado de entidades en runtime
+				_currentScene.ptr->addListedEntities();
+				_currentScene.ptr->destroyDeadEntities();
 			}
-			// Gestion de creacion y eliminado de entidades en runtime
-			_currentScene.ptr->addListedEntities();
-			_currentScene.ptr->destroyDeadEntities();
 		}
 
 #ifdef _DEBUG
@@ -118,7 +118,7 @@ void StateMachine::_addAndSetScene(const sceneName& n, const bool& loadingScreen
 	if (_currentScene.ptr != nullptr && !_endGame) // si se ha cargado correctamente
 	{
 		Debug::out("STATEMACHINE: Entrando a escena ", n);
-		
+
 		if (loadingScreenAble)
 		{
 			// Procesos: Numero de entidades divididas en los procesos init awake y ready
