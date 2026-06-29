@@ -249,12 +249,19 @@ void ComponentDLLLoader::_reload(LoadedLibrary& library)
 {
 	// Descarga y recarga de libreria.
 	std::string	path = library.path;
+	std::string newTempPath = _makeTempPath(path);
+
+	if (!_isFileFree(path) || !_isFileFree(newTempPath))
+	{
+		Debug::warning("[COMPONENTDLLLOADER] Libreria ", path, " en uso. Se seguira usando la copia.");
+		return;
+	}
 	if (!unload(path)) {
-		Debug::error("COMPONENT DLL LOADER: Reload: Something went wrong with unload library");
+		Debug::error("[COMPONENT DLL LOADER] Reload: Something went wrong with unload library");
 		return;
 	}
 	if (!load(path)) {
-		Debug::error("COMPONENT DLL LOADER: Reload: Something went wrong with load library");
+		Debug::error("[COMPONENT DLL LOADER] Reload: Something went wrong with load library");
 		return;
 	}
 
