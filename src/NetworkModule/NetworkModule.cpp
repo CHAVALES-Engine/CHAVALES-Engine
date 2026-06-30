@@ -227,8 +227,12 @@ void NetworkModule::_processPacket(const NetworkHeader& header, const void* payl
 		else // Es un cliente.
 		{
 			Debug::out("[Network] El host cerro la sesion.");
-			_connState = NetworkState::IDLE;
-			_peers.clear();
+			Peer* p = _findPeerByAddr(from);
+			// Si el host se ha ido se pierda la conexion.
+			if (p && p->id == 0)
+			{
+				shutdown();
+			}
 		}
 		return;
 	case NetworkMsg::ASSIGN_ID: // Es un paquete de asignacion de ID?
