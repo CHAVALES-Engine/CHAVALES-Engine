@@ -8,6 +8,7 @@
 
 #include "NetworkDefs.h"
 
+
 /**
 * @brief Identificar de conexion que contiene su socket, su id y su ultima vez visto.
 */
@@ -59,7 +60,7 @@ public:
 	/**
 	* @brief Manda un mensaje.
 	*
-	* @param type - Tipo dado por el desarrollador para guardar su observador al que se le quiere mandar el mensaje.
+	* @param type - Tipo de paquete.
 	* @param payload - Mensaje.
 	*/
 	void sendRaw(uint8_t type, const void* data, int size) const { _sendRaw(type, data, size); }
@@ -73,7 +74,7 @@ public:
 	/**
 	* @brief Mete un observador nuevo con una funcion asociada.
 	*
-	* @param type - Tipo dado por el desarrollador para guardar su observador.
+	* @param type - Tipo de paquete.
 	* @param cb - Funcion.
 	* 
 	* @returns NetworkObserverID - ID asociado automaticamente al nuevo observador.
@@ -87,7 +88,7 @@ public:
 	/**
 	* @brief Desuscribe un observador.
 	*
-	* @param type - Tipo dado por el desarrollador para guardar su observador.
+	* @param type - Tipo de paquete.
 	* @param id - ID del observador a desuscribir.
 	*/
 	void unsubscribe(uint8_t type, NetworkObserverID id)
@@ -145,7 +146,7 @@ private:
 	* @brief Manda un mensaje.
 	*
 	* @param to - Socket a quien mandarle el mensaje.
-	* @param type - Tipo dado por el desarrollador para guardar su observador al que se le quiere mandar el mensaje.
+	* @param type - Tipo de paquete.
 	* @param senderId - ID de quien manda el mensaje.
 	* @param data - Datos del mensaje.
 	* @param size - Como de grande es el mensaje.
@@ -154,7 +155,7 @@ private:
 	/**
 	* @brief Decide dependiendo de quien manda el mensaje como mandarlo.
 	*
-	* @param type - Tipo dado por el desarrollador para guardar su observador al que se le quiere mandar el mensaje.
+	* @param type - Tipo de paquete.
 	* @param data - Datos del mensaje.
 	* @param size - Como de grande es el mensaje.
 	*/
@@ -234,6 +235,6 @@ private:
 	uint8_t _nextClientId = 1;  // Solo el host lo usa para asignar ids.
 
 	NetworkObserverID _nextObserverID = 0; // Siguiente ID que se asigna.
-	// Mapa con clave: tipo dado por el desarrollador y contenido: vector de pares de IDs de observadores con sus callbacks.
+	// Mapa con clave: tipo de paquete y su contenido: vector de pares de IDs de observadores con sus callbacks.
 	std::unordered_map<uint8_t, std::vector<std::pair<NetworkObserverID, PacketCallback>>> _packageObservers; 
 };
