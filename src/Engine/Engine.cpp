@@ -557,13 +557,16 @@ bool Engine::update(uint64_t dt) const
 	{
 		_audioModule->update();
 	}
-	if (_platformModule)
-		return _platformModule->pollEvents();
 
 	if (_networkModule->getNetworkState() != NetworkState::IDLE)
 	{
 		Debug::out("[Engine] Netowrk Update.");
 		_networkModule->update();
+	}
+
+	if (_platformModule)
+	{
+		return _platformModule->pollEvents();
 	}
 
 	return false;
