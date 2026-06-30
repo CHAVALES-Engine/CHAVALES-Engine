@@ -355,7 +355,7 @@ bool ChavalesEditor::runEditor(bool scriptsOnly, char * sceneToLoad[])
 
 						ChavalesEditor::startup();
 						showConfigWindow = false;
-						g_gameRunning = true;s
+						g_gameRunning = true;
 					}
 					else incorrectos = true;
 				}
