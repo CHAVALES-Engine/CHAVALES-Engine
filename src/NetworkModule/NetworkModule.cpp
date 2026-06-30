@@ -41,6 +41,8 @@ bool NetworkModule::Init()
 
 void NetworkModule::shutdown()
 {
+	clearObservers();
+
 	if (_connState == NetworkState::CONNECTED)
 		disconnect();   // Avisa al peer.
 

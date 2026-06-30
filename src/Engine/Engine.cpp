@@ -42,7 +42,6 @@ Engine* Engine::instance()
 void Engine::release()
 {
 	assert(_instance);
-	ComponentDLLLoader::instance().unLoadAll();
 	// facades
 	delete _instance->_input;
 	_instance->_input = nullptr;
