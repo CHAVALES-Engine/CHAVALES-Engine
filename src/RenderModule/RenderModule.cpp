@@ -357,7 +357,7 @@ bool RenderModule::renderLoadingScreen()
 		{
 			scaleViewportToWindow();
 			renderUI(true);
-			_root->renderOneFrame();
+			//_root->renderOneFrame();
 			return true;
 		}
 		else
