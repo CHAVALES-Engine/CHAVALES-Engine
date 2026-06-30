@@ -236,5 +236,5 @@ private:
 
 	NetworkObserverID _nextObserverID = 0; // Siguiente ID que se asigna.
 	// Mapa con clave: tipo de paquete y su contenido: vector de pares de IDs de observadores con sus callbacks.
-	std::unordered_map<uint8_t, std::vector<std::pair<NetworkObserverID, PacketCallback>>> _packageObservers; 
+	std::unordered_map<uint8_t, std::vector<std::pair<NetworkObserverID, PacketCallback>>> _packageObservers;
 };

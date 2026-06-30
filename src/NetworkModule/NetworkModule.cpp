@@ -9,6 +9,9 @@
 
 bool NetworkModule::Init()
 {
+	// Solo se tiene que iniciar si no esta iniciado.
+	if (_connState != NetworkState::IDLE) return;
+
 	// Estructura de windows que almacena informacion de winsock.
 	WSADATA wsa;
 	// Inicializacion de winsock, devuelve distinto de 0 si da error.
@@ -41,10 +44,15 @@ bool NetworkModule::Init()
 
 void NetworkModule::shutdown()
 {
+	// Si no hay conexion no hay nada que hacer.
+	if (_connState == NetworkState::IDLE) return;
+
 	clearObservers();
 
 	if (_connState == NetworkState::CONNECTED)
 		disconnect();   // Avisa al peer.
+
+	_peers.clear();
 
 	// Si el shocket es invalido (no se ha inicializado o ya se habia cerrado).
 	if (_socket != INVALID_SOCKET)
@@ -119,6 +127,9 @@ void NetworkModule::disconnect()
 
 void NetworkModule::update()
 {
+	// Si no hay conexion no hay nada que hacer aqui.
+	if (_connState == NetworkState::IDLE) return;
+
 	// Si la conexion ha fallado cerramos la conexion.
 	if (_connState == NetworkState::FAILED)
 	{
@@ -316,8 +327,8 @@ void NetworkModule::_sendTo(const sockaddr_in& to, uint8_t type, uint8_t senderI
 
 void NetworkModule::_sendRaw(uint8_t type, const void* data, int size) const
 {
-	if (_connState != NetworkState::CONNECTED)
-		return;
+	// Si no hay conexion no hay nada que hacer aqui.
+	if (_connState != NetworkState::CONNECTED) return;
 
 	if (_role == NetworkRole::HOST)
 	{
