@@ -10,7 +10,7 @@
 bool NetworkModule::Init()
 {
 	// Solo se tiene que iniciar si no esta iniciado.
-	if (_connState != NetworkState::IDLE) return;
+	if (_connState != NetworkState::IDLE) return false;
 
 	// Estructura de windows que almacena informacion de winsock.
 	WSADATA wsa;
