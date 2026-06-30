@@ -20,6 +20,8 @@ void core::MessagesManager::release()
 {
 	if (_instance != nullptr)
 	{
+		//_instance->_messages.clear();
+
 		delete _instance;
 		_instance = nullptr;
 	}

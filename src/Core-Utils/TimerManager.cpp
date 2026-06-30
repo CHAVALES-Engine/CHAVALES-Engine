@@ -69,3 +69,27 @@ core::TimerManager::TimerManager()
 	for (int i = 0; i < QUANTITY; ++i)
 		_freeIDs.push_back(QUANTITY - i);
 }
+
+core::TimerManager& core::TimerManager::instance()
+{
+	assert(_instance);
+
+	return *_instance;
+}
+
+void core::TimerManager::init()
+{
+	if (_instance == nullptr)
+	{
+		_instance = new TimerManager();
+	}
+}
+
+void core::TimerManager::release()
+{
+	if (_instance != nullptr)
+	{
+		delete _instance;
+		_instance = nullptr;
+	}
+}
