@@ -67,6 +67,8 @@ void Engine::release()
 	{
 		Debug::error("Error desconocido liberando RenderModule.");
 	}
+	// Descarga dlls
+	ComponentDLLLoader::instance().unLoadAll();
 	delete _instance->_resourcesModule;
 	_instance->_resourcesModule = nullptr;
 	// resto de modulos
@@ -80,8 +82,6 @@ void Engine::release()
 	_instance->_stateMachine = nullptr;
 	delete _instance->_networkModule;
 	_instance->_networkModule = nullptr;
-	// Descarga dlls
-	ComponentDLLLoader::instance().unLoadAll();
 	// Cierra sistemas core del motor
 	core::TimerManager::release();
 	core::MessagesManager::release();
