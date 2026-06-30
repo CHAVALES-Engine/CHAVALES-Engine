@@ -84,7 +84,9 @@ void Engine::release()
 	// Descarga dlls
 	ComponentDLLLoader::instance().unLoadAll();
 	// Cierra sistemas core del motor
-	core::MessagesManager::instance().shutdown();
+	core::TimerManager::release();
+	core::MessagesManager::release();
+
 	delete _instance;
 	_instance = nullptr;
 
@@ -432,6 +434,11 @@ bool Engine::_initPriv()
 	_input = new InputFacade(_platformModule);
 
 	_stateMachine = new StateMachine();
+
+	core::MessagesManager::init();
+
+	core::TimerManager::init();
+
 	// Manager de scripts
 	ScriptsManager::instance().init();
 	_registerScriptBindings();
