@@ -560,7 +560,6 @@ bool Engine::update(uint64_t dt) const
 
 	if (_networkModule->getNetworkState() != NetworkState::IDLE)
 	{
-		Debug::out("[Engine] Netowrk Update.");
 		_networkModule->update();
 	}
 
