@@ -62,13 +62,7 @@ public:
 	* @param type - Tipo dado por el desarrollador para guardar su observador al que se le quiere mandar el mensaje.
 	* @param payload - Mensaje.
 	*/
-	template<typename T>
-	void send(uint8_t type, const T& payload)
-	{
-		static_assert(sizeof(T) + sizeof(NetworkHeader) <= MAX_PACKET,
-			"Payload demasiado grande para el paquete");
-		_sendRaw(type, &payload, sizeof(T));
-	};
+	void sendRaw(uint8_t type, const void* data, int size) const { _sendRaw(type, data, size); }
 
 	/**
 	* @brief Update de NetworkModule.

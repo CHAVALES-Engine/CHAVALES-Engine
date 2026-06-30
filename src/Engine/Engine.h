@@ -250,7 +250,10 @@ public:
 	* @param payload - Mensaje.
 	*/
 	template<typename T>
-	void networkSend(uint8_t type, const T& payload);
+	void networkSend(uint8_t type, const T& payload)
+	{
+		_networkSendRaw(type, &payload, static_cast<int>(sizeof(T)));
+	}
 
 	/**
 	* @brief Mete un observador nuevo con una funcion asociada.
@@ -315,6 +318,12 @@ private:
 	 * @brief Registra los metodos del engine en el sistema de script
 	 */
 	void _registerScriptBindings() const;
+
+	/**
+	 * @brief Metodo helper que manda un mensaje a traves de networkmodule sin concer su implementacion.
+	 */
+	void _networkSendRaw(uint8_t type, const void* data, int size);
+
 	/**
 	* @brief
 	*	Instancia estatica de la clase

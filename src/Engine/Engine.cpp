@@ -288,12 +288,6 @@ bool Engine::networkHost(uint16_t port)
 	return _networkModule->hostSession(port);
 }
 
-template<typename T>
-inline void Engine::networkSend(uint8_t type, const T& payload)
-{
-	_networkModule->send(type, payload);
-}
-
 void Engine::networkJoin(const std::string& ip, uint16_t port)
 {
 	_networkModule->joinSession(ip, port);
@@ -541,6 +535,11 @@ void Engine::_registerScriptBindings() const
 
 	// ===== input =====
 	_input->_registerScriptBindings();
+}
+
+void Engine::_networkSendRaw(uint8_t type, const void* data, int size)
+{
+	_networkModule->sendRaw(type, data, size);
 }
 
 bool Engine::update(uint64_t dt) const
