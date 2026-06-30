@@ -578,6 +578,16 @@ input::InputButtons PlatformModule::_castButton(const SDL_Event& event) const
 	}
 }
 
+void PlatformModule::backspaceTextInput(input::DeviceID device)
+{
+	input::DeviceID id = (device == input::ANY_DEVICE) ? input::KEYBOARD_ID : device;
+	auto it = _virtualDevices.find(id);
+	if (it != _virtualDevices.end())
+	{
+		it->second->_backspaceText();
+	}
+}
+
 std::pair<bool, input::DeviceID> PlatformModule::_isKeyPressed(input::InputEvent inputEvent, input::DeviceID device) const
 {
 	if (_textInputActive && !_isTextInputAllowed(inputEvent))
@@ -908,8 +918,9 @@ bool PlatformModule::_isTextInputAllowed(input::InputEvent inputEvent) const
 {
 	if (!_blockKeyboard) return true;
 	// Teclas permitidas
-	static const std::vector<input::Key> allowed = {
+	static const std::vector<input::Key> allowed = { 
 		input::KEY_DELETE,
+		input::KEY_BACKSPACE,
 		input::KEY_ESCAPE,
 		input::KEY_ENTER,
 		input::KEY_KP_ENTER

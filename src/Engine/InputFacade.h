@@ -156,6 +156,10 @@ public:
 	 */
 	void clearTextInput(input::DeviceID device = input::ANY_DEVICE) const;
 	/**
+	 * @brief Elimina el ultimo caracter del texto.
+	 */
+	void backspaceTextInput(input::DeviceID device = input::ANY_DEVICE) const;
+	/**
 	* @brief Devuelve anchura de la ventana.
 	*/
 	int getWindowWidth() const;

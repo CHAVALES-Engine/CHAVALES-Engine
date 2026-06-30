@@ -110,6 +110,11 @@ void InputFacade::clearTextInput(input::DeviceID device) const
 	_platform->clearTextInput(device);
 }
 
+void InputFacade::backspaceTextInput(input::DeviceID device) const
+{
+	_platform->backspaceTextInput();
+}
+
 int  InputFacade::getWindowWidth() const
 {
 	return _platform->getWindowWidth();

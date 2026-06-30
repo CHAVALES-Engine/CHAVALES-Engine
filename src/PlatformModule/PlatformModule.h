@@ -289,6 +289,11 @@ public:
 	* @param b - Valor de azul.
 	*/
 	void setGamepadColor(input::DeviceID id, uint8_t r, uint8_t g, uint8_t b);
+	/**
+	* @brief Elimina texto dado un device.
+	* @param device - device al que se le borra el texto.
+	*/
+	void backspaceTextInput(input::DeviceID device = input::ANY_DEVICE);
 
 private:
 

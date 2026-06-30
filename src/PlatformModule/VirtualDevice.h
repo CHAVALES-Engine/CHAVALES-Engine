@@ -200,10 +200,15 @@ namespace input
 		 */
 		float _getDeadzone();
 		/**
-		 * @brief Cambia la deadzone para los joysticks por el valor dado
+		 * @brief Cambia la deadzone para los joysticks por el valor dado.
 		 * @param dz - Valor a cambiar.
 		 */
 		void _setDeadzone(float dz);
+
+		/**
+		 * @brief Elimina el texto guardado cuando se esta escribiendo.
+		 */
+		void _backspaceText();
 
 		//------Arrays de teclas:
 		/**

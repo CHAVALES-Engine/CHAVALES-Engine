@@ -92,6 +92,23 @@ void input::VirtualDevice::_setDeadzone(float dz)
 	_deadzone = dz;
 }
 
+void input::VirtualDevice::_backspaceText()
+{
+	if (_textBuffer.empty()) return;
+
+	// Quitar bytes finales hasta quedarse con un caracter valido. 
+	while (!_textBuffer.empty() && (static_cast<unsigned char>(_textBuffer.back()) & 0xC0) // Comprueba los bits mas significativos.
+		== 0x80) // Byte de continuacion (siguiente caracter).
+	{
+		_textBuffer.pop_back(); // Quitar los caracteres.
+	}
+
+	if (!_textBuffer.empty())
+	{
+		_textBuffer.pop_back(); // El byte inicial del caracter.
+	}
+}
+
 bool input::VirtualDevice::isPressed(Key key) const
 {
 	return _connected && _keyState[key];
