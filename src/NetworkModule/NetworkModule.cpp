@@ -117,6 +117,14 @@ void NetworkModule::disconnect()
 
 void NetworkModule::update()
 {
+	// Si la conexion ha fallado cerramos la conexion.
+	if (_connState == NetworkState::FAILED)
+	{
+		shutdown();
+		Debug::warning("[Network] Cierre de conexion por conexion fallida.");
+		return;
+	}
+
 	// Si se esta esperando una conexion.
 	if (_connState == NetworkState::WAITING)
 	{
