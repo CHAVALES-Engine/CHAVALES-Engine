@@ -51,6 +51,11 @@ void Engine::release()
 	{
 		_instance->_resourcesModule->unloadAll();
 	}
+	// Network
+	if (_instance->_networkModule)
+	{
+		_instance->_networkModule->shutdown();
+	}
 	try {
 		delete _instance->_renderModule;
 		_instance->_renderModule = nullptr;
