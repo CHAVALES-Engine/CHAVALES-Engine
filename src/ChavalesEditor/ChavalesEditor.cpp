@@ -106,6 +106,18 @@ static void LoadEditableScripts(const std::string& scenePath) {
 	buffer << file.rdbuf();
 	std::string content = buffer.str();
 
+	content = std::regex_replace(
+		content,
+		std::regex("--\\[\\[[\\s\\S]*?\\]\\]"),
+		""
+	);
+
+	content = std::regex_replace(
+		content,
+		std::regex("--.*"),
+		""
+	);
+
 	std::regex scriptCompRegex("ScriptComponent\\s*=\\s*\\{([^\\}]*)\\}");
 	std::smatch match;
 	std::string searchArea = content;
@@ -227,6 +239,10 @@ bool ChavalesEditor::runEditor(bool scriptsOnly, char * sceneToLoad[])
 		std::filesystem::path fileScn = dirScn / (core::GameConfigurator::instance()._firstScene + std::string(".lua"));
 
 		LoadEditableScripts(fileScn.string());
+
+		if (g_scriptWindows.empty()) {
+			done = true;
+		}
 	}
 #ifdef __EMSCRIPTEN__
 	io.IniFilename = nullptr;
@@ -333,9 +349,13 @@ bool ChavalesEditor::runEditor(bool scriptsOnly, char * sceneToLoad[])
 
 						LoadEditableScripts(fileScn.string());
 
-						ChavalesEditor::startup(); 
-						showConfigWindow = false;  
-						g_gameRunning = true;    
+						if (g_scriptWindows.empty()) {
+							return true;
+						}
+
+						ChavalesEditor::startup();
+						showConfigWindow = false;
+						g_gameRunning = true;s
 					}
 					else incorrectos = true;
 				}
