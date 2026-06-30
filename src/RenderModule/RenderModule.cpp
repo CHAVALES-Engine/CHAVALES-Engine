@@ -1000,6 +1000,8 @@ void RenderModule::setDiffuse(const modelID& id, const subMeshID& subID, const s
 		}
 		tus->setTexture(text);
 		tus->setColourOperation(Ogre::LBO_MODULATE);
+		_shaderGen->invalidateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, mat->getName(), mat->getGroup());
+		_shaderGen->validateMaterial(Ogre::RTShader::ShaderGenerator::DEFAULT_SCHEME_NAME, mat->getName());
 	}
 }
 
